@@ -1,0 +1,2 @@
+# Keep this directory for data files (question JSON, etc.)
+# JSON files in this directory are ignored by git

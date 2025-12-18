@@ -1,0 +1,421 @@
+# .claude-code/config.yaml
+# Claude Code configuration for SAT Tutoring Platform
+
+# Agent behavior
+agent:
+  # How autonomous should Claude be?
+  autonomy: medium  # low | medium | high
+  
+  # Confirm before executing commands?
+  confirm_commands: true
+  
+  # Confirm before making file changes?
+  confirm_file_changes: false
+  
+  # Max iterations before asking for guidance
+  max_iterations: 10
+
+# Code style preferences
+style:
+  # Python
+  python:
+    line_length: 100
+    use_type_hints: true
+    docstring_style: google  # google | numpy | sphinx
+  
+  # JavaScript/React
+  javascript:
+    use_semicolons: true
+    quote_style: single  # single | double
+    component_style: functional  # functional | class
+
+# Testing
+testing:
+  # Run tests after changes?
+  auto_test: true
+  
+  # Minimum coverage threshold
+  min_coverage: 80
+  
+  # Test commands
+  commands:
+    backend: "docker-compose exec backend pytest"
+    frontend: "docker-compose exec frontend npm test"
+
+# File patterns to ignore
+ignore:
+  - "**/__pycache__"
+  - "**/*.pyc"
+  - "**/node_modules"
+  - "**/.git"
+  - "**/venv"
+  - "**/data/*.json"
+  - "**/*.log"
+
+# Common commands Claude can run
+commands:
+  start_backend: "docker-compose up -d backend"
+  start_frontend: "docker-compose up -d frontend"
+  restart_all: "docker-compose restart"
+  logs: "docker-compose logs -f"
+  test_backend: "docker-compose exec backend pytest -v"
+  test_frontend: "docker-compose exec frontend npm test"
+  migrate: "docker-compose exec backend alembic upgrade head"
+  shell: "docker-compose exec backend python"
+
+# Project-specific context
+context:
+  framework: FastAPI + React
+  database: PostgreSQL
+  deployment: Kubernetes
+  domain: Education / SAT Prep
+
+---
+# .claude-code/agents.yaml
+# Agent configurations for different development tasks
+
+agents:
+  # Backend developer agent
+  backend_dev:
+    name: "Backend Developer"
+    description: "Expert in FastAPI, SQLAlchemy, and Python backend development"
+    expertise:
+      - FastAPI routing and middleware
+      - SQLAlchemy ORM and migrations
+      - JWT authentication
+      - Database design
+      - API design and REST principles
+      - Python testing with pytest
+    primary_directories:
+      - backend/app
+      - backend/tests
+    commands:
+      - docker-compose exec backend pytest
+      - docker-compose exec backend alembic upgrade head
+      - docker-compose exec backend python
+    
+  # Frontend developer agent
+  frontend_dev:
+    name: "Frontend Developer"
+    description: "Expert in React, modern JavaScript, and UI/UX"
+    expertise:
+      - React 18 with hooks
+      - Tailwind CSS
+      - Component architecture
+      - API integration
+      - Testing with Jest/React Testing Library
+    primary_directories:
+      - frontend/src
+      - frontend/public
+    commands:
+      - docker-compose exec frontend npm test
+      - docker-compose exec frontend npm run build
+    
+  # Full-stack agent
+  fullstack:
+    name: "Full-Stack Developer"
+    description: "Can work across backend, frontend, and infrastructure"
+    expertise:
+      - End-to-end feature development
+      - API design and consumption
+      - Database schema design
+      - Docker and containerization
+      - CI/CD pipelines
+    primary_directories:
+      - backend
+      - frontend
+      - k8s
+    
+  # Database architect
+  db_architect:
+    name: "Database Architect"
+    description: "Expert in database design, optimization, and migrations"
+    expertise:
+      - PostgreSQL schema design
+      - Database indexing and optimization
+      - Alembic migrations
+      - Query performance tuning
+      - Data modeling
+    primary_directories:
+      - backend/app/models
+      - backend/alembic
+    commands:
+      - docker-compose exec backend alembic revision --autogenerate
+      - docker-compose exec postgres psql -U sat_user -d sat_tutor
+  
+  # DevOps engineer
+  devops:
+    name: "DevOps Engineer"
+    description: "Expert in Docker, Kubernetes, and CI/CD"
+    expertise:
+      - Docker and docker-compose
+      - Kubernetes deployments
+      - GitHub Actions
+      - Monitoring with Prometheus/Grafana
+      - Infrastructure as code
+    primary_directories:
+      - k8s
+      - .github/workflows
+    
+  # Test engineer
+  test_engineer:
+    name: "Test Engineer"
+    description: "Expert in testing strategy and implementation"
+    expertise:
+      - Test-driven development
+      - Pytest and Jest
+      - Integration testing
+      - Test coverage analysis
+      - Mocking and fixtures
+    primary_directories:
+      - backend/tests
+      - frontend/src/__tests__
+
+---
+# .claude-code/prompts.md
+# Common Prompts for Claude Code
+
+## Initial Setup
+```
+Set up the project structure for a SAT tutoring platform with:
+- FastAPI backend with PostgreSQL and Redis
+- React frontend with Tailwind
+- Docker Compose for development
+- Proper .gitignore and environment files
+- Initial database models for users, questions, and tests
+
+Create the directory structure, Docker files, and basic application scaffolding.
+```
+
+## Authentication System
+```
+Implement a complete JWT authentication system with:
+- User registration endpoint (POST /api/v1/auth/register)
+- Login endpoint (POST /api/v1/auth/login)
+- Refresh token functionality
+- Password hashing with bcrypt
+- Protected route example
+- Pydantic schemas for validation
+- Comprehensive tests with 80%+ coverage
+
+Follow security best practices for token storage and validation.
+```
+
+## Question Bank API
+```
+Create the question bank API with the following endpoints:
+- GET /api/v1/questions - List questions (with filtering by skill, difficulty)
+- GET /api/v1/questions/{id} - Get single question
+- POST /api/v1/questions - Create question (admin only)
+- PUT /api/v1/questions/{id} - Update question (admin only)
+- DELETE /api/v1/questions/{id} - Delete question (admin only)
+
+Include:
+- Proper authentication and authorization
+- Pagination for list endpoint
+- Filtering by domain, subdomain, skill, difficulty
+- SQLAlchemy models
+- Pydantic schemas
+- Comprehensive tests
+```
+
+## Student Test Interface
+```
+Create the student test interface component that matches the Digital SAT:
+- Top navigation bar with timer, reference sheet, Desmos calculator buttons
+- Main question area with clean layout
+- A/B/C/D answer options (radio buttons)
+- Question navigator sidebar showing answered/flagged/unanswered
+- "Mark for Review" functionality
+- Progress bar
+- Back/Next navigation
+- Reference sheet modal with SAT formulas
+- Responsive design
+
+Use Tailwind CSS for styling. The interface should look professional and match the official SAT as closely as possible.
+```
+
+## Tutor Analytics Dashboard
+```
+Create the tutor analytics dashboard with:
+- Student list with current scores and progress
+- Skill mastery breakdown (Domain → Subdomain → Skill)
+- Progress charts showing score over time
+- Color-coded skill progress bars (green ≥80%, yellow ≥60%, red <60%)
+- Drill-down capability to see individual question performance
+- Recommended practice areas based on weak skills
+- Export functionality for reports
+
+Use Recharts for data visualization. Include proper loading states and error handling.
+```
+
+## IRT Adaptive Engine
+```
+Implement the Item Response Theory (IRT) adaptive question selection algorithm:
+
+Use the 2-parameter logistic model:
+P(correct) = 1 / (1 + exp(-a(θ - b)))
+
+Features needed:
+- Ability estimation based on student response history
+- Question selection to maximize information gain
+- Update ability after each response
+- Target ~60% correct rate for optimal learning
+- Confidence interval tracking
+
+Include:
+- Core IRT functions in backend/app/core/irt.py
+- Integration with test API
+- Comprehensive unit tests verifying calculations
+- Documentation explaining the algorithm
+```
+
+## Database Migrations
+```
+Create Alembic migrations for the complete database schema:
+
+Tables needed:
+- domains (id, name, section)
+- subdomains (id, domain_id, name)
+- skills (id, subdomain_id, name, description)
+- questions (id, skill_id, question_text, options, correct_answer, difficulty, irt_difficulty, irt_discrimination)
+- users (id, email, hashed_password, role, created_at)
+- students (id, user_id, target_score)
+- tests (id, student_id, test_date, total_score, completed)
+- student_responses (id, test_id, question_id, student_answer, is_correct, time_spent)
+- student_skills (id, student_id, skill_id, ability_estimate, confidence_interval)
+
+Include proper foreign keys, indexes, and constraints.
+Generate the migration and verify it can be applied and rolled back cleanly.
+```
+
+## CI/CD Pipeline
+```
+Set up a GitHub Actions CI/CD pipeline with:
+
+On pull request:
+- Run backend tests (pytest)
+- Run frontend tests (Jest)
+- Check code coverage (must be ≥80%)
+- Lint Python code (flake8, black, mypy)
+- Lint JavaScript code (ESLint)
+- Build Docker images
+
+On merge to main:
+- Run all tests
+- Build production Docker images
+- Push to container registry
+- Deploy to staging environment (Kubernetes)
+- Run smoke tests
+- (Manual approval for production deploy)
+
+Include proper secrets management and environment variable handling.
+```
+
+## Kubernetes Deployment
+```
+Create Kubernetes manifests for production deployment:
+
+Components:
+- Backend deployment (3 replicas)
+- Frontend deployment (3 replicas)
+- PostgreSQL StatefulSet (with persistent volume)
+- Redis deployment
+- Ingress for external access
+- ConfigMap for environment variables
+- Secrets for sensitive data
+- HorizontalPodAutoscaler (scale based on CPU/memory)
+- Service definitions for internal communication
+
+Include:
+- Proper resource limits and requests
+- Health checks (liveness and readiness probes)
+- Blue-green deployment strategy
+- Monitoring integration (Prometheus)
+```
+
+## Question Import Script Enhancement
+```
+The existing fetch_math.py and fetch_reading.py scripts work perfectly.
+Create the import_questions.py script that:
+- Takes the normalized JSON output from the fetch scripts
+- Maps College Board skill codes to our taxonomy
+- Inserts questions into PostgreSQL with proper foreign keys
+- Handles duplicates gracefully (upsert logic)
+- Validates data integrity
+- Provides progress updates during import
+- Includes error handling and rollback on failure
+
+The skill mapping should use the MATH_SKILL_MAPPING and READING_SKILL_MAPPING 
+dictionaries to map skill codes like "H.A.1" to our Domain/Subdomain/Skill structure.
+```
+
+---
+# project-setup.sh
+# Quick setup script for new development
+
+#!/bin/bash
+set -e
+
+echo "🚀 Setting up SAT Tutoring Platform..."
+
+# Create directory structure
+echo "Creating directories..."
+mkdir -p backend/app/{models,schemas,api,core,tests}
+mkdir -p backend/alembic/versions
+mkdir -p backend/scripts
+mkdir -p frontend/src/{components/{common,tutor,student,auth},pages,services,hooks,utils}
+mkdir -p data
+mkdir -p k8s
+mkdir -p .claude-code
+
+# Create .env file if it doesn't exist
+if [ ! -f .env ]; then
+    echo "Creating .env file..."
+    cat > .env << 'EOF'
+DATABASE_URL=postgresql://sat_user:sat_password_dev@localhost:5432/sat_tutor
+REDIS_URL=redis://localhost:6379/0
+SECRET_KEY=your-super-secret-key-change-in-production-$(openssl rand -hex 32)
+ENVIRONMENT=development
+DEBUG=true
+ALLOWED_ORIGINS=http://localhost:3000
+EOF
+fi
+
+# Create .gitignore
+echo "Creating .gitignore..."
+cat > .gitignore << 'EOF'
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+*.egg-info/
+node_modules/
+npm-debug.log*
+build/
+.env.local
+*.sqlite3
+postgres_data/
+.vscode/
+.idea/
+*.swp
+data/*.json
+!data/.gitkeep
+.dockerignore
+EOF
+
+# Create data directory placeholder
+touch data/.gitkeep
+
+echo "Project structure created!"
+echo ""
+echo "Next steps:"
+echo "1. Start Docker: docker-compose up -d"
+echo "2. Initialize database: make init-db"
+echo "3. Start Claude Code: claude-code"
+echo ""
+echo "Then tell Claude: 'Implement the FastAPI backend structure with authentication'"

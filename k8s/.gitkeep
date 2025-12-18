@@ -1,0 +1,12 @@
+# Kubernetes configuration files
+#
+# Files to be added:
+# - namespace.yaml: Namespace definition
+# - configmap.yaml: Configuration values
+# - secrets.yaml: Sensitive configuration (use sealed-secrets in production)
+# - postgres-deployment.yaml: PostgreSQL StatefulSet
+# - redis-deployment.yaml: Redis Deployment
+# - backend-deployment.yaml: FastAPI Deployment
+# - frontend-deployment.yaml: React Deployment
+# - ingress.yaml: Ingress configuration
+# - hpa.yaml: Horizontal Pod Autoscaler
