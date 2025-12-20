@@ -3,22 +3,81 @@ SAT Tutoring Platform - SQLAlchemy Models
 
 Database models for the SAT tutoring platform.
 
-Models to be implemented:
-- User: Student and tutor accounts
-- Domain: Math, Reading & Writing
-- Subdomain: Algebra, Advanced Math, etc.
-- Skill: Individual skills within subdomains
-- Question: SAT practice questions
-- StudentResponse: Track student answers
-- StudentSkill: IRT-based ability estimates
-- Test: Practice test sessions
-- Assignment: Tutor-assigned practice
+Model Organization:
+- User: Student and tutor accounts (user.py)
+- Domain/Subdomain/Skill: Content taxonomy (taxonomy.py)
+- Question/QuestionVersion: Question bank (question.py)
+- StudentResponse/StudentSkill: Response tracking (response.py)
+- TestSession/TestQuestion: Test sessions (test.py)
+- Assignment/AssignmentQuestion: Tutor assignments (assignment.py)
 """
 
-# Models will be imported here as they are implemented
-# from app.models.user import User
-# from app.models.domain import Domain, Subdomain, Skill
-# from app.models.question import Question
-# from app.models.response import StudentResponse, StudentSkill
-# from app.models.test import Test
-# from app.models.assignment import Assignment
+# Enums
+from app.models.enums import (
+    UserRole,
+    AnswerType,
+    DifficultyLevel,
+    TestType,
+    TestStatus,
+    AssignmentStatus,
+    SubjectArea,
+    MathDomain,
+    ReadingDomain,
+)
+
+# Base mixins
+from app.models.base import (
+    TimestampMixin,
+    SoftDeleteMixin,
+    VersionMixin,
+)
+
+# Users
+from app.models.user import User
+
+# Taxonomy
+from app.models.taxonomy import Domain, Subdomain, Skill
+
+# Questions
+from app.models.question import Question, QuestionVersion, QuestionRelation
+
+# Responses
+from app.models.response import StudentResponse, StudentSkill
+
+# Tests
+from app.models.test import TestSession, TestQuestion
+
+# Assignments
+from app.models.assignment import Assignment, AssignmentQuestion
+
+
+__all__ = [
+    # Enums
+    "UserRole",
+    "AnswerType",
+    "DifficultyLevel",
+    "TestType",
+    "TestStatus",
+    "AssignmentStatus",
+    "SubjectArea",
+    "MathDomain",
+    "ReadingDomain",
+    # Mixins
+    "TimestampMixin",
+    "SoftDeleteMixin",
+    "VersionMixin",
+    # Models
+    "User",
+    "Domain",
+    "Subdomain",
+    "Skill",
+    "Question",
+    "QuestionVersion",
+    "QuestionRelation",
+    "StudentResponse",
+    "StudentSkill",
+    "TestSession",
+    "TestQuestion",
+    "Assignment",
+    "AssignmentQuestion",
+]

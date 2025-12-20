@@ -20,7 +20,14 @@ from app.config import settings
 from app.database import Base
 
 # Import all models here so Alembic can detect them
-# from app.models import user, question, skill, etc.
+from app.models import (
+    User,
+    Domain, Subdomain, Skill,
+    Question, QuestionVersion, QuestionRelation,
+    StudentResponse, StudentSkill,
+    TestSession, TestQuestion,
+    Assignment, AssignmentQuestion,
+)
 
 # Alembic Config object
 config = context.config

@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: sat_password
       POSTGRES_DB: sat_tutor
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Using 5433 on host since 5432 is in use
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
