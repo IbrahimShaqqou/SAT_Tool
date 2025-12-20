@@ -95,6 +95,11 @@ data/*.csv
 data/*.xlsx
 !data/.gitkeep
 
+# Backend data files (large JSON files from College Board)
+backend/data/*.json
+backend/data/*.csv
+!backend/data/.gitkeep
+
 # =============================================================================
 # OS Files
 # =============================================================================

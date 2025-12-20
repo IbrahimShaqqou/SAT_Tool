@@ -114,6 +114,15 @@ def import_normalized_questions(
             answer_type_str = q_data.get("answer_type", "MCQ")
             answer_type = AnswerType(answer_type_str)
 
+            # Build explanation - combine stimulus (passage) and rationale for reading
+            explanation = q_data.get("rationale_html", "")
+            stimulus = q_data.get("stimulus_html", "")
+
+            # For reading questions, prepend the stimulus to the prompt if present
+            prompt = q_data.get("prompt_html", "")
+            if stimulus and subject_area == SubjectArea.READING_WRITING:
+                prompt = f"{stimulus}\n\n{prompt}"
+
             # Build question record
             question = Question(
                 id=uuid.uuid4(),
@@ -125,9 +134,10 @@ def import_normalized_questions(
                 answer_type=answer_type,
                 difficulty=difficulty,
                 score_band_range=meta.get("score_band_range_cd"),
-                prompt_html=q_data.get("prompt_html", ""),
+                prompt_html=prompt,
                 choices_json=q_data.get("choices_html") if answer_type == AnswerType.MCQ else None,
                 correct_answer_json=q_data.get("correct", {}),
+                explanation_html=explanation if explanation else None,
                 raw_import_json=q_data,
                 import_batch_id=batch_id,
                 imported_at=datetime.now(timezone.utc),

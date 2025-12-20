@@ -204,13 +204,17 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
                  "primary_class_cd_desc", "score_band_range_cd", "ibn")
     meta = {k: rec.get(k) for k in meta_keep if k in rec}
 
+    # Extract rationale (explanation) from content
+    rationale = detail.get("rationale", "")
+
     return {
-        "uId"         : rec["uId"],
-        "prompt_html" : pick_prompt(detail),
-        "answer_type" : answer_type,
-        "choices_html": choices_html,
-        "correct"     : correct,
-        "meta"        : meta,
+        "uId"           : rec["uId"],
+        "prompt_html"   : pick_prompt(detail),
+        "answer_type"   : answer_type,
+        "choices_html"  : choices_html,
+        "correct"       : correct,
+        "rationale_html": rationale,
+        "meta"          : meta,
     }
 
 

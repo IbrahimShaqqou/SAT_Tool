@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     """
 
     # Database
-    database_url: str = "postgresql://sat_user:sat_password@localhost:5432/sat_tutor"
+    database_url: str = "postgresql://sat_user:sat_password@localhost:5433/sat_tutor"
 
     # Redis
     redis_url: str = "redis://localhost:6379/0"

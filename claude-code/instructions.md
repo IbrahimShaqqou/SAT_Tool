@@ -186,13 +186,30 @@ frontend/src/
 
 ## Important Notes
 
-### Question Import Scripts
-Two existing scripts fetch questions from College Board:
-- `backend/scripts/fetch_math.py`
-- `backend/scripts/fetch_reading.py`
+### Question Bank
+The platform includes a complete question bank with 3,271 SAT questions:
+- Math: 1,681 questions (1,222 with explanations, 192 with SVG graphs)
+- Reading/Writing: 1,590 questions (all with explanations)
 
-These scripts are COMPLETE and WORKING. Do not modify them.
-Use `backend/scripts/import_questions.py` to load their output into PostgreSQL.
+Data is stored in `backend/data/` as JSON files and imported into PostgreSQL.
+
+### Question Import Scripts
+Three scripts manage the question bank:
+- `backend/scripts/fetch_math.py` - Fetches math questions from College Board API
+- `backend/scripts/fetch_reading.py` - Fetches reading questions from College Board API
+- `backend/scripts/import_questions.py` - Imports normalized JSON into PostgreSQL
+
+These scripts are COMPLETE and WORKING.
+
+To refresh the question bank:
+```bash
+cd backend
+python scripts/fetch_math.py --fresh
+python scripts/fetch_reading.py --fresh
+python scripts/import_questions.py --all
+```
+
+See `backend/docs/DATA_IMPORT.md` for detailed documentation.
 
 ### IRT Implementation
 Item Response Theory is used for adaptive question selection. The algorithm should:

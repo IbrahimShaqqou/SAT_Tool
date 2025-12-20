@@ -159,11 +159,17 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
         "prompt_html" : None,
         "answer_type" : None,
         "choices_html": [],
-        "correct"     : {}
+        "correct"     : {},
+        "rationale_html": "",
+        "stimulus_html": "",
     }
     detail = rec["content"]
     # prompt
     out["prompt_html"] = detail.get("stem") or detail.get("prompt") or detail.get("question") or ""
+    # stimulus (passage)
+    out["stimulus_html"] = detail.get("stimulus") or ""
+    # rationale (explanation)
+    out["rationale_html"] = detail.get("rationale") or ""
     # choices & answer
     if detail.get("type","").lower() == "mcq":
         out["answer_type"] = "MCQ"
