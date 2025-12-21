@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.api.v1 import api_router
 
 # Create FastAPI application
 app = FastAPI(
@@ -59,9 +60,5 @@ async def root() -> dict:
     }
 
 
-# API router imports will be added here as they are implemented
-# from app.api import auth, questions, tests, analytics
-# app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
-# app.include_router(questions.router, prefix="/api/v1/questions", tags=["Questions"])
-# app.include_router(tests.router, prefix="/api/v1/tests", tags=["Tests"])
-# app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytics"])
+# Include API v1 router
+app.include_router(api_router, prefix="/api/v1")

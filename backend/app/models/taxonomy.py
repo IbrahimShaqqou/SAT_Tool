@@ -238,7 +238,6 @@ class Skill(Base, TimestampMixin):
     code = Column(
         String(30),
         nullable=False,
-        index=True,
         comment="College Board skill code (skill_cd)"
     )
 

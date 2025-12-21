@@ -95,7 +95,6 @@ class Assignment(Base, TimestampMixin):
     due_date = Column(
         DateTime(timezone=True),
         nullable=True,
-        index=True,
         comment="When assignment is due"
     )
 
