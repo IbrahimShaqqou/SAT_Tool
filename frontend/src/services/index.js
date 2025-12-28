@@ -1,19 +1,15 @@
 /**
- * SAT Tutoring Platform - Services
- *
- * API service modules for backend communication.
- *
- * Services to be implemented:
- * - auth: Login, register, logout, token refresh
- * - questions: Question CRUD operations
- * - tests: Practice test management
- * - analytics: Progress and performance data
+ * API Services Index
  */
 
 export { default as api } from './api';
-
-// Service modules will be exported here as they are implemented
-// export * from './auth';
-// export * from './questions';
-// export * from './tests';
-// export * from './analytics';
+export { default as authService } from './authService';
+export { default as tutorService } from './tutorService';
+export { default as assignmentService } from './assignmentService';
+export { default as practiceService } from './practiceService';
+export { default as questionService } from './questionService';
+export { default as taxonomyService } from './taxonomyService';
+export { default as progressService } from './progressService';
+export { default as inviteService } from './inviteService';
+export { default as assessService } from './assessService';
+export { default as adaptiveService } from './adaptiveService';

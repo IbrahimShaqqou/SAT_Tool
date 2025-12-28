@@ -104,22 +104,49 @@ def worker(meta: Dict[str, Any]) -> tuple[str, Dict[str,Any]|None, str|None]:
         return uid, None, str(exc)
 
 # ─── NORMALISATION UTILITIES ────────────────────────────────────────────
-def pick_prompt(detail: Dict[str, Any]) -> str:
-    cand_keys = ("prompt_html","prompt","stem_html","stem","body","question","title")
-    for k in cand_keys:
+def pick_stimulus(detail: Dict[str, Any]) -> str:
+    """Extract stimulus content (graphs, tables, equations shown 'above' the question)."""
+    # Check for explicit stimulus fields
+    for k in ("stimulus", "stimulus_html", "stimulus_reference"):
         v = detail.get(k)
-        if isinstance(v,str) and v.strip():               return v
-        if isinstance(v,list):
-            joined = " ".join(str(x) for x in v if x).strip()
-            if joined:                                   return joined
-        if isinstance(v,dict):
-            joined = " ".join(str(x) for x in v.values() if isinstance(x,str)).strip()
-            if joined:                                   return joined
-    for k,v in detail.items():
-        if "paragraph" in k and isinstance(v,str) and v.strip():
+        if isinstance(v, str) and v.strip():
+            return html.unescape(v)
+
+    # Check if 'body' contains stimulus (has stimulus_reference class or is separate from prompt)
+    body = detail.get("body", "")
+    prompt = detail.get("prompt", "") or detail.get("stem", "")
+    if body and isinstance(body, str) and "stimulus" in body.lower():
+        return html.unescape(body)
+    # If both body and prompt exist and are different, body is likely the stimulus
+    if body and prompt and body != prompt and isinstance(body, str):
+        return html.unescape(body)
+
+    return ""
+
+def pick_prompt(detail: Dict[str, Any]) -> str:
+    """Extract the question prompt (not the stimulus)."""
+    # Prefer explicit prompt/stem keys first (not body, which may be stimulus)
+    for k in ("prompt_html", "prompt", "stem_html", "stem"):
+        v = detail.get(k)
+        if isinstance(v, str) and v.strip():
+            return html.unescape(v)
+
+    # Fall back to body only if no prompt/stem exists
+    body = detail.get("body", "")
+    if isinstance(body, str) and body.strip() and "stimulus" not in body.lower():
+        return html.unescape(body)
+
+    # Other fallbacks
+    for k in ("question", "title"):
+        v = detail.get(k)
+        if isinstance(v, str) and v.strip():
+            return html.unescape(v)
+
+    for k, v in detail.items():
+        if "paragraph" in k and isinstance(v, str) and v.strip():
             return v
-    stim = detail.get("stimulus_reference") or ""
-    return html.unescape(stim) if stim else "(prompt unavailable)"
+
+    return "(prompt unavailable)"
 
 def extract_correct_answers(detail: Dict[str, Any],
                             ans_blob: Dict[str,Any]) -> List[str]:
@@ -147,9 +174,9 @@ def choice_index(correct: Dict[str,Any],
 
     # 2. tag like 'A' / 'a' / 'b'
     tag = str(correct.get("correct_choice") or "").strip().lower()
-    if tag in "abcd" and len(choices_html) >= 4:
+    if tag and tag in "abcd" and len(choices_html) >= 4:
         return "abcd".index(tag)
-    if tag.isdigit():
+    if tag and tag.isdigit():
         n = int(tag)
         return n if 0 <= n < len(choices_html) else None
 
@@ -174,11 +201,19 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
     ans_blob: Dict[str, Any] = detail.get("answer", {}) or {}
 
     # ---- pull out choices ------------------------------------------------
+    # Check multiple locations: inside "answer" blob OR directly in content
     if "choices" in ans_blob and isinstance(ans_blob["choices"], dict):
         # old SAT shape: {"a":{…},"b":{…}}
         choices_data = [ans_blob["choices"][k] for k in sorted(ans_blob["choices"])]
     else:
-        choices_data = ans_blob.get("answerOptions") or ans_blob.get("choices") or []
+        # Try ans_blob first, then fall back to direct content keys
+        choices_data = (
+            ans_blob.get("answerOptions") or
+            ans_blob.get("choices") or
+            detail.get("answerOptions") or  # Direct in content (new API format)
+            detail.get("choices") or
+            []
+        )
         # ensure list
         if isinstance(choices_data, dict):
             choices_data = list(choices_data.values())
@@ -190,11 +225,25 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
                     for c in choices_data]
     choice_ids   = [str(c.get("id") or "").strip() for c in choices_data]
 
-    answer_type = "MCQ" if choices_html else "SPR"
+    # Determine answer type from actual data, not just presence of choices
+    # Some questions have type field we can use
+    explicit_type = detail.get("type", "").lower()
+    if explicit_type == "mcq" and choices_html:
+        answer_type = "MCQ"
+    elif explicit_type == "spr":
+        answer_type = "SPR"
+    else:
+        answer_type = "MCQ" if choices_html else "SPR"
 
     # ---- work out the correct answer ------------------------------------
+    # For MCQ, also check direct keys in detail (not just ans_blob)
     if answer_type == "MCQ":
-        idx = choice_index(ans_blob, choices_html, choice_ids)
+        # Merge ans_blob with direct detail keys for correct answer lookup
+        merged_correct = {**ans_blob}
+        for key in ("keys", "correct_answer", "correct_answers", "correct_choice"):
+            if key in detail and key not in merged_correct:
+                merged_correct[key] = detail[key]
+        idx = choice_index(merged_correct, choices_html, choice_ids)
         correct = {"index": idx if idx is not None else -1}
     else:
         correct = {"answers": extract_correct_answers(detail, ans_blob)}
@@ -207,9 +256,13 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
     # Extract rationale (explanation) from content
     rationale = detail.get("rationale", "")
 
+    # Extract stimulus (content shown "above" the question - graphs, equations, tables)
+    stimulus = pick_stimulus(detail)
+
     return {
         "uId"           : rec["uId"],
         "prompt_html"   : pick_prompt(detail),
+        "stimulus_html" : stimulus,
         "answer_type"   : answer_type,
         "choices_html"  : choices_html,
         "correct"       : correct,

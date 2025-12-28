@@ -129,6 +129,13 @@ class Assignment(Base, TimestampMixin):
         comment="Config for dynamic question selection"
     )
 
+    is_adaptive = Column(
+        Boolean,
+        default=False,
+        nullable=False,
+        comment="Whether to use IRT-based adaptive question selection"
+    )
+
     time_limit_minutes = Column(
         Integer,
         nullable=True,

@@ -33,6 +33,7 @@ class TestType(str, enum.Enum):
     ASSIGNED = "assigned"           # Tutor-assigned test
     DIAGNOSTIC = "diagnostic"       # Initial skill assessment
     FULL_LENGTH = "full_length"     # Complete SAT simulation
+    ADAPTIVE = "adaptive"           # IRT-based adaptive practice
 
 
 class TestStatus(str, enum.Enum):
@@ -72,3 +73,11 @@ class ReadingDomain(str, enum.Enum):
     CRAFT_STRUCTURE = "CAS"          # Craft and Structure
     EXPRESSION_IDEAS = "EOI"         # Expression of Ideas
     STANDARD_ENGLISH = "SEC"         # Standard English Conventions
+
+
+class InviteStatus(str, enum.Enum):
+    """Status of assessment invite links."""
+    ACTIVE = "active"
+    USED = "used"
+    EXPIRED = "expired"
+    REVOKED = "revoked"

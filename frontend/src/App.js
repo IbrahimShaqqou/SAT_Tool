@@ -1,53 +1,105 @@
 /**
  * SAT Tutoring Platform - Main App Component
- *
- * Root component with routing configuration.
+ * Root component with routing configuration
  */
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
+import { PageLoader } from './components/ui/LoadingSpinner';
 
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+// Layouts
+import { AppLayout, PublicLayout, AuthGuard } from './components/layout';
 
-// Pages will be imported here as they are implemented
-// import Home from './pages/Home';
-// import Login from './pages/Login';
-// import Dashboard from './pages/Dashboard';
-// import Practice from './pages/Practice';
+// Auth Pages
+import { LoginPage, RegisterPage } from './pages/auth';
+
+// Tutor Pages (to be implemented)
+import TutorDashboard from './pages/tutor/DashboardPage';
+import TutorStudents from './pages/tutor/StudentsPage';
+import StudentDetail from './pages/tutor/StudentDetailPage';
+import TutorAssignments from './pages/tutor/AssignmentsPage';
+import CreateAssignment from './pages/tutor/CreateAssignmentPage';
+import TutorAnalytics from './pages/tutor/AnalyticsPage';
+import TutorInvites from './pages/tutor/InvitesPage';
+
+// Student Pages (to be implemented)
+import StudentDashboard from './pages/student/DashboardPage';
+import StudentAssignments from './pages/student/AssignmentsPage';
+import TestPage from './pages/student/TestPage';
+import ResultsPage from './pages/student/ResultsPage';
+import AdaptivePracticePage from './pages/student/AdaptivePracticePage';
+
+// Public Assessment
+import { AssessmentPage } from './pages/assess';
+
+// Root redirect based on role
+const RoleBasedRedirect = () => {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.role?.toLowerCase() === 'tutor') {
+    return <Navigate to="/tutor" replace />;
+  }
+
+  return <Navigate to="/student" replace />;
+};
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Routes will be added as pages are implemented */}
-        {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        {/* <Route path="/practice" element={<Practice />} /> */}
-      </Routes>
-    </div>
-  );
-}
+    <Routes>
+      {/* Root redirect */}
+      <Route path="/" element={<RoleBasedRedirect />} />
 
-// Temporary Home component - will be moved to pages/
-function Home() {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          SAT Tutoring Platform
-        </h1>
-        <p className="text-lg text-gray-600 mb-8">
-          Master the Digital SAT with personalized practice
-        </p>
-        <div className="space-x-4">
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
-            Get Started
-          </button>
-          <button className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition">
-            Learn More
-          </button>
-        </div>
-      </div>
-    </div>
+      {/* Public routes */}
+      <Route element={<PublicLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Route>
+
+      {/* Public assessment (no auth required) */}
+      <Route path="/assess/:token" element={<AssessmentPage />} />
+
+      {/* Tutor routes */}
+      <Route
+        element={
+          <AuthGuard requiredRole="tutor">
+            <AppLayout />
+          </AuthGuard>
+        }
+      >
+        <Route path="/tutor" element={<TutorDashboard />} />
+        <Route path="/tutor/students" element={<TutorStudents />} />
+        <Route path="/tutor/students/:id" element={<StudentDetail />} />
+        <Route path="/tutor/assignments" element={<TutorAssignments />} />
+        <Route path="/tutor/assignments/new" element={<CreateAssignment />} />
+        <Route path="/tutor/analytics" element={<TutorAnalytics />} />
+        <Route path="/tutor/invites" element={<TutorInvites />} />
+      </Route>
+
+      {/* Student routes */}
+      <Route
+        element={
+          <AuthGuard requiredRole="student">
+            <AppLayout />
+          </AuthGuard>
+        }
+      >
+        <Route path="/student" element={<StudentDashboard />} />
+        <Route path="/student/assignments" element={<StudentAssignments />} />
+        <Route path="/student/test/:id" element={<TestPage />} />
+        <Route path="/student/results/:id" element={<ResultsPage />} />
+        <Route path="/student/adaptive" element={<AdaptivePracticePage />} />
+      </Route>
+
+      {/* 404 */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

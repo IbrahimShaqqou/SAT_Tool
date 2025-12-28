@@ -114,13 +114,14 @@ def import_normalized_questions(
             answer_type_str = q_data.get("answer_type", "MCQ")
             answer_type = AnswerType(answer_type_str)
 
-            # Build explanation - combine stimulus (passage) and rationale for reading
+            # Build explanation
             explanation = q_data.get("rationale_html", "")
             stimulus = q_data.get("stimulus_html", "")
 
-            # For reading questions, prepend the stimulus to the prompt if present
+            # Prepend stimulus to prompt if present (for both math and reading)
+            # This handles equations, graphs, tables shown "above" the question
             prompt = q_data.get("prompt_html", "")
-            if stimulus and subject_area == SubjectArea.READING_WRITING:
+            if stimulus:
                 prompt = f"{stimulus}\n\n{prompt}"
 
             # Build question record

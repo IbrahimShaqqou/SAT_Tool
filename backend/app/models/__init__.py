@@ -23,6 +23,7 @@ from app.models.enums import (
     SubjectArea,
     MathDomain,
     ReadingDomain,
+    InviteStatus,
 )
 
 # Base mixins
@@ -49,6 +50,9 @@ from app.models.test import TestSession, TestQuestion
 
 # Assignments
 from app.models.assignment import Assignment, AssignmentQuestion
+
+# Invites
+from app.models.invite import Invite
 
 
 __all__ = [
@@ -80,4 +84,6 @@ __all__ = [
     "TestQuestion",
     "Assignment",
     "AssignmentQuestion",
+    "InviteStatus",
+    "Invite",
 ]

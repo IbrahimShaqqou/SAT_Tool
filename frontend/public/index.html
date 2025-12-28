@@ -10,6 +10,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- MathJax for rendering MathML in SAT questions -->
+    <script>
+      window.MathJax = {
+        options: {
+          enableMenu: false,
+        },
+        startup: {
+          typeset: false
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js" async></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

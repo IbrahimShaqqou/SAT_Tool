@@ -16,6 +16,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Screen reader only text - visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Custom component classes */
 @layer components {
   .btn-primary {
@@ -33,4 +46,296 @@ body {
   .input-field {
     @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
   }
+}
+
+/* Custom animations */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Prose styles for question content */
+.prose {
+  color: #374151;
+  line-height: 1.75;
+}
+
+.prose p {
+  margin-bottom: 1em;
+}
+
+/* Collapse whitespace in question content to prevent line breaks from newlines in HTML */
+.question-content {
+  white-space: normal;
+}
+
+.question-content * {
+  white-space: normal;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+}
+
+/* Math images should be inline with no margin - increased size */
+.prose img.math-img,
+.question-content img.math-img,
+button img.math-img,
+.question-content .math-container img,
+button .math-container img {
+  display: inline !important;
+  vertical-align: middle;
+  margin: 0 !important;
+  height: auto;
+  max-height: 2.5em;
+}
+
+/* Math containers should be inline */
+.question-content .math-container,
+button .math-container,
+.question-content span.math-container,
+button span.math-container {
+  display: inline !important;
+  vertical-align: middle;
+}
+
+/* Question content styles for SAT questions */
+.question-content figure,
+.question-content .image {
+  display: block;
+  margin: 1em auto;
+  text-align: center;
+}
+
+/* SVG graphs/charts in questions - clean display without border */
+.question-content svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+}
+
+/* Tables in questions - clean borders like image 28 */
+.question-content table {
+  border-collapse: collapse;
+  margin: 1em auto;
+  font-size: 0.95em;
+}
+
+.question-content th,
+.question-content td {
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.question-content th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.question-content caption {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Borderless tables (system of equations, etc.) - no borders */
+.question-content table.table_Borderless,
+.question-content table.table_Borderless th,
+.question-content table.table_Borderless td,
+.question-content .table_Borderless table,
+.question-content .table_Borderless th,
+.question-content .table_Borderless td {
+  border: none !important;
+  background: transparent !important;
+  padding: 2px 8px;
+}
+
+/* MathML tables (mtable) - should not have visible borders */
+.question-content mtable,
+.question-content mtr,
+.question-content mtd {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* MathJax rendered tables - no borders */
+.question-content mjx-mtable,
+.question-content mjx-mtr,
+.question-content mjx-mtd {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Figures - no extra borders, just spacing */
+.question-content figure.image,
+.question-content figure.table {
+  margin: 1em auto;
+}
+
+/* MathJax/MathML styling - ensure inline display, larger size, and handle whitespace */
+.question-content mjx-container,
+.question-content math,
+button mjx-container,
+button math {
+  display: inline !important;
+  vertical-align: middle;
+  font-size: 1.25em;
+}
+
+/* Question content math should be larger for readability */
+.question-content math {
+  font-size: 1.3em;
+}
+
+/* Answer choice math slightly smaller but still readable */
+button math {
+  font-size: 1.15em;
+}
+
+/* Collapse whitespace in math elements to prevent line breaks from internal formatting */
+.question-content math,
+.question-content math *,
+button math,
+button math * {
+  white-space: nowrap;
+}
+
+/* Paragraphs containing math should preserve inline flow */
+.question-content p,
+button > span {
+  white-space: normal;
+}
+
+.question-content p mjx-container[display="true"],
+.question-content p math[display="block"] {
+  display: block;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+/* System of equations - center aligned math */
+.question-content p[style*="text-align: center"] {
+  text-align: center;
+}
+
+/* Ensure math in answer choices doesn't break layout */
+button mjx-container,
+button math {
+  display: inline-block;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+/* Hide graph description bullet points (accessibility text in/after SVGs) */
+.question-content figure + ul,
+.question-content svg + ul,
+.question-content .image + ul,
+.question-content figure ul,
+.question-content figure > ul,
+.question-content .image ul,
+/* Also hide in answer choice buttons */
+button figure + ul,
+button svg + ul,
+button .image + ul,
+button figure ul,
+button figure > ul,
+button .image ul,
+/* Hide any plain text descriptions after graphs (not in ul) */
+.question-content figure + p:not(:has(math)):not(:has(mjx-container)),
+button figure + p:not(:has(math)):not(:has(mjx-container)) {
+  display: none !important;
+}
+
+/* Hide accessibility text that appears as direct text after SVG */
+.question-content svg ~ *:not(p):not(div):not(span):not(figure):not(math):not(mjx-container),
+button svg ~ *:not(p):not(div):not(span):not(figure):not(math):not(mjx-container) {
+  display: none !important;
+}
+
+/* Fix excessive spacing between equations - reduce paragraph margins */
+.question-content p {
+  margin-bottom: 0.4em;
+  margin-top: 0;
+}
+
+/* Remove line height excess from paragraphs containing math */
+.question-content p:has(mjx-container),
+.question-content p:has(math) {
+  margin-bottom: 0.15em;
+  margin-top: 0.15em;
+  line-height: 1.4;
+}
+
+/* Paragraphs with only math should have minimal spacing */
+.question-content p:has(> mjx-container:only-child),
+.question-content p:has(> math:only-child) {
+  margin-bottom: 0.1em;
+  margin-top: 0.1em;
+}
+
+/* Center-aligned paragraphs with math should have minimal spacing */
+.question-content p[style*="text-align: center"] {
+  margin-bottom: 0.1em;
+  margin-top: 0.1em;
+}
+
+/* Consecutive center-aligned paragraphs (systems of equations) */
+.question-content p[style*="text-align: center"] + p[style*="text-align: center"] {
+  margin-top: 0;
+}
+
+/* Remove br-induced gaps in math sections */
+.question-content br {
+  line-height: 0.5;
+}
+
+/* Inline math should flow with text */
+.question-content mjx-container[jax="CHTML"]:not([display="true"]) {
+  display: inline;
+  margin: 0;
+}
+
+/* Block math should have minimal margins */
+.question-content mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  margin: 0.2em 0;
+}
+
+/* Remove extra spacing after figures */
+.question-content figure {
+  margin-bottom: 0.5em;
 }
