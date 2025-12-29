@@ -88,10 +88,10 @@ const AnswerChoice = ({
         {letter}
       </span>
 
-      {/* Choice content */}
+      {/* Choice content - flex to align with letter circle */}
       <span
         ref={contentRef}
-        className="flex-1 text-gray-900"
+        className="flex-1 text-gray-900 flex items-center min-h-[2rem]"
         dangerouslySetInnerHTML={{ __html: content }}
       />
 

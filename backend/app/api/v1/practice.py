@@ -35,6 +35,15 @@ from app.schemas.practice import (
     SkillBreakdown,
 )
 from app.schemas.question import ChoiceOption, DomainBrief, SkillBrief
+from app.services.irt_service import (
+    update_skill_ability,
+    propagate_ability_updates,
+    DEFAULT_A,
+    DEFAULT_B,
+    DEFAULT_C_MCQ,
+)
+from app.models.response import StudentSkill
+from app.models.enums import AnswerType
 
 router = APIRouter()
 
@@ -74,6 +83,32 @@ def _check_answer(question: Question, submitted_answer: dict) -> bool:
         return user_answer in correct_answers
 
     return False
+
+
+def _get_skill_responses(db: Session, student_id: UUID, skill_id: int) -> list:
+    """Get all responses for a student-skill pair with IRT parameters."""
+    from app.models.response import StudentResponse
+
+    responses = db.query(StudentResponse).join(
+        Question, StudentResponse.question_id == Question.id
+    ).filter(
+        StudentResponse.student_id == student_id,
+        Question.skill_id == skill_id,
+    ).all()
+
+    result = []
+    for r in responses:
+        q = r.question
+        result.append({
+            "a": q.irt_discrimination_a or DEFAULT_A,
+            "b": q.irt_difficulty_b or DEFAULT_B,
+            "c": q.irt_guessing_c if q.irt_guessing_c is not None else (
+                DEFAULT_C_MCQ if q.answer_type == AnswerType.MCQ else 0.0
+            ),
+            "is_correct": r.is_correct,
+        })
+
+    return result
 
 
 @router.post("", response_model=PracticeSessionBrief, status_code=status.HTTP_201_CREATED)
@@ -404,6 +439,28 @@ def submit_answer(
         session.time_spent_seconds = answer_data.time_spent_seconds
     else:
         session.time_spent_seconds += answer_data.time_spent_seconds
+
+    # Update skill ability for analytics tracking
+    skill_id = question.skill_id
+    if skill_id:
+        # Get all responses for this skill (including the one we just added)
+        responses = _get_skill_responses(db, current_user.id, skill_id)
+        # Add the current response (not yet in DB)
+        responses.append({
+            "a": question.irt_discrimination_a or DEFAULT_A,
+            "b": question.irt_difficulty_b or DEFAULT_B,
+            "c": question.irt_guessing_c if question.irt_guessing_c is not None else DEFAULT_C_MCQ,
+            "is_correct": is_correct,
+        })
+        # Update skill ability
+        update_skill_ability(
+            db, current_user.id, skill_id, responses,
+            session_length=session.total_questions,
+            session_correct=session.questions_correct,
+            session_total=session.questions_answered
+        )
+        # Propagate to domain and section
+        propagate_ability_updates(db, current_user.id, skill_id)
 
     # Determine next question
     next_question_index = None

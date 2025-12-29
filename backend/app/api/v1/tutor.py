@@ -591,10 +591,12 @@ def create_invite(
 
     invite = Invite(
         tutor_id=current_user.id,
-        title=request.title,
+        title=request.title or "Intake Assessment",
+        assessment_type=request.assessment_type,
         subject_area=request.subject_area,
         question_count=request.question_count,
         time_limit_minutes=request.time_limit_minutes,
+        is_adaptive=1 if request.is_adaptive else 0,
         expires_at=expires_at,
     )
 
@@ -647,6 +649,7 @@ def list_invites(
             id=inv.id,
             token=inv.token,
             title=inv.title,
+            assessment_type=inv.assessment_type,
             subject_area=inv.subject_area,
             question_count=inv.question_count,
             time_limit_minutes=inv.time_limit_minutes,
@@ -656,6 +659,7 @@ def list_invites(
             used_at=inv.used_at,
             guest_name=inv.guest_name,
             guest_email=inv.guest_email,
+            student_id=inv.student_id,
             score_percentage=score_percentage,
         ))
 
@@ -703,6 +707,62 @@ def get_invite(
         student_id=invite.student_id,
         test_session_id=invite.test_session_id,
     )
+
+
+@router.get("/invites/{invite_id}/results")
+def get_invite_results(
+    invite_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_tutor),
+):
+    """
+    Get detailed assessment results for an invite (skill/domain breakdown).
+    """
+    from app.services.intake_service import calculate_intake_results
+
+    invite = db.query(Invite).filter(
+        Invite.id == invite_id,
+        Invite.tutor_id == current_user.id,
+    ).first()
+
+    if not invite:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Invite not found",
+        )
+
+    if not invite.test_session_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Assessment not started",
+        )
+
+    session = db.query(TestSession).filter(TestSession.id == invite.test_session_id).first()
+    if not session or session.status != TestStatus.COMPLETED:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Assessment not completed",
+        )
+
+    # Get detailed results
+    results = calculate_intake_results(db, session.id)
+
+    # Add session info
+    student = None
+    if invite.student_id:
+        student = db.query(User).filter(User.id == invite.student_id).first()
+
+    return {
+        "invite_id": invite.id,
+        "title": invite.title,
+        "student_id": invite.student_id,
+        "student_name": f"{student.first_name} {student.last_name}" if student else invite.guest_name,
+        "student_email": student.email if student else invite.guest_email,
+        "completed_at": session.completed_at,
+        "time_spent_seconds": session.time_spent_seconds,
+        "score_percentage": session.score_percentage,
+        **results,
+    }
 
 
 @router.delete("/invites/{invite_id}", status_code=status.HTTP_204_NO_CONTENT)

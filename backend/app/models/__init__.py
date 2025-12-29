@@ -45,6 +45,13 @@ from app.models.question import Question, QuestionVersion, QuestionRelation
 # Responses
 from app.models.response import StudentResponse, StudentSkill
 
+# Adaptive Learning
+from app.models.adaptive import (
+    StudentAdaptiveSettings,
+    StudentDomainAbility,
+    StudentSectionAbility,
+)
+
 # Tests
 from app.models.test import TestSession, TestQuestion
 
@@ -80,6 +87,9 @@ __all__ = [
     "QuestionRelation",
     "StudentResponse",
     "StudentSkill",
+    "StudentAdaptiveSettings",
+    "StudentDomainAbility",
+    "StudentSectionAbility",
     "TestSession",
     "TestQuestion",
     "Assignment",

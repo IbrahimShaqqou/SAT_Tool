@@ -33,6 +33,11 @@ from app.schemas.adaptive import (
     NextQuestionResponse,
     CalibrationStats,
     CalibrationResult,
+    StaleSkill,
+    StaleSkillsResponse,
+    DomainAbilityInfo,
+    SectionAbilityInfo,
+    HierarchicalAbilityProfile,
 )
 from app.schemas.question import ChoiceOption, DomainBrief, SkillBrief
 from app.services.irt_service import (
@@ -40,9 +45,14 @@ from app.services.irt_service import (
     item_information,
     estimate_ability_eap,
     select_adaptive_question,
+    select_adaptive_question_with_memory,
+    get_available_questions_with_memory,
     get_skill_ability,
     update_skill_ability,
     calculate_overall_ability,
+    get_student_adaptive_settings,
+    propagate_ability_updates,
+    get_stale_skills,
     PRIOR_MEAN,
     PRIOR_SD,
     DEFAULT_A,
@@ -424,28 +434,28 @@ def start_adaptive_session(
     skill_ids = session.question_config.get("skill_ids", [])
     initial_theta = session.question_config.get("initial_theta", PRIOR_MEAN)
 
-    # Get available questions for these skills
-    query = db.query(Question).filter(
-        Question.is_active == True,
-        Question.deleted_at == None,
-        Question.skill_id.in_(skill_ids),
+    # Get available questions with cross-session memory (no repeats)
+    first_question, pool_health = select_adaptive_question_with_memory(
+        db=db,
+        student_id=current_user.id,
+        theta=initial_theta,
+        skill_ids=skill_ids,
+        session_answered_ids=set(),
+        session_questions_answered=0,
+        session_total_questions=session.total_questions,
     )
 
-    available_questions = query.all()
-
-    if not available_questions:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No questions available for the selected skills",
-        )
-
-    # Select first question
-    first_question = select_adaptive_question(initial_theta, available_questions)
+    # Store pool health in session for tutor visibility
+    if pool_health.get("warning_level"):
+        session.question_config["pool_health"] = pool_health
 
     if not first_question:
+        detail = "No questions available for the selected skills"
+        if pool_health.get("warning_level") == "critical":
+            detail = f"No questions available. Student has seen all {pool_health.get('total_questions', 0)} questions within the repetition window."
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to select first question",
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=detail,
         )
 
     # Create TestQuestion record
@@ -563,7 +573,7 @@ def submit_adaptive_answer(
     else:
         session.time_spent_seconds += answer_data.time_spent_seconds
 
-    # Update ability for this skill
+    # Update ability for this skill with session-length aggressiveness and accuracy floor
     if skill_id:
         responses = _get_question_responses_for_skill(db, current_user.id, skill_id)
         # Add the current response
@@ -573,7 +583,15 @@ def submit_adaptive_answer(
             "c": question.irt_guessing_c if question.irt_guessing_c is not None else DEFAULT_C_MCQ,
             "is_correct": is_correct,
         })
-        theta_after, se_after = update_skill_ability(db, current_user.id, skill_id, responses)
+        # Pass session length and accuracy for responsive updates
+        theta_after, se_after = update_skill_ability(
+            db, current_user.id, skill_id, responses,
+            session_length=session.total_questions,
+            session_correct=session.questions_correct,
+            session_total=session.questions_answered
+        )
+        # Propagate ability update to domain and section levels
+        propagate_ability_updates(db, current_user.id, skill_id)
     else:
         theta_after, se_after = calculate_overall_ability(db, current_user.id)
 
@@ -590,39 +608,41 @@ def submit_adaptive_answer(
     questions_remaining = session.total_questions - session.questions_answered
 
     if not session_complete:
-        # Get already answered question IDs
-        answered_ids = {
+        # Get already answered question IDs in this session
+        session_answered_ids = {
             tq.question_id for tq in
             db.query(TestQuestion).filter(
                 TestQuestion.test_session_id == session.id
             ).all()
         }
 
-        # Get available questions
-        query = db.query(Question).filter(
-            Question.is_active == True,
-            Question.deleted_at == None,
-            Question.skill_id.in_(skill_ids),
-            ~Question.id.in_(answered_ids),
+        # Select next question with cross-session memory and progressive challenge
+        next_question, pool_health = select_adaptive_question_with_memory(
+            db=db,
+            student_id=current_user.id,
+            theta=theta_after,
+            skill_ids=skill_ids,
+            session_answered_ids=session_answered_ids,
+            session_questions_answered=session.questions_answered,
+            session_total_questions=session.total_questions,
         )
-        available = query.all()
 
-        if available:
-            # Select next question based on updated ability
-            next_question = select_adaptive_question(theta_after, available)
+        if next_question:
+            # Create new TestQuestion
+            new_tq = TestQuestion(
+                test_session_id=session.id,
+                question_id=next_question.id,
+                question_order=session.questions_answered + 1,
+            )
+            db.add(new_tq)
 
-            if next_question:
-                # Create new TestQuestion
-                new_tq = TestQuestion(
-                    test_session_id=session.id,
-                    question_id=next_question.id,
-                    question_order=session.questions_answered + 1,
-                )
-                db.add(new_tq)
+            session.current_question_index = session.questions_answered
 
-                session.current_question_index = session.questions_answered
+            next_question_info = _build_question_info(next_question, db, theta_after)
 
-                next_question_info = _build_question_info(next_question, db, theta_after)
+            # Update pool health in session config
+            if pool_health.get("warning_level"):
+                session.question_config["pool_health"] = pool_health
         else:
             # No more questions available
             session_complete = True
@@ -833,3 +853,174 @@ def run_calibration(
             message=f"Calibration failed: {str(e)}",
             stats={},
         )
+
+
+# =============================================================================
+# Tutor Analytics Endpoints
+# =============================================================================
+
+@router.get("/students/{student_id}/stale-skills", response_model=StaleSkillsResponse)
+def get_student_stale_skills(
+    student_id: UUID,
+    threshold_days: int = Query(21, ge=7, le=90, description="Days of inactivity to be considered stale"),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> StaleSkillsResponse:
+    """
+    Get skills that need review for a student due to inactivity.
+
+    Tutors can use this to identify areas that need attention.
+    Skills inactive for 3+ weeks (configurable) are flagged as stale.
+    """
+    from app.models.enums import UserRole
+
+    # Verify access: tutors can view their students, admins can view anyone
+    target_student = db.query(User).filter(User.id == student_id).first()
+    if not target_student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Student not found",
+        )
+
+    is_own_profile = current_user.id == student_id
+    is_tutor_of_student = (
+        current_user.role == UserRole.TUTOR and
+        target_student.tutor_id == current_user.id
+    )
+    is_admin = current_user.role == UserRole.ADMIN
+
+    if not (is_own_profile or is_tutor_of_student or is_admin):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this student's data",
+        )
+
+    # Get stale skills
+    stale_skills_data = get_stale_skills(db, student_id, threshold_days)
+
+    stale_skills = [
+        StaleSkill(
+            skill_id=s["skill_id"],
+            skill_name=s["skill_name"],
+            days_since_practice=s["days_since_practice"],
+            original_theta=round(s["original_theta"], 3),
+            decayed_theta=round(s["decayed_theta"], 3),
+            responses_count=s["responses_count"],
+            mastery_level=round(s["mastery_level"], 1),
+        )
+        for s in stale_skills_data
+    ]
+
+    return StaleSkillsResponse(
+        student_id=student_id,
+        stale_skills=stale_skills,
+        threshold_days=threshold_days,
+    )
+
+
+@router.get("/students/{student_id}/hierarchical-profile", response_model=HierarchicalAbilityProfile)
+def get_hierarchical_ability_profile(
+    student_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> HierarchicalAbilityProfile:
+    """
+    Get hierarchical ability profile for a student.
+
+    Shows ability estimates at skill, domain, and section levels,
+    along with predicted SAT score ranges.
+    """
+    from app.models.enums import UserRole
+    from app.models.adaptive import StudentDomainAbility, StudentSectionAbility
+    from app.models.taxonomy import Domain
+
+    # Verify access
+    target_student = db.query(User).filter(User.id == student_id).first()
+    if not target_student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Student not found",
+        )
+
+    is_own_profile = current_user.id == student_id
+    is_tutor_of_student = (
+        current_user.role == UserRole.TUTOR and
+        target_student.tutor_id == current_user.id
+    )
+    is_admin = current_user.role == UserRole.ADMIN
+
+    if not (is_own_profile or is_tutor_of_student or is_admin):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this student's data",
+        )
+
+    # Get section abilities
+    section_records = db.query(StudentSectionAbility).filter(
+        StudentSectionAbility.student_id == student_id
+    ).all()
+
+    section_abilities = [
+        SectionAbilityInfo(
+            section=s.section,
+            ability_theta=round(s.ability_theta, 3),
+            ability_se=round(s.ability_se, 3),
+            responses_count=s.responses_count or 0,
+            predicted_score_low=s.predicted_score_low,
+            predicted_score_high=s.predicted_score_high,
+            last_updated=s.last_updated,
+        )
+        for s in section_records
+    ]
+
+    # Get domain abilities
+    domain_records = db.query(StudentDomainAbility).filter(
+        StudentDomainAbility.student_id == student_id
+    ).all()
+
+    domain_abilities = []
+    for d in domain_records:
+        domain = db.query(Domain).filter(Domain.id == d.domain_id).first()
+        domain_name = domain.name if domain else f"Domain {d.domain_id}"
+        domain_abilities.append(DomainAbilityInfo(
+            domain_id=d.domain_id,
+            domain_name=domain_name,
+            ability_theta=round(d.ability_theta, 3),
+            ability_se=round(d.ability_se, 3),
+            responses_count=d.responses_count or 0,
+            last_updated=d.last_updated,
+        ))
+
+    # Get skill abilities
+    skill_records = db.query(StudentSkill).filter(
+        StudentSkill.student_id == student_id
+    ).all()
+
+    skill_abilities = []
+    for record in skill_records:
+        skill = db.query(Skill).filter(Skill.id == record.skill_id).first()
+        if skill:
+            skill_abilities.append(SkillAbility(
+                skill_id=skill.id,
+                skill_name=skill.name,
+                skill_code=skill.code,
+                ability=_make_ability_estimate(
+                    record.ability_theta or PRIOR_MEAN,
+                    record.ability_se or PRIOR_SD,
+                    record.responses_for_estimate or 0
+                ),
+                mastery_level=record.mastery_level or 0.0,
+                last_practiced=record.last_practiced_at,
+            ))
+
+    # Count stale skills
+    stale_skills_data = get_stale_skills(db, student_id)
+    stale_count = len(stale_skills_data)
+
+    return HierarchicalAbilityProfile(
+        student_id=student_id,
+        section_abilities=section_abilities,
+        domain_abilities=domain_abilities,
+        skill_abilities=skill_abilities,
+        stale_skills_count=stale_count,
+    )

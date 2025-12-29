@@ -15,7 +15,7 @@ from sqlalchemy.orm import relationship
 
 from app.database import Base
 from app.models.base import TimestampMixin
-from app.models.enums import InviteStatus, SubjectArea
+from app.models.enums import InviteStatus, SubjectArea, AssessmentType
 
 
 def generate_invite_token():
@@ -43,9 +43,15 @@ class Invite(Base, TimestampMixin):
 
     # Invite settings
     title = Column(String(200), nullable=True)
+    assessment_type = Column(
+        Enum(AssessmentType, values_callable=lambda x: [e.value for e in x]),
+        nullable=False,
+        default=AssessmentType.INTAKE
+    )
     subject_area = Column(Enum(SubjectArea), nullable=True)  # null = both
     question_count = Column(Integer, nullable=False, default=20)
     time_limit_minutes = Column(Integer, nullable=True)  # null = no limit
+    is_adaptive = Column(Integer, nullable=False, default=1)  # Use CAT for question selection (1=True, 0=False)
 
     # Status tracking
     status = Column(Enum(InviteStatus), nullable=False, default=InviteStatus.ACTIVE)

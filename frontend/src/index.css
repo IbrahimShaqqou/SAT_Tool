@@ -109,6 +109,27 @@ body {
   margin: 1em 0;
 }
 
+/* Diagram/figure images in Math questions - make them larger and more readable */
+/* These are standalone images like triangles, graphs, tables, etc. */
+.question-content > p > img:not(.math-img):not([class*="math"]),
+.question-content figure img:not(.math-img),
+.question-content .image img:not(.math-img),
+.question-content > img:not(.math-img) {
+  min-width: 280px;
+  max-width: 90%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+}
+
+/* For images that are block-level (diagrams, not inline equations) */
+.question-content p > img:only-child:not(.math-img) {
+  min-width: 280px;
+  max-width: 90%;
+  display: block;
+  margin: 1em auto;
+}
+
 /* Math images should be inline with no margin - increased size */
 .prose img.math-img,
 .question-content img.math-img,
@@ -252,12 +273,32 @@ button > span {
   text-align: center;
 }
 
-/* Ensure math in answer choices doesn't break layout */
+/* Ensure math in answer choices doesn't break layout and aligns with letter */
 button mjx-container,
 button math {
-  display: inline-block;
+  display: inline-block !important;
   vertical-align: middle;
   pointer-events: none;
+}
+
+/* Answer choice content should be vertically centered with the letter */
+button > span:last-of-type:not(:first-child) {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+}
+
+/* Answer choice buttons - ensure proper vertical alignment */
+button.answer-choice,
+button[class*="flex"][class*="items-center"] {
+  align-items: center;
+}
+
+/* Content inside answer choice should align with letter circle */
+button > span.flex-1 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Hide graph description bullet points (accessibility text in/after SVGs) */

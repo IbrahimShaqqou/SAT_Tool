@@ -57,9 +57,9 @@ class StudentResponse(Base, TimestampMixin):
     student_id = Column(
         UUID(as_uuid=True),
         ForeignKey("users.id", ondelete="CASCADE"),
-        nullable=False,
+        nullable=True,  # Nullable for guest assessments
         index=True,
-        comment="Student who submitted response"
+        comment="Student who submitted response (null for guests)"
     )
 
     question_id = Column(

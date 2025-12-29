@@ -29,7 +29,7 @@ import ResultsPage from './pages/student/ResultsPage';
 import AdaptivePracticePage from './pages/student/AdaptivePracticePage';
 
 // Public Assessment
-import { AssessmentPage } from './pages/assess';
+import { AssessmentPage, IntakeResultsPage } from './pages/assess';
 
 // Root redirect based on role
 const RoleBasedRedirect = () => {
@@ -64,6 +64,7 @@ function App() {
 
       {/* Public assessment (no auth required) */}
       <Route path="/assess/:token" element={<AssessmentPage />} />
+      <Route path="/assess/:token/results" element={<IntakeResultsPage />} />
 
       {/* Tutor routes */}
       <Route

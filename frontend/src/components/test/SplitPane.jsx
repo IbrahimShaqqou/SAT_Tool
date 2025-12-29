@@ -60,9 +60,9 @@ const SplitPane = ({
       ref={containerRef}
       className={`flex h-full ${className}`}
     >
-      {/* Left panel */}
+      {/* Left panel - overflow-hidden so content handles its own scroll */}
       <div
-        className="overflow-auto"
+        className="overflow-hidden h-full"
         style={{ width: `${splitPercent}%` }}
       >
         {left}
@@ -82,9 +82,9 @@ const SplitPane = ({
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-8 bg-gray-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
 
-      {/* Right panel */}
+      {/* Right panel - overflow-hidden so content handles its own scroll */}
       <div
-        className="overflow-auto"
+        className="overflow-hidden h-full"
         style={{ width: `${100 - splitPercent}%` }}
       >
         {right}

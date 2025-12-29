@@ -3,25 +3,32 @@
  * Simple overview with assignments due and recent scores
  */
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ClipboardList, TrendingUp, Clock, Brain, Zap } from 'lucide-react';
-import { Card, Button, EmptyState, LoadingSpinner } from '../../components/ui';
+import { Link, useNavigate } from 'react-router-dom';
+import { ClipboardList, TrendingUp, Clock, Brain, Zap, PlayCircle, AlertTriangle, Target, ArrowRight } from 'lucide-react';
+import { Card, Button, Badge, EmptyState, LoadingSpinner } from '../../components/ui';
 import { assignmentService, progressService } from '../../services';
 
 const StudentDashboard = () => {
+  const navigate = useNavigate();
   const [assignments, setAssignments] = useState([]);
+  const [inProgressAssessments, setInProgressAssessments] = useState([]);
   const [progress, setProgress] = useState(null);
+  const [skills, setSkills] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [assignmentsRes, progressRes] = await Promise.all([
+        const [assignmentsRes, progressRes, inProgressRes, skillsRes] = await Promise.all([
           assignmentService.getAssignments({ status: 'pending', limit: 5 }),
           progressService.getSummary(),
+          progressService.getInProgressAssessments(),
+          progressService.getSkills().catch(() => ({ data: { skills: [], weak_skills: [], strong_skills: [] } })),
         ]);
         setAssignments(assignmentsRes.data.items || []);
         setProgress(progressRes.data);
+        setInProgressAssessments(inProgressRes.data.items || []);
+        setSkills(skillsRes.data);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -84,6 +91,49 @@ const StudentDashboard = () => {
         </Card>
       </div>
 
+      {/* In-Progress Assessments */}
+      {inProgressAssessments.length > 0 && (
+        <Card className="border-amber-200 bg-amber-50">
+          <Card.Header>
+            <div className="flex items-center gap-2">
+              <PlayCircle className="h-5 w-5 text-amber-600" />
+              <Card.Title className="text-amber-900">Continue Your Assessment</Card.Title>
+            </div>
+          </Card.Header>
+          <Card.Content>
+            <div className="space-y-3">
+              {inProgressAssessments.map((assessment) => (
+                <div
+                  key={assessment.session_id}
+                  className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-100"
+                >
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-gray-900">
+                        {assessment.title || 'Intake Assessment'}
+                      </p>
+                      <Badge variant="warning">In Progress</Badge>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {assessment.questions_answered} of {assessment.total_questions} questions answered
+                      <span className="mx-2">•</span>
+                      {assessment.subject_area === 'math' ? 'Math' : 'Reading & Writing'}
+                      <span className="mx-2">•</span>
+                      From {assessment.tutor_name}
+                    </p>
+                  </div>
+                  <Link to={`/assess/${assessment.invite_token}`}>
+                    <Button variant="primary" size="sm">
+                      Resume
+                    </Button>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </Card.Content>
+        </Card>
+      )}
+
       {/* Adaptive Practice Card */}
       <Card className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
         <div className="flex items-center justify-between">
@@ -106,6 +156,95 @@ const StudentDashboard = () => {
           </Link>
         </div>
       </Card>
+
+      {/* Weak Skills - Areas to Improve */}
+      {skills && skills.weak_skills && skills.weak_skills.length > 0 && (
+        <Card>
+          <Card.Header>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-amber-500" />
+                <Card.Title>Areas to Improve</Card.Title>
+              </div>
+              <span className="text-sm text-gray-500">Based on your intake assessment</span>
+            </div>
+          </Card.Header>
+          <Card.Content>
+            <div className="space-y-3">
+              {skills.weak_skills.map((skill) => (
+                <div
+                  key={skill.skill_id}
+                  className="flex items-center justify-between p-4 bg-amber-50 border border-amber-100 rounded-lg"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="w-8 h-8 bg-amber-200 rounded-full flex items-center justify-center text-xs font-medium text-amber-800">
+                        {skill.domain_code}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="font-medium text-gray-900 truncate">{skill.skill_name}</p>
+                        <p className="text-sm text-gray-500">{skill.domain_name}</p>
+                      </div>
+                    </div>
+                    <div className="mt-2 flex items-center gap-4 text-sm">
+                      <span className={`font-medium ${skill.mastery_level < 30 ? 'text-red-600' : skill.mastery_level < 60 ? 'text-amber-600' : 'text-green-600'}`}>
+                        {Math.round(skill.mastery_level)}% mastery
+                      </span>
+                      <span className="text-gray-500">
+                        {skill.questions_correct}/{skill.questions_attempted} correct
+                      </span>
+                      {skill.ability_theta !== null && (
+                        <span className="text-gray-500">
+                          Ability: {skill.ability_theta > 0 ? '+' : ''}{skill.ability_theta}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => navigate('/student/adaptive', { state: { focusSkill: skill.skill_name } })}
+                    className="ml-4 flex-shrink-0"
+                  >
+                    Practice
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </Card.Content>
+        </Card>
+      )}
+
+      {/* Strong Skills */}
+      {skills && skills.strong_skills && skills.strong_skills.length > 0 && (
+        <Card>
+          <Card.Header>
+            <div className="flex items-center gap-2">
+              <Target className="h-5 w-5 text-green-500" />
+              <Card.Title>Your Strengths</Card.Title>
+            </div>
+          </Card.Header>
+          <Card.Content>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {skills.strong_skills.slice(0, 3).map((skill) => (
+                <div
+                  key={skill.skill_id}
+                  className="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-lg"
+                >
+                  <span className="w-8 h-8 bg-green-200 rounded-full flex items-center justify-center text-xs font-medium text-green-800">
+                    {skill.domain_code}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-gray-900 truncate text-sm">{skill.skill_name}</p>
+                    <p className="text-sm text-green-600 font-medium">{Math.round(skill.mastery_level)}% mastery</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card.Content>
+        </Card>
+      )}
 
       {/* Pending Assignments */}
       <Card>

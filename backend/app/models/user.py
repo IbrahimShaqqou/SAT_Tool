@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     from app.models.response import StudentResponse, StudentSkill
     from app.models.test import TestSession
     from app.models.assignment import Assignment
+    from app.models.adaptive import StudentAdaptiveSettings
 
 
 class User(Base, TimestampMixin, SoftDeleteMixin):
@@ -160,6 +161,13 @@ class User(Base, TimestampMixin, SoftDeleteMixin):
         "Assignment",
         back_populates="tutor",
         foreign_keys="Assignment.tutor_id"
+    )
+
+    # Adaptive learning settings
+    adaptive_settings: Mapped[Optional["StudentAdaptiveSettings"]] = relationship(
+        "StudentAdaptiveSettings",
+        back_populates="student",
+        uselist=False  # One-to-one relationship
     )
 
     # Indexes

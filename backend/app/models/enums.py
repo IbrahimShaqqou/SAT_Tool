@@ -81,3 +81,11 @@ class InviteStatus(str, enum.Enum):
     USED = "used"
     EXPIRED = "expired"
     REVOKED = "revoked"
+
+
+class AssessmentType(str, enum.Enum):
+    """Types of assessments for invite links."""
+    INTAKE = "intake"           # Full diagnostic to establish baseline
+    SECTION = "section"         # Math OR Reading/Writing only
+    DOMAIN = "domain"           # Single domain focus
+    QUICK_CHECK = "quick_check" # Quick skill verification

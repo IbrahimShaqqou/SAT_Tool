@@ -174,3 +174,55 @@ class QuestionIRTInfo(BaseModel):
     difficulty_level: Optional[str] = None
     skill_name: Optional[str] = None
     domain_name: Optional[str] = None
+
+
+# =============================================================================
+# Stale Skills & Tutor Analytics
+# =============================================================================
+
+class StaleSkill(BaseModel):
+    """A skill that needs review due to inactivity."""
+    skill_id: int
+    skill_name: str
+    days_since_practice: int = Field(..., description="Days since last practice")
+    original_theta: float = Field(..., description="Original ability estimate")
+    decayed_theta: float = Field(..., description="Decayed ability after inactivity")
+    responses_count: int = Field(..., description="Total responses for this skill")
+    mastery_level: float = Field(..., description="Current mastery level (0-100)")
+
+
+class StaleSkillsResponse(BaseModel):
+    """Response containing stale skills for a student."""
+    student_id: UUID
+    stale_skills: List[StaleSkill]
+    threshold_days: int = Field(..., description="Days of inactivity to be considered stale")
+
+
+class DomainAbilityInfo(BaseModel):
+    """Domain-level ability information."""
+    domain_id: int
+    domain_name: str
+    ability_theta: float
+    ability_se: float
+    responses_count: int
+    last_updated: Optional[datetime] = None
+
+
+class SectionAbilityInfo(BaseModel):
+    """Section-level ability information with score prediction."""
+    section: str = Field(..., description="'math' or 'reading_writing'")
+    ability_theta: float
+    ability_se: float
+    responses_count: int
+    predicted_score_low: Optional[int] = Field(None, description="Lower bound of predicted SAT score (200-800)")
+    predicted_score_high: Optional[int] = Field(None, description="Upper bound of predicted SAT score (200-800)")
+    last_updated: Optional[datetime] = None
+
+
+class HierarchicalAbilityProfile(BaseModel):
+    """Complete hierarchical ability profile for a student."""
+    student_id: UUID
+    section_abilities: List[SectionAbilityInfo]
+    domain_abilities: List[DomainAbilityInfo]
+    skill_abilities: List[SkillAbility]
+    stale_skills_count: int = Field(0, description="Number of skills needing review")

@@ -1,11 +1,11 @@
 /**
- * Public Assessment Page - SAT-Realistic Test Interface
+ * Assessment Page - SAT-Realistic Test Interface
  * For students taking assessments via invite links
- * No authentication required
+ * Requires student account (login or register)
  */
 import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import { CheckCircle, AlertCircle } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { CheckCircle, AlertCircle, User, UserPlus } from 'lucide-react';
 import { Card, Button, Input, LoadingSpinner } from '../../components/ui';
 import {
   TestHeader,
@@ -17,16 +17,25 @@ import {
   SubmitConfirmation,
 } from '../../components/test';
 import { useTimer } from '../../hooks';
+import { useAuth } from '../../contexts/AuthContext';
 import { assessService } from '../../services';
 
 // Assessment states
 const STATES = {
   LOADING: 'loading',
+  AUTH_REQUIRED: 'auth_required',  // Need to login or register
   INTRO: 'intro',
   IN_PROGRESS: 'in_progress',
   SUBMITTING: 'submitting',
   COMPLETED: 'completed',
   ERROR: 'error',
+};
+
+// Auth modes
+const AUTH_MODES = {
+  CHOOSE: 'choose',
+  LOGIN: 'login',
+  REGISTER: 'register',
 };
 
 // Extract error message from API response
@@ -42,6 +51,8 @@ const getErrorMessage = (err, fallback = 'An error occurred') => {
 
 const AssessmentPage = () => {
   const { token } = useParams();
+  const navigate = useNavigate();
+  const { user, login, register } = useAuth();
 
   // State management
   const [state, setState] = useState(STATES.LOADING);
@@ -60,10 +71,17 @@ const AssessmentPage = () => {
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [showNav, setShowNav] = useState(false);
 
-  // Guest info for intro
-  const [guestInfo, setGuestInfo] = useState({
-    guest_name: '',
-    guest_email: '',
+  // Auth state
+  const [authMode, setAuthMode] = useState(AUTH_MODES.CHOOSE);
+  const [authError, setAuthError] = useState('');
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [registerForm, setRegisterForm] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    first_name: '',
+    last_name: '',
   });
 
   // Timer
@@ -89,7 +107,12 @@ const AssessmentPage = () => {
       try {
         const response = await assessService.getConfig(token);
         setConfig(response.data);
-        setState(STATES.INTRO);
+        // Check if user is logged in as a student
+        if (user && user.role === 'student') {
+          setState(STATES.INTRO);
+        } else {
+          setState(STATES.AUTH_REQUIRED);
+        }
       } catch (err) {
         console.error('Failed to fetch assessment config:', err);
         setError(getErrorMessage(err, 'Assessment not found or expired'));
@@ -98,7 +121,66 @@ const AssessmentPage = () => {
     };
 
     fetchConfig();
-  }, [token]);
+  }, [token, user]);
+
+  // Handle login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setAuthError('');
+    setIsAuthLoading(true);
+
+    try {
+      const result = await login(loginForm.email, loginForm.password);
+      if (!result.success) {
+        setAuthError(result.error || 'Invalid email or password');
+      }
+      // Auth context will update user, useEffect will transition to INTRO
+    } catch (err) {
+      setAuthError(getErrorMessage(err, 'Invalid email or password'));
+    } finally {
+      setIsAuthLoading(false);
+    }
+  };
+
+  // Handle registration
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setAuthError('');
+
+    // Validate passwords match
+    if (registerForm.password !== registerForm.confirmPassword) {
+      setAuthError('Passwords do not match');
+      return;
+    }
+
+    // Validate password length
+    if (registerForm.password.length < 8) {
+      setAuthError('Password must be at least 8 characters');
+      return;
+    }
+
+    setIsAuthLoading(true);
+
+    try {
+      // Register the student (auth context handles auto-login)
+      const result = await register({
+        email: registerForm.email,
+        password: registerForm.password,
+        first_name: registerForm.first_name,
+        last_name: registerForm.last_name,
+        role: 'student',
+      });
+
+      if (!result.success) {
+        setAuthError(result.error || 'Registration failed');
+      }
+      // Auth context will update user, useEffect will transition to INTRO
+    } catch (err) {
+      setAuthError(getErrorMessage(err, 'Registration failed. Email may already be in use.'));
+    } finally {
+      setIsAuthLoading(false);
+    }
+  };
 
   // Current question
   const currentQuestion = questions[currentIndex] || null;
@@ -110,8 +192,8 @@ const AssessmentPage = () => {
   const handleStart = async () => {
     setState(STATES.LOADING);
     try {
-      // Start the assessment
-      const startRes = await assessService.start(token, guestInfo);
+      // Start the assessment (user is authenticated, no guest info needed)
+      const startRes = await assessService.start(token, {});
 
       // Get questions
       const questionsRes = await assessService.getQuestions(token);
@@ -128,6 +210,47 @@ const AssessmentPage = () => {
       }));
 
       setQuestions(transformedQuestions);
+
+      // If resuming, restore previous answers and state
+      if (startRes.data.is_resuming) {
+        try {
+          const answersRes = await assessService.getAnswers(token);
+          const { answers: savedAnswers, flagged_question_ids, current_question_index } = answersRes.data;
+
+          // Restore answers - convert from backend format to frontend format
+          const restoredAnswers = {};
+          const restoredChecked = {};
+          Object.entries(savedAnswers || {}).forEach(([questionId, answerData]) => {
+            // answerData has: answer (the submitted answer), is_correct, correct_answer
+            if (answerData.answer?.index !== undefined) {
+              restoredAnswers[questionId] = answerData.answer.index;
+            } else if (answerData.answer?.answer !== undefined) {
+              restoredAnswers[questionId] = answerData.answer.answer;
+            }
+            // Mark as checked since answer was already submitted
+            restoredChecked[questionId] = {
+              isCorrect: answerData.is_correct,
+              correctIndex: answerData.correct_answer?.index,
+              correctAnswers: answerData.correct_answer?.answers,
+              explanation: answerData.explanation_html,
+            };
+          });
+
+          setAnswers(restoredAnswers);
+          setCheckedAnswers(restoredChecked);
+
+          // Restore flagged questions
+          if (flagged_question_ids && flagged_question_ids.length > 0) {
+            setMarkedForReview(new Set(flagged_question_ids));
+          }
+
+          // Set current position
+          setCurrentIndex(current_question_index || startRes.data.current_question_index || 0);
+        } catch (restoreErr) {
+          console.warn('Failed to restore session state:', restoreErr);
+          // Continue anyway with fresh state
+        }
+      }
 
       // Start timer if time limit exists
       if (startRes.data.time_limit_minutes) {
@@ -181,12 +304,16 @@ const AssessmentPage = () => {
       }
       return next;
     });
-  }, [currentQuestion]);
+    // Persist flag to backend (fire and forget)
+    assessService.toggleFlag(token, questionId).catch(() => {});
+  }, [currentQuestion, token]);
 
   const handleNavigate = useCallback((index) => {
     setCurrentIndex(index);
     setShowExplanation(false);
-  }, []);
+    // Save position to backend (fire and forget)
+    assessService.updateState(token, index).catch(() => {});
+  }, [token]);
 
   // Check answer for current question
   const handleCheckAnswer = useCallback(async () => {
@@ -224,14 +351,24 @@ const AssessmentPage = () => {
   }, [currentQuestion, answers, token]);
 
   const handlePrevious = useCallback(() => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
+    setCurrentIndex((prev) => {
+      const newIndex = Math.max(0, prev - 1);
+      // Save position to backend (fire and forget)
+      assessService.updateState(token, newIndex).catch(() => {});
+      return newIndex;
+    });
     setShowExplanation(false);
-  }, []);
+  }, [token]);
 
   const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1));
+    setCurrentIndex((prev) => {
+      const newIndex = Math.min(questions.length - 1, prev + 1);
+      // Save position to backend (fire and forget)
+      assessService.updateState(token, newIndex).catch(() => {});
+      return newIndex;
+    });
     setShowExplanation(false);
-  }, [questions.length]);
+  }, [questions.length, token]);
 
   const handleSubmit = async () => {
     setShowSubmitModal(false);
@@ -272,8 +409,172 @@ const AssessmentPage = () => {
     );
   }
 
-  // Intro state
+  // Auth required state - login or register
+  if (state === STATES.AUTH_REQUIRED && config) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <Card className="max-w-lg w-full">
+          <div className="p-6">
+            {/* Assessment info header */}
+            <div className="text-center mb-6">
+              <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+                {config.title || 'SAT Practice Assessment'}
+              </h1>
+              <p className="text-gray-600">
+                Prepared by {config.tutor_name}
+              </p>
+              <div className="mt-4 bg-gray-50 rounded-lg p-3 text-sm text-gray-600">
+                <div>{config.question_count} questions</div>
+                <div>{config.subject_area === 'math' ? 'Math' : 'Reading & Writing'}</div>
+                {config.time_limit_minutes && <div>~{config.time_limit_minutes} minutes</div>}
+              </div>
+            </div>
+
+            {/* Auth error */}
+            {authError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                {authError}
+              </div>
+            )}
+
+            {/* Choose mode */}
+            {authMode === AUTH_MODES.CHOOSE && (
+              <div className="space-y-4">
+                <p className="text-center text-gray-600 mb-4">
+                  Create an account or log in to take this assessment. Your results will be saved to your profile.
+                </p>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => setAuthMode(AUTH_MODES.REGISTER)}
+                >
+                  <UserPlus className="h-5 w-5 mr-2" />
+                  Create Account
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => setAuthMode(AUTH_MODES.LOGIN)}
+                >
+                  <User className="h-5 w-5 mr-2" />
+                  I have an account
+                </Button>
+              </div>
+            )}
+
+            {/* Login form */}
+            {authMode === AUTH_MODES.LOGIN && (
+              <form onSubmit={handleLogin} className="space-y-4">
+                <Input
+                  label="Email"
+                  type="email"
+                  value={loginForm.email}
+                  onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                  required
+                  autoFocus
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  value={loginForm.password}
+                  onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                  required
+                />
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  disabled={isAuthLoading}
+                >
+                  {isAuthLoading ? 'Logging in...' : 'Log In'}
+                </Button>
+                <button
+                  type="button"
+                  className="w-full text-sm text-gray-600 hover:text-gray-900"
+                  onClick={() => {
+                    setAuthMode(AUTH_MODES.CHOOSE);
+                    setAuthError('');
+                  }}
+                >
+                  ← Back
+                </button>
+              </form>
+            )}
+
+            {/* Register form */}
+            {authMode === AUTH_MODES.REGISTER && (
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="First Name"
+                    value={registerForm.first_name}
+                    onChange={(e) => setRegisterForm({ ...registerForm, first_name: e.target.value })}
+                    required
+                    autoFocus
+                  />
+                  <Input
+                    label="Last Name"
+                    value={registerForm.last_name}
+                    onChange={(e) => setRegisterForm({ ...registerForm, last_name: e.target.value })}
+                    required
+                  />
+                </div>
+                <Input
+                  label="Email"
+                  type="email"
+                  value={registerForm.email}
+                  onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
+                  required
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  value={registerForm.password}
+                  onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                  required
+                  placeholder="At least 8 characters"
+                />
+                <Input
+                  label="Confirm Password"
+                  type="password"
+                  value={registerForm.confirmPassword}
+                  onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
+                  required
+                />
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  disabled={isAuthLoading}
+                >
+                  {isAuthLoading ? 'Creating account...' : 'Create Account & Continue'}
+                </Button>
+                <button
+                  type="button"
+                  className="w-full text-sm text-gray-600 hover:text-gray-900"
+                  onClick={() => {
+                    setAuthMode(AUTH_MODES.CHOOSE);
+                    setAuthError('');
+                  }}
+                >
+                  ← Back
+                </button>
+              </form>
+            )}
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  // Intro state (user is authenticated)
   if (state === STATES.INTRO && config) {
+    const hasInProgress = config.has_in_progress_session;
+
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="max-w-lg w-full">
@@ -281,39 +582,50 @@ const AssessmentPage = () => {
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">
               {config.title || 'SAT Practice Assessment'}
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-2">
               Prepared by {config.tutor_name}
             </p>
+
+            {/* Show logged in user */}
+            {user && (
+              <p className="text-sm text-green-600 mb-6">
+                Logged in as {user.first_name} {user.last_name}
+              </p>
+            )}
+
+            {/* Resume session notice */}
+            {hasInProgress && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 text-left">
+                <h3 className="font-medium text-amber-900 mb-2">Resume Your Session</h3>
+                <p className="text-sm text-amber-800">
+                  You have an in-progress session with {config.questions_answered} of {config.question_count} questions answered.
+                  Click continue to pick up where you left off.
+                </p>
+              </div>
+            )}
 
             <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
               <h3 className="font-medium text-gray-900 mb-3">Assessment Details</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li>Questions: {config.question_count}</li>
-                <li>Subject: {config.subject_area ? config.subject_area.replace('_', '/') : 'Math & Reading/Writing'}</li>
-                <li>Time Limit: {config.time_limit_minutes ? `${config.time_limit_minutes} minutes` : 'No limit'}</li>
+                <li><strong>Questions:</strong> {config.question_count}</li>
+                <li><strong>Subject:</strong> {config.subject_area === 'math' ? 'Math' : config.subject_area === 'reading_writing' ? 'Reading & Writing' : 'Math & Reading/Writing'}</li>
+                <li><strong>Time Limit:</strong> {config.time_limit_minutes ? `${config.time_limit_minutes} minutes` : 'No limit'}</li>
               </ul>
             </div>
 
-            <div className="space-y-4 text-left mb-6">
-              <Input
-                label="Your Name (optional)"
-                name="guest_name"
-                value={guestInfo.guest_name}
-                onChange={(e) => setGuestInfo({ ...guestInfo, guest_name: e.target.value })}
-                placeholder="Enter your name"
-              />
-              <Input
-                label="Your Email (optional)"
-                name="guest_email"
-                type="email"
-                value={guestInfo.guest_email}
-                onChange={(e) => setGuestInfo({ ...guestInfo, guest_email: e.target.value })}
-                placeholder="Enter your email"
-              />
-            </div>
+            {!hasInProgress && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-left text-sm text-blue-800">
+                <strong>Before you begin:</strong>
+                <ul className="mt-2 space-y-1 list-disc list-inside">
+                  <li>Find a quiet place without distractions</li>
+                  <li>Have scratch paper ready for calculations</li>
+                  <li>Answer every question - there's no penalty for guessing</li>
+                </ul>
+              </div>
+            )}
 
             <Button variant="primary" size="lg" onClick={handleStart} className="w-full">
-              Start Assessment
+              {hasInProgress ? 'Continue Assessment' : 'Start Assessment'}
             </Button>
           </div>
         </Card>
@@ -355,6 +667,15 @@ const AssessmentPage = () => {
                 Time: {Math.floor(results.time_spent_seconds / 60)} minutes
               </p>
             </div>
+
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-full mb-4"
+              onClick={() => window.location.href = `/assess/${token}/results`}
+            >
+              View Detailed Results
+            </Button>
 
             <p className="text-sm text-gray-500">
               Your tutor will review your results and may reach out to you.
@@ -447,7 +768,7 @@ const AssessmentPage = () => {
 
     // Passage panel content
     const passagePanel = hasPassage ? (
-      <div className="h-full overflow-auto p-6 bg-white">
+      <div className="h-full overflow-auto p-6 pb-20 bg-white">
         <div
           className="prose prose-gray max-w-none"
           dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}

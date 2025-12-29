@@ -17,6 +17,10 @@ export const inviteService = {
   get: (inviteId) =>
     api.get(`/tutor/invites/${inviteId}`),
 
+  // Get detailed assessment results for an invite
+  getResults: (inviteId) =>
+    api.get(`/tutor/invites/${inviteId}/results`),
+
   // Revoke an invite
   revoke: (inviteId) =>
     api.delete(`/tutor/invites/${inviteId}`),
