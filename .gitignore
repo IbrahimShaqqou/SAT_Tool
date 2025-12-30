@@ -95,10 +95,12 @@ data/*.csv
 data/*.xlsx
 !data/.gitkeep
 
-# Backend data files (large JSON files from College Board)
-backend/data/*.json
+# Backend data files (keep normalized question files for deployment)
+# Note: math_norm.json and reading_norm.json are tracked for production use
+backend/data/*_core.json
 backend/data/*.csv
 !backend/data/.gitkeep
+!backend/data/*_norm.json
 
 # =============================================================================
 # OS Files
