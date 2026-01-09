@@ -11,6 +11,7 @@ import {
   QuestionDisplay,
   AnswerChoices,
   DesmosCalculator,
+  ReferenceSheet,
   SplitPane,
   SubmitConfirmation,
 } from '../../components/test';
@@ -35,6 +36,7 @@ const TestPage = () => {
   // UI state
   const [isLoading, setIsLoading] = useState(true);
   const [showCalculator, setShowCalculator] = useState(false);
+  const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -613,13 +615,15 @@ const TestPage = () => {
     <>
       {/* Collapsible Question Navigator */}
       {showNav && (
-        <div className="fixed bottom-16 left-0 right-0 z-40 bg-white shadow-lg border-t border-gray-200">
+        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white shadow-xl border border-gray-200 rounded-t-xl max-h-[50vh] overflow-hidden"
+             style={{ width: 'min(500px, calc(100vw - 32px))' }}>
           <QuestionNav
             totalQuestions={questions.length}
             currentIndex={currentIndex}
             answers={answers}
             markedForReview={markedForReview}
             questions={questions}
+            checkedAnswers={checkedAnswers}
             onNavigate={(index) => {
               handleNavigate(index);
               setShowNav(false);
@@ -702,6 +706,8 @@ const TestPage = () => {
         onResume={resumeTimer}
         onCalculatorToggle={() => setShowCalculator(!showCalculator)}
         showCalculator={showCalculator}
+        onReferenceToggle={() => setShowReferenceSheet(!showReferenceSheet)}
+        showReference={showReferenceSheet}
         subjectArea={assignment.subject_area || 'math'}
       />
 
@@ -727,6 +733,13 @@ const TestPage = () => {
         isOpen={showCalculator}
         onClose={() => setShowCalculator(false)}
         initialPosition={{ x: window.innerWidth - 450, y: 80 }}
+      />
+
+      {/* Reference Sheet */}
+      <ReferenceSheet
+        isOpen={showReferenceSheet}
+        onClose={() => setShowReferenceSheet(false)}
+        initialPosition={{ x: 100, y: 80 }}
       />
 
       {/* Submit Confirmation Modal */}

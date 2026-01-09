@@ -103,6 +103,15 @@ const LoginPage = () => {
           required
         />
 
+        <div className="flex justify-end">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-gray-600 hover:text-gray-900 hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
         <Button
           type="submit"
           variant="primary"

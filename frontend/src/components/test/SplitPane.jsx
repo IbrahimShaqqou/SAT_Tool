@@ -1,6 +1,7 @@
 /**
  * Split Pane Component
  * Draggable divider between left (passage) and right (question) panels
+ * Responsive: stacks vertically on mobile
  */
 import { useState, useCallback, useEffect, useRef } from 'react';
 
@@ -14,7 +15,20 @@ const SplitPane = ({
 }) => {
   const [splitPercent, setSplitPercent] = useState(defaultSplit);
   const [isDragging, setIsDragging] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileView, setMobileView] = useState('question'); // 'passage' or 'question'
   const containerRef = useRef(null);
+
+  // Check for mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleMouseDown = useCallback((e) => {
     e.preventDefault();
@@ -55,6 +69,43 @@ const SplitPane = ({
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
+  // Mobile layout - tabbed view
+  if (isMobile) {
+    return (
+      <div className={`flex flex-col h-full ${className}`}>
+        {/* Toggle tabs */}
+        <div className="flex border-b border-gray-200 bg-gray-50 flex-shrink-0">
+          <button
+            onClick={() => setMobileView('passage')}
+            className={`flex-1 py-3 text-sm font-medium transition-colors ${
+              mobileView === 'passage'
+                ? 'text-gray-900 border-b-2 border-gray-900 bg-white'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Passage
+          </button>
+          <button
+            onClick={() => setMobileView('question')}
+            className={`flex-1 py-3 text-sm font-medium transition-colors ${
+              mobileView === 'question'
+                ? 'text-gray-900 border-b-2 border-gray-900 bg-white'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Question
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-hidden">
+          {mobileView === 'passage' ? left : right}
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop layout - side by side
   return (
     <div
       ref={containerRef}

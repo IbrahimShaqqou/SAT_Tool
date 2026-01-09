@@ -5,7 +5,7 @@
  * State persists when switching between tabs
  */
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { X, Minimize2, Maximize2, GripHorizontal } from 'lucide-react';
+import { X, GripHorizontal } from 'lucide-react';
 
 const DesmosCalculator = ({
   isOpen,
@@ -201,16 +201,6 @@ const DesmosCalculator = ({
           <span className="text-sm font-medium text-gray-700">Calculator</span>
         </div>
         <div className="flex items-center gap-1">
-          <button
-            onClick={() => setIsMinimized(!isMinimized)}
-            className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded"
-          >
-            {isMinimized ? (
-              <Maximize2 className="h-4 w-4" />
-            ) : (
-              <Minimize2 className="h-4 w-4" />
-            )}
-          </button>
           <button
             onClick={onClose}
             className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded"

@@ -34,6 +34,12 @@ httpx==0.26.0
 python-dotenv==1.0.0
 requests==2.31.0
 
+# Rate Limiting
+slowapi==0.1.9
+
+# Error Monitoring
+sentry-sdk[fastapi]==1.39.1
+
 # IRT/Scientific computing
 numpy>=1.24.0
 scipy>=1.11.0

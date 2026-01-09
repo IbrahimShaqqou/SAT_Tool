@@ -1,8 +1,8 @@
 /**
  * Test Header Component
- * Timer, question count, subject indicator
+ * Timer, question count, subject indicator, reference sheet, calculator
  */
-import { Clock, Calculator, Pause, Play } from 'lucide-react';
+import { Clock, Calculator, Pause, Play, FileText } from 'lucide-react';
 
 const TestHeader = ({
   currentQuestion,
@@ -14,6 +14,8 @@ const TestHeader = ({
   onResume,
   onCalculatorToggle,
   showCalculator,
+  onReferenceToggle,
+  showReference,
   subjectArea,
 }) => {
   return (
@@ -34,7 +36,22 @@ const TestHeader = ({
       </div>
 
       {/* Right: Timer and controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
+        {/* Reference Sheet toggle (only for math) */}
+        {subjectArea === 'math' && onReferenceToggle && (
+          <button
+            onClick={onReferenceToggle}
+            className={`p-2 rounded-lg transition-colors ${
+              showReference
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+            title="Reference Sheet"
+          >
+            <FileText className="h-5 w-5" />
+          </button>
+        )}
+
         {/* Calculator toggle (only for math) */}
         {subjectArea === 'math' && (
           <button
@@ -51,7 +68,7 @@ const TestHeader = ({
         )}
 
         {/* Timer */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-2">
           <Clock className="h-4 w-4 text-gray-400" />
           <span
             className={`font-mono text-lg font-medium ${

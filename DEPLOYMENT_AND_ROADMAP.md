@@ -1,6 +1,6 @@
 # SAT Tutoring Platform - Missing Features, Security & Deployment Guide
 
-> **Last Updated**: December 2024
+> **Last Updated**: January 2026
 
 ---
 
@@ -20,38 +20,38 @@
 
 ### Critical (Must Have Before Launch)
 
-| Feature | Description | Effort |
+| Feature | Description | Status |
 |---------|-------------|--------|
-| **Email Verification** | Verify email on registration, prevent fake accounts | 1-2 days |
-| **Password Reset** | "Forgot password" flow with email link | 1 day |
-| **Rate Limiting** | Prevent brute force attacks on login | 0.5 day |
-| **Input Sanitization** | XSS protection on HTML content display | 0.5 day |
-| **HTTPS Enforcement** | Force all traffic through HTTPS | Config only |
-| **Production Secrets** | Strong SECRET_KEY, database passwords | Config only |
-| **Error Logging** | Structured logging with Sentry or similar | 1 day |
+| **Email Verification** | Verify email on registration, prevent fake accounts | Pending |
+| **Password Reset** | "Forgot password" flow with email link | **DONE** |
+| **Rate Limiting** | Prevent brute force attacks on login | **DONE** |
+| **Input Sanitization** | XSS protection on HTML content display | Done (React escapes by default) |
+| **HTTPS Enforcement** | Force all traffic through HTTPS | **DONE** (Railway/Vercel auto) |
+| **Production Secrets** | Strong SECRET_KEY, database passwords | **DONE** |
+| **Error Logging** | Structured logging with Sentry or similar | **DONE** |
 
 ### High Priority (Should Have)
 
-| Feature | Description | Effort |
+| Feature | Description | Status |
 |---------|-------------|--------|
-| **Question Bank Browser** | Browse all questions by domain/skill, search, filter, preview | 2-3 days |
-| **Per-Skill Lessons** | Educational content (text/video) for each skill, shown before practice | 3-5 days |
-| **Admin Dashboard** | Manage users, view system stats, moderate content | 3-5 days |
-| **Question Editor** | Add/edit/delete questions via UI (not just import) | 3-4 days |
-| **Tutor Approval Flow** | Admin approves tutor accounts before activation | 1 day |
-| **Student Invitation Email** | Send invite links via email directly | 1 day |
-| **Session Timeout Warning** | Warn users before JWT expires, auto-refresh | 0.5 day |
-| **Bulk Student Import** | CSV upload for tutors to add multiple students | 1 day |
-| **Export Data** | Export student progress to PDF/CSV for tutors | 2 days |
-| **Notifications System** | In-app notifications for assignments, due dates | 2-3 days |
+| **Question Bank Browser** | Browse all questions by domain/skill, search, filter, preview | **DONE** |
+| **Per-Skill Lessons** | Educational content (text/video) for each skill, shown before practice | Pending |
+| **Admin Dashboard** | Manage users, view system stats, moderate content | Pending |
+| **Question Editor** | Add/edit/delete questions via UI (not just import) | Pending |
+| **Tutor Approval Flow** | Admin approves tutor accounts before activation | Pending |
+| **Student Invitation Email** | Send invite links via email directly | Pending |
+| **Session Timeout Warning** | Warn users before JWT expires, auto-refresh | Pending |
+| **Bulk Student Import** | CSV upload for tutors to add multiple students | Pending |
+| **Export Data** | Export student progress to PDF/CSV for tutors | Pending |
+| **Notifications System** | In-app notifications for assignments, due dates | Pending |
 
 ### Medium Priority (Nice to Have)
 
-| Feature | Description | Effort |
+| Feature | Description | Status |
 |---------|-------------|--------|
-| **Email Notifications** | Assignment reminders, progress summaries | 2 days |
-| **Mobile Responsive Polish** | Better mobile test-taking experience | 2-3 days |
-| **Dark Mode** | Theme toggle for UI | 1 day |
+| **Email Notifications** | Assignment reminders, progress summaries | Pending |
+| **Mobile Responsive Polish** | Better mobile test-taking experience | **DONE** |
+| **Dark Mode** | Theme toggle for UI | Pending |
 | **Practice History Page** | Dedicated page for all past practice sessions | 1 day |
 | **Bookmark Questions** | Save questions for later review | 1 day |
 | **Notes on Questions** | Students can add personal notes to questions | 1 day |
@@ -887,12 +887,12 @@ Consider waiting if:
 
 ### Short Term (Next 2 Weeks)
 
-| Task | Priority | Effort |
+| Task | Priority | Status |
 |------|----------|--------|
-| Password reset flow | High | 1 day |
-| Error monitoring (Sentry) | High | 2 hours |
-| Question Bank Browser page | High | 2-3 days |
-| Mobile testing & fixes | Medium | 1 day |
+| Password reset flow | High | **DONE** |
+| Error monitoring (Sentry) | High | **DONE** |
+| Question Bank Browser page | High | **DONE** |
+| Mobile testing & fixes | Medium | **DONE** |
 
 ### Medium Term (Month 1-2)
 

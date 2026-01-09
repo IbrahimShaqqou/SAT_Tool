@@ -16,6 +16,9 @@ from app.schemas.token import (
     Token,
     TokenPayload,
     RefreshTokenRequest,
+    ForgotPasswordRequest,
+    ResetPasswordRequest,
+    PasswordResetResponse,
 )
 from app.schemas.question import (
     ChoiceOption,
@@ -84,6 +87,9 @@ __all__ = [
     "Token",
     "TokenPayload",
     "RefreshTokenRequest",
+    "ForgotPasswordRequest",
+    "ResetPasswordRequest",
+    "PasswordResetResponse",
     # Question schemas
     "ChoiceOption",
     "QuestionBrief",

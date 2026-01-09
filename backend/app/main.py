@@ -4,11 +4,24 @@ SAT Tutoring Platform - FastAPI Application
 Main application entry point with CORS configuration and health check endpoint.
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 from app.config import settings
 from app.api.v1 import api_router
+from app.core.rate_limit import limiter, rate_limit_exceeded_handler
+
+# Initialize Sentry for error monitoring (only in production with DSN configured)
+if settings.sentry_dsn and settings.environment == "production":
+    import sentry_sdk
+    sentry_sdk.init(
+        dsn=settings.sentry_dsn,
+        environment=settings.environment,
+        traces_sample_rate=0.1,  # 10% of transactions for performance monitoring
+        profiles_sample_rate=0.1,  # 10% of sampled transactions for profiling
+    )
 
 # Create FastAPI application
 app = FastAPI(
@@ -19,6 +32,10 @@ app = FastAPI(
     redoc_url="/api/redoc",
     openapi_url="/api/openapi.json",
 )
+
+# Configure rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
 
 # Configure CORS
 app.add_middleware(

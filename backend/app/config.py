@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
 
+    # Error Monitoring
+    sentry_dsn: str = ""  # Set in production environment
+
     @property
     def allowed_origins_list(self) -> List[str]:
         """

@@ -10,7 +10,7 @@ import { PageLoader } from './components/ui/LoadingSpinner';
 import { AppLayout, PublicLayout, AuthGuard } from './components/layout';
 
 // Auth Pages
-import { LoginPage, RegisterPage } from './pages/auth';
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from './pages/auth';
 
 // Tutor Pages (to be implemented)
 import TutorDashboard from './pages/tutor/DashboardPage';
@@ -20,6 +20,7 @@ import TutorAssignments from './pages/tutor/AssignmentsPage';
 import CreateAssignment from './pages/tutor/CreateAssignmentPage';
 import TutorAnalytics from './pages/tutor/AnalyticsPage';
 import TutorInvites from './pages/tutor/InvitesPage';
+import QuestionBankPage from './pages/tutor/QuestionBankPage';
 
 // Student Pages (to be implemented)
 import StudentDashboard from './pages/student/DashboardPage';
@@ -27,6 +28,7 @@ import StudentAssignments from './pages/student/AssignmentsPage';
 import TestPage from './pages/student/TestPage';
 import ResultsPage from './pages/student/ResultsPage';
 import AdaptivePracticePage from './pages/student/AdaptivePracticePage';
+import StudentQuestionBankPage from './pages/student/QuestionBankPage';
 
 // Public Assessment
 import { AssessmentPage, IntakeResultsPage } from './pages/assess';
@@ -60,6 +62,8 @@ function App() {
       <Route element={<PublicLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Route>
 
       {/* Public assessment (no auth required) */}
@@ -81,6 +85,7 @@ function App() {
         <Route path="/tutor/assignments/new" element={<CreateAssignment />} />
         <Route path="/tutor/analytics" element={<TutorAnalytics />} />
         <Route path="/tutor/invites" element={<TutorInvites />} />
+        <Route path="/tutor/questions" element={<QuestionBankPage />} />
       </Route>
 
       {/* Student routes */}
@@ -93,6 +98,7 @@ function App() {
       >
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/student/assignments" element={<StudentAssignments />} />
+        <Route path="/student/questions" element={<StudentQuestionBankPage />} />
         <Route path="/student/test/:id" element={<TestPage />} />
         <Route path="/student/results/:id" element={<ResultsPage />} />
         <Route path="/student/adaptive" element={<AdaptivePracticePage />} />

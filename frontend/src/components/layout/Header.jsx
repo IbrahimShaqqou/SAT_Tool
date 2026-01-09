@@ -1,13 +1,13 @@
 /**
- * Header component with user menu
+ * Header component with user menu and mobile hamburger
  */
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, Settings, ChevronDown } from 'lucide-react';
+import { LogOut, User, Settings, ChevronDown, Menu } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import Avatar from '../ui/Avatar';
 
-const Header = () => {
+const Header = ({ onMenuClick }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +33,19 @@ const Header = () => {
   const fullName = user ? `${user.first_name} ${user.last_name}` : '';
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-end px-6">
+    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6">
+      {/* Mobile menu button */}
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+        aria-label="Open menu"
+      >
+        <Menu className="h-6 w-6" />
+      </button>
+
+      {/* Desktop spacer */}
+      <div className="hidden lg:block" />
+
       {/* User menu */}
       <div className="relative" ref={menuRef}>
         <button

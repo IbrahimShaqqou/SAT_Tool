@@ -26,3 +26,20 @@ class TokenPayload(BaseModel):
 class RefreshTokenRequest(BaseModel):
     """Schema for token refresh request."""
     refresh_token: str
+
+
+class ForgotPasswordRequest(BaseModel):
+    """Schema for password reset request."""
+    email: str
+
+
+class ResetPasswordRequest(BaseModel):
+    """Schema for setting new password."""
+    token: str
+    new_password: str
+
+
+class PasswordResetResponse(BaseModel):
+    """Schema for password reset response."""
+    message: str
+    reset_url: Optional[str] = None  # Only included in development mode

@@ -7,7 +7,7 @@ Endpoints for user registration, login, and token management.
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -18,7 +18,11 @@ from app.core.security import (
     decode_refresh_token,
     get_password_hash,
     verify_password,
+    create_password_reset_token,
+    decode_password_reset_token,
 )
+from app.core.rate_limit import limiter
+from app.config import settings
 from app.models.user import User
 from app.schemas import (
     Token,
@@ -26,13 +30,18 @@ from app.schemas import (
     UserCreate,
     UserResponse,
     UserUpdate,
+    ForgotPasswordRequest,
+    ResetPasswordRequest,
+    PasswordResetResponse,
 )
 
 router = APIRouter()
 
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("5/minute")  # 5 registrations per minute per IP
 def register(
+    request: Request,
     user_in: UserCreate,
     db: Session = Depends(get_db),
 ) -> User:
@@ -77,7 +86,9 @@ def register(
 
 
 @router.post("/login", response_model=Token)
+@limiter.limit("10/minute")  # 10 login attempts per minute per IP
 def login(
+    request: Request,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ) -> dict:
@@ -136,7 +147,9 @@ def login(
 
 
 @router.post("/refresh", response_model=Token)
+@limiter.limit("30/minute")  # 30 refresh requests per minute per IP
 def refresh_token(
+    request: Request,
     token_request: RefreshTokenRequest,
     db: Session = Depends(get_db),
 ) -> dict:
@@ -235,3 +248,100 @@ def update_current_user_profile(
     db.refresh(current_user)
 
     return current_user
+
+
+@router.post("/forgot-password", response_model=PasswordResetResponse)
+@limiter.limit("3/minute")  # 3 reset requests per minute per IP
+def forgot_password(
+    request: Request,
+    body: ForgotPasswordRequest,
+    db: Session = Depends(get_db),
+) -> dict:
+    """
+    Request a password reset email.
+
+    Always returns success to prevent email enumeration attacks.
+    In development mode, returns the reset URL directly.
+
+    Args:
+        body: Request containing user email
+
+    Returns:
+        Success message (and reset URL in development)
+    """
+    user = db.query(User).filter(User.email == body.email).first()
+
+    response = {
+        "message": "If an account with this email exists, a password reset link has been sent."
+    }
+
+    if user:
+        # Generate reset token
+        reset_token = create_password_reset_token(user.email)
+
+        # In development, return the reset URL directly
+        # In production, you would send an email instead
+        if settings.debug or settings.environment == "development":
+            # For local development
+            reset_url = f"http://localhost:3000/reset-password?token={reset_token}"
+            response["reset_url"] = reset_url
+        else:
+            # TODO: Implement email sending
+            # For now, log the token (in production, send email)
+            import logging
+            logging.info(f"Password reset requested for {user.email}")
+            # In production, you would send email here:
+            # send_password_reset_email(user.email, reset_token)
+
+    return response
+
+
+@router.post("/reset-password", response_model=PasswordResetResponse)
+@limiter.limit("5/minute")  # 5 reset attempts per minute per IP
+def reset_password(
+    request: Request,
+    body: ResetPasswordRequest,
+    db: Session = Depends(get_db),
+) -> dict:
+    """
+    Reset password using a valid reset token.
+
+    Args:
+        body: Request containing reset token and new password
+
+    Returns:
+        Success message
+
+    Raises:
+        HTTPException 400: If token is invalid or expired
+    """
+    # Decode and validate token
+    email = decode_password_reset_token(body.token)
+
+    if not email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired reset token",
+        )
+
+    # Find user
+    user = db.query(User).filter(User.email == email).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired reset token",
+        )
+
+    # Validate password strength (basic)
+    if len(body.new_password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at least 8 characters",
+        )
+
+    # Update password
+    user.password_hash = get_password_hash(body.new_password)
+    db.commit()
+
+    return {"message": "Password has been reset successfully. You can now log in with your new password."}

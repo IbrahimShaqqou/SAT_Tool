@@ -43,17 +43,20 @@ The platform includes a complete SAT question bank sourced from College Board:
 
 ## Features
 
-### Phase 1 (MVP)
-- User authentication (JWT)
-- Question bank management with 3,271 questions
-- Practice test system (matching Digital SAT interface)
-- Skill-level progress tracking
-- Tutor analytics dashboard
+### Core Features
+- **User Authentication**: JWT-based auth with registration, login, password reset
+- **Question Bank**: 3,271 SAT questions with searchable browser and filters
+- **Practice Tests**: Digital SAT-style interface with split-pane passages
+- **Adaptive Practice**: IRT-based adaptive question selection
+- **Assignments**: Tutors can create and assign practice sets to students
+- **Progress Tracking**: Per-skill mastery tracking with detailed analytics
+- **Tutor Dashboard**: View student progress, common struggles, and analytics
 
-### Phase 2
-- IRT adaptive engine
-- Assignment system
-- Recommendation engine
+### Security & Production
+- Rate limiting on authentication endpoints
+- Sentry error monitoring (production)
+- Mobile-responsive design with collapsible sidebar
+- CORS configured for cross-origin deployment
 
 ## Quick Start
 
@@ -233,23 +236,42 @@ See `backend/docs/DATABASE.md` for complete schema documentation.
 ## API Endpoints
 
 ### Authentication
-- `POST /api/v1/auth/register` - User registration
-- `POST /api/v1/auth/login` - User login
-- `POST /api/v1/auth/refresh` - Token refresh
+- `POST /api/v1/auth/register` - User registration (rate limited: 5/min)
+- `POST /api/v1/auth/login` - User login (rate limited: 10/min)
+- `POST /api/v1/auth/refresh` - Token refresh (rate limited: 30/min)
+- `GET /api/v1/auth/me` - Get current user profile
+- `PATCH /api/v1/auth/me` - Update current user profile
+- `POST /api/v1/auth/forgot-password` - Request password reset (rate limited: 3/min)
+- `POST /api/v1/auth/reset-password` - Reset password with token (rate limited: 5/min)
 
 ### Questions
-- `GET /api/v1/questions` - List questions (with filtering)
-- `POST /api/v1/questions` - Create question
+- `GET /api/v1/questions` - List questions (with filters: subject, domain, skill, difficulty)
 - `GET /api/v1/questions/{id}` - Get question with explanation
+- `GET /api/v1/questions/random` - Get random questions
 
-### Tests
-- `POST /api/v1/tests` - Create practice test
-- `GET /api/v1/tests/{id}` - Get test
-- `POST /api/v1/tests/{id}/submit` - Submit test
+### Taxonomy
+- `GET /api/v1/domains` - List all domains with question counts
+- `GET /api/v1/skills` - List all skills with question counts
+- `GET /api/v1/domains/{id}/skills` - List skills in a domain
 
-### Analytics
-- `GET /api/v1/analytics/student/{id}` - Student progress
-- `GET /api/v1/analytics/skills` - Skill breakdown
+### Assignments
+- `GET /api/v1/assignments` - List assignments
+- `POST /api/v1/assignments` - Create assignment
+- `GET /api/v1/assignments/{id}` - Get assignment details
+- `POST /api/v1/assignments/{id}/start` - Start an assignment
+- `POST /api/v1/assignments/{id}/answer` - Submit answer
+- `POST /api/v1/assignments/{id}/complete` - Complete assignment
+
+### Adaptive Practice
+- `GET /api/v1/adaptive/next-question` - Get next adaptive question
+- `POST /api/v1/adaptive/sessions` - Start adaptive session
+- `GET /api/v1/adaptive/ability-profile` - Get student's ability profile
+
+### Progress & Analytics
+- `GET /api/v1/progress/summary` - Student progress summary
+- `GET /api/v1/progress/responses` - Response history
+- `GET /api/v1/tutor/analytics` - Tutor analytics dashboard
+- `GET /api/v1/tutor/students` - List tutor's students
 
 ## Data Import
 
@@ -268,6 +290,39 @@ python scripts/import_questions.py --all  # Imports to database
 ```
 
 See `backend/docs/DATA_IMPORT.md` for detailed documentation.
+
+## Deployment
+
+### Production (Railway + Vercel)
+
+The platform is deployed with:
+- **Backend + Database**: Railway (FastAPI + PostgreSQL)
+- **Frontend**: Vercel (React)
+
+#### Environment Variables
+
+**Backend (Railway):**
+```
+DATABASE_URL=postgresql://...
+SECRET_KEY=your-secret-key
+ENVIRONMENT=production
+ALLOWED_ORIGINS=https://your-frontend.vercel.app
+SENTRY_DSN=https://...@sentry.io/... (optional)
+```
+
+**Frontend (Vercel):**
+```
+REACT_APP_API_URL=https://your-backend.railway.app/api/v1
+```
+
+#### Deploy Changes
+
+```bash
+# Push to trigger automatic deployments
+git add . && git commit -m "Your changes"
+git push origin main
+# Railway and Vercel will auto-deploy from main branch
+```
 
 ## Testing
 

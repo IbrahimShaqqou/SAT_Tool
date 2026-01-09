@@ -6,6 +6,7 @@ JWT token creation/validation and password hashing.
 
 from datetime import datetime, timedelta
 from typing import Optional, Union
+import secrets
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
@@ -13,6 +14,9 @@ from app.config import settings
 
 # Password hashing context with bcrypt
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Password reset token expiry
+PASSWORD_RESET_TOKEN_EXPIRE_HOURS = 24
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -136,5 +140,45 @@ def decode_refresh_token(token: str) -> Optional[dict]:
         if payload.get("type") != "refresh":
             return None
         return payload
+    except JWTError:
+        return None
+
+
+def create_password_reset_token(email: str) -> str:
+    """
+    Create a JWT token for password reset.
+
+    Args:
+        email: The user's email address
+
+    Returns:
+        str: The encoded JWT token for password reset
+    """
+    expire = datetime.utcnow() + timedelta(hours=PASSWORD_RESET_TOKEN_EXPIRE_HOURS)
+    to_encode = {
+        "exp": expire,
+        "sub": email,
+        "type": "password_reset",
+    }
+    return jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
+
+
+def decode_password_reset_token(token: str) -> Optional[str]:
+    """
+    Decode and validate a password reset token.
+
+    Args:
+        token: The JWT token to decode
+
+    Returns:
+        str: The email address if valid, None otherwise
+    """
+    try:
+        payload = jwt.decode(
+            token, settings.secret_key, algorithms=[settings.algorithm]
+        )
+        if payload.get("type") != "password_reset":
+            return None
+        return payload.get("sub")
     except JWTError:
         return None
