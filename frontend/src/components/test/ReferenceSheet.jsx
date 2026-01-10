@@ -106,7 +106,7 @@ const ReferenceSheet = ({
             <svg viewBox="0 0 100 80" className="w-20 h-16 mx-auto mb-2">
               <rect x="15" y="15" width="70" height="45" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
               <text x="50" y="10" fontSize="14" fontStyle="italic" textAnchor="middle" className="text-gray-600">ℓ</text>
-              <text x="92" y="42" fontSize="14" fontStyle="italic" className="text-gray-600">w</text>
+              <text x="88" y="42">w</text>
             </svg>
             <div className="text-gray-800">
               <p><Formula><em>A</em> = <em>ℓw</em></Formula></p>
