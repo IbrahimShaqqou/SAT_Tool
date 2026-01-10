@@ -4,7 +4,7 @@ SAT Tutoring Platform - Questions API
 Endpoints for browsing and retrieving SAT questions.
 """
 
-from typing import Optional
+from typing import Optional, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -17,6 +17,7 @@ from app.models.enums import AnswerType, DifficultyLevel, SubjectArea
 from app.schemas.question import (
     QuestionBrief,
     QuestionDetail,
+    QuestionDetailListResponse,
     QuestionListResponse,
     QuestionRandomResponse,
 )
@@ -24,7 +25,7 @@ from app.schemas.question import (
 router = APIRouter()
 
 
-@router.get("", response_model=QuestionListResponse)
+@router.get("", response_model=Union[QuestionListResponse, QuestionDetailListResponse])
 def list_questions(
     db: Session = Depends(get_db),
     subject: Optional[SubjectArea] = Query(None, description="Filter by subject area"),
@@ -32,14 +33,15 @@ def list_questions(
     skill_id: Optional[int] = Query(None, description="Filter by skill ID"),
     difficulty: Optional[DifficultyLevel] = Query(None, description="Filter by difficulty"),
     answer_type: Optional[AnswerType] = Query(None, description="Filter by answer type"),
-    limit: int = Query(50, ge=1, le=100, description="Max results to return"),
+    full: bool = Query(False, description="Return full question details including choices and explanations"),
+    limit: int = Query(50, ge=1, le=500, description="Max results to return"),
     offset: int = Query(0, ge=0, description="Number of results to skip"),
-) -> QuestionListResponse:
+) -> Union[QuestionListResponse, QuestionDetailListResponse]:
     """
     List questions with optional filters.
 
-    Returns a paginated list of questions without explanations.
-    Use the single question endpoint to get full details.
+    By default returns a paginated list of questions without explanations.
+    Use full=true to get complete question details including choices and explanations.
     """
     # Base query - only active, non-deleted questions
     query = db.query(Question).filter(
@@ -65,12 +67,21 @@ def list_questions(
     # Apply pagination and fetch
     questions = query.order_by(Question.created_at.desc()).offset(offset).limit(limit).all()
 
-    return QuestionListResponse(
-        items=[QuestionBrief.model_validate(q) for q in questions],
-        total=total,
-        limit=limit,
-        offset=offset,
-    )
+    # Return full details or brief based on parameter
+    if full:
+        return QuestionDetailListResponse(
+            items=[QuestionDetail.from_orm_with_choices(q) for q in questions],
+            total=total,
+            limit=limit,
+            offset=offset,
+        )
+    else:
+        return QuestionListResponse(
+            items=[QuestionBrief.model_validate(q) for q in questions],
+            total=total,
+            limit=limit,
+            offset=offset,
+        )
 
 
 @router.get("/random", response_model=QuestionRandomResponse)

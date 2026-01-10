@@ -4,8 +4,10 @@ SAT Tutoring Platform - FastAPI Application
 Main application entry point with CORS configuration and health check endpoint.
 """
 
+import traceback
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -37,7 +39,7 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
 
-# Configure CORS
+# Configure CORS - must be before other middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins_list,
@@ -45,6 +47,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Global exception handler to ensure errors are logged and CORS headers work
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    Handle all unhandled exceptions with proper logging.
+    CORS middleware will add headers to this response.
+    """
+    error_trace = traceback.format_exc()
+    print(f"Unhandled exception: {exc}")
+    print(f"Request: {request.method} {request.url}")
+    print(f"Traceback: {error_trace}")
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "Internal server error",
+            "type": type(exc).__name__,
+            "message": str(exc) if settings.debug else "An unexpected error occurred",
+        }
+    )
 
 
 @app.get("/health", tags=["Health"])

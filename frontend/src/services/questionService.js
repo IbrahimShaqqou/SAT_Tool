@@ -4,9 +4,13 @@
 import api from './api';
 
 export const questionService = {
-  // Get questions with filters
+  // Get questions with filters (brief by default)
   getQuestions: (params = {}) =>
     api.get('/questions', { params }),
+
+  // Get questions with full details (choices, explanations, correct answers)
+  getQuestionsWithDetails: (params = {}) =>
+    api.get('/questions', { params: { ...params, full: true } }),
 
   // Get single question
   getQuestion: (id) =>

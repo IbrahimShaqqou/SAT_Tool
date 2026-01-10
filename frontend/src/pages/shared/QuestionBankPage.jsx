@@ -121,17 +121,6 @@ const QuestionBankPage = ({ userRole = 'student' }) => {
     });
   };
 
-  // Helper function to batch API requests
-  const batchRequests = async (items, batchSize, requestFn) => {
-    const results = [];
-    for (let i = 0; i < items.length; i += batchSize) {
-      const batch = items.slice(i, i + batchSize);
-      const batchResults = await Promise.all(batch.map(requestFn));
-      results.push(...batchResults);
-    }
-    return results;
-  };
-
   // Select skill and start practice immediately
   const selectSkill = async (skill, domain) => {
     setSelectedSkill(skill);
@@ -144,25 +133,18 @@ const QuestionBankPage = ({ userRole = 'student' }) => {
     setMarkedForReview(new Set());
 
     try {
-      // Load all questions for this skill (up to 100)
-      const res = await questionService.getQuestions({ skill_id: skill.id, limit: 100 });
-      const questionBriefs = res.data.items || [];
+      // Load all questions for this skill with full details in a single request (up to 500)
+      const res = await questionService.getQuestionsWithDetails({ skill_id: skill.id, limit: 500 });
+      const questions = res.data.items || [];
 
-      if (questionBriefs.length === 0) {
+      if (questions.length === 0) {
         alert('No questions found for this skill');
         setIsLoadingQuestions(false);
         return;
       }
 
-      // Load full details in batches of 5 to avoid overwhelming the server
-      const fullQuestions = await batchRequests(
-        questionBriefs,
-        5,
-        q => questionService.getQuestion(q.id).then(res => res.data)
-      );
-
       // Transform questions to expected format
-      const transformedQuestions = fullQuestions.map((q, idx) => ({
+      const transformedQuestions = questions.map((q, idx) => ({
         id: q.id,
         order: idx + 1,
         prompt_html: q.prompt_html,

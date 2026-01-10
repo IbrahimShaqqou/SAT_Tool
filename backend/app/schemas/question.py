@@ -99,6 +99,14 @@ class QuestionListResponse(BaseModel):
     offset: int
 
 
+class QuestionDetailListResponse(BaseModel):
+    """Paginated list of questions with full details."""
+    items: List[QuestionDetail]
+    total: int
+    limit: int
+    offset: int
+
+
 class QuestionRandomResponse(BaseModel):
     """Response for random question(s) endpoint."""
     items: List[QuestionDetail]
