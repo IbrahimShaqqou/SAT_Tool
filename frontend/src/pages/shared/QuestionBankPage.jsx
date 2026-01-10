@@ -179,7 +179,37 @@ const QuestionBankPage = ({ userRole = 'student' }) => {
       setView('practice');
     } catch (err) {
       console.error('Failed to load questions:', err);
-      alert('Failed to load questions');
+      console.error('Error details:', {
+        message: err.message,
+        code: err.code,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        config: {
+          url: err.config?.url,
+          baseURL: err.config?.baseURL,
+          method: err.config?.method,
+        }
+      });
+
+      let errorMessage = 'Unknown error';
+      if (err.code === 'ECONNABORTED') {
+        errorMessage = 'Request timed out. The server may be slow or unavailable.';
+      } else if (err.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error. Please check your connection and the API URL.';
+      } else if (err.response?.status === 401) {
+        errorMessage = 'Authentication required. Please log in again.';
+      } else if (err.response?.status === 403) {
+        errorMessage = 'Access denied. You may not have permission to view these questions.';
+      } else if (err.response?.status === 404) {
+        errorMessage = 'Questions not found.';
+      } else if (err.response?.status >= 500) {
+        errorMessage = `Server error (${err.response.status}). Please try again later.`;
+      } else {
+        errorMessage = err.response?.data?.detail || err.message || 'Unknown error';
+      }
+
+      alert(`Failed to load questions: ${errorMessage}`);
     } finally {
       setIsLoadingQuestions(false);
     }
