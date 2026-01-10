@@ -121,6 +121,17 @@ const QuestionBankPage = ({ userRole = 'student' }) => {
     });
   };
 
+  // Helper function to batch API requests
+  const batchRequests = async (items, batchSize, requestFn) => {
+    const results = [];
+    for (let i = 0; i < items.length; i += batchSize) {
+      const batch = items.slice(i, i + batchSize);
+      const batchResults = await Promise.all(batch.map(requestFn));
+      results.push(...batchResults);
+    }
+    return results;
+  };
+
   // Select skill and start practice immediately
   const selectSkill = async (skill, domain) => {
     setSelectedSkill(skill);
@@ -143,11 +154,11 @@ const QuestionBankPage = ({ userRole = 'student' }) => {
         return;
       }
 
-      // Load full details for all questions
-      const fullQuestions = await Promise.all(
-        questionBriefs.map(q =>
-          questionService.getQuestion(q.id).then(res => res.data)
-        )
+      // Load full details in batches of 5 to avoid overwhelming the server
+      const fullQuestions = await batchRequests(
+        questionBriefs,
+        5,
+        q => questionService.getQuestion(q.id).then(res => res.data)
       );
 
       // Transform questions to expected format
