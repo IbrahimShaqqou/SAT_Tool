@@ -118,11 +118,11 @@ const ReferenceSheet = ({
         <div className="grid grid-cols-2 gap-6 mb-6">
           {/* Triangle */}
           <div className="text-center">
-            <svg viewBox="0 0 100 80" className="w-20 h-16 mx-auto mb-2">
+            <svg viewBox="0 0 100 90" className="w-20 h-18 mx-auto mb-2">
               <polygon points="50,10 15,70 85,70" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
               <line x1="50" y1="10" x2="50" y2="70" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" className="text-gray-500" />
               <text x="55" y="45" fontSize="14" fontStyle="italic" className="text-gray-600">h</text>
-              <text x="50" y="84" fontSize="14" fontStyle="italic" textAnchor="middle" className="text-gray-600">b</text>
+              <text x="50" y="85" fontSize="14" fontStyle="italic" textAnchor="middle" className="text-gray-600">b</text>
             </svg>
             <div className="text-gray-800">
               <p><Formula><em>A</em> = <sup>1</sup>⁄<sub>2</sub><em>bh</em></Formula></p>
@@ -131,10 +131,10 @@ const ReferenceSheet = ({
 
           {/* Right Triangle - Pythagorean */}
           <div className="text-center">
-            <svg viewBox="0 0 100 80" className="w-20 h-16 mx-auto mb-2">
+            <svg viewBox="0 0 100 90" className="w-20 h-18 mx-auto mb-2">
               <polygon points="15,70 85,70 85,15" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
               <rect x="78" y="63" width="7" height="7" fill="none" stroke="currentColor" strokeWidth="1" className="text-gray-500" />
-              <text x="50" y="84" fontSize="14" fontStyle="italic" textAnchor="middle" className="text-gray-600">a</text>
+              <text x="50" y="85" fontSize="14" fontStyle="italic" textAnchor="middle" className="text-gray-600">a</text>
               <text x="92" y="45" fontSize="14" fontStyle="italic" className="text-gray-600">b</text>
               <text x="42" y="38" fontSize="14" fontStyle="italic" className="text-gray-600">c</text>
             </svg>
@@ -148,29 +148,29 @@ const ReferenceSheet = ({
         <div className="mb-6">
           <h3 className="text-sm font-semibold text-center mb-3 text-gray-700 uppercase tracking-wide">Special Right Triangles</h3>
           <div className="grid grid-cols-2 gap-6">
-            {/* 30-60-90 */}
+            {/* 30-60-90 triangle */}
             <div className="text-center">
-              <svg viewBox="0 0 120 90" className="w-28 h-24 mx-auto">
-                <polygon points="15,80 105,80 15,20" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
-                <rect x="15" y="73" width="7" height="7" fill="none" stroke="currentColor" strokeWidth="1" className="text-gray-500" />
-                <text x="55" y="12" fontSize="13" fontStyle="italic" className="text-gray-700">2x</text>
-                <text x="65" y="28" fontSize="11" className="text-gray-600">60°</text>
-                <text x="60" y="94" fontSize="13" fontStyle="italic" textAnchor="middle" className="text-gray-700">x√3</text>
-                <text x="5" y="55" fontSize="13" fontStyle="italic" className="text-gray-700">x</text>
-                <text x="25" y="75" fontSize="11" className="text-gray-600">30°</text>
+              <svg viewBox="0 0 130 110" className="w-32 h-28 mx-auto">
+                <polygon points="20,85 110,85 20,25" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
+                <rect x="20" y="78" width="7" height="7" fill="none" stroke="currentColor" strokeWidth="1" className="text-gray-500" />
+                <text x="8" y="58" fontSize="12" fontStyle="italic" className="text-gray-700">x</text>
+                <text x="21" y="45" fontSize="10" className="text-gray-600">60°</text>
+                <text x="55" y="45" fontSize="12" fontStyle="italic" className="text-gray-700">2x</text>
+                <text x="72" y="80" fontSize="10" className="text-gray-600">30°</text>
+                <text x="65" y="100" fontSize="12" fontStyle="italic" textAnchor="middle" className="text-gray-700">x√3</text>
               </svg>
             </div>
 
-            {/* 45-45-90 */}
+            {/* 45-45-90 triangle */}
             <div className="text-center">
-              <svg viewBox="0 0 120 90" className="w-28 h-24 mx-auto">
-                <polygon points="20,80 100,80 100,15" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
-                <rect x="93" y="73" width="7" height="7" fill="none" stroke="currentColor" strokeWidth="1" className="text-gray-500" />
-                <text x="45" y="42" fontSize="13" fontStyle="italic" className="text-gray-700">s√2</text>
-                <text x="32" y="70" fontSize="11" className="text-gray-600">45°</text>
-                <text x="60" y="94" fontSize="13" fontStyle="italic" textAnchor="middle" className="text-gray-700">s</text>
-                <text x="107" y="50" fontSize="13" fontStyle="italic" className="text-gray-700">s</text>
-                <text x="85" y="28" fontSize="11" className="text-gray-600">45°</text>
+              <svg viewBox="0 0 130 110" className="w-32 h-28 mx-auto">
+                <polygon points="20,85 105,85 105,20" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
+                <rect x="98" y="78" width="7" height="7" fill="none" stroke="currentColor" strokeWidth="1" className="text-gray-500" />
+                <text x="35" y="80" fontSize="10" className="text-gray-600">45°</text>
+                <text x="50" y="42" fontSize="12" fontStyle="italic" className="text-gray-700">s√2</text>
+                <text x="85" y="42" fontSize="10" className="text-gray-600">45°</text>
+                <text x="112" y="55" fontSize="12" fontStyle="italic" className="text-gray-700">s</text>
+                <text x="62" y="100" fontSize="12" fontStyle="italic" textAnchor="middle" className="text-gray-700">s</text>
               </svg>
             </div>
           </div>
