@@ -278,12 +278,11 @@ def forgot_password(
     if user:
         # Generate reset token
         reset_token = create_password_reset_token(user.email)
+        reset_url = f"{settings.frontend_url}/reset-password?token={reset_token}"
 
         # In development, return the reset URL directly
         # In production, you would send an email instead
         if settings.debug or settings.environment == "development":
-            # For local development
-            reset_url = f"http://localhost:3000/reset-password?token={reset_token}"
             response["reset_url"] = reset_url
         else:
             # TODO: Implement email sending
@@ -291,7 +290,7 @@ def forgot_password(
             import logging
             logging.info(f"Password reset requested for {user.email}")
             # In production, you would send email here:
-            # send_password_reset_email(user.email, reset_token)
+            # send_password_reset_email(user.email, reset_url)
 
     return response
 

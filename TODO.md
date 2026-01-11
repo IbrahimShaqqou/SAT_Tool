@@ -6,50 +6,44 @@ This document outlines all remaining work needed before the platform is producti
 
 ## Critical Issues (Must Fix Before Launch)
 
-### 1. Missing Pages (Redirect to Dashboard)
-These pages are linked in the UI but have no implementation:
+### 1. ~~Missing Pages (Redirect to Dashboard)~~ DONE
+~~These pages are linked in the UI but have no implementation.~~
 
-| Page | Link Location | Route Needed | Priority |
-|------|--------------|--------------|----------|
-| Profile | Header dropdown | `/profile` or `/student/profile` & `/tutor/profile` | High |
-| Settings | Header dropdown | `/settings` or `/student/settings` & `/tutor/settings` | High |
-| My Progress | Student sidebar | `/student/progress` | High |
-
-**Files to modify:**
-- `frontend/src/App.js` - Add routes
-- Create new page components in `frontend/src/pages/`
+**Completed:**
+- [x] Created `ProfilePage.jsx` - User profile with edit capability
+- [x] Created `SettingsPage.jsx` - Notification and display preferences
+- [x] Created `ProgressPage.jsx` - Comprehensive skill progress view
+- [x] Added routes for `/student/profile`, `/student/settings`, `/student/progress`
+- [x] Added routes for `/tutor/profile`, `/tutor/settings`
+- [x] Updated Header.jsx to use role-based navigation
 
 ### 2. Production Database Sync
 **Issue:** Transitions and Rhetorical Synthesis skills are in wrong domain on deployed database.
 
-**Fix Required:**
+**Fix Required (run on Railway PostgreSQL):**
 ```sql
--- Run on Railway PostgreSQL
 UPDATE skills SET domain_id = 7 WHERE id IN (55, 56);
 UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 ```
 
 ### 3. Email System Not Implemented
-**Location:** `backend/app/api/v1/auth.py` lines 253-296
+**Location:** `backend/app/api/v1/auth.py`
 
 **Current state:**
-- Password reset only works in development (hardcoded localhost URL)
-- No actual emails are sent
+- Password reset URL now uses `FRONTEND_URL` environment variable (fixed)
+- No actual emails are sent yet
 
 **Required:**
 - [ ] Set up email service (SendGrid, AWS SES, or similar)
-- [ ] Add email configuration to settings
+- [ ] Add email configuration to settings (SMTP_HOST, SMTP_PORT, etc.)
 - [ ] Implement `send_password_reset_email()` function
-- [ ] Update reset URL to use environment variable for production domain
 
-### 4. Reference Sheet Missing from Adaptive Practice
-**Location:** `frontend/src/pages/student/AdaptivePracticePage.jsx`
-
-**Required:**
-- [ ] Import ReferenceSheet component
-- [ ] Add state for `showReferenceSheet`
-- [ ] Add Reference Sheet button to header (for math questions)
-- [ ] Render ReferenceSheet component
+### 4. ~~Reference Sheet Missing from Adaptive Practice~~ DONE
+**Completed:**
+- [x] Imported ReferenceSheet component
+- [x] Added state for `showReferenceSheet`
+- [x] Added Reference Sheet button to header (shows for math questions)
+- [x] Renders ReferenceSheet component
 
 ---
 
@@ -72,24 +66,16 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 - [ ] Set `ALLOWED_ORIGINS` on Railway to include Vercel frontend URL
 - [ ] Ensure all production domains are whitelisted
 
-### 7. Remove Debug/Development Code
-**Locations:**
-- `backend/app/api/v1/assess.py` lines 544, 548-549, 551 - print statements
-- `frontend/src/services/api.js` line 13 - console.log for API URL
+### 7. ~~Remove Debug/Development Code~~ DONE
+**Completed:**
+- [x] Removed print statements from `assess.py` - converted to proper logging
+- [x] Removed console.log from `api.js`
 
-**Required:**
-- [ ] Remove or convert to proper logging
-- [ ] Use conditional logging based on environment
-
-### 8. Hardcoded URLs and Secrets
-**Locations:**
-- `backend/app/api/v1/auth.py` line 286 - `http://localhost:3000/reset-password`
-- `backend/app/config.py` - default secret key
-
-**Required:**
-- [ ] Move password reset URL to environment variable
-- [ ] Ensure SECRET_KEY is set via environment variable in production
-- [ ] Add FRONTEND_URL environment variable
+### 8. ~~Hardcoded URLs and Secrets~~ DONE
+**Completed:**
+- [x] Added `FRONTEND_URL` to config.py
+- [x] Password reset URL now uses `settings.frontend_url`
+- [ ] Ensure SECRET_KEY is set via environment variable in production (already supported)
 
 ---
 
@@ -115,14 +101,11 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 - [ ] Add `get_current_admin` or role check dependency
 - [ ] Protect calibration endpoints with admin-only access
 
-### 11. Time Tracking in Adaptive Practice
-**Location:** `frontend/src/pages/student/AdaptivePracticePage.jsx` line 288
-
-**Current state:** `time_spent_seconds` hardcoded to 60
-
-**Required:**
-- [ ] Implement actual time tracking per question
-- [ ] Use timer hook to track time spent
+### 11. ~~Time Tracking in Adaptive Practice~~ DONE
+**Completed:**
+- [x] Added `questionStartTime` state to track when question was shown
+- [x] Calculate actual time spent when submitting answer
+- [x] Reset timer when moving to next question
 
 ### 12. Notifications System
 **Current state:** No notification system exists
@@ -179,27 +162,29 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 - [ ] Real-time collaboration (tutor viewing student progress)
 - [ ] Instant notifications
 
-### 17. Profile & Settings Features
-**When implementing Profile page:**
+### 17. Profile & Settings Enhancements
+**Current implementation includes:**
+- [x] View/edit name
+- [x] View email and role
+- [x] Change password (redirects to forgot password)
+- [x] Notification toggles (UI only, backend storage needed)
+- [x] Timezone selection (UI only)
+
+**Future enhancements:**
 - [ ] Profile picture upload
-- [ ] Edit name, email
-- [ ] Change password
-- [ ] View account statistics
+- [ ] Persist settings to backend
+- [ ] Dark mode implementation
 
-**When implementing Settings page:**
-- [ ] Notification preferences
-- [ ] Theme/display settings (dark mode?)
-- [ ] Timezone settings
-- [ ] Privacy settings
+### 18. My Progress Page Enhancements
+**Current implementation includes:**
+- [x] Overall stats (accuracy, questions answered, assignments, time)
+- [x] Skills to focus on (weak skills)
+- [x] Strong skills display
+- [x] All skills grouped by domain with mastery levels
 
-### 18. My Progress Page Features
-**When implementing:**
-- [ ] Overall ability/skill level visualization
+**Future enhancements:**
 - [ ] Progress over time charts
-- [ ] Skill breakdown by domain
-- [ ] Recent activity
 - [ ] Achievements/milestones
-- [ ] Areas needing improvement
 - [ ] Recommended practice areas
 
 ---
@@ -209,8 +194,8 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 | Field | Model | Purpose | Status |
 |-------|-------|---------|--------|
 | `subdomains` | Question | Subdomain categorization | Table empty |
-| `ability_estimate_before/after` | StudentResponse | IRT tracking | Not populated |
-| `ability_se` | StudentSkill | Standard error | Rarely used |
+| `ability_estimate_before/after` | StudentResponse | IRT tracking | Now populated |
+| `ability_se` | StudentSkill | Standard error | Used in IRT |
 | `profile_data` | User | Extended profile info | No edit form |
 
 ---
@@ -223,6 +208,7 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 DATABASE_URL=postgresql://...
 SECRET_KEY=<strong-random-key>
 ALLOWED_ORIGINS=https://your-vercel-app.vercel.app
+FRONTEND_URL=https://your-vercel-app.vercel.app
 
 # Email (when implemented)
 SMTP_HOST=
@@ -230,9 +216,6 @@ SMTP_PORT=
 SMTP_USER=
 SMTP_PASSWORD=
 FROM_EMAIL=
-
-# URLs
-FRONTEND_URL=https://your-vercel-app.vercel.app
 
 # Optional
 SENTRY_DSN=
@@ -272,9 +255,9 @@ REACT_APP_API_URL=https://your-railway-app.up.railway.app/api/v1
 
 ### Railway (Backend)
 1. [ ] Push latest code
-2. [ ] Set all environment variables
+2. [ ] Set all environment variables (including FRONTEND_URL)
 3. [ ] Run database migrations
-4. [ ] Fix skills domain (Transitions, Rhetorical Synthesis)
+4. [ ] Fix skills domain (Transitions, Rhetorical Synthesis) - see SQL above
 5. [ ] Verify health endpoint responds
 
 ### Vercel (Frontend)
@@ -285,18 +268,21 @@ REACT_APP_API_URL=https://your-railway-app.up.railway.app/api/v1
 
 ---
 
-## Files Modified in Recent Session
+## Files Modified in This Session
 
 ### Frontend
-- `src/components/test/ReferenceSheet.jsx` - Fixed triangle labels
-- `src/pages/shared/QuestionBankPage.jsx` - Optimized API calls
-- `src/services/questionService.js` - Added getQuestionsWithDetails
-- `src/services/api.js` - Added timeout and logging
+- `src/pages/student/AdaptivePracticePage.jsx` - Added Reference Sheet, time tracking
+- `src/pages/shared/ProfilePage.jsx` - NEW: User profile page
+- `src/pages/shared/SettingsPage.jsx` - NEW: Settings page
+- `src/pages/shared/ProgressPage.jsx` - NEW: My Progress page
+- `src/components/layout/Header.jsx` - Fixed navigation to use role prefix
+- `src/services/api.js` - Removed debug console.log
+- `src/App.js` - Added routes for new pages
 
 ### Backend
-- `app/api/v1/questions.py` - Added full parameter, increased limit to 500
-- `app/schemas/question.py` - Added QuestionDetailListResponse
-- `app/main.py` - Added global exception handler for CORS
+- `app/api/v1/assess.py` - Replaced print statements with proper logging
+- `app/api/v1/auth.py` - Uses FRONTEND_URL for password reset
+- `app/config.py` - Added FRONTEND_URL setting
 
 ---
 
@@ -310,6 +296,9 @@ REACT_APP_API_URL=https://your-railway-app.up.railway.app/api/v1
 | Adaptive | `pages/student/AdaptivePracticePage.jsx` | `api/v1/adaptive.py` |
 | IRT | N/A | `services/irt_service.py` |
 | Assessment | `pages/assess/*` | `api/v1/assess.py` |
+| Profile | `pages/shared/ProfilePage.jsx` | `api/v1/auth.py` |
+| Settings | `pages/shared/SettingsPage.jsx` | N/A (UI only) |
+| Progress | `pages/shared/ProgressPage.jsx` | `api/v1/progress.py` |
 
 ---
 

@@ -31,6 +31,7 @@ const Header = ({ onMenuClick }) => {
   };
 
   const fullName = user ? `${user.first_name} ${user.last_name}` : '';
+  const rolePrefix = user?.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student';
 
   return (
     <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6">
@@ -70,7 +71,7 @@ const Header = ({ onMenuClick }) => {
             <button
               onClick={() => {
                 setIsMenuOpen(false);
-                navigate('/settings');
+                navigate(`${rolePrefix}/settings`);
               }}
               className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
             >
@@ -81,7 +82,7 @@ const Header = ({ onMenuClick }) => {
             <button
               onClick={() => {
                 setIsMenuOpen(false);
-                navigate('/profile');
+                navigate(`${rolePrefix}/profile`);
               }}
               className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
             >

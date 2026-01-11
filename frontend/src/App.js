@@ -33,6 +33,11 @@ import StudentQuestionBankPage from './pages/student/QuestionBankPage';
 // Public Assessment
 import { AssessmentPage, IntakeResultsPage } from './pages/assess';
 
+// Shared Pages
+import ProfilePage from './pages/shared/ProfilePage';
+import SettingsPage from './pages/shared/SettingsPage';
+import ProgressPage from './pages/shared/ProgressPage';
+
 // Root redirect based on role
 const RoleBasedRedirect = () => {
   const { user, isLoading } = useAuth();
@@ -86,6 +91,8 @@ function App() {
         <Route path="/tutor/analytics" element={<TutorAnalytics />} />
         <Route path="/tutor/invites" element={<TutorInvites />} />
         <Route path="/tutor/questions" element={<QuestionBankPage />} />
+        <Route path="/tutor/profile" element={<ProfilePage />} />
+        <Route path="/tutor/settings" element={<SettingsPage />} />
       </Route>
 
       {/* Student routes */}
@@ -102,6 +109,9 @@ function App() {
         <Route path="/student/test/:id" element={<TestPage />} />
         <Route path="/student/results/:id" element={<ResultsPage />} />
         <Route path="/student/adaptive" element={<AdaptivePracticePage />} />
+        <Route path="/student/progress" element={<ProgressPage />} />
+        <Route path="/student/profile" element={<ProfilePage />} />
+        <Route path="/student/settings" element={<SettingsPage />} />
       </Route>
 
       {/* 404 */}

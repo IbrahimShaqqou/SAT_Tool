@@ -540,15 +540,11 @@ def submit_assessment(
     student_id = invite.student_id or session.student_id
     if student_id:
         try:
-            result = store_intake_abilities(db, student_id, session.id)
-            print(f"Intake abilities stored: {result}")
+            store_intake_abilities(db, student_id, session.id)
         except Exception as e:
-            # Log but don't fail the submission
-            import traceback
-            print(f"Warning: Failed to store intake abilities: {e}")
-            traceback.print_exc()
-    else:
-        print(f"Skipping ability storage: no student_id (invite.student_id={invite.student_id}, session.student_id={session.student_id})")
+            # Log but don't fail the submission - abilities can be recalculated later
+            import logging
+            logging.warning(f"Failed to store intake abilities for student {student_id}: {e}")
 
     db.commit()
 

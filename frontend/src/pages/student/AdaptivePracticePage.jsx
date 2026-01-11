@@ -12,6 +12,7 @@ import {
   Zap,
   BarChart3,
   ArrowLeft,
+  BookOpen,
 } from 'lucide-react';
 import {
   Card,
@@ -19,7 +20,7 @@ import {
   Badge,
   LoadingSpinner,
 } from '../../components/ui';
-import { QuestionDisplay, AnswerChoices, DesmosCalculator } from '../../components/test';
+import { QuestionDisplay, AnswerChoices, DesmosCalculator, ReferenceSheet } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
 
 // Skill Selection Component
@@ -198,8 +199,12 @@ const AdaptivePracticePage = () => {
   // UI state
   const [isLoading, setIsLoading] = useState(true);
   const [showCalculator, setShowCalculator] = useState(false);
+  const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [calculatorKey, setCalculatorKey] = useState(0); // Force remount when needed
   const [error, setError] = useState(null);
+
+  // Time tracking
+  const [questionStartTime, setQuestionStartTime] = useState(null);
 
   // Load skills on mount
   useEffect(() => {
@@ -262,6 +267,7 @@ const AdaptivePracticePage = () => {
       setPhase('practicing');
       setQuestionsAnswered(0);
       setCorrectCount(0);
+      setQuestionStartTime(Date.now()); // Start timing
     } catch (err) {
       console.error('Failed to start session:', err);
       const message = err.response?.data?.detail || err.message || 'Failed to start practice session';
@@ -283,9 +289,14 @@ const AdaptivePracticePage = () => {
         ? { index: answer }
         : { answer: answer };
 
+      // Calculate actual time spent
+      const timeSpent = questionStartTime
+        ? Math.round((Date.now() - questionStartTime) / 1000)
+        : 60;
+
       const res = await adaptiveService.submitAnswer(session.id, {
         answer: answerData,
-        time_spent_seconds: 60, // TODO: Track actual time
+        time_spent_seconds: timeSpent,
       });
 
       const result = res.data;
@@ -316,6 +327,7 @@ const AdaptivePracticePage = () => {
     setAnswer(null);
     setLastResult(null);
     setShowExplanation(false);
+    setQuestionStartTime(Date.now()); // Reset timer for new question
   };
 
   // Skill toggle
@@ -341,6 +353,8 @@ const AdaptivePracticePage = () => {
     setQuestionsAnswered(0);
     setCorrectCount(0);
     setShowCalculator(false);
+    setShowReferenceSheet(false);
+    setQuestionStartTime(null);
     setCalculatorKey(prev => prev + 1); // Force calculator remount
   };
 
@@ -508,7 +522,20 @@ const AdaptivePracticePage = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          {/* Reference Sheet Toggle - only for math questions */}
+          {currentQuestion?.domain?.name?.toLowerCase().includes('math') ||
+           currentQuestion?.skill?.domain?.name?.toLowerCase().includes('math') ||
+           skills.find(s => selectedSkills.includes(s.id))?.domain_name?.toLowerCase().includes('math') ? (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setShowReferenceSheet(!showReferenceSheet)}
+            >
+              <BookOpen className="h-4 w-4 mr-1" />
+              Reference
+            </Button>
+          ) : null}
           {/* Calculator Toggle */}
           <Button
             variant="secondary"
@@ -694,6 +721,13 @@ const AdaptivePracticePage = () => {
         isOpen={showCalculator}
         onClose={() => setShowCalculator(false)}
         initialPosition={{ x: window.innerWidth - 450, y: 80 }}
+      />
+
+      {/* Reference Sheet for math questions */}
+      <ReferenceSheet
+        isOpen={showReferenceSheet}
+        onClose={() => setShowReferenceSheet(false)}
+        initialPosition={{ x: 100, y: 80 }}
       />
     </div>
   );

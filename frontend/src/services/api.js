@@ -9,9 +9,6 @@ import axios from 'axios';
 // API base URL from environment or default
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
 
-// Log API URL for debugging (only in development or if something seems wrong)
-console.log('[API] Base URL:', API_BASE_URL);
-
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_BASE_URL,
