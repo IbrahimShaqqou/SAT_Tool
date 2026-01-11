@@ -51,7 +51,7 @@ const StudentDashboard = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Your SAT prep overview</p>
+        <p className="text-gray-500 mt-1">Your ZooPrep overview</p>
       </div>
 
       {/* Stats */}

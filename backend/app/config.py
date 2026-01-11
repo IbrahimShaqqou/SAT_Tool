@@ -1,5 +1,5 @@
 """
-SAT Tutoring Platform - Configuration Management
+ZooPrep - Configuration Management
 
 Pydantic Settings for reading configuration from environment variables.
 """

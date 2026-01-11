@@ -27,7 +27,7 @@ if settings.sentry_dsn and settings.environment == "production":
 
 # Create FastAPI application
 app = FastAPI(
-    title="SAT Tutoring Platform API",
+    title="ZooPrep API",
     description="API for Digital SAT practice and tutoring with skill-level tracking",
     version="0.1.0",
     docs_url="/api/docs",
@@ -81,7 +81,7 @@ async def health_check() -> dict:
     """
     return {
         "status": "healthy",
-        "service": "sat-tutor-api",
+        "service": "zooprep-api",
         "version": "0.1.0",
     }
 
@@ -95,7 +95,7 @@ async def root() -> dict:
         dict: Welcome message and documentation links
     """
     return {
-        "message": "SAT Tutoring Platform API",
+        "message": "ZooPrep API",
         "docs": "/api/docs",
         "health": "/health",
     }

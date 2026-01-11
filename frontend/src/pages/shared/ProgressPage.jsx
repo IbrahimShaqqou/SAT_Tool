@@ -78,7 +78,7 @@ const ProgressPage = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-gray-900">My Progress</h1>
-        <p className="text-gray-500 mt-1">Track your SAT preparation journey</p>
+        <p className="text-gray-500 mt-1">Track your preparation journey</p>
       </div>
 
       {/* Overall Stats */}

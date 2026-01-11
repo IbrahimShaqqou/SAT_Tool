@@ -1,6 +1,8 @@
-# SAT Tutoring Platform - Remaining Work
+# ZooPrep - Remaining Work
 
 This document outlines all remaining work needed before the platform is production-ready.
+
+**Domain:** https://zooprep.com
 
 ---
 
@@ -63,7 +65,7 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 **Location:** `backend/app/config.py` and Railway environment variables
 
 **Required:**
-- [ ] Set `ALLOWED_ORIGINS` on Railway to include Vercel frontend URL
+- [ ] Set `ALLOWED_ORIGINS` on Railway to include `https://zooprep.com`
 - [ ] Ensure all production domains are whitelisted
 
 ### 7. ~~Remove Debug/Development Code~~ DONE
@@ -207,15 +209,15 @@ UPDATE questions SET domain_id = 7 WHERE skill_id IN (55, 56);
 # Required
 DATABASE_URL=postgresql://...
 SECRET_KEY=<strong-random-key>
-ALLOWED_ORIGINS=https://your-vercel-app.vercel.app
-FRONTEND_URL=https://your-vercel-app.vercel.app
+ALLOWED_ORIGINS=https://zooprep.com
+FRONTEND_URL=https://zooprep.com
 
 # Email (when implemented)
 SMTP_HOST=
 SMTP_PORT=
 SMTP_USER=
 SMTP_PASSWORD=
-FROM_EMAIL=
+FROM_EMAIL=noreply@zooprep.com
 
 # Optional
 SENTRY_DSN=
@@ -238,12 +240,12 @@ REACT_APP_API_URL=https://your-railway-app.up.railway.app/api/v1
 - [ ] Adaptive practice session flow
 - [ ] Question Bank browsing and practice
 - [ ] IRT ability estimation updates correctly
-- [ ] CORS works from production frontend to backend
+- [ ] CORS works from https://zooprep.com to backend
 - [ ] Database migrations are up to date on production
 
 ### Security
 - [ ] No hardcoded secrets in code
-- [ ] CORS properly configured
+- [ ] CORS properly configured for zooprep.com
 - [ ] Rate limiting on auth endpoints
 - [ ] Input validation on all endpoints
 - [ ] SQL injection prevention (using ORM)
@@ -255,34 +257,36 @@ REACT_APP_API_URL=https://your-railway-app.up.railway.app/api/v1
 
 ### Railway (Backend)
 1. [ ] Push latest code
-2. [ ] Set all environment variables (including FRONTEND_URL)
+2. [ ] Set all environment variables:
+   - `FRONTEND_URL=https://zooprep.com`
+   - `ALLOWED_ORIGINS=https://zooprep.com`
+   - `SECRET_KEY=<strong-random-key>`
 3. [ ] Run database migrations
 4. [ ] Fix skills domain (Transitions, Rhetorical Synthesis) - see SQL above
 5. [ ] Verify health endpoint responds
 
 ### Vercel (Frontend)
 1. [ ] Push latest code
-2. [ ] Set REACT_APP_API_URL
-3. [ ] Verify build succeeds
-4. [ ] Test all major flows
+2. [ ] Set `REACT_APP_API_URL` to Railway backend URL
+3. [ ] Domain `zooprep.com` is configured
+4. [ ] Verify build succeeds
+5. [ ] Test all major flows
 
 ---
 
-## Files Modified in This Session
+## Files Modified for ZooPrep Rebranding
 
 ### Frontend
-- `src/pages/student/AdaptivePracticePage.jsx` - Added Reference Sheet, time tracking
-- `src/pages/shared/ProfilePage.jsx` - NEW: User profile page
-- `src/pages/shared/SettingsPage.jsx` - NEW: Settings page
-- `src/pages/shared/ProgressPage.jsx` - NEW: My Progress page
-- `src/components/layout/Header.jsx` - Fixed navigation to use role prefix
-- `src/services/api.js` - Removed debug console.log
-- `src/App.js` - Added routes for new pages
+- `public/index.html` - Updated title and meta description
+- `src/components/layout/Sidebar.jsx` - Updated logo text
+- `src/components/layout/PublicLayout.jsx` - Updated branding
+- `src/pages/student/DashboardPage.jsx` - Updated subtitle
+- `src/pages/shared/ProgressPage.jsx` - Updated subtitle
+- `package.json` - Updated package name
 
 ### Backend
-- `app/api/v1/assess.py` - Replaced print statements with proper logging
-- `app/api/v1/auth.py` - Uses FRONTEND_URL for password reset
-- `app/config.py` - Added FRONTEND_URL setting
+- `app/main.py` - Updated API title, health check, and root endpoint
+- `app/config.py` - Updated module docstring
 
 ---
 

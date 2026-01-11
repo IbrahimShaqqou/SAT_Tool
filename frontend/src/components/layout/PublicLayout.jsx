@@ -10,7 +10,7 @@ const PublicLayout = () => {
       {/* Logo */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h1 className="text-center text-2xl font-semibold text-gray-900">
-          SAT Prep
+          ZooPrep
         </h1>
       </div>
 
@@ -23,7 +23,7 @@ const PublicLayout = () => {
 
       {/* Footer */}
       <p className="mt-8 text-center text-sm text-gray-500">
-        SAT Tutoring Platform
+        ZooPrep - SAT Preparation
       </p>
     </div>
   );

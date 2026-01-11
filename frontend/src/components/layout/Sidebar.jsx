@@ -59,7 +59,7 @@ const Sidebar = ({ role = 'student', isOpen, onClose }) => {
       >
         {/* Logo */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
-          <span className="text-xl font-semibold text-gray-900">SAT Prep</span>
+          <span className="text-xl font-semibold text-gray-900">ZooPrep</span>
           {/* Mobile close button */}
           <button
             onClick={onClose}
@@ -95,7 +95,7 @@ const Sidebar = ({ role = 'student', isOpen, onClose }) => {
         {/* Bottom section */}
         <div className="p-4 border-t border-gray-200">
           <p className="text-xs text-gray-400 text-center">
-            SAT Tutoring Platform
+            ZooPrep
           </p>
         </div>
       </aside>
