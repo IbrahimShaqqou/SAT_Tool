@@ -89,7 +89,7 @@ const LoginPage = () => {
         Sign in to your account
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {authError && (
           <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200">
             {authError}

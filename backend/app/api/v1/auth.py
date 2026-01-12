@@ -280,17 +280,18 @@ def forgot_password(
         reset_token = create_password_reset_token(user.email)
         reset_url = f"{settings.frontend_url}/reset-password?token={reset_token}"
 
-        # In development, return the reset URL directly
-        # In production, you would send an email instead
+        # In development, return the reset URL directly for testing
         if settings.debug or settings.environment == "development":
             response["reset_url"] = reset_url
-        else:
-            # TODO: Implement email sending
-            # For now, log the token (in production, send email)
-            import logging
-            logging.info(f"Password reset requested for {user.email}")
-            # In production, you would send email here:
-            # send_password_reset_email(user.email, reset_url)
+
+        # Send password reset email (in production, or if SendGrid is configured)
+        if settings.sendgrid_api_key:
+            from app.services.email_service import send_password_reset_email
+            send_password_reset_email(
+                to_email=user.email,
+                reset_url=reset_url,
+                user_name=user.first_name or "there"
+            )
 
     return response
 

@@ -40,6 +40,11 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
 
+    # Email (SendGrid)
+    sendgrid_api_key: str = ""  # Set in production environment
+    from_email: str = "noreply@zooprep.com"
+    from_name: str = "ZooPrep"
+
     # Error Monitoring
     sentry_dsn: str = ""  # Set in production environment
 
