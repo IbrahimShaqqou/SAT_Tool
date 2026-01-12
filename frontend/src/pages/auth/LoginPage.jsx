@@ -1,7 +1,7 @@
 /**
  * Login Page
  */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Button, Input } from '../../components/ui';
@@ -15,10 +15,20 @@ const LoginPage = () => {
     email: '',
     password: '',
   });
+  const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const from = location.state?.from?.pathname || null;
+
+  // Load remembered email on mount
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      setFormData(prev => ({ ...prev, email: rememberedEmail }));
+      setRememberMe(true);
+    }
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -56,6 +66,13 @@ const LoginPage = () => {
     setIsLoading(false);
 
     if (result.success) {
+      // Save or remove remembered email
+      if (rememberMe) {
+        localStorage.setItem('rememberedEmail', formData.email);
+      } else {
+        localStorage.removeItem('rememberedEmail');
+      }
+
       // Redirect based on role or to previous page
       if (from) {
         navigate(from, { replace: true });
@@ -103,7 +120,16 @@ const LoginPage = () => {
           required
         />
 
-        <div className="flex justify-end">
+        <div className="flex items-center justify-between">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+            />
+            <span className="text-sm text-gray-600">Remember me</span>
+          </label>
           <Link
             to="/forgot-password"
             className="text-sm text-gray-600 hover:text-gray-900 hover:underline"
