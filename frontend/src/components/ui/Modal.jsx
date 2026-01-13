@@ -1,6 +1,7 @@
 /**
  * Modal dialog component
  * Clean overlay with centered content
+ * Supports dark mode
  */
 import { useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
@@ -45,7 +46,7 @@ const Modal = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -53,23 +54,23 @@ const Modal = ({
       {/* Modal container */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div
-          className={`relative bg-white rounded-lg shadow-xl w-full ${sizes[size]} transform transition-all`}
+          className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${sizes[size]} transform transition-all`}
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? 'modal-title' : undefined}
         >
           {/* Header */}
           {(title || showCloseButton) && (
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
               {title && (
-                <h2 id="modal-title" className="text-lg font-semibold text-gray-900">
+                <h2 id="modal-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   {title}
                 </h2>
               )}
               {showCloseButton && (
                 <button
                   onClick={onClose}
-                  className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   aria-label="Close"
                 >
                   <X className="h-5 w-5" />
@@ -89,7 +90,7 @@ const Modal = ({
 };
 
 const ModalFooter = ({ children, className = '' }) => (
-  <div className={`flex justify-end gap-3 mt-4 pt-4 border-t border-gray-200 ${className}`}>
+  <div className={`flex justify-end gap-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 ${className}`}>
     {children}
   </div>
 );

@@ -1,19 +1,31 @@
 /**
- * SAT Tutoring Platform - Global Styles
+ * ZooPrep - Global Styles
  *
- * Tailwind CSS imports and custom global styles.
+ * Tailwind CSS imports and custom global styles with dark mode support.
  */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom global styles */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Base layer for dark mode transitions */
+@layer base {
+  html {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-white text-gray-900;
+  }
+
+  .dark body,
+  html.dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
 }
 
 /* Screen reader only text - visually hidden but accessible */
@@ -37,14 +49,17 @@ body {
 
   .btn-secondary {
     @apply border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition;
+    @apply dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800;
   }
 
   .card {
     @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+    @apply dark:bg-gray-800 dark:border-gray-700;
   }
 
   .input-field {
     @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100;
   }
 }
 
@@ -68,6 +83,10 @@ body {
 .prose {
   color: #374151;
   line-height: 1.75;
+}
+
+.dark .prose {
+  color: #e5e7eb;
 }
 
 .prose p {
@@ -143,6 +162,27 @@ button .math-container img {
   max-height: 2.5em;
 }
 
+/* Dark mode: invert math images for better visibility */
+.dark .prose img.math-img,
+.dark .question-content img.math-img,
+.dark button img.math-img,
+.dark .question-content .math-container img,
+.dark button .math-container img {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Dark mode: invert diagram images */
+.dark .question-content > p > img:not(.math-img),
+.dark .question-content figure img:not(.math-img),
+.dark .question-content .image img:not(.math-img),
+.dark .question-content > img:not(.math-img),
+.dark .question-content p > img:only-child:not(.math-img) {
+  filter: invert(0.85) hue-rotate(180deg);
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+}
+
 /* Math containers should be inline */
 .question-content .math-container,
 button .math-container,
@@ -168,6 +208,11 @@ button span.math-container {
   margin: 1em auto;
 }
 
+/* Dark mode SVG adjustments */
+.dark .question-content svg {
+  filter: invert(0.85) hue-rotate(180deg);
+}
+
 /* Tables in questions - clean borders like image 28 */
 .question-content table {
   border-collapse: collapse;
@@ -182,15 +227,28 @@ button span.math-container {
   text-align: left;
 }
 
+.dark .question-content th,
+.dark .question-content td {
+  border-color: #4b5563;
+}
+
 .question-content th {
   background: #f3f4f6;
   font-weight: 600;
+}
+
+.dark .question-content th {
+  background: #374151;
 }
 
 .question-content caption {
   margin-bottom: 8px;
   font-weight: 500;
   color: #374151;
+}
+
+.dark .question-content caption {
+  color: #d1d5db;
 }
 
 /* Borderless tables (system of equations, etc.) - no borders */
@@ -235,6 +293,14 @@ button math {
   display: inline !important;
   vertical-align: middle;
   font-size: 1.25em;
+}
+
+/* Dark mode MathJax */
+.dark .question-content mjx-container,
+.dark .question-content math,
+.dark button mjx-container,
+.dark button math {
+  color: #e5e7eb;
 }
 
 /* Question content math should be larger for readability */
@@ -379,4 +445,73 @@ button svg ~ *:not(p):not(div):not(span):not(figure):not(math):not(mjx-container
 /* Remove extra spacing after figures */
 .question-content figure {
   margin-bottom: 0.5em;
+}
+
+/* Dark mode body background */
+.dark {
+  background-color: #111827;
+  color: #f3f4f6;
+}
+
+/* Desmos Calculator dark mode */
+.dark .dcg-calculator-api-container {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
+/* Recharts dark mode support */
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: #374151;
+}
+
+.dark .recharts-cartesian-axis-tick-value {
+  fill: #9ca3af;
+}
+
+.dark .recharts-cartesian-axis-line {
+  stroke: #4b5563;
+}
+
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+.dark .recharts-tooltip-item {
+  color: #e5e7eb !important;
+}
+
+.dark .recharts-legend-item-text {
+  color: #d1d5db !important;
+}
+
+/* Select element dark mode */
+.dark select {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+.dark select:focus {
+  border-color: #6b7280;
+  ring-color: #6b7280;
+}
+
+/* Scrollbar dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }

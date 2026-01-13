@@ -1,19 +1,21 @@
 /**
  * Settings Page
  * Application settings and preferences
+ * Supports dark mode
  */
 import { useState } from 'react';
-import { Settings, Bell, Moon, Globe, Save } from 'lucide-react';
+import { Bell, Moon, Globe, Save, Sun } from 'lucide-react';
 import { Card, Button } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const SettingsPage = () => {
   const { user } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [settings, setSettings] = useState({
     emailNotifications: true,
     assignmentReminders: true,
     progressUpdates: false,
-    darkMode: false,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   });
   const [isSaving, setIsSaving] = useState(false);
@@ -37,12 +39,14 @@ const SettingsPage = () => {
     <button
       onClick={onChange}
       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-        enabled ? 'bg-gray-900' : 'bg-gray-200'
+        enabled ? 'bg-gray-900 dark:bg-gray-100' : 'bg-gray-200 dark:bg-gray-600'
       }`}
     >
       <span
-        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-          enabled ? 'translate-x-6' : 'translate-x-1'
+        className={`inline-block h-4 w-4 transform rounded-full transition-transform ${
+          enabled
+            ? 'translate-x-6 bg-white dark:bg-gray-900'
+            : 'translate-x-1 bg-white dark:bg-gray-300'
         }`}
       />
     </button>
@@ -51,12 +55,12 @@ const SettingsPage = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
-        <p className="text-gray-500 mt-1">Manage your preferences</p>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Settings</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your preferences</p>
       </div>
 
       {success && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
+        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400">
           {success}
         </div>
       )}
@@ -65,17 +69,17 @@ const SettingsPage = () => {
       <Card>
         <Card.Header>
           <Card.Title className="flex items-center gap-2">
-            <Bell className="h-5 w-5 text-gray-500" />
+            <Bell className="h-5 w-5 text-gray-500 dark:text-gray-400" />
             Notifications
           </Card.Title>
           <Card.Description>Configure how you receive notifications</Card.Description>
         </Card.Header>
         <Card.Content>
           <div className="space-y-4">
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
               <div>
-                <p className="font-medium text-gray-900">Email Notifications</p>
-                <p className="text-sm text-gray-500">Receive updates via email</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">Email Notifications</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive updates via email</p>
               </div>
               <ToggleSwitch
                 enabled={settings.emailNotifications}
@@ -83,10 +87,10 @@ const SettingsPage = () => {
               />
             </div>
 
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
               <div>
-                <p className="font-medium text-gray-900">Assignment Reminders</p>
-                <p className="text-sm text-gray-500">Get reminded about upcoming assignments</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">Assignment Reminders</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Get reminded about upcoming assignments</p>
               </div>
               <ToggleSwitch
                 enabled={settings.assignmentReminders}
@@ -96,8 +100,8 @@ const SettingsPage = () => {
 
             <div className="flex items-center justify-between py-3">
               <div>
-                <p className="font-medium text-gray-900">Progress Updates</p>
-                <p className="text-sm text-gray-500">Weekly summary of your progress</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">Progress Updates</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Weekly summary of your progress</p>
               </div>
               <ToggleSwitch
                 enabled={settings.progressUpdates}
@@ -112,7 +116,11 @@ const SettingsPage = () => {
       <Card>
         <Card.Header>
           <Card.Title className="flex items-center gap-2">
-            <Moon className="h-5 w-5 text-gray-500" />
+            {isDarkMode ? (
+              <Moon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            ) : (
+              <Sun className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            )}
             Display
           </Card.Title>
           <Card.Description>Customize your viewing experience</Card.Description>
@@ -120,12 +128,14 @@ const SettingsPage = () => {
         <Card.Content>
           <div className="flex items-center justify-between py-3">
             <div>
-              <p className="font-medium text-gray-900">Dark Mode</p>
-              <p className="text-sm text-gray-500">Use dark theme (coming soon)</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">Dark Mode</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {isDarkMode ? 'Currently using dark theme' : 'Currently using light theme'}
+              </p>
             </div>
             <ToggleSwitch
-              enabled={settings.darkMode}
-              onChange={() => handleToggle('darkMode')}
+              enabled={isDarkMode}
+              onChange={toggleDarkMode}
             />
           </div>
         </Card.Content>
@@ -135,20 +145,20 @@ const SettingsPage = () => {
       <Card>
         <Card.Header>
           <Card.Title className="flex items-center gap-2">
-            <Globe className="h-5 w-5 text-gray-500" />
+            <Globe className="h-5 w-5 text-gray-500 dark:text-gray-400" />
             Regional
           </Card.Title>
           <Card.Description>Location and time settings</Card.Description>
         </Card.Header>
         <Card.Content>
           <div className="py-3">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Timezone
             </label>
             <select
               value={settings.timezone}
               onChange={(e) => setSettings(prev => ({ ...prev, timezone: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-transparent"
             >
               <option value="America/New_York">Eastern Time (ET)</option>
               <option value="America/Chicago">Central Time (CT)</option>

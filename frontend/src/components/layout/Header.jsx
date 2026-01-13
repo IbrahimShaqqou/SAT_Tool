@@ -1,5 +1,6 @@
 /**
  * Header component with user menu and mobile hamburger
+ * Supports dark mode
  */
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -34,11 +35,11 @@ const Header = ({ onMenuClick }) => {
   const rolePrefix = user?.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student';
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6">
+    <header className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 lg:px-6">
       {/* Mobile menu button */}
       <button
         onClick={onMenuClick}
-        className="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+        className="lg:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         aria-label="Open menu"
       >
         <Menu className="h-6 w-6" />
@@ -51,10 +52,10 @@ const Header = ({ onMenuClick }) => {
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         >
           <Avatar name={fullName} size="sm" />
-          <span className="text-sm font-medium text-gray-700 hidden sm:block">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">
             {fullName}
           </span>
           <ChevronDown className="h-4 w-4 text-gray-400" />
@@ -62,10 +63,10 @@ const Header = ({ onMenuClick }) => {
 
         {/* Dropdown menu */}
         {isMenuOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-            <div className="px-4 py-2 border-b border-gray-100">
-              <p className="text-sm font-medium text-gray-900">{fullName}</p>
-              <p className="text-xs text-gray-500">{user?.email}</p>
+          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+            <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{fullName}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
             </div>
 
             <button
@@ -73,7 +74,7 @@ const Header = ({ onMenuClick }) => {
                 setIsMenuOpen(false);
                 navigate(`${rolePrefix}/settings`);
               }}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               <Settings className="h-4 w-4" />
               Settings
@@ -84,16 +85,16 @@ const Header = ({ onMenuClick }) => {
                 setIsMenuOpen(false);
                 navigate(`${rolePrefix}/profile`);
               }}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               <User className="h-4 w-4" />
               Profile
             </button>
 
-            <div className="border-t border-gray-100">
+            <div className="border-t border-gray-100 dark:border-gray-700">
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
               >
                 <LogOut className="h-4 w-4" />
                 Sign out

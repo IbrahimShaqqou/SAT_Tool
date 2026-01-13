@@ -2,6 +2,7 @@
  * Main application layout with sidebar and header
  * Used for authenticated pages
  * Responsive: collapsible sidebar on mobile
+ * Supports dark mode
  */
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -14,8 +15,11 @@ const AppLayout = () => {
   const role = user?.role?.toLowerCase() || 'student';
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Tutor gets light gray background, student gets white
-  const bgClass = role === 'tutor' ? 'bg-gray-100' : 'bg-white';
+  // Light mode: Tutor gets light gray background, student gets white
+  // Dark mode: Both get dark background
+  const bgClass = role === 'tutor'
+    ? 'bg-gray-100 dark:bg-gray-900'
+    : 'bg-white dark:bg-gray-900';
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setIsSidebarOpen(false);

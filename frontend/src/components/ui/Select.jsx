@@ -1,5 +1,6 @@
 /**
  * Select dropdown component
+ * Supports dark mode
  */
 import { forwardRef } from 'react';
 import { ChevronDown } from 'lucide-react';
@@ -22,7 +23,7 @@ const Select = forwardRef(({
       {label && (
         <label
           htmlFor={selectId}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -35,13 +36,13 @@ const Select = forwardRef(({
           className={`
             block w-full px-3 py-2 pr-10
             border rounded-lg
-            text-gray-900 bg-white
+            text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800
             appearance-none
             focus:outline-none focus:ring-2 focus:ring-offset-0
             transition-colors
             ${error
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-gray-900 focus:ring-gray-900'
+              ? 'border-red-300 dark:border-red-500 focus:border-red-500 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:border-gray-900 dark:focus:border-gray-400 focus:ring-gray-900 dark:focus:ring-gray-400'
             }
           `}
           aria-invalid={error ? 'true' : 'false'}
@@ -61,14 +62,14 @@ const Select = forwardRef(({
           ))}
         </select>
         <ChevronDown
-          className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none"
+          className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 pointer-events-none"
         />
       </div>
       {hint && !error && (
-        <p className="mt-1 text-sm text-gray-500">{hint}</p>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{hint}</p>
       )}
       {error && (
-        <p className="mt-1 text-sm text-red-600">{error}</p>
+        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
       )}
     </div>
   );

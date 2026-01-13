@@ -1,5 +1,6 @@
 /**
  * Register Page
+ * Supports dark mode
  */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -86,13 +87,13 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 text-center mb-6">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center mb-6">
         Create your account
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {authError && (
-          <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200">
+          <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
             {authError}
           </div>
         )}
@@ -176,9 +177,9 @@ const RegisterPage = () => {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
         Already have an account?{' '}
-        <Link to="/login" className="font-medium text-gray-900 hover:underline">
+        <Link to="/login" className="font-medium text-gray-900 dark:text-gray-100 hover:underline">
           Sign in
         </Link>
       </p>

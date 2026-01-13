@@ -1,6 +1,7 @@
 /**
  * Skill Breakdown Chart
  * Horizontal bar chart showing accuracy by skill
+ * Supports dark mode
  */
 import {
   BarChart,
@@ -12,6 +13,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const getBarColor = (accuracy) => {
   if (accuracy >= 80) return '#059669'; // green
@@ -20,6 +22,8 @@ const getBarColor = (accuracy) => {
 };
 
 const SkillBreakdown = ({ data = [], height = 300 }) => {
+  const { isDarkMode } = useTheme();
+
   // Sample data if none provided
   const chartData = data.length > 0 ? data : [
     { name: 'Linear Equations', accuracy: 85, questions: 45 },
@@ -32,6 +36,13 @@ const SkillBreakdown = ({ data = [], height = 300 }) => {
   // Sort by accuracy ascending (weakest first)
   const sortedData = [...chartData].sort((a, b) => a.accuracy - b.accuracy);
 
+  // Dark mode colors
+  const gridColor = isDarkMode ? '#374151' : '#e5e7eb';
+  const axisColor = isDarkMode ? '#9ca3af' : '#6b7280';
+  const labelColor = isDarkMode ? '#d1d5db' : '#374151';
+  const tooltipBg = isDarkMode ? '#1f2937' : '#fff';
+  const tooltipBorder = isDarkMode ? '#374151' : '#d1d5db';
+
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart
@@ -41,7 +52,7 @@ const SkillBreakdown = ({ data = [], height = 300 }) => {
       >
         <CartesianGrid
           strokeDasharray="none"
-          stroke="#e5e7eb"
+          stroke={gridColor}
           strokeWidth={1}
           horizontal={true}
           vertical={true}
@@ -49,26 +60,27 @@ const SkillBreakdown = ({ data = [], height = 300 }) => {
         <XAxis
           type="number"
           domain={[0, 100]}
-          tick={{ fontSize: 12, fill: '#6b7280' }}
-          tickLine={{ stroke: '#d1d5db' }}
-          axisLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
+          tick={{ fontSize: 12, fill: axisColor }}
+          tickLine={{ stroke: gridColor }}
+          axisLine={{ stroke: axisColor, strokeWidth: 1 }}
           tickFormatter={(value) => `${value}%`}
         />
         <YAxis
           type="category"
           dataKey="name"
-          tick={{ fontSize: 12, fill: '#374151' }}
-          tickLine={{ stroke: '#d1d5db' }}
-          axisLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
+          tick={{ fontSize: 12, fill: labelColor }}
+          tickLine={{ stroke: gridColor }}
+          axisLine={{ stroke: axisColor, strokeWidth: 1 }}
           width={90}
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: '#fff',
-            border: '1px solid #d1d5db',
+            backgroundColor: tooltipBg,
+            border: `1px solid ${tooltipBorder}`,
             borderRadius: '8px',
             fontSize: '14px',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            color: labelColor,
           }}
           formatter={(value, name, props) => [
             `${value}% (${props.payload.questions} questions)`,

@@ -28,6 +28,7 @@ SendGrid integration complete. Password reset emails working.
 
 ## Completed Recently
 
+- [x] **Dark Mode** - Full dark mode support across all pages, components, charts, calculator, and reference sheet. Toggle in Settings.
 - [x] **Email System** - SendGrid integration for password reset emails
 - [x] **Token Refresh** - Auto-refreshes access tokens, users stay logged in for 7 days
 - [x] **Remember Me** - Saves email on login page
@@ -117,7 +118,7 @@ SendGrid integration complete. Password reset emails working.
 
 ### 12. UI Enhancements
 - [ ] Profile picture upload
-- [ ] Dark mode
+- [x] ~~Dark mode~~ DONE
 - [ ] Progress over time charts
 - [ ] Achievements/milestones
 
