@@ -6,7 +6,7 @@ All v1 API routers are exported from here.
 
 from fastapi import APIRouter
 
-from app.api.v1 import auth, questions, taxonomy, practice, progress, assignments, tutor, assess, adaptive
+from app.api.v1 import auth, questions, taxonomy, practice, progress, assignments, tutor, assess, adaptive, lessons
 
 api_router = APIRouter()
 
@@ -19,3 +19,4 @@ api_router.include_router(assignments.router, prefix="/assignments", tags=["Assi
 api_router.include_router(tutor.router, prefix="/tutor", tags=["Tutor Dashboard"])
 api_router.include_router(assess.router, prefix="/assess", tags=["Public Assessment"])
 api_router.include_router(adaptive.router, prefix="/adaptive", tags=["Adaptive Testing"])
+api_router.include_router(lessons.router, prefix="/lessons", tags=["Skill Lessons"])

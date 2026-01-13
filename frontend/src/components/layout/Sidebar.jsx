@@ -15,6 +15,7 @@ import {
   Brain,
   FileText,
   BookOpen,
+  GraduationCap,
 } from 'lucide-react';
 
 const tutorNavItems = [
@@ -30,6 +31,7 @@ const studentNavItems = [
   { to: '/student', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/student/assignments', icon: ClipboardList, label: 'My Assignments' },
   { to: '/student/questions', icon: BookOpen, label: 'Question Bank' },
+  { to: '/student/lessons', icon: GraduationCap, label: 'Skill Lessons' },
   { to: '/student/adaptive', icon: Brain, label: 'Adaptive Practice' },
   { to: '/student/progress', icon: FileText, label: 'My Progress' },
 ];

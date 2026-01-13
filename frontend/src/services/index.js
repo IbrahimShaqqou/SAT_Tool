@@ -13,3 +13,4 @@ export { default as progressService } from './progressService';
 export { default as inviteService } from './inviteService';
 export { default as assessService } from './assessService';
 export { default as adaptiveService } from './adaptiveService';
+export { default as lessonService } from './lessonService';

@@ -29,6 +29,8 @@ import TestPage from './pages/student/TestPage';
 import ResultsPage from './pages/student/ResultsPage';
 import AdaptivePracticePage from './pages/student/AdaptivePracticePage';
 import StudentQuestionBankPage from './pages/student/QuestionBankPage';
+import LessonsPage from './pages/student/LessonsPage';
+import LessonViewerPage from './pages/student/LessonViewerPage';
 
 // Public Assessment
 import { AssessmentPage, IntakeResultsPage } from './pages/assess';
@@ -109,6 +111,8 @@ function App() {
         <Route path="/student/test/:id" element={<TestPage />} />
         <Route path="/student/results/:id" element={<ResultsPage />} />
         <Route path="/student/adaptive" element={<AdaptivePracticePage />} />
+        <Route path="/student/lessons" element={<LessonsPage />} />
+        <Route path="/student/lessons/:lessonId" element={<LessonViewerPage />} />
         <Route path="/student/progress" element={<ProgressPage />} />
         <Route path="/student/profile" element={<ProfilePage />} />
         <Route path="/student/settings" element={<SettingsPage />} />
