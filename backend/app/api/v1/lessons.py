@@ -71,7 +71,7 @@ def get_math_lessons(
     """
     # Get all math domains
     domains = db.query(Domain).filter(
-        Domain.subject_area == SubjectArea.math,
+        Domain.subject_area == SubjectArea.MATH,
         Domain.is_active == True
     ).order_by(Domain.display_order).all()
 
@@ -131,7 +131,7 @@ def get_reading_lessons(
     """
     # Get all reading domains
     domains = db.query(Domain).filter(
-        Domain.subject_area == SubjectArea.reading_writing,
+        Domain.subject_area == SubjectArea.READING_WRITING,
         Domain.is_active == True
     ).order_by(Domain.display_order).all()
 
