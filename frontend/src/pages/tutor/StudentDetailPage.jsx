@@ -142,7 +142,7 @@ const StudentDetailPage = () => {
   const [chartData, setChartData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [partialErrors, setPartialErrors] = useState({});
+  const [, setPartialErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {

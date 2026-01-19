@@ -2,7 +2,7 @@
  * Adaptive Practice Page - IRT-Based Intelligent Practice
  * Features real-time ability tracking and adaptive question selection
  */
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Brain,
@@ -20,7 +20,7 @@ import {
   Badge,
   LoadingSpinner,
 } from '../../components/ui';
-import { QuestionDisplay, AnswerChoices, DesmosCalculator, ReferenceSheet } from '../../components/test';
+import { AnswerChoices, DesmosCalculator, ReferenceSheet } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
 
 // Skill Selection Component
@@ -178,7 +178,7 @@ const AdaptivePracticePage = () => {
   const [session, setSession] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [currentAbility, setCurrentAbility] = useState(null);
-  const [previousAbility, setPreviousAbility] = useState(null);
+  const [, setPreviousAbility] = useState(null);
 
   // Setup state
   const [skills, setSkills] = useState([]);

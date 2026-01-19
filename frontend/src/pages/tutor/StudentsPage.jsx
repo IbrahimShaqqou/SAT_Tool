@@ -1,7 +1,7 @@
 /**
  * Tutor Students List Page
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Users, UserPlus } from 'lucide-react';
 import { Card, Button, Table, Avatar, Badge, EmptyState, LoadingSpinner, Modal, Input } from '../../components/ui';
@@ -23,7 +23,7 @@ const StudentsPage = () => {
   const [addError, setAddError] = useState('');
   const toast = useToast();
 
-  const fetchStudents = async () => {
+  const fetchStudents = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await tutorService.getStudents({
@@ -35,11 +35,11 @@ const StudentsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [debouncedSearch]);
 
   useEffect(() => {
     fetchStudents();
-  }, [debouncedSearch]);
+  }, [fetchStudents]);
 
   const handleAddStudent = async (e) => {
     e.preventDefault();

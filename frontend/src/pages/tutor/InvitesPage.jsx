@@ -4,7 +4,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Copy, Link as LinkIcon, Plus, Trash2, ExternalLink, X, Check, Eye, User, BarChart3 } from 'lucide-react';
+import { Copy, Link as LinkIcon, Plus, Trash2, ExternalLink, X, Check, User, BarChart3 } from 'lucide-react';
 import { Card, Button, Input, Select, Modal, Badge, LoadingSpinner, Table, ProgressBar } from '../../components/ui';
 import { inviteService } from '../../services';
 

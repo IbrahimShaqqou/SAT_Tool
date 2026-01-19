@@ -17,7 +17,7 @@ import {
   PlayCircle,
   GraduationCap,
 } from 'lucide-react';
-import { Card, Button, Badge, LoadingSpinner, EmptyState } from '../../components/ui';
+import { Button, Badge, LoadingSpinner, EmptyState } from '../../components/ui';
 import { lessonService } from '../../services';
 
 // Domain color mapping for visual appeal
