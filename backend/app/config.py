@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     refresh_token_expire_days: int = 7
 
     # CORS
-    allowed_origins: str = "http://localhost:3000,http://localhost:8000"
+    allowed_origins: str = "http://localhost:3000,http://localhost:3001,http://localhost:8000"
 
     # Frontend URL (for password reset emails, etc.)
     frontend_url: str = "http://localhost:3000"

@@ -79,7 +79,7 @@ class LessonDetail(BaseModel):
     title: str
     subtitle: Optional[str]
     status: str
-    content: Optional[LessonContent]
+    content: Optional[Dict[str, Any]] = None  # Flexible JSON content
     estimated_minutes: int
     difficulty_level: str
     icon: Optional[str]

@@ -4,32 +4,66 @@
  * Supports rich content with sections, examples, tips, and more
  */
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   Clock,
   CheckCircle2,
   Lightbulb,
   AlertTriangle,
-  BookOpen,
-  Target,
-  ChevronRight,
-  ChevronLeft,
-  Zap,
-  Brain,
   Play,
 } from 'lucide-react';
 import { Button, LoadingSpinner, Badge } from '../../components/ui';
 import { lessonService } from '../../services';
+import 'katex/dist/katex.min.css';
+import katex from 'katex';
 
-// Section type icons and colors
-const sectionConfig = {
-  text: { icon: BookOpen, color: 'gray' },
-  example: { icon: Target, color: 'blue' },
-  tip: { icon: Lightbulb, color: 'yellow' },
-  warning: { icon: AlertTriangle, color: 'red' },
-  formula: { icon: Zap, color: 'purple' },
-  concept: { icon: Brain, color: 'indigo' },
+/**
+ * Parse simple markdown to HTML
+ * Supports: **bold**, *italic*, $math$, $$display math$$
+ */
+const parseMarkdown = (text) => {
+  if (!text) return '';
+
+  let html = text;
+
+  // Escape HTML
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  // Display math $$...$$
+  html = html.replace(/\$\$(.*?)\$\$/g, (match, math) => {
+    try {
+      return katex.renderToString(math, { displayMode: true, throwOnError: false });
+    } catch (e) {
+      return match;
+    }
+  });
+
+  // Inline math $...$
+  html = html.replace(/\$([^$]+)\$/g, (match, math) => {
+    try {
+      return katex.renderToString(math, { displayMode: false, throwOnError: false });
+    } catch (e) {
+      return match;
+    }
+  });
+
+  // Bold **text**
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+  // Italic *text*
+  html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+  // Line breaks
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br/>');
+
+  // Wrap in paragraph if not already
+  if (!html.startsWith('<')) {
+    html = `<p>${html}</p>`;
+  }
+
+  return html;
 };
 
 const LessonViewerPage = () => {
@@ -41,7 +75,6 @@ const LessonViewerPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCompleting, setIsCompleting] = useState(false);
-  const [currentSection, setCurrentSection] = useState(0);
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -102,9 +135,9 @@ const LessonViewerPage = () => {
 
   const content = lesson.content || {};
   const sections = content.sections || [];
-  const examples = content.examples || [];
-  const keyTakeaways = content.key_takeaways || [];
+  const keyTakeaways = content.key_takeaways || content.key_concepts || [];
   const commonMistakes = content.common_mistakes || [];
+  const satTips = content.sat_tips || [];
 
   return (
     <div className="max-w-4xl mx-auto pb-24">
@@ -157,39 +190,12 @@ const LessonViewerPage = () => {
         </div>
       </div>
 
-      {/* Introduction */}
-      {content.introduction && (
-        <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-100 dark:border-blue-800">
-          <div
-            className="prose prose-blue dark:prose-invert max-w-none text-gray-700 dark:text-gray-300"
-            dangerouslySetInnerHTML={{ __html: content.introduction }}
-          />
-        </div>
-      )}
-
       {/* Main Content Sections */}
-      {sections.length > 0 && (
-        <div className="space-y-6 mb-8">
-          {sections.map((section, index) => (
-            <LessonSection key={index} section={section} />
-          ))}
-        </div>
-      )}
-
-      {/* Worked Examples */}
-      {examples.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-            <Target className="h-5 w-5 text-blue-500" />
-            Worked Examples
-          </h2>
-          <div className="space-y-6">
-            {examples.map((example, index) => (
-              <ExampleCard key={index} example={example} index={index + 1} />
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="space-y-6 mb-8">
+        {sections.map((section, index) => (
+          <LessonSection key={section.id || index} section={section} />
+        ))}
+      </div>
 
       {/* Key Takeaways */}
       {keyTakeaways.length > 0 && (
@@ -204,7 +210,10 @@ const LessonViewerPage = () => {
                 <span className="flex-shrink-0 w-6 h-6 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center text-sm font-bold text-green-800 dark:text-green-200">
                   {index + 1}
                 </span>
-                <span className="text-green-900 dark:text-green-100">{takeaway}</span>
+                <span
+                  className="text-green-900 dark:text-green-100"
+                  dangerouslySetInnerHTML={{ __html: parseMarkdown(takeaway) }}
+                />
               </li>
             ))}
           </ul>
@@ -224,24 +233,36 @@ const LessonViewerPage = () => {
                 <span className="flex-shrink-0 w-6 h-6 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center text-sm font-bold text-red-800 dark:text-red-200">
                   ✗
                 </span>
-                <span className="text-red-900 dark:text-red-100">{mistake}</span>
+                <span
+                  className="text-red-900 dark:text-red-100"
+                  dangerouslySetInnerHTML={{ __html: parseMarkdown(mistake) }}
+                />
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* Practice Tips */}
-      {content.practice_tips && (
-        <div className="mb-8 p-6 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl border border-yellow-200 dark:border-yellow-800">
-          <h2 className="text-lg font-bold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
+      {/* SAT Tips */}
+      {satTips.length > 0 && (
+        <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-200 dark:border-blue-800">
+          <h2 className="text-lg font-bold text-blue-800 dark:text-blue-300 mb-4 flex items-center gap-2">
             <Lightbulb className="h-5 w-5" />
-            Practice Tips
+            SAT Tips
           </h2>
-          <div
-            className="prose prose-yellow dark:prose-invert max-w-none text-yellow-900 dark:text-yellow-100"
-            dangerouslySetInnerHTML={{ __html: content.practice_tips }}
-          />
+          <ul className="space-y-3">
+            {satTips.map((tip, index) => (
+              <li key={index} className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center text-sm font-bold text-blue-800 dark:text-blue-200">
+                  💡
+                </span>
+                <span
+                  className="text-blue-900 dark:text-blue-100"
+                  dangerouslySetInnerHTML={{ __html: parseMarkdown(tip) }}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
@@ -281,136 +302,329 @@ const LessonViewerPage = () => {
   );
 };
 
-// Section Component
+/**
+ * Render a lesson section based on its type
+ */
 const LessonSection = ({ section }) => {
-  const config = sectionConfig[section.type] || sectionConfig.text;
-  const Icon = config.icon;
+  const type = section.type;
 
-  const colorClasses = {
-    gray: 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700',
-    blue: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800',
-    yellow: 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800',
-    red: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800',
-    purple: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800',
-    indigo: 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800',
-  };
-
-  const iconColors = {
-    gray: 'text-gray-500',
-    blue: 'text-blue-500',
-    yellow: 'text-yellow-500',
-    red: 'text-red-500',
-    purple: 'text-purple-500',
-    indigo: 'text-indigo-500',
-  };
-
-  // Plain text sections don't need special styling
-  if (section.type === 'text' && !section.title) {
+  // Tip - blue box with icon
+  if (type === 'tip') {
     return (
-      <div
-        className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300"
-        dangerouslySetInnerHTML={{ __html: section.content }}
-      />
+      <div className="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-l-4 border-blue-500">
+        <div className="flex items-start gap-3">
+          <Lightbulb className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+          <div>
+            {section.title && (
+              <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
+                {section.title}
+              </h3>
+            )}
+            <div
+              className="text-blue-900 dark:text-blue-100"
+              dangerouslySetInnerHTML={{ __html: parseMarkdown(section.content) }}
+            />
+          </div>
+        </div>
+      </div>
     );
   }
 
+  // Warning - red/orange box with icon
+  if (type === 'warning') {
+    return (
+      <div className="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl border-l-4 border-amber-500">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+          <div>
+            {section.title && (
+              <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-1">
+                {section.title}
+              </h3>
+            )}
+            <div
+              className="text-amber-900 dark:text-amber-100"
+              dangerouslySetInnerHTML={{ __html: parseMarkdown(section.content) }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Image - with border
+  if (type === 'image') {
+    return (
+      <div className="my-6">
+        {section.title && (
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            {section.title}
+          </h3>
+        )}
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800">
+          <img
+            src={section.url}
+            alt={section.alt || section.title || 'Lesson illustration'}
+            className="w-full h-auto"
+          />
+          {section.caption && (
+            <p className="text-center text-sm text-gray-600 dark:text-gray-400 py-3 px-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+              {section.caption}
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Math display - centered equations
+  if (type === 'math-display') {
+    return (
+      <div className="my-6">
+        {section.title && (
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            {section.title}
+          </h3>
+        )}
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 text-center">
+          {section.equations && section.equations.map((eq, i) => (
+            <div
+              key={i}
+              className="my-2 text-xl"
+              dangerouslySetInnerHTML={{
+                __html: katex.renderToString(eq, { displayMode: true, throwOnError: false })
+              }}
+            />
+          ))}
+          {section.caption && (
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-3">
+              {section.caption}
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Comparison table
+  if (type === 'comparison-table') {
+    return (
+      <div className="my-6 overflow-x-auto">
+        {section.title && (
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            {section.title}
+          </h3>
+        )}
+        <table className="w-full border-collapse rounded-xl overflow-hidden">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-gray-800">
+              {section.headers?.map((header, i) => (
+                <th key={i} className="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {section.rows?.map((row, i) => (
+              <tr key={i} className="bg-white dark:bg-gray-900">
+                {row.map((cell, j) => (
+                  <td
+                    key={j}
+                    className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700"
+                    dangerouslySetInnerHTML={{ __html: parseMarkdown(cell) }}
+                  />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // Worked example
+  if (type === 'worked-example') {
+    return <WorkedExample section={section} />;
+  }
+
+  // Divider/section header
+  if (type === 'divider') {
+    return (
+      <div className="my-8 pt-6 border-t-2 border-gray-200 dark:border-gray-700">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          {section.title}
+        </h2>
+      </div>
+    );
+  }
+
+  // Summary section
+  if (type === 'summary') {
+    return (
+      <div className="my-6 p-6 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
+        <h3 className="text-lg font-semibold text-green-800 dark:text-green-300 mb-4">
+          {section.title}
+        </h3>
+        <ul className="space-y-2">
+          {section.items?.map((item, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <span
+                className="text-green-900 dark:text-green-100"
+                dangerouslySetInnerHTML={{ __html: parseMarkdown(item) }}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  // Practice prompt
+  if (type === 'practice-prompt') {
+    return (
+      <div className="my-6 p-6 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
+        <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-2">
+          {section.title}
+        </h3>
+        <div
+          className="text-purple-900 dark:text-purple-100"
+          dangerouslySetInnerHTML={{ __html: parseMarkdown(section.content) }}
+        />
+      </div>
+    );
+  }
+
+  // Default: concept or regular text - NO border, just flowing content
   return (
-    <div className={`p-6 rounded-2xl border ${colorClasses[config.color]}`}>
+    <div className="my-4">
       {section.title && (
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
-          <Icon className={`h-5 w-5 ${iconColors[config.color]}`} />
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
           {section.title}
         </h3>
       )}
       <div
-        className="prose dark:prose-invert max-w-none"
-        dangerouslySetInnerHTML={{ __html: section.content }}
+        className="text-gray-700 dark:text-gray-300 leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: parseMarkdown(section.content) }}
       />
-      {section.image_url && (
-        <div className="mt-4">
-          <img
-            src={section.image_url}
-            alt={section.image_caption || 'Lesson illustration'}
-            className="rounded-lg max-w-full h-auto mx-auto"
-          />
-          {section.image_caption && (
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
-              {section.image_caption}
-            </p>
-          )}
-        </div>
-      )}
     </div>
   );
 };
 
-// Example Card Component
-const ExampleCard = ({ example, index }) => {
+/**
+ * Worked Example Component with collapsible solution
+ */
+const WorkedExample = ({ section }) => {
   const [showSolution, setShowSolution] = useState(false);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
-      {/* Problem Header */}
-      <div className="px-6 py-4 bg-gradient-to-r from-blue-500 to-indigo-500">
-        <h3 className="text-white font-semibold flex items-center gap-2">
-          <span className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center text-sm">
-            {index}
-          </span>
-          {example.title}
+    <div className="my-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      {/* Header */}
+      <div className="px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-500">
+        <h3 className="text-white font-semibold">
+          {section.title}
         </h3>
+        {section.source && (
+          <span className="text-blue-100 text-sm">{section.source}</span>
+        )}
       </div>
 
       {/* Problem */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-5">
         <div
-          className="prose dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: example.problem }}
+          className="text-gray-800 dark:text-gray-200"
+          dangerouslySetInnerHTML={{ __html: parseMarkdown(section.problem) }}
         />
       </div>
 
       {/* Solution Toggle */}
-      <div className="p-4 bg-gray-50 dark:bg-gray-800/50">
+      <div className="px-5 py-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
         <button
           onClick={() => setShowSolution(!showSolution)}
           className="w-full flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:underline"
         >
           {showSolution ? 'Hide Solution' : 'Show Solution'}
-          <ChevronRight className={`h-4 w-4 transition-transform ${showSolution ? 'rotate-90' : ''}`} />
         </button>
       </div>
 
       {/* Solution */}
       {showSolution && (
-        <div className="p-6 bg-blue-50 dark:bg-blue-900/20 border-t border-blue-100 dark:border-blue-800">
-          {/* Step by step if available */}
-          {example.steps && example.steps.length > 0 && (
-            <div className="mb-6">
-              <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-3">Step-by-Step:</h4>
-              <ol className="space-y-2">
-                {example.steps.map((step, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center text-sm font-bold text-blue-800 dark:text-blue-200">
-                      {i + 1}
+        <div className="p-5 bg-blue-50 dark:bg-blue-900/20 border-t border-blue-200 dark:border-blue-800">
+          {/* Steps */}
+          {section.steps && section.steps.length > 0 && (
+            <div className="mb-4">
+              <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-3">Solution:</h4>
+              <div className="space-y-4">
+                {section.steps.map((step, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-7 h-7 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center text-sm font-bold text-blue-800 dark:text-blue-200">
+                      {step.step || i + 1}
                     </span>
-                    <span className="text-blue-900 dark:text-blue-100">{step}</span>
-                  </li>
+                    <div className="flex-1">
+                      <p className="text-blue-900 dark:text-blue-100 mb-1">{step.description}</p>
+                      {step.math && (
+                        <div
+                          className="text-lg"
+                          dangerouslySetInnerHTML={{
+                            __html: katex.renderToString(step.math, { displayMode: true, throwOnError: false })
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 ))}
-              </ol>
+              </div>
             </div>
           )}
 
-          {/* Full explanation */}
-          <div
-            className="prose prose-blue dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: example.solution }}
-          />
+          {/* Answer */}
+          {section.answer && (
+            <div className="mt-4 p-4 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <span className="font-semibold text-green-800 dark:text-green-300">Answer: </span>
+              <span
+                className="text-green-900 dark:text-green-100"
+                dangerouslySetInnerHTML={{ __html: parseMarkdown(section.answer) }}
+              />
+            </div>
+          )}
 
           {/* Tip */}
-          {example.tip && (
-            <div className="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg border border-yellow-200 dark:border-yellow-800">
+          {section.tip && (
+            <div className="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg border-l-4 border-yellow-500">
               <div className="flex items-start gap-2">
                 <Lightbulb className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
-                <p className="text-yellow-800 dark:text-yellow-200 text-sm">{example.tip}</p>
+                <p className="text-yellow-800 dark:text-yellow-200">{section.tip}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Multiple choice options */}
+          {section.options && (
+            <div className="mt-4">
+              <h5 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">Answer Choices:</h5>
+              <div className="space-y-2">
+                {section.options.map((opt, i) => (
+                  <div
+                    key={i}
+                    className={`p-3 rounded-lg ${
+                      opt.correct
+                        ? 'bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700'
+                        : 'bg-gray-100 dark:bg-gray-700'
+                    }`}
+                  >
+                    <span
+                      className={opt.correct ? 'text-green-800 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}
+                      dangerouslySetInnerHTML={{ __html: parseMarkdown(opt.text) }}
+                    />
+                    {opt.correct && <span className="ml-2 text-green-600">✓ Correct</span>}
+                    {opt.explanation && !opt.correct && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Why not: {opt.explanation}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           )}
