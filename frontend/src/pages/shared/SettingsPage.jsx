@@ -10,7 +10,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const SettingsPage = () => {
-  const { user } = useAuth();
+  useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [settings, setSettings] = useState({
     emailNotifications: true,

@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import { Card, Button, Badge, LoadingSpinner } from '../../components/ui';
 import {
-  TestHeader,
   QuestionNav,
   QuestionDisplay,
   AnswerChoices,
@@ -30,7 +29,7 @@ const subjectIcons = {
   reading_writing: Book,
 };
 
-const QuestionBankPage = ({ userRole = 'student' }) => {
+const QuestionBankPage = () => {
   // Navigation state
   const [view, setView] = useState('domains'); // 'domains' or 'practice'
   const [selectedDomain, setSelectedDomain] = useState(null);

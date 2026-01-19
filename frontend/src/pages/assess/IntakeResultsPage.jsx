@@ -26,7 +26,6 @@ import assessService from '../../services/assessService';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import QuestionDisplay from '../../components/test/QuestionDisplay';
 
 // Letter labels for MCQ choices
 const CHOICE_LABELS = ['A', 'B', 'C', 'D'];
@@ -110,7 +109,7 @@ export default function IntakeResultsPage() {
     return null;
   }
 
-  const { overall, section_abilities, domain_abilities, priority_areas, predicted_composite } = results;
+  const { section_abilities, domain_abilities, priority_areas, predicted_composite } = results;
   const { questions, score_percentage, questions_correct, total_questions, time_spent_seconds } = review;
 
   // Group questions by correctness for summary

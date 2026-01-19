@@ -4,7 +4,7 @@
  * Requires student account (login or register)
  */
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CheckCircle, AlertCircle, User, UserPlus } from 'lucide-react';
 import { Card, Button, Input, LoadingSpinner } from '../../components/ui';
 import {
@@ -51,7 +51,6 @@ const getErrorMessage = (err, fallback = 'An error occurred') => {
 
 const AssessmentPage = () => {
   const { token } = useParams();
-  const navigate = useNavigate();
   const { user, login, register } = useAuth();
 
   // State management
