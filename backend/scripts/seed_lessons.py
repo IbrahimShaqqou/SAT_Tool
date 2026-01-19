@@ -14,7 +14,7 @@ from app.models import Lesson, Skill
 # Embedded lesson data
 LESSONS = [
     {
-        "skill_id": 30,
+        "skill_id": 1,  # H.D. - Systems of two linear equations
         "title": "Systems of Two Linear Equations",
         "subtitle": "Master solving systems using substitution, elimination, and Desmos",
         "estimated_minutes": 20,
