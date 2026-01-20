@@ -28,6 +28,30 @@ from app.schemas.lesson import (
 router = APIRouter()
 
 
+def get_lesson_without_completion(lesson: Lesson) -> dict:
+    """Helper to get lesson data without completion status (for public access)"""
+    return {
+        "id": lesson.id,
+        "skill_id": lesson.skill_id,
+        "skill_name": lesson.skill.name if lesson.skill else None,
+        "skill_code": lesson.skill.code if lesson.skill else None,
+        "domain_id": lesson.domain_id,
+        "domain_name": lesson.domain.name if lesson.domain else None,
+        "domain_code": lesson.domain.code if lesson.domain else None,
+        "title": lesson.title,
+        "subtitle": lesson.subtitle,
+        "status": lesson.status,
+        "estimated_minutes": lesson.estimated_minutes,
+        "difficulty_level": lesson.difficulty_level,
+        "icon": lesson.icon,
+        "color": lesson.color,
+        "cover_image_url": lesson.cover_image_url,
+        "display_order": lesson.display_order,
+        "is_completed": False,
+        "completion_percent": 0,
+    }
+
+
 def get_lesson_with_completion(lesson: Lesson, student_id: UUID, db: Session) -> dict:
     """Helper to add completion status to lesson data"""
     completion = db.query(LessonCompletion).filter(
@@ -58,6 +82,152 @@ def get_lesson_with_completion(lesson: Lesson, student_id: UUID, db: Session) ->
         "completion_percent": completion.progress_percent if completion else 0,
     }
 
+
+# =============================================================================
+# PUBLIC ENDPOINTS (No authentication required)
+# =============================================================================
+
+@router.get("/public/math", response_model=LessonsResponse)
+def get_public_math_lessons(
+    db: Session = Depends(get_db),
+) -> dict:
+    """
+    Get all math lessons grouped by domain (public access, no completion tracking).
+    """
+    domains = db.query(Domain).filter(
+        Domain.subject_area == SubjectArea.MATH,
+        Domain.is_active == True
+    ).order_by(Domain.display_order).all()
+
+    result_domains = []
+    total_lessons = 0
+
+    for domain in domains:
+        lessons = db.query(Lesson).options(
+            joinedload(Lesson.skill),
+            joinedload(Lesson.domain)
+        ).filter(
+            Lesson.domain_id == domain.id,
+            Lesson.is_active == True
+        ).order_by(Lesson.display_order).all()
+
+        lesson_items = [get_lesson_without_completion(lesson) for lesson in lessons]
+
+        result_domains.append({
+            "domain_id": domain.id,
+            "domain_code": domain.code,
+            "domain_name": domain.name,
+            "subject_area": "math",
+            "lessons": lesson_items,
+            "total_lessons": len(lessons),
+            "completed_lessons": 0,
+        })
+
+        total_lessons += len(lessons)
+
+    return {
+        "subject_area": "math",
+        "domains": result_domains,
+        "total_lessons": total_lessons,
+        "completed_lessons": 0,
+    }
+
+
+@router.get("/public/reading", response_model=LessonsResponse)
+def get_public_reading_lessons(
+    db: Session = Depends(get_db),
+) -> dict:
+    """
+    Get all reading/writing lessons grouped by domain (public access, no completion tracking).
+    """
+    domains = db.query(Domain).filter(
+        Domain.subject_area == SubjectArea.READING_WRITING,
+        Domain.is_active == True
+    ).order_by(Domain.display_order).all()
+
+    result_domains = []
+    total_lessons = 0
+
+    for domain in domains:
+        lessons = db.query(Lesson).options(
+            joinedload(Lesson.skill),
+            joinedload(Lesson.domain)
+        ).filter(
+            Lesson.domain_id == domain.id,
+            Lesson.is_active == True
+        ).order_by(Lesson.display_order).all()
+
+        lesson_items = [get_lesson_without_completion(lesson) for lesson in lessons]
+
+        result_domains.append({
+            "domain_id": domain.id,
+            "domain_code": domain.code,
+            "domain_name": domain.name,
+            "subject_area": "reading_writing",
+            "lessons": lesson_items,
+            "total_lessons": len(lessons),
+            "completed_lessons": 0,
+        })
+
+        total_lessons += len(lessons)
+
+    return {
+        "subject_area": "reading_writing",
+        "domains": result_domains,
+        "total_lessons": total_lessons,
+        "completed_lessons": 0,
+    }
+
+
+@router.get("/public/{lesson_id}", response_model=LessonDetail)
+def get_public_lesson(
+    lesson_id: UUID,
+    db: Session = Depends(get_db),
+) -> dict:
+    """
+    Get a specific lesson by ID (public access, no completion tracking).
+    """
+    lesson = db.query(Lesson).options(
+        joinedload(Lesson.skill),
+        joinedload(Lesson.domain)
+    ).filter(
+        Lesson.id == lesson_id,
+        Lesson.is_active == True
+    ).first()
+
+    if not lesson:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Lesson not found"
+        )
+
+    return {
+        "id": lesson.id,
+        "skill_id": lesson.skill_id,
+        "skill_name": lesson.skill.name if lesson.skill else None,
+        "skill_code": lesson.skill.code if lesson.skill else None,
+        "domain_id": lesson.domain_id,
+        "domain_name": lesson.domain.name if lesson.domain else None,
+        "domain_code": lesson.domain.code if lesson.domain else None,
+        "title": lesson.title,
+        "subtitle": lesson.subtitle,
+        "status": lesson.status,
+        "content": lesson.content_json,
+        "estimated_minutes": lesson.estimated_minutes,
+        "difficulty_level": lesson.difficulty_level,
+        "icon": lesson.icon,
+        "color": lesson.color,
+        "cover_image_url": lesson.cover_image_url,
+        "is_completed": False,
+        "completion_percent": 0,
+        "created_at": lesson.created_at,
+        "updated_at": lesson.updated_at,
+    }
+
+
+# =============================================================================
+# AUTHENTICATED ENDPOINTS (Require login)
+# =============================================================================
 
 @router.get("/math", response_model=LessonsResponse)
 def get_math_lessons(

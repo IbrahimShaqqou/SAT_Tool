@@ -67,9 +67,10 @@ const LessonsPage = ({ isPublic = false }) => {
     const fetchLessons = async () => {
       setIsLoading(true);
       try {
+        // Use public endpoints if isPublic, otherwise use authenticated endpoints
         const [mathRes, readingRes] = await Promise.all([
-          lessonService.getMathLessons(),
-          lessonService.getReadingLessons(),
+          isPublic ? lessonService.getPublicMathLessons() : lessonService.getMathLessons(),
+          isPublic ? lessonService.getPublicReadingLessons() : lessonService.getReadingLessons(),
         ]);
         setMathLessons(mathRes.data);
         setReadingLessons(readingRes.data);
@@ -82,7 +83,7 @@ const LessonsPage = ({ isPublic = false }) => {
     };
 
     fetchLessons();
-  }, []);
+  }, [isPublic]);
 
   const handleTabChange = (tab) => {
     setSearchParams({ subject: tab });

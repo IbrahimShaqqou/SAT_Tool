@@ -6,13 +6,37 @@
 import api from './api';
 
 const lessonService = {
+  // ==========================================================================
+  // PUBLIC ENDPOINTS (no auth required)
+  // ==========================================================================
+
   /**
-   * Get all math lessons grouped by domain
+   * Get all math lessons grouped by domain (public, no completion tracking)
+   */
+  getPublicMathLessons: () => api.get('/lessons/public/math'),
+
+  /**
+   * Get all reading/writing lessons grouped by domain (public, no completion tracking)
+   */
+  getPublicReadingLessons: () => api.get('/lessons/public/reading'),
+
+  /**
+   * Get lesson by lesson ID (public, no completion tracking)
+   * @param {string} lessonId - The lesson UUID
+   */
+  getPublicLesson: (lessonId) => api.get(`/lessons/public/${lessonId}`),
+
+  // ==========================================================================
+  // AUTHENTICATED ENDPOINTS (require login, track completion)
+  // ==========================================================================
+
+  /**
+   * Get all math lessons grouped by domain (with completion tracking)
    */
   getMathLessons: () => api.get('/lessons/math'),
 
   /**
-   * Get all reading/writing lessons grouped by domain
+   * Get all reading/writing lessons grouped by domain (with completion tracking)
    */
   getReadingLessons: () => api.get('/lessons/reading'),
 
@@ -23,7 +47,7 @@ const lessonService = {
   getLessonBySkill: (skillId) => api.get(`/lessons/skill/${skillId}`),
 
   /**
-   * Get lesson by lesson ID
+   * Get lesson by lesson ID (with completion tracking)
    * @param {string} lessonId - The lesson UUID
    */
   getLesson: (lessonId) => api.get(`/lessons/${lessonId}`),

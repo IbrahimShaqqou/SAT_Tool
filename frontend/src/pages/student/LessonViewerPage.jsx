@@ -104,7 +104,10 @@ const LessonViewerPage = ({ isPublic = false }) => {
     const fetchLesson = async () => {
       setIsLoading(true);
       try {
-        const response = await lessonService.getLesson(lessonId);
+        // Use public endpoint if isPublic, otherwise use authenticated endpoint
+        const response = isPublic
+          ? await lessonService.getPublicLesson(lessonId)
+          : await lessonService.getLesson(lessonId);
         setLesson(response.data);
       } catch (err) {
         console.error('Failed to fetch lesson:', err);
@@ -116,7 +119,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
 
     fetchLesson();
     startTimeRef.current = Date.now();
-  }, [lessonId]);
+  }, [lessonId, isPublic]);
 
   const handleComplete = async () => {
     setIsCompleting(true);
