@@ -4,7 +4,7 @@
  * Supports rich content with sections, examples, tips, and more
  */
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
   Clock,
@@ -85,15 +85,20 @@ const parseMarkdown = (text) => {
   return html;
 };
 
-const LessonViewerPage = () => {
+const LessonViewerPage = ({ isPublic = false }) => {
   const { lessonId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const startTimeRef = useRef(Date.now());
 
   const [lesson, setLesson] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCompleting, setIsCompleting] = useState(false);
+
+  // Determine the base path based on context (tutor, student, or public)
+  const isTutorRoute = location.pathname.startsWith('/tutor');
+  const lessonsPath = isPublic ? '/lessons' : isTutorRoute ? '/tutor/lessons' : '/student/lessons';
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -130,7 +135,12 @@ const LessonViewerPage = () => {
   };
 
   const handlePractice = () => {
-    navigate('/student/adaptive', { state: { focusSkill: lesson?.skill_name } });
+    // Tutors go to question bank, students go to adaptive practice
+    if (isTutorRoute) {
+      navigate('/tutor/questions');
+    } else {
+      navigate('/student/adaptive', { state: { focusSkill: lesson?.skill_name } });
+    }
   };
 
   if (isLoading) {
@@ -164,7 +174,7 @@ const LessonViewerPage = () => {
       {/* Header */}
       <div className="mb-8">
         <button
-          onClick={() => navigate('/student/lessons')}
+          onClick={() => navigate(lessonsPath)}
           className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -236,14 +246,15 @@ const LessonViewerPage = () => {
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
           <Button
             variant="secondary"
-            onClick={() => navigate('/student/lessons')}
+            onClick={() => navigate(lessonsPath)}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             All Lessons
           </Button>
 
           <div className="flex items-center gap-3">
-            {!lesson.is_completed && (
+            {/* Only show Mark Complete for authenticated users */}
+            {!isPublic && !lesson.is_completed && (
               <Button
                 variant="primary"
                 onClick={handleComplete}
@@ -253,13 +264,24 @@ const LessonViewerPage = () => {
                 Mark as Complete
               </Button>
             )}
-            <Button
-              variant={lesson.is_completed ? 'primary' : 'secondary'}
-              onClick={handlePractice}
-            >
-              <Play className="h-4 w-4 mr-2" />
-              Practice This Skill
-            </Button>
+            {/* Practice button - redirect to login for public users */}
+            {isPublic ? (
+              <Button
+                variant="primary"
+                onClick={() => navigate('/login')}
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Log In to Practice
+              </Button>
+            ) : (
+              <Button
+                variant={lesson.is_completed ? 'primary' : 'secondary'}
+                onClick={handlePractice}
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Practice This Skill
+              </Button>
+            )}
           </div>
         </div>
       </div>

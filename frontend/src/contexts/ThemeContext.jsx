@@ -18,14 +18,14 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  // Initialize from localStorage or system preference
+  // Initialize from localStorage, default to light mode
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const stored = localStorage.getItem('darkMode');
     if (stored !== null) {
       return stored === 'true';
     }
-    // Check system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Default to light mode
+    return false;
   });
 
   // Apply dark class to html element
@@ -38,20 +38,6 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem('darkMode', isDarkMode.toString());
   }, [isDarkMode]);
 
-  // Listen for system preference changes
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e) => {
-      // Only apply system preference if user hasn't set a preference
-      const stored = localStorage.getItem('darkMode');
-      if (stored === null) {
-        setIsDarkMode(e.matches);
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
 
   const toggleDarkMode = useCallback(() => {
     setIsDarkMode((prev) => !prev);

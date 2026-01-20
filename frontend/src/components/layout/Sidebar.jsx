@@ -23,6 +23,7 @@ const tutorNavItems = [
   { to: '/tutor/students', icon: Users, label: 'Students' },
   { to: '/tutor/assignments', icon: ClipboardList, label: 'Assignments' },
   { to: '/tutor/questions', icon: BookOpen, label: 'Question Bank' },
+  { to: '/tutor/lessons', icon: GraduationCap, label: 'Skill Lessons' },
   { to: '/tutor/analytics', icon: BarChart3, label: 'Analytics' },
   { to: '/tutor/invites', icon: LinkIcon, label: 'Invite Links' },
 ];

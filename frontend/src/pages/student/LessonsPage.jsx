@@ -4,7 +4,7 @@
  * Beautiful visual design with progress tracking
  */
 import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import {
   BookOpen,
   Clock,
@@ -48,8 +48,9 @@ const domainIcons = {
   SEC: GraduationCap,
 };
 
-const LessonsPage = () => {
+const LessonsPage = ({ isPublic = false }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('subject') || 'math';
 
@@ -57,6 +58,10 @@ const LessonsPage = () => {
   const [readingLessons, setReadingLessons] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Determine the base path based on context (tutor, student, or public)
+  const isTutorRoute = location.pathname.startsWith('/tutor');
+  const basePath = isPublic ? '/lessons' : isTutorRoute ? '/tutor/lessons' : '/student/lessons';
 
   useEffect(() => {
     const fetchLessons = async () => {
@@ -85,7 +90,7 @@ const LessonsPage = () => {
 
   const handleLessonClick = (lesson) => {
     if (lesson.status === 'published') {
-      navigate(`/student/lessons/${lesson.id}`);
+      navigate(`${basePath}/${lesson.id}`);
     }
   };
 
