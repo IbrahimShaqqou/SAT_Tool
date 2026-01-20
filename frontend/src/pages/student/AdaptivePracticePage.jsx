@@ -23,6 +23,24 @@ import {
 import { AnswerChoices, DesmosCalculator, ReferenceSheet } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
 
+/**
+ * Check if passage content is already contained in the prompt (to avoid duplicates)
+ * Strips HTML and compares first 50 chars of text content
+ */
+const isPassageInPrompt = (passageHtml, promptHtml) => {
+  if (!passageHtml || !promptHtml) return false;
+
+  // Strip HTML tags and get plain text
+  const stripHtml = (html) => html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+
+  const passageText = stripHtml(passageHtml);
+  const promptText = stripHtml(promptHtml);
+
+  // Check if significant portion of passage appears in prompt (first 50 chars)
+  const passageStart = passageText.substring(0, 50);
+  return passageStart.length > 10 && promptText.includes(passageStart);
+};
+
 // Skill Selection Component
 const SkillSelector = ({ skills, selectedSkills, onToggle, onSelectAll, onClearAll }) => {
   const [expandedDomains, setExpandedDomains] = useState(new Set());
@@ -632,9 +650,10 @@ const AdaptivePracticePage = () => {
               </div>
 
               {/* Passage (if any) - only show if prompt doesn't already contain the same content */}
-              {/* Skip showing passage if prompt already has a table (avoids duplicate tables) */}
+              {/* Skip if: prompt has table, or passage text is already in prompt (reading questions) */}
               {currentQuestion.passage_html &&
-               !currentQuestion.prompt_html?.includes('<table') && (
+               !currentQuestion.prompt_html?.includes('<table') &&
+               !isPassageInPrompt(currentQuestion.passage_html, currentQuestion.prompt_html) && (
                 <div className="px-6 py-4 bg-gray-50 border-b">
                   <div
                     className="prose prose-sm max-w-none text-gray-600 question-content"

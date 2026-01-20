@@ -424,6 +424,9 @@ const TestPage = () => {
     );
   }
 
+  // Check if assignment is overdue
+  const isOverdue = assignment.due_date && new Date(assignment.due_date) < new Date();
+
   // Start screen
   if (assignment.status === 'pending') {
     return (
@@ -434,18 +437,55 @@ const TestPage = () => {
             <p className="text-gray-500 mt-2">{assignment.instructions}</p>
           )}
           <div className="mt-6 space-y-2 text-sm text-gray-600">
-            <p>{assignment.total_questions} questions</p>
+            <p>{assignment.total_questions ? `${assignment.total_questions} questions` : 'Unlimited questions'}</p>
             {assignment.time_limit_minutes && (
-              <p>Time limit: {assignment.time_limit_minutes} minutes</p>
+              <p className="flex items-center justify-center gap-1">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Time limit: {assignment.time_limit_minutes} minutes
+              </p>
+            )}
+            {assignment.due_date && (
+              <p className={`flex items-center justify-center gap-1 ${isOverdue ? 'text-red-600 font-medium' : ''}`}>
+                {isOverdue ? (
+                  <>
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Overdue - was due {new Date(assignment.due_date).toLocaleDateString()}
+                  </>
+                ) : (
+                  <>Due: {new Date(assignment.due_date).toLocaleDateString()}</>
+                )}
+              </p>
             )}
           </div>
-          <Button
-            variant="primary"
-            className="mt-6 w-full"
-            onClick={handleStartAssignment}
-          >
-            Start Assessment
-          </Button>
+
+          {isOverdue ? (
+            <div className="mt-6 space-y-3">
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-700">
+                  This assignment is past its due date and can no longer be started.
+                </p>
+              </div>
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={() => navigate('/student/assignments')}
+              >
+                Back to Assignments
+              </Button>
+            </div>
+          ) : (
+            <Button
+              variant="primary"
+              className="mt-6 w-full"
+              onClick={handleStartAssignment}
+            >
+              Start Assessment
+            </Button>
+          )}
         </Card>
       </div>
     );
