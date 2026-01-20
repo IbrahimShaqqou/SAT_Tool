@@ -14,7 +14,7 @@ from app.models import Lesson, Skill
 # Embedded lesson data
 LESSONS = [
     {
-        "skill_id": 1,  # H.D. - Systems of two linear equations
+        "skill_code": "H.D.",  # Systems of two linear equations
         "title": "Systems of Two Linear Equations",
         "subtitle": "Master solving systems using substitution, elimination, and Desmos",
         "estimated_minutes": 20,
@@ -25,7 +25,7 @@ LESSONS = [
                     "id": "intro",
                     "type": "text",
                     "title": "What is a System of Linear Equations?",
-                    "content": "A **system of linear equations** is a set of two or more linear equations that share the same variables. On the SAT, you'll typically work with systems of **two equations** with **two variables** (usually $x$ and $y$).\n\nFor example:\n$$2x + 3y = 12$$\n$$x - y = 1$$\n\nThe **solution** to a system is the set of values that makes **ALL** equations true at the same time. For two equations with two variables, the solution is an ordered pair $(x, y)$."
+                    "content": "A **system of linear equations** is a set of two or more linear equations that share the same variables. On the SAT, you'll typically work with systems of **two equations** with **two variables** (usually $x$ and $y$).\n\nFor example:\n$$\\begin{aligned}2x + 3y &= 12 \\\\ x - y &= 1\\end{aligned}$$\n\nThe **solution** to a system is the set of values that makes **ALL** equations true at the same time. For two equations with two variables, the solution is an ordered pair $(x, y)$."
                 },
                 {
                     "id": "graph-meaning",
@@ -34,18 +34,18 @@ LESSONS = [
                     "content": "Each linear equation represents a **line** on a graph. The solution to the system is the **point where the two lines intersect** - the coordinates that lie on both lines.\n\nWhen you graph a system, you can literally see where the solution is!"
                 },
                 {
+                    "id": "three-cases-intro",
+                    "type": "text",
+                    "title": "Three Possible Outcomes",
+                    "content": "When you solve a system of two linear equations, there are exactly **three possible outcomes**. The key is understanding how many times the lines intersect:"
+                },
+                {
                     "id": "one-solution-image",
                     "type": "image",
                     "title": "One Solution: Lines Intersect",
                     "url": "/lessons/systems-intersection.png",
                     "alt": "Graph showing two lines intersecting at point (3, 2)",
-                    "caption": "The lines cross at exactly one point (3, 2). This point satisfies BOTH equations."
-                },
-                {
-                    "id": "three-cases-intro",
-                    "type": "text",
-                    "title": "Three Possible Outcomes",
-                    "content": "When you solve a system of two linear equations, there are exactly **three possible outcomes**. The key is understanding how many times the lines intersect:"
+                    "caption": "Lines cross at exactly one point. This point satisfies BOTH equations."
                 },
                 {
                     "id": "case-1",
@@ -58,7 +58,7 @@ LESSONS = [
                     "title": "No Solution: Parallel Lines",
                     "url": "/lessons/systems-no-solution.png",
                     "alt": "Graph showing two parallel lines that never intersect",
-                    "caption": "These lines have the SAME slope but DIFFERENT y-intercepts. They never cross, so there's no solution."
+                    "caption": "Same slope, different y-intercepts. They never cross."
                 },
                 {
                     "id": "case-2",
@@ -69,9 +69,14 @@ LESSONS = [
                     "id": "infinite-solution-image",
                     "type": "image",
                     "title": "Infinite Solutions: Same Line",
-                    "url": "/lessons/systems-infinite-solutions.png",
+                    "url": "/lessons/sytstems-infinite-solutions.png",
                     "alt": "Graph showing two lines that are exactly the same",
-                    "caption": "Both equations represent the SAME line! Every point on the line is a solution."
+                    "caption": "Both equations represent the SAME line! Every point is a solution."
+                },
+                {
+                    "id": "case-3",
+                    "type": "text",
+                    "content": "**3. Infinite Solutions** - Both equations represent the **same line** (one equation is just a multiple of the other). Every point on the line satisfies both equations."
                 },
                 {
                     "id": "infinite-tip",
@@ -79,9 +84,12 @@ LESSONS = [
                     "content": "In Desmos, when two lines have infinite solutions, they overlap completely. Click the colored circle next to one equation to hide it - you'll see the other line is in the exact same spot!"
                 },
                 {
-                    "id": "case-3",
-                    "type": "text",
-                    "content": "**3. Infinite Solutions** - Both equations represent the **same line** (one equation is just a multiple of the other). Every point on the line satisfies both equations."
+                    "id": "infinite-line-off-image",
+                    "type": "image",
+                    "title": "Hiding One Line Reveals They're Identical",
+                    "url": "/lessons/systems-infinite-solutions-line-off.png",
+                    "alt": "Graph showing one line hidden to reveal they overlap",
+                    "caption": "With one equation hidden, you can see the lines are identical."
                 },
                 {
                     "id": "desmos-section",
@@ -152,18 +160,18 @@ LESSONS = [
                     "type": "worked-example",
                     "title": "Word Problem Example",
                     "source": "SAT Practice Question",
-                    "problem": "A petting zoo sells two types of tickets. The **standard ticket**, for admission only, costs **$5**. The **premium ticket**, which includes admission and food, costs **$12**. One Saturday, the petting zoo sold a total of **250 tickets** and collected **$2,300** from ticket sales.\n\nWhich system of equations can find the number of standard tickets ($s$) and premium tickets ($p$)?",
+                    "problem": "A petting zoo sells two types of tickets. The **standard ticket**, for admission only, costs **5 dollars**. The **premium ticket**, which includes admission and food, costs **12 dollars**. One Saturday, the petting zoo sold a total of **250 tickets** and collected **2,300 dollars** from ticket sales.\n\nWhich system of equations can find the number of standard tickets ($s$) and premium tickets ($p$)?",
                     "steps": [
                         {"step": 1, "description": "Define variables: s = standard tickets, p = premium tickets"},
                         {"step": 2, "description": "First equation: Total tickets sold", "math": "s + p = 250"},
-                        {"step": 3, "description": "Second equation: Total revenue (price × quantity for each type)", "math": "5s + 12p = 2300"}
+                        {"step": 3, "description": "Second equation: Total revenue (price times quantity for each type)", "math": "5s + 12p = 2300"}
                     ],
                     "answer": "The system is: $s + p = 250$ and $5s + 12p = 2300$",
                     "options": [
-                        {"text": "$s + p = 250$ and $5s + 12p = 2300$", "correct": True},
-                        {"text": "$s + p = 250$ and $12s + 5p = 2300$", "correct": False, "explanation": "Coefficients are swapped - $5 goes with standard, $12 with premium"},
-                        {"text": "$5s + 12p = 250$ and $s + p = 2300$", "correct": False, "explanation": "Equations are swapped - ticket count doesn't involve prices"},
-                        {"text": "$12s + 5p = 250$ and $s + p = 2300$", "correct": False, "explanation": "Both equations have errors"}
+                        {"text": "$s + p = 250$  AND  $5s + 12p = 2300$", "correct": True},
+                        {"text": "$s + p = 250$  AND  $12s + 5p = 2300$", "correct": False, "explanation": "Coefficients are swapped - 5 goes with standard, 12 with premium"},
+                        {"text": "$5s + 12p = 250$  AND  $s + p = 2300$", "correct": False, "explanation": "Equations are swapped - ticket count doesn't involve prices"},
+                        {"text": "$12s + 5p = 250$  AND  $s + p = 2300$", "correct": False, "explanation": "Both equations have errors"}
                     ]
                 },
                 {
@@ -200,7 +208,7 @@ LESSONS = [
                     "id": "infinite-explain",
                     "type": "text",
                     "title": "Infinite Solutions Questions",
-                    "content": "When a problem says the system has **infinitely many solutions**, both equations represent the same line.\n\n**What to look for:** One equation is a **multiple** of the other.\n\nFor example, $2x + 4y = 10$ and $x + 2y = 5$ are the same line (the first is just 2× the second)."
+                    "content": "When a problem says the system has **infinitely many solutions**, both equations represent the same line.\n\n**What to look for:** One equation is a **multiple** of the other.\n\nFor example, $2x + 4y = 10$ and $x + 2y = 5$ are the same line (the first is just 2 times the second)."
                 },
                 {
                     "id": "summary",
@@ -219,7 +227,7 @@ LESSONS = [
                     "id": "common-mistakes",
                     "type": "warning",
                     "title": "Common Mistakes",
-                    "content": "• Forgetting to distribute negative signs when subtracting equations\n• Mixing up coefficients in word problems (which number goes with which variable?)\n• Confusing \"no solution\" with \"infinite solutions\" - both involve same slopes!\n• Not checking your answer in BOTH equations"
+                    "content": "- Forgetting to distribute negative signs when subtracting equations\n- Mixing up coefficients in word problems (which number goes with which variable?)\n- Confusing \"no solution\" with \"infinite solutions\" - both involve same slopes!\n- Not checking your answer in BOTH equations"
                 }
             ],
             "sat_tips": [
@@ -235,14 +243,15 @@ LESSONS = [
 
 def seed_lesson(db: Session, data: dict) -> bool:
     """Seed a single lesson into the database."""
-    skill_id = data["skill_id"]
+    skill_code = data["skill_code"]
 
-    skill = db.query(Skill).filter(Skill.id == skill_id).first()
+    # Look up skill by code instead of ID
+    skill = db.query(Skill).filter(Skill.code == skill_code).first()
     if not skill:
-        print(f"  Skill {skill_id} not found, skipping")
+        print(f"  Skill '{skill_code}' not found, skipping")
         return False
 
-    existing = db.query(Lesson).filter(Lesson.skill_id == skill_id).first()
+    existing = db.query(Lesson).filter(Lesson.skill_id == skill.id).first()
     if existing:
         existing.title = data["title"]
         existing.subtitle = data["subtitle"]
@@ -251,10 +260,10 @@ def seed_lesson(db: Session, data: dict) -> bool:
         existing.difficulty_level = data["difficulty_level"]
         existing.status = "published"
         existing.is_active = True
-        print(f"  Updated: {data['title']}")
+        print(f"  Updated: {data['title']} (skill_id={skill.id})")
     else:
         lesson = Lesson(
-            skill_id=skill_id,
+            skill_id=skill.id,
             domain_id=skill.domain_id,
             title=data["title"],
             subtitle=data["subtitle"],
@@ -263,10 +272,10 @@ def seed_lesson(db: Session, data: dict) -> bool:
             difficulty_level=data["difficulty_level"],
             status="published",
             is_active=True,
-            display_order=skill_id,
+            display_order=skill.id,
         )
         db.add(lesson)
-        print(f"  Created: {data['title']}")
+        print(f"  Created: {data['title']} (skill_id={skill.id})")
 
     return True
 
