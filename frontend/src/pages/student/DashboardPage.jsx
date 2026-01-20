@@ -203,7 +203,7 @@ const StudentDashboard = () => {
                   <Button
                     variant="primary"
                     size="sm"
-                    onClick={() => navigate('/student/adaptive', { state: { focusSkill: skill.skill_name } })}
+                    onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
                     className="ml-4 flex-shrink-0"
                   >
                     Practice

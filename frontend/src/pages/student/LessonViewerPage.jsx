@@ -141,8 +141,12 @@ const LessonViewerPage = ({ isPublic = false }) => {
     // Tutors go to question bank, students go to adaptive practice
     if (isTutorRoute) {
       navigate('/tutor/questions');
+    } else if (lesson?.skill_id) {
+      // Direct start infinite practice for this skill
+      navigate(`/student/adaptive?skill=${lesson.skill_id}&autostart=true`);
     } else {
-      navigate('/student/adaptive', { state: { focusSkill: lesson?.skill_name } });
+      // Fallback to setup page if no skill ID
+      navigate('/student/adaptive');
     }
   };
 

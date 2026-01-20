@@ -19,7 +19,7 @@ class AssignmentCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
     instructions: Optional[str] = None
     subject: SubjectArea
-    question_count: int = Field(10, ge=1, le=50)
+    question_count: Optional[int] = Field(10, ge=1, le=100, description="None for unlimited (adaptive only)")
     domain_id: Optional[int] = None
     skill_id: Optional[int] = None
     skill_ids: Optional[List[int]] = Field(None, description="Multiple skills for adaptive assignments")
@@ -47,7 +47,7 @@ class AssignmentBrief(BaseModel):
     student_name: str
     tutor_id: UUID
     tutor_name: str
-    total_questions: int
+    total_questions: Optional[int] = None  # None for unlimited adaptive
     questions_answered: int = 0
     score_percentage: Optional[float] = None
     due_date: Optional[datetime] = None
@@ -84,7 +84,7 @@ class AssignmentDetail(BaseModel):
     student_name: str
     tutor_id: UUID
     tutor_name: str
-    total_questions: int
+    total_questions: Optional[int] = None  # None for unlimited adaptive
     questions_answered: int = 0
     questions_correct: int = 0
     current_question_index: int = 0
@@ -132,7 +132,7 @@ class AssignmentComplete(BaseModel):
     status: AssignmentStatus
     score_percentage: float
     questions_correct: int
-    total_questions: int
+    total_questions: int  # For completed assignments, use questions_answered as total
     target_score: Optional[int] = None
     passed: bool
 
@@ -156,6 +156,6 @@ class AssignmentQuestionsResponse(BaseModel):
     assignment_id: UUID
     title: str
     status: AssignmentStatus
-    total_questions: int
+    total_questions: Optional[int] = None  # None for unlimited adaptive
     time_limit_minutes: Optional[int] = None
     questions: List[AssignmentQuestionItem]

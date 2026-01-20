@@ -3,7 +3,7 @@
  * Features real-time ability tracking and adaptive question selection
  */
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Brain,
   Target,
@@ -171,7 +171,12 @@ const SessionResults = ({ results, onClose, onNewSession }) => {
 
 const AdaptivePracticePage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const contentRef = useRef(null);
+
+  // URL params for auto-starting with a specific skill
+  const autoStartSkillId = searchParams.get('skill');
+  const shouldAutoStart = searchParams.get('autostart') === 'true';
 
   // Session states
   const [phase, setPhase] = useState('setup'); // setup, practicing, completed
@@ -183,7 +188,7 @@ const AdaptivePracticePage = () => {
   // Setup state
   const [skills, setSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [questionCount, setQuestionCount] = useState(10);
+  // No longer using questionCount for student self-practice (infinite by default)
 
   // Practice state
   const [answer, setAnswer] = useState(null);
@@ -205,6 +210,9 @@ const AdaptivePracticePage = () => {
 
   // Time tracking
   const [questionStartTime, setQuestionStartTime] = useState(null);
+
+  // Track if auto-start has been attempted
+  const [autoStartAttempted, setAutoStartAttempted] = useState(false);
 
   // Load skills on mount
   useEffect(() => {
@@ -229,6 +237,61 @@ const AdaptivePracticePage = () => {
     fetchSkills();
   }, []);
 
+  // Auto-start session if skill param is provided
+  useEffect(() => {
+    const autoStartSession = async () => {
+      if (!shouldAutoStart || !autoStartSkillId || autoStartAttempted || skills.length === 0) {
+        return;
+      }
+
+      setAutoStartAttempted(true);
+      const skillId = parseInt(autoStartSkillId, 10);
+
+      // Verify skill exists
+      const skillExists = skills.some(s => s.id === skillId);
+      if (!skillExists) {
+        setError(`Skill with ID ${skillId} not found`);
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // Create and start adaptive session for this skill
+        const createRes = await adaptiveService.createSession({
+          skill_ids: [skillId],
+          question_count: null, // Infinite practice
+        });
+
+        const sessionData = createRes.data;
+        setSession(sessionData);
+        setCurrentAbility(sessionData.current_ability);
+        setSelectedSkills([skillId]);
+
+        // Start the session
+        const startRes = await adaptiveService.startSession(sessionData.id);
+        const startedSession = startRes.data;
+
+        setSession(startedSession);
+        setCurrentQuestion(startedSession.current_question);
+        setCurrentAbility(startedSession.current_ability);
+        setPhase('practicing');
+        setQuestionsAnswered(0);
+        setCorrectCount(0);
+        setQuestionStartTime(Date.now());
+      } catch (err) {
+        console.error('Failed to auto-start session:', err);
+        const message = err.response?.data?.detail || err.message || 'Failed to start practice session';
+        setError(typeof message === 'string' ? message : JSON.stringify(message));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    autoStartSession();
+  }, [shouldAutoStart, autoStartSkillId, skills, autoStartAttempted]);
+
   // Trigger MathJax when question changes
   useEffect(() => {
     if (contentRef.current && window.MathJax?.typesetPromise) {
@@ -247,10 +310,10 @@ const AdaptivePracticePage = () => {
     setError(null);
 
     try {
-      // Create adaptive session
+      // Create adaptive session (infinite by default - no question_count)
       const createRes = await adaptiveService.createSession({
         skill_ids: selectedSkills,
-        question_count: questionCount,
+        question_count: null, // Infinite practice
       });
 
       const sessionData = createRes.data;
@@ -328,6 +391,20 @@ const AdaptivePracticePage = () => {
     setLastResult(null);
     setShowExplanation(false);
     setQuestionStartTime(Date.now()); // Reset timer for new question
+  };
+
+  // End practice session manually (for infinite mode)
+  const handleEndPractice = async () => {
+    if (!session) return;
+
+    try {
+      const completeRes = await adaptiveService.completeSession(session.id);
+      setSessionResults(completeRes.data);
+      setPhase('completed');
+    } catch (err) {
+      console.error('Failed to end session:', err);
+      setError('Failed to end practice session');
+    }
   };
 
   // Skill toggle
@@ -434,36 +511,6 @@ const AdaptivePracticePage = () => {
           </Card.Content>
         </Card>
 
-        <Card>
-          <Card.Header>
-            <Card.Title>Session Settings</Card.Title>
-          </Card.Header>
-          <Card.Content>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Number of Questions
-                </label>
-                <div className="flex gap-2">
-                  {[5, 10, 15, 20].map(count => (
-                    <button
-                      key={count}
-                      onClick={() => setQuestionCount(count)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                        questionCount === count
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      {count}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Card.Content>
-        </Card>
-
         <Button
           variant="primary"
           onClick={handleStartSession}
@@ -506,7 +553,7 @@ const AdaptivePracticePage = () => {
           <button
             onClick={() => {
               if (window.confirm('Are you sure you want to exit? Progress will be saved.')) {
-                navigate('/student');
+                handleEndPractice();
               }
             }}
             className="p-2 hover:bg-gray-100 rounded-lg"
@@ -516,13 +563,26 @@ const AdaptivePracticePage = () => {
           <div>
             <h1 className="font-semibold text-gray-900">Adaptive Practice</h1>
             <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span>{questionsAnswered + 1} / {session?.total_questions || questionCount}</span>
+              <span>Question {questionsAnswered + 1}</span>
               <span className="text-gray-300">|</span>
               <span className="text-green-600">{correctCount} correct</span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {/* End Practice button */}
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => {
+              if (window.confirm('End practice and see your results?')) {
+                handleEndPractice();
+              }
+            }}
+            className="text-red-600 border-red-200 hover:bg-red-50"
+          >
+            End Practice
+          </Button>
           {/* Reference Sheet Toggle - only for math questions */}
           {currentQuestion?.domain?.name?.toLowerCase().includes('math') ||
            currentQuestion?.skill?.domain?.name?.toLowerCase().includes('math') ||
@@ -656,8 +716,12 @@ const AdaptivePracticePage = () => {
         {/* Progress indicator */}
         <div className="flex items-center justify-center py-2 border-b border-gray-100">
           <span className="text-sm text-gray-600">
-            Question <span className="font-semibold">{questionsAnswered + 1}</span> of{' '}
-            <span className="font-semibold">{session?.total_questions || questionCount}</span>
+            Question <span className="font-semibold">{questionsAnswered + 1}</span>
+            {session?.total_questions ? (
+              <> of <span className="font-semibold">{session.total_questions}</span></>
+            ) : (
+              <span className="ml-1 text-gray-400">(unlimited)</span>
+            )}
             {lastResult?.session_complete && (
               <span className="ml-2 text-green-600 font-medium">• Practice Complete!</span>
             )}

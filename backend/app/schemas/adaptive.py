@@ -52,7 +52,7 @@ class AbilityProfile(BaseModel):
 class AdaptiveSessionCreate(BaseModel):
     """Request to create an adaptive practice session."""
     skill_ids: List[int] = Field(..., min_length=1, description="Skills to practice")
-    question_count: int = Field(10, ge=5, le=50, description="Target question count")
+    question_count: Optional[int] = Field(None, ge=1, le=100, description="Target question count (None for infinite)")
     time_limit_minutes: Optional[int] = Field(None, ge=5, le=180)
 
 
@@ -74,7 +74,7 @@ class AdaptiveSessionDetail(BaseModel):
     id: UUID
     status: str
     skill_ids: List[int]
-    total_questions: int
+    total_questions: Optional[int] = None  # None means infinite
     questions_answered: int
     current_ability: AbilityEstimate
     time_limit_minutes: Optional[int] = None
@@ -99,7 +99,7 @@ class AdaptiveAnswerResult(BaseModel):
     ability_change: float = Field(..., description="Change in theta")
     next_question: Optional[AdaptiveQuestionInfo] = None
     session_complete: bool = False
-    questions_remaining: int = 0
+    questions_remaining: Optional[int] = None  # None for infinite sessions
 
 
 class AdaptiveSessionComplete(BaseModel):

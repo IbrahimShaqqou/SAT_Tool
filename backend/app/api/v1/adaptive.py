@@ -369,17 +369,18 @@ def create_adaptive_session(
 
     current_theta = sum(abilities) / len(abilities) if abilities else PRIOR_MEAN
 
-    # Create session
+    # Create session (question_count can be None for infinite sessions)
     session = TestSession(
         student_id=current_user.id,
         test_type=TestType.ADAPTIVE,
         status=TestStatus.NOT_STARTED,
-        total_questions=session_data.question_count,
+        total_questions=session_data.question_count,  # None = infinite
         time_limit_minutes=session_data.time_limit_minutes,
         question_config={
             "skill_ids": session_data.skill_ids,
             "adaptive": True,
             "initial_theta": current_theta,
+            "is_infinite": session_data.question_count is None,
         },
     )
     db.add(session)
@@ -390,7 +391,7 @@ def create_adaptive_session(
         id=session.id,
         status=session.status.value,
         skill_ids=session_data.skill_ids,
-        total_questions=session.total_questions,
+        total_questions=session.total_questions,  # None for infinite
         questions_answered=0,
         current_ability=_make_ability_estimate(current_theta, PRIOR_SD),
         time_limit_minutes=session.time_limit_minutes,
@@ -435,6 +436,8 @@ def start_adaptive_session(
     initial_theta = session.question_config.get("initial_theta", PRIOR_MEAN)
 
     # Get available questions with cross-session memory (no repeats)
+    # For infinite sessions (total_questions=None), use a large value for selection purposes
+    effective_total = session.total_questions if session.total_questions else 999
     first_question, pool_health = select_adaptive_question_with_memory(
         db=db,
         student_id=current_user.id,
@@ -442,7 +445,7 @@ def start_adaptive_session(
         skill_ids=skill_ids,
         session_answered_ids=set(),
         session_questions_answered=0,
-        session_total_questions=session.total_questions,
+        session_total_questions=effective_total,
     )
 
     # Store pool health in session for tutor visibility
@@ -584,9 +587,11 @@ def submit_adaptive_answer(
             "is_correct": is_correct,
         })
         # Pass session length and accuracy for responsive updates
+        # For infinite sessions, use current answered count as effective length
+        session_length_for_update = session.total_questions or session.questions_answered
         theta_after, se_after = update_skill_ability(
             db, current_user.id, skill_id, responses,
-            session_length=session.total_questions,
+            session_length=session_length_for_update,
             session_correct=session.questions_correct,
             session_total=session.questions_answered
         )
@@ -603,9 +608,16 @@ def submit_adaptive_answer(
     )
 
     # Determine if session is complete
-    session_complete = session.questions_answered >= session.total_questions
+    # For infinite sessions (total_questions=None), never auto-complete
+    is_infinite = session.total_questions is None
+    session_complete = (
+        not is_infinite and session.questions_answered >= session.total_questions
+    )
     next_question_info = None
-    questions_remaining = session.total_questions - session.questions_answered
+    questions_remaining = (
+        None if is_infinite
+        else session.total_questions - session.questions_answered
+    )
 
     if not session_complete:
         # Get already answered question IDs in this session
@@ -617,6 +629,8 @@ def submit_adaptive_answer(
         }
 
         # Select next question with cross-session memory and progressive challenge
+        # For infinite sessions, use a large value for selection purposes
+        effective_total = session.total_questions if session.total_questions else 999
         next_question, pool_health = select_adaptive_question_with_memory(
             db=db,
             student_id=current_user.id,
@@ -624,7 +638,7 @@ def submit_adaptive_answer(
             skill_ids=skill_ids,
             session_answered_ids=session_answered_ids,
             session_questions_answered=session.questions_answered,
-            session_total_questions=session.total_questions,
+            session_total_questions=effective_total,
         )
 
         if next_question:

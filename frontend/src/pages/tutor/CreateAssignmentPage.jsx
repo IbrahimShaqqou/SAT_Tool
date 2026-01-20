@@ -22,6 +22,7 @@ const CreateAssignmentPage = () => {
     domain_id: '',
     skill_id: '',
     question_count: 10,
+    unlimited_questions: true, // Default to unlimited for adaptive
     time_limit_minutes: '',
     due_date: '',
     is_adaptive: false,
@@ -76,8 +77,12 @@ const CreateAssignmentPage = () => {
     const newErrors = {};
     if (!formData.student_id) newErrors.student_id = 'Please select a student';
     if (!formData.title.trim()) newErrors.title = 'Title is required';
-    if (!formData.question_count || formData.question_count < 1) {
-      newErrors.question_count = 'At least 1 question required';
+    // For adaptive with unlimited, no question count validation needed
+    // For non-adaptive or adaptive with set count, require at least 1 question
+    if (!formData.is_adaptive || !formData.unlimited_questions) {
+      if (!formData.question_count || formData.question_count < 1) {
+        newErrors.question_count = 'At least 1 question required';
+      }
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -101,15 +106,22 @@ const CreateAssignmentPage = () => {
 
     setIsLoading(true);
     try {
+      // For adaptive with unlimited, send null for question_count
+      const questionCount = formData.is_adaptive && formData.unlimited_questions
+        ? null
+        : parseInt(formData.question_count);
+
       const payload = {
         ...formData,
         domain_id: formData.domain_id ? parseInt(formData.domain_id) : null,
         skill_id: formData.skill_id ? parseInt(formData.skill_id) : null,
-        question_count: parseInt(formData.question_count),
+        question_count: questionCount,
         time_limit_minutes: formData.time_limit_minutes ? parseInt(formData.time_limit_minutes) : null,
         due_date: formData.due_date || null,
         is_adaptive: formData.is_adaptive,
       };
+      // Remove unlimited_questions from payload as backend doesn't expect it
+      delete payload.unlimited_questions;
       await assignmentService.createAssignment(payload);
       navigate('/tutor/assignments');
     } catch (error) {
@@ -197,28 +209,45 @@ const CreateAssignmentPage = () => {
               options={subjectOptions}
             />
 
-            <Input
-              label="Number of Questions"
-              name="question_count"
-              type="number"
-              min="1"
-              max="50"
-              value={formData.question_count}
-              onChange={handleChange}
-              error={errors.question_count}
-            />
+            {/* Hide question count when adaptive with unlimited is selected */}
+            {(!formData.is_adaptive || !formData.unlimited_questions) && (
+              <Input
+                label="Number of Questions"
+                name="question_count"
+                type="number"
+                min="1"
+                max="100"
+                value={formData.question_count}
+                onChange={handleChange}
+                error={errors.question_count}
+              />
+            )}
+
+            {/* Show unlimited indicator when in unlimited mode */}
+            {formData.is_adaptive && formData.unlimited_questions && (
+              <div className="flex flex-col">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Number of Questions
+                </label>
+                <div className="h-10 flex items-center px-3 bg-purple-100 border border-purple-200 rounded-lg text-purple-700 text-sm">
+                  Unlimited - student ends when ready
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Adaptive Mode Toggle */}
           <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+            className={`p-4 rounded-lg border-2 transition-all ${
               formData.is_adaptive
                 ? 'border-purple-500 bg-purple-50'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
-            onClick={() => setFormData(prev => ({ ...prev, is_adaptive: !prev.is_adaptive }))}
           >
-            <div className="flex items-center justify-between">
+            <div
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => setFormData(prev => ({ ...prev, is_adaptive: !prev.is_adaptive }))}
+            >
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-lg ${formData.is_adaptive ? 'bg-purple-500' : 'bg-gray-200'}`}>
                   <Brain className={`h-5 w-5 ${formData.is_adaptive ? 'text-white' : 'text-gray-500'}`} />
@@ -239,10 +268,34 @@ const CreateAssignmentPage = () => {
               </div>
             </div>
             {formData.is_adaptive && (
-              <div className="mt-3 pt-3 border-t border-purple-200">
+              <div className="mt-3 pt-3 border-t border-purple-200 space-y-3">
                 <div className="flex items-center gap-2 text-sm text-purple-700">
                   <Zap className="h-4 w-4" />
                   <span>Each question will be chosen to optimally challenge the student</span>
+                </div>
+
+                {/* Unlimited/Fixed questions toggle for adaptive */}
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="question_mode"
+                      checked={formData.unlimited_questions}
+                      onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: true }))}
+                      className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+                    />
+                    <span className="text-sm text-gray-700">Unlimited (student ends when ready)</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="question_mode"
+                      checked={!formData.unlimited_questions}
+                      onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: false }))}
+                      className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+                    />
+                    <span className="text-sm text-gray-700">Set question count</span>
+                  </label>
                 </div>
               </div>
             )}
