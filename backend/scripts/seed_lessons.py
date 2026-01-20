@@ -135,14 +135,16 @@ LESSONS = [
                     "type": "worked-example",
                     "title": "Elimination Example",
                     "source": "SAT Practice Question",
-                    "problem": "$$2a + 8b = 198$$\n$$2a + 4b = 98$$\n\nWhat is the value of $b$?",
+                    "problem": "$$\\begin{aligned}2x + 8y &= 198 \\\\ 2x + 4y &= 98\\end{aligned}$$\n\nWhat is the value of $y$?",
+                    "desmos_equations": ["2x + 8y = 198", "2x + 4y = 98"],
+                    "desmos_bounds": {"left": -10, "right": 60, "bottom": -10, "top": 35},
                     "steps": [
-                        {"step": 1, "description": "Notice both equations have 2a. Subtract the second from the first to eliminate a", "math": "(2a + 8b) - (2a + 4b) = 198 - 98"},
-                        {"step": 2, "description": "Simplify", "math": "4b = 100"},
-                        {"step": 3, "description": "Solve for b", "math": "b = 25"}
+                        {"step": 1, "description": "Notice both equations have 2x. Subtract the second from the first to eliminate x", "math": "(2x + 8y) - (2x + 4y) = 198 - 98"},
+                        {"step": 2, "description": "Simplify", "math": "4y = 100"},
+                        {"step": 3, "description": "Solve for y", "math": "y = 25"}
                     ],
-                    "answer": "$b = 25$",
-                    "tip": "When coefficients already match, subtraction eliminates the variable immediately - no multiplication needed!"
+                    "answer": "$y = 25$",
+                    "tip": "When coefficients already match, subtraction eliminates the variable immediately - no multiplication needed! Note: We changed $a$ and $b$ to $x$ and $y$ so Desmos can graph these equations."
                 },
                 {
                     "id": "word-problems-section",
@@ -168,10 +170,10 @@ LESSONS = [
                     ],
                     "answer": "The system is: $s + p = 250$ and $5s + 12p = 2300$",
                     "options": [
-                        {"text": "$s + p = 250$  AND  $5s + 12p = 2300$", "correct": True},
-                        {"text": "$s + p = 250$  AND  $12s + 5p = 2300$", "correct": False, "explanation": "Coefficients are swapped - 5 goes with standard, 12 with premium"},
-                        {"text": "$5s + 12p = 250$  AND  $s + p = 2300$", "correct": False, "explanation": "Equations are swapped - ticket count doesn't involve prices"},
-                        {"text": "$12s + 5p = 250$  AND  $s + p = 2300$", "correct": False, "explanation": "Both equations have errors"}
+                        {"text": "$$\\begin{aligned}s + p &= 250 \\\\ 5s + 12p &= 2300\\end{aligned}$$", "correct": True},
+                        {"text": "$$\\begin{aligned}s + p &= 250 \\\\ 12s + 5p &= 2300\\end{aligned}$$", "correct": False, "explanation": "Coefficients are swapped - 5 goes with standard, 12 with premium"},
+                        {"text": "$$\\begin{aligned}5s + 12p &= 250 \\\\ s + p &= 2300\\end{aligned}$$", "correct": False, "explanation": "Equations are swapped - ticket count doesn't involve prices"},
+                        {"text": "$$\\begin{aligned}12s + 5p &= 250 \\\\ s + p &= 2300\\end{aligned}$$", "correct": False, "explanation": "Both equations have errors"}
                     ]
                 },
                 {
@@ -191,12 +193,14 @@ LESSONS = [
                     "title": "No Solution Example",
                     "source": "SAT Practice Question",
                     "problem": "$$y = 6x + 18$$\n\nThe system has **no solution**. Which could be the second equation?",
+                    "desmos_equations": ["y = 6x + 18", "-6x + y = 22"],
+                    "desmos_bounds": {"left": -5, "right": 5, "bottom": -10, "top": 50},
                     "steps": [
                         {"step": 1, "description": "The given line has slope 6", "math": "y = 6x + 18 \\Rightarrow \\text{slope} = 6"},
                         {"step": 2, "description": "For no solution, we need the same slope but different y-intercept", "math": "y = 6x + b \\text{ where } b \\neq 18"},
                         {"step": 3, "description": "In standard form: -6x + y = b", "math": "-6x + y = 22 \\text{ (same slope, different intercept)}"}
                     ],
-                    "answer": "$-6x + y = 22$",
+                    "answer": "$-6x + y = 22$ (which is the same as $y = 6x + 22$)",
                     "options": [
                         {"text": "$-6x + y = 18$", "correct": False, "explanation": "This is the same line - would give infinite solutions"},
                         {"text": "$-6x + y = 22$", "correct": True},

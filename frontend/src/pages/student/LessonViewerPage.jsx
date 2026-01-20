@@ -27,34 +27,40 @@ import katex from 'katex';
 const parseMarkdown = (text) => {
   if (!text) return '';
 
+  // Process math FIRST before HTML escaping (to preserve & in \begin{aligned})
+  const mathPlaceholders = [];
   let html = text;
 
-  // Escape HTML
-  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  // Display math $$...$$ (must contain letters or operators, not just numbers)
+  // Display math $$...$$
   html = html.replace(/\$\$([^$]+)\$\$/g, (match, math) => {
     try {
-      return katex.renderToString(math.trim(), { displayMode: true, throwOnError: false });
+      const rendered = katex.renderToString(math.trim(), { displayMode: true, throwOnError: false });
+      const placeholder = `__MATH_DISPLAY_${mathPlaceholders.length}__`;
+      mathPlaceholders.push(rendered);
+      return placeholder;
     } catch (e) {
       return match;
     }
   });
 
   // Inline math $...$ - must contain letters (variables) or operators to be math
-  // This prevents $5 or $12 (dollar amounts) from being treated as math
   html = html.replace(/\$([^$]+)\$/g, (match, math) => {
-    // Check if it looks like math (has letters, operators, or is an equation)
     const looksLikeMath = /[a-zA-Z=+\-*/\\^_{}]/.test(math);
     if (!looksLikeMath) {
       return match; // Keep as-is (probably a dollar amount)
     }
     try {
-      return katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
+      const rendered = katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
+      const placeholder = `__MATH_INLINE_${mathPlaceholders.length}__`;
+      mathPlaceholders.push(rendered);
+      return placeholder;
     } catch (e) {
       return match;
     }
   });
+
+  // Now escape HTML (math is already replaced with placeholders)
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   // Bold **text**
   html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -65,6 +71,11 @@ const parseMarkdown = (text) => {
   // Line breaks
   html = html.replace(/\n\n/g, '</p><p>');
   html = html.replace(/\n/g, '<br/>');
+
+  // Restore math placeholders
+  html = html.replace(/__MATH_(DISPLAY|INLINE)_(\d+)__/g, (match, type, index) => {
+    return mathPlaceholders[parseInt(index)] || match;
+  });
 
   // Wrap in paragraph if not already
   if (!html.startsWith('<') && !html.startsWith(' ')) {
@@ -351,12 +362,12 @@ const LessonSection = ({ section }) => {
               <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 text-center">
                 {item.title}
               </h4>
-              {/* Image - smaller */}
+              {/* Image - 1.5x taller for better visibility */}
               <div className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-900 mb-3">
                 <img
                   src={item.image.url}
                   alt={item.image.alt || item.title}
-                  className="w-full h-auto max-h-40 object-contain"
+                  className="w-full h-auto max-h-80 object-contain"
                 />
               </div>
               {/* Caption */}
@@ -515,26 +526,30 @@ const InteractiveExample = ({ section }) => {
   const hasOptions = section.options && section.options.length > 0;
   const isCorrect = selectedAnswer !== null && section.options?.[selectedAnswer]?.correct;
 
-  // Extract equations from the problem for Desmos
-  const extractEquations = () => {
+  // Use custom desmos_equations if provided, otherwise extract from problem
+  const getEquations = () => {
+    if (section.desmos_equations && section.desmos_equations.length > 0) {
+      return section.desmos_equations;
+    }
+    // Fallback: Extract equations from the problem
     const equations = [];
-    // Match $$...$$ display math
     const displayMathRegex = /\$\$([^$]+)\$\$/g;
     let match;
     while ((match = displayMathRegex.exec(section.problem)) !== null) {
       let eq = match[1].trim();
-      // Clean up LaTeX
       eq = eq.replace(/\\text\{[^}]*\}/g, '');
       eq = eq.replace(/\\Rightarrow.*$/, '');
-      eq = eq.replace(/\\\\/g, '');
-      if (eq.includes('=')) {
-        equations.push(eq);
-      }
+      eq = eq.replace(/\\begin\{aligned\}/g, '');
+      eq = eq.replace(/\\end\{aligned\}/g, '');
+      eq = eq.replace(/&/g, '');
+      // Split by \\ for multiple equations
+      const parts = eq.split('\\\\').map(p => p.trim()).filter(p => p.includes('='));
+      equations.push(...parts);
     }
     return equations;
   };
 
-  const equations = extractEquations();
+  const equations = getEquations();
   const showDesmos = equations.length > 0;
 
   // Initialize Desmos when explanation is shown
@@ -568,13 +583,9 @@ const InteractiveExample = ({ section }) => {
           calculatorRef.current.setExpression({ id: `eq${i}`, latex: eq });
         });
 
-        // Set appropriate viewport
-        calculatorRef.current.setMathBounds({
-          left: -10,
-          right: 10,
-          bottom: -10,
-          top: 10,
-        });
+        // Set appropriate viewport - use custom bounds if provided
+        const bounds = section.desmos_bounds || { left: -10, right: 10, bottom: -10, top: 10 };
+        calculatorRef.current.setMathBounds(bounds);
       }
     }
 
@@ -584,7 +595,7 @@ const InteractiveExample = ({ section }) => {
         calculatorRef.current = null;
       }
     };
-  }, [showExplanation, showDesmos, equations]);
+  }, [showExplanation, showDesmos, equations, section.desmos_bounds]);
 
   const handleCheckAnswer = () => {
     if (selectedAnswer !== null) {
@@ -724,8 +735,8 @@ const InteractiveExample = ({ section }) => {
         )}
       </div>
 
-      {/* Explanation Section */}
-      {(showExplanation || !hasOptions) && (
+      {/* Explanation Section - only show when explicitly requested */}
+      {showExplanation && (
         <div className="p-5 bg-blue-50 dark:bg-blue-900/20 border-t border-gray-200 dark:border-gray-700">
           {/* Steps */}
           {section.steps && section.steps.length > 0 && (
@@ -791,8 +802,8 @@ const InteractiveExample = ({ section }) => {
         </div>
       )}
 
-      {/* Show Solution toggle for non-option examples */}
-      {!hasOptions && !showExplanation && (
+      {/* Show Solution toggle - always available when explanation is hidden */}
+      {!showExplanation && !showResult && (
         <div className="px-5 py-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setShowExplanation(true)}
