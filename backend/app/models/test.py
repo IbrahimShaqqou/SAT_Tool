@@ -101,8 +101,8 @@ class TestSession(Base, TimestampMixin):
     # Question configuration
     total_questions = Column(
         Integer,
-        nullable=False,
-        comment="Total number of questions in test"
+        nullable=True,
+        comment="Total number of questions in test (null for unlimited)"
     )
 
     question_config = Column(
