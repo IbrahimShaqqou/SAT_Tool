@@ -101,14 +101,48 @@ const TestPage = () => {
 
             setQuestions(transformedQuestions);
 
-            // Restore answers from API
+            // Restore answers and checked state from API
             const savedAnswers = {};
+            const savedCheckedAnswers = {};
             transformedQuestions.forEach(q => {
               if (q.selected_answer?.index !== undefined) {
                 savedAnswers[q.id] = q.selected_answer.index;
+              } else if (q.selected_answer?.answer !== undefined) {
+                // SPR answer
+                savedAnswers[q.id] = q.selected_answer.answer;
+              }
+              // If question was answered, restore checked state (for adaptive mode)
+              if (q.is_answered && q.correct_answer) {
+                let isCorrect = false;
+                if (q.selected_answer?.index !== undefined && q.correct_answer?.index !== undefined) {
+                  isCorrect = q.selected_answer.index === q.correct_answer.index;
+                } else if (q.selected_answer?.answer !== undefined && q.correct_answer?.answers) {
+                  const userAnswerNorm = String(q.selected_answer.answer).trim().toLowerCase();
+                  isCorrect = q.correct_answer.answers.some(ans =>
+                    String(ans).trim().toLowerCase() === userAnswerNorm
+                  );
+                }
+                savedCheckedAnswers[q.id] = {
+                  isCorrect,
+                  correctIndex: q.correct_answer?.index,
+                  correctAnswers: q.correct_answer?.answers,
+                };
               }
             });
             setAnswers(savedAnswers);
+            setCheckedAnswers(savedCheckedAnswers);
+
+            // For adaptive mode, position at the last question (current working question)
+            if (assignmentData.is_adaptive && transformedQuestions.length > 0) {
+              // Find the last question that hasn't been checked yet, or the last question
+              const lastUncheckedIndex = transformedQuestions.findIndex(q => !savedCheckedAnswers[q.id]);
+              if (lastUncheckedIndex >= 0) {
+                setCurrentIndex(lastUncheckedIndex);
+              } else {
+                // All questions checked, go to last one
+                setCurrentIndex(transformedQuestions.length - 1);
+              }
+            }
           } catch (qErr) {
             console.error('Failed to fetch questions:', qErr);
           }
@@ -136,6 +170,18 @@ const TestPage = () => {
   // Show split pane for any question with a passage (Reading/Writing questions)
   const passageHtml = currentQuestion?.passage_html;
   const hasPassage = !!passageHtml;
+
+  // Sync adaptiveAnswerChecked state when current question changes (for resume)
+  useEffect(() => {
+    if (isAdaptive && currentQuestion) {
+      const isAlreadyChecked = !!checkedAnswers[currentQuestion.id];
+      setAdaptiveAnswerChecked(isAlreadyChecked);
+      // Also show explanation if already checked
+      if (isAlreadyChecked && currentQuestion.explanation_html) {
+        setShowExplanation(true);
+      }
+    }
+  }, [currentQuestion?.id, isAdaptive, checkedAnswers]);
 
   // Handlers
   const handleStartAssignment = async () => {
