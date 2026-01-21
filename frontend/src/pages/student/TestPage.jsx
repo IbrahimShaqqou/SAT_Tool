@@ -51,10 +51,9 @@ const TestPage = () => {
   // Ref to hold submit function (to avoid circular dependency with timer)
   const submitRef = useRef(null);
 
-  // Timer
-  const timeLimit = assignment?.time_limit_minutes
-    ? assignment.time_limit_minutes * 60
-    : 60 * 60; // Default 60 minutes
+  // Timer - only used when tutor sets a time limit
+  const hasTimeLimit = !!assignment?.time_limit_minutes;
+  const timeLimitSeconds = assignment?.time_limit_minutes ? assignment.time_limit_minutes * 60 : 0;
 
   const {
     timeRemaining,
@@ -63,12 +62,20 @@ const TestPage = () => {
     start: startTimer,
     pause: pauseTimer,
     resume: resumeTimer,
-  } = useTimer(timeLimit, () => {
+    reset: resetTimer,
+  } = useTimer(timeLimitSeconds, () => {
     // Auto-submit when time runs out - pass true to indicate time expired
-    if (submitRef.current) {
+    if (submitRef.current && hasTimeLimit) {
       submitRef.current(true);
     }
   });
+
+  // Update timer when assignment loads with its time limit
+  useEffect(() => {
+    if (assignment?.time_limit_minutes) {
+      resetTimer(assignment.time_limit_minutes * 60);
+    }
+  }, [assignment?.time_limit_minutes, resetTimer]);
 
   // Fetch assignment and questions
   useEffect(() => {
@@ -797,6 +804,7 @@ const TestPage = () => {
         onReferenceToggle={() => setShowReferenceSheet(!showReferenceSheet)}
         showReference={showReferenceSheet}
         subjectArea={assignment.subject_area || 'math'}
+        hasTimeLimit={hasTimeLimit}
       />
 
       {/* Main content - shifts right when calculator is open */}

@@ -17,6 +17,7 @@ const TestHeader = ({
   onReferenceToggle,
   showReference,
   subjectArea,
+  hasTimeLimit = true,
 }) => {
   return (
     <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6">
@@ -67,45 +68,49 @@ const TestHeader = ({
           </button>
         )}
 
-        {/* Timer */}
-        <div className={`flex items-center gap-2 ml-2 px-3 py-1 rounded-lg transition-all ${
-          timeRemaining <= 0
-            ? 'bg-red-600 text-white animate-pulse'
-            : timeRemaining < 60
-            ? 'bg-red-100 text-red-700'
-            : timeRemaining < 300
-            ? 'bg-amber-50 text-amber-700'
-            : ''
-        }`}>
-          <Clock className={`h-4 w-4 ${
-            timeRemaining <= 0 ? 'text-white' :
-            timeRemaining < 300 ? 'text-current' : 'text-gray-400'
-          }`} />
-          <span className={`font-mono text-lg font-medium ${
-            timeRemaining <= 0
-              ? 'text-white'
-              : timeRemaining < 60
-              ? 'text-red-700'
-              : timeRemaining < 300
-              ? 'text-amber-700'
-              : 'text-gray-900'
-          }`}>
-            {timeRemaining <= 0 ? "Time's Up!" : formattedTime}
-          </span>
-        </div>
+        {/* Timer - only shown when tutor sets a time limit */}
+        {hasTimeLimit && (
+          <>
+            <div className={`flex items-center gap-2 ml-2 px-3 py-1 rounded-lg transition-all ${
+              timeRemaining <= 0
+                ? 'bg-red-600 text-white animate-pulse'
+                : timeRemaining < 60
+                ? 'bg-red-100 text-red-700'
+                : timeRemaining < 300
+                ? 'bg-amber-50 text-amber-700'
+                : ''
+            }`}>
+              <Clock className={`h-4 w-4 ${
+                timeRemaining <= 0 ? 'text-white' :
+                timeRemaining < 300 ? 'text-current' : 'text-gray-400'
+              }`} />
+              <span className={`font-mono text-lg font-medium ${
+                timeRemaining <= 0
+                  ? 'text-white'
+                  : timeRemaining < 60
+                  ? 'text-red-700'
+                  : timeRemaining < 300
+                  ? 'text-amber-700'
+                  : 'text-gray-900'
+              }`}>
+                {timeRemaining <= 0 ? "Time's Up!" : formattedTime}
+              </span>
+            </div>
 
-        {/* Pause/Resume */}
-        <button
-          onClick={isPaused ? onResume : onPause}
-          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-          title={isPaused ? 'Resume' : 'Pause'}
-        >
-          {isPaused ? (
-            <Play className="h-5 w-5" />
-          ) : (
-            <Pause className="h-5 w-5" />
-          )}
-        </button>
+            {/* Pause/Resume */}
+            <button
+              onClick={isPaused ? onResume : onPause}
+              className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              title={isPaused ? 'Resume' : 'Pause'}
+            >
+              {isPaused ? (
+                <Play className="h-5 w-5" />
+              ) : (
+                <Pause className="h-5 w-5" />
+              )}
+            </button>
+          </>
+        )}
       </div>
     </header>
   );
