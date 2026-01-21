@@ -3,7 +3,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, ClipboardList, Clock, Brain, AlertTriangle, Calendar, TimerOff } from 'lucide-react';
+import { Plus, ClipboardList, Clock, Brain, AlertTriangle, TimerOff } from 'lucide-react';
 import { Card, Button, Badge, Table, EmptyState, LoadingSpinner } from '../../components/ui';
 import { assignmentService } from '../../services';
 
