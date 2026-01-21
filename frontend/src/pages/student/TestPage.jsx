@@ -172,16 +172,18 @@ const TestPage = () => {
   const hasPassage = !!passageHtml;
 
   // Sync adaptiveAnswerChecked state when current question changes (for resume)
+  const currentQuestionId = currentQuestion?.id;
+  const currentQuestionHasExplanation = !!currentQuestion?.explanation_html;
   useEffect(() => {
-    if (isAdaptive && currentQuestion) {
-      const isAlreadyChecked = !!checkedAnswers[currentQuestion.id];
+    if (isAdaptive && currentQuestionId) {
+      const isAlreadyChecked = !!checkedAnswers[currentQuestionId];
       setAdaptiveAnswerChecked(isAlreadyChecked);
       // Also show explanation if already checked
-      if (isAlreadyChecked && currentQuestion.explanation_html) {
+      if (isAlreadyChecked && currentQuestionHasExplanation) {
         setShowExplanation(true);
       }
     }
-  }, [currentQuestion?.id, isAdaptive, checkedAnswers]);
+  }, [currentQuestionId, currentQuestionHasExplanation, isAdaptive, checkedAnswers]);
 
   // Handlers
   const handleStartAssignment = async () => {
