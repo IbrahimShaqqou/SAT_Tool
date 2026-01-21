@@ -35,8 +35,8 @@ export const assignmentService = {
   submitAnswer: (id, data) =>
     api.post(`/assignments/${id}/answer`, data),
 
-  completeAssignment: (id) =>
-    api.post(`/assignments/${id}/submit`),
+  completeAssignment: (id, data = {}) =>
+    api.post(`/assignments/${id}/submit`, data),
 };
 
 export default assignmentService;

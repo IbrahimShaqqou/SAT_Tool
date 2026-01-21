@@ -53,6 +53,8 @@ class AssignmentBrief(BaseModel):
     due_date: Optional[datetime] = None
     created_at: datetime
     is_adaptive: bool = False
+    time_limit_minutes: Optional[int] = None
+    time_expired: bool = False
 
     model_config = {"from_attributes": True}
 
@@ -126,6 +128,11 @@ class AssignmentStatusUpdate(BaseModel):
     started_at: Optional[datetime] = None
 
 
+class AssignmentSubmit(BaseModel):
+    """Schema for submitting/completing an assignment."""
+    time_expired: bool = Field(False, description="Whether timer ran out")
+
+
 class AssignmentComplete(BaseModel):
     """Response after completing an assignment."""
     id: UUID
@@ -135,6 +142,7 @@ class AssignmentComplete(BaseModel):
     total_questions: int  # For completed assignments, use questions_answered as total
     target_score: Optional[int] = None
     passed: bool
+    time_expired: bool = False
 
 
 class AssignmentQuestionItem(BaseModel):

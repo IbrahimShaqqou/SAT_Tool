@@ -64,9 +64,9 @@ const TestPage = () => {
     pause: pauseTimer,
     resume: resumeTimer,
   } = useTimer(timeLimit, () => {
-    // Auto-submit when time runs out
+    // Auto-submit when time runs out - pass true to indicate time expired
     if (submitRef.current) {
-      submitRef.current();
+      submitRef.current(true);
     }
   });
 
@@ -267,10 +267,10 @@ const TestPage = () => {
   }, [questions.length]);
 
   // Submit/complete assignment - defined before handleAdaptiveNext which uses it
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(async (timeExpired = false) => {
     setIsSubmitting(true);
     try {
-      await assignmentService.completeAssignment(id);
+      await assignmentService.completeAssignment(id, { time_expired: timeExpired });
       navigate(`/student/results/${id}`);
     } catch (err) {
       console.error('Failed to submit:', err);

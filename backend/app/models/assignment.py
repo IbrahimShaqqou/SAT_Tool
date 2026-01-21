@@ -155,6 +155,13 @@ class Assignment(Base, TimestampMixin):
         comment="Student's actual score percentage"
     )
 
+    time_expired = Column(
+        Boolean,
+        default=False,
+        nullable=False,
+        comment="Whether assignment was auto-submitted due to timer expiration"
+    )
+
     # Tutor feedback
     tutor_feedback = Column(
         Text,

@@ -41,6 +41,7 @@ from app.schemas.assignment import (
     AssignmentAnswerSubmit,
     AssignmentAnswerResult,
     AssignmentStatusUpdate,
+    AssignmentSubmit,
     AssignmentComplete,
     AssignmentQuestionItem,
     AssignmentQuestionsResponse,
@@ -296,15 +297,24 @@ def create_assignment(
     # Questions will be selected dynamically using IRT when assignment starts
     if assignment_data.is_adaptive:
         available_count = query.count()
-        if available_count < assignment_data.question_count:
+        # Only check count if question_count is specified (not unlimited)
+        if assignment_data.question_count is not None and available_count < assignment_data.question_count:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Not enough questions available. Found {available_count}, need {assignment_data.question_count}",
             )
+        # For unlimited, just verify at least some questions exist
+        if available_count == 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="No questions match the specified filters",
+            )
         questions = []  # No pre-selected questions for adaptive
     else:
         # For regular assignments: select random questions upfront
-        questions = query.order_by(func.random()).limit(assignment_data.question_count).all()
+        # Default to 10 if not specified
+        question_count = assignment_data.question_count or 10
+        questions = query.order_by(func.random()).limit(question_count).all()
 
         if len(questions) == 0:
             raise HTTPException(
@@ -440,6 +450,8 @@ def list_assignments(
             due_date=a.due_date,
             created_at=a.created_at,
             is_adaptive=a.is_adaptive,
+            time_limit_minutes=a.time_limit_minutes,
+            time_expired=a.time_expired if hasattr(a, 'time_expired') else False,
         ))
 
     return AssignmentListResponse(
@@ -885,11 +897,13 @@ def submit_assignment_answer(
 @router.post("/{assignment_id}/submit", response_model=AssignmentComplete)
 def submit_assignment(
     assignment_id: UUID,
+    submit_data: Optional[AssignmentSubmit] = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> AssignmentComplete:
     """
     Complete and submit an assignment.
+    Optionally accepts time_expired flag if timer ran out.
     """
     assignment = _get_assignment_or_404(
         assignment_id, db, current_user, require_student=True
@@ -926,6 +940,10 @@ def submit_assignment(
     assignment.completed_at = datetime.now(timezone.utc)
     assignment.actual_score = int(score_percentage)
 
+    # Track if timer expired (auto-submitted due to time limit)
+    time_expired = submit_data.time_expired if submit_data else False
+    assignment.time_expired = time_expired
+
     # Check if passed
     passed = True
     if assignment.target_score:
@@ -942,6 +960,7 @@ def submit_assignment(
         total_questions=session.total_questions,
         target_score=assignment.target_score,
         passed=passed,
+        time_expired=time_expired,
     )
 
 
