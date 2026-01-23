@@ -487,11 +487,13 @@ def get_assignment(
     questions_answered = 0
     questions_correct = 0
     current_index = 0
+    time_spent_seconds = 0
 
     if session:
         questions_answered = session.questions_answered or 0
         questions_correct = session.questions_correct or 0
         current_index = session.current_question_index
+        time_spent_seconds = session.time_spent_seconds or 0
 
         if assignment.status == AssignmentStatus.IN_PROGRESS:
             # Get current question
@@ -539,6 +541,7 @@ def get_assignment(
         score_percentage=assignment.actual_score,
         due_date=assignment.due_date,
         time_limit_minutes=assignment.time_limit_minutes,
+        time_spent_seconds=time_spent_seconds,
         target_score=assignment.target_score,
         tutor_feedback=assignment.tutor_feedback,
         started_at=assignment.started_at,

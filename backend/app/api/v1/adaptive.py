@@ -12,7 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db, get_current_user
+from app.api.deps import get_db, get_current_user, get_current_tutor, get_current_admin
 from app.models.user import User
 from app.models.question import Question
 from app.models.taxonomy import Skill
@@ -829,8 +829,13 @@ def get_calibration_stats_endpoint(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> CalibrationStats:
-    """Get statistics about IRT parameter calibration coverage."""
-    # TODO: Add role check for tutor/admin
+    """Get statistics about IRT parameter calibration coverage. Tutor/Admin only."""
+    from app.models.enums import UserRole
+    if current_user.role not in [UserRole.TUTOR, UserRole.ADMIN]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Tutor or admin access required",
+        )
     stats = get_calibration_stats_service(db)
 
     return CalibrationStats(
@@ -844,15 +849,16 @@ def get_calibration_stats_endpoint(
 @router.post("/calibration/initialize", response_model=CalibrationResult)
 def run_calibration(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin),  # Admin only - destructive operation
 ) -> CalibrationResult:
     """
     Initialize IRT parameters for all questions.
 
     Uses score_band_range for difficulty (b) and difficulty level for
     discrimination (a). This should be run once to set up initial values.
+
+    Admin access required.
     """
-    # TODO: Add role check for admin only
     try:
         results = initialize_parameters_sql(db)
         return CalibrationResult(

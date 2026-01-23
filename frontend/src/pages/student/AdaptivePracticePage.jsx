@@ -570,8 +570,8 @@ const AdaptivePracticePage = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => {
-              if (window.confirm('Are you sure you want to exit? Progress will be saved.')) {
-                handleEndPractice();
+              if (window.confirm('Exit practice? Your answers and ability scores have been saved.')) {
+                navigate('/student/adaptive');
               }
             }}
             className="p-2 hover:bg-gray-100 rounded-lg"

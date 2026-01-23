@@ -18,54 +18,69 @@ SendGrid integration complete. Password reset emails working.
 1. Add `SENDGRID_API_KEY=SG.xxxxx` environment variable
 2. Redeploy
 
-**Files created/modified:**
-- `backend/app/services/email_service.py` - Email sending utilities
-- `backend/app/config.py` - SendGrid configuration
-- `backend/app/api/v1/auth.py` - Password reset sends email
-- `backend/requirements.txt` - Added sendgrid==6.11.0
+### 3. ~~Admin Role Protection~~ DONE
+Protected IRT calibration endpoints with admin-only access.
+
+### 4. ~~Timer Persistence~~ DONE
+Timer now persists when students leave and resume assignments.
+
+### 5. ~~User Settings Persistence~~ DONE
+Dark mode and timezone settings persist to localStorage.
 
 ---
 
 ## Completed Recently
 
-- [x] **Dark Mode** - Full dark mode support across all pages, components, charts, calculator, and reference sheet. Toggle in Settings.
+- [x] **Admin Role Protection** - Calibration endpoints now require admin access
+- [x] **Timer Persistence** - Students can't exploit timer by refreshing
+- [x] **Settings Persistence** - Dark mode and timezone saved to localStorage
+- [x] **Adaptive Exit Fix** - Exit button now saves progress without grading
+- [x] **Time Limit Display** - Timer only shows when tutor sets a time limit
+- [x] **Time Expired Tracking** - Tutors see when students ran out of time
+- [x] **Skill Selector** - Beautiful domain/skill selector for adaptive assignments
+- [x] **Resume Bug Fix** - Students can't uncheck answers by resuming
+- [x] **Dark Mode** - Full dark mode support across all pages
 - [x] **Email System** - SendGrid integration for password reset emails
 - [x] **Token Refresh** - Auto-refreshes access tokens, users stay logged in for 7 days
 - [x] **Remember Me** - Saves email on login page
-- [x] **Registration Bug Fix** - Fixed password field issue on validation errors
 - [x] **Reference Sheet** - Added to Adaptive Practice
 - [x] **Time Tracking** - Tracks actual time per question
 - [x] **Profile/Settings/Progress Pages** - All implemented
-- [x] **ZooPrep Branding** - Updated throughout
 
 ---
 
 ## High Priority
 
-### 3. Skill Lessons (NEW)
-**Description:** Educational content for each skill to help students learn concepts before practicing.
+### 6. Better Mastery & Ability Scores
+**Description:** Current mastery calculation is confusing and may not feel representative.
 
-**Required:**
-- [ ] Create `Lesson` model in backend (linked to skills)
-- [ ] Admin interface to create/edit lessons
-- [ ] Lesson content editor (rich text/markdown)
-- [ ] Student lesson viewer page
-- [ ] Track lesson completion
+**Issues:**
+- Mastery formula uses complex theta conversion
+- Difficulty cap is harsh (easy questions cap at 55% mastery)
+- No time decay for skills not practiced
+- Volatile with few questions
+- No confidence indicator
+
+**Recommended:**
+- [ ] Add "confidence" indicator (low/medium/high based on question count)
+- [ ] Show tutors: "Mastery: 72% (based on 8 questions)"
+- [ ] Add time decay: skills practiced 30+ days ago should fade
+- [ ] Require minimum 5 questions before showing numeric mastery
+- [ ] Simplify formula: weighted accuracy by difficulty level
+
+### 7. Skill Lessons Enhancement
+**Description:** Lessons exist but could be improved.
+
+**Optional enhancements:**
+- [ ] Track lesson completion per student
 - [ ] Link lessons from Question Bank and Adaptive Practice
-- [ ] Optional: Video embed support
-
-### 4. Admin Role Protection
-**Locations:** `backend/app/api/v1/adaptive.py`
-
-**Required:**
-- [ ] Add `get_current_admin` dependency
-- [ ] Protect calibration endpoints with admin-only access
+- [ ] Admin interface to create/edit lessons
 
 ---
 
 ## Medium Priority (Enhancements)
 
-### 5. IRT Recalibration
+### 8. IRT Recalibration
 **Location:** `backend/app/services/irt_calibration.py`
 
 **Current state:** `recalibrate_from_responses()` is a placeholder
@@ -75,50 +90,33 @@ SendGrid integration complete. Password reset emails working.
 - [ ] Schedule periodic recalibration
 - [ ] Add admin endpoint to trigger recalibration
 
-### 6. Notifications System
-**Required:**
-- [ ] Email notifications for:
-  - Assignment due dates approaching
-  - New assignments created
-  - Assessment results ready
-- [ ] In-app notification center (optional)
-
-### 7. Persist User Settings
-**Current state:** Settings page is UI-only
-
-**Required:**
-- [ ] Add settings fields to User model or create UserSettings table
-- [ ] API endpoints to save/load settings
-- [ ] Connect frontend to backend
-
 ---
 
 ## Low Priority (Nice to Have)
 
-### 8. Admin Panel
+### 9. Admin Panel
 - [ ] Admin dashboard with system stats
 - [ ] User management (view/edit/delete)
 - [ ] Question management
 - [ ] IRT calibration controls
 - [ ] Lesson management
 
-### 9. Export Functionality
+### 10. Export Functionality
 - [ ] PDF export for assessment results, progress reports
 - [ ] CSV export for data analysis
 
-### 10. Advanced Analytics
+### 11. Advanced Analytics
 - [ ] Custom date range selection
 - [ ] Student vs class average comparisons
 - [ ] Trend analysis
 - [ ] Skill gap identification
 
-### 11. Real-Time Features
+### 12. Real-Time Features
 - [ ] WebSocket for live updates
 - [ ] Tutor viewing student progress in real-time
 
-### 12. UI Enhancements
+### 13. UI Enhancements
 - [ ] Profile picture upload
-- [x] ~~Dark mode~~ DONE
 - [ ] Progress over time charts
 - [ ] Achievements/milestones
 
@@ -159,7 +157,7 @@ REACT_APP_API_URL=https://your-railway-app.up.railway.app/api/v1
 | Adaptive | `pages/student/AdaptivePracticePage.jsx` | `api/v1/adaptive.py` |
 | IRT | N/A | `services/irt_service.py` |
 | Profile | `pages/shared/ProfilePage.jsx` | `api/v1/auth.py` |
-| Settings | `pages/shared/SettingsPage.jsx` | N/A (UI only) |
+| Settings | `pages/shared/SettingsPage.jsx` | localStorage (client-side) |
 | Progress | `pages/shared/ProgressPage.jsx` | `api/v1/progress.py` |
 
 ---

@@ -3,8 +3,8 @@
  * Application settings and preferences
  * Supports dark mode
  */
-import { useState } from 'react';
-import { Bell, Moon, Globe, Save, Sun } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Moon, Globe, Save, Sun, Check } from 'lucide-react';
 import { Card, Button } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -12,27 +12,29 @@ import { useTheme } from '../../contexts/ThemeContext';
 const SettingsPage = () => {
   useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
-  const [settings, setSettings] = useState({
-    emailNotifications: true,
-    assignmentReminders: true,
-    progressUpdates: false,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+
+  // Load timezone from localStorage or detect from browser
+  const [timezone, setTimezone] = useState(() => {
+    const stored = localStorage.getItem('userTimezone');
+    return stored || Intl.DateTimeFormat().resolvedOptions().timeZone;
   });
   const [isSaving, setIsSaving] = useState(false);
   const [success, setSuccess] = useState(null);
 
-  const handleToggle = (key) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
-  };
+  // Persist timezone to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('userTimezone', timezone);
+  }, [timezone]);
 
   const handleSave = async () => {
     setIsSaving(true);
-    // Settings would be saved to backend when implemented
+    // Save to localStorage (already done via useEffect)
+    localStorage.setItem('userTimezone', timezone);
     setTimeout(() => {
       setIsSaving(false);
       setSuccess('Settings saved successfully');
       setTimeout(() => setSuccess(null), 3000);
-    }, 500);
+    }, 300);
   };
 
   const ToggleSwitch = ({ enabled, onChange }) => (
@@ -60,57 +62,11 @@ const SettingsPage = () => {
       </div>
 
       {success && (
-        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400">
+        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 flex items-center gap-2">
+          <Check className="h-4 w-4" />
           {success}
         </div>
       )}
-
-      {/* Notifications */}
-      <Card>
-        <Card.Header>
-          <Card.Title className="flex items-center gap-2">
-            <Bell className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-            Notifications
-          </Card.Title>
-          <Card.Description>Configure how you receive notifications</Card.Description>
-        </Card.Header>
-        <Card.Content>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
-              <div>
-                <p className="font-medium text-gray-900 dark:text-gray-100">Email Notifications</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive updates via email</p>
-              </div>
-              <ToggleSwitch
-                enabled={settings.emailNotifications}
-                onChange={() => handleToggle('emailNotifications')}
-              />
-            </div>
-
-            <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
-              <div>
-                <p className="font-medium text-gray-900 dark:text-gray-100">Assignment Reminders</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Get reminded about upcoming assignments</p>
-              </div>
-              <ToggleSwitch
-                enabled={settings.assignmentReminders}
-                onChange={() => handleToggle('assignmentReminders')}
-              />
-            </div>
-
-            <div className="flex items-center justify-between py-3">
-              <div>
-                <p className="font-medium text-gray-900 dark:text-gray-100">Progress Updates</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Weekly summary of your progress</p>
-              </div>
-              <ToggleSwitch
-                enabled={settings.progressUpdates}
-                onChange={() => handleToggle('progressUpdates')}
-              />
-            </div>
-          </div>
-        </Card.Content>
-      </Card>
 
       {/* Display */}
       <Card>
@@ -156,8 +112,8 @@ const SettingsPage = () => {
               Timezone
             </label>
             <select
-              value={settings.timezone}
-              onChange={(e) => setSettings(prev => ({ ...prev, timezone: e.target.value }))}
+              value={timezone}
+              onChange={(e) => setTimezone(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-transparent"
             >
               <option value="America/New_York">Eastern Time (ET)</option>

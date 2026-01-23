@@ -70,12 +70,15 @@ const TestPage = () => {
     }
   });
 
-  // Update timer when assignment loads with its time limit
+  // Update timer when assignment loads - account for time already spent
   useEffect(() => {
     if (assignment?.time_limit_minutes) {
-      resetTimer(assignment.time_limit_minutes * 60);
+      const totalSeconds = assignment.time_limit_minutes * 60;
+      const timeSpent = assignment.time_spent_seconds || 0;
+      const remainingTime = Math.max(0, totalSeconds - timeSpent);
+      resetTimer(remainingTime);
     }
-  }, [assignment?.time_limit_minutes, resetTimer]);
+  }, [assignment?.time_limit_minutes, assignment?.time_spent_seconds, resetTimer]);
 
   // Fetch assignment and questions
   useEffect(() => {

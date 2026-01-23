@@ -93,6 +93,7 @@ class AssignmentDetail(BaseModel):
     score_percentage: Optional[float] = None
     due_date: Optional[datetime] = None
     time_limit_minutes: Optional[int] = None
+    time_spent_seconds: int = 0  # Total time spent so far (for timer persistence)
     target_score: Optional[int] = None
     tutor_feedback: Optional[str] = None
     started_at: Optional[datetime] = None
