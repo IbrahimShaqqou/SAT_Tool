@@ -93,7 +93,7 @@ const QuestionNav = ({
       </div>
 
       {/* Scrollable grid - fixed 10 columns, centered */}
-      <div className="max-h-[40vh] overflow-y-auto overflow-x-hidden px-2">
+      <div className="max-h-[40vh] overflow-y-auto overflow-x-hidden px-4 py-1">
         <div className="grid grid-cols-10 gap-2 mx-auto" style={{ maxWidth: '440px' }}>
           {Array.from({ length: totalQuestions }, (_, i) => (
             <button

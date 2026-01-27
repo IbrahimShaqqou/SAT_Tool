@@ -402,7 +402,7 @@ const TestPage = () => {
     // Check if this was the last question
     if (questionsAnswered >= totalNeeded) {
       // Submit/complete the assignment
-      handleSubmit();
+      handleSubmit(false);
       return;
     }
 
@@ -689,7 +689,7 @@ const TestPage = () => {
           // Last question - show Finish button
           <Button
             variant="primary"
-            onClick={handleSubmit}
+            onClick={() => handleSubmit(false)}
             disabled={isSubmitting}
             className="min-w-[200px]"
           >
@@ -845,7 +845,7 @@ const TestPage = () => {
       <SubmitConfirmation
         isOpen={showSubmitModal}
         onClose={() => setShowSubmitModal(false)}
-        onConfirm={handleSubmit}
+        onConfirm={() => handleSubmit(false)}
         totalQuestions={questions.length}
         answeredCount={answeredCount}
         markedCount={markedForReview.size}
