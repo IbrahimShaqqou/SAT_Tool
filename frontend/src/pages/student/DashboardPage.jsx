@@ -50,42 +50,42 @@ const StudentDashboard = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Your ZooPrep overview</p>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Dashboard</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Your ZooPrep overview</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <TrendingUp className="h-5 w-5 text-blue-600" />
+            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{progress?.overall_accuracy?.toFixed(0) || 0}%</p>
-              <p className="text-sm text-gray-500">Overall Accuracy</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.overall_accuracy?.toFixed(0) || 0}%</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Overall Accuracy</p>
             </div>
           </div>
         </Card>
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <ClipboardList className="h-5 w-5 text-green-600" />
+            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+              <ClipboardList className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{progress?.total_questions_answered || 0}</p>
-              <p className="text-sm text-gray-500">Questions Answered</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.total_questions_answered || 0}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Questions Answered</p>
             </div>
           </div>
         </Card>
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Clock className="h-5 w-5 text-purple-600" />
+            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+              <Clock className="h-5 w-5 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{progress?.sessions_completed || 0}</p>
-              <p className="text-sm text-gray-500">Sessions Completed</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.sessions_completed || 0}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Sessions Completed</p>
             </div>
           </div>
         </Card>
@@ -93,11 +93,11 @@ const StudentDashboard = () => {
 
       {/* In-Progress Assessments */}
       {inProgressAssessments.length > 0 && (
-        <Card className="border-amber-200 bg-amber-50">
+        <Card className="border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/10">
           <Card.Header>
             <div className="flex items-center gap-2">
-              <PlayCircle className="h-5 w-5 text-amber-600" />
-              <Card.Title className="text-amber-900">Continue Your Assessment</Card.Title>
+              <PlayCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+              <Card.Title className="text-amber-900 dark:text-amber-200">Continue Your Assessment</Card.Title>
             </div>
           </Card.Header>
           <Card.Content>
@@ -105,16 +105,16 @@ const StudentDashboard = () => {
               {inProgressAssessments.map((assessment) => (
                 <div
                   key={assessment.session_id}
-                  className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-100"
+                  className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border border-amber-100 dark:border-amber-800/30"
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-gray-900 dark:text-gray-100">
                         {assessment.title || 'Intake Assessment'}
                       </p>
                       <Badge variant="warning">In Progress</Badge>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                       {assessment.questions_answered} of {assessment.total_questions} questions answered
                       <span className="mx-2">•</span>
                       {assessment.subject_area === 'math' ? 'Math' : 'Reading & Writing'}
@@ -163,10 +163,10 @@ const StudentDashboard = () => {
           <Card.Header>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-amber-500" />
+                <AlertTriangle className="h-5 w-5 text-amber-500 dark:text-amber-400" />
                 <Card.Title>Areas to Improve</Card.Title>
               </div>
-              <span className="text-sm text-gray-500">Based on your intake assessment</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Based on your intake assessment</span>
             </div>
           </Card.Header>
           <Card.Content>
@@ -174,27 +174,27 @@ const StudentDashboard = () => {
               {skills.weak_skills.map((skill) => (
                 <div
                   key={skill.skill_id}
-                  className="flex items-center justify-between p-4 bg-amber-50 border border-amber-100 rounded-lg"
+                  className="flex items-center justify-between p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/30 rounded-lg"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="w-8 h-8 bg-amber-200 rounded-full flex items-center justify-center text-xs font-medium text-amber-800">
+                      <span className="w-8 h-8 bg-amber-100 dark:bg-amber-800/40 rounded-full flex items-center justify-center text-xs font-medium text-amber-700 dark:text-amber-300">
                         {skill.domain_code}
                       </span>
                       <div className="min-w-0">
-                        <p className="font-medium text-gray-900 truncate">{skill.skill_name}</p>
-                        <p className="text-sm text-gray-500">{skill.domain_name}</p>
+                        <p className="font-medium text-gray-900 dark:text-gray-100 truncate">{skill.skill_name}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{skill.domain_name}</p>
                       </div>
                     </div>
                     <div className="mt-2 flex items-center gap-4 text-sm">
-                      <span className={`font-medium ${skill.mastery_level < 30 ? 'text-red-600' : skill.mastery_level < 60 ? 'text-amber-600' : 'text-green-600'}`}>
+                      <span className={`font-medium ${skill.mastery_level < 30 ? 'text-rose-600 dark:text-rose-400' : skill.mastery_level < 60 ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                         {Math.round(skill.mastery_level)}% mastery
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-gray-500 dark:text-gray-400">
                         {skill.questions_correct}/{skill.questions_attempted} correct
                       </span>
                       {skill.ability_theta !== null && (
-                        <span className="text-gray-500">
+                        <span className="text-gray-500 dark:text-gray-400">
                           Ability: {skill.ability_theta > 0 ? '+' : ''}{skill.ability_theta}
                         </span>
                       )}
@@ -221,7 +221,7 @@ const StudentDashboard = () => {
         <Card>
           <Card.Header>
             <div className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-green-500" />
+              <Target className="h-5 w-5 text-emerald-500 dark:text-emerald-400" />
               <Card.Title>Your Strengths</Card.Title>
             </div>
           </Card.Header>
@@ -230,14 +230,14 @@ const StudentDashboard = () => {
               {skills.strong_skills.slice(0, 3).map((skill) => (
                 <div
                   key={skill.skill_id}
-                  className="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-lg"
+                  className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-100 dark:border-emerald-800/30 rounded-lg"
                 >
-                  <span className="w-8 h-8 bg-green-200 rounded-full flex items-center justify-center text-xs font-medium text-green-800">
+                  <span className="w-8 h-8 bg-emerald-100 dark:bg-emerald-800/40 rounded-full flex items-center justify-center text-xs font-medium text-emerald-700 dark:text-emerald-300">
                     {skill.domain_code}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-gray-900 truncate text-sm">{skill.skill_name}</p>
-                    <p className="text-sm text-green-600 font-medium">{Math.round(skill.mastery_level)}% mastery</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100 truncate text-sm">{skill.skill_name}</p>
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">{Math.round(skill.mastery_level)}% mastery</p>
                   </div>
                 </div>
               ))}
@@ -251,7 +251,7 @@ const StudentDashboard = () => {
         <Card.Header>
           <div className="flex items-center justify-between">
             <Card.Title>Pending Assignments</Card.Title>
-            <Link to="/student/assignments" className="text-sm text-gray-500 hover:text-gray-700">
+            <Link to="/student/assignments" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
               View all
             </Link>
           </div>
@@ -262,11 +262,11 @@ const StudentDashboard = () => {
               {assignments.map((assignment) => (
                 <div
                   key={assignment.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">{assignment.title}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{assignment.title}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {assignment.total_questions} questions
                       {assignment.due_date && (
                         <> - Due {new Date(assignment.due_date).toLocaleDateString()}</>

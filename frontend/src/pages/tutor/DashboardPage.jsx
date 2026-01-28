@@ -10,13 +10,13 @@ import { tutorService } from '../../services';
 
 const StatCard = ({ icon: Icon, label, value, subtext }) => (
   <Card className="flex items-center gap-4">
-    <div className="p-3 bg-gray-100 rounded-lg">
-      <Icon className="h-6 w-6 text-gray-600" />
+    <div className="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+      <Icon className="h-6 w-6 text-gray-600 dark:text-gray-300" />
     </div>
     <div>
-      <p className="text-2xl font-semibold text-gray-900">{value}</p>
-      <p className="text-sm text-gray-500">{label}</p>
-      {subtext && <p className="text-xs text-gray-400 mt-0.5">{subtext}</p>}
+      <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{value}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+      {subtext && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{subtext}</p>}
     </div>
   </Card>
 );
@@ -60,8 +60,8 @@ const TutorDashboard = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 mt-1">Overview of your tutoring activity</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Overview of your tutoring activity</p>
         </div>
         <Link to="/tutor/invites">
           <Button variant="primary">
@@ -104,7 +104,7 @@ const TutorDashboard = () => {
           <div className="flex items-center justify-between">
             <Card.Title>Recent Students</Card.Title>
             {hasStudents && (
-              <Link to="/tutor/students" className="text-sm text-gray-500 hover:text-gray-700">
+              <Link to="/tutor/students" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                 View all
               </Link>
             )}
@@ -112,24 +112,24 @@ const TutorDashboard = () => {
         </Card.Header>
         <Card.Content>
           {hasStudents ? (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {students.map((student) => (
                 <Link
                   key={student.id}
                   to={`/tutor/students/${student.id}`}
-                  className="flex items-center justify-between py-3 hover:bg-gray-50 -mx-2 px-2 rounded"
+                  className="flex items-center justify-between py-3 hover:bg-gray-50 dark:hover:bg-gray-800 -mx-2 px-2 rounded"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
                       {student.first_name} {student.last_name}
                     </p>
-                    <p className="text-sm text-gray-500">{student.email}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{student.email}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                       {student.overall_accuracy?.toFixed(0) || 0}%
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {student.total_questions_answered} questions
                     </p>
                   </div>
@@ -166,12 +166,12 @@ const TutorDashboard = () => {
               {analytics.common_struggles.slice(0, 5).map((skill) => (
                 <div key={skill.skill_id} className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{skill.skill_name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{skill.skill_name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {skill.students_struggling} students below 70%
                     </p>
                   </div>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
                     {skill.avg_accuracy?.toFixed(0)}% avg
                   </span>
                 </div>

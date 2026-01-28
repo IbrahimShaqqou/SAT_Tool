@@ -74,20 +74,20 @@ const QuestionResult = ({ question, index }) => {
   })();
 
   return (
-    <Card className={`border-l-4 ${isCorrect ? 'border-l-green-500' : 'border-l-red-500'}`}>
+    <Card className={`border-l-4 ${isCorrect ? 'border-l-emerald-500' : 'border-l-rose-500'}`}>
       <div ref={contentRef}>
         {/* Question header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-600">Question {index + 1}</span>
+            <span className="font-medium text-gray-600 dark:text-gray-400">Question {index + 1}</span>
             {isCorrect ? (
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-emerald-500" />
             ) : (
-              <XCircle className="h-5 w-5 text-red-500" />
+              <XCircle className="h-5 w-5 text-rose-500" />
             )}
           </div>
           <span className={`text-sm font-medium px-2 py-1 rounded ${
-            isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            isCorrect ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300'
           }`}>
             {isCorrect ? 'Correct' : 'Incorrect'}
           </span>
@@ -96,7 +96,7 @@ const QuestionResult = ({ question, index }) => {
         {/* Question content */}
         {question.passage_html && (
           <div
-            className="prose prose-sm max-w-none text-gray-600 mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200 question-content"
+            className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300 mb-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600 question-content"
             dangerouslySetInnerHTML={{ __html: question.passage_html }}
           />
         )}
@@ -107,9 +107,9 @@ const QuestionResult = ({ question, index }) => {
 
         {/* Your answer */}
         <div className="mb-3">
-          <p className="text-sm font-medium text-gray-500 mb-1">Your Answer:</p>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Your Answer:</p>
           <div className={`p-3 rounded-lg ${
-            isCorrect ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
+            isCorrect ? 'bg-emerald-50 border border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800/30 dark:text-emerald-100' : 'bg-rose-50 border border-rose-200 dark:bg-rose-900/20 dark:border-rose-800/30 dark:text-rose-100'
           }`}>
             {formatAnswer(question.selected_answer, question.choices, question.answer_type)}
           </div>
@@ -118,8 +118,8 @@ const QuestionResult = ({ question, index }) => {
         {/* Correct answer (if wrong) */}
         {!isCorrect && (
           <div className="mb-3">
-            <p className="text-sm font-medium text-gray-500 mb-1">Correct Answer:</p>
-            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Correct Answer:</p>
+            <div className="p-3 bg-emerald-50 border border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800/30 dark:text-emerald-100 rounded-lg">
               {question.answer_type === 'MCQ' ? (
                 (() => {
                   const correctIndex = question.correct_answer?.index;
@@ -155,10 +155,10 @@ const QuestionResult = ({ question, index }) => {
 
         {/* Explanation toggle */}
         {question.explanation_html && (
-          <div className="mt-4 border-t pt-3">
+          <div className="mt-4 border-t dark:border-gray-700 pt-3">
             <button
               onClick={() => setShowExplanation(!showExplanation)}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm"
+              className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
             >
               {showExplanation ? (
                 <>
@@ -175,7 +175,7 @@ const QuestionResult = ({ question, index }) => {
 
             {showExplanation && (
               <div
-                className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg prose prose-sm prose-blue max-w-none question-content"
+                className="mt-3 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg prose prose-sm prose-blue dark:prose-invert max-w-none question-content"
                 dangerouslySetInnerHTML={{ __html: question.explanation_html }}
               />
             )}
@@ -222,7 +222,7 @@ const ResultsPage = () => {
   if (!assignment) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Results not found</p>
+        <p className="text-gray-500 dark:text-gray-400">Results not found</p>
         <Link to="/student/assignments">
           <Button variant="secondary" className="mt-4">Back to Assignments</Button>
         </Link>
@@ -244,16 +244,16 @@ const ResultsPage = () => {
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Results</h1>
-          <p className="text-gray-500">{assignment.title}</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Results</h1>
+          <p className="text-gray-500 dark:text-gray-400">{assignment.title}</p>
         </div>
       </div>
 
       {/* Score Card */}
       <Card className="text-center">
         <div className="py-6">
-          <p className="text-6xl font-bold text-gray-900">{score.toFixed(0)}%</p>
-          <p className="text-gray-500 mt-2">
+          <p className="text-6xl font-bold text-gray-900 dark:text-gray-100">{score.toFixed(0)}%</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
             {correct} out of {total} correct
           </p>
           <div className="mt-4 max-w-xs mx-auto">
@@ -270,17 +270,17 @@ const ResultsPage = () => {
         <Card.Content>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center gap-3">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-emerald-500" />
               <div>
-                <p className="font-medium text-gray-900">{correct}</p>
-                <p className="text-sm text-gray-500">Correct</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">{correct}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Correct</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <XCircle className="h-5 w-5 text-red-500" />
+              <XCircle className="h-5 w-5 text-rose-500" />
               <div>
-                <p className="font-medium text-gray-900">{total - correct}</p>
-                <p className="text-sm text-gray-500">Incorrect</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">{total - correct}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Incorrect</p>
               </div>
             </div>
           </div>
@@ -289,7 +289,7 @@ const ResultsPage = () => {
 
       {/* Detailed Question Results */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Question Details</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Question Details</h2>
         {questions.map((question, index) => (
           <QuestionResult key={question.question_id} question={question} index={index} />
         ))}

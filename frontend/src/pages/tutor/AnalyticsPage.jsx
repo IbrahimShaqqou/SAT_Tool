@@ -15,9 +15,9 @@ import { tutorService } from '../../services';
 
 const StatCard = ({ label, value, subtext }) => (
   <Card>
-    <p className="text-sm text-gray-500">{label}</p>
-    <p className="text-3xl font-semibold mt-1">{value}</p>
-    {subtext && <p className="text-xs text-gray-400 mt-1">{subtext}</p>}
+    <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+    <p className="text-3xl font-semibold text-gray-900 dark:text-gray-100 mt-1">{value}</p>
+    {subtext && <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{subtext}</p>}
   </Card>
 );
 
@@ -70,8 +70,8 @@ const AnalyticsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Analytics</h1>
-        <p className="text-gray-500 mt-1">Class-wide performance insights</p>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Analytics</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Class-wide performance insights</p>
       </div>
 
       {/* Summary Stats */}
@@ -115,7 +115,7 @@ const AnalyticsPage = () => {
                 {accuracyData.length > 0 ? (
                   <AccuracyTrend data={accuracyData} height={250} />
                 ) : (
-                  <p className="text-gray-500 text-center py-16">No data yet</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-16">No data yet</p>
                 )}
               </Card.Content>
             </Card>
@@ -130,7 +130,7 @@ const AnalyticsPage = () => {
                 {domainData.length > 0 ? (
                   <DomainRadar data={domainData} height={250} />
                 ) : (
-                  <p className="text-gray-500 text-center py-16">No data yet</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-16">No data yet</p>
                 )}
               </Card.Content>
             </Card>
@@ -158,15 +158,15 @@ const AnalyticsPage = () => {
                     {analytics.common_struggles.slice(0, 5).map((skill, index) => (
                       <div key={index} className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{skill.skill_name}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{skill.skill_name}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             {skill.students_struggling} student{skill.students_struggling !== 1 ? 's' : ''} below 70%
                           </p>
                         </div>
                         <span className={`text-sm font-medium ${
-                          skill.avg_accuracy < 50 ? 'text-red-600' :
-                          skill.avg_accuracy < 70 ? 'text-amber-600' :
-                          'text-gray-600'
+                          skill.avg_accuracy < 50 ? 'text-rose-600 dark:text-rose-400' :
+                          skill.avg_accuracy < 70 ? 'text-amber-600 dark:text-amber-400' :
+                          'text-gray-600 dark:text-gray-300'
                         }`}>
                           {skill.avg_accuracy?.toFixed(0)}%
                         </span>
@@ -174,7 +174,7 @@ const AnalyticsPage = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-center py-8">No data yet</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">No data yet</p>
                 )}
               </Card.Content>
             </Card>
@@ -191,7 +191,7 @@ const AnalyticsPage = () => {
               {skillData.length > 0 ? (
                 <SkillBreakdown data={skillData} height={400} />
               ) : (
-                <p className="text-gray-500 text-center py-16">No data yet</p>
+                <p className="text-gray-500 dark:text-gray-400 text-center py-16">No data yet</p>
               )}
             </Card.Content>
           </Card>
@@ -207,7 +207,7 @@ const AnalyticsPage = () => {
               {activityData.length > 0 ? (
                 <ActivityHeatmap data={activityData} weeks={12} />
               ) : (
-                <p className="text-gray-500 text-center py-16">No activity data yet</p>
+                <p className="text-gray-500 dark:text-gray-400 text-center py-16">No activity data yet</p>
               )}
             </Card.Content>
           </Card>

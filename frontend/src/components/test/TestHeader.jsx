@@ -20,18 +20,18 @@ const TestHeader = ({
   hasTimeLimit = true,
 }) => {
   return (
-    <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+    <header className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
       {/* Left: Subject */}
       <div className="flex items-center gap-4">
-        <span className="text-sm font-medium text-gray-600 uppercase tracking-wide">
+        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
           {subjectArea === 'math' ? 'Math' : 'Reading & Writing'}
         </span>
       </div>
 
       {/* Center: Question count */}
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-500">Question</span>
-        <span className="font-semibold text-gray-900">
+        <span className="text-sm text-gray-500 dark:text-gray-400">Question</span>
+        <span className="font-semibold text-gray-900 dark:text-gray-100">
           {currentQuestion} of {totalQuestions}
         </span>
       </div>
@@ -44,8 +44,8 @@ const TestHeader = ({
             onClick={onReferenceToggle}
             className={`p-2 rounded-lg transition-colors ${
               showReference
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             title="Reference Sheet"
           >
@@ -59,8 +59,8 @@ const TestHeader = ({
             onClick={onCalculatorToggle}
             className={`p-2 rounded-lg transition-colors ${
               showCalculator
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             title="Calculator"
           >
@@ -73,25 +73,25 @@ const TestHeader = ({
           <>
             <div className={`flex items-center gap-2 ml-2 px-3 py-1 rounded-lg transition-all ${
               timeRemaining <= 0
-                ? 'bg-red-600 text-white animate-pulse'
+                ? 'bg-rose-600 text-white animate-pulse'
                 : timeRemaining < 60
-                ? 'bg-red-100 text-red-700'
+                ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300'
                 : timeRemaining < 300
-                ? 'bg-amber-50 text-amber-700'
+                ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'
                 : ''
             }`}>
               <Clock className={`h-4 w-4 ${
                 timeRemaining <= 0 ? 'text-white' :
-                timeRemaining < 300 ? 'text-current' : 'text-gray-400'
+                timeRemaining < 300 ? 'text-current' : 'text-gray-400 dark:text-gray-500'
               }`} />
               <span className={`font-mono text-lg font-medium ${
                 timeRemaining <= 0
                   ? 'text-white'
                   : timeRemaining < 60
-                  ? 'text-red-700'
+                  ? 'text-rose-700 dark:text-rose-300'
                   : timeRemaining < 300
-                  ? 'text-amber-700'
-                  : 'text-gray-900'
+                  ? 'text-amber-700 dark:text-amber-300'
+                  : 'text-gray-900 dark:text-gray-100'
               }`}>
                 {timeRemaining <= 0 ? "Time's Up!" : formattedTime}
               </span>
@@ -100,7 +100,7 @@ const TestHeader = ({
             {/* Pause/Resume */}
             <button
               onClick={isPaused ? onResume : onPause}
-              className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title={isPaused ? 'Resume' : 'Pause'}
             >
               {isPaused ? (
