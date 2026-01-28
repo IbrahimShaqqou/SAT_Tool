@@ -32,10 +32,10 @@ const QuestionDisplay = ({
   return (
     <div className="flex-1 overflow-y-auto">
       {/* Question header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-4">
           {/* Question number */}
-          <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white text-sm font-medium rounded">
+          <span className="flex items-center justify-center w-8 h-8 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium rounded">
             {questionNumber}
           </span>
 
@@ -45,8 +45,8 @@ const QuestionDisplay = ({
               onClick={onToggleMark}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
                 isMarked
-                  ? 'bg-orange-100 text-orange-700'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
               <Flag className="h-4 w-4" />
@@ -58,7 +58,7 @@ const QuestionDisplay = ({
         {/* Report button */}
         <button
           onClick={onReport}
-          className="flex items-center gap-2 px-3 py-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg text-sm transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm transition-colors"
         >
           <AlertTriangle className="h-4 w-4" />
           <span>Report</span>
@@ -70,13 +70,13 @@ const QuestionDisplay = ({
         {/* Stimulus content (graphs, tables, etc.) shown above question */}
         {stimulusHtml && (
           <div
-            className="prose prose-gray max-w-none question-content mb-4"
+            className="prose prose-gray dark:prose-invert max-w-none question-content mb-4"
             dangerouslySetInnerHTML={{ __html: stimulusHtml }}
           />
         )}
         {/* Question prompt */}
         <div
-          className="prose prose-gray max-w-none question-content"
+          className="prose prose-gray dark:prose-invert max-w-none question-content"
           dangerouslySetInnerHTML={{ __html: questionHtml }}
         />
       </div>

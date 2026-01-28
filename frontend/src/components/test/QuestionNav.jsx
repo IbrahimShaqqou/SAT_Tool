@@ -28,33 +28,33 @@ const QuestionNav = ({
 
     // Current question - dark outline
     if (isCurrent) {
-      if (checked?.isCorrect === true) return 'bg-green-100 text-green-700 ring-2 ring-gray-900 shadow-sm';
-      if (checked?.isCorrect === false) return 'bg-red-100 text-red-700 ring-2 ring-gray-900 shadow-sm';
-      if (isMarked) return 'bg-orange-100 text-orange-700 ring-2 ring-gray-900 shadow-sm';
-      if (isAnswered) return 'bg-yellow-100 text-yellow-700 ring-2 ring-gray-900 shadow-sm';
-      return 'bg-white text-gray-700 ring-2 ring-gray-900 shadow-sm';
+      if (checked?.isCorrect === true) return 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
+      if (checked?.isCorrect === false) return 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
+      if (isMarked) return 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
+      if (isAnswered) return 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
+      return 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
     }
 
     // Checked answers
     if (checked?.isCorrect === true) {
-      return 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200';
+      return 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-200 dark:hover:bg-emerald-900/50';
     }
     if (checked?.isCorrect === false) {
-      return 'bg-red-100 text-red-700 border-red-300 hover:bg-red-200';
+      return 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-700 hover:bg-rose-200 dark:hover:bg-rose-900/50';
     }
 
     // Marked for review
     if (isMarked) {
-      return 'bg-orange-100 text-orange-700 border-orange-300 hover:bg-orange-200';
+      return 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-300 dark:border-orange-700 hover:bg-orange-200 dark:hover:bg-orange-900/50';
     }
 
     // Answered but not checked
     if (isAnswered) {
-      return 'bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-200';
+      return 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-900/50';
     }
 
     // Not answered
-    return 'bg-gray-50 text-gray-600 border-gray-300 hover:bg-gray-100';
+    return 'bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600';
   };
 
   const getStatusIcon = (index) => {
@@ -62,32 +62,32 @@ const QuestionNav = ({
     const checked = checkedAnswers[questionId];
 
     if (checked?.isCorrect === true) {
-      return <Check className="w-3.5 h-3.5 text-green-600 absolute -top-1 -right-1 bg-white rounded-full" />;
+      return <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute -top-1 -right-1 bg-white dark:bg-gray-800 rounded-full" />;
     }
     if (checked?.isCorrect === false) {
-      return <X className="w-3.5 h-3.5 text-red-600 absolute -top-1 -right-1 bg-white rounded-full" />;
+      return <X className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 absolute -top-1 -right-1 bg-white dark:bg-gray-800 rounded-full" />;
     }
     return null;
   };
 
   return (
-    <div className="p-4 bg-white">
+    <div className="p-4 bg-white dark:bg-gray-800">
       {/* Legend - compact row */}
-      <div className="flex flex-wrap items-center justify-center gap-4 mb-3 text-xs text-gray-600">
+      <div className="flex flex-wrap items-center justify-center gap-4 mb-3 text-xs text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-1.5">
-          <Flag className="w-3.5 h-3.5 text-orange-500" />
+          <Flag className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
           <span>Review</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded bg-green-100 border border-green-300" />
+          <span className="w-3.5 h-3.5 rounded bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-300 dark:border-emerald-700" />
           <span>Correct</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded bg-red-100 border border-red-300" />
+          <span className="w-3.5 h-3.5 rounded bg-rose-100 dark:bg-rose-900/30 border border-rose-300 dark:border-rose-700" />
           <span>Incorrect</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded bg-yellow-100 border border-yellow-300" />
+          <span className="w-3.5 h-3.5 rounded bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700" />
           <span>Answered</span>
         </div>
       </div>

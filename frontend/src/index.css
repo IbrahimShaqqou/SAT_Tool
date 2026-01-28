@@ -19,7 +19,7 @@
       Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-gray-100 text-gray-900;
   }
 
   .dark body,

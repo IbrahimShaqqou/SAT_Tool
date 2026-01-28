@@ -288,16 +288,16 @@ const QuestionBankPage = () => {
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Question Bank</h1>
-        <p className="text-gray-500 mt-1">Browse questions by domain and skill</p>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Question Bank</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Browse questions by domain and skill</p>
       </div>
 
       {/* Loading overlay for question loading */}
       {isLoadingQuestions && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-xl flex items-center gap-4">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl flex items-center gap-4">
             <LoadingSpinner />
-            <span className="text-gray-700">Loading questions...</span>
+            <span className="text-gray-700 dark:text-gray-300">Loading questions...</span>
           </div>
         </div>
       )}
@@ -311,27 +311,27 @@ const QuestionBankPage = () => {
           <Card key={subject}>
             <Card.Header>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <SubjectIcon className="h-5 w-5 text-gray-600" />
+                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                  <SubjectIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                 </div>
                 <div>
                   <Card.Title>
                     {subject === 'math' ? 'Math' : 'Reading & Writing'}
                   </Card.Title>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     {subjectDomains.reduce((sum, d) => sum + (d.question_count || 0), 0)} questions
                   </p>
                 </div>
               </div>
             </Card.Header>
             <Card.Content className="p-0">
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-gray-100 dark:divide-gray-700">
                 {subjectDomains.map(domain => (
                   <div key={domain.id}>
                     {/* Domain header */}
                     <button
                       onClick={() => toggleDomain(domain.id)}
-                      className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors"
+                      className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         {expandedDomains.has(domain.id) ? (
@@ -339,7 +339,7 @@ const QuestionBankPage = () => {
                         ) : (
                           <ChevronRight className="h-4 w-4 text-gray-400" />
                         )}
-                        <span className="font-medium text-gray-900">{domain.name}</span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">{domain.name}</span>
                       </div>
                       <Badge variant="default" size="sm">
                         {domain.question_count || 0} questions
@@ -348,7 +348,7 @@ const QuestionBankPage = () => {
 
                     {/* Skills list */}
                     {expandedDomains.has(domain.id) && (
-                      <div className="bg-gray-50 border-t border-gray-100">
+                      <div className="bg-gray-50 dark:bg-gray-700/30 border-t border-gray-100 dark:border-gray-700">
                         {isLoadingSkills[domain.id] ? (
                           <div className="flex items-center justify-center py-4">
                             <LoadingSpinner size="sm" />
@@ -360,9 +360,9 @@ const QuestionBankPage = () => {
                                 key={skill.id}
                                 onClick={() => selectSkill(skill, domain)}
                                 disabled={isLoadingQuestions}
-                                className="w-full flex items-center justify-between px-8 py-2 hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
+                                className="w-full flex items-center justify-between px-8 py-2 hover:bg-gray-100 dark:hover:bg-gray-600/50 transition-colors text-left disabled:opacity-50"
                               >
-                                <span className="text-sm text-gray-700">{skill.name}</span>
+                                <span className="text-sm text-gray-700 dark:text-gray-300">{skill.name}</span>
                                 <div className="flex items-center gap-2">
                                   <Badge variant="info" size="sm">
                                     {skill.question_count || 0}
@@ -372,7 +372,7 @@ const QuestionBankPage = () => {
                               </button>
                             ))}
                             {(skillsByDomain[domain.id] || []).length === 0 && (
-                              <p className="text-sm text-gray-400 px-8 py-2">No skills found</p>
+                              <p className="text-sm text-gray-400 dark:text-gray-500 px-8 py-2">No skills found</p>
                             )}
                           </div>
                         )}
@@ -400,7 +400,7 @@ const QuestionBankPage = () => {
 
     // Question panel content
     const questionPanel = (
-      <div className={`bg-white pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+      <div className={`bg-white dark:bg-gray-800 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
         <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
           <QuestionDisplay
             questionNumber={currentIndex + 1}
@@ -447,12 +447,12 @@ const QuestionBankPage = () => {
                 </Button>
               )}
               {currentChecked && !currentQuestion.explanation_html && (
-                <span className="text-sm text-gray-400 italic">
+                <span className="text-sm text-gray-400 dark:text-gray-500 italic">
                   No explanation available for this question
                 </span>
               )}
               {currentChecked && !currentChecked.isCorrect && currentQuestion.answer_type === 'SPR' && (
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   {currentChecked.correctAnswers?.length > 0 && currentChecked.correctAnswers[0] !== '*'
                     ? `Correct answer: ${currentChecked.correctAnswers.join(' or ')}`
                     : 'See explanation for correct answer'}
@@ -462,10 +462,10 @@ const QuestionBankPage = () => {
 
             {/* Explanation display */}
             {showExplanation && currentQuestion.explanation_html && (
-              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 className="text-sm font-medium text-blue-900 mb-2">Explanation</h4>
+              <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
+                <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
                 <div
-                  className="prose prose-sm prose-blue max-w-none text-blue-800"
+                  className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
                   dangerouslySetInnerHTML={{ __html: currentQuestion.explanation_html }}
                 />
               </div>
@@ -477,9 +477,9 @@ const QuestionBankPage = () => {
 
     // Passage panel content
     const passagePanel = hasPassage ? (
-      <div className="h-full overflow-auto p-6 bg-white">
+      <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-800">
         <div
-          className="prose prose-gray max-w-none"
+          className="prose prose-gray dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
         />
       </div>
@@ -490,7 +490,7 @@ const QuestionBankPage = () => {
       <>
         {/* Collapsible Question Navigator */}
         {showNav && (
-          <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white shadow-xl border border-gray-200 rounded-t-xl max-h-[50vh] overflow-hidden"
+          <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
                style={{ width: 'min(500px, calc(100vw - 32px))' }}>
             <QuestionNav
               totalQuestions={practiceQuestions.length}
@@ -505,7 +505,7 @@ const QuestionBankPage = () => {
         )}
 
         {/* Fixed bottom controls */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white">
+        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           {/* Previous */}
           <Button
             variant="secondary"
@@ -519,10 +519,10 @@ const QuestionBankPage = () => {
           {/* Question selector */}
           <button
             onClick={() => setShowNav(!showNav)}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
           >
             <span className="font-semibold">{currentIndex + 1}</span>
-            <span className="text-gray-400">/</span>
+            <span className="text-gray-400 dark:text-gray-500">/</span>
             <span>{practiceQuestions.length}</span>
             <svg className={`w-4 h-4 transition-transform ${showNav ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -543,27 +543,27 @@ const QuestionBankPage = () => {
     );
 
     return (
-      <div className="h-screen flex flex-col bg-white">
+      <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
         {/* Custom Header with back button */}
-        <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+        <header className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
           {/* Left: Back button and skill name */}
           <div className="flex items-center gap-4">
             <button
               onClick={goBack}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <ArrowLeft className="h-5 w-5 text-gray-600" />
+              <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
             <div>
-              <span className="text-sm font-medium text-gray-900">{selectedSkill?.name}</span>
-              <span className="text-xs text-gray-500 ml-2">({selectedDomain?.name})</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{selectedSkill?.name}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">({selectedDomain?.name})</span>
             </div>
           </div>
 
           {/* Center: Question count */}
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">Question</span>
-            <span className="font-semibold text-gray-900">
+            <span className="text-sm text-gray-500 dark:text-gray-400">Question</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">
               {currentIndex + 1} of {practiceQuestions.length}
             </span>
           </div>
@@ -576,8 +576,8 @@ const QuestionBankPage = () => {
                   onClick={() => setShowReferenceSheet(!showReferenceSheet)}
                   className={`p-2 rounded-lg transition-colors ${
                     showReferenceSheet
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                   title="Reference Sheet"
                 >
@@ -587,8 +587,8 @@ const QuestionBankPage = () => {
                   onClick={() => setShowCalculator(!showCalculator)}
                   className={`p-2 rounded-lg transition-colors ${
                     showCalculator
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                   title="Calculator"
                 >
