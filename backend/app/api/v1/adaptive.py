@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db, get_current_user, get_current_tutor, get_current_admin
 from app.models.user import User
 from app.models.question import Question
-from app.models.taxonomy import Skill
+from app.models.taxonomy import Skill, Domain
 from app.models.test import TestSession, TestQuestion
 from app.models.response import StudentResponse, StudentSkill
 from app.models.enums import TestType, TestStatus, AnswerType
@@ -38,6 +38,8 @@ from app.schemas.adaptive import (
     DomainAbilityInfo,
     SectionAbilityInfo,
     HierarchicalAbilityProfile,
+    SkillMasteryInfo,
+    SkillMasteryResponse,
 )
 from app.schemas.question import ChoiceOption, DomainBrief, SkillBrief
 from app.services.irt_service import (
@@ -53,11 +55,17 @@ from app.services.irt_service import (
     get_student_adaptive_settings,
     propagate_ability_updates,
     get_stale_skills,
+    get_effective_mastery_level,
+    _days_since_practice,
+    MasteryLevel,
+    MASTERY_LEVEL_NAMES,
+    MASTERY_LEVEL_COLORS,
     PRIOR_MEAN,
     PRIOR_SD,
     DEFAULT_A,
     DEFAULT_B,
     DEFAULT_C_MCQ,
+    STALE_SKILL_THRESHOLD_DAYS,
 )
 from app.services.irt_calibration import (
     initialize_parameters_sql,
@@ -266,6 +274,176 @@ def get_skill_ability_endpoint(
         ability=_make_ability_estimate(theta, se, count),
         mastery_level=mastery,
         last_practiced=last_practiced,
+    )
+
+
+def _build_skill_mastery_info(
+    sr: StudentSkill,
+    skill: Skill,
+    domain: Optional[Domain]
+) -> SkillMasteryInfo:
+    """Build SkillMasteryInfo from a StudentSkill record."""
+    # Get stored mastery level enum (default to 0 if not set)
+    stored_level = MasteryLevel(sr.mastery_level_enum) if sr.mastery_level_enum is not None else MasteryLevel.NOT_STARTED
+
+    # Apply decay for display
+    effective_level, is_stale = get_effective_mastery_level(stored_level, sr.last_practiced_at)
+
+    # Calculate accuracy percentages
+    total = sr.questions_attempted or 0
+    correct = sr.questions_correct or 0
+    accuracy = (correct / total * 100) if total > 0 else 0.0
+
+    hard_total = sr.hard_questions_total or 0
+    hard_correct = sr.hard_questions_correct or 0
+    hard_accuracy = (hard_correct / hard_total * 100) if hard_total > 0 else 0.0
+
+    medium_total = sr.medium_questions_total or 0
+    medium_correct = sr.medium_questions_correct or 0
+    medium_accuracy = (medium_correct / medium_total * 100) if medium_total > 0 else 0.0
+
+    # Determine confidence level based on response count
+    if total >= 15:
+        confidence = "high"
+    elif total >= 5:
+        confidence = "medium"
+    else:
+        confidence = "low"
+
+    # Calculate days since practice
+    days_since = _days_since_practice(sr.last_practiced_at)
+    days_since = min(days_since, 9999)  # Cap for display
+
+    # Determine if needs review
+    needs_review = (
+        is_stale or
+        (effective_level.value < MasteryLevel.MASTERED.value and days_since > 7) or
+        (effective_level == MasteryLevel.FAMILIAR and accuracy < 60)
+    )
+
+    # Determine next level and requirements
+    next_level = None
+    requirements_met = {}
+    progress_percent = 0.0
+
+    if effective_level == MasteryLevel.NOT_STARTED:
+        next_level = MASTERY_LEVEL_NAMES[MasteryLevel.FAMILIAR]
+        requirements_met = {
+            "responses": total >= 3,
+            "accuracy": accuracy >= 50,
+        }
+        progress_percent = sum(requirements_met.values()) / len(requirements_met) * 100
+    elif effective_level == MasteryLevel.FAMILIAR:
+        next_level = MASTERY_LEVEL_NAMES[MasteryLevel.PROFICIENT]
+        theta = sr.ability_theta or 0
+        requirements_met = {
+            "responses": total >= 5,
+            "medium_accuracy": medium_accuracy >= 70 and medium_total >= 3,
+            "theta": theta >= 0,
+        }
+        progress_percent = sum(requirements_met.values()) / len(requirements_met) * 100
+    elif effective_level == MasteryLevel.PROFICIENT:
+        next_level = MASTERY_LEVEL_NAMES[MasteryLevel.MASTERED]
+        theta = sr.ability_theta or 0
+        requirements_met = {
+            "responses": total >= 8,
+            "hard_accuracy": hard_accuracy >= 80 and hard_total >= 3,
+            "theta": theta >= 1.0,
+            "recency": days_since <= 14,
+        }
+        progress_percent = sum(requirements_met.values()) / len(requirements_met) * 100
+    elif effective_level == MasteryLevel.MASTERED:
+        next_level = None
+        requirements_met = {}
+        progress_percent = 100.0
+
+    return SkillMasteryInfo(
+        skill_id=skill.id,
+        skill_name=skill.name,
+        skill_code=skill.code,
+        domain_name=domain.name if domain else None,
+        domain_code=domain.code if domain else None,
+        subject_area=domain.subject_area.value if domain and domain.subject_area else None,
+        mastery_level=effective_level.value,
+        mastery_level_name=MASTERY_LEVEL_NAMES[effective_level],
+        mastery_level_color=MASTERY_LEVEL_COLORS[effective_level],
+        responses_count=total,
+        accuracy_percent=round(accuracy, 1),
+        theta=round(sr.ability_theta, 2) if sr.ability_theta is not None else None,
+        confidence=confidence,
+        hard_responses_count=hard_total,
+        hard_accuracy_percent=round(hard_accuracy, 1),
+        medium_responses_count=medium_total,
+        medium_accuracy_percent=round(medium_accuracy, 1),
+        next_level=next_level,
+        requirements_met=requirements_met,
+        progress_percent=round(progress_percent, 1),
+        days_since_practice=days_since if days_since < 9999 else 0,
+        last_practiced_at=sr.last_practiced_at,
+        is_stale=is_stale,
+        needs_review=needs_review,
+        mastery_percentage=sr.mastery_level or 0.0,
+    )
+
+
+@router.get("/mastery-profile", response_model=SkillMasteryResponse)
+def get_mastery_profile(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> SkillMasteryResponse:
+    """
+    Get the current user's mastery profile using Khan Academy-style 4-level system.
+
+    This is the unified mastery view for both students and tutors.
+
+    Mastery levels:
+    - 0 (Not Started): No practice yet
+    - 1 (Familiar): 3+ responses, 50%+ accuracy
+    - 2 (Proficient): 5+ responses, 70%+ on medium+, theta ≥ 0
+    - 3 (Mastered): 8+ responses, 80%+ on hard, theta ≥ 1, practiced within 14 days
+    """
+    # Get all student skills
+    skill_records = db.query(StudentSkill).filter(
+        StudentSkill.student_id == current_user.id
+    ).all()
+
+    skills = []
+    for sr in skill_records:
+        skill = db.query(Skill).filter(Skill.id == sr.skill_id).first()
+        if not skill:
+            continue
+
+        domain = db.query(Domain).filter(Domain.id == skill.domain_id).first()
+        skill_info = _build_skill_mastery_info(sr, skill, domain)
+        skills.append(skill_info)
+
+    # Sort by mastery level (ascending) for weak skills, descending for strong
+    sorted_by_mastery = sorted(skills, key=lambda x: (x.mastery_level, x.accuracy_percent))
+
+    # Get weak skills (lowest mastery level, at least 1 question attempted)
+    weak_skills = [s for s in sorted_by_mastery if s.responses_count >= 1][:5]
+
+    # Get strong skills (highest mastery level, at least 1 question attempted)
+    strong_skills = [s for s in sorted_by_mastery if s.responses_count >= 1][-5:][::-1]
+
+    # Calculate summary stats
+    total_practiced = len([s for s in skills if s.responses_count > 0])
+    mastered_count = len([s for s in skills if s.mastery_level == MasteryLevel.MASTERED.value])
+    proficient_count = len([s for s in skills if s.mastery_level == MasteryLevel.PROFICIENT.value])
+    familiar_count = len([s for s in skills if s.mastery_level == MasteryLevel.FAMILIAR.value])
+    not_started_count = len([s for s in skills if s.mastery_level == MasteryLevel.NOT_STARTED.value])
+    needs_review = len([s for s in skills if s.needs_review])
+
+    return SkillMasteryResponse(
+        skills=skills,
+        weak_skills=weak_skills,
+        strong_skills=strong_skills,
+        needs_review_count=needs_review,
+        total_skills_practiced=total_practiced,
+        skills_mastered=mastered_count,
+        skills_proficient=proficient_count,
+        skills_familiar=familiar_count,
+        skills_not_started=not_started_count,
     )
 
 
@@ -952,7 +1130,6 @@ def get_hierarchical_ability_profile(
     """
     from app.models.enums import UserRole
     from app.models.adaptive import StudentDomainAbility, StudentSectionAbility
-    from app.models.taxonomy import Domain
 
     # Verify access
     target_student = db.query(User).filter(User.id == student_id).first()

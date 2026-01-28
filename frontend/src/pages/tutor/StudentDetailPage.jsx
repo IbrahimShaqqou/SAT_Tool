@@ -1,5 +1,6 @@
 /**
  * Student Detail Page - Comprehensive student analytics with domain/skill mastery
+ * Uses Khan Academy-style 4-level mastery system
  */
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -15,12 +16,17 @@ import {
   XCircle,
   BarChart3,
   Zap,
+  RefreshCw,
 } from 'lucide-react';
 import { Card, Button, Badge, ProgressBar, Tabs, LoadingSpinner } from '../../components/ui';
+import {
+  MasteryBadge,
+  MasterySummary,
+} from '../../components/ui/MasteryBadge';
 import { AccuracyTrend, SkillBreakdown, DomainRadar } from '../../components/charts';
 import { tutorService } from '../../services';
 
-// Mastery level helper
+// Legacy mastery level helper (for backwards compatibility with old data)
 const getMasteryLevel = (accuracy, questionsAttempted) => {
   if (questionsAttempted < 3) return { level: 'Not enough data', color: 'gray', icon: null };
   if (accuracy >= 90) return { level: 'Mastered', color: 'green', icon: CheckCircle };
@@ -90,45 +96,68 @@ const DomainMasteryCard = ({ domain, skills }) => {
   );
 };
 
-// Skill Mastery Row Component
+// Skill Mastery Row Component - updated to use new 4-level system
 const SkillMasteryRow = ({ skill }) => {
-  const mastery = getMasteryLevel(skill.accuracy, skill.questions_attempted);
+  // Use new mastery_level (0-3) if available, otherwise fall back to accuracy-based
+  const masteryLevel = skill.mastery_level !== undefined ? skill.mastery_level : null;
+  const hasNewMastery = masteryLevel !== null && typeof masteryLevel === 'number' && masteryLevel <= 3;
+
+  const legacyMastery = getMasteryLevel(skill.accuracy, skill.questions_attempted);
   const ability = getAbilityLevel(skill.ability_theta);
-  const MasteryIcon = mastery.icon;
+  const LegacyMasteryIcon = legacyMastery.icon;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-lg hover:shadow-sm transition-shadow">
+    <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-sm transition-shadow">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            {MasteryIcon && <MasteryIcon className={`h-4 w-4 text-${mastery.color}-500`} />}
-            <h4 className="font-medium text-gray-900">{skill.skill_name}</h4>
+            {hasNewMastery ? (
+              <MasteryBadge level={masteryLevel} size="sm" isStale={skill.is_stale} />
+            ) : (
+              LegacyMasteryIcon && <LegacyMasteryIcon className={`h-4 w-4 text-${legacyMastery.color}-500`} />
+            )}
+            <h4 className="font-medium text-gray-900 dark:text-gray-100">{skill.skill_name}</h4>
           </div>
-          <p className="text-sm text-gray-500 mt-1">{skill.domain_name}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{skill.domain_name}</p>
         </div>
         <div className="text-right">
-          <span className={`text-xl font-bold text-${mastery.color}-600`}>
-            {skill.accuracy.toFixed(0)}%
+          <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            {(skill.accuracy_percent || skill.accuracy || 0).toFixed(0)}%
           </span>
-          <p className="text-xs text-gray-500">{skill.questions_attempted} questions</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {skill.responses_count || skill.questions_attempted || 0} questions
+          </p>
         </div>
       </div>
 
       <div className="mt-3">
-        <ProgressBar value={skill.accuracy} variant="auto" size="sm" />
+        <ProgressBar value={skill.accuracy_percent || skill.accuracy || 0} variant="auto" size="sm" />
       </div>
 
       <div className="mt-3 flex items-center justify-between text-sm">
-        <span className={`px-2 py-0.5 rounded-full text-xs bg-${mastery.color}-100 text-${mastery.color}-700`}>
-          {mastery.level}
-        </span>
-        {skill.ability_theta !== null && skill.ability_theta !== undefined && (
-          <span className={`flex items-center gap-1 text-xs text-${ability.color}-600`}>
-            <Brain className="h-3 w-3" />
-            IRT: {skill.ability_theta > 0 ? '+' : ''}{skill.ability_theta.toFixed(2)}
-            <span className="text-gray-400">({ability.level})</span>
+        {!hasNewMastery && (
+          <span className={`px-2 py-0.5 rounded-full text-xs bg-${legacyMastery.color}-100 text-${legacyMastery.color}-700`}>
+            {legacyMastery.level}
           </span>
         )}
+        {hasNewMastery && skill.is_stale && (
+          <span className="flex items-center gap-1 text-xs text-orange-500">
+            <RefreshCw className="h-3 w-3" />
+            Needs review
+          </span>
+        )}
+        {hasNewMastery && !skill.is_stale && skill.days_since_practice > 0 && (
+          <span className="text-xs text-gray-400">
+            {skill.days_since_practice}d ago
+          </span>
+        )}
+        {(skill.ability_theta !== null && skill.ability_theta !== undefined) || skill.theta !== null ? (
+          <span className={`flex items-center gap-1 text-xs text-${ability.color}-600 dark:text-${ability.color}-400`}>
+            <Brain className="h-3 w-3" />
+            IRT: {(skill.theta || skill.ability_theta) > 0 ? '+' : ''}{(skill.theta || skill.ability_theta)?.toFixed(2)}
+            <span className="text-gray-400 dark:text-gray-500">({ability.level})</span>
+          </span>
+        ) : null}
       </div>
     </div>
   );
@@ -244,7 +273,10 @@ const StudentDetailPage = () => {
   const totalQuestions = progress?.total_questions_answered || 0;
   const overallAccuracy = progress?.overall_accuracy || 0;
   const weakAreasCount = weaknesses?.weak_skills?.length || 0;
-  const masteredCount = progress?.skills?.filter(s => s.accuracy >= 90 && s.questions_attempted >= 3).length || 0;
+  // Use new mastery_level if available (3 = Mastered), otherwise fall back to accuracy
+  const masteredCount = progress?.skills?.filter(s =>
+    s.mastery_level === 3 || (s.mastery_level === undefined && s.accuracy >= 90 && s.questions_attempted >= 3)
+  ).length || 0;
 
   return (
     <div className="space-y-6">
@@ -284,49 +316,70 @@ const StudentDetailPage = () => {
         </Card>
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Target className="h-5 w-5 text-green-600" />
+            <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <Target className="h-5 w-5 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{totalQuestions}</p>
-              <p className="text-sm text-gray-500">Questions</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{totalQuestions}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Questions</p>
             </div>
           </div>
         </Card>
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <CheckCircle className="h-5 w-5 text-purple-600" />
+            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{masteredCount}</p>
-              <p className="text-sm text-gray-500">Skills Mastered</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{masteredCount}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Skills Mastered</p>
             </div>
           </div>
         </Card>
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-100 rounded-lg">
-              <AlertTriangle className="h-5 w-5 text-amber-600" />
+            <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+              <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{weakAreasCount}</p>
-              <p className="text-sm text-gray-500">Weak Areas</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{weakAreasCount}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Weak Areas</p>
             </div>
           </div>
         </Card>
         <Card>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-100 rounded-lg">
-              <Clock className="h-5 w-5 text-indigo-600" />
+            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+              <Clock className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold">{progress?.sessions_completed || 0}</p>
-              <p className="text-sm text-gray-500">Sessions</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.sessions_completed || 0}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Sessions</p>
             </div>
           </div>
         </Card>
       </div>
+
+      {/* Mastery Overview */}
+      {progress?.skills?.length > 0 && (
+        <Card>
+          <Card.Header>
+            <Card.Title className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-amber-500" />
+              Mastery Overview
+            </Card.Title>
+            <Card.Description>Skill progression across all levels</Card.Description>
+          </Card.Header>
+          <Card.Content>
+            <MasterySummary
+              mastered={progress.skills?.filter(s => s.mastery_level === 3).length || 0}
+              proficient={progress.skills?.filter(s => s.mastery_level === 2).length || 0}
+              familiar={progress.skills?.filter(s => s.mastery_level === 1).length || 0}
+              notStarted={progress.skills?.filter(s => s.mastery_level === 0 || s.mastery_level === undefined).length || 0}
+            />
+          </Card.Content>
+        </Card>
+      )}
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="domains">

@@ -5,9 +5,12 @@ Implements 3-Parameter Logistic (3PL) IRT model for:
 - Student ability estimation
 - Adaptive question selection
 - Per-skill ability tracking
+- Khan Academy-style 4-level mastery system
 """
 
 import math
+from datetime import datetime, timezone
+from enum import IntEnum
 from typing import List, Tuple, Optional, Dict, Any
 from uuid import UUID
 import numpy as np
@@ -18,6 +21,41 @@ from app.models.question import Question
 from app.models.response import StudentResponse, StudentSkill
 from app.models.adaptive import StudentAdaptiveSettings
 from app.models.enums import AnswerType
+
+
+# =============================================================================
+# Mastery Level System (Khan Academy-style)
+# =============================================================================
+
+class MasteryLevel(IntEnum):
+    """
+    4-level mastery system with clear progression requirements.
+
+    Each level has specific requirements that must be met:
+    - NOT_STARTED: No responses yet
+    - FAMILIAR: Basic understanding demonstrated
+    - PROFICIENT: Solid understanding on medium+ difficulty
+    - MASTERED: Complete mastery on hard questions, practiced recently
+    """
+    NOT_STARTED = 0
+    FAMILIAR = 1
+    PROFICIENT = 2
+    MASTERED = 3
+
+
+MASTERY_LEVEL_NAMES = {
+    MasteryLevel.NOT_STARTED: "Not Started",
+    MasteryLevel.FAMILIAR: "Familiar",
+    MasteryLevel.PROFICIENT: "Proficient",
+    MasteryLevel.MASTERED: "Mastered",
+}
+
+MASTERY_LEVEL_COLORS = {
+    MasteryLevel.NOT_STARTED: "gray",
+    MasteryLevel.FAMILIAR: "blue",
+    MasteryLevel.PROFICIENT: "green",
+    MasteryLevel.MASTERED: "gold",
+}
 
 
 # =============================================================================
@@ -46,8 +84,22 @@ DEFAULT_CHALLENGE_BIAS = 0.5  # Increased from 0.3 for faster progression
 DEFAULT_THETA_UPDATE_WEIGHT = 1.0
 
 # Sliding window for ability estimation
-ABILITY_ESTIMATION_WINDOW = 20  # Only use last N responses for estimation
+ABILITY_ESTIMATION_WINDOW = 10  # Reduced from 20 for faster responsiveness
 MIN_THETA_FOR_HIGH_ACCURACY = 0.5  # Minimum theta if 80%+ accuracy in session
+
+# Mastery level requirements
+MASTERY_FAMILIAR_MIN_RESPONSES = 3
+MASTERY_FAMILIAR_MIN_ACCURACY = 50
+MASTERY_PROFICIENT_MIN_RESPONSES = 5
+MASTERY_PROFICIENT_MIN_MEDIUM_ACCURACY = 70
+MASTERY_PROFICIENT_MIN_THETA = 0.0
+MASTERY_MASTERED_MIN_RESPONSES = 8
+MASTERY_MASTERED_MIN_HARD_ACCURACY = 80
+MASTERY_MASTERED_MIN_THETA = 1.0
+MASTERY_MASTERED_MAX_DAYS_SINCE_PRACTICE = 14
+
+# Mastery decay thresholds
+MASTERY_DECAY_PROFICIENT_DAYS = 30  # Proficient decays after 30 days
 
 # "Test the water" exploration settings
 EXPLORATION_PROBABILITY = 0.15  # 15% chance to try a harder question
@@ -57,6 +109,283 @@ EXPLORATION_DIFFICULTY_BOOST = 1.0  # How much harder (in theta units)
 DECAY_GRACE_PERIOD_DAYS = 14  # No decay within 14 days
 DECAY_RATE_PER_WEEK = 0.05  # Theta decays 0.05 per week after grace period
 STALE_SKILL_THRESHOLD_DAYS = 21  # Skills inactive 3+ weeks are "stale"
+
+
+# =============================================================================
+# Mastery Level Calculation
+# =============================================================================
+
+def _calculate_difficulty_accuracy(responses: List[Dict[str, Any]], min_b: float) -> float:
+    """
+    Calculate accuracy for responses at or above a difficulty threshold.
+
+    Args:
+        responses: List of response dicts with 'b' and 'is_correct' keys
+        min_b: Minimum difficulty threshold (b parameter)
+
+    Returns:
+        Accuracy percentage (0-100), or 0 if no qualifying responses
+    """
+    filtered = [r for r in responses if r.get("b", 0) >= min_b]
+    if not filtered:
+        return 0.0
+    correct = sum(1 for r in filtered if r.get("is_correct", False))
+    return (correct / len(filtered)) * 100
+
+
+def _days_since_practice(last_practiced_at: Optional[datetime]) -> int:
+    """Calculate days since last practice. Returns large number if never practiced."""
+    if last_practiced_at is None:
+        return 9999
+
+    now = datetime.now(timezone.utc)
+    if last_practiced_at.tzinfo is None:
+        last_practiced_at = last_practiced_at.replace(tzinfo=timezone.utc)
+
+    return (now - last_practiced_at).days
+
+
+def calculate_mastery_level(
+    responses: List[Dict[str, Any]],
+    theta: float,
+    last_practiced_at: Optional[datetime]
+) -> Tuple[MasteryLevel, Dict[str, Any]]:
+    """
+    Calculate mastery level and progress toward next level.
+
+    Uses Khan Academy-style 4-level system:
+    - NOT_STARTED: No responses
+    - FAMILIAR: 3+ responses, 50%+ accuracy
+    - PROFICIENT: 5+ responses, 70%+ on medium+ difficulty, theta ≥ 0
+    - MASTERED: 8+ responses, 80%+ on hard difficulty, theta ≥ 1, practiced within 14 days
+
+    Args:
+        responses: List of response data with IRT parameters and correctness
+            Each response: {"a", "b", "c", "is_correct"}
+        theta: Current ability estimate
+        last_practiced_at: When the skill was last practiced
+
+    Returns:
+        Tuple of (level, progress_info) where progress_info contains:
+        - current_level_name: str
+        - next_level: Optional[str] (None if at max)
+        - requirements_met: Dict[str, bool]
+        - requirements_values: Dict[str, Any] (current values)
+        - requirements_needed: Dict[str, Any] (required values)
+        - progress_percent: float (0-100% toward next level)
+    """
+    total = len(responses)
+    correct = sum(1 for r in responses if r.get("is_correct", False))
+    accuracy = (correct / total * 100) if total > 0 else 0.0
+
+    # Calculate difficulty-specific accuracy
+    # Medium difficulty: b >= 0 (average and above)
+    # Hard difficulty: b >= 1.0 (significantly above average)
+    medium_accuracy = _calculate_difficulty_accuracy(responses, min_b=0.0)
+    hard_accuracy = _calculate_difficulty_accuracy(responses, min_b=1.0)
+
+    # Count difficulty-specific responses
+    hard_responses_count = len([r for r in responses if r.get("b", 0) >= 1.0])
+    medium_responses_count = len([r for r in responses if r.get("b", 0) >= 0.0])
+
+    # Check recency
+    days_since = _days_since_practice(last_practiced_at)
+    is_recent = days_since <= MASTERY_MASTERED_MAX_DAYS_SINCE_PRACTICE
+
+    # Base progress info structure
+    progress_info = {
+        "current_level_name": "",
+        "next_level": None,
+        "requirements_met": {},
+        "requirements_values": {
+            "responses": total,
+            "accuracy": round(accuracy, 1),
+            "medium_accuracy": round(medium_accuracy, 1),
+            "hard_accuracy": round(hard_accuracy, 1),
+            "theta": round(theta, 2),
+            "days_since_practice": days_since,
+            "hard_responses": hard_responses_count,
+            "medium_responses": medium_responses_count,
+        },
+        "requirements_needed": {},
+        "progress_percent": 0.0,
+    }
+
+    # Determine level from highest to lowest
+    if total == 0:
+        level = MasteryLevel.NOT_STARTED
+        progress_info["current_level_name"] = MASTERY_LEVEL_NAMES[level]
+        progress_info["next_level"] = MASTERY_LEVEL_NAMES[MasteryLevel.FAMILIAR]
+        progress_info["requirements_needed"] = {
+            "responses": MASTERY_FAMILIAR_MIN_RESPONSES,
+            "accuracy": MASTERY_FAMILIAR_MIN_ACCURACY,
+        }
+        progress_info["requirements_met"] = {
+            "responses": False,
+            "accuracy": False,
+        }
+        return level, progress_info
+
+    # Check MASTERED requirements
+    mastered_responses_met = total >= MASTERY_MASTERED_MIN_RESPONSES
+    mastered_hard_accuracy_met = hard_accuracy >= MASTERY_MASTERED_MIN_HARD_ACCURACY and hard_responses_count >= 3
+    mastered_theta_met = theta >= MASTERY_MASTERED_MIN_THETA
+    mastered_recency_met = is_recent
+
+    if mastered_responses_met and mastered_hard_accuracy_met and mastered_theta_met and mastered_recency_met:
+        level = MasteryLevel.MASTERED
+        progress_info["current_level_name"] = MASTERY_LEVEL_NAMES[level]
+        progress_info["next_level"] = None  # Already at max
+        progress_info["requirements_met"] = {
+            "responses": True,
+            "hard_accuracy": True,
+            "theta": True,
+            "recency": True,
+        }
+        progress_info["progress_percent"] = 100.0
+        return level, progress_info
+
+    # Check PROFICIENT requirements
+    proficient_responses_met = total >= MASTERY_PROFICIENT_MIN_RESPONSES
+    proficient_medium_accuracy_met = medium_accuracy >= MASTERY_PROFICIENT_MIN_MEDIUM_ACCURACY and medium_responses_count >= 3
+    proficient_theta_met = theta >= MASTERY_PROFICIENT_MIN_THETA
+
+    if proficient_responses_met and proficient_medium_accuracy_met and proficient_theta_met:
+        level = MasteryLevel.PROFICIENT
+        progress_info["current_level_name"] = MASTERY_LEVEL_NAMES[level]
+        progress_info["next_level"] = MASTERY_LEVEL_NAMES[MasteryLevel.MASTERED]
+        progress_info["requirements_needed"] = {
+            "responses": MASTERY_MASTERED_MIN_RESPONSES,
+            "hard_accuracy": MASTERY_MASTERED_MIN_HARD_ACCURACY,
+            "theta": MASTERY_MASTERED_MIN_THETA,
+            "recency_days": MASTERY_MASTERED_MAX_DAYS_SINCE_PRACTICE,
+        }
+        progress_info["requirements_met"] = {
+            "responses": mastered_responses_met,
+            "hard_accuracy": mastered_hard_accuracy_met,
+            "theta": mastered_theta_met,
+            "recency": mastered_recency_met,
+        }
+        # Calculate progress toward Mastered
+        met_count = sum([mastered_responses_met, mastered_hard_accuracy_met, mastered_theta_met, mastered_recency_met])
+        progress_info["progress_percent"] = round(met_count / 4 * 100, 1)
+        return level, progress_info
+
+    # Check FAMILIAR requirements
+    familiar_responses_met = total >= MASTERY_FAMILIAR_MIN_RESPONSES
+    familiar_accuracy_met = accuracy >= MASTERY_FAMILIAR_MIN_ACCURACY
+
+    if familiar_responses_met and familiar_accuracy_met:
+        level = MasteryLevel.FAMILIAR
+        progress_info["current_level_name"] = MASTERY_LEVEL_NAMES[level]
+        progress_info["next_level"] = MASTERY_LEVEL_NAMES[MasteryLevel.PROFICIENT]
+        progress_info["requirements_needed"] = {
+            "responses": MASTERY_PROFICIENT_MIN_RESPONSES,
+            "medium_accuracy": MASTERY_PROFICIENT_MIN_MEDIUM_ACCURACY,
+            "theta": MASTERY_PROFICIENT_MIN_THETA,
+        }
+        progress_info["requirements_met"] = {
+            "responses": proficient_responses_met,
+            "medium_accuracy": proficient_medium_accuracy_met,
+            "theta": proficient_theta_met,
+        }
+        # Calculate progress toward Proficient
+        met_count = sum([proficient_responses_met, proficient_medium_accuracy_met, proficient_theta_met])
+        progress_info["progress_percent"] = round(met_count / 3 * 100, 1)
+        return level, progress_info
+
+    # Default: still working toward Familiar after first attempt
+    level = MasteryLevel.NOT_STARTED if total == 0 else MasteryLevel.FAMILIAR
+    if total > 0 and not (familiar_responses_met and familiar_accuracy_met):
+        # Has attempted but doesn't meet Familiar requirements yet
+        level = MasteryLevel.NOT_STARTED
+
+    progress_info["current_level_name"] = MASTERY_LEVEL_NAMES[level]
+    progress_info["next_level"] = MASTERY_LEVEL_NAMES[MasteryLevel.FAMILIAR]
+    progress_info["requirements_needed"] = {
+        "responses": MASTERY_FAMILIAR_MIN_RESPONSES,
+        "accuracy": MASTERY_FAMILIAR_MIN_ACCURACY,
+    }
+    progress_info["requirements_met"] = {
+        "responses": familiar_responses_met,
+        "accuracy": familiar_accuracy_met,
+    }
+    # Calculate progress toward Familiar
+    met_count = sum([familiar_responses_met, familiar_accuracy_met])
+    progress_info["progress_percent"] = round(met_count / 2 * 100, 1)
+
+    return level, progress_info
+
+
+def get_effective_mastery_level(
+    mastery_level: MasteryLevel,
+    last_practiced_at: Optional[datetime]
+) -> Tuple[MasteryLevel, bool]:
+    """
+    Get mastery level with decay applied for display purposes.
+
+    Mastery decays if not practiced:
+    - MASTERED decays to PROFICIENT after 14 days
+    - PROFICIENT decays to FAMILIAR after 30 days
+
+    Args:
+        mastery_level: The stored mastery level
+        last_practiced_at: When the skill was last practiced
+
+    Returns:
+        Tuple of (effective_level, is_decayed)
+        is_decayed=True if level was reduced due to inactivity
+    """
+    days_since = _days_since_practice(last_practiced_at)
+
+    # MASTERED decays to PROFICIENT after 14 days
+    if mastery_level == MasteryLevel.MASTERED and days_since > MASTERY_MASTERED_MAX_DAYS_SINCE_PRACTICE:
+        return MasteryLevel.PROFICIENT, True
+
+    # PROFICIENT decays to FAMILIAR after 30 days
+    if mastery_level == MasteryLevel.PROFICIENT and days_since > MASTERY_DECAY_PROFICIENT_DAYS:
+        return MasteryLevel.FAMILIAR, True
+
+    return mastery_level, False
+
+
+def get_mastery_requirements_summary(level: MasteryLevel) -> Dict[str, Any]:
+    """
+    Get human-readable summary of requirements for a mastery level.
+
+    Useful for displaying in UI what students need to achieve each level.
+    """
+    summaries = {
+        MasteryLevel.NOT_STARTED: {
+            "description": "Start practicing to build familiarity",
+            "requirements": [],
+        },
+        MasteryLevel.FAMILIAR: {
+            "description": "Basic understanding demonstrated",
+            "requirements": [
+                f"Answer at least {MASTERY_FAMILIAR_MIN_RESPONSES} questions",
+                f"Achieve {MASTERY_FAMILIAR_MIN_ACCURACY}%+ overall accuracy",
+            ],
+        },
+        MasteryLevel.PROFICIENT: {
+            "description": "Solid understanding on medium difficulty",
+            "requirements": [
+                f"Answer at least {MASTERY_PROFICIENT_MIN_RESPONSES} questions",
+                f"Achieve {MASTERY_PROFICIENT_MIN_MEDIUM_ACCURACY}%+ accuracy on medium+ difficulty",
+                f"Reach ability level (theta) of {MASTERY_PROFICIENT_MIN_THETA}+",
+            ],
+        },
+        MasteryLevel.MASTERED: {
+            "description": "Complete mastery with recent practice",
+            "requirements": [
+                f"Answer at least {MASTERY_MASTERED_MIN_RESPONSES} questions",
+                f"Achieve {MASTERY_MASTERED_MIN_HARD_ACCURACY}%+ accuracy on hard questions",
+                f"Reach ability level (theta) of {MASTERY_MASTERED_MIN_THETA}+",
+                f"Practice within the last {MASTERY_MASTERED_MAX_DAYS_SINCE_PRACTICE} days",
+            ],
+        },
+    }
+    return summaries.get(level, summaries[MasteryLevel.NOT_STARTED])
 
 
 # =============================================================================
@@ -890,6 +1219,17 @@ def update_skill_ability(
     total_responses = len(responses)
     correct_responses = sum(1 for r in responses if r.get("is_correct", False))
 
+    # Calculate difficulty-specific counts
+    # Hard questions: b >= 1.0
+    hard_responses = [r for r in responses if r.get("b", 0) >= 1.0]
+    hard_total = len(hard_responses)
+    hard_correct = sum(1 for r in hard_responses if r.get("is_correct", False))
+
+    # Medium+ questions: b >= 0
+    medium_responses = [r for r in responses if r.get("b", 0) >= 0.0]
+    medium_total = len(medium_responses)
+    medium_correct = sum(1 for r in medium_responses if r.get("is_correct", False))
+
     # Get or create StudentSkill record
     if not skill_record:
         skill_record = StudentSkill(
@@ -905,51 +1245,59 @@ def update_skill_ability(
     skill_record.questions_attempted = total_responses
     skill_record.questions_correct = correct_responses
 
+    # Update difficulty-specific counts
+    skill_record.hard_questions_correct = hard_correct
+    skill_record.hard_questions_total = hard_total
+    skill_record.medium_questions_correct = medium_correct
+    skill_record.medium_questions_total = medium_total
+
     # Update IRT fields
     skill_record.ability_theta = theta
     skill_record.ability_se = se
     skill_record.responses_for_estimate = total_responses
     skill_record.last_practiced_at = datetime.now(timezone.utc)
 
-    # Update mastery level - IRT-based calculation that accounts for difficulty
-    #
-    # Key insight: Theta already incorporates question difficulty through IRT.
-    # Getting 100% on easy questions gives a lower theta than 100% on hard questions.
-    # Therefore, theta should be the PRIMARY driver of mastery, not raw accuracy.
-    #
-    # This ensures getting all easy questions right doesn't give 100% mastery.
-    # To achieve high mastery, students must demonstrate ability on harder questions.
+    # Calculate mastery level using the new 4-level system
+    mastery_level, _ = calculate_mastery_level(
+        responses=responses,
+        theta=theta,
+        last_practiced_at=skill_record.last_practiced_at
+    )
+    skill_record.mastery_level_enum = mastery_level.value
 
+    # Also update legacy mastery_level percentage for backwards compatibility
+    # This is a simplified version that maps levels to approximate percentages
+    level_to_percentage = {
+        MasteryLevel.NOT_STARTED: 0.0,
+        MasteryLevel.FAMILIAR: 35.0,
+        MasteryLevel.PROFICIENT: 65.0,
+        MasteryLevel.MASTERED: 90.0,
+    }
+
+    # For more granular legacy percentage, blend theta with level
     if total_responses > 0:
         accuracy = (correct_responses / total_responses) * 100
     else:
         accuracy = 0.0
 
     # Convert theta to base mastery percentage
-    # theta -2 → ~20%, theta 0 → 50%, theta +2 → ~80%
-    # This gives room for growth - need theta ~2.5+ for 90%+ mastery
     theta_mastery = 50 + (theta * 17.5)
 
     # Calculate average difficulty of questions answered
-    # This caps mastery based on the difficulty level tested
     avg_difficulty = sum(r.get("b", 0) for r in responses) / len(responses) if responses else 0
 
-    # Difficulty cap: can't achieve very high mastery if only answering easy questions
-    # avg_difficulty -1.5 (very easy) → cap at 55%
-    # avg_difficulty 0 (medium) → cap at 75%
-    # avg_difficulty +1.5 (very hard) → cap at 95%
+    # Difficulty cap
     difficulty_cap = 75 + (avg_difficulty * 13.3)
     difficulty_cap = max(40, min(95, difficulty_cap))
 
     # Apply theta estimate capped by difficulty range tested
     mastery = min(theta_mastery, difficulty_cap)
 
-    # Accuracy floor: if you got most questions right, ensure minimum mastery
-    # This prevents unfairly low mastery when theta estimation has high variance
+    # Accuracy floor
     if accuracy >= 90:
-        mastery = max(mastery, 40)  # At least 40% for 90%+ accuracy
+        mastery = max(mastery, 40)
     elif accuracy >= 75:
-        mastery = max(mastery, 30)  # At least 30% for 75%+ accuracy
+        mastery = max(mastery, 30)
 
     mastery = max(0, min(100, mastery))
     skill_record.mastery_level = mastery

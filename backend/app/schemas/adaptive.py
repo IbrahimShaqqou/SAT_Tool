@@ -5,7 +5,7 @@ Pydantic schemas for adaptive testing and IRT-based features.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -226,3 +226,76 @@ class HierarchicalAbilityProfile(BaseModel):
     domain_abilities: List[DomainAbilityInfo]
     skill_abilities: List[SkillAbility]
     stale_skills_count: int = Field(0, description="Number of skills needing review")
+
+
+# =============================================================================
+# Unified Mastery System Schemas
+# =============================================================================
+
+class MasteryRequirement(BaseModel):
+    """Requirement status for a mastery level."""
+    name: str = Field(..., description="Requirement name (e.g., 'responses', 'accuracy')")
+    needed: Any = Field(..., description="Required value")
+    current: Any = Field(..., description="Current value")
+    met: bool = Field(..., description="Whether requirement is met")
+
+
+class SkillMasteryInfo(BaseModel):
+    """
+    Unified mastery information for a skill.
+
+    This is the standard schema for displaying mastery to both students and tutors.
+    Uses Khan Academy-style 4-level system: Not Started → Familiar → Proficient → Mastered
+    """
+    skill_id: int
+    skill_name: str
+    skill_code: str
+    domain_name: Optional[str] = None
+    domain_code: Optional[str] = None
+    subject_area: Optional[str] = None
+
+    # Mastery level (0-3)
+    mastery_level: int = Field(..., description="0=Not Started, 1=Familiar, 2=Proficient, 3=Mastered")
+    mastery_level_name: str = Field(..., description="Human-readable level name")
+    mastery_level_color: str = Field(..., description="Color for UI: gray, blue, green, gold")
+
+    # Progress details
+    responses_count: int = Field(0, description="Total questions answered for this skill")
+    accuracy_percent: float = Field(0.0, description="Overall accuracy percentage")
+    theta: Optional[float] = Field(None, description="IRT ability estimate")
+    confidence: str = Field("low", description="Confidence level: 'low', 'medium', 'high'")
+
+    # Difficulty-specific stats
+    hard_responses_count: int = Field(0, description="Hard questions attempted (b >= 1.0)")
+    hard_accuracy_percent: float = Field(0.0, description="Accuracy on hard questions")
+    medium_responses_count: int = Field(0, description="Medium+ questions attempted (b >= 0)")
+    medium_accuracy_percent: float = Field(0.0, description="Accuracy on medium+ questions")
+
+    # Next level requirements
+    next_level: Optional[str] = Field(None, description="Name of next level (None if at max)")
+    requirements_met: Dict[str, bool] = Field(default_factory=dict, description="Which requirements are met")
+    progress_percent: float = Field(0.0, description="Progress toward next level (0-100)")
+
+    # Recency
+    days_since_practice: int = Field(0, description="Days since last practice")
+    last_practiced_at: Optional[datetime] = None
+    is_stale: bool = Field(False, description="True if mastery has decayed due to inactivity")
+    needs_review: bool = Field(False, description="Suggest practicing this skill")
+
+    # Legacy percentage (for backwards compatibility)
+    mastery_percentage: float = Field(0.0, description="Legacy 0-100 mastery percentage")
+
+
+class SkillMasteryResponse(BaseModel):
+    """Response containing student's skill mastery information."""
+    skills: List[SkillMasteryInfo]
+    weak_skills: List[SkillMasteryInfo] = Field(default_factory=list, description="Skills needing most work")
+    strong_skills: List[SkillMasteryInfo] = Field(default_factory=list, description="Best performing skills")
+    needs_review_count: int = Field(0, description="Count of skills needing review")
+
+    # Summary stats
+    total_skills_practiced: int = Field(0)
+    skills_mastered: int = Field(0)
+    skills_proficient: int = Field(0)
+    skills_familiar: int = Field(0)
+    skills_not_started: int = Field(0)

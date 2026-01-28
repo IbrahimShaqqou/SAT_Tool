@@ -285,6 +285,47 @@ class StudentSkill(Base, TimestampMixin):
     )
 
     # =========================================================================
+    # Mastery Level System (Khan Academy-style)
+    # =========================================================================
+
+    mastery_level_enum = Column(
+        Integer,
+        default=0,
+        nullable=False,
+        comment="Mastery level: 0=Not Started, 1=Familiar, 2=Proficient, 3=Mastered"
+    )
+
+    # Difficulty-specific tracking for hard questions (b >= 1.0)
+    hard_questions_correct = Column(
+        Integer,
+        default=0,
+        nullable=False,
+        comment="Correct answers on hard questions (b >= 1.0)"
+    )
+
+    hard_questions_total = Column(
+        Integer,
+        default=0,
+        nullable=False,
+        comment="Total hard questions attempted (b >= 1.0)"
+    )
+
+    # Difficulty-specific tracking for medium+ questions (b >= 0)
+    medium_questions_correct = Column(
+        Integer,
+        default=0,
+        nullable=False,
+        comment="Correct answers on medium+ questions (b >= 0)"
+    )
+
+    medium_questions_total = Column(
+        Integer,
+        default=0,
+        nullable=False,
+        comment="Total medium+ questions attempted (b >= 0)"
+    )
+
+    # =========================================================================
     # End IRT Fields
     # =========================================================================
 
