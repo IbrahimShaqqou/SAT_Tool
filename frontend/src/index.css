@@ -172,22 +172,24 @@ button .math-container img {
 }
 
 /* Dark mode: invert math images for better visibility */
+/* Use simple invert without hue-rotate to avoid color tinting */
 .dark .prose img.math-img,
 .dark .question-content img.math-img,
 .dark button img.math-img,
 .dark .question-content .math-container img,
 .dark button .math-container img {
-  filter: invert(1) hue-rotate(180deg);
+  filter: invert(1);
 }
 
 /* Dark mode: invert diagram images */
+/* Simple invert without hue-rotate for clean black-to-white conversion */
 .dark .question-content > p > img:not(.math-img),
 .dark .question-content figure img:not(.math-img),
 .dark .question-content .image img:not(.math-img),
 .dark .question-content > img:not(.math-img),
 .dark .question-content p > img:only-child:not(.math-img) {
-  filter: invert(0.85) hue-rotate(180deg);
-  background: white;
+  filter: invert(0.9);
+  background: #1f2937;
   border-radius: 8px;
   padding: 8px;
 }
@@ -217,62 +219,9 @@ button span.math-container {
   margin: 1em auto;
 }
 
-/* Dark mode SVG adjustments - style elements directly instead of filter */
+/* Dark mode SVG adjustments - simple invert for clean conversion */
 .dark .question-content svg {
-  background-color: #1f2937;
-  border-radius: 8px;
-  padding: 8px;
-}
-
-/* SVG lines and paths in dark mode */
-.dark .question-content svg line,
-.dark .question-content svg path:not([fill]),
-.dark .question-content svg polyline {
-  stroke: #9ca3af !important;
-}
-
-/* SVG axis lines - slightly brighter */
-.dark .question-content svg .axis line,
-.dark .question-content svg .grid line,
-.dark .question-content svg [class*="axis"] line {
-  stroke: #6b7280 !important;
-}
-
-/* SVG text labels in dark mode */
-.dark .question-content svg text {
-  fill: #e5e7eb !important;
-}
-
-/* SVG circles and points */
-.dark .question-content svg circle:not([fill="none"]) {
-  fill: #60a5fa !important;
-  stroke: #3b82f6 !important;
-}
-
-/* Keep colored elements (like function curves) visible */
-.dark .question-content svg path[stroke]:not([stroke="none"]):not([stroke="black"]):not([stroke="#000"]):not([stroke="#000000"]) {
-  opacity: 0.9;
-}
-
-/* Black strokes become light gray */
-.dark .question-content svg [stroke="black"],
-.dark .question-content svg [stroke="#000"],
-.dark .question-content svg [stroke="#000000"] {
-  stroke: #d1d5db !important;
-}
-
-/* Black fills become light gray */
-.dark .question-content svg [fill="black"],
-.dark .question-content svg [fill="#000"],
-.dark .question-content svg [fill="#000000"] {
-  fill: #d1d5db !important;
-}
-
-/* White fills become dark background */
-.dark .question-content svg [fill="white"],
-.dark .question-content svg [fill="#fff"],
-.dark .question-content svg [fill="#ffffff"] {
-  fill: #1f2937 !important;
+  filter: invert(0.88) hue-rotate(180deg);
 }
 
 /* Tables in questions - clean borders like image 28 */

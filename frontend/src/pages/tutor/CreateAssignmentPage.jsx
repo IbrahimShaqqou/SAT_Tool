@@ -3,7 +3,7 @@
  * With beautiful skill selector for adaptive assignments
  */
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Zap, Check, ChevronDown, ChevronRight, Clock, Calendar } from 'lucide-react';
 import { Card, Button, Input, Select } from '../../components/ui';
 import { assignmentService, tutorService, taxonomyService } from '../../services';
@@ -166,21 +166,27 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
 
 const CreateAssignmentPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState([]);
   const [allSkills, setAllSkills] = useState([]);
 
+  // Get student ID from URL params (when coming from student detail page)
+  const preselectedStudentId = searchParams.get('student') || '';
+  // Get skills from URL params (when coming with skill suggestions)
+  const preselectedSkills = searchParams.get('skills')?.split(',').map(Number).filter(Boolean) || [];
+
   const [formData, setFormData] = useState({
-    student_id: '',
+    student_id: preselectedStudentId,
     title: '',
     instructions: '',
     subject: 'math',
-    selectedSkills: [], // Array of skill IDs for adaptive
+    selectedSkills: preselectedSkills,
     question_count: 10,
     unlimited_questions: true,
     time_limit_minutes: '',
     due_date: '',
-    is_adaptive: false,
+    is_adaptive: preselectedSkills.length > 0, // Auto-enable adaptive if skills pre-selected
   });
 
   const [errors, setErrors] = useState({});
@@ -192,8 +198,9 @@ const CreateAssignmentPage = () => {
           tutorService.getStudents(),
           taxonomyService.getSkills({ limit: 200 }),
         ]);
-        setStudents(studentsRes.data.items || []);
-        setAllSkills(skillsRes.data.items || skillsRes.data || []);
+        const studentsList = studentsRes.data?.items || studentsRes.data || [];
+        setStudents(studentsList);
+        setAllSkills(skillsRes.data?.items || skillsRes.data || []);
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }

@@ -400,7 +400,7 @@ const QuestionBankPage = () => {
 
     // Question panel content
     const questionPanel = (
-      <div className={`bg-white dark:bg-gray-800 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+      <div className={`bg-white dark:bg-gray-900 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
         <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
           <QuestionDisplay
             questionNumber={currentIndex + 1}
@@ -477,7 +477,7 @@ const QuestionBankPage = () => {
 
     // Passage panel content
     const passagePanel = hasPassage ? (
-      <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-800">
+      <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-900">
         <div
           className="prose prose-gray dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
@@ -488,9 +488,9 @@ const QuestionBankPage = () => {
     // Bottom navigation bar
     const bottomNavBar = (
       <>
-        {/* Collapsible Question Navigator */}
+        {/* Collapsible Question Navigator - positioned in center of content area */}
         {showNav && (
-          <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
+          <div className="fixed bottom-16 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-40 bg-gray-50 dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
                style={{ width: 'min(500px, calc(100vw - 32px))' }}>
             <QuestionNav
               totalQuestions={practiceQuestions.length}
@@ -504,8 +504,8 @@ const QuestionBankPage = () => {
           </div>
         )}
 
-        {/* Fixed bottom controls */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        {/* Fixed bottom controls - offset for sidebar on desktop */}
+        <div className="fixed bottom-0 left-0 lg:left-64 right-0 z-50 flex items-center justify-between px-6 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
           {/* Previous */}
           <Button
             variant="secondary"
@@ -543,9 +543,9 @@ const QuestionBankPage = () => {
     );
 
     return (
-      <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
-        {/* Custom Header with back button */}
-        <header className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
+      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
+        {/* Custom Header with back button - sticky at top */}
+        <header className="sticky top-0 z-30 h-14 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
           {/* Left: Back button and skill name */}
           <div className="flex items-center gap-4">
             <button
@@ -600,7 +600,7 @@ const QuestionBankPage = () => {
         </header>
 
         {/* Main content - shifts right when calculator is open */}
-        <div className={`flex-1 transition-all duration-300 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+        <div className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
           {hasPassage ? (
             <SplitPane
               left={passagePanel}
@@ -610,7 +610,7 @@ const QuestionBankPage = () => {
               minRight={35}
             />
           ) : (
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-4xl mx-auto px-6">
               {questionPanel}
             </div>
           )}
