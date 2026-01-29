@@ -35,7 +35,7 @@ const Header = ({ onMenuClick }) => {
   const rolePrefix = user?.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student';
 
   return (
-    <header className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 lg:px-6">
+    <header className="h-16 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 lg:px-6">
       {/* Mobile menu button */}
       <button
         onClick={onMenuClick}

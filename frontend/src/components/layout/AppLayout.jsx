@@ -15,11 +15,9 @@ const AppLayout = () => {
   const role = user?.role?.toLowerCase() || 'student';
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Light mode: Tutor gets light gray background, student gets white
-  // Dark mode: Both get dark background
-  const bgClass = role === 'tutor'
-    ? 'bg-gray-100 dark:bg-gray-900'
-    : 'bg-white dark:bg-gray-900';
+  // Light mode: Soft off-white background for all users
+  // Dark mode: Dark background
+  const bgClass = 'bg-gray-50 dark:bg-gray-900';
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setIsSidebarOpen(false);
