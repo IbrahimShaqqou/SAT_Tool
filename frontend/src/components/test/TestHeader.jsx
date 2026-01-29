@@ -20,7 +20,7 @@ const TestHeader = ({
   hasTimeLimit = true,
 }) => {
   return (
-    <header className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
+    <header className="sticky top-0 z-30 h-14 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
       {/* Left: Subject */}
       <div className="flex items-center gap-4">
         <span className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">

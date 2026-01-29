@@ -564,9 +564,9 @@ const AdaptivePracticePage = () => {
 
   // Practice Phase - UI matching regular assignments
   return (
-    <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
-      {/* Header - matching TestPage header style */}
-      <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 px-4 py-3 flex items-center justify-between">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
+      {/* Header - matching TestPage header style - sticky */}
+      <div className="sticky top-0 z-30 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
             onClick={() => {
@@ -627,7 +627,7 @@ const AdaptivePracticePage = () => {
       </div>
 
       {/* Main Content - matching TestPage layout */}
-      <div ref={contentRef} className={`flex-1 overflow-y-auto pb-20 ${showCalculator ? 'mr-[440px]' : ''}`}>
+      <div ref={contentRef} className={`flex-1 overflow-y-auto pb-20 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''}`}>
         <div className="max-w-3xl mx-auto">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
@@ -636,15 +636,15 @@ const AdaptivePracticePage = () => {
           ) : currentQuestion ? (
             <>
               {/* Question header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-4">
                   {/* Question number */}
-                  <span className="flex items-center justify-center w-8 h-8 bg-gray-900 text-white text-sm font-medium rounded">
+                  <span className="flex items-center justify-center w-8 h-8 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium rounded">
                     {questionsAnswered + 1}
                   </span>
                 </div>
                 {/* Report button placeholder */}
-                <button className="flex items-center gap-2 px-3 py-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg text-sm transition-colors">
+                <button className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm transition-colors">
                   <span>Report</span>
                 </button>
               </div>
@@ -654,9 +654,9 @@ const AdaptivePracticePage = () => {
               {currentQuestion.passage_html &&
                !currentQuestion.prompt_html?.includes('<table') &&
                !isPassageInPrompt(currentQuestion.passage_html, currentQuestion.prompt_html) && (
-                <div className="px-6 py-4 bg-gray-50 border-b">
+                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                   <div
-                    className="prose prose-sm max-w-none text-gray-600 question-content"
+                    className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 question-content"
                     dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
                   />
                 </div>
@@ -665,7 +665,7 @@ const AdaptivePracticePage = () => {
               {/* Question content */}
               <div className="p-6">
                 <div
-                  className="prose prose-gray max-w-none question-content mb-6"
+                  className="prose prose-gray dark:prose-invert max-w-none question-content mb-6"
                   dangerouslySetInnerHTML={{ __html: currentQuestion.prompt_html }}
                 />
 
@@ -688,7 +688,7 @@ const AdaptivePracticePage = () => {
                   <div className="mt-4">
                     {/* Show correct answer for SPR if wrong */}
                     {!lastResult.is_correct && lastResult.correct_answer && currentQuestion.answer_type !== 'MCQ' && (
-                      <div className="text-sm text-gray-600 mb-3">
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                         Correct answer: {
                           lastResult.correct_answer.answers?.join(' or ') || 'See explanation'
                         }
@@ -697,16 +697,16 @@ const AdaptivePracticePage = () => {
 
                     {/* Explanation - shown inline like TestPage */}
                     {lastResult.explanation_html ? (
-                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <h4 className="text-sm font-medium text-blue-900 mb-2">Explanation</h4>
+                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
+                        <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
                         <div
-                          className="prose prose-sm prose-blue max-w-none text-blue-800"
+                          className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
                           dangerouslySetInnerHTML={{ __html: lastResult.explanation_html }}
                         />
                       </div>
                     ) : (
-                      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                        <span className="text-sm text-gray-500 italic">
+                      <div className="p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <span className="text-sm text-gray-500 dark:text-gray-400 italic">
                           No explanation available for this question
                         </span>
                       </div>
@@ -731,26 +731,26 @@ const AdaptivePracticePage = () => {
       </div>
 
       {/* Fixed bottom navigation - matching TestPage adaptive style */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white">
+      <div className="fixed bottom-0 left-0 lg:left-64 right-0 z-50 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
         {/* Progress indicator */}
-        <div className="flex items-center justify-center py-2 border-b border-gray-100">
-          <span className="text-sm text-gray-600">
+        <div className="flex items-center justify-center py-2 border-b border-gray-100 dark:border-gray-800">
+          <span className="text-sm text-gray-600 dark:text-gray-400">
             Question <span className="font-semibold">{questionsAnswered + 1}</span>
             {session?.total_questions ? (
               <> of <span className="font-semibold">{session.total_questions}</span></>
             ) : (
-              <span className="ml-1 text-gray-400">(unlimited)</span>
+              <span className="ml-1 text-gray-400 dark:text-gray-500">(unlimited)</span>
             )}
             {lastResult?.session_complete && (
-              <span className="ml-2 text-green-600 font-medium">• Practice Complete!</span>
+              <span className="ml-2 text-green-600 dark:text-green-400 font-medium">• Practice Complete!</span>
             )}
           </span>
         </div>
 
         {/* Result indicator for answered questions */}
         {lastResult && (
-          <div className={`flex items-center justify-center py-2 border-b border-gray-100 ${
-            lastResult.is_correct ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+          <div className={`flex items-center justify-center py-2 border-b border-gray-100 dark:border-gray-800 ${
+            lastResult.is_correct ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
           }`}>
             <span className="text-sm font-medium">
               {lastResult.is_correct ? '✓ Correct!' : '✗ Incorrect'}
