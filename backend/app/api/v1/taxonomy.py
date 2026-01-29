@@ -161,7 +161,7 @@ def list_skills_by_domain(
 def list_skills(
     db: Session = Depends(get_db),
     domain_id: Optional[int] = Query(None, description="Filter by domain ID"),
-    limit: int = Query(50, ge=1, le=100),
+    limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
 ) -> SkillListResponse:
     """

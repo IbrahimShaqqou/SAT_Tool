@@ -193,16 +193,20 @@ const CreateAssignmentPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // Fetch students and skills separately so one failure doesn't break both
       try {
-        const [studentsRes, skillsRes] = await Promise.all([
-          tutorService.getStudents(),
-          taxonomyService.getSkills({ limit: 200 }),
-        ]);
+        const studentsRes = await tutorService.getStudents();
         const studentsList = studentsRes.data?.items || studentsRes.data || [];
         setStudents(studentsList);
+      } catch (error) {
+        console.error('Failed to fetch students:', error);
+      }
+
+      try {
+        const skillsRes = await taxonomyService.getSkills({ limit: 200 });
         setAllSkills(skillsRes.data?.items || skillsRes.data || []);
       } catch (error) {
-        console.error('Failed to fetch data:', error);
+        console.error('Failed to fetch skills:', error);
       }
     };
 
