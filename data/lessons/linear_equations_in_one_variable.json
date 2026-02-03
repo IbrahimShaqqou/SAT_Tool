@@ -1,0 +1,425 @@
+{
+  "skill_id": 29,
+  "skill_code": "H.A.",
+  "title": "Linear Equations in One Variable",
+  "subtitle": "Master solving equations and finding related expressions",
+  "estimated_minutes": 18,
+  "difficulty_level": "foundational",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "What is a Linear Equation in One Variable?",
+        "content": "A **linear equation in one variable** is an equation where:\n- There's only **one variable** (like $x$, $p$, or $w$)\n- The variable is raised to the **first power** (no $x^2$ or $\\sqrt{x}$)\n- The goal is to find the value that makes the equation true\n\nExamples:\n$$3x + 5 = 14$$\n$$2(n - 4) = 10$$\n$$\\frac{x}{3} + 7 = 12$$"
+      },
+      {
+        "id": "core-principle",
+        "type": "text",
+        "title": "The Golden Rule: Balance",
+        "content": "An equation is like a balance scale - whatever you do to one side, you **must do to the other side**.\n\nTo solve for the variable:\n1. **Simplify** each side (distribute, combine like terms)\n2. **Move** variable terms to one side, constants to the other\n3. **Divide** (or multiply) to isolate the variable"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Direct Solving"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Finding the Value of the Variable",
+        "content": "The most basic type asks: **What value of $x$ satisfies the equation?**\n\nThese questions test your ability to isolate the variable step by step."
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: One-Step Equation",
+        "source": "SAT Practice Question",
+        "problem": "$$w + 7 = 357$$\n\nWhat value of $w$ is the solution to the given equation?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Subtract 7 from both sides to isolate w",
+            "math": "w + 7 - 7 = 357 - 7"
+          },
+          {
+            "step": 2,
+            "description": "Simplify",
+            "math": "w = 350"
+          }
+        ],
+        "answer": "$w = 350$",
+        "tip": "One-step equations are quick wins on the SAT. Don't overthink them!"
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Two-Step Equation",
+        "source": "SAT Practice Question",
+        "problem": "$$4x + 5 = 165$$\n\nWhat is the solution to the given equation?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Subtract 5 from both sides",
+            "math": "4x + 5 - 5 = 165 - 5"
+          },
+          {
+            "step": 2,
+            "description": "Simplify",
+            "math": "4x = 160"
+          },
+          {
+            "step": 3,
+            "description": "Divide both sides by 4",
+            "math": "x = 40"
+          }
+        ],
+        "answer": "$x = 40$"
+      },
+      {
+        "id": "type-1-example-3",
+        "type": "worked-example",
+        "title": "Example: Combining Like Terms First",
+        "source": "SAT Practice Question",
+        "problem": "$$8x - 7x + 130 = 260$$\n\nWhat value of $x$ is the solution to the given equation?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Combine the x terms on the left side",
+            "math": "8x - 7x = 1x = x"
+          },
+          {
+            "step": 2,
+            "description": "Rewrite the simplified equation",
+            "math": "x + 130 = 260"
+          },
+          {
+            "step": 3,
+            "description": "Subtract 130 from both sides",
+            "math": "x = 130"
+          }
+        ],
+        "answer": "$x = 130$",
+        "tip": "Always simplify each side of the equation FIRST before trying to isolate the variable."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: \"If This, Then What?\""
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Finding Related Expressions",
+        "content": "This is the most **important question type** for this skill. The SAT loves to ask:\n\n> If $2x + 3 = 9$, what is the value of $6x - 1$?\n\nNotice: They give you one equation but ask about a **different expression**.\n\nThere are **two approaches** to these problems."
+      },
+      {
+        "id": "approach-1",
+        "type": "text",
+        "title": "Approach 1: Solve First, Then Substitute",
+        "content": "**Steps:**\n1. Solve the given equation for $x$\n2. Substitute that value into the expression they're asking about\n\nThis approach **always works** but can take more time."
+      },
+      {
+        "id": "type-2-example-1",
+        "type": "worked-example",
+        "title": "Example: Solve Then Substitute",
+        "source": "SAT Practice Question",
+        "problem": "If $2x + 3 = 9$, what is the value of $6x - 1$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Solve the given equation for x",
+            "math": "2x + 3 = 9 \\Rightarrow 2x = 6 \\Rightarrow x = 3"
+          },
+          {
+            "step": 2,
+            "description": "Substitute x = 3 into the expression 6x - 1",
+            "math": "6(3) - 1 = 18 - 1 = 17"
+          }
+        ],
+        "answer": "$17$"
+      },
+      {
+        "id": "approach-2",
+        "type": "text",
+        "title": "Approach 2: Manipulate the Equation Directly",
+        "content": "**Sometimes faster:** Look for a relationship between the given equation and the expression.\n\nIf $2x + 3 = 9$, then $2x = 6$.\n\nTo find $6x - 1$:\n- Notice that $6x = 3 \\times 2x = 3 \\times 6 = 18$\n- So $6x - 1 = 18 - 1 = 17$\n\nThis approach is clever but requires you to spot the pattern."
+      },
+      {
+        "id": "type-2-example-2",
+        "type": "worked-example",
+        "title": "Example: Direct Manipulation",
+        "source": "SAT Practice Question",
+        "problem": "If $3x - 8 = 7$, what is the value of $3x + 8$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Notice the relationship: both expressions have 3x",
+            "math": "3x - 8 = 7"
+          },
+          {
+            "step": 2,
+            "description": "Add 16 to both sides (to change -8 to +8)",
+            "math": "3x - 8 + 16 = 7 + 16"
+          },
+          {
+            "step": 3,
+            "description": "Simplify",
+            "math": "3x + 8 = 23"
+          }
+        ],
+        "answer": "$23$",
+        "tip": "When the expressions share the same variable term (like 3x), look for ways to transform one into the other directly!"
+      },
+      {
+        "id": "type-2-tip",
+        "type": "tip",
+        "title": "Which Approach to Use?",
+        "content": "- **Use Approach 1 (solve first)** when the expressions look very different or you're not sure\n- **Use Approach 2 (manipulate directly)** when you spot an obvious relationship (same coefficient on x, or one is a multiple of the other)"
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Variables on Both Sides"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Variables on Both Sides",
+        "content": "When the variable appears on **both sides** of the equation, you need to move all variable terms to one side first.\n\n**Strategy:** Subtract the smaller variable term from both sides to eliminate it from one side."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Variables on Both Sides",
+        "source": "SAT Practice Question",
+        "problem": "$$5x + 12 = 2x + 27$$\n\nWhat is the value of $x$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Subtract 2x from both sides to get all x terms on the left",
+            "math": "5x - 2x + 12 = 27"
+          },
+          {
+            "step": 2,
+            "description": "Combine like terms",
+            "math": "3x + 12 = 27"
+          },
+          {
+            "step": 3,
+            "description": "Subtract 12 from both sides",
+            "math": "3x = 15"
+          },
+          {
+            "step": 4,
+            "description": "Divide by 3",
+            "math": "x = 5"
+          }
+        ],
+        "answer": "$x = 5$"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Equations with Parentheses"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Distributing First",
+        "content": "When an equation has parentheses, **distribute first** to clear them, then solve as usual."
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Distribution Required",
+        "source": "SAT Practice Question",
+        "problem": "$$3(x - 4) + 2 = 14$$\n\nWhat is the value of $x$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Distribute the 3",
+            "math": "3x - 12 + 2 = 14"
+          },
+          {
+            "step": 2,
+            "description": "Combine constants on the left",
+            "math": "3x - 10 = 14"
+          },
+          {
+            "step": 3,
+            "description": "Add 10 to both sides",
+            "math": "3x = 24"
+          },
+          {
+            "step": 4,
+            "description": "Divide by 3",
+            "math": "x = 8"
+          }
+        ],
+        "answer": "$x = 8$"
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Word Problems"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "Setting Up Equations from Words",
+        "content": "Some SAT questions describe a situation and ask you to **set up** the equation or find the value.\n\n**Key phrases to look for:**\n- \"total\" → addition\n- \"more than\" → addition\n- \"less than\" → subtraction\n- \"times\" or \"of\" → multiplication\n- \"per\" or \"each\" → multiplication (rate × quantity)"
+      },
+      {
+        "id": "type-5-example-1",
+        "type": "worked-example",
+        "title": "Example: Setting Up an Equation",
+        "source": "SAT Practice Question",
+        "problem": "A gym charges a one-time registration fee of $40 plus $25 per month. A member has paid a total of $265. Which equation represents this situation, where $n$ is the number of months?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Identify the parts: $40 registration + $25 for each month",
+            "math": "\\text{Total} = 40 + 25n"
+          },
+          {
+            "step": 2,
+            "description": "Set equal to the total paid",
+            "math": "40 + 25n = 265"
+          }
+        ],
+        "answer": "$40 + 25n = 265$",
+        "options": [
+          {"text": "$40 + 25n = 265$", "correct": true},
+          {"text": "$25 + 40n = 265$", "correct": false, "explanation": "Coefficients are swapped - $40 is one-time, $25 is per month"},
+          {"text": "$40n + 25 = 265$", "correct": false, "explanation": "$40 is paid once, not per month"},
+          {"text": "$65n = 265$", "correct": false, "explanation": "This incorrectly adds the fees instead of separating them"}
+        ]
+      },
+      {
+        "id": "type-5-example-2",
+        "type": "worked-example",
+        "title": "Example: Word Problem to Solution",
+        "source": "SAT Practice Question",
+        "problem": "A landscaper charges $47 for each lawn plus a one-time equipment fee. If the landscaper earns $322 for mowing 6 lawns, what is the equipment fee?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Let f = equipment fee. Set up the equation",
+            "math": "47(6) + f = 322"
+          },
+          {
+            "step": 2,
+            "description": "Calculate 47 × 6",
+            "math": "282 + f = 322"
+          },
+          {
+            "step": 3,
+            "description": "Solve for f",
+            "math": "f = 322 - 282 = 40"
+          }
+        ],
+        "answer": "The equipment fee is $\\$40$"
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Choosing the Equivalent Equation"
+      },
+      {
+        "id": "type-6-intro",
+        "type": "text",
+        "title": "Which Equation is Equivalent?",
+        "content": "Some questions give you an equation and ask which of the answer choices represents the **same relationship**.\n\n**Strategy:** Solve the original equation and check which answer gives the same solution, OR manipulate the original to match an answer choice."
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Equivalent Equations",
+        "source": "SAT Practice Question",
+        "problem": "Seven times a number $x$ is 56. This can be written as:\n\nA) $x + 7 = 56$\nB) $7x = 56$\nC) $x - 7 = 56$\nD) $\\frac{x}{7} = 56$",
+        "steps": [
+          {
+            "step": 1,
+            "description": "\"Seven times a number x\" means 7 multiplied by x",
+            "math": "7 \\times x = 7x"
+          },
+          {
+            "step": 2,
+            "description": "\"is 56\" means equals 56",
+            "math": "7x = 56"
+          }
+        ],
+        "answer": "B) $7x = 56$",
+        "tip": "\"Times\" always means multiplication. \"More than\" or \"plus\" means addition."
+      },
+      {
+        "id": "fractions-section",
+        "type": "divider",
+        "title": "Dealing with Fractions"
+      },
+      {
+        "id": "fractions-tip",
+        "type": "text",
+        "title": "Clearing Fractions",
+        "content": "When an equation has fractions, you can **multiply both sides by the denominator** to clear them.\n\nFor $\\frac{x}{3} + 5 = 12$:\n- Subtract 5: $\\frac{x}{3} = 7$\n- Multiply by 3: $x = 21$\n\nOr multiply everything by 3 first:\n- $3 \\cdot \\frac{x}{3} + 3 \\cdot 5 = 3 \\cdot 12$\n- $x + 15 = 36$\n- $x = 21$"
+      },
+      {
+        "id": "fractions-example",
+        "type": "worked-example",
+        "title": "Example: Equation with Fractions",
+        "source": "SAT Practice Question",
+        "problem": "$$\\frac{2x - 5}{4} = 3$$\n\nWhat is the value of $x$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Multiply both sides by 4 to clear the fraction",
+            "math": "2x - 5 = 12"
+          },
+          {
+            "step": 2,
+            "description": "Add 5 to both sides",
+            "math": "2x = 17"
+          },
+          {
+            "step": 3,
+            "description": "Divide by 2",
+            "math": "x = 8.5 \\text{ or } \\frac{17}{2}"
+          }
+        ],
+        "answer": "$x = \\frac{17}{2}$ or $8.5$"
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Direct solving**: Isolate the variable using inverse operations",
+          "**\"If A=B, what is C?\"**: Either solve for the variable first, OR manipulate the equation directly",
+          "**Variables on both sides**: Move all variable terms to one side first",
+          "**Parentheses**: Distribute before combining like terms",
+          "**Word problems**: Identify what the variable represents and translate phrases to math",
+          "**Fractions**: Multiply both sides by the denominator to clear them"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Forgetting to perform the same operation on **both sides**\n- Sign errors when distributing negatives: $-3(x - 2) = -3x + 6$, not $-3x - 6$\n- On \"If A=B, what is C?\" questions, accidentally finding $x$ when they asked for a different expression\n- Mixing up \"more than\" (addition) with \"times\" (multiplication) in word problems\n- Forgetting to check your answer by substituting back into the original equation"
+      },
+      {
+        "id": "speed-tips",
+        "type": "tip",
+        "title": "Speed Tips for Test Day",
+        "content": "- For simple equations, you can often solve mentally without writing every step\n- On \"If A=B, what is C?\" questions, first check if the answer choices are simple multiples of the original equation\n- Use your calculator to check - plug your answer back into the original equation\n- Don't second-guess yourself on easy questions - they ARE meant to be straightforward"
+      }
+    ],
+    "sat_tips": [
+      "Read the question carefully - are they asking for x, or for a different expression like 2x + 5?",
+      "On multiple choice, you can work backwards by plugging in answer choices",
+      "Simple one-step equations are quick wins - don't overthink them",
+      "For word problems, underline key numbers and what the variable represents"
+    ]
+  }
+}
