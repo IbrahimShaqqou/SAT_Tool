@@ -2,6 +2,7 @@
 Seed lessons into the database.
 Run from backend directory: python -m scripts.seed_lessons
 """
+import json
 import sys
 from pathlib import Path
 
@@ -11,8 +12,29 @@ from sqlalchemy.orm import Session
 from app.database import engine
 from app.models import Lesson, Skill
 
-# Embedded lesson data
-LESSONS = [
+# Path to JSON lesson files
+LESSONS_DIR = Path(__file__).parent.parent.parent / "data" / "lessons"
+
+
+def load_lessons_from_files() -> list:
+    """Load all lesson JSON files from data/lessons directory."""
+    lessons = []
+    if LESSONS_DIR.exists():
+        for json_file in LESSONS_DIR.glob("*.json"):
+            try:
+                with open(json_file, "r") as f:
+                    data = json.load(f)
+                    # Only load if it has required fields
+                    if data.get("skill_code") and data.get("content", {}).get("sections"):
+                        lessons.append(data)
+                        print(f"  Loaded: {json_file.name}")
+            except Exception as e:
+                print(f"  Error loading {json_file.name}: {e}")
+    return lessons
+
+
+# Embedded lesson data (legacy - kept for reference)
+EMBEDDED_LESSONS = [
     {
         "skill_code": "H.D.",  # Systems of two linear equations
         "title": "Systems of Two Linear Equations",
@@ -285,11 +307,21 @@ def seed_lesson(db: Session, data: dict) -> bool:
 
 
 def main():
-    print(f"Seeding {len(LESSONS)} lesson(s)...")
+    # Load lessons from JSON files
+    print("Loading lessons from JSON files...")
+    file_lessons = load_lessons_from_files()
+
+    # Combine with embedded lessons (file lessons take priority)
+    all_lessons = {l["skill_code"]: l for l in EMBEDDED_LESSONS}
+    for lesson in file_lessons:
+        all_lessons[lesson["skill_code"]] = lesson  # Override embedded with file version
+
+    lessons_list = list(all_lessons.values())
+    print(f"\nSeeding {len(lessons_list)} lesson(s)...")
 
     with Session(engine) as db:
         count = 0
-        for lesson_data in LESSONS:
+        for lesson_data in lessons_list:
             if seed_lesson(db, lesson_data):
                 count += 1
 
