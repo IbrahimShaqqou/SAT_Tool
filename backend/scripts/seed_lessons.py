@@ -12,8 +12,8 @@ from sqlalchemy.orm import Session
 from app.database import engine
 from app.models import Lesson, Skill
 
-# Path to JSON lesson files
-LESSONS_DIR = Path(__file__).parent.parent.parent / "data" / "lessons"
+# Path to JSON lesson files (inside backend: backend/data/lessons/)
+LESSONS_DIR = Path(__file__).parent.parent / "data" / "lessons"
 
 
 def load_lessons_from_files() -> list:
