@@ -27,57 +27,73 @@ import katex from 'katex';
 const parseMarkdown = (text) => {
   if (!text) return '';
 
-  // Process math FIRST before HTML escaping (to preserve & in \begin{aligned})
-  const mathPlaceholders = [];
+  const placeholders = [];
   let html = text;
 
-  // Display math $$...$$
+  // Helper to create a placeholder
+  const addPlaceholder = (rendered, prefix) => {
+    const placeholder = `__${prefix}_${placeholders.length}__`;
+    placeholders.push(rendered);
+    return placeholder;
+  };
+
+  // 1. Bold **text** FIRST — prevents **$5** from being matched as math
+  html = html.replace(/\*\*([^*]+)\*\*/g, (match) => {
+    return addPlaceholder(match, 'BOLD');
+  });
+
+  // 2. Display math $$...$$ (before HTML escaping to preserve & in \begin{aligned})
   html = html.replace(/\$\$([^$]+)\$\$/g, (match, math) => {
     try {
       const rendered = katex.renderToString(math.trim(), { displayMode: true, throwOnError: false });
-      const placeholder = `__MATH_DISPLAY_${mathPlaceholders.length}__`;
-      mathPlaceholders.push(rendered);
-      return placeholder;
+      return addPlaceholder(rendered, 'MATH');
     } catch (e) {
       return match;
     }
   });
 
-  // Inline math $...$ - must contain letters (variables) or operators to be math
+  // 3. Inline math $...$ — must contain letters/operators to be math (not dollar amounts)
   html = html.replace(/\$([^$]+)\$/g, (match, math) => {
     const looksLikeMath = /[a-zA-Z=+\-*/\\^_{}]/.test(math);
     if (!looksLikeMath) {
-      return match; // Keep as-is (probably a dollar amount)
+      return match; // Keep as-is (probably a dollar amount like $5)
     }
     try {
       const rendered = katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
-      const placeholder = `__MATH_INLINE_${mathPlaceholders.length}__`;
-      mathPlaceholders.push(rendered);
-      return placeholder;
+      return addPlaceholder(rendered, 'MATH');
     } catch (e) {
       return match;
     }
   });
 
-  // Now escape HTML (math is already replaced with placeholders)
+  // 4. Escape HTML (math and bold are already replaced with placeholders)
   html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  // Bold **text**
-  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-
-  // Italic *text* (but not inside strong tags)
+  // 5. Italic *text* (but not placeholder markers which use __)
   html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
 
-  // Line breaks
+  // 6. Line breaks
   html = html.replace(/\n\n/g, '</p><p>');
   html = html.replace(/\n/g, '<br/>');
 
-  // Restore math placeholders
-  html = html.replace(/__MATH_(DISPLAY|INLINE)_(\d+)__/g, (match, type, index) => {
-    return mathPlaceholders[parseInt(index)] || match;
+  // 7. Restore ALL placeholders — bold placeholders get their markdown re-parsed for inner content
+  html = html.replace(/__BOLD_(\d+)__/g, (match, index) => {
+    const original = placeholders[parseInt(index)] || match;
+    // Re-extract the bold content and render it (the placeholder stored the original **text**)
+    const boldMatch = original.match(/\*\*([^*]+)\*\*/);
+    if (boldMatch) {
+      // Parse inner content for any remaining dollar signs or text
+      const inner = boldMatch[1]
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return `<strong>${inner}</strong>`;
+    }
+    return match;
+  });
+  html = html.replace(/__MATH_(\d+)__/g, (match, index) => {
+    return placeholders[parseInt(index)] || match;
   });
 
-  // Wrap in paragraph if not already
+  // 8. Wrap in paragraph if not already
   if (!html.startsWith('<') && !html.startsWith(' ')) {
     html = `<p>${html}</p>`;
   }
@@ -596,6 +612,32 @@ const InteractiveExample = ({ section }) => {
       const parts = eq.split('\\\\').map(p => p.trim()).filter(p => p.includes('='));
       equations.push(...parts);
     }
+
+    // Replace non-x/y variables with x and y so Desmos can graph them
+    // Find all single-letter variables used (excluding x and y)
+    const allVars = new Set();
+    equations.forEach(eq => {
+      const vars = eq.match(/(?<![a-zA-Z])[a-zA-Z](?![a-zA-Z])/g) || [];
+      vars.forEach(v => { if (v !== 'x' && v !== 'y') allVars.add(v); });
+    });
+
+    if (allVars.size > 0 && allVars.size <= 2) {
+      const varsArr = [...allVars].sort();
+      const mapping = {};
+      // Map first variable to x, second to y
+      if (varsArr.length >= 1) mapping[varsArr[0]] = 'x';
+      if (varsArr.length >= 2) mapping[varsArr[1]] = 'y';
+
+      return equations.map(eq => {
+        let result = eq;
+        for (const [from, to] of Object.entries(mapping)) {
+          // Replace variable but not when part of a longer word
+          result = result.replace(new RegExp(`(?<![a-zA-Z])${from}(?![a-zA-Z])`, 'g'), to);
+        }
+        return result;
+      });
+    }
+
     return equations;
   };
 
