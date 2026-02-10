@@ -9,7 +9,7 @@ import { Card, Button, Input, Select } from '../../components/ui';
 import { assignmentService, tutorService, taxonomyService } from '../../services';
 
 /**
- * Skill Selector Component for Adaptive Assignments
+ * Skill Selector Component
  * Shows domains with expandable skill lists
  */
 const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
@@ -209,7 +209,6 @@ const CreateAssignmentPage = () => {
       try {
         const skillsRes = await taxonomyService.getSkills({ limit: 200 });
         const skills = skillsRes.data?.items || skillsRes.data || [];
-        console.log('Fetched skills:', skills.length, skills);
         setAllSkills(skills);
       } catch (error) {
         console.error('Failed to fetch skills:', error);
@@ -288,7 +287,7 @@ const CreateAssignmentPage = () => {
         title: formData.title,
         instructions: formData.instructions || null,
         subject: formData.subject,
-        skill_ids: formData.is_adaptive ? formData.selectedSkills : null,
+        skill_ids: formData.selectedSkills.length > 0 ? formData.selectedSkills : null,
         question_count: questionCount,
         time_limit_minutes: formData.time_limit_minutes ? parseInt(formData.time_limit_minutes) : null,
         due_date: formData.due_date || null,
@@ -405,6 +404,59 @@ const CreateAssignmentPage = () => {
             )}
           </div>
 
+          {/* Skill Selection - Always visible */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium text-gray-900">
+                {formData.is_adaptive ? (
+                  <>Select Skills to Practice <span className="text-red-500">*</span></>
+                ) : (
+                  'Focus Areas (optional)'
+                )}
+              </label>
+              {formData.selectedSkills.length > 0 && (
+                <span className="text-sm text-gray-500">
+                  {formData.selectedSkills.length} skill{formData.selectedSkills.length !== 1 ? 's' : ''} selected
+                </span>
+              )}
+            </div>
+            {!formData.is_adaptive && (
+              <p className="text-sm text-gray-500 mb-2">
+                Choose specific domains and skills to focus the assignment on
+              </p>
+            )}
+            {errors.skills && (
+              <p className="text-sm text-red-600 mb-2">{errors.skills}</p>
+            )}
+            {skillsError && (
+              <div className="p-4 mb-2 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-600">Error loading skills: {skillsError}</p>
+                <button
+                  type="button"
+                  onClick={() => window.location.reload()}
+                  className="mt-2 text-sm text-red-700 underline hover:no-underline"
+                >
+                  Reload page
+                </button>
+              </div>
+            )}
+            <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
+              {skillsLoading ? (
+                <div className="flex items-center justify-center py-8 text-gray-500">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div>
+                  Loading skills...
+                </div>
+              ) : (
+                <SkillSelector
+                  skills={allSkills}
+                  selectedSkills={formData.selectedSkills}
+                  onToggleSkill={handleToggleSkill}
+                  subject={formData.subject}
+                />
+              )}
+            </div>
+          </div>
+
           {/* Adaptive Mode Toggle */}
           <div
             className={`p-4 rounded-xl border-2 transition-all ${
@@ -466,50 +518,6 @@ const CreateAssignmentPage = () => {
                     />
                     <span className="text-sm text-gray-700">Fixed question count</span>
                   </label>
-                </div>
-
-                {/* Skill Selection */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-medium text-gray-900">
-                      Select Skills to Practice <span className="text-red-500">*</span>
-                    </label>
-                    {formData.selectedSkills.length > 0 && (
-                      <span className="text-sm text-gray-500">
-                        {formData.selectedSkills.length} skill{formData.selectedSkills.length !== 1 ? 's' : ''} selected
-                      </span>
-                    )}
-                  </div>
-                  {errors.skills && (
-                    <p className="text-sm text-red-600 mb-2">{errors.skills}</p>
-                  )}
-                  {skillsError && (
-                    <div className="p-4 mb-2 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-sm text-red-600">Error loading skills: {skillsError}</p>
-                      <button
-                        type="button"
-                        onClick={() => window.location.reload()}
-                        className="mt-2 text-sm text-red-700 underline hover:no-underline"
-                      >
-                        Reload page
-                      </button>
-                    </div>
-                  )}
-                  <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
-                    {skillsLoading ? (
-                      <div className="flex items-center justify-center py-8 text-gray-500">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div>
-                        Loading skills...
-                      </div>
-                    ) : (
-                      <SkillSelector
-                        skills={allSkills}
-                        selectedSkills={formData.selectedSkills}
-                        onToggleSkill={handleToggleSkill}
-                        subject={formData.subject}
-                      />
-                    )}
-                  </div>
                 </div>
               </div>
             )}
