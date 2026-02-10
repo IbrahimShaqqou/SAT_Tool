@@ -170,6 +170,8 @@ const CreateAssignmentPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState([]);
   const [allSkills, setAllSkills] = useState([]);
+  const [skillsLoading, setSkillsLoading] = useState(true);
+  const [skillsError, setSkillsError] = useState(null);
 
   // Get student ID from URL params (when coming from student detail page)
   const preselectedStudentId = searchParams.get('student') || '';
@@ -202,11 +204,18 @@ const CreateAssignmentPage = () => {
         console.error('Failed to fetch students:', error);
       }
 
+      setSkillsLoading(true);
+      setSkillsError(null);
       try {
         const skillsRes = await taxonomyService.getSkills({ limit: 200 });
-        setAllSkills(skillsRes.data?.items || skillsRes.data || []);
+        const skills = skillsRes.data?.items || skillsRes.data || [];
+        console.log('Fetched skills:', skills.length, skills);
+        setAllSkills(skills);
       } catch (error) {
         console.error('Failed to fetch skills:', error);
+        setSkillsError(error.response?.data?.detail || error.message || 'Failed to load skills');
+      } finally {
+        setSkillsLoading(false);
       }
     };
 
@@ -474,13 +483,32 @@ const CreateAssignmentPage = () => {
                   {errors.skills && (
                     <p className="text-sm text-red-600 mb-2">{errors.skills}</p>
                   )}
+                  {skillsError && (
+                    <div className="p-4 mb-2 bg-red-50 border border-red-200 rounded-lg">
+                      <p className="text-sm text-red-600">Error loading skills: {skillsError}</p>
+                      <button
+                        type="button"
+                        onClick={() => window.location.reload()}
+                        className="mt-2 text-sm text-red-700 underline hover:no-underline"
+                      >
+                        Reload page
+                      </button>
+                    </div>
+                  )}
                   <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
-                    <SkillSelector
-                      skills={allSkills}
-                      selectedSkills={formData.selectedSkills}
-                      onToggleSkill={handleToggleSkill}
-                      subject={formData.subject}
-                    />
+                    {skillsLoading ? (
+                      <div className="flex items-center justify-center py-8 text-gray-500">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div>
+                        Loading skills...
+                      </div>
+                    ) : (
+                      <SkillSelector
+                        skills={allSkills}
+                        selectedSkills={formData.selectedSkills}
+                        onToggleSkill={handleToggleSkill}
+                        subject={formData.subject}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
