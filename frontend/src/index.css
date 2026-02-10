@@ -296,12 +296,12 @@ button span.math-container {
   margin: 1em auto;
 }
 
-/* MathJax/MathML styling - ensure inline display, larger size, and handle whitespace */
+/* MathJax/MathML styling - inline display for inline math, larger size, and handle whitespace */
 .question-content mjx-container,
 .question-content math,
 button mjx-container,
 button math {
-  display: inline !important;
+  display: inline;
   vertical-align: middle;
   font-size: 1.25em;
 }
@@ -361,9 +361,12 @@ button > span {
   white-space: normal;
 }
 
-.question-content p mjx-container[display="true"],
-.question-content p math[display="block"] {
-  display: block;
+/* Display-mode math (block equations) should be centered blocks */
+.question-content mjx-container[display="true"],
+.question-content math[display="block"],
+.question-content p[style*="text-align: center"] mjx-container,
+.question-content p[style*="text-align: center"] math {
+  display: block !important;
   text-align: center;
   margin: 0.5em 0;
 }

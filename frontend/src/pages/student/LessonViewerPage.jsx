@@ -303,26 +303,48 @@ const processSectionsForGrid = (sections) => {
   const processed = [];
   let i = 0;
 
+  // Build lookup of all sections by id for finding items that may appear before the trigger
+  const sectionById = {};
+  sections.forEach(s => { sectionById[s.id] = s; });
+
+  // Track which section ids get consumed into the grid so we skip them
+  const consumedIds = new Set();
+
   while (i < sections.length) {
     const section = sections[i];
 
-    // Check if this is the "three-cases-intro" followed by the three solution types
+    // Skip sections already consumed into the grid
+    if (consumedIds.has(section.id)) {
+      i++;
+      continue;
+    }
+
+    // Check if this is the "three-cases-intro" trigger
     if (section.id === 'three-cases-intro') {
       const caseIds = ['case-1', 'case-2', 'case-3'];
       const imageIds = ['one-solution-image', 'no-solution-image', 'infinite-solution-image'];
 
-      // Find all the case and image sections
+      // Search the entire sections array for the needed items
       const caseMap = {};
       const imageMap = {};
 
-      for (let k = i + 1; k < sections.length && k < i + 12; k++) {
-        const s = sections[k];
+      for (const s of sections) {
         if (caseIds.includes(s.id)) caseMap[s.id] = s;
         if (imageIds.includes(s.id)) imageMap[s.id] = s;
       }
 
-      // Build grid items if we have all three
+      // Build grid items if we have all three cases and images
       if (Object.keys(caseMap).length === 3 && Object.keys(imageMap).length === 3) {
+        // Mark all consumed sections so they get skipped
+        [...caseIds, ...imageIds].forEach(id => consumedIds.add(id));
+
+        // Remove any already-processed sections that were consumed (e.g. one-solution-image before trigger)
+        for (let p = processed.length - 1; p >= 0; p--) {
+          if (consumedIds.has(processed[p].id)) {
+            processed.splice(p, 1);
+          }
+        }
+
         // Add intro section
         processed.push(section);
 
@@ -349,8 +371,7 @@ const processSectionsForGrid = (sections) => {
           ],
         });
 
-        // Skip past all the sections we consumed
-        const consumedIds = new Set([...caseIds, ...imageIds]);
+        // Skip past consumed sections after the trigger
         let j = i + 1;
         while (j < sections.length && consumedIds.has(sections[j].id)) {
           j++;

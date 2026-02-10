@@ -313,6 +313,7 @@ const AdaptivePracticePage = () => {
   // Trigger MathJax when question changes
   useEffect(() => {
     if (contentRef.current && window.MathJax?.typesetPromise) {
+      window.MathJax.typesetClear?.([contentRef.current]);
       window.MathJax.typesetPromise([contentRef.current]).catch(console.error);
     }
   }, [currentQuestion, lastResult, showExplanation]);

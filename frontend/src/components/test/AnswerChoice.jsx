@@ -25,6 +25,7 @@ const AnswerChoice = ({
   // Trigger MathJax rendering when content changes
   useEffect(() => {
     if (contentRef.current && window.MathJax?.typesetPromise) {
+      window.MathJax.typesetClear?.([contentRef.current]);
       window.MathJax.typesetPromise([contentRef.current]).catch(() => {});
     }
   }, [content]);
