@@ -9,7 +9,7 @@ from typing import Optional
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import func, and_, Float
+from sqlalchemy import func, and_, Float, Integer
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db, get_current_tutor
@@ -835,7 +835,7 @@ def get_tutor_chart_data(
     # Get responses grouped by date
     date_responses = db.query(
         func.date(StudentResponse.submitted_at).label('date'),
-        func.avg(func.cast(StudentResponse.is_correct, Float)).label('accuracy'),
+        func.avg(func.cast(func.cast(StudentResponse.is_correct, Integer), Float)).label('accuracy'),
     ).filter(
         StudentResponse.student_id.in_(student_ids),
         StudentResponse.submitted_at >= cutoff_date,
@@ -857,7 +857,7 @@ def get_tutor_chart_data(
     skill_stats = db.query(
         Skill.name,
         func.count(StudentResponse.id).label('questions'),
-        func.avg(func.cast(StudentResponse.is_correct, Float)).label('accuracy'),
+        func.avg(func.cast(func.cast(StudentResponse.is_correct, Integer), Float)).label('accuracy'),
     ).join(
         Question, Question.skill_id == Skill.id
     ).join(
@@ -882,7 +882,7 @@ def get_tutor_chart_data(
     # Domain performance
     domain_stats = db.query(
         Domain.name,
-        func.avg(func.cast(StudentResponse.is_correct, Float)).label('accuracy'),
+        func.avg(func.cast(func.cast(StudentResponse.is_correct, Integer), Float)).label('accuracy'),
     ).join(
         Question, Question.domain_id == Domain.id
     ).join(
@@ -952,7 +952,7 @@ def get_student_chart_data(
     # Accuracy trend
     date_responses = db.query(
         func.date(StudentResponse.submitted_at).label('date'),
-        func.avg(func.cast(StudentResponse.is_correct, Float)).label('accuracy'),
+        func.avg(func.cast(func.cast(StudentResponse.is_correct, Integer), Float)).label('accuracy'),
     ).filter(
         StudentResponse.student_id == student_id,
         StudentResponse.submitted_at >= cutoff_date,
@@ -974,7 +974,7 @@ def get_student_chart_data(
     skill_stats = db.query(
         Skill.name,
         func.count(StudentResponse.id).label('questions'),
-        func.avg(func.cast(StudentResponse.is_correct, Float)).label('accuracy'),
+        func.avg(func.cast(func.cast(StudentResponse.is_correct, Integer), Float)).label('accuracy'),
     ).join(
         Question, Question.skill_id == Skill.id
     ).join(
@@ -999,7 +999,7 @@ def get_student_chart_data(
     # Domain performance
     domain_stats = db.query(
         Domain.name,
-        func.avg(func.cast(StudentResponse.is_correct, Float)).label('accuracy'),
+        func.avg(func.cast(func.cast(StudentResponse.is_correct, Integer), Float)).label('accuracy'),
     ).join(
         Question, Question.domain_id == Domain.id
     ).join(
