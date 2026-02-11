@@ -46,7 +46,7 @@ const parseMarkdown = (text) => {
   html = html.replace(/\$\$([^$]+)\$\$/g, (match, math) => {
     try {
       const rendered = katex.renderToString(math.trim(), { displayMode: true, throwOnError: false });
-      return addPlaceholder(rendered, 'MATH');
+      return addPlaceholder(rendered, 'DMATH');
     } catch (e) {
       return match;
     }
@@ -60,40 +60,52 @@ const parseMarkdown = (text) => {
     }
     try {
       const rendered = katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
-      return addPlaceholder(rendered, 'MATH');
+      return addPlaceholder(rendered, 'IMATH');
     } catch (e) {
       return match;
     }
   });
 
-  // 4. Escape HTML (math and bold are already replaced with placeholders)
+  // 4. Convert " and " between two inline math expressions into a stacked system
+  //    e.g. "__IMATH_1__ and __IMATH_2__" → stacked display
+  html = html.replace(/__IMATH_(\d+)__\s+and\s+__IMATH_(\d+)__/g, (_match, idx1, idx2) => {
+    const eq1 = placeholders[parseInt(idx1)] || '';
+    const eq2 = placeholders[parseInt(idx2)] || '';
+    const stacked = `<div class="system-of-equations">${eq1}${eq2}</div>`;
+    return addPlaceholder(stacked, 'SYSTEM');
+  });
+
+  // 5. Escape HTML (math and bold are already replaced with placeholders)
   html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  // 5. Italic *text* (but not placeholder markers which use __)
+  // 6. Italic *text* (but not placeholder markers which use __)
   html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
 
-  // 6. Line breaks
+  // 7. Line breaks
   html = html.replace(/\n\n/g, '</p><p>');
   html = html.replace(/\n/g, '<br/>');
 
-  // 7. Restore ALL placeholders — bold placeholders get their markdown re-parsed for inner content
+  // 8. Remove <br/> between consecutive display math blocks (reduces excess whitespace)
+  html = html.replace(/__DMATH_(\d+)__(<br\/>)+__DMATH_/g, (_match, idx) => {
+    return `__DMATH_${idx}____DMATH_`;
+  });
+
+  // 9. Restore ALL placeholders
   html = html.replace(/__BOLD_(\d+)__/g, (match, index) => {
     const original = placeholders[parseInt(index)] || match;
-    // Re-extract the bold content and render it (the placeholder stored the original **text**)
     const boldMatch = original.match(/\*\*([^*]+)\*\*/);
     if (boldMatch) {
-      // Parse inner content for any remaining dollar signs or text
       const inner = boldMatch[1]
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       return `<strong>${inner}</strong>`;
     }
     return match;
   });
-  html = html.replace(/__MATH_(\d+)__/g, (match, index) => {
-    return placeholders[parseInt(index)] || match;
+  html = html.replace(/__(DMATH|IMATH|SYSTEM)_(\d+)__/g, (m, _type, index) => {
+    return placeholders[parseInt(index)] || m;
   });
 
-  // 8. Wrap in paragraph if not already
+  // 10. Wrap in paragraph if not already
   if (!html.startsWith('<') && !html.startsWith(' ')) {
     html = `<p>${html}</p>`;
   }
@@ -578,6 +590,111 @@ const LessonSection = ({ section }) => {
 };
 
 /**
+ * Parse a linear equation like "2x + 8y = 198" into { a, b, c } for ax + by = c
+ * Returns null if it can't parse.
+ */
+const parseLinearEquation = (eq) => {
+  // Normalize: remove spaces
+  let s = eq.replace(/\s+/g, '');
+
+  const sides = s.split('=');
+  if (sides.length !== 2) return null;
+
+  // Extract coefficients of x, y, and constants from an expression
+  const extractCoeffs = (expr) => {
+    let a = 0, b = 0, c = 0;
+    // Match terms: sign + optional number + optional variable (x or y)
+    // Each term must have at least a number or a variable
+    const termRegex = /([+-]?)(\d+\.?\d*)(x|y)|([+-]?)(x|y)|([+-]?\d+\.?\d*)/g;
+    let m;
+    while ((m = termRegex.exec(expr)) !== null) {
+      if (m[3]) {
+        // number + variable: e.g. 2x, 8y, -5x
+        const sign = m[1] === '-' ? -1 : 1;
+        const val = sign * parseFloat(m[2]);
+        if (m[3] === 'x') a += val;
+        else b += val;
+      } else if (m[5]) {
+        // bare variable: e.g. x, -y
+        const sign = m[4] === '-' ? -1 : 1;
+        if (m[5] === 'x') a += sign;
+        else b += sign;
+      } else if (m[6]) {
+        // constant: e.g. 198, -21
+        c += parseFloat(m[6]);
+      }
+    }
+    return { a, b, c };
+  };
+
+  const left = extractCoeffs(sides[0]);
+  const right = extractCoeffs(sides[1]);
+
+  return {
+    a: left.a - right.a,
+    b: left.b - right.b,
+    c: right.c - left.c,
+  };
+};
+
+/**
+ * Compute Desmos viewport bounds from a list of equations.
+ * Finds intercepts and intersection points, then sets bounds with padding.
+ */
+const computeBoundsFromEquations = (equations) => {
+  const defaultBounds = { left: -10, right: 10, bottom: -10, top: 10 };
+  if (!equations || equations.length === 0) return defaultBounds;
+
+  const keyPoints = [];
+
+  // Parse equations and find intercepts
+  const parsed = equations.map(parseLinearEquation).filter(Boolean);
+
+  parsed.forEach(({ a, b, c }) => {
+    // x-intercept (y=0): ax = c → x = c/a
+    if (Math.abs(a) > 0.001) keyPoints.push({ x: c / a, y: 0 });
+    // y-intercept (x=0): by = c → y = c/b
+    if (Math.abs(b) > 0.001) keyPoints.push({ x: 0, y: c / b });
+  });
+
+  // Find intersection points between pairs
+  for (let i = 0; i < parsed.length; i++) {
+    for (let j = i + 1; j < parsed.length; j++) {
+      const { a: a1, b: b1, c: c1 } = parsed[i];
+      const { a: a2, b: b2, c: c2 } = parsed[j];
+      const det = a1 * b2 - a2 * b1;
+      if (Math.abs(det) > 0.001) {
+        const x = (c1 * b2 - c2 * b1) / det;
+        const y = (a1 * c2 - a2 * c1) / det;
+        keyPoints.push({ x, y });
+      }
+    }
+  }
+
+  if (keyPoints.length === 0) return defaultBounds;
+
+  // Find bounding box of all key points
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  keyPoints.forEach(({ x, y }) => {
+    if (isFinite(x)) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); }
+    if (isFinite(y)) { minY = Math.min(minY, y); maxY = Math.max(maxY, y); }
+  });
+
+  if (!isFinite(minX)) return defaultBounds;
+
+  // Add padding (at least 5 units, or 30% of range)
+  const padX = Math.max(5, (maxX - minX) * 0.3);
+  const padY = Math.max(5, (maxY - minY) * 0.3);
+
+  return {
+    left: Math.floor(minX - padX),
+    right: Math.ceil(maxX + padX),
+    bottom: Math.floor(minY - padY),
+    top: Math.ceil(maxY + padY),
+  };
+};
+
+/**
  * Interactive Example Component
  * Shows question with answer options, lets user select and check answer
  * Includes embedded Desmos calculator in explanation
@@ -675,8 +792,8 @@ const InteractiveExample = ({ section }) => {
           calculatorRef.current.setExpression({ id: `eq${i}`, latex: eq });
         });
 
-        // Set appropriate viewport - use custom bounds if provided
-        const bounds = section.desmos_bounds || { left: -10, right: 10, bottom: -10, top: 10 };
+        // Compute appropriate viewport bounds
+        const bounds = section.desmos_bounds || computeBoundsFromEquations(equations);
         calculatorRef.current.setMathBounds(bounds);
       }
     }

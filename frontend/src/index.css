@@ -376,6 +376,23 @@ button > span {
   text-align: center;
 }
 
+/* Stacked system of equations (two equations displayed vertically) */
+.system-of-equations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15em;
+}
+
+/* Tighten spacing on consecutive display math (KaTeX) in lessons */
+.katex-display {
+  margin: 0.25em 0 !important;
+}
+
+.katex-display + .katex-display {
+  margin-top: 0 !important;
+}
+
 /* Ensure math in answer choices doesn't break layout and aligns with letter */
 button mjx-container,
 button math {
