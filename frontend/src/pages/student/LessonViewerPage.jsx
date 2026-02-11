@@ -27,13 +27,15 @@ import katex from 'katex';
 const parseMarkdown = (text) => {
   if (!text) return '';
 
-  const placeholders = [];
+  const placeholders = [];   // rendered HTML
+  const mathSources = [];    // original math text (for inline math only)
   let html = text;
 
   // Helper to create a placeholder
-  const addPlaceholder = (rendered, prefix) => {
+  const addPlaceholder = (rendered, prefix, source) => {
     const placeholder = `__${prefix}_${placeholders.length}__`;
     placeholders.push(rendered);
+    mathSources.push(source || '');
     return placeholder;
   };
 
@@ -60,19 +62,29 @@ const parseMarkdown = (text) => {
     }
     try {
       const rendered = katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
-      return addPlaceholder(rendered, 'IMATH');
+      return addPlaceholder(rendered, 'IMATH', math);
     } catch (e) {
       return match;
     }
   });
 
   // 4. Convert " and " between two inline math expressions into a stacked system
-  //    e.g. "__IMATH_1__ and __IMATH_2__" → stacked display
+  //    Only stack when BOTH expressions are actual equations (contain "=")
+  //    e.g. "$2x + y = 5$ and $x - y = 1$" → stacked display
+  //    but "$x$ and $y$" stays inline
   html = html.replace(/__IMATH_(\d+)__\s+and\s+__IMATH_(\d+)__/g, (_match, idx1, idx2) => {
-    const eq1 = placeholders[parseInt(idx1)] || '';
-    const eq2 = placeholders[parseInt(idx2)] || '';
-    const stacked = `<div class="system-of-equations">${eq1}${eq2}</div>`;
-    return addPlaceholder(stacked, 'SYSTEM');
+    const i1 = parseInt(idx1);
+    const i2 = parseInt(idx2);
+    const src1 = mathSources[i1] || '';
+    const src2 = mathSources[i2] || '';
+    // Only stack if both are equations (contain =)
+    if (src1.includes('=') && src2.includes('=')) {
+      const eq1 = placeholders[i1] || '';
+      const eq2 = placeholders[i2] || '';
+      const stacked = `<div class="system-of-equations">${eq1}${eq2}</div>`;
+      return addPlaceholder(stacked, 'SYSTEM');
+    }
+    return _match; // Leave as-is (e.g. "$x$ and $y$")
   });
 
   // 5. Escape HTML (math and bold are already replaced with placeholders)
