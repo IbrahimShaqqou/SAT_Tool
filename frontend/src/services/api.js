@@ -6,8 +6,15 @@
 
 import axios from 'axios';
 
-// API base URL from environment or default
+// API base URL: build-time env var (set in Vercel dashboard), or localhost for dev
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+
+if (!process.env.REACT_APP_API_URL && window.location.hostname !== 'localhost') {
+  console.error(
+    '[ZooPrep] REACT_APP_API_URL is not set! API calls will fail. ' +
+    'Set this environment variable in your Vercel dashboard to your Railway backend URL.'
+  );
+}
 
 // Create axios instance with default config
 const api = axios.create({
