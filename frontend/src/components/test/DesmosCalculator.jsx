@@ -47,7 +47,8 @@ const DesmosCalculator = ({
     }
 
     const script = document.createElement('script');
-    script.src = 'https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
+    const desmosKey = process.env.REACT_APP_DESMOS_API_KEY || 'dcb31709b452b1cf9dc26972add0fda6';
+    script.src = `https://www.desmos.com/api/v1.11/calculator.js?apiKey=${desmosKey}`;
     script.async = true;
     script.onload = () => setDesmosLoaded(true);
     document.head.appendChild(script);

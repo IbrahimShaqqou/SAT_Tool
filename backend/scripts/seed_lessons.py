@@ -91,7 +91,7 @@ EMBEDDED_LESSONS = [
                     "id": "infinite-solution-image",
                     "type": "image",
                     "title": "Infinite Solutions: Same Line",
-                    "url": "/lessons/sytstems-infinite-solutions.png",
+                    "url": "/lessons/systems-infinite-solutions.png",
                     "alt": "Graph showing two lines that are exactly the same",
                     "caption": "Both equations represent the SAME line! Every point is a solution."
                 },
