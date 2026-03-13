@@ -23,6 +23,7 @@ from scripts.fetch_math import normalize
 
 
 def main():
+    # scripts/ -> backend/ -> data/  (i.e. backend/data/math_core.json)
     data_dir = Path(__file__).parent.parent / "data"
     core_path = data_dir / "math_core.json"
 
@@ -35,8 +36,6 @@ def main():
         core = json.load(f)
 
     print(f"Re-normalizing {len(core)} questions...")
-    normalized = {r["uId"]: normalize(rec) for rec in core.values() for r in [normalize(rec)]}
-    # Rebuild as uid -> norm dict properly
     norm_by_uid = {}
     for rec in core.values():
         n = normalize(rec)
