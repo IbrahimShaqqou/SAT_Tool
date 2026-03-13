@@ -164,6 +164,16 @@ def extract_correct_answers(detail: Dict[str, Any],
     return ["*"]
 
 # ─── UTILITIES for MCQ mapping ───────────────────────────────────────────
+def parse_correct_letter_from_rationale(rationale: str, num_choices: int) -> int|None:
+    """Extract correct answer index from rationale text like 'Choice B is correct'."""
+    m = re.search(r"Choice\s+([A-D])\s+is\s+(?:the\s+)?correct", rationale, re.IGNORECASE)
+    if m:
+        idx = "abcd".index(m.group(1).lower())
+        if 0 <= idx < num_choices:
+            return idx
+    return None
+
+
 def choice_index(correct: Dict[str,Any],
                  choices_html: list[str],
                  choice_ids: list[str]) -> int|None:
@@ -172,15 +182,20 @@ def choice_index(correct: Dict[str,Any],
     if isinstance(correct.get("index"), int):
         return correct["index"]
 
-    # 2. tag like 'A' / 'a' / 'b'
-    tag = str(correct.get("correct_choice") or "").strip().lower()
-    if tag and tag in "abcd" and len(choices_html) >= 4:
-        return "abcd".index(tag)
-    if tag and tag.isdigit():
-        n = int(tag)
-        return n if 0 <= n < len(choices_html) else None
+    # 2. tag like 'A' / 'a' / 'b' — check correct_choice AND correct_answer/keys
+    for field in ("correct_choice", "correct_answer", "keys", "correct_answers"):
+        val = correct.get(field)
+        if not val:
+            continue
+        tag = (val[0] if isinstance(val, list) else val)
+        tag = str(tag).strip().lower()
+        if tag in "abcd" and len(tag) == 1 and len(choices_html) >= 1:
+            return "abcd".index(tag)
+        if tag.isdigit():
+            n = int(tag)
+            return n if 0 <= n < len(choices_html) else None
 
-    # 3. key/id matching (keys, correct_answer, etc.)
+    # 3. key/id matching against choice UUIDs
     for field in ("keys", "correct_answer", "correct_answers"):
         ks = correct.get(field)
         if not ks:
@@ -235,6 +250,10 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
     else:
         answer_type = "MCQ" if choices_html else "SPR"
 
+    # Extract rationale early — needed for correct-answer fallback below
+    # Old SAT format stores rationale inside ans_blob, not directly in detail
+    rationale = detail.get("rationale", "") or ans_blob.get("rationale", "")
+
     # ---- work out the correct answer ------------------------------------
     # For MCQ, also check direct keys in detail (not just ans_blob)
     if answer_type == "MCQ":
@@ -244,6 +263,9 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
             if key in detail and key not in merged_correct:
                 merged_correct[key] = detail[key]
         idx = choice_index(merged_correct, choices_html, choice_ids)
+        # Last resort: parse "Choice B is correct" from the rationale text
+        if idx is None or idx < 0:
+            idx = parse_correct_letter_from_rationale(rationale, len(choices_html))
         correct = {"index": idx if idx is not None else -1}
     else:
         correct = {"answers": extract_correct_answers(detail, ans_blob)}
@@ -252,9 +274,6 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
     meta_keep = ("skill_cd", "skill_desc", "difficulty",
                  "primary_class_cd_desc", "score_band_range_cd", "ibn")
     meta = {k: rec.get(k) for k in meta_keep if k in rec}
-
-    # Extract rationale (explanation) from content
-    rationale = detail.get("rationale", "")
 
     # Extract stimulus (content shown "above" the question - graphs, equations, tables)
     stimulus = pick_stimulus(detail)
@@ -266,7 +285,7 @@ def normalize(rec: Dict[str,Any]) -> Dict[str,Any]:
         "answer_type"   : answer_type,
         "choices_html"  : choices_html,
         "correct"       : correct,
-        "rationale_html": rationale,
+        "rationale_html": rationale,   # already extracted above (with ans_blob fallback)
         "meta"          : meta,
     }
 
