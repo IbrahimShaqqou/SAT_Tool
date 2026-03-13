@@ -19,27 +19,24 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.database import SessionLocal
 from app.models.question import Question
-from scripts.fetch_math import normalize
 
 
 def main():
-    # scripts/ -> backend/ -> data/  (i.e. backend/data/math_core.json)
+    # math_norm.json is tracked in git and deployed to production
+    # math_core.json is gitignored (too large) and only lives locally
     data_dir = Path(__file__).parent.parent / "data"
-    core_path = data_dir / "math_core.json"
+    norm_path = data_dir / "math_norm.json"
 
-    if not core_path.exists():
-        print(f"ERROR: {core_path} not found. Run fetch_math.py first.")
+    if not norm_path.exists():
+        print(f"ERROR: {norm_path} not found.")
         sys.exit(1)
 
-    print(f"Loading {core_path}...")
-    with open(core_path) as f:
-        core = json.load(f)
+    print(f"Loading {norm_path}...")
+    with open(norm_path) as f:
+        norm_list = json.load(f)
 
-    print(f"Re-normalizing {len(core)} questions...")
-    norm_by_uid = {}
-    for rec in core.values():
-        n = normalize(rec)
-        norm_by_uid[str(n["uId"])] = n
+    norm_by_uid = {str(q["uId"]): q for q in norm_list}
+    print(f"Loaded {len(norm_by_uid)} questions")
 
     db = SessionLocal()
     updated = 0
@@ -81,7 +78,7 @@ def main():
                 updated += 1
 
         db.commit()
-        print(f"\nDone. Updated: {updated} | Skipped (not in core): {skipped}")
+        print(f"\nDone. Updated: {updated} | Skipped (not in norm file): {skipped}")
 
     finally:
         db.close()
