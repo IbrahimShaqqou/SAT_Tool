@@ -6,7 +6,7 @@
  * - Self-contained: manages its own color/eraser state and floating toolbar.
  */
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Pencil, Eraser, Trash2 } from 'lucide-react';
+import { Eraser, Trash2 } from 'lucide-react';
 
 const COLORS = [
   { value: '#111827', label: 'Black' },
