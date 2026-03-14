@@ -6,6 +6,7 @@
  * Renders MathML content using MathJax
  */
 import { useState, useEffect, useRef } from 'react';
+import { preprocessMathHTML } from '../../utils/mathImageUtils';
 
 const letters = ['A', 'B', 'C', 'D'];
 
@@ -93,7 +94,7 @@ const AnswerChoice = ({
       <span
         ref={contentRef}
         className="flex-1 text-gray-900 dark:text-gray-100 flex items-center min-h-[2rem]"
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: preprocessMathHTML(content) }}
       />
 
       {/* Status indicator */}

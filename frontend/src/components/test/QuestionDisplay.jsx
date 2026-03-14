@@ -5,6 +5,7 @@
  */
 import { useEffect, useRef } from 'react';
 import { Flag, AlertTriangle } from 'lucide-react';
+import { preprocessMathHTML } from '../../utils/mathImageUtils';
 
 const QuestionDisplay = ({
   questionNumber,
@@ -71,13 +72,13 @@ const QuestionDisplay = ({
         {stimulusHtml && (
           <div
             className="prose prose-gray dark:prose-invert max-w-none question-content mb-4"
-            dangerouslySetInnerHTML={{ __html: stimulusHtml }}
+            dangerouslySetInnerHTML={{ __html: preprocessMathHTML(stimulusHtml) }}
           />
         )}
         {/* Question prompt */}
         <div
           className="prose prose-gray dark:prose-invert max-w-none question-content"
-          dangerouslySetInnerHTML={{ __html: questionHtml }}
+          dangerouslySetInnerHTML={{ __html: preprocessMathHTML(questionHtml) }}
         />
       </div>
     </div>
