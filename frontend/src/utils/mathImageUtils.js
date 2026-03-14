@@ -23,17 +23,25 @@ export const altTextToLatex = (raw) => {
 
   let s = raw.trim();
 
-  // ── strip leading/trailing pause commas that CB appends ──────────────────
-  // CB uses commas as screen-reader pauses: "3 comma 4" means the number 3,4
-  // but "x plus y comma" at end of phrase is just a pause.
-  // We'll handle commas contextually below.
+  // ── strip CB pause-commas ────────────────────────────────────────────────
+  // CB alt text uses punctuation commas as screen-reader pauses between tokens:
+  //   "2 times, left parenthesis, x minus 5, right parenthesis, plus 3..."
+  // Semantic commas (coordinates, etc.) are always written as the word "comma".
+  // So we can safely strip ALL punctuation commas before any other processing.
+  s = s.replace(/,/g, ' ');
 
   // ── multi-equation blocks (handled at call site, but guard here) ─────────
-  // If the alt text is an entire system (starts with "open brace"), strip it.
-  s = s.replace(/^open brace[,\s]*/i, '');
+  s = s.replace(/^open brace\s*/i, '');
+
+  // ── word-form numerals (used in ordinal fractions like "two thirds") ──────
+  const WORD_NUMS = {
+    one: 1, two: 2, three: 3, four: 4, five: 5,
+    six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+    eleven: 11, twelve: 12,
+  };
 
   // ── ordinal denominator words ─────────────────────────────────────────────
-  // "4 thirds" → \frac{4}{3},  "2 fifths" → \frac{2}{5}, etc.
+  // "4 thirds" → \frac{4}{3},  "two thirds" → \frac{2}{3}, etc.
   const ORDINALS = {
     half: 2, halves: 2,
     third: 3, thirds: 3,
@@ -48,10 +56,20 @@ export const altTextToLatex = (raw) => {
     twelfth: 12, twelfths: 12,
     hundredth: 100, hundredths: 100,
   };
-  s = s.replace(/(-?\d+)\s+(half|halves|thirds?|fourths?|quarters?|fifths?|sixths?|sevenths?|eighths?|ninths?|tenths?|elevenths?|twelfths?|hundredths?)/gi,
+  const ORDINAL_PATTERN = 'half|halves|thirds?|fourths?|quarters?|fifths?|sixths?|sevenths?|eighths?|ninths?|tenths?|elevenths?|twelfths?|hundredths?';
+  // Digit numerator: "4 thirds"
+  s = s.replace(new RegExp(`(-?\\d+)\\s+(${ORDINAL_PATTERN})`, 'gi'),
     (_, n, ord) => {
       const d = ORDINALS[ord.toLowerCase()];
       return d ? `\\frac{${n}}{${d}}` : `${n} ${ord}`;
+    }
+  );
+  // Word numerator: "two thirds"
+  s = s.replace(new RegExp(`(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\\s+(${ORDINAL_PATTERN})`, 'gi'),
+    (_, num, ord) => {
+      const n = WORD_NUMS[num.toLowerCase()];
+      const d = ORDINALS[ord.toLowerCase()];
+      return (n && d) ? `\\frac{${n}}{${d}}` : `${num} ${ord}`;
     }
   );
 
@@ -160,21 +178,17 @@ export const altTextToLatex = (raw) => {
   s = s.replace(/\blog base\s+(\S+)/gi, '\\log_{$1}');
   s = s.replace(/\blog\b/gi, '\\log');
 
-  // ── "comma" used as a pause (end of expression) or in coordinates ─────────
-  // Remove trailing ", " pause commas that CB inserts between math tokens
-  // but preserve commas inside coordinate pairs (already handled above)
+  // ── "comma" word → literal comma (used in coordinate pairs not caught above) ──
+  // Punctuation commas were already stripped at the top; the word "comma" is
+  // a semantic comma (e.g. "x comma y" in a set or coordinate context).
   s = s.replace(/\bcomma\b/gi, ',');
 
   // ── "subscript N" / "sub N" ───────────────────────────────────────────────
   s = s.replace(/\bsub(?:script)?\s+(\S+)/gi, '_{$1}');
   s = s.replace(/\bsuperscript\s+(\S+)/gi, '^{$1}');
 
-  // ── "a sub 1" or "a subscript 1" handled above; also "x sub n" etc. ──────
-
   // ── clean up whitespace ───────────────────────────────────────────────────
   s = s.replace(/\s{2,}/g, ' ').trim();
-  // Remove trailing/leading commas that are pure pauses
-  s = s.replace(/^,\s*/, '').replace(/\s*,$/, '');
 
   return s;
 };
