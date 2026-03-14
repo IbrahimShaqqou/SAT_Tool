@@ -14,6 +14,7 @@ import {
   ReferenceSheet,
   SplitPane,
   SubmitConfirmation,
+  DrawingCanvas,
 } from '../../components/test';
 import { useTimer } from '../../hooks';
 import { assignmentService } from '../../services';
@@ -35,6 +36,7 @@ const TestPage = () => {
 
   // UI state
   const [isLoading, setIsLoading] = useState(true);
+  const [isDrawing, setIsDrawing] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
   const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
@@ -808,6 +810,8 @@ const TestPage = () => {
         showReference={showReferenceSheet}
         subjectArea={assignment.subject_area || 'math'}
         hasTimeLimit={hasTimeLimit}
+        onDrawToggle={() => setIsDrawing((d) => !d)}
+        isDrawing={isDrawing}
       />
 
       {/* Main content - shifts right when calculator is open */}
@@ -854,6 +858,12 @@ const TestPage = () => {
 
       {/* Fixed bottom navigation bar */}
       {bottomNavBar}
+
+      {/* Drawing canvas overlay */}
+      <DrawingCanvas
+        isActive={isDrawing}
+        questionId={currentQuestion?.id ?? currentIndex}
+      />
 
       {/* Paused overlay */}
       {isPaused && (

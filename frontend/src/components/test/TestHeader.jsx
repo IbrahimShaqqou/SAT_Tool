@@ -2,7 +2,7 @@
  * Test Header Component
  * Timer, question count, subject indicator, reference sheet, calculator
  */
-import { Clock, Calculator, Pause, Play, FileText } from 'lucide-react';
+import { Clock, Calculator, Pause, Play, FileText, Pencil } from 'lucide-react';
 
 const TestHeader = ({
   currentQuestion,
@@ -18,6 +18,8 @@ const TestHeader = ({
   showReference,
   subjectArea,
   hasTimeLimit = true,
+  onDrawToggle,
+  isDrawing = false,
 }) => {
   return (
     <header className="sticky top-0 z-30 h-14 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
@@ -38,6 +40,21 @@ const TestHeader = ({
 
       {/* Right: Timer and controls */}
       <div className="flex items-center gap-2">
+        {/* Draw toggle — always available */}
+        {onDrawToggle && (
+          <button
+            onClick={onDrawToggle}
+            className={`p-2 rounded-lg transition-colors ${
+              isDrawing
+                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+            title={isDrawing ? 'Stop drawing' : 'Draw on question'}
+          >
+            <Pencil className="h-5 w-5" />
+          </button>
+        )}
+
         {/* Reference Sheet toggle (only for math) */}
         {subjectArea === 'math' && onReferenceToggle && (
           <button

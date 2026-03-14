@@ -94,6 +94,24 @@ Dark mode and timezone settings persist to localStorage.
 
 ## Low Priority (Nice to Have)
 
+### AI Math Alt-Text Migration
+**Description:** Replace the client-side regex converter (`mathImageUtils.js`) with a one-time server-side migration that uses Claude to translate CB math image alt texts directly to LaTeX, stored in the DB.
+
+**Why:** Regex handles ~90% of cases but edge cases slip through (complex nested fractions, unusual CB phrasing, etc.). AI translation is definitive and removes all client-side preprocessing.
+
+**Steps:**
+- [ ] Create `backend/scripts/translate_math_alts.py`
+- [ ] Script scans all question HTML for `<img class="math-img" alt="...">`, deduplicates alt texts
+- [ ] Batches them to Claude API (50 at a time) with a targeted "alt text → LaTeX" prompt
+- [ ] Replaces each `<img>` in stored HTML with `<span>\(LATEX\)</span>`
+- [ ] Saves updated `prompt_html`, `stimulus_html`, `choices_html` back to DB
+- [ ] Add same step to future question import pipeline (`fetch_math.py` / `seed_questions.py`)
+- [ ] Remove `preprocessMathHTML` from `QuestionDisplay.jsx` and `AnswerChoice.jsx` once migration is complete
+
+**Needs:** `ANTHROPIC_API_KEY` on Railway. Estimated cost: $3–10 for full question bank.
+
+---
+
 ### 9. Admin Panel
 - [ ] Admin dashboard with system stats
 - [ ] User management (view/edit/delete)

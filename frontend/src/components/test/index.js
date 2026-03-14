@@ -11,3 +11,4 @@ export { default as DesmosCalculator } from './DesmosCalculator';
 export { default as ReferenceSheet } from './ReferenceSheet';
 export { default as SplitPane } from './SplitPane';
 export { default as SubmitConfirmation } from './SubmitConfirmation';
+export { default as DrawingCanvas } from './DrawingCanvas';

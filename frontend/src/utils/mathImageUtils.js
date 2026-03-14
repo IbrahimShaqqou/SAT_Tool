@@ -33,6 +33,17 @@ export const altTextToLatex = (raw) => {
   // ── multi-equation blocks (handled at call site, but guard here) ─────────
   s = s.replace(/^open brace\s*/i, '');
 
+  // ── CB fraction delimiters ────────────────────────────────────────────────
+  // CB uses "start fraction ... end fraction" as screen-reader delimiters.
+  // Strip them; the "X over Y" rule below handles the content.
+  s = s.replace(/\bstart fraction\b/gi, '');
+  s = s.replace(/\bend fraction\b/gi, '');
+  // Similarly for radicals
+  s = s.replace(/\bstart root\b/gi, 'the square root of');
+  s = s.replace(/\bend root\b/gi, '');
+  s = s.replace(/\bstart square root\b/gi, 'the square root of');
+  s = s.replace(/\bend square root\b/gi, '');
+
   // ── word-form numerals (used in ordinal fractions like "two thirds") ──────
   const WORD_NUMS = {
     one: 1, two: 2, three: 3, four: 4, five: 5,

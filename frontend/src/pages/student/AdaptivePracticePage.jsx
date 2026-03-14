@@ -13,6 +13,7 @@ import {
   BarChart3,
   ArrowLeft,
   BookOpen,
+  Pencil,
 } from 'lucide-react';
 import {
   Card,
@@ -20,7 +21,7 @@ import {
   Badge,
   LoadingSpinner,
 } from '../../components/ui';
-import { AnswerChoices, DesmosCalculator, ReferenceSheet } from '../../components/test';
+import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
 
 /**
@@ -221,6 +222,7 @@ const AdaptivePracticePage = () => {
 
   // UI state
   const [isLoading, setIsLoading] = useState(true);
+  const [isDrawing, setIsDrawing] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
   const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [calculatorKey, setCalculatorKey] = useState(0); // Force remount when needed
@@ -589,6 +591,19 @@ const AdaptivePracticePage = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {/* Draw toggle */}
+          <button
+            onClick={() => setIsDrawing((d) => !d)}
+            className={`p-2 rounded-lg transition-colors ${
+              isDrawing
+                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+            title={isDrawing ? 'Stop drawing' : 'Draw on question'}
+          >
+            <Pencil className="h-5 w-5" />
+          </button>
+
           {/* End Practice button */}
           <Button
             variant="secondary"
@@ -812,6 +827,12 @@ const AdaptivePracticePage = () => {
         isOpen={showReferenceSheet}
         onClose={() => setShowReferenceSheet(false)}
         initialPosition={{ x: 100, y: 80 }}
+      />
+
+      {/* Drawing canvas overlay */}
+      <DrawingCanvas
+        isActive={isDrawing}
+        questionId={currentQuestion?.id ?? 0}
       />
     </div>
   );
