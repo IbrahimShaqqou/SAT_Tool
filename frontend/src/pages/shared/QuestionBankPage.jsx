@@ -11,6 +11,7 @@ import {
   Calculator,
   ArrowLeft,
   FileText,
+  Pencil,
 } from 'lucide-react';
 import { Card, Button, Badge, LoadingSpinner } from '../../components/ui';
 import {
@@ -20,6 +21,7 @@ import {
   DesmosCalculator,
   ReferenceSheet,
   SplitPane,
+  DrawingCanvas,
 } from '../../components/test';
 import { questionService, taxonomyService } from '../../services';
 
@@ -52,6 +54,7 @@ const QuestionBankPage = () => {
   const [markedForReview, setMarkedForReview] = useState(new Set());
 
   // UI state
+  const [isDrawing, setIsDrawing] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
   const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [showNav, setShowNav] = useState(false);
@@ -568,8 +571,19 @@ const QuestionBankPage = () => {
             </span>
           </div>
 
-          {/* Right: Reference Sheet and Calculator toggle (only for math) */}
+          {/* Right: Draw toggle + Reference Sheet and Calculator toggle */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsDrawing((d) => !d)}
+              className={`p-2 rounded-lg transition-colors ${
+                isDrawing
+                  ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
+              title={isDrawing ? 'Stop drawing' : 'Draw on question'}
+            >
+              <Pencil className="h-5 w-5" />
+            </button>
             {subjectArea === 'math' && (
               <>
                 <button
@@ -628,6 +642,12 @@ const QuestionBankPage = () => {
           isOpen={showReferenceSheet}
           onClose={() => setShowReferenceSheet(false)}
           initialPosition={{ x: 100, y: 80 }}
+        />
+
+        {/* Drawing canvas overlay */}
+        <DrawingCanvas
+          isActive={isDrawing}
+          questionId={currentQuestion?.id ?? currentIndex}
         />
 
         {/* Fixed bottom navigation bar */}

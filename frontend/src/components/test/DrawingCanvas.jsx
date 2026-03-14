@@ -17,7 +17,7 @@ const COLORS = [
 ];
 
 const PEN_SIZE = 3;
-const ERASER_SIZE = 22;
+const ERASER_SIZES = [12, 22, 36]; // small / medium / large
 
 // ── Drawing helpers ────────────────────────────────────────────────────────
 
@@ -68,14 +68,17 @@ const DrawingCanvas = ({ isActive, questionId }) => {
   // Internal tool state
   const [penColor, setPenColor] = useState(COLORS[0].value);
   const [isEraser, setIsEraser] = useState(false);
+  const [eraserSizeIdx, setEraserSizeIdx] = useState(1); // index into ERASER_SIZES
 
   // Expose refs for use in event handlers without stale closures
   const penColorRef = useRef(penColor);
   const isEraserRef = useRef(isEraser);
+  const eraserSizeIdxRef = useRef(eraserSizeIdx);
   const questionIdRef = useRef(questionId);
 
   useEffect(() => { penColorRef.current = penColor; }, [penColor]);
   useEffect(() => { isEraserRef.current = isEraser; }, [isEraser]);
+  useEffect(() => { eraserSizeIdxRef.current = eraserSizeIdx; }, [eraserSizeIdx]);
   useEffect(() => { questionIdRef.current = questionId; }, [questionId]);
 
   // ── Canvas sizing ────────────────────────────────────────────────────────
@@ -126,7 +129,7 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     const eraser = isEraserRef.current;
     currentStroke.current = {
       color: eraser ? 'rgba(0,0,0,1)' : penColorRef.current,
-      size: eraser ? ERASER_SIZE : PEN_SIZE,
+      size: eraser ? ERASER_SIZES[eraserSizeIdxRef.current] : PEN_SIZE,
       eraser,
       points: [pos],
     };
@@ -183,8 +186,9 @@ const DrawingCanvas = ({ isActive, questionId }) => {
 
   // ── Cursor ───────────────────────────────────────────────────────────────
 
+  const eraserPx = ERASER_SIZES[eraserSizeIdx];
   const cursor = !isActive ? 'default'
-    : isEraser ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${ERASER_SIZE}' height='${ERASER_SIZE}'%3E%3Ccircle cx='${ERASER_SIZE/2}' cy='${ERASER_SIZE/2}' r='${ERASER_SIZE/2-1}' fill='white' stroke='%23555' stroke-width='1.5'/%3E%3C/svg%3E") ${ERASER_SIZE/2} ${ERASER_SIZE/2}, cell`
+    : isEraser ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${eraserPx}' height='${eraserPx}'%3E%3Ccircle cx='${eraserPx/2}' cy='${eraserPx/2}' r='${eraserPx/2-1}' fill='white' stroke='%23555' stroke-width='1.5'/%3E%3C/svg%3E") ${eraserPx/2} ${eraserPx/2}, cell`
     : 'crosshair';
 
   return (
@@ -234,7 +238,7 @@ const DrawingCanvas = ({ isActive, questionId }) => {
           {/* Divider */}
           <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
 
-          {/* Eraser */}
+          {/* Eraser toggle */}
           <button
             title="Eraser"
             onClick={() => setIsEraser(!isEraser)}
@@ -246,6 +250,31 @@ const DrawingCanvas = ({ isActive, questionId }) => {
           >
             <Eraser className="h-4 w-4" />
           </button>
+
+          {/* Eraser size picker — only when eraser is active */}
+          {isEraser && (
+            <>
+              <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
+              {ERASER_SIZES.map((size, idx) => (
+                <button
+                  key={size}
+                  title={`Eraser size ${idx + 1}`}
+                  onClick={() => setEraserSizeIdx(idx)}
+                  className={`flex items-center justify-center w-6 h-6 rounded-lg transition-colors ${
+                    eraserSizeIdx === idx
+                      ? 'bg-gray-200 dark:bg-gray-600'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  {/* Circle that grows with size */}
+                  <span
+                    className="rounded-full border border-gray-500 dark:border-gray-400 bg-white dark:bg-gray-300"
+                    style={{ width: 4 + idx * 4, height: 4 + idx * 4 }}
+                  />
+                </button>
+              ))}
+            </>
+          )}
 
           {/* Clear */}
           <button
