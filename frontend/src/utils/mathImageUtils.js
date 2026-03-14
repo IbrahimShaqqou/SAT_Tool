@@ -140,15 +140,23 @@ export const altTextToLatex = (raw) => {
   s = s.replace(/\bminus\b/gi, '-');
   s = s.replace(/\bnegative\b/gi, '-');
 
-  // ── inequalities ──────────────────────────────────────────────────────────
-  s = s.replace(/\bgreater than or equal to\b/gi, '\\geq ');
-  s = s.replace(/\bless than or equal to\b/gi, '\\leq ');
-  s = s.replace(/\bgreater than\b/gi, '>');
-  s = s.replace(/\bless than\b/gi, '<');
-  s = s.replace(/\bnot equal to\b/gi, '\\neq ');
-  s = s.replace(/\bapproximately equal to\b/gi, '\\approx ');
+  // ── inequalities (longest phrases first to avoid partial matches) ─────────
+  // Handle "is [not] [greater/less] than [or equal to]" before bare forms
+  s = s.replace(/\bis\s+not\s+equal\s+to\b/gi, '\\neq ');
+  s = s.replace(/\bis\s+greater\s+than\s+or\s+equal\s+to\b/gi, '\\geq ');
+  s = s.replace(/\bis\s+less\s+than\s+or\s+equal\s+to\b/gi, '\\leq ');
+  s = s.replace(/\bis\s+greater\s+than\b/gi, '>');
+  s = s.replace(/\bis\s+less\s+than\b/gi, '<');
+  s = s.replace(/\bis\s+approximately\s+equal\s+to\b/gi, '\\approx ');
+  s = s.replace(/\bis\s+equal\s+to\b/gi, '=');
+  s = s.replace(/\bnot\s+equal\s+to\b/gi, '\\neq ');
+  s = s.replace(/\bgreater\s+than\s+or\s+equal\s+to\b/gi, '\\geq ');
+  s = s.replace(/\bless\s+than\s+or\s+equal\s+to\b/gi, '\\leq ');
+  s = s.replace(/\bgreater\s+than\b/gi, '>');
+  s = s.replace(/\bless\s+than\b/gi, '<');
+  s = s.replace(/\bapproximately\s+equal\s+to\b/gi, '\\approx ');
   s = s.replace(/\bequals\b/gi, '=');
-  s = s.replace(/\bequal to\b/gi, '=');
+  s = s.replace(/\bequal\s+to\b/gi, '=');
 
   // ── Greek letters ─────────────────────────────────────────────────────────
   s = s.replace(/\balpha\b/gi, '\\alpha ');
@@ -367,9 +375,23 @@ export const preprocessMathHTML = (html) => {
   });
 
   // ── Step 4: replace remaining single math images with inline \(...\) ──────
+  // Guard: only convert images whose alt text contains math content.
+  // CB sometimes embeds descriptive sentences (e.g. "Each problem consists of
+  // two equations") as math-img alt text. Wrapping those in \(...\) causes
+  // MathJax to strip spaces and render them as concatenated variable names.
+  const ALT_MATH_SIGNAL = /\b(plus|minus|times|divided|equals|over|fraction|squared|cubed|root|theta|pi|alpha|beta|sine|cosine|tangent|subscript|superscript|negative|absolute value|greater than|less than|not equal|approximately|parenthesis|brace|ordered pair|point|half|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b|[+\-=<>]/i;
+
   wrapper.querySelectorAll('img.math-img').forEach((img) => {
     const alt = (img.getAttribute('alt') || '').trim();
     if (!alt) return;
+
+    // If the alt text doesn't look like math, show it as plain text instead
+    if (!ALT_MATH_SIGNAL.test(alt)) {
+      const fallback = doc.createElement('span');
+      fallback.textContent = alt;
+      img.replaceWith(fallback);
+      return;
+    }
 
     const latex = altTextToLatex(alt);
     if (!latex) return;
