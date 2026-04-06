@@ -2,11 +2,19 @@
  * DrawingCanvas
  * Transparent canvas overlay for freehand annotation on top of question content.
  * - Stores strokes per question ID so drawings persist when navigating questions.
+ * - Stroke points are stored in document-space Y coords so drawings stay fixed
+ *   relative to content when the page (or a scroll container) is scrolled.
  * - pointer-events: none when inactive so the page remains fully interactive.
- * - Self-contained: manages its own color/eraser state and floating toolbar.
+ * - Self-contained: manages its own color/eraser/undo state and floating toolbar.
+ *
+ * Props:
+ *   isActive   - boolean, enables drawing
+ *   questionId - string|number, key for per-question stroke storage
+ *   scrollRef  - optional React ref to a scrollable container element.
+ *                When omitted, falls back to window.scrollY.
  */
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Eraser, Trash2 } from 'lucide-react';
+import { Eraser, Trash2, Undo2 } from 'lucide-react';
 
 const COLORS = [
   { value: '#111827', label: 'Black' },
@@ -20,8 +28,10 @@ const PEN_SIZE = 3;
 const ERASER_SIZES = [12, 22, 36]; // small / medium / large
 
 // ── Drawing helpers ────────────────────────────────────────────────────────
+// Points are stored in document-space Y coords.
+// scrollY must be subtracted when drawing to canvas (viewport) coords.
 
-const applyStroke = (ctx, stroke) => {
+const applyStroke = (ctx, stroke, scrollY = 0) => {
   const { points, color, size, eraser } = stroke;
   if (!points.length) return;
 
@@ -35,30 +45,30 @@ const applyStroke = (ctx, stroke) => {
   if (points.length === 1) {
     // Single tap → filled dot
     ctx.beginPath();
-    ctx.arc(points[0].x, points[0].y, size / 2, 0, Math.PI * 2);
+    ctx.arc(points[0].x, points[0].y - scrollY, size / 2, 0, Math.PI * 2);
     ctx.fillStyle = eraser ? 'rgba(0,0,0,1)' : color;
     ctx.fill();
   } else {
     ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
+    ctx.moveTo(points[0].x, points[0].y - scrollY);
     for (let i = 1; i < points.length; i++) {
-      ctx.lineTo(points[i].x, points[i].y);
+      ctx.lineTo(points[i].x, points[i].y - scrollY);
     }
     ctx.stroke();
   }
   ctx.restore();
 };
 
-const redrawAll = (ctx, canvas, strokes) => {
+const redrawAll = (ctx, canvas, strokes, scrollY = 0) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (const stroke of strokes) {
-    applyStroke(ctx, stroke);
+    applyStroke(ctx, stroke, scrollY);
   }
 };
 
 // ── Component ──────────────────────────────────────────────────────────────
 
-const DrawingCanvas = ({ isActive, questionId }) => {
+const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
   const canvasRef = useRef(null);
   const isPointerDown = useRef(false);
   const currentStroke = useRef(null);
@@ -81,6 +91,14 @@ const DrawingCanvas = ({ isActive, questionId }) => {
   useEffect(() => { eraserSizeIdxRef.current = eraserSizeIdx; }, [eraserSizeIdx]);
   useEffect(() => { questionIdRef.current = questionId; }, [questionId]);
 
+  // ── Scroll offset helper ─────────────────────────────────────────────────
+  // Reads the current scroll offset from the provided container or window.
+  // Called at draw time — no need to be reactive.
+  const getScrollY = useCallback(() => {
+    if (scrollRef?.current) return scrollRef.current.scrollTop;
+    return window.scrollY;
+  }, [scrollRef]);
+
   // ── Canvas sizing ────────────────────────────────────────────────────────
 
   const syncSize = useCallback(() => {
@@ -92,8 +110,8 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     canvas.height = rect.height;
     const ctx = canvas.getContext('2d');
     const strokes = strokesMap.current.get(questionIdRef.current) || [];
-    redrawAll(ctx, canvas, strokes);
-  }, []);
+    redrawAll(ctx, canvas, strokes, getScrollY());
+  }, [getScrollY]);
 
   useEffect(() => {
     syncSize();
@@ -109,16 +127,35 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const strokes = strokesMap.current.get(questionId) || [];
-    redrawAll(ctx, canvas, strokes);
-  }, [questionId]);
+    redrawAll(ctx, canvas, strokes, getScrollY());
+  }, [questionId, getScrollY]);
+
+  // ── Redraw on scroll ─────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const el = scrollRef?.current || window;
+    const onScroll = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const strokes = strokesMap.current.get(questionIdRef.current) || [];
+      redrawAll(ctx, canvas, strokes, scrollRef?.current?.scrollTop ?? window.scrollY);
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [scrollRef]);
 
   // ── Pointer events ───────────────────────────────────────────────────────
 
-  const getPos = (e) => {
+  // Returns point in document-space Y coords (viewport Y + scrollY).
+  const getPos = useCallback((e) => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  };
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top + getScrollY(),
+    };
+  }, [getScrollY]);
 
   const handlePointerDown = useCallback((e) => {
     if (!isActive) return;
@@ -135,8 +172,8 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     };
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    applyStroke(ctx, currentStroke.current);
-  }, [isActive]);
+    applyStroke(ctx, currentStroke.current, getScrollY());
+  }, [isActive, getPos, getScrollY]);
 
   const handlePointerMove = useCallback((e) => {
     if (!isPointerDown.current || !isActive) return;
@@ -145,9 +182,11 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     const stroke = currentStroke.current;
     stroke.points.push(pos);
 
-    // Incremental draw of just the newest segment (fast)
+    // Incremental draw of just the newest segment (fast).
+    // Points are in document space, so subtract current scrollY for canvas coords.
     const pts = stroke.points;
     const n = pts.length;
+    const sy = getScrollY();
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.save();
@@ -157,11 +196,11 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.beginPath();
-    ctx.moveTo(pts[n - 2].x, pts[n - 2].y);
-    ctx.lineTo(pts[n - 1].x, pts[n - 1].y);
+    ctx.moveTo(pts[n - 2].x, pts[n - 2].y - sy);
+    ctx.lineTo(pts[n - 1].x, pts[n - 1].y - sy);
     ctx.stroke();
     ctx.restore();
-  }, [isActive]);
+  }, [isActive, getPos, getScrollY]);
 
   const handlePointerUp = useCallback(() => {
     if (!isPointerDown.current) return;
@@ -173,6 +212,32 @@ const DrawingCanvas = ({ isActive, questionId }) => {
     strokesMap.current.get(qId).push(stroke);
     currentStroke.current = null;
   }, []);
+
+  // ── Undo ─────────────────────────────────────────────────────────────────
+
+  const handleUndo = useCallback(() => {
+    const qId = questionIdRef.current;
+    const strokes = strokesMap.current.get(qId);
+    if (!strokes || strokes.length === 0) return;
+    strokes.pop();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    redrawAll(ctx, canvas, strokes, getScrollY());
+  }, [getScrollY]);
+
+  // Ctrl/Cmd + Z keyboard shortcut (only when drawing mode is active)
+  useEffect(() => {
+    if (!isActive) return;
+    const onKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        handleUndo();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isActive, handleUndo]);
 
   // ── Clear ────────────────────────────────────────────────────────────────
 
@@ -275,6 +340,18 @@ const DrawingCanvas = ({ isActive, questionId }) => {
               ))}
             </>
           )}
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
+
+          {/* Undo */}
+          <button
+            title="Undo (Ctrl+Z)"
+            onClick={handleUndo}
+            className="p-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+          >
+            <Undo2 className="h-4 w-4" />
+          </button>
 
           {/* Clear */}
           <button

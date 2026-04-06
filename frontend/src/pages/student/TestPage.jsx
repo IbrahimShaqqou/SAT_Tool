@@ -52,6 +52,7 @@ const TestPage = () => {
 
   // Ref to hold submit function (to avoid circular dependency with timer)
   const submitRef = useRef(null);
+  const scrollContainerRef = useRef(null);
 
   // Timer - only used when tutor sets a time limit
   const hasTimeLimit = !!assignment?.time_limit_minutes;
@@ -815,7 +816,7 @@ const TestPage = () => {
       />
 
       {/* Main content - shifts right when calculator is open */}
-      <div className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+      <div ref={scrollContainerRef} className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
         {hasPassage ? (
           <SplitPane
             left={passagePanel}
@@ -863,6 +864,7 @@ const TestPage = () => {
       <DrawingCanvas
         isActive={isDrawing}
         questionId={currentQuestion?.id ?? currentIndex}
+        scrollRef={scrollContainerRef}
       />
 
       {/* Paused overlay */}

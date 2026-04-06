@@ -833,6 +833,7 @@ const AdaptivePracticePage = () => {
       <DrawingCanvas
         isActive={isDrawing}
         questionId={currentQuestion?.id ?? 0}
+        scrollRef={contentRef}
       />
     </div>
   );
