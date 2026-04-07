@@ -85,6 +85,53 @@ ORDINALS: dict[str, int] = {
     "hundredth": 100, "hundredths": 100,
 }
 
+# Irregular ordinal → integer (covers 1–20 and round tens up to 100)
+# All other ordinals are derived algorithmically by _ordinal_to_int().
+_ORDINAL_SINGLES: dict[str, int] = {
+    "first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5,
+    "sixth": 6, "seventh": 7, "eighth": 8, "ninth": 9, "tenth": 10,
+    "eleventh": 11, "twelfth": 12, "thirteenth": 13, "fourteenth": 14,
+    "fifteenth": 15, "sixteenth": 16, "seventeenth": 17, "eighteenth": 18,
+    "nineteenth": 19, "twentieth": 20,
+    "thirtieth": 30, "fortieth": 40, "fiftieth": 50,
+    "sixtieth": 60, "seventieth": 70, "eightieth": 80, "ninetieth": 90,
+    "hundredth": 100,
+}
+
+
+def _ordinal_to_int(phrase: str) -> Optional[int]:
+    """
+    Convert an ordinal word or short phrase to an integer.
+
+    Handles:
+      • Simple irregulars:  "fifth" → 5, "twelfth" → 12
+      • Round tens:         "thirtieth" → 30, "fiftieth" → 50
+      • Compound (tens+ones): "twenty ninth" → 29, "thirty second" → 32
+      • Digit ordinals:     "21st", "103rd" → 21, 103
+
+    Returns None if the phrase cannot be recognised as an ordinal.
+    """
+    p = phrase.lower().strip()
+
+    # Direct table lookup
+    if p in _ORDINAL_SINGLES:
+        return _ORDINAL_SINGLES[p]
+
+    # Digit ordinals: "21st", "2nd", "103rd" …
+    m = re.fullmatch(r"(\d+)(?:st|nd|rd|th)", p)
+    if m:
+        return int(m.group(1))
+
+    # Compound ordinals: "twenty ninth", "thirty second", "forty fifth" …
+    parts = p.split(None, 1)  # split on first whitespace
+    if len(parts) == 2:
+        tens = WORD_NUMS.get(parts[0])           # "twenty" → 20
+        ones = _ORDINAL_SINGLES.get(parts[1])    # "ninth"  → 9
+        if tens is not None and ones is not None and 1 <= ones <= 9:
+            return tens + ones
+
+    return None
+
 ORDINAL_PAT = (
     r"half|halves|thirds?|fourths?|quarters?|fifths?|sixths?|sevenths?|"
     r"eighths?|ninths?|tenths?|elevenths?|twelfths?|hundredths?"
@@ -144,7 +191,7 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
         return m.group(0)
 
     s = re.sub(
-        rf"({WORD_NUM_PAT})-({ORDINAL_PAT})\b",
+        rf"({WORD_NUM_PAT})-({ORDINAL_PAT})\b(?!\s+(?:power\b|end\s+power\b))",
         _hyphen_frac, s, flags=re.I,
     )
 
@@ -174,12 +221,17 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     )
 
     # ── ordinal fractions ────────────────────────────────────────────────────
+    # Guard: don't fire when the ordinal is part of an exponent phrase.
+    # "twenty ninth power" must NOT become \frac{20}{9} — the power rules
+    # handle it as a compound ordinal exponent.
+    _NOT_POWER = r"(?!\s+(?:power\b|end\s+power\b))"
+
     # digit numerator: "4 thirds", "38 halves"
     def _ord_digit(m: re.Match) -> str:
         d = ORDINALS.get(m.group(2).lower())
         return rf"\frac{{{m.group(1)}}}{{{d}}}" if d else m.group(0)
 
-    s = re.sub(rf"(-?\d+)\s+({ORDINAL_PAT})\b", _ord_digit, s, flags=re.I)
+    s = re.sub(rf"(-?\d+)\s+({ORDINAL_PAT})\b" + _NOT_POWER, _ord_digit, s, flags=re.I)
 
     # word numerator: "two thirds", "three fourths"
     def _ord_word(m: re.Match) -> str:
@@ -187,16 +239,24 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
         d = ORDINALS.get(m.group(2).lower())
         return rf"\frac{{{n}}}{{{d}}}" if (n is not None and d) else m.group(0)
 
-    s = re.sub(rf"({WORD_NUM_PAT})\s+({ORDINAL_PAT})\b", _ord_word, s, flags=re.I)
+    s = re.sub(rf"({WORD_NUM_PAT})\s+({ORDINAL_PAT})\b" + _NOT_POWER, _ord_word, s, flags=re.I)
 
     # ── "the fraction with numerator X and denominator Y" ────────────────────
     def _frac_nd(m: re.Match) -> str:
         return rf"\frac{{{alt_text_to_latex(m.group(1))}}}{{{alt_text_to_latex(m.group(2))}}}"
 
+    # _STOP_INNER: denominator can contain sub-expressions with "power" in them
+    # (e.g. "the cube root of x to the fourth power, end root") so we do NOT
+    # stop at "power" here.  We DO stop at top-level operators and equals.
+    _STOP_INNER = r"(?=\s*(?:end fraction|$|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b))"
+
+    # _STOP: used for simpler "the fraction X over Y" where "power" at the end
+    # signals this fraction is itself an exponent (e.g. "raised to the fraction
+    # 7 over 6, power") — stop before that trailing "power".
     _STOP = r"(?=\s*(?:end fraction|$|\band\b|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b|\bpower\b|\bend power\b))"
 
     s = re.sub(
-        r"\bthe fraction with numerator\s+(.+?)\s+and denominator\s+(.+?)" + _STOP,
+        r"\bthe fraction with numerator\s+(.+?)\s+and denominator\s+(.+?)" + _STOP_INNER,
         _frac_nd, s, flags=re.I,
     )
 
@@ -257,8 +317,15 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     s = re.sub(r"\bcubed\b",    "^{3}", s, flags=re.I)
 
     def _to_power(m: re.Match) -> str:
-        exp = alt_text_to_latex(m.group(1).strip())
-        exp = re.sub(r"(st|nd|rd|th)$", "", exp)
+        raw = m.group(1).strip()
+        # Try ordinal conversion first (handles "fifth"→5, "twenty ninth"→29,
+        # "thirtieth"→30, "forty second"→42, "21st"→21, etc.)
+        n = _ordinal_to_int(raw)
+        if n is not None:
+            return rf"^{{{n}}}"
+        exp = alt_text_to_latex(raw)
+        # Strip digit-based ordinal suffixes left after recursion (e.g. "2nd"→"2")
+        exp = re.sub(r"(\d+)(st|nd|rd|th)\b", r"\1", exp)
         return rf"^{{{exp}}}"
 
     # "raised to the fraction X over Y, power" → ^{\frac{X}{Y}}
@@ -274,8 +341,10 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
 
     # "to the power X end power" → ^{X}   (multi-word exponents with delimiter)
     s = re.sub(r"\bto the power\s+(.+?)\s+end power\b", _to_power, s, flags=re.I)
-    # "to the power X" (no end-power delimiter — single token exponent)
-    s = re.sub(r"\bto the power\s+(\S+)\b",              _to_power, s, flags=re.I)
+    # "to the power of X" — must run before "to the power X" to avoid capturing "of"
+    s = re.sub(r"\bto the power of\s+(\S+)\b",           _to_power, s, flags=re.I)
+    # "to the power X" (no end-power delimiter — single token, not "of")
+    s = re.sub(r"\bto the power\s+(?!of\b)(\S+)\b",      _to_power, s, flags=re.I)
     # strip bare "end power" left over from expressions already handled
     s = re.sub(r"\bend power\b", "", s, flags=re.I)
 
@@ -284,10 +353,15 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     # "raised to EXPR power" (after fractions already substituted, "the" is gone)
     s = re.sub(r"\braised to\s+(.+?)\s+power\b",     _to_power, s, flags=re.I)
     s = re.sub(r"\bto the power of\s+(\S+)\b",       _to_power, s, flags=re.I)
-    s = re.sub(r"\bto the\s+(\S+)\s+power\b",         _to_power, s, flags=re.I)
-    s = re.sub(r"\bto the\s+([\w/\\{}]+)\b",
-               lambda m: rf"^{{{re.sub(r'(st|nd|rd|th)$','',m.group(1))}}}",
-               s, flags=re.I)
+    s = re.sub(r"\bto the\s+(.+?)\s+power\b",          _to_power, s, flags=re.I)
+    # Catch-all: "to the X" where X is a math token — single letter, number, or
+    # LaTeX fragment.  Deliberately does NOT match multi-letter English words
+    # (e.g. "added to the equation" must NOT become "added ^{equation}").
+    s = re.sub(
+        r"\bto the\s+(-?(?:[a-zA-Z]|\d[\d.]*)|\\[a-zA-Z]+(?:\{[^{}]*\})*)\b",
+        lambda m: rf"^{{{m.group(1)}}}",
+        s, flags=re.I,
+    )
 
     # ── absolute value ────────────────────────────────────────────────────────
     s = re.sub(
@@ -297,13 +371,13 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     )
 
     # ── function notation ─────────────────────────────────────────────────────
-    # "f of (expr)" and "f of token"
+    # "f of (expr)" and "f of token" — matches any single letter (p, q, r, etc.)
     # Handle "f of negative X" before generic token capture
-    s = re.sub(r"\b([fghFGH])\s+of\s+negative\s+(\S+)", r"\1(-\2)", s, flags=re.I)
-    s = re.sub(r"\b([fghFGH])\s+of\s+open parenthesis\s+(.+?)\s+close parenthesis", r"\1(\2)", s, flags=re.I)
-    s = re.sub(r"\b([fghFGH])\s+of\s+\((.+?)\)", r"\1(\2)", s)
-    s = re.sub(r"\b([fghFGH])\s+of\s+(\S+)",     r"\1(\2)", s)
-    s = re.sub(r"\b([fghFGH])\s+inverse\s+of\s+(\S+)", r"\1^{-1}(\2)", s)
+    s = re.sub(r"\b([a-zA-Z])\s+of\s+negative\s+(\S+)", r"\1(-\2)", s)
+    s = re.sub(r"\b([a-zA-Z])\s+of\s+open parenthesis\s+(.+?)\s+close parenthesis", r"\1(\2)", s, flags=re.I)
+    s = re.sub(r"\b([a-zA-Z])\s+of\s+\((.+?)\)", r"\1(\2)", s)
+    s = re.sub(r"\b([a-zA-Z])\s+of\s+(\S+)",     r"\1(\2)", s)
+    s = re.sub(r"\b([a-zA-Z])\s+inverse\s+of\s+(\S+)", r"\1^{-1}(\2)", s)
 
     # trig function "cosine of angle X" etc handled after trig substitution below
 
@@ -695,6 +769,121 @@ def run_migration(dry_run: bool = False, limit: Optional[int] = None) -> None:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# REPATCH — fix known bad LaTeX from previous migration run
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Mapping: bad exponent string (inside ^{...}) → correct integer
+_BAD_EXPONENTS: dict[str, int] = {
+    "fif": 5, "four": 4, "six": 6, "eigh": 8, "nin": 9,
+    "fourteen": 14, "seven": 7, "eleven": 11, "twelve": 12,
+    "thirteen": 13, "fifteen": 15, "sixteen": 16, "seventeen": 17,
+    "eighteen": 18, "nineteen": 19, "twenty": 20,
+    # Full ordinal words that were stored without stripping
+    "fifth": 5, "fourth": 4, "sixth": 6, "eighth": 8, "ninth": 9,
+    "seventh": 7, "eleventh": 11, "twelfth": 12, "fourteenth": 14,
+}
+
+
+def repatch_html(html: str) -> tuple[str, int]:
+    """
+    Apply targeted text fixes to already-migrated HTML with known LaTeX bugs:
+      1. Ordinal exponents stored as word-form (^{fif} → ^{5}, etc.)
+      2. '^{of} \\frac{...}' → '^{\\frac{...}}' (to the power of the fraction bug)
+      3. Single-letter function notation not converted (p of x → p(x))
+    Returns (patched_html, number_of_changes).
+    """
+    if not html:
+        return html, 0
+
+    changes = [0]  # list so inner lambdas can mutate
+
+    def bump(new, old):
+        if new != old:
+            changes[0] += 1
+        return new
+
+    # Fix 1: Ordinal exponents — ^{fif} → ^{5} etc.
+    for bad_word, num in _BAD_EXPONENTS.items():
+        needle = f"^{{{bad_word}}}"
+        if needle in html:
+            html = html.replace(needle, f"^{{{num}}}")
+            changes[0] += 1
+
+    # Fix 2: "^{of} \frac{...}{...}" → "^{\frac{...}{...}}"
+    # Handles "to the power of the fraction q over 4" conversion artifact
+    new = re.sub(
+        r'\^\{of\}\s*(\\frac\{[^{}]*(?:\{[^{}]*\}[^{}]*)?\}\{[^{}]*(?:\{[^{}]*\}[^{}]*)?\})',
+        r'^{\1}',
+        html,
+    )
+    html = bump(new, html)
+
+    # Fix 3: Single-letter function notation not converted inside \(...\) spans
+    # e.g. \(p of x = ...\) → \(p(x) = ...\)
+    def _fix_func(m: re.Match) -> str:
+        inner = m.group(1)
+        fixed = re.sub(r'\b([a-zA-Z])\s+of\s+(-?\S+)', r'\1(\2)', inner)
+        if fixed != inner:
+            changes[0] += 1
+        return f'\\({fixed}\\)'
+
+    html = re.sub(r'\\\((.+?)\\\)', _fix_func, html, flags=re.DOTALL)
+
+    return html, changes[0]
+
+
+def run_repatch(dry_run: bool = False) -> None:
+    """Scan all questions and apply repatch_html fixes."""
+    db = SessionLocal()
+    try:
+        questions = db.query(Question).filter(Question.is_active == True).all()
+        total = len(questions)
+        updated = 0
+
+        print(f"\nRepatching {total} questions (dry_run={dry_run})…\n")
+
+        for i, q in enumerate(questions, 1):
+            changed = False
+
+            for attr in ("prompt_html", "explanation_html"):
+                original = getattr(q, attr) or ""
+                patched, n = repatch_html(original)
+                if patched != original:
+                    if not dry_run:
+                        setattr(q, attr, patched)
+                    changed = True
+
+            if q.choices_json:
+                new_choices = []
+                choices_changed = False
+                for choice in q.choices_json:
+                    patched, n = repatch_html(choice or "")
+                    if patched != (choice or ""):
+                        choices_changed = True
+                    new_choices.append(patched)
+                if choices_changed:
+                    if not dry_run:
+                        q.choices_json = new_choices
+                    changed = True
+
+            if changed:
+                updated += 1
+                if not dry_run and updated % 100 == 0:
+                    db.commit()
+                    print(f"  {i}/{total}  committed {updated} so far…")
+
+        if not dry_run:
+            db.commit()
+
+        print(f"\n{'[DRY RUN] ' if dry_run else ''}Repatch done.")
+        print(f"  Questions updated : {updated}")
+        print(f"  Questions clean   : {total - updated}")
+
+    finally:
+        db.close()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # CLI
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -710,11 +899,15 @@ if __name__ == "__main__":
                     help="Count remaining math-img tags in DB")
     ap.add_argument("--force-cache", action="store_true",
                     help="Rebuild cache from scratch")
+    ap.add_argument("--repatch", action="store_true",
+                    help="Fix known bad LaTeX from previous migration (ordinals, function notation)")
     args = ap.parse_args()
 
     if args.check:
         check_db()
-    elif args.cache_only:
+    elif args.cache_only or args.force_cache:
         build_cache(force=args.force_cache)
+    elif args.repatch:
+        run_repatch(dry_run=args.dry_run)
     else:
         run_migration(dry_run=args.dry_run, limit=args.limit)
