@@ -1,0 +1,236 @@
+{
+  "skill_code": "Q.A.",
+  "title": "Ratios, Rates, Proportional Relationships, and Units",
+  "subtitle": "Master unit conversions, proportions, and real-world rate problems",
+  "estimated_minutes": 18,
+  "difficulty_level": "foundational",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "The Core Skill: Dimensional Analysis",
+        "content": "Ratios, rates, and units questions all come down to one master technique: **dimensional analysis** (also called the factor-label method).\n\nMultiply by fractions equal to 1 (where the top and bottom are the same quantity in different units) to cancel unwanted units.\n\nExample: convert 42 posters/min to posters/hour:\n$$42 \\frac{\\text{posters}}{\\text{min}} \\times 60 \\frac{\\text{min}}{\\text{hour}} = 2520 \\frac{\\text{posters}}{\\text{hour}}$$"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Unit Conversions"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Cancel Units Like Fractions",
+        "content": "Write the starting rate as a fraction. Then multiply by conversion fractions until you reach the target unit.\n\n**Key rule:** Set up conversion fractions so the unit you want to eliminate is on the opposite side from where it starts."
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: Speed Conversion",
+        "source": "SAT Practice Question",
+        "problem": "The International Space Station orbits at 4.76 miles per second. What is the average speed in miles per hour?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Start with 4.76 miles/second. Convert seconds to hours",
+            "math": "4.76 \\frac{\\text{miles}}{\\text{second}} \\times \\frac{60 \\text{ seconds}}{1 \\text{ minute}} \\times \\frac{60 \\text{ minutes}}{1 \\text{ hour}}"
+          },
+          {
+            "step": 2,
+            "description": "Cancel units and multiply",
+            "math": "4.76 \\times 60 \\times 60 = 4.76 \\times 3600 = 17{,}136 \\text{ miles/hour}"
+          }
+        ],
+        "answer": "$17{,}136$ miles per hour",
+        "tip": "There are 3,600 seconds in one hour. Multiplying a per-second rate by 3,600 converts it to per-hour."
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Multi-Step Unit Conversion",
+        "source": "SAT Practice Question",
+        "problem": "How many fluid ounces are equivalent to 76 quarts?\n(Given: 8 fluid ounces = 1 cup; 4 cups = 1 quart)",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Convert quarts to cups first",
+            "math": "76 \\text{ quarts} \\times \\frac{4 \\text{ cups}}{1 \\text{ quart}} = 304 \\text{ cups}"
+          },
+          {
+            "step": 2,
+            "description": "Convert cups to fluid ounces",
+            "math": "304 \\text{ cups} \\times \\frac{8 \\text{ fl oz}}{1 \\text{ cup}} = 2{,}432 \\text{ fl oz}"
+          }
+        ],
+        "answer": "$2{,}432$ fluid ounces"
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Setting Up and Solving Proportions"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Two Equal Ratios",
+        "content": "A proportion says two ratios are equal: $\\dfrac{a}{b} = \\dfrac{c}{d}$\n\nTo solve, **cross-multiply**: $ad = bc$\n\nOr equivalently, multiply both sides by the same value to scale up or down."
+      },
+      {
+        "id": "type-2-example-1",
+        "type": "worked-example",
+        "title": "Example: Find the Missing Value",
+        "source": "SAT Practice Question",
+        "problem": "The ratio 140 to $m$ is equivalent to the ratio 4 to 28. What is the value of $m$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Set up the proportion",
+            "math": "\\frac{140}{m} = \\frac{4}{28}"
+          },
+          {
+            "step": 2,
+            "description": "Cross-multiply",
+            "math": "140 \\times 28 = 4m"
+          },
+          {
+            "step": 3,
+            "description": "Solve",
+            "math": "m = \\frac{140 \\times 28}{4} = \\frac{3920}{4} = 980"
+          }
+        ],
+        "answer": "$m = 980$",
+        "tip": "Shortcut: $\\frac{4}{28} = \\frac{1}{7}$, so $\\frac{140}{m} = \\frac{1}{7}$ → $m = 140 \\times 7 = 980$"
+      },
+      {
+        "id": "type-2-example-2",
+        "type": "worked-example",
+        "title": "Example: Lightning and Thunder Ratio",
+        "source": "SAT Practice Question",
+        "problem": "For a person $m$ miles from a lightning flash, the time interval before hearing thunder is $k$ seconds. The ratio $m : k$ is estimated as $1:5$. If the person hears thunder 50 seconds after seeing lightning, how many miles away is the lightning?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Set up the proportion: m/k = 1/5",
+            "math": "\\frac{m}{50} = \\frac{1}{5}"
+          },
+          {
+            "step": 2,
+            "description": "Solve for m",
+            "math": "m = \\frac{50}{5} = 10 \\text{ miles}"
+          }
+        ],
+        "answer": "$10$ miles"
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Density and Derived Rates"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Density = Mass ÷ Volume",
+        "content": "**Density** problems give you density and one of (mass, volume) and ask for the other.\n\n$$\\text{Density} = \\frac{\\text{Mass}}{\\text{Volume}}$$\n$$\\text{Mass} = \\text{Density} \\times \\text{Volume}$$\n$$\\text{Volume} = \\frac{\\text{Mass}}{\\text{Density}}$$\n\n**Population density** works the same way:\n$$\\text{Population} = \\text{Density} \\times \\text{Area}$$"
+      },
+      {
+        "id": "type-3-example-1",
+        "type": "worked-example",
+        "title": "Example: Population Density",
+        "source": "SAT Practice Question",
+        "problem": "Iceland's population density increased from 2.5 to 3.3 people per km². The land area is 100,250 km². By how many people did the population increase?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find population at each density",
+            "math": "P_{1990} = 2.5 \\times 100{,}250 = 250{,}625"
+          },
+          {
+            "step": 2,
+            "description": "",
+            "math": "P_{2014} = 3.3 \\times 100{,}250 = 330{,}825"
+          },
+          {
+            "step": 3,
+            "description": "Find the increase",
+            "math": "330{,}825 - 250{,}625 = 80{,}200"
+          }
+        ],
+        "answer": "Population increased by $80{,}200$ people"
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Mass from Density and Volume",
+        "source": "SAT Practice Question",
+        "problem": "A cube of oak has density 807 kg/m³ and edge length 0.90 m. What is the mass, to the nearest whole number?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Calculate the volume of the cube",
+            "math": "V = (0.90)^3 = 0.729 \\text{ m}^3"
+          },
+          {
+            "step": 2,
+            "description": "Mass = Density × Volume",
+            "math": "M = 807 \\times 0.729 \\approx 588 \\text{ kg}"
+          }
+        ],
+        "answer": "$588$ kg"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Algebraic Proportional Reasoning"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Find n from an Algebraic Proportion",
+        "source": "SAT Practice Question",
+        "problem": "If $\\dfrac{x}{y} = 4$ and $\\dfrac{24x}{ny} = 4$, what is the value of $n$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "From the first equation: x = 4y",
+            "math": "x = 4y"
+          },
+          {
+            "step": 2,
+            "description": "Substitute into the second equation",
+            "math": "\\frac{24(4y)}{ny} = 4 \\Rightarrow \\frac{96y}{ny} = 4"
+          },
+          {
+            "step": 3,
+            "description": "Simplify (y cancels)",
+            "math": "\\frac{96}{n} = 4 \\Rightarrow n = 24"
+          }
+        ],
+        "answer": "$n = 24$"
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Dimensional analysis:** multiply by conversion fractions to cancel unwanted units",
+          "**Proportions:** $\\frac{a}{b} = \\frac{c}{d}$ → cross-multiply to solve for the unknown",
+          "**Density:** Mass = Density × Volume; Population = Density × Area",
+          "**Speed conversion:** multiply per-second by 3,600 to get per-hour; by 60 for per-minute",
+          "**Ratios:** simplify the ratio first, then use it to scale"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Dividing instead of multiplying when converting (e.g., dividing by 60 to go from sec to hours — should multiply)\n- Forgetting to square or cube the length when computing area or volume\n- Cross-multiplying incorrectly: $\\frac{a}{b} = \\frac{c}{d}$ → $ad = bc$ (not $ac = bd$)\n- Confusing density with volume or mass in word problems"
+      }
+    ],
+    "sat_tips": [
+      "Always write units explicitly and cancel them like fractions — this prevents conversion errors",
+      "For multi-step conversions, chain the fractions: everything in the numerator you want to keep, everything to cancel in the denominator",
+      "Proportions with one unknown: cross-multiply, then divide",
+      "Density, population density, and price-per-unit all follow the same structure: Rate = Quantity ÷ Count"
+    ]
+  }
+}

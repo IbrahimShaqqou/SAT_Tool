@@ -1,0 +1,247 @@
+{
+  "skill_code": "S.A.",
+  "title": "Area and Volume",
+  "subtitle": "Master area, surface area, volume formulas, and scaling relationships",
+  "estimated_minutes": 20,
+  "difficulty_level": "foundational",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "Key Formulas",
+        "content": "The SAT provides a reference sheet with most geometry formulas. But knowing them cold saves time.\n\n**Area:**\n- Rectangle: $A = lw$\n- Square: $A = s^2$\n- Triangle: $A = \\frac{1}{2}bh$\n- Circle: $A = \\pi r^2$\n\n**Volume:**\n- Rectangular prism: $V = lwh$\n- Cube: $V = s^3$\n- Cylinder: $V = \\pi r^2 h$\n- Cone: $V = \\frac{1}{3}\\pi r^2 h$\n- Sphere: $V = \\frac{4}{3}\\pi r^3$\n\n**Circumference:** $C = 2\\pi r$"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Direct Formula Application"
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: Area of a Square",
+        "source": "SAT Practice Question",
+        "problem": "The side length of a square is 55 cm. What is the area?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Area of square = side²",
+            "math": "A = 55^2 = 3025 \\text{ cm}^2"
+          }
+        ],
+        "answer": "$3025$ cm²"
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Area of a Circle",
+        "source": "SAT Practice Question",
+        "problem": "A circle has a radius of 43 meters. What is the area?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Area = πr²",
+            "math": "A = \\pi(43)^2 = 1849\\pi \\text{ m}^2"
+          }
+        ],
+        "answer": "$1849\\pi$ square meters"
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Working Backwards — Find a Dimension"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Given Area or Volume, Find a Missing Dimension",
+        "content": "Start with the formula, substitute what you know, and solve for the unknown."
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Find the Radius from Volume",
+        "source": "SAT Practice Question",
+        "problem": "A right circular cylinder has volume $405\\pi$. The height is 5. What is the radius?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use volume formula: V = πr²h",
+            "math": "405\\pi = \\pi r^2 (5)"
+          },
+          {
+            "step": 2,
+            "description": "Divide both sides by 5π",
+            "math": "r^2 = \\frac{405\\pi}{5\\pi} = 81"
+          },
+          {
+            "step": 3,
+            "description": "Take the square root",
+            "math": "r = 9"
+          }
+        ],
+        "answer": "Radius $= 9$"
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Surface Area"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Surface Area = Sum of All Face Areas",
+        "content": "For a rectangular box (prism):\n$$SA = 2(lw + lh + wh)$$\n\nFor a cube with side $s$:\n$$SA = 6s^2 \\quad \\text{(6 square faces)}$$\n\nFor a box WITHOUT a lid: subtract one face from the full surface area."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Surface Area Without a Lid",
+        "source": "SAT Practice Question",
+        "problem": "A box with no lid has edge length 29 inches (all faces are squares). What is the exterior surface area?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "A cube has 6 faces. A box without a lid has 5 faces",
+            "math": "SA_{\\text{no lid}} = 5s^2 = 5(29)^2"
+          },
+          {
+            "step": 2,
+            "description": "Calculate",
+            "math": "5 \\times 841 = 4205 \\text{ in}^2"
+          }
+        ],
+        "answer": "$4205$ square inches"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Setting Two Area Expressions Equal"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Find the Square with the Same Area as a Circle",
+        "source": "SAT Practice Question",
+        "problem": "What is the side length of a square with the same area as a circle with radius 2?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Area of circle: A = π(2²) = 4π",
+            "math": "A_{\\text{circle}} = 4\\pi"
+          },
+          {
+            "step": 2,
+            "description": "Set equal to square area: s² = 4π",
+            "math": "s = \\sqrt{4\\pi} = 2\\sqrt{\\pi}"
+          }
+        ],
+        "answer": "$s = 2\\sqrt{\\pi}$"
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Scaling — How Area and Volume Change with Size"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "The Scaling Rules",
+        "content": "When you scale all dimensions of a shape by a factor $k$:\n- **Length** scales by $k$\n- **Area** scales by $k^2$ (because area involves two dimensions)\n- **Volume** scales by $k^3$ (because volume involves three dimensions)\n\nThis is one of the most important rules for the SAT geometry section."
+      },
+      {
+        "id": "type-5-example-1",
+        "type": "worked-example",
+        "title": "Example: Scaling Area",
+        "source": "SAT Practice Question",
+        "problem": "Square A has side lengths 166 times those of Square B. The area of Square A is $k$ times the area of Square B. What is $k$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Side length ratio = 166. Area scales by the square of the side ratio",
+            "math": "k = 166^2 = 27{,}556"
+          }
+        ],
+        "answer": "$k = 27{,}556$",
+        "tip": "Area scales as the square of any linear dimension. If sides are 3× longer, area is 9× larger."
+      },
+      {
+        "id": "type-5-example-2",
+        "type": "worked-example",
+        "title": "Example: Scale from Perimeter",
+        "source": "SAT Practice Question",
+        "problem": "Square X has side length 12 cm. Square Y has perimeter 2 times the perimeter of Square X. What is the side length of Square Y?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Perimeter of X = 4 × 12 = 48 cm. Perimeter of Y = 2 × 48 = 96 cm",
+            "math": "P_Y = 96 \\text{ cm}"
+          },
+          {
+            "step": 2,
+            "description": "Side length of Y = perimeter / 4",
+            "math": "s_Y = \\frac{96}{4} = 24 \\text{ cm}"
+          }
+        ],
+        "answer": "Side length of Square Y = $24$ cm"
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Compound Shapes"
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Area of a Composite Figure",
+        "source": "SAT Practice Question",
+        "problem": "[IMAGE PLACEHOLDER: Composite shape made of a rectangle and a semicircle on top]. The rectangle is 10 × 6 and the semicircle has diameter 6. Find the total area.",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Area of rectangle",
+            "math": "A_{\\text{rect}} = 10 \\times 6 = 60"
+          },
+          {
+            "step": 2,
+            "description": "Area of semicircle: radius = 3",
+            "math": "A_{\\text{semi}} = \\frac{1}{2}\\pi(3)^2 = \\frac{9\\pi}{2}"
+          },
+          {
+            "step": 3,
+            "description": "Total area",
+            "math": "60 + \\frac{9\\pi}{2}"
+          }
+        ],
+        "answer": "$60 + \\dfrac{9\\pi}{2}$",
+        "tip": "For compound shapes: divide into familiar pieces, find each area, and add (or subtract if one shape is cut out of another)."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Square:** $A = s^2$, $SA_\\text{cube} = 6s^2$, $V_\\text{cube} = s^3$",
+          "**Rectangle/Prism:** $A = lw$, $V = lwh$",
+          "**Circle:** $A = \\pi r^2$, $C = 2\\pi r$",
+          "**Cylinder:** $V = \\pi r^2 h$",
+          "**Scaling:** area scales as $k^2$; volume scales as $k^3$ when linear dimensions scale by $k$",
+          "**Surface area without lid:** subtract one face from total"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Confusing radius and diameter in circle formulas (radius = diameter ÷ 2)\n- Forgetting $\\pi$ in area or circumference of circles\n- Using area formula for volume or vice versa (especially for cylinders)\n- Scaling area by $k$ instead of $k^2$\n- Forgetting to subtract the lid face when computing open-box surface area"
+      }
+    ],
+    "sat_tips": [
+      "The SAT formula sheet is available during the test — use it for volume formulas you don't know cold",
+      "For scaling: if the problem says side lengths increase by a factor k, area increases by k² and volume by k³",
+      "For surface area of a lidless box: 5s² instead of 6s²",
+      "Equating two area formulas is common — set them equal and solve for the unknown"
+    ]
+  }
+}

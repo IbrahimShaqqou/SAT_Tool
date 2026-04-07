@@ -1,0 +1,222 @@
+{
+  "skill_code": "S.B.",
+  "title": "Lines, Angles, and Triangles",
+  "subtitle": "Master angle relationships, congruence, similarity, and triangle properties",
+  "estimated_minutes": 22,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "Core Angle Rules",
+        "content": "**Straight line:** angles on one side sum to $180°$\n**Full rotation:** angles around a point sum to $360°$\n**Vertical angles:** opposite angles formed by two intersecting lines are equal\n**Supplementary:** two angles that sum to $180°$\n**Complementary:** two angles that sum to $90°$"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Parallel Lines Cut by a Transversal"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "The Angle Pairs",
+        "content": "When a **transversal** cuts two parallel lines, it creates 8 angles. The key relationships:\n\n- **Corresponding angles:** same position at each intersection → **equal**\n- **Alternate interior angles:** between the parallel lines, on opposite sides → **equal**\n- **Alternate exterior angles:** outside the parallel lines, on opposite sides → **equal**\n- **Co-interior (same-side interior) angles:** between the lines, on the same side → **supplementary** (sum to $180°$)\n\n**Quick rule:** If the angles look like they're in the same position (Z-shape, F-shape), they're equal. If they're on the same side and inside, they're supplementary."
+      },
+      {
+        "id": "type-1-example",
+        "type": "worked-example",
+        "title": "Example: Alternate Interior Angles",
+        "source": "SAT Practice Question",
+        "problem": "Line $t$ intersects parallel lines $m$ and $n$. At line $m$, the bottom-left angle is $170°$. What is the corresponding angle at line $n$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Corresponding angles (same position) are equal when lines are parallel",
+            "math": "\\text{Corresponding angle} = 170°"
+          }
+        ],
+        "answer": "$170°$"
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Find a Missing Angle with Parallel Lines",
+        "source": "SAT Practice Question",
+        "problem": "Two parallel lines $q$ and $r$ are cut by transversal $s$. At line $q$, the top-right angle is $58°$. What is the measure of the co-interior angle at line $r$ on the same side?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Co-interior angles are supplementary",
+            "math": "58° + \\angle = 180°"
+          },
+          {
+            "step": 2,
+            "description": "Solve",
+            "math": "\\angle = 180° - 58° = 122°"
+          }
+        ],
+        "answer": "$122°$"
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Congruent Triangles"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Corresponding Parts Are Equal",
+        "content": "When two triangles are **congruent**, all corresponding sides and angles are equal.\n\nIf $\\triangle EFG \\cong \\triangle JKL$ (E↔J, F↔K, G↔L), then:\n- $\\angle E = \\angle J$, $\\angle F = \\angle K$, $\\angle G = \\angle L$\n- $EF = JK$, $FG = KL$, $EG = JL$"
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Corresponding Angles in Congruent Triangles",
+        "source": "SAT Practice Question",
+        "problem": "Triangles $EFG$ and $JKL$ are congruent, where $E, F, G$ correspond to $J, K, L$. $\\angle E = 45°$ and $\\angle F = 20°$. What is the measure of $\\angle J$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "E corresponds to J, so ∠J = ∠E",
+            "math": "\\angle J = \\angle E = 45°"
+          }
+        ],
+        "answer": "$\\angle J = 45°$"
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Similar Triangles"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Same Shape, Different Size",
+        "content": "**Similar triangles** have the same angles but different sizes. Their sides are **proportional**.\n\nIf $\\triangle ABC \\sim \\triangle XYZ$ with correspondence $A \\to X$, $B \\to Y$, $C \\to Z$:\n\n$$\\frac{AB}{XY} = \\frac{BC}{YZ} = \\frac{AC}{XZ}$$\n\nThis ratio is the **scale factor**.\n\n**Conditions for similarity:** AA (two equal angles), SAS, or SSS with proportional sides."
+      },
+      {
+        "id": "type-3-example-1",
+        "type": "worked-example",
+        "title": "Example: Find a Side Using Similarity",
+        "source": "SAT Practice Question",
+        "problem": "Triangle $ABC \\sim$ triangle $XYZ$ (A↔X, B↔Y, C↔Z). In $\\triangle ABC$: $AB = 170$, $BC = 850$. In $\\triangle XYZ$: $YZ = 60$. What is $XY$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Set up the proportion: AB/XY = BC/YZ (corresponding sides are proportional)",
+            "math": "\\frac{170}{XY} = \\frac{850}{60}"
+          },
+          {
+            "step": 2,
+            "description": "Cross-multiply",
+            "math": "850 \\cdot XY = 170 \\times 60 = 10{,}200"
+          },
+          {
+            "step": 3,
+            "description": "Solve",
+            "math": "XY = \\frac{10{,}200}{850} = 12"
+          }
+        ],
+        "answer": "$XY = 12$",
+        "tip": "Scale factor = 60/850 = 6/85. Then XY = 170 × (6/85) = 12. Always verify which sides correspond."
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Shadow and Similar Triangles",
+        "source": "SAT Practice Question",
+        "problem": "A 10-foot tree casts a 5-foot shadow. At the same time, another tree casts a 2-foot shadow. How tall is the second tree?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The sun creates similar triangles. Set up the proportion: height/shadow = height/shadow",
+            "math": "\\frac{10}{5} = \\frac{h}{2}"
+          },
+          {
+            "step": 2,
+            "description": "Solve",
+            "math": "h = \\frac{10 \\times 2}{5} = 4 \\text{ feet}"
+          }
+        ],
+        "answer": "The second tree is $4$ feet tall"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Triangle Angle Sum"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Angles in a Triangle Sum to 180°",
+        "content": "This is the most fundamental triangle rule:\n$$\\angle A + \\angle B + \\angle C = 180°$$\n\n**Exterior angle theorem:** An exterior angle of a triangle equals the sum of the two non-adjacent interior angles."
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Exterior Angle Theorem",
+        "source": "SAT Practice Question",
+        "problem": "In triangle $ABC$, $\\angle A = x°$ and $\\angle B = y°$. An exterior angle at $C$ is formed. What is its measure?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Exterior angle at C = sum of non-adjacent angles A and B",
+            "math": "\\text{Exterior angle} = x + y"
+          }
+        ],
+        "answer": "$(x + y)°$"
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Overlapping Triangles and Complex Figures"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Vertical Angles + Similar Triangles",
+        "source": "SAT Practice Question",
+        "problem": "[IMAGE PLACEHOLDER: Two triangles sharing vertex R on a line segment PT. Triangle QRP on the left, triangle SUT on the right. Angle QPR is a right angle and angle QRP = x°.]\n\nThe triangles share vertex $R$ at the center. Show why $\\angle QRP = \\angle SRU$.",
+        "steps": [
+          {
+            "step": 1,
+            "description": "∠QRP and ∠SRU are vertical angles (formed by two intersecting lines)",
+            "math": "\\angle QRP = \\angle SRU \\text{ (vertical angles)}"
+          },
+          {
+            "step": 2,
+            "description": "Both triangles have a right angle, so they share two angle measures → AA similarity",
+            "math": "\\triangle QRP \\sim \\triangle SUT"
+          }
+        ],
+        "answer": "Vertical angles are equal; the triangles are similar by AA."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Parallel + transversal:** corresponding, alternate interior, and alternate exterior angles are equal; co-interior angles are supplementary",
+          "**Congruent triangles:** corresponding angles and sides are equal",
+          "**Similar triangles:** corresponding angles equal; sides are proportional",
+          "**Triangle sum:** all three angles add to $180°$",
+          "**Exterior angle:** = sum of the two non-adjacent interior angles",
+          "**Vertical angles:** opposite angles at an intersection are equal"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Confusing which sides correspond in similar triangles (label them carefully)\n- Using the wrong angles in the proportion (must use corresponding angles)\n- Forgetting the exterior angle theorem — don't try to add up to 360° unnecessarily\n- Mixing up supplementary (180°) and complementary (90°)\n- Using the wrong scale factor in proportion: always check which triangle's side is in the numerator"
+      }
+    ],
+    "sat_tips": [
+      "Label corresponding vertices clearly before writing a proportion for similar triangles",
+      "For parallel line + transversal: draw a Z (alternate) or F (corresponding) shape to identify equal angles",
+      "Exterior angle theorem shortcut: exterior angle = sum of the two opposite interior angles",
+      "Shadow problems always use similar triangles: height/shadow = height/shadow"
+    ]
+  }
+}

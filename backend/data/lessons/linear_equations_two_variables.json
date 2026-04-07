@@ -1,0 +1,274 @@
+{
+  "skill_code": "H.C.",
+  "title": "Linear Equations in Two Variables",
+  "subtitle": "Master slope, intercepts, parallel/perpendicular lines, and interpreting equations",
+  "estimated_minutes": 20,
+  "difficulty_level": "foundational",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "The Core Idea",
+        "content": "A **linear equation in two variables** (like $x$ and $y$) describes a straight line on the $xy$-plane. Every point on that line is a solution.\n\nThe most useful forms:\n- **Slope-intercept:** $y = mx + b$ — slope $m$, y-intercept $b$\n- **Standard form:** $ax + by = c$\n\nThe SAT tests your ability to work with slopes, intercepts, and what the equation means in context."
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Slope — Parallel and Perpendicular Lines"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "The Most Common Question Type on H.C.",
+        "content": "The SAT loves asking about slopes of **parallel** and **perpendicular** lines.\n\n- **Parallel lines** have the **same slope**\n- **Perpendicular lines** have slopes that are **negative reciprocals** of each other\n\n**Negative reciprocal rule:** if one slope is $m$, the perpendicular slope is $-\\dfrac{1}{m}$.\n\nExamples:\n- Slope of 3 → perpendicular slope is $-\\dfrac{1}{3}$\n- Slope of $-\\dfrac{17}{3}$ → perpendicular slope is $\\dfrac{3}{17}$\n- Slope of $-9$ → perpendicular slope is $\\dfrac{1}{9}$"
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: Perpendicular Slope",
+        "source": "SAT Practice Question",
+        "problem": "Line $k$ is defined by $y = 3x + 15$. Line $j$ is perpendicular to line $k$ in the $xy$-plane. What is the slope of line $j$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Read the slope of line k from the equation",
+            "math": "y = 3x + 15 \\Rightarrow m_k = 3"
+          },
+          {
+            "step": 2,
+            "description": "The perpendicular slope is the negative reciprocal of 3",
+            "math": "m_j = -\\frac{1}{3}"
+          }
+        ],
+        "answer": "$-\\dfrac{1}{3}$"
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Perpendicular Slope — Must Rearrange First",
+        "source": "SAT Practice Question",
+        "problem": "Line $p$ is defined by $2y + 18x = 9$. Line $r$ is perpendicular to line $p$. What is the slope of line $r$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Rearrange into slope-intercept form by solving for y",
+            "math": "2y = -18x + 9 \\Rightarrow y = -9x + \\frac{9}{2}"
+          },
+          {
+            "step": 2,
+            "description": "Read the slope of line p",
+            "math": "m_p = -9"
+          },
+          {
+            "step": 3,
+            "description": "Find the negative reciprocal for the perpendicular slope",
+            "math": "m_r = \\frac{1}{9}"
+          }
+        ],
+        "answer": "$\\dfrac{1}{9}$",
+        "tip": "Always rearrange to $y = mx + b$ first if the equation is in standard form. The slope is the coefficient of $x$."
+      },
+      {
+        "id": "type-1-example-3",
+        "type": "worked-example",
+        "title": "Example: Parallel Slope",
+        "source": "SAT Practice Question",
+        "problem": "Line $k$ is defined by $y = \\dfrac{17}{7}x + 4$. Line $j$ is parallel to line $k$. What is the slope of line $j$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Parallel lines have identical slopes",
+            "math": "m_j = m_k = \\frac{17}{7}"
+          }
+        ],
+        "answer": "$\\dfrac{17}{7}$",
+        "tip": "Desmos: graph line $k$ and one of the answer choices. If they're parallel, you'll see two lines that never intersect and look identical in steepness."
+      },
+      {
+        "id": "parallel-perp-tip",
+        "type": "tip",
+        "title": "Quick Memory Aid",
+        "content": "**Parallel** = same slope, **Para**llel starts with the same letter as **same** (just remember: parallel → same slope).\n\n**Perpendicular** = flip and negate. $\\dfrac{a}{b}$ becomes $-\\dfrac{b}{a}$."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Intercepts and What They Mean"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Finding and Interpreting Intercepts",
+        "content": "- **y-intercept:** set $x = 0$ → solve for $y$\n- **x-intercept:** set $y = 0$ → solve for $x$\n\nIn context, the y-intercept is usually the **starting value** (e.g., cost before any units), and the x-intercept is where the quantity **reaches zero**."
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Interpret the Equation in Context",
+        "source": "SAT Practice Question",
+        "problem": "Isabel ordered topsoil and crushed stone. The equation $24.5x + 24.75y = 641$ represents her total cost, where $x$ is cubic yards of topsoil and $y$ is tons of crushed stone. How much more, in dollars, does one ton of crushed stone cost than one cubic yard of topsoil?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The coefficient of x is the cost per cubic yard of topsoil: $24.50",
+            "math": "\\text{Topsoil: } \\$24.50 \\text{ per cubic yard}"
+          },
+          {
+            "step": 2,
+            "description": "The coefficient of y is the cost per ton of crushed stone: $24.75",
+            "math": "\\text{Crushed stone: } \\$24.75 \\text{ per ton}"
+          },
+          {
+            "step": 3,
+            "description": "Find the difference",
+            "math": "24.75 - 24.50 = 0.25"
+          }
+        ],
+        "answer": "Crushed stone costs $\\$0.25$ more per unit than topsoil.",
+        "tip": "In an equation like $ax + by = c$, the coefficient $a$ is the **price per unit of $x$** and $b$ is the **price per unit of $y$**. The constant $c$ is the total."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Find the Equation from Two Points"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Building the Line from a Table or Two Coordinates",
+        "content": "Given two points on a line, find the slope first, then the intercept.\n\n$$m = \\frac{y_2 - y_1}{x_2 - x_1}$$\n\nThen substitute one point into $y = mx + b$ to find $b$."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Find b from a Table with a Parameter",
+        "source": "SAT Practice Question",
+        "problem": "A table gives two points on a line: $(k, 13)$ and $(-15, k+7)$. The y-intercept of the line is $(k-5, b)$ where $k$ and $b$ are constants. What is the value of $b$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the slope using the two points",
+            "math": "m = \\frac{(k+7) - 13}{-15 - k} = \\frac{k - 6}{-15 - k}"
+          },
+          {
+            "step": 2,
+            "description": "Use the x-intercept: when y = 0 at x = k - 5. The y-intercept is where x = 0. To get b, use point-slope form and set x = 0",
+            "math": "\\text{Use the slope and one point to find } b \\text{ algebraically or test values}"
+          },
+          {
+            "step": 3,
+            "description": "A faster Desmos approach: try values of k. When k = 2, points are (2, 13) and (-15, 9). The slope is (9-13)/(-15-2) = -4/-17 = 4/17. Find y at x = 0",
+            "math": "y - 13 = \\frac{4}{17}(x - 2) \\Rightarrow y(0) = 13 - \\frac{8}{17} = \\frac{213}{17}"
+          }
+        ],
+        "answer": "Solve using the slope formula between both points and the y-intercept definition.",
+        "tip": "For parametric problems like this, Desmos is most powerful: define the two points with a slider for $k$, graph the line, and read off the y-intercept."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Setting Up an Equation from Context"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Translate Words into an Equation",
+        "content": "Many H.C. questions give you a real-world scenario (mixture, perimeter, revenue) and ask which equation best represents it.\n\n**Strategy:**\n1. Identify the two quantities being combined\n2. Write $a \\cdot x + b \\cdot y = \\text{total}$ (for cost or value problems)\n3. Or write a **constraint equation**: $x + y = \\text{total}$ (for count problems)"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Mixture Problem",
+        "source": "SAT Practice Question",
+        "problem": "A mixture consists of only vitamin D and calcium with a total mass of 150 grams. The mass of vitamin D is 50 grams. What is the mass, in grams, of calcium?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Let d = mass of vitamin D, c = mass of calcium",
+            "math": "d + c = 150"
+          },
+          {
+            "step": 2,
+            "description": "Substitute d = 50",
+            "math": "50 + c = 150 \\Rightarrow c = 100"
+          }
+        ],
+        "answer": "$100$ grams of calcium"
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Graphs of Linear Equations"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "Reading and Interpreting Graphs",
+        "content": "When a graph models a real-world constraint (e.g., length + width = constant), every point on the line represents a valid combination.\n\nThe **x-intercept** and **y-intercept** have specific meanings:\n- The x-intercept is what $x$ equals when $y = 0$\n- The y-intercept is what $y$ equals when $x = 0$"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Interpret a Line Graph",
+        "source": "SAT Practice Question",
+        "problem": "The graph in the $xy$-plane models possible combinations of length $x$ (meters) and width $y$ (meters) for a rectangle with a fixed perimeter. The line passes through $(8, 10)$ and $(9, 9)$. What is the best interpretation of the x-intercept?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the equation. Slope = (9-10)/(9-8) = -1",
+            "math": "y = -x + b \\Rightarrow 10 = -8 + b \\Rightarrow b = 18"
+          },
+          {
+            "step": 2,
+            "description": "The equation y = -x + 18 represents x + y = 18, which is half the perimeter (perimeter = 36)",
+            "math": "\\text{Perimeter} = 2(x + y) = 2(18) = 36"
+          },
+          {
+            "step": 3,
+            "description": "The x-intercept (18, 0) means: length = 18, width = 0 → the length equals half the perimeter",
+            "math": "\\text{x-intercept: } x = 18 \\text{ when } y = 0"
+          }
+        ],
+        "answer": "The length is 18 m less than the perimeter (i.e., length = half the perimeter) and width = 0.",
+        "tip": "Desmos: graph the equation and click on the intercepts to read their coordinates exactly."
+      },
+      {
+        "id": "desmos-section",
+        "type": "divider",
+        "title": "Desmos for Slope and Line Problems"
+      },
+      {
+        "id": "desmos-text",
+        "type": "text",
+        "title": "Verifying Slopes with Desmos",
+        "content": "**Check perpendicular lines:**\nGraph both lines. Perpendicular lines form a 90° angle where they cross. Desmos even shows a small square at the intersection when lines are truly perpendicular.\n\n**Check parallel lines:**\nGraph both lines. Parallel lines never intersect and have identical steepness.\n\n**Find any intercept:**\nGraph the equation, then click where it crosses an axis. Desmos displays the exact coordinate.\n\n**Useful trick for standard form:**\nType $ax + by = c$ directly into Desmos — it graphs it without needing to convert to $y = mx + b$."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Parallel lines:** same slope",
+          "**Perpendicular lines:** negative reciprocal slopes ($m \\to -\\frac{1}{m}$)",
+          "**Rearrange first:** convert standard form to $y = mx + b$ to read the slope",
+          "**Intercepts:** y-intercept → $x = 0$; x-intercept → $y = 0$",
+          "**From two points:** find slope, then substitute to get $b$",
+          "**Coefficient interpretation:** in $ax + by = c$, $a$ = cost per unit of $x$, $b$ = cost per unit of $y$"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Forgetting to take the **negative** reciprocal for perpendicular slopes (just flipping isn't enough)\n- Not rearranging to slope-intercept form before reading the slope\n- Sign errors: slope of $-9$ → perpendicular slope is $+\\frac{1}{9}$ (positive!)\n- Swapping x and y intercept definitions\n- In word problems: mixing up which coefficient goes with which variable"
+      }
+    ],
+    "sat_tips": [
+      "Perpendicular slope: flip the fraction and change the sign",
+      "For standard form ax + by = c, rearrange to y = (-a/b)x + (c/b) to get the slope",
+      "Graph both lines in Desmos to visually confirm parallel or perpendicular relationships",
+      "In context problems, each coefficient tells you the 'price per unit' of that variable"
+    ]
+  }
+}

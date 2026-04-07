@@ -1,0 +1,396 @@
+{
+  "skill_code": "H.B.",
+  "title": "Linear Functions",
+  "subtitle": "Master evaluating, building, and interpreting linear functions",
+  "estimated_minutes": 22,
+  "difficulty_level": "foundational",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "What is a Linear Function?",
+        "content": "A **linear function** is a rule that takes an input $x$ and produces an output $f(x)$ using the formula:\n$$f(x) = mx + b$$\nwhere $m$ is the **slope** (rate of change) and $b$ is the **y-intercept** (starting value).\n\nBecause the output changes at a constant rate, the graph is always a straight line."
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Evaluating a Function"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Finding f(a) — Plugging In",
+        "content": "The most direct type: given the formula, substitute the input value.\n\n**Strategy:** Replace every $x$ with the given number and simplify."
+      },
+      {
+        "id": "type-1-example",
+        "type": "worked-example",
+        "title": "Example: Direct Evaluation",
+        "source": "SAT Practice Question",
+        "problem": "The function $f$ is defined by $f(x) = 25x + 30$. What is the value of $f(2)$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Replace x with 2",
+            "math": "f(2) = 25(2) + 30"
+          },
+          {
+            "step": 2,
+            "description": "Multiply",
+            "math": "f(2) = 50 + 30"
+          },
+          {
+            "step": 3,
+            "description": "Add",
+            "math": "f(2) = 80"
+          }
+        ],
+        "answer": "$f(2) = 80$",
+        "tip": "Desmos shortcut: type `f(x) = 25x + 30` then type `f(2)` on a new line. Desmos instantly evaluates it."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Finding x When f(x) = k"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Working Backwards",
+        "content": "Sometimes the SAT gives you the *output* and asks for the *input*.\n\nIf $f(x) = 8x$ and $f(x) = 72$, that means $8x = 72$, so solve for $x$."
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Find the Input",
+        "source": "SAT Practice Question",
+        "problem": "The function $f$ is defined by $f(x) = 8x$. For what value of $x$ does $f(x) = 72$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Set the formula equal to 72",
+            "math": "8x = 72"
+          },
+          {
+            "step": 2,
+            "description": "Divide both sides by 8",
+            "math": "x = 9"
+          }
+        ],
+        "answer": "$x = 9$",
+        "tip": "Desmos shortcut: graph $y = 8x$ and $y = 72$. The intersection point gives you $x = 9$."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Finding a Constant in the Definition"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "The Formula Has an Unknown — Use the Given Point",
+        "content": "A very common SAT setup: you're told $f(x) = 4x + b$ and that $f(7) = 28$. Your job is to find $b$.\n\n**Strategy:** Substitute the given input/output pair to create an equation, then solve."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Find the Constant b",
+        "source": "SAT Practice Question",
+        "problem": "$f(x) = 4x + b$\n\nFor the linear function $f$, $b$ is a constant and $f(7) = 28$. What is the value of $b$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Substitute x = 7 and f(7) = 28",
+            "math": "4(7) + b = 28"
+          },
+          {
+            "step": 2,
+            "description": "Simplify",
+            "math": "28 + b = 28"
+          },
+          {
+            "step": 3,
+            "description": "Solve for b",
+            "math": "b = 0"
+          }
+        ],
+        "answer": "$b = 0$"
+      },
+      {
+        "id": "type-3b-example",
+        "type": "worked-example",
+        "title": "Example: Harder Constant — Then Evaluate",
+        "source": "SAT Practice Question",
+        "problem": "The function $f$ is defined by $f(x) = 4x + k(x-1)$, where $k$ is a constant, and $f(5) = 32$. What is the value of $f(10)$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use f(5) = 32 to find k. Substitute x = 5",
+            "math": "4(5) + k(5 - 1) = 32"
+          },
+          {
+            "step": 2,
+            "description": "Simplify",
+            "math": "20 + 4k = 32"
+          },
+          {
+            "step": 3,
+            "description": "Solve for k",
+            "math": "4k = 12 \\Rightarrow k = 3"
+          },
+          {
+            "step": 4,
+            "description": "Now evaluate f(10) with k = 3",
+            "math": "f(10) = 4(10) + 3(10 - 1) = 40 + 27 = 67"
+          }
+        ],
+        "answer": "$f(10) = 67$",
+        "tip": "Desmos: type `f(x) = 4x + k(x-1)` and add a slider for k. Move the slider until f(5) = 32, then read f(10)."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Intercepts"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "x-Intercept and y-Intercept",
+        "content": "- **y-intercept**: set $x = 0$ → this gives $f(0) = b$\n- **x-intercept**: set $f(x) = 0$ and solve for $x$\n\nSome questions ask for the *sum* $a + b$ where $(a, 0)$ is the x-intercept and $(0, b)$ is the y-intercept."
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Find Intercepts and Their Sum",
+        "source": "SAT Practice Question",
+        "problem": "The function $h$ is defined by $h(x) = 4x + 28$. The graph of $y = h(x)$ in the $xy$-plane has an $x$-intercept at $(a, 0)$ and a $y$-intercept at $(0, b)$. What is the value of $a + b$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the y-intercept: set x = 0",
+            "math": "h(0) = 4(0) + 28 = 28 \\Rightarrow b = 28"
+          },
+          {
+            "step": 2,
+            "description": "Find the x-intercept: set h(x) = 0",
+            "math": "4x + 28 = 0 \\Rightarrow 4x = -28 \\Rightarrow x = -7 \\Rightarrow a = -7"
+          },
+          {
+            "step": 3,
+            "description": "Find the sum",
+            "math": "a + b = -7 + 28 = 21"
+          }
+        ],
+        "answer": "$a + b = 21$",
+        "tip": "Desmos: graph $y = 4x + 28$. Click the x-intercept and y-intercept to read their coordinates instantly."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Finding a Function from Two Points"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "Building the Formula from a Graph or Table",
+        "content": "Given two points on a line, you can find the formula $f(x) = mx + b$:\n\n1. **Slope:** $m = \\dfrac{y_2 - y_1}{x_2 - x_1}$\n2. **Y-intercept:** substitute one point into $y = mx + b$ and solve for $b$"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Find f(x) from Two Points",
+        "source": "SAT Practice Question",
+        "problem": "In the $xy$-plane, the graph of the linear function $f$ contains the points $(0, 3)$ and $(7, 31)$. Which equation defines $f$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the slope using the two points",
+            "math": "m = \\frac{31 - 3}{7 - 0} = \\frac{28}{7} = 4"
+          },
+          {
+            "step": 2,
+            "description": "The y-intercept is 3 (the point (0, 3) is on the y-axis)",
+            "math": "b = 3"
+          },
+          {
+            "step": 3,
+            "description": "Write the equation",
+            "math": "f(x) = 4x + 3"
+          }
+        ],
+        "answer": "$f(x) = 4x + 3$",
+        "tip": "Desmos: you can't directly enter two points to get the equation, but you can test answer choices by typing each one and checking it passes through both points."
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Constant Functions"
+      },
+      {
+        "id": "type-6-intro",
+        "type": "text",
+        "title": "When the Output Never Changes",
+        "content": "A function like $f(x) = 39$ is a **constant function** — the output is always 39 no matter what $x$ is.\n\nIts graph is a **horizontal line** at $y = 39$.\n\nOn the SAT, these appear as table-matching questions."
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Constant Function and Table",
+        "source": "SAT Practice Question",
+        "problem": "$f(x) = 39$\n\nFor the given linear function $f$, which table gives three values of $x$ and their corresponding values of $f(x)$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "A constant function always outputs the same value regardless of input",
+            "math": "f(0) = 39,\\quad f(1) = 39,\\quad f(2) = 39"
+          }
+        ],
+        "answer": "The table with all $f(x) = 39$: $(0, 39), (1, 39), (2, 39)$",
+        "tip": "Don't confuse $f(x) = c$ (constant function, horizontal line) with $f(x) = cx$ (proportional function, passes through origin)."
+      },
+      {
+        "id": "type-7-section",
+        "type": "divider",
+        "title": "Type 7: Word Problems — Modeling a Situation"
+      },
+      {
+        "id": "type-7-intro",
+        "type": "text",
+        "title": "Translating a Context into a Linear Function",
+        "content": "SAT word problems give you a real-world scenario and ask you to identify or build a linear function.\n\n**Key pattern:** Look for a **fixed starting value** (b) plus a **rate per unit** (m).\n\n- \"Charges \\$220 for the first 2 hours, then \\$60 per hour after that\"\n- \"Starts at 500 and decreases by 15 per year\""
+      },
+      {
+        "id": "type-7-example-1",
+        "type": "worked-example",
+        "title": "Example: Flat Fee + Per-Unit Rate",
+        "source": "SAT Practice Question",
+        "problem": "A window repair specialist charges $220 for the first two hours of repair plus an hourly fee for each additional hour. The total cost for 5 hours of repair is $400. Which function $f$ gives the total cost, in dollars, for $x$ hours of repair, where $x \\geq 2$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the hourly fee. For 5 hours, the extra hours beyond 2 is 3 hours",
+            "math": "220 + 3r = 400 \\Rightarrow 3r = 180 \\Rightarrow r = 60 \\text{ per extra hour}"
+          },
+          {
+            "step": 2,
+            "description": "For x hours total, the extra hours is (x - 2)",
+            "math": "f(x) = 220 + 60(x - 2)"
+          },
+          {
+            "step": 3,
+            "description": "Simplify",
+            "math": "f(x) = 220 + 60x - 120 = 60x + 100"
+          }
+        ],
+        "answer": "$f(x) = 60x + 100$",
+        "tip": "Always verify: $f(5) = 60(5) + 100 = 300 + 100 = 400$ ✓"
+      },
+      {
+        "id": "type-7-example-2",
+        "type": "worked-example",
+        "title": "Example: Two-Point Model (Demand)",
+        "source": "SAT Practice Question",
+        "problem": "An economist modeled demand $Q$ for a product as a linear function of selling price $P$. The demand was 20,000 units when the selling price was $40, and 15,000 units when the selling price was $60. Based on the model, what is the demand when the selling price is $52?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the slope (rate of change of demand per dollar increase in price)",
+            "math": "m = \\frac{15000 - 20000}{60 - 40} = \\frac{-5000}{20} = -250"
+          },
+          {
+            "step": 2,
+            "description": "Use point-slope with (40, 20000)",
+            "math": "Q = 20000 + (-250)(P - 40) = 20000 - 250P + 10000 = 30000 - 250P"
+          },
+          {
+            "step": 3,
+            "description": "Evaluate at P = 52",
+            "math": "Q = 30000 - 250(52) = 30000 - 13000 = 17000"
+          }
+        ],
+        "answer": "$17{,}000$ units",
+        "tip": "Desmos: Let $x$ = price and $y$ = demand. Enter the two points $(40, 20000)$ and $(60, 15000)$. Use a linear regression or just draw the line and read the value at $x = 52$."
+      },
+      {
+        "id": "type-8-section",
+        "type": "divider",
+        "title": "Type 8: Rate of Change and Slope Interpretation"
+      },
+      {
+        "id": "type-8-intro",
+        "type": "text",
+        "title": "What Does the Slope Mean in Context?",
+        "content": "In $f(x) = mx + b$:\n- **$m$** = the rate of change → \"for every 1 unit increase in $x$, $f(x)$ increases by $m$\"\n- **$b$** = starting value when $x = 0$\n\nSAT often asks: *\"What is the best interpretation of 4 in the context of this problem?\"*\n\nThe answer will describe what happens **per unit** of the input."
+      },
+      {
+        "id": "type-8-example",
+        "type": "worked-example",
+        "title": "Example: Interpret the Slope",
+        "source": "SAT Practice Question",
+        "problem": "According to a model, the head width (in mm) of a worker bumblebee can be estimated by adding 0.6 to four times the body weight of the bee (in grams). Which equation represents this, and what does the 4 mean?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Translate the description. Let w = body weight, h = head width",
+            "math": "h = 4w + 0.6"
+          },
+          {
+            "step": 2,
+            "description": "The coefficient 4 is the slope — the rate of change",
+            "math": "\\text{For every 1-gram increase in body weight, head width increases by 4 mm}"
+          },
+          {
+            "step": 3,
+            "description": "Evaluate at w = 0.5",
+            "math": "h = 4(0.5) + 0.6 = 2 + 0.6 = 2.6 \\text{ mm}"
+          }
+        ],
+        "answer": "Head width = $2.6$ mm. The 4 means head width increases by 4 mm for each 1-gram increase in body weight."
+      },
+      {
+        "id": "desmos-section",
+        "type": "divider",
+        "title": "Using Desmos for Linear Functions"
+      },
+      {
+        "id": "desmos-tips",
+        "type": "text",
+        "title": "Desmos Power Moves",
+        "content": "**1. Evaluate instantly:** Type `f(x) = 4x + 3`, then type `f(10)` on a new line. Desmos shows the answer immediately.\n\n**2. Find intercepts:** Graph the function, click on where it crosses the x-axis or y-axis — Desmos shows exact coordinates.\n\n**3. Find x for a given output:** Graph the function and $y = k$ (a horizontal line). Click their intersection.\n\n**4. Sliders for unknowns:** Type `f(x) = 4x + b`. Desmos adds a slider for $b$. Move it until $f$ passes through the given point."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Evaluate f(a):** substitute $a$ for $x$ and simplify",
+          "**Find x from f(x) = k:** set the formula equal to $k$ and solve",
+          "**Find a constant:** substitute the given $(x, f(x))$ pair and solve",
+          "**Intercepts:** y-intercept → set $x = 0$; x-intercept → set $f(x) = 0$",
+          "**From two points:** slope $= \\frac{y_2 - y_1}{x_2 - x_1}$, then solve for $b$",
+          "**Word problems:** identify the fixed starting value ($b$) and rate per unit ($m$)",
+          "**Slope in context:** means \"per one unit increase in $x$, $f$ changes by $m$\""
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Reading $f(2) = 80$ when asked for $x$ where $f(x) = 80$ — those are different questions\n- Forgetting to simplify after distributing in piecewise-rate problems\n- In slope calculations, subtracting $y$ values in a different order than $x$ values\n- Confusing the slope (rate) with the y-intercept (starting value) in word problem interpretation\n- On constant functions $f(x) = 39$: don't confuse with $f(x) = 39x$"
+      },
+      {
+        "id": "speed-tips",
+        "type": "tip",
+        "title": "Speed Tips for Test Day",
+        "content": "- Always verify your answer: plug it back into the original function\n- In word problems, underline the flat fee (that's $b$) and the per-unit rate (that's $m$)\n- For two-point problems, if one point is the y-intercept $(0, b)$, you already have $b$ — just find the slope\n- Desmos is fastest for intercept and intersection questions — type and click"
+      }
+    ],
+    "sat_tips": [
+      "Distinguish 'find f(3)' (plug in 3) from 'find x when f(x) = 3' (solve an equation)",
+      "For word problems, 'per hour/day/unit' signals the slope; 'flat fee' or 'initial' signals the y-intercept",
+      "Use Desmos to check your algebra — graph the function and verify the answer visually",
+      "If you see f(x) = c with no x term, every output is c — the graph is a horizontal line"
+    ]
+  }
+}

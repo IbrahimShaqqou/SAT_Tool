@@ -1,0 +1,243 @@
+{
+  "skill_code": "S.D.",
+  "title": "Circles",
+  "subtitle": "Master circle equations, arc length, radians, and angle relationships",
+  "estimated_minutes": 20,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "Key Circle Facts",
+        "content": "**Standard form of a circle equation:**\n$$(x - h)^2 + (y - k)^2 = r^2$$\nCenter: $(h, k)$, Radius: $r$\n\n**Circumference:** $C = 2\\pi r$\n**Area:** $A = \\pi r^2$\n\n**Degrees and radians:**\n$360° = 2\\pi \\text{ radians}$\n$180° = \\pi \\text{ radians}$\n\n**Arc length:** $\\ell = r\\theta$ (where $\\theta$ is in radians), or $\\ell = \\dfrac{\\theta}{360°} \\cdot 2\\pi r$ (degrees)"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Circle Equation — Center and Radius"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Reading the Equation",
+        "content": "In $(x - h)^2 + (y - k)^2 = r^2$:\n- The **center** is $(h, k)$ — watch the signs! $(x - 3)^2$ means $h = 3$ (positive), $(x + 2)^2 = (x - (-2))^2$ means $h = -2$ (negative)\n- The **radius** is $\\sqrt{r^2}$ — take the square root of the right-hand side"
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: Identify Center and Radius",
+        "source": "SAT Practice Question",
+        "problem": "$(x - 13)^2 + (y - k)^2 = 64$\n\nWhat is the center and radius?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Center: (h, k) where h = 13, vertical center = k",
+            "math": "\\text{Center} = (13, k)"
+          },
+          {
+            "step": 2,
+            "description": "Radius: √64 = 8",
+            "math": "r = \\sqrt{64} = 8"
+          }
+        ],
+        "answer": "Center $(13, k)$, radius $8$"
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Center from Equation",
+        "source": "SAT Practice Question",
+        "problem": "What is the center of the circle defined by $(x - 1)^2 + (y + 7)^2 = 1$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Rewrite (y + 7)² as (y - (-7))²",
+            "math": "(x - 1)^2 + (y - (-7))^2 = 1"
+          },
+          {
+            "step": 2,
+            "description": "Center = (h, k) = (1, -7)",
+            "math": "\\text{Center} = (1, -7)"
+          }
+        ],
+        "answer": "Center $(1, -7)$",
+        "tip": "The center's coordinates are the values that make each square equal to zero: $(x - 1)^2 = 0$ when $x = 1$; $(y + 7)^2 = 0$ when $y = -7$."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Degrees and Radians"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Converting Between Degrees and Radians",
+        "content": "$$\\text{Radians} = \\text{Degrees} \\times \\frac{\\pi}{180}$$\n$$\\text{Degrees} = \\text{Radians} \\times \\frac{180}{\\pi}$$\n\nCommon conversions to know:\n| Degrees | Radians |\n|---|---|\n| $30°$ | $\\dfrac{\\pi}{6}$ |\n| $45°$ | $\\dfrac{\\pi}{4}$ |\n| $60°$ | $\\dfrac{\\pi}{3}$ |\n| $90°$ | $\\dfrac{\\pi}{2}$ |\n| $180°$ | $\\pi$ |\n| $360°$ | $2\\pi$ |"
+      },
+      {
+        "id": "type-2-example-1",
+        "type": "worked-example",
+        "title": "Example: Convert Degrees to Radians",
+        "source": "SAT Practice Question",
+        "problem": "The number of radians in a $720°$ angle can be written as $a\\pi$. What is $a$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Convert 720° to radians",
+            "math": "720° \\times \\frac{\\pi}{180} = 4\\pi"
+          },
+          {
+            "step": 2,
+            "description": "So a = 4",
+            "math": "a = 4"
+          }
+        ],
+        "answer": "$a = 4$"
+      },
+      {
+        "id": "type-2-example-2",
+        "type": "worked-example",
+        "title": "Example: Convert Radians to Degrees",
+        "source": "SAT Practice Question",
+        "problem": "An angle has measure $\\dfrac{9\\pi}{20}$ radians. What is the measure in degrees?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Multiply by 180/π",
+            "math": "\\frac{9\\pi}{20} \\times \\frac{180}{\\pi} = \\frac{9 \\times 180}{20} = \\frac{1620}{20} = 81°"
+          }
+        ],
+        "answer": "$81°$"
+      },
+      {
+        "id": "type-2-example-3",
+        "type": "worked-example",
+        "title": "Example: Evaluating Trig with Radian Angles",
+        "source": "SAT Practice Question",
+        "problem": "What is the value of $\\cos\\left(\\dfrac{565\\pi}{6}\\right)$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Reduce the angle modulo 2π (one full rotation). 565/6 ÷ 2 = 565/12. Find remainder: 565 = 47 × 12 + 1, so remainder is 1/12",
+            "math": "\\frac{565\\pi}{6} = 47 \\cdot 2\\pi + \\frac{\\pi}{6}"
+          },
+          {
+            "step": 2,
+            "description": "cos is periodic with period 2π, so cos(565π/6) = cos(π/6)",
+            "math": "\\cos\\left(\\frac{\\pi}{6}\\right) = \\frac{\\sqrt{3}}{2}"
+          }
+        ],
+        "answer": "$\\dfrac{\\sqrt{3}}{2}$",
+        "tip": "For large radian angles, divide by $2\\pi$ and find the remainder. The remainder is the equivalent angle in [0, 2π)."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Arc Length"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Arc Length is a Fraction of Circumference",
+        "content": "An arc is a portion of a circle's circumference.\n\n$$\\text{Arc length} = \\frac{\\text{central angle}}{360°} \\times \\text{Circumference}$$\n\nOr with the full circumference $C$:\n$$\\frac{\\text{arc length}}{C} = \\frac{\\text{central angle}}{360°}$$\n\nThis proportion is extremely useful for SAT arc problems."
+      },
+      {
+        "id": "type-3-example-1",
+        "type": "worked-example",
+        "title": "Example: Find Arc Length from Circumference",
+        "source": "SAT Practice Question",
+        "problem": "A circle with center $O$ has circumference 36. What is the length of minor arc $AB$ if central angle $\\angle AOB = 90°$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Arc length = (central angle / 360°) × C",
+            "math": "\\text{Arc} = \\frac{90}{360} \\times 36 = \\frac{1}{4} \\times 36 = 9"
+          }
+        ],
+        "answer": "Arc length $= 9$"
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Find Circumference from Arc Lengths",
+        "source": "SAT Practice Question",
+        "problem": "Points $M$, $N$, and $P$ lie on a circle. Minor arc $MN = 39$ cm; major arc $MPN = 195$ cm. What is the circumference?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The total circumference = minor arc + major arc (all arcs from M to N in both directions)",
+            "math": "C = 39 + 195 = 234 \\text{ cm}"
+          }
+        ],
+        "answer": "Circumference $= 234$ cm"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Circle + Triangle Problems"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Triangle Inscribed in a Circle",
+        "source": "SAT Practice Question",
+        "problem": "Points $Q$ and $R$ lie on a circle with center $P$ (radius = 9 inches). Triangle $PQR$ has perimeter 31 inches. What is the length of $\\overline{QR}$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "PQ = PR = 9 (both radii of the circle)",
+            "math": "PQ = PR = 9"
+          },
+          {
+            "step": 2,
+            "description": "Perimeter = PQ + PR + QR = 9 + 9 + QR = 31",
+            "math": "18 + QR = 31"
+          },
+          {
+            "step": 3,
+            "description": "Solve",
+            "math": "QR = 13"
+          }
+        ],
+        "answer": "$QR = 13$ inches"
+      },
+      {
+        "id": "desmos-section",
+        "type": "divider",
+        "title": "Using Desmos for Circle Problems"
+      },
+      {
+        "id": "desmos-text",
+        "type": "text",
+        "title": "Desmos Circle Tips",
+        "content": "**Graph a circle:** Type the equation directly: `(x-3)^2 + (y+2)^2 = 25`. Desmos draws it and labels the center/radius.\n\n**Check center:** Click on the circle and Desmos shows the center coordinates.\n\n**Convert radians:** Type `565*pi/6 mod (2*pi)` to reduce large radian values to [0, 2π).\n\n**Arc length:** If you know the radius and central angle, compute `r * theta` directly in Desmos."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Circle equation:** $(x-h)^2 + (y-k)^2 = r^2$ — center $(h,k)$, radius $r$",
+          "**Watch signs:** $(x+2)^2$ means $h = -2$, not $+2$",
+          "**Degrees to radians:** multiply by $\\pi/180$",
+          "**Radians to degrees:** multiply by $180/\\pi$",
+          "**Arc length:** $\\frac{\\text{angle}}{360} \\times C$ or arc + arc = full circumference",
+          "**Circle + triangle:** radii from center to circle are equal"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Sign error in center: $(x + 3)^2$ → $h = -3$, not $+3$\n- Taking $r^2$ as the radius instead of taking the square root (e.g., if $r^2 = 64$, the radius is 8)\n- Multiplying degrees by $180/\\pi$ instead of $\\pi/180$ when converting to radians\n- Confusing arc length with the central angle measure\n- In large radian problems: not reducing modulo $2\\pi$ before evaluating trig"
+      }
+    ],
+    "sat_tips": [
+      "Sign rule: the center coordinates are (h, k) where h makes (x - h) = 0 and k makes (y - k) = 0",
+      "Arc problems: arc/circumference = central angle/360° (use this proportion both ways)",
+      "To reduce large radian angles: divide by 2π and use the remainder",
+      "Desmos: type the circle equation directly to visualize and read the center/radius"
+    ]
+  }
+}

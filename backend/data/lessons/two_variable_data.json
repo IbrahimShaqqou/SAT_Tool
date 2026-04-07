@@ -1,0 +1,211 @@
+{
+  "skill_code": "Q.D.",
+  "title": "Two-Variable Data: Models and Scatterplots",
+  "subtitle": "Master scatterplots, lines of best fit, residuals, and model selection",
+  "estimated_minutes": 18,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "Scatterplots and Relationships",
+        "content": "A **scatterplot** displays the relationship between two quantitative variables. Each point represents one observation.\n\nTo analyze a scatterplot, ask:\n1. What is the **direction** (positive or negative association)?\n2. What is the **form** (linear, exponential, quadratic)?\n3. How **strong** is the relationship (points clustered tightly or scattered widely)?\n4. Are there any **outliers**?"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Choosing the Best Model"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Linear vs. Exponential vs. Quadratic",
+        "content": "Based on the shape of the scatterplot:\n\n- **Linear model** $y = mx + b$: points follow a straight-line pattern\n- **Exponential model** $y = a \\cdot b^x$: rapid increase/decrease that curves sharply; rate of change is proportional to current value\n- **Quadratic model** $y = ax^2 + bx + c$: arc shape, increases then decreases (or vice versa)\n\n**Key visual cues:**\n- Straight trend → linear\n- Consistent upward/downward curve, getting faster or slower → exponential\n- Arc shape (up then down or down then up) → quadratic"
+      },
+      {
+        "id": "type-1-example",
+        "type": "worked-example",
+        "title": "Example: Select the Best Model",
+        "source": "SAT Practice Question",
+        "problem": "A scatterplot shows a curve that starts at $(0, 1)$, rises sharply to $(2, 6)$, then levels off to $(4, 7)$, $(6, 8)$, and then rises sharply again. Which type of model fits best?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The curve slows in the middle and then increases again — not a simple arc",
+            "math": "\\text{Rapid increase, then slowdown, then rapid increase} \\Rightarrow \\text{not quadratic}"
+          },
+          {
+            "step": 2,
+            "description": "Check if the rate of change is consistent with linear — it's not (non-constant slope)",
+            "math": "\\text{Non-constant rate of change} \\Rightarrow \\text{not linear}"
+          },
+          {
+            "step": 3,
+            "description": "A consistent relative rate of change suggests exponential",
+            "math": "\\text{Exponential model}"
+          }
+        ],
+        "answer": "Exponential model",
+        "tip": "To check: in a linear model, **differences** between y-values are constant. In an exponential model, **ratios** of consecutive y-values are constant."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Line of Best Fit — Slope and Interpretation"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Reading the Line of Best Fit",
+        "content": "The **line of best fit** (regression line) passes through the center of the scatterplot. It minimizes the total error between the line and the data points.\n\n- **Slope** of the line of best fit = the average change in $y$ for a 1-unit increase in $x$\n- **y-intercept** = the predicted value of $y$ when $x = 0$\n\nA positive slope indicates a **positive association** (both increase together).\nA negative slope indicates a **negative association** (one increases as the other decreases)."
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Estimate the Slope",
+        "source": "SAT Practice Question",
+        "problem": "A scatterplot has 10 data points in a linear pattern trending downward from left to right. The line of best fit passes through approximately $(0, 7)$ and $(10, 0)$. What is the slope?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use two points on the line to find slope",
+            "math": "m = \\frac{0 - 7}{10 - 0} = \\frac{-7}{10} = -0.7"
+          }
+        ],
+        "answer": "Slope $= -0.7$",
+        "tip": "Look for two clear points that the line of best fit passes through, not data points. Read coordinates carefully."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Residuals"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "What is a Residual?",
+        "content": "A **residual** is the difference between the **actual** $y$-value of a data point and the **predicted** $y$-value from the line of best fit:\n\n$$\\text{Residual} = \\text{Actual} - \\text{Predicted}$$\n\n- **Positive residual:** data point is **above** the line\n- **Negative residual:** data point is **below** the line\n- **Zero residual:** data point is exactly on the line"
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Calculate a Residual",
+        "source": "SAT Practice Question",
+        "problem": "In a scatterplot, the line of best fit predicts $y = 5$ when $x = 3$. The actual data point at $x = 3$ has $y = 12$. What is the residual?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Apply the residual formula",
+            "math": "\\text{Residual} = \\text{Actual} - \\text{Predicted} = 12 - 5 = 7"
+          }
+        ],
+        "answer": "Residual $= 7$ (the data point is 7 units above the line)"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Interpreting a Scatterplot in Context"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Rate of Decrease from a Graph",
+        "source": "SAT Practice Question",
+        "problem": "A graph shows the temperature (°F) of coffee over 100 minutes after being removed from heat. The curve decreases rapidly at first, then levels off. During which time interval is the temperature decreasing most rapidly?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The steepest part of the curve indicates the fastest rate of decrease",
+            "math": "\\text{Steepest slope} \\Rightarrow \\text{fastest change}"
+          },
+          {
+            "step": 2,
+            "description": "An exponential decay curve is steepest near the beginning",
+            "math": "\\text{Fastest decrease: 0 to 10 minutes}"
+          }
+        ],
+        "answer": "Temperature decreases most rapidly **between 0 and 10 minutes**."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Using the Line of Best Fit for Predictions"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Predict from the Line",
+        "source": "SAT Practice Question",
+        "problem": "A scatterplot of temperature ($y$, in °C) vs. time ($x$, in minutes) shows a linear trend. The line of best fit passes through $(0, 20)$ and $(8, 12)$. What temperature does the model predict at $x = 5$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the slope of the line",
+            "math": "m = \\frac{12 - 20}{8 - 0} = \\frac{-8}{8} = -1"
+          },
+          {
+            "step": 2,
+            "description": "Write the equation: y = -x + 20",
+            "math": "y = -x + 20"
+          },
+          {
+            "step": 3,
+            "description": "Predict at x = 5",
+            "math": "y = -5 + 20 = 15 \\text{ °C}"
+          }
+        ],
+        "answer": "Predicted temperature at $x = 5$ is $15$°C"
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Comparing Two Models"
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: When Is Model A Better Than Model B?",
+        "source": "SAT Practice Question",
+        "problem": "Two models $f$ and $g$ predict the same quantity. For $x < c$, $f(x) > g(x)$, and for $x > c$, $f(x) < g(x)$. This means the models cross at $x = c$ and switch which is larger.",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find where the models are equal: set f(x) = g(x) and solve for c",
+            "math": "f(c) = g(c)"
+          },
+          {
+            "step": 2,
+            "description": "For x < c: f(x) > g(x). For x > c: f(x) < g(x)",
+            "math": "\\text{The models swap which is larger at } x = c"
+          }
+        ],
+        "answer": "The correct description matches: there is a constant $c$ where $f$ and $g$ switch dominance."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Model selection:** linear (straight line) vs. exponential (consistent ratio) vs. quadratic (arc shape)",
+          "**Slope of best fit:** rise ÷ run using two points on the line; positive = positive association",
+          "**Residual:** actual − predicted; positive = point above line; negative = point below",
+          "**Steepest part = fastest rate of change** in a curve",
+          "**Prediction:** use the best-fit equation; substitute the x-value"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Reading the slope using data points instead of points on the line of best fit\n- Confusing residual sign: residual = actual − predicted (not predicted − actual)\n- Choosing linear when the data has a clear curve (look for whether differences or ratios are constant)\n- Assuming a regression line passes through the origin — it almost never does"
+      }
+    ],
+    "sat_tips": [
+      "Residual = Actual minus Predicted (not the other way around)",
+      "To identify model type: check if differences (linear) or ratios (exponential) between y-values are constant",
+      "For slope of best-fit: use two clear points on the LINE, not data points near it",
+      "Positive association: both variables increase together; negative: one goes up, other goes down"
+    ]
+  }
+}

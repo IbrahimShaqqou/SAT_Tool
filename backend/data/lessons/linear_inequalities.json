@@ -1,0 +1,298 @@
+{
+  "skill_code": "H.E.",
+  "title": "Linear Inequalities in One or Two Variables",
+  "subtitle": "Master writing, solving, and graphing inequalities for SAT success",
+  "estimated_minutes": 20,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "Inequalities vs. Equations",
+        "content": "An **inequality** is like an equation, but instead of one answer it describes a **range** of valid values.\n\nKey symbols:\n- $<$ strictly less than\n- $\\leq$ less than or equal to\n- $>$ strictly greater than\n- $\\geq$ greater than or equal to\n\nSolving works the same as equations **except:** when you **multiply or divide both sides by a negative number, flip the inequality sign**."
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Compound Inequalities — Range of Values"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Writing 'Between' as a Compound Inequality",
+        "content": "When a quantity is **between** two values, you write a **compound inequality**:\n$$a \\leq x \\leq b$$\n\nThis reads: \"$x$ is at least $a$ and at most $b$.\"\n\nSAT questions often describe a range in words and ask which inequality matches."
+      },
+      {
+        "id": "type-1-example",
+        "type": "worked-example",
+        "title": "Example: Translating a Range",
+        "source": "SAT Practice Question",
+        "problem": "During a flight, an airplane's cruising speed varied between 150 miles per hour and 170 miles per hour. Which inequality best represents this situation, where $s$ is the cruising speed?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The minimum speed is 150 mph and maximum is 170 mph",
+            "math": "s \\geq 150 \\text{ and } s \\leq 170"
+          },
+          {
+            "step": 2,
+            "description": "Combine into a compound inequality",
+            "math": "150 \\leq s \\leq 170"
+          }
+        ],
+        "answer": "$150 \\leq s \\leq 170$",
+        "tip": "\"Varied between a and b\" → $a \\leq s \\leq b$. \"At least\" → $\\geq$. \"At most\" → $\\leq$. \"More than\" → $>$. \"Less than\" → $<$."
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Range from a Problem Context",
+        "source": "SAT Practice Question",
+        "problem": "For a snowstorm, the minimum snowfall rate was 0.6 inches/hour and the maximum was 1.8 inches/hour. Which inequality is true for all values of $s$ (the snowfall rate)?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Both endpoints are included (minimum and maximum)",
+            "math": "0.6 \\leq s \\leq 1.8"
+          }
+        ],
+        "answer": "$0.6 \\leq s \\leq 1.8$"
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Setting Up and Solving Inequalities from Context"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Translating a Word Problem into an Inequality",
+        "content": "Like equation word problems, but the constraint uses an inequality.\n\n**Key phrases:**\n- \"at least\" / \"no less than\" → $\\geq$\n- \"at most\" / \"no more than\" → $\\leq$\n- \"more than\" → $>$\n- \"fewer/less than\" → $<$\n- \"minimum\" → $\\geq$, \"maximum\" → $\\leq$"
+      },
+      {
+        "id": "type-2-example-1",
+        "type": "worked-example",
+        "title": "Example: Monthly Pass vs. Individual Tickets",
+        "source": "SAT Practice Question",
+        "problem": "A monthly pass costs $95 and allows unlimited trips. Individual tickets cost $1.50, $2.50, or $3.50 depending on length. What is the **minimum** number of trips per month for which the monthly pass could cost less than purchasing individual tickets?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "For the pass to be cheaper, total ticket cost must exceed $95",
+            "math": "\\text{(ticket cost per trip)} \\times n > 95"
+          },
+          {
+            "step": 2,
+            "description": "To minimize the number of trips needed, use the highest per-trip cost ($3.50)",
+            "math": "3.50n > 95 \\Rightarrow n > 27.14"
+          },
+          {
+            "step": 3,
+            "description": "Since trips are whole numbers",
+            "math": "n \\geq 28 \\text{ trips at } \\$3.50"
+          }
+        ],
+        "answer": "At minimum, 28 trips at the highest fare",
+        "tip": "To find the **minimum** number where the pass saves money, use the **maximum** per-trip cost. This minimizes the threshold."
+      },
+      {
+        "id": "type-2-example-2",
+        "type": "worked-example",
+        "title": "Example: Two-Variable Inequality from Context",
+        "source": "SAT Practice Question",
+        "problem": "A cargo helicopter delivers 100-pound and 120-pound packages. It must carry **at least 10 packages** and the total weight can be **at most 1,100 pounds**. What is the maximum number of 120-pound packages it can carry per trip?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Let x = number of 100-lb packages, y = number of 120-lb packages. Set up constraints",
+            "math": "x + y \\geq 10 \\quad \\text{(at least 10 packages)}"
+          },
+          {
+            "step": 2,
+            "description": "Weight constraint",
+            "math": "100x + 120y \\leq 1100"
+          },
+          {
+            "step": 3,
+            "description": "To maximize y, minimize x. The minimum x with x + y ≥ 10 is x = 10 - y",
+            "math": "100(10 - y) + 120y \\leq 1100"
+          },
+          {
+            "step": 4,
+            "description": "Solve",
+            "math": "1000 - 100y + 120y \\leq 1100 \\Rightarrow 20y \\leq 100 \\Rightarrow y \\leq 5"
+          }
+        ],
+        "answer": "Maximum of **5** 120-pound packages",
+        "tip": "Desmos: graph both constraints ($x + y \\geq 10$ and $100x + 120y \\leq 1100$). The feasible region is the overlap. Look for the corner that maximizes $y$."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Checking if a Value Satisfies an Inequality"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Testing Points",
+        "content": "Some questions give you an inequality and a table of $(x, y)$ pairs, asking which table has **all** pairs satisfying the inequality.\n\n**Strategy:** Substitute each pair and check. Eliminate tables as soon as one pair fails."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Which Table Satisfies the Inequality?",
+        "source": "SAT Practice Question",
+        "problem": "$2x - y > 883$\n\nFor which table are **all** values of $x$ and $y$ solutions to this inequality?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Test the first row of each table. For (440, 0): 2(440) - 0 = 880. Is 880 > 883? No → eliminate that table",
+            "math": "2(440) - 0 = 880 \\not> 883 \\quad \\text{FAIL}"
+          },
+          {
+            "step": 2,
+            "description": "Try (442, 0): 2(442) - 0 = 884 > 883. Then (441, -2): 2(441) - (-2) = 884 > 883. Then (440, -4): 2(440) - (-4) = 884 > 883",
+            "math": "\\text{All three rows pass: } 884 > 883 \\checkmark"
+          }
+        ],
+        "answer": "The table with $(442, 0)$, $(441, -2)$, $(440, -4)$"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Identifying Points in a Shaded Region"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Reading a Graph of an Inequality",
+        "content": "When a two-variable inequality is graphed, the **shaded region** is the set of all solutions.\n\n- **Solid line** → the boundary is included ($\\leq$ or $\\geq$)\n- **Dashed line** → the boundary is NOT included ($<$ or $>$)\n- A point is a solution if it lies **in the shaded region**\n\n**Desmos:** Type any inequality (e.g., `y > 2x - 4`) and Desmos shades the solution region automatically."
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Identify a Point in the Shaded Region",
+        "source": "SAT Practice Question",
+        "problem": "A graph shows the inequality $y \\leq 4x - 4$ with the region below the solid line shaded. Which of the following points is in the shaded region?\n\nA) $(-5, -6)$ \\quad B) $(-2, 5)$ \\quad C) $(1, 4)$ \\quad D) $(6, -2)$",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Test each point in the inequality y ≤ 4x - 4",
+            "math": ""
+          },
+          {
+            "step": 2,
+            "description": "A) y = -6, 4(-5) - 4 = -24. Is -6 ≤ -24? No.",
+            "math": "-6 \\leq -24 \\quad \\text{FALSE}"
+          },
+          {
+            "step": 3,
+            "description": "D) y = -2, 4(6) - 4 = 20. Is -2 ≤ 20? Yes.",
+            "math": "-2 \\leq 20 \\quad \\text{TRUE}"
+          }
+        ],
+        "answer": "$(6, -2)$",
+        "tip": "Desmos: type the inequality and then add a point to see if it's in the shaded region."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Systems of Inequalities"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "Two Constraints at Once",
+        "content": "A **system of inequalities** requires a point to satisfy **both** inequalities simultaneously.\n\nThe solution region is where the shading from both inequalities **overlaps**.\n\nOn the SAT, you'll typically be asked:\n- Which point satisfies both inequalities?\n- Which system is represented by a given graph?"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Which System Does a Point Satisfy?",
+        "source": "SAT Practice Question",
+        "problem": "The point $(8, 2)$ is a solution to which system of inequalities?\n\nA) $x > 0,\\ y > 0$ \\quad B) $x > 0,\\ y < 0$ \\quad C) $x < 0,\\ y > 0$ \\quad D) $x < 0,\\ y < 0$",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Check the signs of the coordinates: x = 8 (positive), y = 2 (positive)",
+            "math": "x > 0 \\checkmark \\quad y > 0 \\checkmark"
+          }
+        ],
+        "answer": "A) $x > 0,\\ y > 0$",
+        "tip": "Desmos: type both inequalities and the overlapping shaded region shows the solution set. Type the point as `(8, 2)` to confirm it falls inside."
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Inequality with Waiting/Timing"
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Finding the Break-Even Wait Time",
+        "source": "SAT Practice Question",
+        "problem": "Adam's school is a 20-minute walk or a 5-minute bus ride away. The bus runs every 30 minutes, and Adam waits $w$ minutes. Which values of $w$ make it faster to walk than wait for the bus?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Walking takes 20 minutes total. Bus takes w (wait) + 5 (ride) minutes",
+            "math": "\\text{Walking time} = 20, \\quad \\text{Bus time} = w + 5"
+          },
+          {
+            "step": 2,
+            "description": "Walking is faster when walk time < bus time",
+            "math": "20 < w + 5"
+          },
+          {
+            "step": 3,
+            "description": "Solve for w",
+            "math": "w > 15"
+          },
+          {
+            "step": 4,
+            "description": "Also, wait time is bounded: 0 ≤ w ≤ 30",
+            "math": "15 < w \\leq 30"
+          }
+        ],
+        "answer": "$15 < w \\leq 30$"
+      },
+      {
+        "id": "desmos-section",
+        "type": "divider",
+        "title": "Using Desmos for Inequalities"
+      },
+      {
+        "id": "desmos-text",
+        "type": "text",
+        "title": "Desmos Power Moves for Inequalities",
+        "content": "**Graphing any inequality:** Type it exactly — Desmos shades the solution region automatically.\n- `y > 2x + 3` → shades above the dashed line\n- `y <= -x + 5` → shades below the solid line\n\n**Systems:** Type two inequalities on separate lines. The **darker overlap** is where both hold.\n\n**Testing a point:** After graphing, click the point or type its coordinates — Desmos shows whether it's in the shaded region.\n\n**Optimization (max/min):** Add a third line like `y = constant` and slide the constant until it just touches the feasible region."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Compound inequality:** \"between $a$ and $b$\" → $a \\leq x \\leq b$",
+          "**Flip the sign** when multiplying or dividing by a negative number",
+          "**Test points:** substitute into the inequality to check if it's a solution",
+          "**Shaded region:** includes all $(x, y)$ pairs satisfying the inequality; solid line = boundary included",
+          "**Systems:** a point must satisfy ALL inequalities in the system",
+          "**Word problems:** 'at least' → $\\geq$, 'at most' → $\\leq$, 'more than' → $>$, 'less than' → $<$"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Forgetting to flip the inequality sign when dividing by a negative\n- Mixing up $\\leq$ and $<$ (\"at least\" uses $\\geq$, not $>$)\n- In compound inequalities, writing $a \\leq b \\leq x$ instead of $a \\leq x \\leq b$\n- Testing only one point from a table — test ALL rows before concluding\n- In optimization problems, not reading whether you want the maximum or minimum"
+      }
+    ],
+    "sat_tips": [
+      "'At least' means ≥, 'at most' means ≤, 'more than' means >, 'fewer than' means <",
+      "Use Desmos to graph inequalities and visually verify which points fall in the solution region",
+      "For optimization with two constraints, graph both in Desmos and find the corner of the feasible region",
+      "When substituting into an inequality, check all values in a table — one failure eliminates the whole option"
+    ]
+  }
+}

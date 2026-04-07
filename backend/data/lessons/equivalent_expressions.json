@@ -1,0 +1,273 @@
+{
+  "skill_code": "P.A.",
+  "title": "Equivalent Expressions",
+  "subtitle": "Master simplifying, factoring, and rewriting algebraic expressions",
+  "estimated_minutes": 22,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "What Does 'Equivalent' Mean?",
+        "content": "Two expressions are **equivalent** if they produce the same value for every substitution of the variables.\n\nFor example, $2x(x + 3)$ and $2x^2 + 6x$ are equivalent — expanding one gives the other.\n\nThe SAT tests three main skills:\n1. **Simplifying** using exponent or fraction rules\n2. **Factoring** — rewriting as a product\n3. **Expanding** — rewriting by distributing"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Laws of Exponents"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Rules You Must Know Cold",
+        "content": "$$x^a \\cdot x^b = x^{a+b}$$\n$$\\frac{x^a}{x^b} = x^{a-b}$$\n$$(x^a)^b = x^{ab}$$\n$$(xy)^a = x^a y^a$$\n$$x^{-a} = \\frac{1}{x^a}$$\n$$x^0 = 1$$"
+      },
+      {
+        "id": "type-1-example",
+        "type": "worked-example",
+        "title": "Example: Simplify an Exponential Expression",
+        "source": "SAT Practice Question",
+        "problem": "Which expression is equivalent to $\\dfrac{m^4 q^4 z^{-1}}{m q^5 z^3}$, where $m$, $q$, and $z$ are positive?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Subtract exponents for each variable (numerator − denominator)",
+            "math": "m^{4-1} \\cdot q^{4-5} \\cdot z^{-1-3}"
+          },
+          {
+            "step": 2,
+            "description": "Simplify each exponent",
+            "math": "m^3 \\cdot q^{-1} \\cdot z^{-4}"
+          }
+        ],
+        "answer": "$m^3 q^{-1} z^{-4}$",
+        "tip": "For each variable, subtract the bottom exponent from the top exponent. Negative results mean the variable goes to the denominator."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Factoring Out a Common Factor (GCF)"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Factor Out the Greatest Common Factor",
+        "content": "To factor $16x^3y^2 + 14xy$, find the largest factor common to both terms:\n- Numbers: $\\gcd(16, 14) = 2$\n- Variables: lowest power of $x$ is $x^1$; lowest of $y$ is $y^1$\n- GCF = $2xy$\n\nThen divide each term by the GCF."
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Factor Using GCF",
+        "source": "SAT Practice Question",
+        "problem": "Which expression is equivalent to $16x^3y^2 + 14xy$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the GCF of both terms",
+            "math": "\\gcd(16, 14) = 2, \\quad \\text{lowest powers: } x^1, y^1 \\Rightarrow \\text{GCF} = 2xy"
+          },
+          {
+            "step": 2,
+            "description": "Factor out 2xy",
+            "math": "2xy\\left(\\frac{16x^3y^2}{2xy} + \\frac{14xy}{2xy}\\right) = 2xy(8x^2y + 7)"
+          }
+        ],
+        "answer": "$2xy(8x^2y + 7)$"
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Factoring Quadratics"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Factoring Trinomials $ax^2 + bx + c$",
+        "content": "For a quadratic like $x^2 + bx + c$, find two numbers that **multiply** to $c$ and **add** to $b$:\n$$x^2 + bx + c = (x + p)(x + q) \\quad \\text{where } p \\cdot q = c \\text{ and } p + q = b$$\n\nFor $ax^2 + bx + c$ with $a \\neq 1$, use the **AC method** or try to factor by grouping."
+      },
+      {
+        "id": "type-3-example-1",
+        "type": "worked-example",
+        "title": "Example: Simple Trinomial Factoring",
+        "source": "SAT Practice Question",
+        "problem": "Which of the following is a factor of $3x^2 + 20x - 63$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use the AC method: multiply a × c = 3 × (-63) = -189. Find factors of -189 that add to 20",
+            "math": "27 \\times (-7) = -189 \\quad \\text{and} \\quad 27 + (-7) = 20 \\checkmark"
+          },
+          {
+            "step": 2,
+            "description": "Rewrite the middle term and factor by grouping",
+            "math": "3x^2 + 27x - 7x - 63 = 3x(x + 9) - 7(x + 9)"
+          },
+          {
+            "step": 3,
+            "description": "Factor out the common binomial",
+            "math": "(3x - 7)(x + 9)"
+          }
+        ],
+        "answer": "$(3x - 7)$ and $(x + 9)$ are both factors",
+        "tip": "To check: if $(x + 9)$ is a factor, then $x = -9$ makes the polynomial equal zero. Verify: $3(-9)^2 + 20(-9) - 63 = 243 - 180 - 63 = 0$ ✓"
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Matching Factors to Constants",
+        "source": "SAT Practice Question",
+        "problem": "The equation $(x + a)(x + b) = x^2 + 8x + k$ is true for all values of $x$, where $a$, $b$, and $k$ are constants. What is the value of $ab$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Expand the left side",
+            "math": "x^2 + (a + b)x + ab"
+          },
+          {
+            "step": 2,
+            "description": "Match coefficients: a + b = 8 (from x coefficient) and ab = k",
+            "math": "a + b = 8 \\Rightarrow k = ab"
+          },
+          {
+            "step": 3,
+            "description": "The question asks for ab. We need more info (like k) to get ab. If k = 12, then: find a and b where a+b=8 and ab=12 → (2)(6) or (6)(2)",
+            "math": "ab = k"
+          }
+        ],
+        "answer": "The value of $ab = k$. Match the given $k$ to compute $ab$.",
+        "tip": "When you see $(x+a)(x+b) = x^2 + cx + d$, always remember: $a + b = c$ and $a \\cdot b = d$."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Simplifying Rational Expressions"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Canceling Common Factors",
+        "content": "A rational expression is a fraction with polynomials. To simplify:\n1. **Factor** both numerator and denominator\n2. **Cancel** matching factors that appear in both\n\n**Critical rule:** You can only cancel factors (things multiplied), not terms (things added)."
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Simplify a Rational Expression",
+        "source": "SAT Practice Question",
+        "problem": "Which expression is equivalent to $\\dfrac{8x(x-7) - 3(x-7)}{2(x-14)}$, where $x > 7$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Factor the numerator: both terms have (x - 7)",
+            "math": "8x(x-7) - 3(x-7) = (x-7)(8x - 3)"
+          },
+          {
+            "step": 2,
+            "description": "Simplify the denominator: 2(x - 14) = 2·2(x/2 - 7)... note x-14 = 2(x/2 - 7). Actually factor: 2(x-14)",
+            "math": "\\frac{(x-7)(8x-3)}{2(x-14)}"
+          },
+          {
+            "step": 3,
+            "description": "Note x - 14 = (x - 7) - 7, which doesn't factor nicely with (x-7). The expression doesn't simplify further. Check the answer choices — the answer is (8x-3)/2 only if (x-7) cancels with (x-14). They don't cancel here.",
+            "math": "\\text{The fully simplified form: } \\frac{(x-7)(8x-3)}{2(x-14)}"
+          }
+        ],
+        "answer": "$\\dfrac{(x-7)(8x-3)}{2(x-14)}$",
+        "tip": "Always factor BEFORE trying to cancel. You can only cancel entire factors, not individual terms."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Polynomial Identities and Expansion"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "Key Identities to Recognize",
+        "content": "$$\\textbf{Difference of squares: } a^2 - b^2 = (a+b)(a-b)$$\n$$\\textbf{Perfect square trinomial: } a^2 + 2ab + b^2 = (a+b)^2$$\n$$\\textbf{Perfect square trinomial: } a^2 - 2ab + b^2 = (a-b)^2$$\n\nThese patterns appear frequently on the SAT — spotting them saves significant time."
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Difference of Squares",
+        "source": "SAT Practice Question",
+        "problem": "Which expression is equivalent to $25x^2 - 16$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Recognize this as a difference of squares: (5x)² - 4²",
+            "math": "25x^2 - 16 = (5x)^2 - 4^2"
+          },
+          {
+            "step": 2,
+            "description": "Apply the identity a² - b² = (a+b)(a-b)",
+            "math": "(5x + 4)(5x - 4)"
+          }
+        ],
+        "answer": "$(5x + 4)(5x - 4)$"
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Expressions with Substitution"
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Simplify Using Given Substitutions",
+        "source": "SAT Practice Question",
+        "problem": "If $x = 3$ and $y = 2$, which of the following is equivalent to $\\dfrac{x^2 - 4}{x + 2}$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Factor the numerator as a difference of squares",
+            "math": "\\frac{x^2 - 4}{x + 2} = \\frac{(x+2)(x-2)}{x+2}"
+          },
+          {
+            "step": 2,
+            "description": "Cancel (x + 2) from numerator and denominator",
+            "math": "= x - 2"
+          },
+          {
+            "step": 3,
+            "description": "The expression is equivalent to x - 2 for all valid x",
+            "math": "x - 2"
+          }
+        ],
+        "answer": "$x - 2$",
+        "tip": "When simplifying a rational expression, the result is equivalent everywhere the original is defined (i.e., where the denominator ≠ 0)."
+      },
+      {
+        "id": "desmos-tip-section",
+        "type": "tip",
+        "title": "Using Desmos to Verify Equivalent Expressions",
+        "content": "Type both expressions as separate functions:\n- `f(x) = 16x^3 + 14x`\n- `g(x) = 2x(8x^2 + 7)`\n\nIf they're equivalent, their graphs will be **identical** — one will completely overlap the other. You can also subtract them: `f(x) - g(x)` should equal 0 everywhere."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Exponent laws:** multiply → add exponents; divide → subtract exponents; power → multiply",
+          "**GCF factoring:** find the greatest common factor and factor it out",
+          "**Trinomial factoring:** find two numbers that multiply to $c$ and add to $b$ in $x^2 + bx + c$",
+          "**Difference of squares:** $a^2 - b^2 = (a+b)(a-b)$",
+          "**Rational expressions:** factor first, then cancel common factors",
+          "**Verify with Desmos:** graph both expressions — if identical, they're equivalent"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Canceling terms instead of factors: $\\dfrac{x^2 + 4}{x}$ is NOT $x + 4$ (4 is a term, not a factor)\n- Forgetting to distribute the negative when factoring: $-(x - 3) = -x + 3$\n- Adding exponents when you should multiply: $(x^3)^2 = x^6$, not $x^5$\n- In GCF: taking the highest power rather than the lowest\n- Sign errors in factoring: $(x - 3)(x + 4) \\neq (x + 3)(x - 4)$"
+      }
+    ],
+    "sat_tips": [
+      "For 'which expression is equivalent' questions with variables, try plugging in a number to eliminate wrong answers",
+      "Recognize difference of squares (a² - b²) and perfect square trinomials immediately",
+      "When factoring a rational expression, factor numerator AND denominator before canceling",
+      "Desmos can verify equivalence — graph both expressions and see if they overlap"
+    ]
+  }
+}

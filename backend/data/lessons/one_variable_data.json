@@ -1,0 +1,250 @@
+{
+  "skill_code": "Q.C.",
+  "title": "One-Variable Data: Distributions and Measures",
+  "subtitle": "Master mean, median, mode, range, and data spread — from lists, tables, and graphs",
+  "estimated_minutes": 20,
+  "difficulty_level": "foundational",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "The Three Measures of Center",
+        "content": "When analyzing a single variable's data set, the SAT tests three key measures:\n\n- **Mean** (average): sum of all values ÷ count\n- **Median**: the middle value when data is sorted. With an even count, average the two middle values\n- **Mode**: the value that appears most frequently\n\nAnd two measures of spread:\n- **Range**: maximum − minimum\n- **Standard deviation / spread**: measures how spread out data is from the mean"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Finding the Median"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Steps to Find the Median",
+        "content": "1. **Sort** the data from smallest to largest\n2. If **odd** count: median = the middle number\n3. If **even** count: median = average of the two middle numbers"
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: Odd Number of Values",
+        "source": "SAT Practice Question",
+        "problem": "What is the median of: $4, 10, 18, 4, 4, 5, 6, 5$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Sort the values",
+            "math": "4, 4, 4, 5, 5, 6, 10, 18"
+          },
+          {
+            "step": 2,
+            "description": "With 8 values (even), average the 4th and 5th values",
+            "math": "\\text{Median} = \\frac{5 + 5}{2} = 5"
+          }
+        ],
+        "answer": "Median = $5$"
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Median from a Bar Graph",
+        "source": "SAT Practice Question",
+        "problem": "A battery charged for 15 days with: 6 days at 0 kWh, 1 day at 8 kWh, 2 days at 9 kWh, 2 days at 11 kWh, 2 days at 16 kWh, 2 days at 23 kWh. What is the median?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "List all 15 values in order",
+            "math": "0,0,0,0,0,0,8,9,9,11,11,16,16,23,23"
+          },
+          {
+            "step": 2,
+            "description": "With 15 values, the median is the 8th value",
+            "math": "\\text{Median} = 9"
+          }
+        ],
+        "answer": "Median = $9$ kWh",
+        "tip": "For frequency tables or bar graphs, write out ALL individual values (including repeats) before finding the median position."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Comparing Mean, Median, and Mode"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "How Distribution Shape Affects the Measures",
+        "content": "The shape of the distribution tells you the relationship between mean, median, and mode:\n\n- **Symmetric (bell-shaped):** mean ≈ median ≈ mode\n- **Right-skewed (long tail to the right):** mode < median < mean\n- **Left-skewed (long tail to the left):** mean < median < mode\n\nThe **mean is pulled toward the tail** because extreme values affect the sum. The **median is resistant** to extreme values."
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Order the Three Measures",
+        "source": "SAT Practice Question",
+        "problem": "A college class has ages: mostly 18-20, with a few students aged 35-45. A frequency table shows more young students than old. Which gives the correct order of mean, median, and mode?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The mode is the most common age: 18 or 19",
+            "math": "\\text{Mode} \\approx 18"
+          },
+          {
+            "step": 2,
+            "description": "The few older students pull the mean upward",
+            "math": "\\text{Mean} > \\text{Median} > \\text{Mode}"
+          }
+        ],
+        "answer": "mode < median < mean (right-skewed distribution)",
+        "tip": "When a few very high values are present (outliers), mean > median. When a few very low values are present, mean < median."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Finding a Missing Value Given a Condition"
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Mean = Median Constraint",
+        "source": "SAT Practice Question",
+        "problem": "A data set is: $6, 8, x, 12, 15$. The mean and median are equal. Which of the following could NOT be a value of $x$?\n\nA) 6 \\quad B) 11 \\quad C) 16 \\quad D) 21",
+        "steps": [
+          {
+            "step": 1,
+            "description": "For the median: sort depends on x. If x is in the middle range, the median is x",
+            "math": "\\text{If } 8 \\leq x \\leq 12: \\text{ median} = x"
+          },
+          {
+            "step": 2,
+            "description": "Mean = (6 + 8 + x + 12 + 15) / 5 = (41 + x) / 5",
+            "math": "\\text{Mean} = \\frac{41 + x}{5}"
+          },
+          {
+            "step": 3,
+            "description": "Set mean = median = x (when x is in range 8-12)",
+            "math": "\\frac{41 + x}{5} = x \\Rightarrow 41 + x = 5x \\Rightarrow x = \\frac{41}{4} = 10.25"
+          },
+          {
+            "step": 4,
+            "description": "For x = 6 (less than 8): sorted is 6, 6, 8, 12, 15 — median = 8, mean = (6+6+8+12+15)/5 = 47/5 = 9.4 ≠ 8",
+            "math": "x = 6 \\text{ doesn't work}"
+          },
+          {
+            "step": 5,
+            "description": "Test x = 21 (greater than 15): sorted is 6, 8, 12, 15, 21 — median = 12, mean = (6+8+21+12+15)/5 = 62/5 = 12.4 ≠ 12",
+            "math": "x = 21 \\text{ doesn't work}"
+          }
+        ],
+        "answer": "Check each answer choice: the one that makes mean ≠ median is the answer.",
+        "tip": "When x's position changes the median, test the condition for each case separately."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Maximum, Range, and Frequency Tables"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Find Maximum from Frequency Table",
+        "source": "SAT Practice Question",
+        "problem": "A frequency table shows data values and how often each appears. The values range from 6 to 14. The value 13 has frequency 0. What is the maximum data value?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The maximum is the largest value with nonzero frequency",
+            "math": "\\text{Value 13 has frequency 0, value 14 has frequency 6}"
+          },
+          {
+            "step": 2,
+            "description": "The maximum is 14",
+            "math": "\\text{Maximum} = 14"
+          }
+        ],
+        "answer": "Maximum = $14$",
+        "tip": "For frequency tables: ignore values with frequency 0 when finding min/max. The minimum is the smallest nonzero-frequency value."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Box Plots and Comparing Data Sets"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "Reading a Box Plot",
+        "content": "A **box plot** (box-and-whisker plot) shows five key values:\n\n$$\\text{Min} \\quad | \\quad Q_1 \\quad | \\quad \\text{Median} \\quad | \\quad Q_3 \\quad | \\quad \\text{Max}$$\n\n- The **box** spans from $Q_1$ to $Q_3$ (the interquartile range, IQR)\n- The **line inside the box** is the **median**\n- The **whiskers** extend to the min and max\n- A **wider box** = more spread in the middle 50%"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Compare Two Box Plots",
+        "source": "SAT Practice Question",
+        "problem": "Group 1 box plot: Min=21, Q1=22, Median=25, Q3=26, Max=28. Group 2 box plot: different values. Which group has the greater median?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Read the median from each box plot (the line inside the box)",
+            "math": "\\text{Group 1 Median} = 25"
+          },
+          {
+            "step": 2,
+            "description": "Compare: whichever median line is further right is larger",
+            "math": "\\text{Compare medians directly from the graph}"
+          }
+        ],
+        "answer": "The group with the higher median line in the box plot has the greater median.",
+        "tip": "You can NEVER determine the mean from a box plot. Only median and spread (range, IQR) can be read directly."
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Comparing Spread Between Two Sets"
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Compare Spread from Summary Statistics",
+        "source": "SAT Practice Question",
+        "problem": "Group A heights: mean 70 in, median 69 in, range 8 in. Group B heights: mean 71 in, median 71 in, range 14 in. Which group has larger spread?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Spread = how dispersed the data is. Range is one measure of spread",
+            "math": "\\text{Group A range} = 8 \\quad \\text{Group B range} = 14"
+          },
+          {
+            "step": 2,
+            "description": "Larger range = larger spread",
+            "math": "\\text{Group B has larger spread}"
+          }
+        ],
+        "answer": "Group B has larger spread (range = 14 vs 8)"
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Median:** sort the data; middle value for odd count; average of two middle values for even count",
+          "**Mean:** sum ÷ count. Mean is pulled toward outliers/skew",
+          "**Mode:** most frequent value",
+          "**Distribution shape:** right-skewed → mode < median < mean; symmetric → all three equal",
+          "**Box plots:** the line in the box = median; box width = IQR (middle 50%); mean is NOT shown",
+          "**Spread:** range = max − min; larger range or IQR = more spread"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Forgetting to sort before finding the median\n- With even count: finding the middle one value instead of averaging the two middle values\n- Confusing median with mean: they're different! Median is position-based, mean is sum-based\n- Reading the mean from a box plot (impossible — box plots don't show the mean)\n- In frequency tables: forgetting to repeat values according to their frequency when sorting"
+      }
+    ],
+    "sat_tips": [
+      "Always sort the data before finding the median",
+      "If a few extreme values are present, expect mean ≠ median — the mean gets pulled toward the outliers",
+      "Box plots show the median directly, but the mean requires calculation",
+      "For 'which value of x makes mean = median' problems, write out the mean formula and set it equal to the median formula, then solve"
+    ]
+  }
+}

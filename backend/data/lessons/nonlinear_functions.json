@@ -1,0 +1,320 @@
+{
+  "skill_code": "P.C.",
+  "title": "Nonlinear Functions",
+  "subtitle": "Master quadratic and exponential functions — graphs, formulas, and real-world models",
+  "estimated_minutes": 28,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "Two Major Function Types",
+        "content": "The SAT focuses on two types of nonlinear functions:\n\n**Quadratic:** $f(x) = ax^2 + bx + c$ or $f(x) = a(x - h)^2 + k$ — parabola shape\n**Exponential:** $f(x) = a \\cdot b^x$ — rapid growth or decay\n\nBoth appear in graph interpretation, formula identification, and real-world modeling questions."
+      },
+      {
+        "id": "quad-section",
+        "type": "divider",
+        "title": "Part 1: Quadratic Functions"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Interpreting the Vertex"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Vertex Form: The Most Important Form",
+        "content": "$$f(x) = a(x - h)^2 + k$$\n\n- The **vertex** is at $(h, k)$\n- If $a > 0$: parabola opens **up** → vertex is the **minimum**\n- If $a < 0$: parabola opens **down** → vertex is the **maximum**\n- $|a|$ controls how wide/narrow the parabola is\n\nThe SAT loves asking: *\"What is the best interpretation of the vertex in this context?\"*"
+      },
+      {
+        "id": "type-1-example",
+        "type": "worked-example",
+        "title": "Example: Interpret the Vertex",
+        "source": "SAT Practice Question",
+        "problem": "A toy rocket's height (in feet) is modeled by $y = -16(x - 5.6)^2 + 502$, where $x$ is seconds after launch. What is the best interpretation of the vertex?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Identify the vertex from the equation: (h, k) = (5.6, 502)",
+            "math": "\\text{Vertex} = (5.6, 502)"
+          },
+          {
+            "step": 2,
+            "description": "Since a = -16 < 0, the parabola opens down → vertex is the MAXIMUM height",
+            "math": "\\text{Maximum height} = 502 \\text{ feet at } x = 5.6 \\text{ seconds}"
+          }
+        ],
+        "answer": "The rocket reaches a **maximum height of 502 feet** at **5.6 seconds** after launch.",
+        "tip": "For vertex $(h, k)$ in context: $h$ is the input (time, price, etc.) at which the max/min occurs; $k$ is the maximum or minimum output value."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Finding the Minimum or Maximum Value"
+      },
+      {
+        "id": "type-2-example",
+        "type": "worked-example",
+        "title": "Example: Minimum of a Quadratic",
+        "source": "SAT Practice Question",
+        "problem": "$p(x) + 57 = x^2$\n\nThis relates $x$ and $p(x)$. What is the minimum value of $p$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Rearrange to get p(x) alone",
+            "math": "p(x) = x^2 - 57"
+          },
+          {
+            "step": 2,
+            "description": "This is a parabola opening upward. The vertex is at x = 0, p = -57",
+            "math": "\\text{Minimum at } (0, -57)"
+          }
+        ],
+        "answer": "Minimum value is $-57$",
+        "tip": "Desmos: graph $y = x^2 - 57$. Click the vertex to read the minimum y-value instantly."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Graph Transformations"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Shifting and Flipping Parabolas",
+        "content": "Starting from $y = x^2$ (vertex at origin, opens up):\n\n| Transformation | Effect |\n|---|---|\n| $y = x^2 + k$ | Shift **up** by $k$ |\n| $y = x^2 - k$ | Shift **down** by $k$ |\n| $y = (x - h)^2$ | Shift **right** by $h$ |\n| $y = (x + h)^2$ | Shift **left** by $h$ |\n| $y = -x^2$ | **Flip** upside down |\n| $y = ax^2$ with $|a| > 1$ | **Narrower** |\n| $y = ax^2$ with $|a| < 1$ | **Wider** |"
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Translate a Parabola",
+        "source": "SAT Practice Question",
+        "problem": "A parabola with vertex at $(2, -2)$ is translated **up 4 units**. Where is the new vertex?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Translating up 4 units adds 4 to the y-coordinate of the vertex",
+            "math": "\\text{New vertex} = (2, -2 + 4) = (2, 2)"
+          }
+        ],
+        "answer": "New vertex at $(2, 2)$",
+        "tip": "Desmos: type the original equation, then add a slider for the vertical shift. Move it to +4 and see the parabola shift up."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Interpreting Parts of a Quadratic Formula"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: What Does 15w Mean?",
+        "source": "SAT Practice Question",
+        "problem": "A rectangle has a length that is 15 times its width. Its area is $y = 15w \\cdot w = 15w^2$, where $w$ is width and $y$ is area. What is the best interpretation of $15w$ in this context?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "In the formula y = length × width, and y = 15w × w",
+            "math": "\\text{length} = 15w"
+          }
+        ],
+        "answer": "$15w$ represents the **length** of the rectangle in feet.",
+        "tip": "Break the formula into its parts. Here $y = \\text{length} \\times \\text{width}$, and $15w$ plays the role of length."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Reading Nonlinear Graphs"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Interpret a Projectile Graph",
+        "source": "SAT Practice Question",
+        "problem": "A graph shows the height of a ball (in meters) vs. time (in seconds). The parabola peaks at $(0.6, 5.5)$ and passes through $(1.0, 4.8)$. Which statement is correct?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Read specific points: at x = 1.0 seconds, y = 4.8 meters",
+            "math": "(1.0, 4.8) \\Rightarrow \\text{at 1.0 second, height is 4.8 meters}"
+          },
+          {
+            "step": 2,
+            "description": "The y-intercept (x = 0) gives the launch height: approximately 3.8 meters",
+            "math": "(0, 3.8) \\Rightarrow \\text{launched from 3.8 meters}"
+          }
+        ],
+        "answer": "1.0 second after launch, the ball's height is 4.8 meters.",
+        "tip": "Always read specific coordinates from the graph. The y-intercept is the starting value; the vertex is the max/min; x-intercepts are where the function equals zero."
+      },
+      {
+        "id": "exp-section",
+        "type": "divider",
+        "title": "Part 2: Exponential Functions"
+      },
+      {
+        "id": "exp-intro",
+        "type": "text",
+        "title": "Exponential Functions: Growth and Decay",
+        "content": "$$f(x) = a \\cdot b^x$$\n\n- $a$ = initial value (when $x = 0$)\n- $b$ = growth factor\n  - $b > 1$ → **growth** (function increases)\n  - $0 < b < 1$ → **decay** (function decreases)\n\nIn percent form:\n- Growth rate $r\\%$: $b = 1 + r$ (e.g., 4% growth → $b = 1.04$)\n- Decay rate $r\\%$: $b = 1 - r$ (e.g., 20% decay → $b = 0.80$)"
+      },
+      {
+        "id": "type-6-section",
+        "type": "divider",
+        "title": "Type 6: Identifying an Exponential Function from a Table"
+      },
+      {
+        "id": "type-6-example",
+        "type": "worked-example",
+        "title": "Example: Find the Equation from a Table",
+        "source": "SAT Practice Question",
+        "problem": "A table shows: $g(-1) = 25$, $g(0) = 1$, $g(1) = \\frac{1}{25}$, $g(2) = \\frac{1}{625}$.\n\nWhich equation defines $g$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Find the initial value a: when x = 0, g(0) = a",
+            "math": "a = g(0) = 1"
+          },
+          {
+            "step": 2,
+            "description": "Find the base b: the ratio of consecutive outputs",
+            "math": "b = \\frac{g(1)}{g(0)} = \\frac{1/25}{1} = \\frac{1}{25}"
+          },
+          {
+            "step": 3,
+            "description": "Verify with g(-1): g(-1) = 1 × (1/25)^(-1) = 25 ✓",
+            "math": "g(x) = \\left(\\frac{1}{25}\\right)^x"
+          }
+        ],
+        "answer": "$g(x) = \\left(\\dfrac{1}{25}\\right)^x$",
+        "tip": "To find the base of an exponential from a table, divide any output by the previous one. The ratio should be constant."
+      },
+      {
+        "id": "type-7-section",
+        "type": "divider",
+        "title": "Type 7: Exponential Models from Context"
+      },
+      {
+        "id": "type-7-example",
+        "type": "worked-example",
+        "title": "Example: Savings Account Growth",
+        "source": "SAT Practice Question",
+        "problem": "Rosa opened a savings account. After 0 years: $604.00. After 1 year: $606.42. After 2 years: $608.84. The relationship is exponential. Which equation models the total amount $n$ after $t$ years?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The initial value (t = 0) is a = 604",
+            "math": "a = 604"
+          },
+          {
+            "step": 2,
+            "description": "The growth factor b = 606.42 / 604 ≈ 1.004, meaning 0.4% annual interest",
+            "math": "b = \\frac{606.42}{604} \\approx 1.004"
+          },
+          {
+            "step": 3,
+            "description": "Write the exponential model",
+            "math": "n = 604(1.004)^t = 604(1 + 0.004)^t"
+          }
+        ],
+        "answer": "$n = 604(1 + 0.004)^t$",
+        "tip": "Growth models always look like $a(1 + r)^t$ where $r$ is the decimal rate. Decay models use $a(1 - r)^t$."
+      },
+      {
+        "id": "type-8-section",
+        "type": "divider",
+        "title": "Type 8: Interpreting Exponential Graphs"
+      },
+      {
+        "id": "type-8-example",
+        "type": "worked-example",
+        "title": "Example: Interpret an Exponential Decay Graph",
+        "source": "SAT Practice Question",
+        "problem": "A graph shows the estimated value (in dollars) of a tablet over 24 months after purchase. The curve starts at approximately $(0, 225)$ and decreases to $(24, 50)$. Which statement is correct?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The y-intercept (0, 225) means the value at purchase (month 0) was $225",
+            "math": "\\text{At } t = 0: \\text{value} = \\$225"
+          }
+        ],
+        "answer": "The estimated value of the tablet **when it was purchased** was $225.",
+        "tip": "The y-intercept of any function is the value when the input = 0 (usually 'at the start')."
+      },
+      {
+        "id": "type-9-section",
+        "type": "divider",
+        "title": "Type 9: Quadratic Word Problems"
+      },
+      {
+        "id": "type-9-example",
+        "type": "worked-example",
+        "title": "Example: Product of Two Integers",
+        "source": "SAT Practice Question",
+        "problem": "The product of two positive integers is 462. The first integer is 5 greater than twice the second. What is the smaller integer?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Let the second integer be n. Then the first is 2n + 5",
+            "math": "n(2n + 5) = 462"
+          },
+          {
+            "step": 2,
+            "description": "Expand and rearrange",
+            "math": "2n^2 + 5n - 462 = 0"
+          },
+          {
+            "step": 3,
+            "description": "Use the quadratic formula: a = 2, b = 5, c = -462",
+            "math": "n = \\frac{-5 \\pm \\sqrt{25 + 3696}}{4} = \\frac{-5 \\pm \\sqrt{3721}}{4} = \\frac{-5 \\pm 61}{4}"
+          },
+          {
+            "step": 4,
+            "description": "Take the positive root (n must be positive)",
+            "math": "n = \\frac{56}{4} = 14"
+          }
+        ],
+        "answer": "The smaller integer is $14$ (the other is $2(14) + 5 = 33$)",
+        "tip": "Desmos: graph $y = n(2n+5) - 462$ and find the positive x-intercept."
+      },
+      {
+        "id": "desmos-section",
+        "type": "divider",
+        "title": "Desmos for Nonlinear Functions"
+      },
+      {
+        "id": "desmos-text",
+        "type": "text",
+        "title": "Desmos Power Moves",
+        "content": "**Find vertex:** Graph the quadratic. Click the vertex point — Desmos shows exact $(h, k)$ coordinates.\n\n**Transformations:** Use sliders for $h$ and $k$. Type `y = a(x-h)^2 + k` and move sliders to explore.\n\n**Exponential identification:** Enter data points using a table in Desmos (click the `+` button → table). Then add a regression: type `y_1 ~ a * b^(x_1)` to find $a$ and $b$.\n\n**Graph behavior:** Zoom out to see whether the function grows, decays, or has a maximum/minimum."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Vertex form** $a(x-h)^2 + k$: vertex at $(h, k)$; max if $a < 0$, min if $a > 0$",
+          "**Transformations:** add to $k$ → shift up; add to $h$ inside the square → shift left",
+          "**Exponential:** initial value $a$ at $x = 0$; growth factor $b$ = ratio of consecutive outputs",
+          "**Growth model:** $a(1 + r)^t$; **Decay model:** $a(1-r)^t$",
+          "**Interpret y-intercept:** value at start (when $x = 0$)",
+          "**Vertex in context:** the $h$ tells you *when*, the $k$ tells you the *maximum or minimum value*"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- In vertex form $a(x - h)^2 + k$: the vertex is $(h, k)$, not $(-h, k)$ — the sign inside flips\n- Confusing growth ($b > 1$) with decay ($b < 1$)\n- Thinking the vertex is always a minimum — it's a maximum when $a < 0$\n- In exponential tables: computing the difference (linear thinking) instead of the ratio\n- Misreading transformations: $f(x) + 4$ shifts **up** but $f(x + 4)$ shifts **left**"
+      }
+    ],
+    "sat_tips": [
+      "Always identify a, h, k in vertex form first — they tell you everything about the parabola",
+      "For exponential tables: check if the ratio between outputs is constant (not the difference)",
+      "Desmos: click the vertex for exact coordinates; use sliders to explore transformations",
+      "In context problems: vertex h = when the max/min occurs; vertex k = the max/min value"
+    ]
+  }
+}

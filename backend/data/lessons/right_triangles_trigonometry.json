@@ -1,0 +1,209 @@
+{
+  "skill_code": "S.C.",
+  "title": "Right Triangles and Trigonometry",
+  "subtitle": "Master the Pythagorean theorem, SOH-CAH-TOA, and complementary angle identities",
+  "estimated_minutes": 22,
+  "difficulty_level": "intermediate",
+  "content": {
+    "sections": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": "The Right Triangle Foundation",
+        "content": "In a right triangle with legs $a$, $b$ and hypotenuse $c$:\n$$a^2 + b^2 = c^2 \\quad \\text{(Pythagorean Theorem)}$$\n\nThe three trigonometric ratios for an angle $\\theta$:\n$$\\sin\\theta = \\frac{\\text{opposite}}{\\text{hypotenuse}} \\qquad \\cos\\theta = \\frac{\\text{adjacent}}{\\text{hypotenuse}} \\qquad \\tan\\theta = \\frac{\\text{opposite}}{\\text{adjacent}}$$\n\n**Memory trick: SOH-CAH-TOA**"
+      },
+      {
+        "id": "type-1-section",
+        "type": "divider",
+        "title": "Type 1: Finding a Trig Ratio from a Triangle"
+      },
+      {
+        "id": "type-1-intro",
+        "type": "text",
+        "title": "Reading the Triangle",
+        "content": "'Opposite' and 'adjacent' are always **relative to the angle** you're looking at.\n\nFor angle $\\theta$:\n- **Opposite:** the side across from $\\theta$\n- **Adjacent:** the side next to $\\theta$ (not the hypotenuse)\n- **Hypotenuse:** always the longest side, opposite the right angle"
+      },
+      {
+        "id": "type-1-example-1",
+        "type": "worked-example",
+        "title": "Example: Read a Trig Ratio from Labeled Triangle",
+        "source": "SAT Practice Question",
+        "problem": "[IMAGE PLACEHOLDER: Right triangle with legs 35 and some value, hypotenuse 171. Angle at one vertex labeled.] What is $\\sin$ of the labeled angle?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Identify the opposite and hypotenuse relative to the angle",
+            "math": "\\sin\\theta = \\frac{\\text{opposite}}{\\text{hypotenuse}} = \\frac{35}{171}"
+          }
+        ],
+        "answer": "$\\sin\\theta = \\dfrac{35}{171}$",
+        "tip": "Always identify which vertex the angle is at, then label the opposite, adjacent, and hypotenuse relative to THAT angle."
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Find a Missing Side Using Trig",
+        "source": "SAT Practice Question",
+        "problem": "[IMAGE PLACEHOLDER: Right triangle with one angle = θ, adjacent side = 4, hypotenuse unknown, one side = 3.] What is the hypotenuse?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use the Pythagorean theorem: 3² + 4² = c²",
+            "math": "9 + 16 = c^2 \\Rightarrow c = 5"
+          }
+        ],
+        "answer": "Hypotenuse $= 5$",
+        "tip": "Common Pythagorean triples: **3-4-5**, **5-12-13**, **8-15-17**, **7-24-25**. Memorize these to avoid calculation."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: The Complementary Angle Identity"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "sin and cos Are Complementary",
+        "content": "In any right triangle, the two acute angles are complementary (they sum to $90°$).\n\nThis gives us a crucial identity:\n$$\\sin(\\theta) = \\cos(90° - \\theta)$$\n$$\\cos(\\theta) = \\sin(90° - \\theta)$$\n\nIn plain English: **the sine of an angle equals the cosine of its complement**.\n\nOn the SAT: if $\\angle R + \\angle S = 90°$, then $\\sin R = \\cos S$ (and vice versa)."
+      },
+      {
+        "id": "type-2-example-1",
+        "type": "worked-example",
+        "title": "Example: sin equals cos of Complement",
+        "source": "SAT Practice Question",
+        "problem": "In right triangle $RST$, $\\angle R + \\angle S = 90°$. The value of $\\sin R = \\dfrac{\\sqrt{15}}{4}$. What is $\\cos S$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Since R and S are complementary: sin R = cos S",
+            "math": "\\cos S = \\sin R = \\frac{\\sqrt{15}}{4}"
+          }
+        ],
+        "answer": "$\\cos S = \\dfrac{\\sqrt{15}}{4}$",
+        "tip": "This identity is the single most tested trig fact on the SAT. Memorize: if two angles in a right triangle add to 90°, their sin and cos are swapped."
+      },
+      {
+        "id": "type-2-example-2",
+        "type": "worked-example",
+        "title": "Example: Identify the Equivalent Expression",
+        "source": "SAT Practice Question",
+        "problem": "[IMAGE PLACEHOLDER: Right triangle with angles X and Y, where X + Y = 90°.]\n\nWhich expression is equivalent to $\\cos X$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "cos X = sin of the complementary angle",
+            "math": "\\cos X = \\sin Y \\quad \\text{(since X + Y = 90°)}"
+          }
+        ],
+        "answer": "$\\sin Y$"
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Similar Triangles and Trig Ratios"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Trig Ratios Are Equal in Similar Triangles",
+        "content": "If $\\triangle FGH \\sim \\triangle JKL$ with $\\angle F = \\angle J$, then their trig ratios are identical:\n$$\\sin F = \\sin J, \\quad \\cos F = \\cos J, \\quad \\tan F = \\tan J$$\n\nThis is because trig ratios depend only on the angle, not the size of the triangle."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Trig Ratios in Similar Triangles",
+        "source": "SAT Practice Question",
+        "problem": "Triangle $FGH$ is similar to triangle $JKL$ where $\\angle F$ corresponds to $\\angle J$. If $\\sin F = \\dfrac{308}{317}$, what is $\\sin J$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Corresponding angles in similar triangles are equal, so their trig ratios are equal",
+            "math": "\\sin J = \\sin F = \\frac{308}{317}"
+          }
+        ],
+        "answer": "$\\sin J = \\dfrac{308}{317}$"
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Using Tangent to Find a Side"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Full Triangle from One Trig Ratio",
+        "source": "SAT Practice Question",
+        "problem": "In triangle $XYZ$, $\\angle Z = 90°$, $YZ = 24$, and $\\tan X = \\dfrac{12}{35}$. What is the perimeter of $\\triangle XYZ$?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "tan X = opposite/adjacent. Opposite to X is YZ = 24. So 24/XZ = 12/35",
+            "math": "\\frac{24}{XZ} = \\frac{12}{35} \\Rightarrow XZ = \\frac{24 \\times 35}{12} = 70"
+          },
+          {
+            "step": 2,
+            "description": "Find the hypotenuse XY using the Pythagorean theorem",
+            "math": "XY = \\sqrt{24^2 + 70^2} = \\sqrt{576 + 4900} = \\sqrt{5476} = 74"
+          },
+          {
+            "step": 3,
+            "description": "Perimeter = sum of all sides",
+            "math": "P = 24 + 70 + 74 = 168"
+          }
+        ],
+        "answer": "Perimeter $= 168$ units",
+        "tip": "tan X = 12/35 means the opposite-to-adjacent ratio is 12:35. Scale up: if opposite = 24, then adjacent = 70, hypotenuse = √(24²+70²) = 74 (a 12-35-37 triple scaled by 2)."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Identifying the Trig Expression from a Triangle"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Match the Ratio to the Trig Function",
+        "source": "SAT Practice Question",
+        "problem": "[IMAGE PLACEHOLDER: Right triangle with sides 41, 42, and hypotenuse. Angle labeled X. The ratio 42/41 is shown.] Which trig function of which angle equals 42/41?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Identify what 41 and 42 represent relative to each angle",
+            "math": "\\text{If 42 is adjacent and 41 is opposite to angle X: } \\tan X = \\frac{41}{42}"
+          },
+          {
+            "step": 2,
+            "description": "If the ratio is 42/41 with 42 as hypotenuse and 41 as opposite to angle Y: sin Y = 41/42",
+            "math": "\\text{Check the triangle labels}"
+          }
+        ],
+        "answer": "Match the ratio to SOH-CAH-TOA based on which sides are labeled relative to the angle.",
+        "tip": "Write 'opp', 'adj', 'hyp' next to each side label relative to the angle being asked about. Then apply SOH-CAH-TOA."
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Key Takeaways",
+        "items": [
+          "**Pythagorean theorem:** $a^2 + b^2 = c^2$; common triples: 3-4-5, 5-12-13, 8-15-17",
+          "**SOH-CAH-TOA:** $\\sin = opp/hyp$, $\\cos = adj/hyp$, $\\tan = opp/adj$",
+          "**Complementary angles:** $\\sin\\theta = \\cos(90° - \\theta)$ — the most-tested trig identity",
+          "**Similar triangles:** corresponding angles have equal trig ratios",
+          "**tan to find sides:** if $\\tan X = k/m$, the opposite and adjacent are in ratio $k:m$"
+        ]
+      },
+      {
+        "id": "common-mistakes",
+        "type": "warning",
+        "title": "Common Mistakes",
+        "content": "- Confusing opposite and adjacent (they depend on which angle you're looking at)\n- Forgetting the complementary identity: $\\sin R = \\cos S$ when $R + S = 90°$\n- Using the hypotenuse as the adjacent side\n- Not scaling up a trig ratio properly to find actual side lengths"
+      }
+    ],
+    "sat_tips": [
+      "sin(θ) = cos(90° - θ): if two acute angles add to 90°, their sin and cos are swapped",
+      "Label every side as 'opp', 'adj', or 'hyp' relative to the angle BEFORE applying SOH-CAH-TOA",
+      "Memorize Pythagorean triples: 3-4-5, 5-12-13, 8-15-17 — they appear frequently",
+      "For similar triangles: trig ratios of corresponding angles are always equal"
+    ]
+  }
+}
