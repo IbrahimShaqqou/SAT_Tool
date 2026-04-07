@@ -253,7 +253,10 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     # _STOP: used for simpler "the fraction X over Y" where "power" at the end
     # signals this fraction is itself an exponent (e.g. "raised to the fraction
     # 7 over 6, power") — stop before that trailing "power".
-    _STOP = r"(?=\s*(?:end fraction|$|\band\b|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b|\bpower\b|\bend power\b))"
+    # Also stop at "close parenthesis" / "right parenthesis" so that an expression
+    # like "the fraction a over 4  close parenthesis  squared" does NOT swallow
+    # the close-paren into the denominator.
+    _STOP = r"(?=\s*(?:end fraction|$|\band\b|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b|\bpower\b|\bend power\b|\bclose parenthesis\b|\bright parenthesis\b))"
 
     s = re.sub(
         r"\bthe fraction with numerator\s+(.+?)\s+and denominator\s+(.+?)" + _STOP_INNER,
@@ -343,6 +346,13 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     s = re.sub(r"\bto the power\s+(.+?)\s+end power\b", _to_power, s, flags=re.I)
     # "to the power of X" — must run before "to the power X" to avoid capturing "of"
     s = re.sub(r"\bto the power of\s+(\S+)\b",           _to_power, s, flags=re.I)
+    # "to the power negative X" — negative two-token exponent (e.g. "to the power negative 1")
+    # must run before single-token rule so "negative" is not captured alone
+    s = re.sub(
+        r"\bto the power\s+negative\s+(\S+)\b",
+        lambda m: rf"^{{-{m.group(1)}}}",
+        s, flags=re.I,
+    )
     # "to the power X" (no end-power delimiter — single token, not "of")
     s = re.sub(r"\bto the power\s+(?!of\b)(\S+)\b",      _to_power, s, flags=re.I)
     # strip bare "end power" left over from expressions already handled
