@@ -16,7 +16,6 @@ from __future__ import annotations
 import html
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 from typing import Optional
@@ -28,35 +27,8 @@ from app.database import SessionLocal
 from app.models.question import Question
 
 DATA_DIR = Path(__file__).parent.parent / "data"
-CACHE_FILE = DATA_DIR / "math_alt_cache.json"
-
-# Commit where migration first ran and math_alt_cache.json was created
-MIGRATION_COMMIT = "9b0cb89"
-
-
-def get_old_cache() -> dict[str, str]:
-    result = subprocess.run(
-        ["git", "show", f"{MIGRATION_COMMIT}:backend/data/math_alt_cache.json"],
-        capture_output=True, text=True,
-        cwd=Path(__file__).parent.parent.parent,
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"git show failed: {result.stderr}")
-    return json.loads(result.stdout)
-
-
-def get_new_cache() -> dict[str, str]:
-    return json.loads(CACHE_FILE.read_text())
-
-
-def build_changes(old: dict, new: dict) -> dict[str, tuple[str, str]]:
-    """Return {alt: (old_latex, new_latex)} for all changed entries."""
-    changes = {}
-    for alt, new_latex in new.items():
-        old_latex = old.get(alt)
-        if old_latex is not None and old_latex != new_latex:
-            changes[alt] = (old_latex, new_latex)
-    return changes
+# Pre-computed replacement pairs (generated locally via build_replacements_file())
+REPLACEMENTS_FILE = DATA_DIR / "latex_span_replacements.json"
 
 
 def latex_to_html_text(latex: str) -> str:
@@ -87,26 +59,11 @@ def apply_corrections_to_html(html_str: str, replacements: list[tuple[str, str]]
     return new_html, count[0]
 
 
-def build_replacement_pairs(changes: dict[str, tuple[str, str]]) -> list[tuple[str, str]]:
-    """Build (old_html_inner, new_html_inner) pairs for search-replace inside spans."""
-    pairs = []
-    for alt, (old_latex, new_latex) in changes.items():
-        old_inner = latex_to_html_text(old_latex)
-        new_inner = latex_to_html_text(new_latex)
-        if old_inner != new_inner:
-            pairs.append((old_inner, new_inner))
-    return pairs
-
-
 def run(dry_run: bool = False) -> None:
-    print("Loading caches...")
-    old_cache = get_old_cache()
-    new_cache = get_new_cache()
-    changes = build_changes(old_cache, new_cache)
-    print(f"  {len(changes)} changed cache entries")
-
-    pairs = build_replacement_pairs(changes)
-    print(f"  {len(pairs)} unique replacement pairs built")
+    print("Loading replacement pairs...")
+    raw_pairs = json.loads(REPLACEMENTS_FILE.read_text())
+    pairs = [tuple(p) for p in raw_pairs]
+    print(f"  {len(pairs)} replacement pairs loaded")
 
     db = SessionLocal()
     try:
