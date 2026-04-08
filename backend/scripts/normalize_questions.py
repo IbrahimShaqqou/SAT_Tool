@@ -163,6 +163,11 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     # ── strip noise prefixes ─────────────────────────────────────────────────
     s = re.sub(r"^as follows:\s*", "", s, flags=re.I)
     s = re.sub(r"^third value,\s*", "", s, flags=re.I)
+    # "one point" before a parenthesized coordinate — accessibility prefix that
+    # should not appear in the LaTeX output (e.g. "one point left parenthesis 2 comma 3")
+    s = re.sub(r"\bone point\s+(?=left parenthesis|open parenthesis|\()", "", s, flags=re.I)
+    # Bare "one point X comma Y" (no explicit parenthesis word) — treat as coordinate
+    s = re.sub(r"^one point\s+", "", s, flags=re.I)
 
     # ── strip punctuation commas (CB pause markers) ──────────────────────────
     # Semantic commas are always written as the word "comma".
@@ -411,6 +416,12 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     )
     s = re.sub(
         r"\bwith coordinates\s+(.+?)\s+comma\s+(.+?)$",
+        _coords, s, flags=re.I,
+    )
+    # "left parenthesis X comma Y right parenthesis" / "open parenthesis X comma Y close parenthesis"
+    # CB explicit coordinate notation (after "one point" prefix has been stripped above)
+    s = re.sub(
+        r"(?:left|open)\s+parenthesis\s+(.+?)\s+comma\s+(.+?)\s+(?:right|close)\s+parenthesis",
         _coords, s, flags=re.I,
     )
 

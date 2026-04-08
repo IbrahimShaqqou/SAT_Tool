@@ -210,6 +210,14 @@ class Question(Base, TimestampMixin, SoftDeleteMixin, VersionMixin):
         comment="Whether question has been manually verified"
     )
 
+    needs_image_review = Column(
+        Boolean,
+        default=False,
+        nullable=False,
+        server_default="false",
+        comment="Question contains a raster graph/diagram image that should be replaced with SVG/HTML"
+    )
+
     # Raw import data preserved for debugging
     raw_import_json = Column(
         JSONB,
