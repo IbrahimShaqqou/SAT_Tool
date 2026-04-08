@@ -137,57 +137,51 @@
   margin: 1em 0;
 }
 
-/* Diagram/figure images in Math questions - make them larger and more readable */
-/* These are standalone images like triangles, graphs, tables, etc. */
-.question-content > p > img:not(.math-img):not([class*="math"]),
-.question-content figure img:not(.math-img),
-.question-content .image img:not(.math-img),
-.question-content > img:not(.math-img) {
-  min-width: 280px;
-  max-width: 90%;
+/* Diagram/figure images in questions — standalone triangles, graphs, tables */
+.question-content > p > img,
+.question-content figure img,
+.question-content .image img,
+.question-content > img {
+  max-width: min(520px, 100%);
   height: auto;
   display: block;
   margin: 1em auto;
 }
 
-/* For images that are block-level (diagrams, not inline equations) */
-.question-content p > img:only-child:not(.math-img) {
-  min-width: 280px;
-  max-width: 90%;
+/* Block-level solo images */
+.question-content p > img:only-child {
+  max-width: min(520px, 100%);
+  height: auto;
   display: block;
   margin: 1em auto;
 }
 
-/* Math images should be inline with no margin - increased size */
-.prose img.math-img,
-.question-content img.math-img,
-button img.math-img,
-.question-content .math-container img,
-button .math-container img {
-  display: inline !important;
+/* Images inside answer choices — must not overflow the button */
+button img,
+.answer-choice img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Math spans (LaTeX rendered by MathJax) — inline with text */
+.question-content .math-inline,
+button .math-inline {
+  display: inline;
   vertical-align: middle;
-  margin: 0 !important;
-  height: auto;
-  max-height: 2.5em;
 }
 
-/* Dark mode: invert math images for better visibility */
-/* Use simple invert without hue-rotate to avoid color tinting */
-.dark .prose img.math-img,
-.dark .question-content img.math-img,
-.dark button img.math-img,
-.dark .question-content .math-container img,
-.dark button .math-container img {
-  filter: invert(1);
+/* System-of-equations stacked display */
+.question-content .math-system {
+  margin: 0.5em 0;
 }
 
-/* Dark mode: invert diagram images */
-/* Simple invert without hue-rotate for clean black-to-white conversion */
-.dark .question-content > p > img:not(.math-img),
-.dark .question-content figure img:not(.math-img),
-.dark .question-content .image img:not(.math-img),
-.dark .question-content > img:not(.math-img),
-.dark .question-content p > img:only-child:not(.math-img) {
+/* Dark mode: invert diagram/graph images */
+.dark .question-content > p > img,
+.dark .question-content figure img,
+.dark .question-content .image img,
+.dark .question-content > img,
+.dark .question-content p > img:only-child {
   filter: invert(0.9);
   background: #1f2937;
   border-radius: 8px;
