@@ -157,6 +157,9 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
 
     s = raw.strip()
 
+    # ── normalize newlines / carriage returns inside alt text ────────────────
+    s = re.sub(r"\r?\n", " ", s)
+
     # ── strip noise prefixes ─────────────────────────────────────────────────
     s = re.sub(r"^as follows:\s*", "", s, flags=re.I)
     s = re.sub(r"^third value,\s*", "", s, flags=re.I)
@@ -248,7 +251,9 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     # _STOP_INNER: denominator can contain sub-expressions with "power" in them
     # (e.g. "the cube root of x to the fourth power, end root") so we do NOT
     # stop at "power" here.  We DO stop at top-level operators and equals.
-    _STOP_INNER = r"(?=\s*(?:end fraction|$|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b))"
+    # Also stop at "which" (e.g. "denominator 3, which equals 9") so that "which"
+    # doesn't get captured inside the denominator.
+    _STOP_INNER = r"(?=\s*(?:end fraction|$|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b|\bwhich\b))"
 
     # _STOP: used for simpler "the fraction X over Y" where "power" at the end
     # signals this fraction is itself an exponent (e.g. "raised to the fraction
@@ -256,7 +261,8 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     # Also stop at "close parenthesis" / "right parenthesis" so that an expression
     # like "the fraction a over 4  close parenthesis  squared" does NOT swallow
     # the close-paren into the denominator.
-    _STOP = r"(?=\s*(?:end fraction|$|\band\b|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b|\bpower\b|\bend power\b|\bclose parenthesis\b|\bright parenthesis\b))"
+    # Also stop at "which" to prevent "denominator 5, which equals 81" → "5 which".
+    _STOP = r"(?=\s*(?:end fraction|$|\band\b|\bplus\b|\bminus\b|\btimes\b|\bequals\b|\bis\b|\bpower\b|\bend power\b|\bclose parenthesis\b|\bright parenthesis\b|\bwhich\b))"
 
     s = re.sub(
         r"\bthe fraction with numerator\s+(.+?)\s+and denominator\s+(.+?)" + _STOP_INNER,
@@ -314,6 +320,8 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     s = re.sub(r"\bright parenthesis\b", ")", s, flags=re.I)
     s = re.sub(r"\bopen parenthesis\b",  "(", s, flags=re.I)
     s = re.sub(r"\bclose parenthesis\b", ")", s, flags=re.I)
+    # Bare "parenthesis" at start of expression (alt text like "parenthesis, 2x + 3, ...")
+    s = re.sub(r"^parenthesis\b\s*", "(", s, flags=re.I)
 
     # ── powers / exponents ────────────────────────────────────────────────────
     s = re.sub(r"\bsquared\b",  "^{2}", s, flags=re.I)
@@ -498,7 +506,17 @@ def alt_text_to_latex(raw: str) -> str:  # noqa: C901  (complexity ok for a conv
     s = re.sub(r"\bsub(\w+)\b",             r"_{\1}", s)  # "subscript f" already gone
 
     # ── units / misc ──────────────────────────────────────────────────────────
-    # Leave unit words (miles, meters, etc.) as-is — they render fine in math mode
+    # "percent" → \%
+    s = re.sub(r"\bpercent\b", r"\\%", s, flags=re.I)
+    # "which is less/greater than (or equal to)" — chained inequality connector
+    s = re.sub(r"\bwhich\s+is\s+less\s+than\s+or\s+equal\s+to\b", r"\\leq ", s, flags=re.I)
+    s = re.sub(r"\bwhich\s+is\s+less\s+than\b",                    "<",       s, flags=re.I)
+    s = re.sub(r"\bwhich\s+is\s+greater\s+than\s+or\s+equal\s+to\b", r"\\geq ", s, flags=re.I)
+    s = re.sub(r"\bwhich\s+is\s+greater\s+than\b",                   ">",       s, flags=re.I)
+    s = re.sub(r"\bwhich\s+is\s+approximately\b",                    r"\\approx ", s, flags=re.I)
+    s = re.sub(r"\bwhich\s+is\s+equal\s+to\b",                      "=",       s, flags=re.I)
+    # Residual "which" connector (already-converted operator follows, e.g. "which < b", "which = 8")
+    s = re.sub(r"\bwhich\s+(?=[<>=\\])",  "", s)
     s = re.sub(r"\bwhich =\b", "=", s, flags=re.I)
 
     # ── clean whitespace ─────────────────────────────────────────────────────
@@ -800,6 +818,9 @@ def repatch_html(html: str) -> tuple[str, int]:
       1. Ordinal exponents stored as word-form (^{fif} → ^{5}, etc.)
       2. '^{of} \\frac{...}' → '^{\\frac{...}}' (to the power of the fraction bug)
       3. Single-letter function notation not converted (p of x → p(x))
+      4. 'percent' → '\\%' inside LaTeX spans
+      5. 'which <' / 'which \\leq' / 'which =' chained inequality connectors
+      6. 'which' swallowed into fraction denominators (e.g. '3 which}' → '3}')
     Returns (patched_html, number_of_changes).
     """
     if not html:
@@ -828,16 +849,37 @@ def repatch_html(html: str) -> tuple[str, int]:
     )
     html = bump(new, html)
 
-    # Fix 3: Single-letter function notation not converted inside \(...\) spans
-    # e.g. \(p of x = ...\) → \(p(x) = ...\)
-    def _fix_func(m: re.Match) -> str:
+    # Fix 3–6: Apply fixes inside \(...\) spans
+    def _fix_span(m: re.Match) -> str:
         inner = m.group(1)
-        fixed = re.sub(r'\b([a-zA-Z])\s+of\s+(-?\S+)', r'\1(\2)', inner)
-        if fixed != inner:
-            changes[0] += 1
-        return f'\\({fixed}\\)'
+        original = inner
 
-    html = re.sub(r'\\\((.+?)\\\)', _fix_func, html, flags=re.DOTALL)
+        # Fix 3: Single-letter function notation — p of x → p(x)
+        inner = re.sub(r'\b([a-zA-Z])\s+of\s+(-?\S+)', r'\1(\2)', inner)
+
+        # Fix 4: "percent" → "\%"
+        inner = re.sub(r'\bpercent\b', r'\\%', inner, flags=re.I)
+
+        # Fix 5: "which is less/greater than (or equal to)" chained inequalities
+        inner = re.sub(r'\bwhich\s+is\s+less\s+than\s+or\s+equal\s+to\b', r'\\leq ', inner, flags=re.I)
+        inner = re.sub(r'\bwhich\s+is\s+less\s+than\b',                    '<',        inner, flags=re.I)
+        inner = re.sub(r'\bwhich\s+is\s+greater\s+than\s+or\s+equal\s+to\b', r'\\geq ', inner, flags=re.I)
+        inner = re.sub(r'\bwhich\s+is\s+greater\s+than\b',                   '>',        inner, flags=re.I)
+        inner = re.sub(r'\bwhich\s+is\s+approximately\b',                    r'\\approx ', inner, flags=re.I)
+        inner = re.sub(r'\bwhich\s+is\s+equal\s+to\b',                      '=',        inner, flags=re.I)
+        # Residual "which" before already-converted operators
+        inner = re.sub(r'\bwhich\s+(?=[<>=\\])',  '', inner)
+        inner = re.sub(r'\bwhich\s*=\b', '=', inner, flags=re.I)
+
+        # Fix 6: "which" captured in fraction denominator — {3 which} → {3}
+        inner = re.sub(r'(\s+which)\s*\}', '}', inner)
+        inner = re.sub(r'(\s+which)\s*\)', ')', inner)
+
+        if inner != original:
+            changes[0] += 1
+        return f'\\({inner}\\)'
+
+    html = re.sub(r'\\\((.+?)\\\)', _fix_span, html, flags=re.DOTALL)
 
     return html, changes[0]
 
