@@ -137,7 +137,7 @@ def load_db_choices() -> list[tuple[str, Any]]:
 
 def audit_span(client: anthropic.Anthropic, span: str, model: str = MODEL_CHEAP) -> dict:
     """Ask Claude to validate/correct a single LaTeX span."""
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             resp = client.messages.create(
                 model=model,
@@ -159,8 +159,11 @@ def audit_span(client: anthropic.Anthropic, span: str, model: str = MODEL_CHEAP)
                     pass
             return {"ok": True}  # If we can't parse, assume ok
         except Exception as e:
-            if attempt < 2:
-                time.sleep(2 ** attempt)
+            wait = 2 ** attempt
+            if "429" in str(e) or "rate_limit" in str(e):
+                wait = max(wait, 30)  # rate limit: wait at least 30s
+            if attempt < 4:
+                time.sleep(wait)
             else:
                 print(f"  ERROR auditing span: {e}")
                 return {"ok": True}
@@ -193,8 +196,8 @@ def run_audit(dry_run: bool = False) -> None:
     span_list = list(all_spans)
     errors = 0
 
-    print(f"Auditing {len(span_list)} spans with {MODEL_CHEAP}...")
-    with ThreadPoolExecutor(max_workers=20) as executor:
+    print(f"Auditing {len(span_list)} spans with {MODEL_CHEAP} (5 workers, rate-limited)...")
+    with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {executor.submit(audit_span, client, span): span for span in span_list}
         done = 0
         for future in as_completed(futures):

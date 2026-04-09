@@ -1,0 +1,178 @@
+{
+  "( x + a ) \\times ( x - a )": {
+    "ok": false,
+    "fixed": "(x + a)(x - a)"
+  },
+  "5 s + 12 p = 250.": {
+    "ok": false,
+    "fixed": "5s + 12p = 250"
+  },
+  "1 + \\sqrt{3}, \\sqrt{3}": {
+    "ok": false,
+    "fixed": "(1 + \\sqrt{3}, \\sqrt{3})"
+  },
+  "0 , - 1": {
+    "ok": false,
+    "fixed": "(0, -1)"
+  },
+  "- 10 , - 8": {
+    "ok": false,
+    "fixed": "(-10, -8)"
+  },
+  "- 2 , - 1": {
+    "ok": false,
+    "fixed": "(-2, -1)"
+  },
+  "\\{-1\\} and 5": {
+    "ok": false,
+    "fixed": "\\{-1\\} \\text{ and } 5"
+  },
+  "( x + 5 ) \\times ( x - 1 )": {
+    "ok": false,
+    "fixed": "(x + 5)(x - 1)"
+  },
+  "- 20 , - 16": {
+    "ok": false,
+    "fixed": "(-20, -16)"
+  },
+  "\\sqrt{5}, -1 + \\sqrt{5}": {
+    "ok": false,
+    "fixed": "(\\sqrt{5}, -1 + \\sqrt{5})"
+  },
+  "( x - 1 ) \\times ( x + 2 )": {
+    "ok": false,
+    "fixed": "(x - 1)(x + 2)"
+  },
+  "\\frac{( 85 + 78 + 98 )}{4} \\geq 90 - 4 G": {
+    "ok": false,
+    "fixed": "\\frac{85 + 78 + 98}{4} \\geq 90 - 4G"
+  },
+  "( x + 1 ) \\times ( x - 2 )": {
+    "ok": false,
+    "fixed": "(x + 1)(x - 2)"
+  },
+  "the point (\\frac{3}{2}, 0)": {
+    "ok": false,
+    "fixed": "(\\frac{3}{2}, 0)"
+  },
+  "the point (12, 18)": {
+    "ok": false,
+    "fixed": "(12, 18)"
+  },
+  "\\text{the point } (-4, 0)": {
+    "ok": false,
+    "fixed": "(-4, 0)"
+  },
+  "20 , 16": {
+    "ok": false,
+    "fixed": "(20, 16)"
+  },
+  "2 , 3": {
+    "ok": false,
+    "fixed": "(2, 3)"
+  },
+  "3x + 4y \\leq 20 \\text": {
+    "ok": false,
+    "fixed": "3x + 4y \\leq 20"
+  },
+  "1 , 2": {
+    "ok": false,
+    "fixed": "(1, 2)"
+  },
+  "the point (1, 0)": {
+    "ok": false,
+    "fixed": "(1, 0)"
+  },
+  "6 , - 9": {
+    "ok": false,
+    "fixed": "(6, -9)"
+  },
+  "\\frac{x \\times ( x - 3 )}{x} + 1": {
+    "ok": false,
+    "fixed": "\\frac{x(x - 3)}{x} + 1"
+  },
+  "10 , 8": {
+    "ok": false,
+    "fixed": "(10, 8)"
+  },
+  "the point (3, 9)": {
+    "ok": false,
+    "fixed": "(3, 9)"
+  },
+  "the point (6, 15)": {
+    "ok": false,
+    "fixed": "(6, 15)"
+  },
+  "zero , zero": {
+    "ok": false,
+    "fixed": "(0, 0)"
+  },
+  "0 , 1": {
+    "ok": false,
+    "fixed": "(0, 1)"
+  },
+  "1 , 0": {
+    "ok": false,
+    "fixed": "(1, 0)"
+  },
+  "2 , 4": {
+    "ok": false,
+    "fixed": "(2, 4)"
+  },
+  "3 , 8": {
+    "ok": false,
+    "fixed": "(3, 8)"
+  },
+  "s + p = 250.": {
+    "ok": false,
+    "fixed": "s + p = 250"
+  },
+  "1 , 5": {
+    "ok": false,
+    "fixed": "(1, 5)"
+  },
+  "the point (- \\frac{2}{3}, 0)": {
+    "ok": false,
+    "fixed": "\\left(-\\frac{2}{3}, 0\\right)"
+  },
+  "2 , 7": {
+    "ok": false,
+    "fixed": "(2, 7)"
+  },
+  "s + p = 2 300.": {
+    "ok": false,
+    "fixed": "s + p = 2300"
+  },
+  "2 , - 1": {
+    "ok": false,
+    "fixed": "(2, -1)"
+  },
+  "-2, 4": {
+    "ok": false,
+    "fixed": "(-2, 4)"
+  },
+  "6 , - 1": {
+    "ok": false,
+    "fixed": "(6, -1)"
+  },
+  "\\sqrt{3 , -\\sqrt{3}}": {
+    "ok": false,
+    "fixed": "(\\sqrt{3}, -\\sqrt{3})"
+  },
+  "6 , - 5": {
+    "ok": false,
+    "fixed": "(6, -5)"
+  },
+  "the point (8, 10)": {
+    "ok": false,
+    "fixed": "(8, 10)"
+  },
+  "2 , - 5": {
+    "ok": false,
+    "fixed": "(2, -5)"
+  },
+  "3 , 2": {
+    "ok": false,
+    "fixed": "(3, 2)"
+  }
+}
