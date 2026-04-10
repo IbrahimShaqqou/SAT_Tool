@@ -158,6 +158,7 @@ class AssignmentQuestionItem(BaseModel):
     selected_answer: Optional[Dict[str, Any]] = None
     correct_answer: Optional[Dict[str, Any]] = None
     explanation_html: Optional[str] = None
+    explanation_available: bool = False
 
 
 class AssignmentQuestionsResponse(BaseModel):

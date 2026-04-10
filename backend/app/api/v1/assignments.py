@@ -1050,6 +1050,7 @@ def get_assignment_questions(
             selected_answer=response.response_json if response else None,
             correct_answer=q.correct_answer_json,
             explanation_html=explanation_html,
+            explanation_available=q.explanation is not None,
         ))
 
     return AssignmentQuestionsResponse(

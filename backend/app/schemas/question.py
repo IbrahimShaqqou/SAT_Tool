@@ -63,6 +63,7 @@ class QuestionDetail(BaseModel):
     choices: Optional[List[ChoiceOption]] = None
     correct_answer: Optional[dict] = None
     explanation_html: Optional[str] = None
+    explanation_available: bool = False
 
     model_config = {"from_attributes": True}
 
@@ -88,6 +89,7 @@ class QuestionDetail(BaseModel):
             choices=choices,
             correct_answer=question.correct_answer_json,
             explanation_html=question.explanation_html,
+            explanation_available=question.explanation is not None,
         )
 
 

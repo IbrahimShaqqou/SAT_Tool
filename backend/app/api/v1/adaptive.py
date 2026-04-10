@@ -851,6 +851,7 @@ def submit_adaptive_answer(
         is_correct=is_correct,
         correct_answer=question.correct_answer_json,
         explanation_html=question.explanation_html,
+        explanation_available=question.explanation is not None,
         ability_before=ability_before,
         ability_after=ability_after,
         ability_change=round(theta_after - theta_before, 3),

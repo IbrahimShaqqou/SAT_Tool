@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
 from app.models.question import Question
+from app.models.question_explanation import QuestionExplanation
 from app.models.enums import AnswerType, DifficultyLevel, SubjectArea
 from app.schemas.question import (
     QuestionBrief,
@@ -21,6 +22,7 @@ from app.schemas.question import (
     QuestionListResponse,
     QuestionRandomResponse,
 )
+from app.schemas.explanation import ExplanationResponse, StepByStepExplanation
 
 router = APIRouter()
 
@@ -149,3 +151,32 @@ def get_question(
         )
 
     return QuestionDetail.from_orm_with_choices(question)
+
+
+@router.get("/{question_id}/explanation", response_model=ExplanationResponse)
+def get_question_explanation(
+    question_id: UUID,
+    db: Session = Depends(get_db),
+) -> ExplanationResponse:
+    """
+    Get the step-by-step explanation for a question.
+
+    Returns 404 if no explanation has been generated yet.
+    """
+    expl = db.query(QuestionExplanation).filter(
+        QuestionExplanation.question_id == question_id,
+    ).first()
+
+    if not expl:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No explanation found for this question",
+        )
+
+    return ExplanationResponse(
+        question_id=expl.question_id,
+        explanation_type=expl.explanation_type,
+        data=StepByStepExplanation.model_validate(expl.steps_json),
+        model_used=expl.model_used,
+        is_approved=expl.is_approved,
+    )

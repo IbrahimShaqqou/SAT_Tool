@@ -1,0 +1,44 @@
+{
+  "c04ab16e-bdaf-4d80-bc91-c76920ba76d1": {
+    "type": "math",
+    "steps": [
+      {
+        "title": "Factor the numerator f(x)",
+        "content": "Start by factoring $f(x) = x^3 - 9x$.\n\nFactor out $x$ first:\n$$x^3 - 9x = x(x^2 - 9)$$\n\nThen factor the difference of squares:\n$$x^2 - 9 = (x-3)(x+3)$$\n\nSo: $f(x) = x(x-3)(x+3)$",
+        "highlights": null
+      },
+      {
+        "title": "Factor the denominator g(x)",
+        "content": "Now factor $g(x) = x^2 - 2x - 3$.\n\nFind two numbers that multiply to $-3$ and add to $-2$: those are $-3$ and $+1$.\n\n$$x^2 - 2x - 3 = (x-3)(x+1)$$",
+        "highlights": null
+      },
+      {
+        "title": "Form the ratio and cancel common factors",
+        "content": "Write the full fraction:\n$$\\frac{f(x)}{g(x)} = \\frac{x(x-3)(x+3)}{(x-3)(x+1)}$$\n\nSince $x > 3$, we know $x \\neq 3$, so $(x-3) \\neq 0$ and we can cancel it:\n$$= \\frac{x(x+3)}{x+1}$$",
+        "highlights": null
+      },
+      {
+        "title": "Match to the answer choices",
+        "content": "The simplified expression is:\n$$\\frac{x(x+3)}{x+1}$$\n\nThis matches answer choice **D**: $\\dfrac{x \\times (x+3)}{x+1}$.",
+        "highlights": null
+      }
+    ],
+    "key_insight": "The key is recognizing that $(x-3)$ is a factor in both the numerator and denominator, allowing cancellation only because $x > 3$ guarantees the factor is nonzero.",
+    "why_wrong": [
+      {
+        "label": "A",
+        "reason": "This would result from incorrectly canceling all factors of $x$, $(x-3)$, and $(x+3)$ except $\\frac{1}{x+1}$, which loses the $x(x+3)$ in the numerator."
+      },
+      {
+        "label": "B",
+        "reason": "This drops the factor of $x$ from the numerator entirely, keeping only $\\frac{x+3}{x+1}$ instead of $\\frac{x(x+3)}{x+1}$."
+      },
+      {
+        "label": "C",
+        "reason": "This expression incorrectly splits the fraction and adds 1 separately, which is not equivalent to the original ratio. The algebra used to arrive at this form is invalid."
+      }
+    ],
+    "_question_id": "c04ab16e-bdaf-4d80-bc91-c76920ba76d1",
+    "_type": "math"
+  }
+}

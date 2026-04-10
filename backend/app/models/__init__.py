@@ -64,6 +64,9 @@ from app.models.invite import Invite
 # Lessons
 from app.models.lesson import Lesson, LessonCompletion, LessonStatus
 
+# Explanations
+from app.models.question_explanation import QuestionExplanation
+
 
 __all__ = [
     # Enums
@@ -102,4 +105,5 @@ __all__ = [
     "Lesson",
     "LessonCompletion",
     "LessonStatus",
+    "QuestionExplanation",
 ]

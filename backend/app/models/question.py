@@ -21,6 +21,7 @@ from app.models.enums import AnswerType, DifficultyLevel, SubjectArea
 if TYPE_CHECKING:
     from app.models.taxonomy import Domain, Subdomain, Skill
     from app.models.response import StudentResponse
+    from app.models.question_explanation import QuestionExplanation
 
 
 class Question(Base, TimestampMixin, SoftDeleteMixin, VersionMixin):
@@ -262,6 +263,13 @@ class Question(Base, TimestampMixin, SoftDeleteMixin, VersionMixin):
         "QuestionVersion",
         back_populates="question",
         order_by="QuestionVersion.version_number.desc()"
+    )
+
+    # Step-by-step explanation (one per question)
+    explanation: Mapped[Optional["QuestionExplanation"]] = relationship(
+        "QuestionExplanation",
+        back_populates="question",
+        uselist=False,
     )
 
     # Self-referential many-to-many for related questions
