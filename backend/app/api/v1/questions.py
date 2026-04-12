@@ -9,7 +9,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.api.deps import get_db
 from app.models.question import Question
@@ -67,7 +67,7 @@ def list_questions(
     total = query.count()
 
     # Apply pagination and fetch
-    questions = query.order_by(Question.created_at.desc(), Question.id).offset(offset).limit(limit).all()
+    questions = query.options(selectinload(Question.explanation)).order_by(Question.created_at.desc(), Question.id).offset(offset).limit(limit).all()
 
     # Return full details or brief based on parameter
     if full:

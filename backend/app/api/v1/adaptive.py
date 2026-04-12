@@ -10,7 +10,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.api.deps import get_db, get_current_user, get_current_tutor, get_current_admin
 from app.models.user import User
@@ -701,7 +701,9 @@ def submit_adaptive_answer(
         )
 
     # Get current test question
-    test_question = db.query(TestQuestion).filter(
+    test_question = db.query(TestQuestion).options(
+        selectinload(TestQuestion.question).selectinload(Question.explanation)
+    ).filter(
         TestQuestion.test_session_id == session.id,
         TestQuestion.question_order == session.current_question_index + 1,
     ).first()

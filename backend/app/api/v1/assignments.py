@@ -10,7 +10,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.api.deps import get_db, get_current_user, get_current_tutor
 from app.models.user import User
@@ -981,8 +981,10 @@ def get_assignment_questions(
     """
     assignment = _get_assignment_or_404(assignment_id, db, current_user)
 
-    # Get assignment questions
-    aqs = db.query(AssignmentQuestion).filter(
+    # Get assignment questions (eagerly load question + explanation to avoid N+1)
+    aqs = db.query(AssignmentQuestion).options(
+        selectinload(AssignmentQuestion.question).selectinload(Question.explanation)
+    ).filter(
         AssignmentQuestion.assignment_id == assignment.id
     ).order_by(AssignmentQuestion.question_order).all()
 
