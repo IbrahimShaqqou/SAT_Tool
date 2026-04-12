@@ -19,6 +19,10 @@ export const questionService = {
   // Get random questions
   getRandomQuestions: (params = {}) =>
     api.get('/questions/random', { params }),
+
+  // Get step-by-step explanation for a question
+  getExplanation: (id) =>
+    api.get(`/questions/${id}/explanation`),
 };
 
 export default questionService;

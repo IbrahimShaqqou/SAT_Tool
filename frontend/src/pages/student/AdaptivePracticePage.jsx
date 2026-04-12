@@ -23,6 +23,7 @@ import {
 } from '../../components/ui';
 import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
+import { StepByStepExplanation } from '../../components/explanation';
 
 /**
  * Check if passage content is already contained in the prompt (to avoid duplicates)
@@ -711,8 +712,15 @@ const AdaptivePracticePage = () => {
                       </div>
                     )}
 
-                    {/* Explanation - shown inline like TestPage */}
-                    {lastResult.explanation_html ? (
+                    {/* Explanation - step-by-step if available, otherwise plain HTML */}
+                    {lastResult.explanation_available ? (
+                      <StepByStepExplanation
+                        questionId={String(currentQuestion.id)}
+                        passageHtml={currentQuestion.passage_html || null}
+                        promptHtml={currentQuestion.prompt_html || ''}
+                        choices={currentQuestion.choices || []}
+                      />
+                    ) : lastResult.explanation_html ? (
                       <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
                         <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
                         <div

@@ -18,6 +18,7 @@ import {
 } from '../../components/test';
 import { useTimer } from '../../hooks';
 import { assignmentService } from '../../services';
+import { StepByStepExplanation } from '../../components/explanation';
 
 const TestPage = () => {
   const { id } = useParams();
@@ -604,16 +605,20 @@ const TestPage = () => {
                   Check Answer
                 </Button>
               )}
-              {currentChecked && currentQuestion?.explanation_html && (
+              {currentChecked && (currentQuestion?.explanation_html || currentQuestion?.explanation_available) && (
                 <Button
                   variant="secondary"
                   onClick={() => setShowExplanation(!showExplanation)}
                   className="text-sm"
                 >
-                  {showExplanation ? 'Hide Explanation' : 'Show Explanation'}
+                  {showExplanation
+                    ? 'Hide Explanation'
+                    : currentQuestion?.explanation_available
+                      ? 'Show Step-by-Step'
+                      : 'Show Explanation'}
                 </Button>
               )}
-              {currentChecked && !currentQuestion?.explanation_html && (
+              {currentChecked && !currentQuestion?.explanation_html && !currentQuestion?.explanation_available && (
                 <span className="text-sm text-gray-400 dark:text-gray-500 italic">
                   No explanation available for this question
                 </span>
@@ -628,8 +633,16 @@ const TestPage = () => {
             </div>
           )}
 
-          {/* Explanation display - auto-shown in adaptive mode after checking */}
-          {showExplanation && currentQuestion?.explanation_html && (
+          {/* Explanation display - step-by-step if available, otherwise plain HTML */}
+          {showExplanation && currentQuestion?.explanation_available && (
+            <StepByStepExplanation
+              questionId={String(currentQuestion.question_id)}
+              passageHtml={currentQuestion.passage_html || null}
+              promptHtml={currentQuestion.prompt_html || ''}
+              choices={currentQuestion.choices || []}
+            />
+          )}
+          {showExplanation && !currentQuestion?.explanation_available && currentQuestion?.explanation_html && (
             <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
               <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
               <div

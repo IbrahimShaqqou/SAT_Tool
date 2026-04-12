@@ -7,6 +7,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, Button, ProgressBar, LoadingSpinner } from '../../components/ui';
 import { assignmentService } from '../../services';
+import { StepByStepExplanation } from '../../components/explanation';
 
 // Helper to format answer for display
 const formatAnswer = (answer, choices, answerType) => {
@@ -154,7 +155,7 @@ const QuestionResult = ({ question, index }) => {
         )}
 
         {/* Explanation toggle */}
-        {question.explanation_html && (
+        {(question.explanation_html || question.explanation_available) && (
           <div className="mt-4 border-t dark:border-gray-700 pt-3">
             <button
               onClick={() => setShowExplanation(!showExplanation)}
@@ -168,12 +169,20 @@ const QuestionResult = ({ question, index }) => {
               ) : (
                 <>
                   <ChevronDown className="h-4 w-4" />
-                  Show Explanation
+                  {question.explanation_available ? 'Show Step-by-Step' : 'Show Explanation'}
                 </>
               )}
             </button>
 
-            {showExplanation && (
+            {showExplanation && question.explanation_available && (
+              <StepByStepExplanation
+                questionId={String(question.question_id)}
+                passageHtml={question.passage_html || null}
+                promptHtml={question.prompt_html || ''}
+                choices={question.choices || []}
+              />
+            )}
+            {showExplanation && !question.explanation_available && question.explanation_html && (
               <div
                 className="mt-3 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg prose prose-sm prose-blue dark:prose-invert max-w-none question-content"
                 dangerouslySetInnerHTML={{ __html: question.explanation_html }}

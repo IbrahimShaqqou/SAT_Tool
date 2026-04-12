@@ -24,6 +24,7 @@ import {
   DrawingCanvas,
 } from '../../components/test';
 import { questionService, taxonomyService } from '../../services';
+import { StepByStepExplanation } from '../../components/explanation';
 
 // Subject icons (lowercase to match API response)
 const subjectIcons = {
@@ -153,8 +154,10 @@ const QuestionBankPage = () => {
         passage_html: q.passage_html,
         answer_type: q.answer_type || 'MCQ',
         choices_json: q.choices ? q.choices.map(c => c.content) : [],
+        choices: q.choices || [],
         correct_answer: q.correct_answer,
         explanation_html: q.explanation_html,
+        explanation_available: q.explanation_available || false,
         difficulty: q.difficulty,
         subject_area: q.subject_area || domain.subject_area,
       }));
@@ -440,16 +443,20 @@ const QuestionBankPage = () => {
                   Check Answer
                 </Button>
               )}
-              {currentChecked && currentQuestion.explanation_html && (
+              {currentChecked && (currentQuestion.explanation_html || currentQuestion.explanation_available) && (
                 <Button
                   variant="secondary"
                   onClick={() => setShowExplanation(!showExplanation)}
                   className="text-sm"
                 >
-                  {showExplanation ? 'Hide Explanation' : 'Show Explanation'}
+                  {showExplanation
+                    ? 'Hide Explanation'
+                    : currentQuestion.explanation_available
+                      ? 'Show Step-by-Step'
+                      : 'Show Explanation'}
                 </Button>
               )}
-              {currentChecked && !currentQuestion.explanation_html && (
+              {currentChecked && !currentQuestion.explanation_html && !currentQuestion.explanation_available && (
                 <span className="text-sm text-gray-400 dark:text-gray-500 italic">
                   No explanation available for this question
                 </span>
@@ -464,7 +471,15 @@ const QuestionBankPage = () => {
             </div>
 
             {/* Explanation display */}
-            {showExplanation && currentQuestion.explanation_html && (
+            {showExplanation && currentQuestion.explanation_available && (
+              <StepByStepExplanation
+                questionId={String(currentQuestion.id)}
+                passageHtml={currentQuestion.passage_html || null}
+                promptHtml={currentQuestion.prompt_html || ''}
+                choices={currentQuestion.choices || []}
+              />
+            )}
+            {showExplanation && !currentQuestion.explanation_available && currentQuestion.explanation_html && (
               <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
                 <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
                 <div

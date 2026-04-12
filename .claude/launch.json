@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "cwd": "frontend",
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "Backend",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd /Users/ibrahim/Desktop/SAT/SAT_Tool/backend && python3 -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --loop asyncio"],
+      "port": 8000,
+      "autoPort": true
+    },
+    {
+      "name": "Full Stack (Docker)",
+      "runtimeExecutable": "make",
+      "runtimeArgs": ["up"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

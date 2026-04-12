@@ -563,3 +563,19 @@ button svg ~ *:not(p):not(div):not(span):not(figure):not(math):not(mjx-container
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
+
+/* ─────────────────────────────────────────────────
+   Step-by-Step Explanation Highlights
+   ───────────────────────────────────────────────── */
+mark.highlight-yellow { background: #fef08a; color: inherit; padding: 1px 3px; border-radius: 2px; }
+mark.highlight-blue   { background: #bfdbfe; color: inherit; padding: 1px 3px; border-radius: 2px; }
+mark.highlight-green  { background: #bbf7d0; color: inherit; padding: 1px 3px; border-radius: 2px; }
+mark.highlight-red    { background: #fecaca; color: inherit; padding: 1px 3px; border-radius: 2px; }
+
+.dark mark.highlight-yellow { background: #78350f; color: #fef9c3; }
+.dark mark.highlight-blue   { background: #1e3a8a; color: #dbeafe; }
+.dark mark.highlight-green  { background: #14532d; color: #dcfce7; }
+.dark mark.highlight-red    { background: #7f1d1d; color: #fee2e2; }
+
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
