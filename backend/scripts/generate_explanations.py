@@ -2,7 +2,7 @@
 """
 generate_explanations.py
 ------------------------
-Generates step-by-step explanations for SAT questions using Claude API.
+Generates step-by-step explanations for SAT questions using Gemini 2.5 Flash.
 
 Supports three question types:
   - math       : Steps with optional Desmos graph (uses x/y variables only)
@@ -11,13 +11,10 @@ Supports three question types:
 
 Usage:
     cd backend/
-    python -m scripts.generate_explanations --type math --limit 3
-    python -m scripts.generate_explanations --type reading --limit 3
-    python -m scripts.generate_explanations --type grammar --limit 3
-    python -m scripts.generate_explanations --type math --limit 3 --apply
-    python -m scripts.generate_explanations --type math --apply          # All math
-    python -m scripts.generate_explanations --apply                      # All types
-    python -m scripts.generate_explanations --force --apply              # Regenerate all
+    GEMINI_API_KEY=... python -m scripts.generate_explanations --type math --limit 3
+    GEMINI_API_KEY=... python -m scripts.generate_explanations --type math --apply
+    GEMINI_API_KEY=... python -m scripts.generate_explanations --apply
+    GEMINI_API_KEY=... python -m scripts.generate_explanations --force --apply
 """
 
 from __future__ import annotations
@@ -32,13 +29,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Optional
 
-import anthropic
+from google import genai
+from google.genai import types as gtypes
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 PREVIEW_FILE = DATA_DIR / "explanations_preview.json"
 PROGRESS_FILE = DATA_DIR / "explanation_progress.json"
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "gemini-2.5-flash"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Claude System Prompts
@@ -50,11 +48,24 @@ Rules:
 1. Return ONLY valid JSON — no markdown fences, no extra text.
 2. 3–5 steps. Titles are short active-voice phrases. Build toward the answer — don't reveal it in step 1.
 3. Content uses markdown with inline $LaTeX$ or display $$LaTeX$$. No \\( \\) delimiters.
-4. desmos: Include on at most ONE step when a graph genuinely aids understanding (systems of equations, graphing functions, finding intersections/roots/vertices, visualizing regions). Rules:
-   - Use ONLY x and y variables — remap all other variables: first non-x/y variable → x, second → y.
-   - Set bounds so the key feature (intersection, vertex, root) is centered with padding.
-   - Write a concrete hint prompting the student to interact (e.g. "Click the intersection point to find the solution coordinates.", "Look at where the parabola crosses the x-axis to find the roots.").
-   - Omit desmos for pure algebra, arithmetic, percentages, probability, statistics, or data analysis.
+4. desmos: STRONGLY ENCOURAGED whenever a visual would help — err on the side of including it. Use it for:
+   - Any graph of a function (linear, quadratic, exponential, trig, absolute value, piecewise)
+   - Systems of equations (show the intersection point)
+   - Inequalities (shade the feasible region using y < ... or y > ...)
+   - Scatter plots with a line/curve of best fit (use a table + regression)
+   - Geometry: circles (x^2 + y^2 = r^2), triangles, angles — plot the key points
+   - Any problem where plotting the answer choices helps compare them visually
+   - Data/statistics: if a table of values is given, plot them in Desmos using a table
+
+   Desmos table syntax (for scatter plots and data): use "table" as a special equation string:
+   {"equations": ["table:x1,y1;x2,y2;x3,y3", "y = 2*x + 1"], ...}
+   Example scatter plot with regression line: ["table:1,3;2,5;3,8;4,10", "y = 2.3*x + 0.5"]
+
+   Other rules:
+   - Use ONLY x and y variables in equations — remap all other variables: first variable → x, second → y.
+   - Set bounds so the key feature (intersection, vertex, root, data range) is clearly visible with padding.
+   - Write a concrete, interactive hint (e.g. "Drag the point on the line to see how slope changes.", "Click the intersection to read the solution.", "Notice where the parabola crosses the x-axis.").
+   - Only skip desmos for pure arithmetic, unit conversions, or probability questions with no graph.
 5. key_insight: one sentence naming the core concept or the most common student mistake.
 6. why_wrong: explain the error logic for each wrong choice label. Omit the correct answer label. Use empty [] for SPR questions.
 
@@ -111,20 +122,20 @@ JSON schema:
   ]
 }"""
 
-GRAMMAR_SYSTEM = """You are an expert SAT Standard English Conventions (grammar) tutor generating a step-by-step explanation JSON.
+GRAMMAR_SYSTEM = """You are an SAT grammar tutor generating a step-by-step explanation JSON. Write like a helpful teacher, not a textbook — keep the language simple and direct. Avoid grammatical jargon unless it's truly necessary. Students should feel like they're getting a clear, practical tip, not a lecture.
 
 Rules:
 1. Return ONLY valid JSON — no markdown fences, no extra text.
-2. 3–4 steps. Typical flow: (1) Identify the grammatical structure being tested, (2) Name and apply the exact grammar rule, (3) Eliminate wrong choices by naming the error in each.
-3. Always name the specific grammar rule: subject-verb agreement, comma splice, dangling modifier, parallel structure, pronoun-antecedent agreement, apostrophe use, semicolon/colon use, etc.
+2. 3–4 steps. Practical flow: (1) Find the blank and look at what comes before and after it, (2) Check whether what's on each side is a complete thought or not, (3) Use that to pick the right punctuation or word.
+3. For punctuation questions: tell students to literally read what's before and after the punctuation mark. Ask: is it a complete sentence on its own? That tells you whether you need a period, semicolon, comma, or nothing. Use plain terms like "complete thought" instead of "independent clause."
 4. Content is markdown prose. No LaTeX, no desmos.
 5. highlights: Mark EXACT verbatim substrings. The "text" field MUST appear word-for-word in the location you specify. Color semantics:
-   - red = grammatical error or wrong form in the passage
+   - red = the part of the sentence that signals a problem
    - green = correct form (in the correct answer choice)
-   - yellow = rule-triggering word or phrase (e.g. the subject, the connecting word)
-   - blue = structural signal (e.g. list marker, parallel element)
-6. key_insight: name the exact grammar rule being tested (e.g. "Pronoun-antecedent agreement: a pronoun must match its antecedent in number.").
-7. why_wrong: state the specific grammar error in each wrong choice label.
+   - yellow = the key phrase to focus on
+   - blue = structural signal (e.g. a list, a connecting word)
+6. key_insight: one plain-English tip a student can actually remember and use next time (e.g. "If both sides of the punctuation are complete thoughts, you can use a period or semicolon — but not just a comma.").
+7. why_wrong: explain in plain English why each wrong choice doesn't work — focus on what it does to the sentence, not what rule it violates.
 
 JSON schema:
 {
@@ -132,16 +143,16 @@ JSON schema:
   "steps": [
     {
       "title": "Short active-voice title",
-      "content": "Markdown prose naming the grammar rule.",
+      "content": "Plain-English prose. Check what comes before and after.",
       "highlights": [
-        {"text": "exact verbatim error text", "color": "red", "location": "passage"},
+        {"text": "exact verbatim text", "color": "red", "location": "passage"},
         {"text": "correct form", "color": "green", "location": "choice_a"}
       ]
     }
   ],
-  "key_insight": "One sentence naming the grammar rule.",
+  "key_insight": "One plain-English tip the student can use next time.",
   "why_wrong": [
-    {"label": "B", "reason": "Creates a comma splice."}
+    {"label": "B", "reason": "Plain-English explanation of why this doesn't work."}
   ]
 }"""
 
@@ -165,10 +176,13 @@ def get_question_type(question) -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def strip_html(html: str) -> str:
-    """Very simple HTML stripper — removes tags, decodes basic entities."""
+    """Very simple HTML stripper — removes tags, decodes basic entities.
+    Preserves <img alt="..."> text so image-choice questions aren't blank."""
     if not html:
         return ""
-    text = re.sub(r'<[^>]+>', ' ', html)
+    # Replace <img ...alt="DESC"...> with the alt text before stripping
+    text = re.sub(r'<img[^>]*\balt=["\']([^"\']*)["\'][^>]*>', r'\1', html, flags=re.IGNORECASE)
+    text = re.sub(r'<[^>]+>', ' ', text)
     text = text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>') \
                .replace('&nbsp;', ' ').replace('&#39;', "'").replace('&quot;', '"')
     return re.sub(r'\s+', ' ', text).strip()
@@ -300,27 +314,95 @@ SYSTEM_PROMPTS = {
 }
 
 
-def generate_explanation(client: anthropic.Anthropic, question, qtype: str) -> dict | None:
-    """Call Claude to generate a step-by-step explanation. Returns parsed dict or None."""
+def _repair_json_latex(raw: str) -> str:
+    """
+    Fix unescaped LaTeX backslashes inside JSON string values.
+    Gemini sometimes outputs \\frac, \\left etc. as single backslashes
+    which are invalid JSON. Walks char-by-char to only fix inside strings.
+    """
+    out = []
+    i = 0
+    in_string = False
+
+    while i < len(raw):
+        c = raw[i]
+        if not in_string:
+            out.append(c)
+            if c == '"':
+                in_string = True
+            i += 1
+        else:
+            if c == '"':
+                # Unescaped quote → end of string
+                out.append(c)
+                in_string = False
+                i += 1
+            elif c == '\\':
+                if i + 1 >= len(raw):
+                    out.append('\\\\')
+                    i += 1
+                    continue
+                nc = raw[i + 1]
+                if nc in ('"', '\\', '/', 'n', 'r', 't'):
+                    # Unambiguously valid JSON escapes
+                    out.append(c); out.append(nc)
+                    i += 2
+                elif nc == 'u' and i + 5 < len(raw) and all(
+                        x in '0123456789abcdefABCDEF' for x in raw[i+2:i+6]):
+                    # \uXXXX unicode escape
+                    out.append(raw[i:i+6])
+                    i += 6
+                elif nc == 'f' and i + 2 < len(raw) and raw[i + 2].isalpha():
+                    # \frac, \forall etc. — LaTeX, not JSON \f (formfeed)
+                    out.append('\\\\')
+                    i += 1
+                elif nc in ('b', 'f'):
+                    # \b (backspace) or \f (formfeed) — valid JSON, keep
+                    out.append(c); out.append(nc)
+                    i += 2
+                else:
+                    # Any other \X → LaTeX command, escape it
+                    out.append('\\\\')
+                    i += 1
+            else:
+                out.append(c)
+                i += 1
+
+    return ''.join(out)
+
+
+def generate_explanation(client: genai.Client, question, qtype: str) -> dict | None:
+    """Call Gemini 2.5 Flash to generate a step-by-step explanation. Returns parsed dict or None."""
     system = SYSTEM_PROMPTS[qtype]
     user_msg = build_user_message(question, qtype)
 
     for attempt in range(5):
         try:
-            resp = client.messages.create(
+            resp = client.models.generate_content(
                 model=MODEL,
-                max_tokens=2048,
-                system=system,
-                messages=[{"role": "user", "content": user_msg}],
+                contents=user_msg,
+                config=gtypes.GenerateContentConfig(
+                    system_instruction=system,
+                    response_mime_type="application/json",
+                    max_output_tokens=8192,
+                    temperature=0.4,
+                    thinking_config=gtypes.ThinkingConfig(thinking_budget=0),
+                ),
             )
-            raw = resp.content[0].text.strip()
+            raw = resp.text.strip() if resp.text else ""
+            if not raw:
+                raise Exception("Empty response from API")
 
-            # Strip markdown fences if Claude added them
+            # Strip markdown fences if model added them anyway
             if raw.startswith("```"):
                 raw = re.sub(r'^```[a-z]*\n?', '', raw)
                 raw = re.sub(r'\n?```$', '', raw)
 
-            data = json.loads(raw)
+            # Try parsing; if it fails, repair LaTeX backslashes and retry
+            try:
+                data = json.loads(raw)
+            except json.JSONDecodeError:
+                data = json.loads(_repair_json_latex(raw))
 
             # Post-process
             if "steps" in data:
@@ -344,8 +426,9 @@ def generate_explanation(client: anthropic.Anthropic, question, qtype: str) -> d
                 print(f"  JSON parse error for {question.id}: {e}")
                 return None
         except Exception as e:
+            err = str(e)
             wait = 2 ** attempt
-            if "429" in str(e) or "rate_limit" in str(e) or "overloaded" in str(e).lower():
+            if "429" in err or "quota" in err.lower() or "rate" in err.lower() or "resource_exhausted" in err.lower():
                 wait = max(wait, 30)
             if attempt < 4:
                 time.sleep(wait)
@@ -391,6 +474,9 @@ def load_db(qtype: Optional[str], skill_code: Optional[str], limit: Optional[int
             query = query.join(Skill, Question.skill_id == Skill.id).filter(
                 Skill.code == skill_code
             )
+
+        # Match Question Bank ordering: newest first, then by id for determinism
+        query = query.order_by(Question.created_at.desc(), Question.id)
 
         if not force:
             # Skip questions that already have explanations
@@ -440,7 +526,10 @@ def upsert_explanation(db, question_id, qtype: str, data: dict) -> None:
 
 def run(qtype: Optional[str], skill_code: Optional[str], limit: Optional[int],
         apply: bool, force: bool) -> None:
-    client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+    client = genai.Client(
+        api_key=os.environ.get("GEMINI_API_KEY"),
+        http_options=gtypes.HttpOptions(timeout=90_000),  # 90 seconds in ms
+    )
 
     print(f"Loading questions (type={qtype or 'all'}, skill={skill_code}, limit={limit}, force={force})...")
     questions = load_db(qtype, skill_code, limit, force)
@@ -488,8 +577,32 @@ def run(qtype: Optional[str], skill_code: Optional[str], limit: Optional[int],
             data["_type"] = actual_qt
         return qid, data, True
 
+    # Gemini 2.5 Flash paid tier: 15 RPM.
+    # 5 workers with 4s gap = 15 RPM max, always a worker ready.
+    import threading
+    _submit_lock = threading.Lock()
+    _last_submit = [0.0]
+    _MIN_GAP = 4.0  # seconds between consecutive request starts
+
+    def throttled_process(q):
+        with _submit_lock:
+            now = time.time()
+            gap = _MIN_GAP - (now - _last_submit[0])
+            if gap > 0:
+                time.sleep(gap)
+            _last_submit[0] = time.time()
+        return process_one(q)
+
+    # For incremental DB saves, set up DB session if apply mode
+    db_session = None
+    db_saved = 0
+    if apply:
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+        from app.database import SessionLocal
+        db_session = SessionLocal()
+
     with ThreadPoolExecutor(max_workers=5) as executor:
-        futures = {executor.submit(process_one, q): q for q in questions}
+        futures = {executor.submit(throttled_process, q): q for q in questions}
         done = 0
         for future in as_completed(futures):
             done += 1
@@ -501,6 +614,20 @@ def run(qtype: Optional[str], skill_code: Optional[str], limit: Optional[int],
                         progress[qid] = data
                         if done % 10 == 0:
                             PROGRESS_FILE.write_text(json.dumps(progress, indent=2, ensure_ascii=False))
+                        # Incremental DB save every 50 questions
+                        if apply and db_session and done % 50 == 0:
+                            try:
+                                import uuid as _uuid
+                                for save_qid, save_data in list(results.items())[db_saved:]:
+                                    actual_qt = save_data.get("_type") or qtype or "math"
+                                    store_data = {k: v for k, v in save_data.items() if not k.startswith("_")}
+                                    upsert_explanation(db_session, _uuid.UUID(save_qid), actual_qt, store_data)
+                                db_session.commit()
+                                db_saved = len(results)
+                                print(f"  [DB] Incremental save: {db_saved} total saved")
+                            except Exception as db_err:
+                                db_session.rollback()
+                                print(f"  [DB] Incremental save error: {db_err}")
                 else:
                     errors += 1
                 if done % 20 == 0 or done <= 5:
@@ -518,27 +645,23 @@ def run(qtype: Optional[str], skill_code: Optional[str], limit: Optional[int],
     PREVIEW_FILE.write_text(json.dumps(results, indent=2, ensure_ascii=False))
     print(f"Preview saved to {PREVIEW_FILE}")
 
-    if apply:
-        sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-        from app.database import SessionLocal
-        db = SessionLocal()
+    if apply and db_session:
         try:
+            import uuid as _uuid2
             saved = 0
             for qid, data in results.items():
-                import uuid
                 actual_qt = data.get("_type") or qtype or "math"
-                # Remove internal keys before storing
                 store_data = {k: v for k, v in data.items() if not k.startswith("_")}
-                upsert_explanation(db, uuid.UUID(qid), actual_qt, store_data)
+                upsert_explanation(db_session, _uuid2.UUID(qid), actual_qt, store_data)
                 saved += 1
-            db.commit()
-            print(f"Saved {saved} explanations to DB")
+            db_session.commit()
+            print(f"Saved {saved} explanations to DB (final)")
         except Exception as e:
-            db.rollback()
+            db_session.rollback()
             print(f"DB error: {e}")
             raise
         finally:
-            db.close()
+            db_session.close()
     else:
         print("\nDry run — use --apply to save to DB")
         print("Sample output:")

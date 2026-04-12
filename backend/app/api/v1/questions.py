@@ -67,7 +67,7 @@ def list_questions(
     total = query.count()
 
     # Apply pagination and fetch
-    questions = query.order_by(Question.created_at.desc()).offset(offset).limit(limit).all()
+    questions = query.order_by(Question.created_at.desc(), Question.id).offset(offset).limit(limit).all()
 
     # Return full details or brief based on parameter
     if full:
