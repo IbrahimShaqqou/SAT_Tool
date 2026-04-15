@@ -2,16 +2,17 @@
  * DrawingCanvas
  * Transparent canvas overlay for freehand annotation on top of question content.
  * - Stores strokes per question ID so drawings persist when navigating questions.
- * - Stroke points are stored in document-space Y coords so drawings stay fixed
- *   relative to content when the page (or a scroll container) is scrolled.
+ * - Stroke points are stored in "world space": X is content-relative (independent
+ *   of the calculator panel), Y is document-space (scrollY-relative).
+ * - When the calculator opens/closes the mx-auto content shifts ±220px. An animated
+ *   xOffsetRef tracks this and is added at render time so strokes follow the text.
  * - pointer-events: none when inactive so the page remains fully interactive.
- * - Self-contained: manages its own color/eraser/undo state and floating toolbar.
  *
  * Props:
- *   isActive   - boolean, enables drawing
- *   questionId - string|number, key for per-question stroke storage
- *   scrollRef  - optional React ref to a scrollable container element.
- *                When omitted, falls back to window.scrollY.
+ *   isActive        - boolean, enables drawing
+ *   questionId      - string|number, key for per-question stroke storage
+ *   scrollRef       - optional React ref to a scrollable container element
+ *   showCalculator  - boolean, whether the 440px calculator panel is open
  */
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Eraser, Trash2, Undo2 } from 'lucide-react';
@@ -25,13 +26,13 @@ const COLORS = [
 ];
 
 const PEN_SIZE = 3;
-const ERASER_SIZES = [12, 22, 36]; // small / medium / large
+const ERASER_SIZES = [12, 22, 36];
 
 // ── Drawing helpers ────────────────────────────────────────────────────────
-// Points are stored in document-space Y coords.
-// scrollY must be subtracted when drawing to canvas (viewport) coords.
+// xOffset: render-time horizontal shift to align strokes with shifted content.
+// scrollY: subtract from stored document-space Y to get canvas Y.
 
-const applyStroke = (ctx, stroke, scrollY = 0) => {
+const applyStroke = (ctx, stroke, scrollY = 0, xOffset = 0) => {
   const { points, color, size, eraser } = stroke;
   if (!points.length) return;
 
@@ -43,44 +44,45 @@ const applyStroke = (ctx, stroke, scrollY = 0) => {
   ctx.lineJoin = 'round';
 
   if (points.length === 1) {
-    // Single tap → filled dot
     ctx.beginPath();
-    ctx.arc(points[0].x, points[0].y - scrollY, size / 2, 0, Math.PI * 2);
+    ctx.arc(points[0].x + xOffset, points[0].y - scrollY, size / 2, 0, Math.PI * 2);
     ctx.fillStyle = eraser ? 'rgba(0,0,0,1)' : color;
     ctx.fill();
   } else {
     ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y - scrollY);
+    ctx.moveTo(points[0].x + xOffset, points[0].y - scrollY);
     for (let i = 1; i < points.length; i++) {
-      ctx.lineTo(points[i].x, points[i].y - scrollY);
+      ctx.lineTo(points[i].x + xOffset, points[i].y - scrollY);
     }
     ctx.stroke();
   }
   ctx.restore();
 };
 
-const redrawAll = (ctx, canvas, strokes, scrollY = 0) => {
+const redrawAll = (ctx, canvas, strokes, scrollY = 0, xOffset = 0) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (const stroke of strokes) {
-    applyStroke(ctx, stroke, scrollY);
+    applyStroke(ctx, stroke, scrollY, xOffset);
   }
 };
 
 // ── Component ──────────────────────────────────────────────────────────────
 
-const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
+const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false }) => {
   const canvasRef = useRef(null);
   const isPointerDown = useRef(false);
   const currentStroke = useRef(null);
-  // Map<questionId, stroke[]>
   const strokesMap = useRef(new Map());
 
-  // Internal tool state
+  // Render-time X offset (animated). Strokes are in world space; offset converts to canvas pixels.
+  // When calculator is fully open: xOffsetRef.current = -220. Closed: 0.
+  const xOffsetRef = useRef(0);
+  const animFrameRef = useRef(null);
+
   const [penColor, setPenColor] = useState(COLORS[0].value);
   const [isEraser, setIsEraser] = useState(false);
-  const [eraserSizeIdx, setEraserSizeIdx] = useState(1); // index into ERASER_SIZES
+  const [eraserSizeIdx, setEraserSizeIdx] = useState(1);
 
-  // Expose refs for use in event handlers without stale closures
   const penColorRef = useRef(penColor);
   const isEraserRef = useRef(isEraser);
   const eraserSizeIdxRef = useRef(eraserSizeIdx);
@@ -92,12 +94,61 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
   useEffect(() => { questionIdRef.current = questionId; }, [questionId]);
 
   // ── Scroll offset helper ─────────────────────────────────────────────────
-  // Reads the current scroll offset from the provided container or window.
-  // Called at draw time — no need to be reactive.
+
   const getScrollY = useCallback(() => {
     if (scrollRef?.current) return scrollRef.current.scrollTop;
     return window.scrollY;
   }, [scrollRef]);
+
+  // ── Calculator offset animation ──────────────────────────────────────────
+  // When the calculator opens/closes, animate xOffsetRef from current → target
+  // over 300ms (matching the CSS transition-all duration-300 on the content div).
+  // Strokes are in world space so they don't need data mutation — only the render
+  // offset changes.
+
+  const prevShowCalculator = useRef(showCalculator);
+
+  useEffect(() => {
+    if (prevShowCalculator.current === showCalculator) return;
+    prevShowCalculator.current = showCalculator;
+
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+
+    const targetX = showCalculator ? -220 : 0;
+    const startX = xOffsetRef.current;
+    const duration = 300;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      // ease-in-out to match CSS ease
+      const eased = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+      xOffsetRef.current = startX + (targetX - startX) * eased;
+
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const strokes = strokesMap.current.get(questionIdRef.current) || [];
+        redrawAll(ctx, canvas, strokes, getScrollY(), xOffsetRef.current);
+      }
+
+      if (t < 1) {
+        animFrameRef.current = requestAnimationFrame(animate);
+      } else {
+        xOffsetRef.current = targetX;
+        animFrameRef.current = null;
+      }
+    };
+
+    animFrameRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
+    };
+  }, [showCalculator, getScrollY]);
 
   // ── Canvas sizing ────────────────────────────────────────────────────────
 
@@ -110,7 +161,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
     canvas.height = rect.height;
     const ctx = canvas.getContext('2d');
     const strokes = strokesMap.current.get(questionIdRef.current) || [];
-    redrawAll(ctx, canvas, strokes, getScrollY());
+    redrawAll(ctx, canvas, strokes, getScrollY(), xOffsetRef.current);
   }, [getScrollY]);
 
   useEffect(() => {
@@ -127,7 +178,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const strokes = strokesMap.current.get(questionId) || [];
-    redrawAll(ctx, canvas, strokes, getScrollY());
+    redrawAll(ctx, canvas, strokes, getScrollY(), xOffsetRef.current);
   }, [questionId, getScrollY]);
 
   // ── Redraw on scroll ─────────────────────────────────────────────────────
@@ -139,20 +190,21 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       const strokes = strokesMap.current.get(questionIdRef.current) || [];
-      redrawAll(ctx, canvas, strokes, scrollRef?.current?.scrollTop ?? window.scrollY);
+      redrawAll(ctx, canvas, strokes, scrollRef?.current?.scrollTop ?? window.scrollY, xOffsetRef.current);
     };
     el.addEventListener('scroll', onScroll, { passive: true });
     return () => el.removeEventListener('scroll', onScroll);
   }, [scrollRef]);
 
   // ── Pointer events ───────────────────────────────────────────────────────
+  // getPos returns world-space coords: X = viewport X minus current render offset.
+  // This means strokes are content-relative and don't shift when offset changes.
 
-  // Returns point in document-space Y coords (viewport Y + scrollY).
   const getPos = useCallback((e) => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
     return {
-      x: e.clientX - rect.left,
+      x: e.clientX - rect.left - xOffsetRef.current,
       y: e.clientY - rect.top + getScrollY(),
     };
   }, [getScrollY]);
@@ -172,7 +224,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
     };
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    applyStroke(ctx, currentStroke.current, getScrollY());
+    applyStroke(ctx, currentStroke.current, getScrollY(), xOffsetRef.current);
   }, [isActive, getPos, getScrollY]);
 
   const handlePointerMove = useCallback((e) => {
@@ -182,11 +234,10 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
     const stroke = currentStroke.current;
     stroke.points.push(pos);
 
-    // Incremental draw of just the newest segment (fast).
-    // Points are in document space, so subtract current scrollY for canvas coords.
     const pts = stroke.points;
     const n = pts.length;
     const sy = getScrollY();
+    const xOff = xOffsetRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.save();
@@ -196,8 +247,8 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.beginPath();
-    ctx.moveTo(pts[n - 2].x, pts[n - 2].y - sy);
-    ctx.lineTo(pts[n - 1].x, pts[n - 1].y - sy);
+    ctx.moveTo(pts[n - 2].x + xOff, pts[n - 2].y - sy);
+    ctx.lineTo(pts[n - 1].x + xOff, pts[n - 1].y - sy);
     ctx.stroke();
     ctx.restore();
   }, [isActive, getPos, getScrollY]);
@@ -223,10 +274,9 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    redrawAll(ctx, canvas, strokes, getScrollY());
+    redrawAll(ctx, canvas, strokes, getScrollY(), xOffsetRef.current);
   }, [getScrollY]);
 
-  // Ctrl/Cmd + Z keyboard shortcut (only when drawing mode is active)
   useEffect(() => {
     if (!isActive) return;
     const onKeyDown = (e) => {
@@ -263,12 +313,12 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
         ref={canvasRef}
         className="fixed z-20"
         style={{
-          top: 56,      // below h-14 header
+          top: 112,
           left: 0,
           right: 0,
           bottom: 0,
           width: '100%',
-          height: 'calc(100vh - 56px)',
+          height: 'calc(100vh - 112px)',
           pointerEvents: isActive ? 'all' : 'none',
           touchAction: 'none',
           cursor,
@@ -279,13 +329,12 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
         onPointerLeave={handlePointerUp}
       />
 
-      {/* Floating toolbar — only shown when draw mode is active */}
+      {/* Floating toolbar — shown when draw mode is active, above the bottom nav */}
       {isActive && (
         <div
           className="fixed z-30 flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-600"
-          style={{ top: 66, right: 16 }}
+          style={{ bottom: 80, right: 16 }}
         >
-          {/* Color swatches */}
           {COLORS.map(({ value, label }) => (
             <button
               key={value}
@@ -300,10 +349,8 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
             />
           ))}
 
-          {/* Divider */}
           <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
 
-          {/* Eraser toggle */}
           <button
             title="Eraser"
             onClick={() => setIsEraser(!isEraser)}
@@ -316,7 +363,6 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
             <Eraser className="h-4 w-4" />
           </button>
 
-          {/* Eraser size picker — only when eraser is active */}
           {isEraser && (
             <>
               <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
@@ -331,7 +377,6 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
                       : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
-                  {/* Circle that grows with size */}
                   <span
                     className="rounded-full border border-gray-500 dark:border-gray-400 bg-white dark:bg-gray-300"
                     style={{ width: 4 + idx * 4, height: 4 + idx * 4 }}
@@ -341,10 +386,8 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
             </>
           )}
 
-          {/* Divider */}
           <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
 
-          {/* Undo */}
           <button
             title="Undo (Ctrl+Z)"
             onClick={handleUndo}
@@ -353,7 +396,6 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef }) => {
             <Undo2 className="h-4 w-4" />
           </button>
 
-          {/* Clear */}
           <button
             title="Clear all drawings"
             onClick={handleClear}

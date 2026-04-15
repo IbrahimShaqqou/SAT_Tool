@@ -547,15 +547,26 @@ const QuestionBankPage = () => {
             </svg>
           </button>
 
-          {/* Next */}
-          <Button
-            variant="primary"
-            onClick={handleNext}
-            disabled={currentIndex === practiceQuestions.length - 1}
-            className="min-w-[100px]"
-          >
-            Next
-          </Button>
+          {/* Check Answer + Next grouped on the right */}
+          <div className="flex items-center gap-2">
+            {isAnswered && (
+              <Button
+                variant="secondary"
+                onClick={handleCheckAnswer}
+                className="min-w-[120px]"
+              >
+                Check Answer
+              </Button>
+            )}
+            <Button
+              variant="primary"
+              onClick={handleNext}
+              disabled={currentIndex === practiceQuestions.length - 1}
+              className="min-w-[100px]"
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </>
     );

@@ -758,7 +758,7 @@ const TestPage = () => {
           Previous
         </Button>
 
-        {/* Question selector */}
+        {/* Center: question selector */}
         <button
           onClick={() => setShowNav(!showNav)}
           className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -771,24 +771,35 @@ const TestPage = () => {
           </svg>
         </button>
 
-        {/* Next or Submit */}
-        {currentIndex === questions.length - 1 ? (
-          <Button
-            variant="primary"
-            onClick={() => setShowSubmitModal(true)}
-            className="min-w-[100px]"
-          >
-            Submit
-          </Button>
-        ) : (
-          <Button
-            variant="primary"
-            onClick={handleNext}
-            className="min-w-[100px]"
-          >
-            Next
-          </Button>
-        )}
+        {/* Right: Check Answer + Next/Submit grouped together */}
+        <div className="flex items-center gap-2">
+          {isAnswered && (
+            <Button
+              variant="secondary"
+              onClick={handleCheckAnswer}
+              className="min-w-[120px]"
+            >
+              Check Answer
+            </Button>
+          )}
+          {currentIndex === questions.length - 1 ? (
+            <Button
+              variant="primary"
+              onClick={() => setShowSubmitModal(true)}
+              className="min-w-[100px]"
+            >
+              Submit
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={handleNext}
+              className="min-w-[100px]"
+            >
+              Next
+            </Button>
+          )}
+        </div>
       </div>
     </>
   );
@@ -849,14 +860,14 @@ const TestPage = () => {
       <DesmosCalculator
         isOpen={showCalculator}
         onClose={() => setShowCalculator(false)}
-        initialPosition={{ x: window.innerWidth - 450, y: 80 }}
+        initialPosition={{ x: window.innerWidth - 450, y: 116 }}
       />
 
       {/* Reference Sheet */}
       <ReferenceSheet
         isOpen={showReferenceSheet}
         onClose={() => setShowReferenceSheet(false)}
-        initialPosition={{ x: 100, y: 80 }}
+        initialPosition={{ x: 100, y: 116 }}
       />
 
       {/* Submit Confirmation Modal */}
@@ -878,6 +889,7 @@ const TestPage = () => {
         isActive={isDrawing}
         questionId={currentQuestion?.id ?? currentIndex}
         scrollRef={scrollContainerRef}
+        showCalculator={showCalculator}
       />
 
       {/* Paused overlay */}
