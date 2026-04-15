@@ -1,5 +1,5 @@
 /**
- * Header component with user menu and mobile hamburger
+ * App header — slim utility bar (user menu + mobile hamburger)
  * Supports dark mode
  */
 import { useState, useRef, useEffect } from 'react';
@@ -14,35 +14,28 @@ const Header = ({ onMenuClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // Close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setIsMenuOpen(false);
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const handleLogout = () => { logout(); navigate('/login'); };
 
-  const fullName = user ? `${user.first_name} ${user.last_name}` : '';
+  const fullName = user ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : '';
   const rolePrefix = user?.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student';
 
   return (
-    <header className="h-16 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 lg:px-6">
-      {/* Mobile menu button */}
+    <header className="h-14 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between px-5 sticky top-0 z-30">
+      {/* Mobile hamburger */}
       <button
         onClick={onMenuClick}
-        className="lg:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+        className="lg:hidden p-2 -ml-1 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors"
         aria-label="Open menu"
       >
-        <Menu className="h-6 w-6" />
+        <Menu className="h-5 w-5" />
       </button>
 
       {/* Desktop spacer */}
@@ -51,50 +44,41 @@ const Header = ({ onMenuClick }) => {
       {/* User menu */}
       <div className="relative" ref={menuRef}>
         <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          onClick={() => setIsMenuOpen(v => !v)}
+          className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
         >
-          <Avatar name={fullName} size="sm" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">
-            {fullName}
+          <Avatar name={fullName || user?.email} size="sm" />
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-300 hidden sm:block max-w-[140px] truncate">
+            {fullName || user?.email}
           </span>
-          <ChevronDown className="h-4 w-4 text-gray-400" />
+          <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
         </button>
 
-        {/* Dropdown menu */}
         {isMenuOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-            <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{fullName}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
+          <div className="absolute right-0 mt-1.5 w-52 bg-white dark:bg-slate-800 rounded-2xl shadow-card-lg border border-slate-100 dark:border-slate-700 py-1.5 z-50">
+            <div className="px-4 py-2.5 border-b border-slate-100 dark:border-slate-700">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{fullName || user?.email}</p>
+              {fullName && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">{user?.email}</p>}
             </div>
 
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                navigate(`${rolePrefix}/settings`);
-              }}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </button>
+            {[
+              { label: 'Settings', icon: Settings, path: `${rolePrefix}/settings` },
+              { label: 'Profile', icon: User, path: `${rolePrefix}/profile` },
+            ].map((item) => (
+              <button
+                key={item.label}
+                onClick={() => { setIsMenuOpen(false); navigate(item.path); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition-colors"
+              >
+                <item.icon className="h-4 w-4 text-slate-400" />
+                {item.label}
+              </button>
+            ))}
 
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                navigate(`${rolePrefix}/profile`);
-              }}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-              <User className="h-4 w-4" />
-              Profile
-            </button>
-
-            <div className="border-t border-gray-100 dark:border-gray-700">
+            <div className="border-t border-slate-100 dark:border-slate-700 mt-1 pt-1">
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
               >
                 <LogOut className="h-4 w-4" />
                 Sign out

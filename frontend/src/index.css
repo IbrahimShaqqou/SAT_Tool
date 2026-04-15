@@ -15,16 +15,18 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    @apply bg-gray-50 text-gray-900;
+    /* Barely-tinted cyan background — airy, distinctive, not generic gray */
+    background-color: #f0fdff;
+    @apply text-slate-800;
   }
 
   .dark body,
   html.dark body {
-    @apply bg-gray-900 text-gray-100;
+    background-color: #0a1929;
+    @apply text-slate-100;
   }
 
   /* Ensure all text in dark mode defaults to light colors */
@@ -53,24 +55,46 @@
 /* Custom component classes */
 @layer components {
   .btn-primary {
-    @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition;
+    @apply bg-brand-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-brand-700 active:bg-brand-800 transition-colors;
   }
 
   .btn-secondary {
-    @apply border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition;
-    @apply dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800;
+    @apply border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-medium hover:bg-slate-50 hover:border-slate-300 transition-colors;
+    @apply dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800;
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
-    @apply dark:bg-gray-800 dark:border-gray-700;
+    @apply bg-white rounded-2xl shadow-card p-6;
+    @apply dark:bg-slate-800;
   }
 
   .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-    @apply dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100;
+    @apply w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-400 focus:border-brand-400 focus:outline-none transition-colors;
+    @apply dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100 dark:focus:ring-brand-500;
   }
 }
+
+/* ── Scroll-reveal animation ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children of a reveal container */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.reveal-stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms; }
+.reveal-stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 80ms; }
+.reveal-stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 160ms; }
+.reveal-stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 240ms; }
 
 /* Custom animations */
 @keyframes slide-in-right {

@@ -29,35 +29,14 @@ const RegisterPage = () => {
 
   const validate = () => {
     const newErrors = {};
-
-    if (!formData.first_name.trim()) {
-      newErrors.first_name = 'First name is required';
-    }
-
-    if (!formData.last_name.trim()) {
-      newErrors.last_name = 'Last name is required';
-    }
-
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-    if (!formData.role) {
-      newErrors.role = 'Please select a role';
-    }
-
+    if (!formData.first_name.trim()) newErrors.first_name = 'First name is required';
+    if (!formData.last_name.trim()) newErrors.last_name = 'Last name is required';
+    if (!formData.email) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Enter a valid email';
+    if (!formData.password) newErrors.password = 'Password is required';
+    else if (formData.password.length < 8) newErrors.password = 'At least 8 characters';
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+    if (!formData.role) newErrors.role = 'Please select a role';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -65,40 +44,38 @@ const RegisterPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: null }));
-    }
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
-
     setIsLoading(true);
     const { confirmPassword, ...registerData } = formData;
     const result = await register(registerData);
     setIsLoading(false);
-
-    if (result.success) {
-      navigate('/', { replace: true });
-    }
+    if (result.success) navigate('/', { replace: true });
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center mb-6">
-        Create your account
-      </h2>
+    <>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+          Create your account
+        </h1>
+        <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
+          Free to start. No credit card required.
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {authError && (
-          <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+          <div className="p-3.5 text-sm text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 rounded-xl border border-rose-200 dark:border-rose-800">
             {authError}
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <Input
             label="First name"
             name="first_name"
@@ -108,7 +85,6 @@ const RegisterPage = () => {
             placeholder="John"
             required
           />
-
           <Input
             label="Last name"
             name="last_name"
@@ -169,7 +145,8 @@ const RegisterPage = () => {
         <Button
           type="submit"
           variant="primary"
-          className="w-full"
+          size="lg"
+          className="w-full mt-2"
           loading={isLoading}
           disabled={isLoading}
         >
@@ -177,13 +154,13 @@ const RegisterPage = () => {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
         Already have an account?{' '}
-        <Link to="/login" className="font-medium text-gray-900 dark:text-gray-100 hover:underline">
+        <Link to="/login" className="font-semibold text-brand-600 dark:text-brand-400 hover:underline">
           Sign in
         </Link>
       </p>
-    </div>
+    </>
   );
 };
 

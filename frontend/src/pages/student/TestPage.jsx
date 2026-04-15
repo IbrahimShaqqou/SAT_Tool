@@ -680,7 +680,7 @@ const TestPage = () => {
 
   const bottomNavBar = isAdaptive ? (
     // Adaptive mode: simpler navigation with Check/Next flow
-    <div className="fixed bottom-0 left-0 lg:left-64 right-0 z-50 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+    <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
       {/* Progress indicator */}
       <div className="flex items-center justify-center py-2 border-b border-gray-100 dark:border-gray-800">
         <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -747,7 +747,7 @@ const TestPage = () => {
       )}
 
       {/* Fixed bottom controls */}
-      <div className="fixed bottom-0 left-0 lg:left-64 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+      <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
         {/* Previous */}
         <Button
           variant="secondary"

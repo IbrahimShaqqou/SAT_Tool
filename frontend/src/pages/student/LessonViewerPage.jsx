@@ -112,7 +112,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
   const processedSections = processSectionsForGrid(sections);
 
   return (
-    <div className="max-w-4xl mx-auto pb-24">
+    <div className="max-w-4xl mx-auto pb-24 bg-white dark:bg-slate-900 rounded-2xl shadow-card px-8 py-7 -mt-2">
       {/* Header */}
       <div className="mb-8">
         <button
@@ -184,7 +184,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
       )}
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 z-40">
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 p-4 z-40">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
           <Button
             variant="secondary"
@@ -624,12 +624,12 @@ const InteractiveExample = ({ section }) => {
   return (
     <div className="my-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-500">
+      <div className="px-5 py-3 bg-brand-600">
         <h3 className="text-white font-semibold">
           {section.title}
         </h3>
         {section.source && (
-          <span className="text-blue-100 text-sm">{section.source}</span>
+          <span className="text-brand-100 text-sm">{section.source}</span>
         )}
       </div>
 
@@ -749,19 +749,19 @@ const InteractiveExample = ({ section }) => {
 
       {/* Explanation Section - only show when explicitly requested */}
       {showExplanation && (
-        <div className="p-5 bg-blue-50 dark:bg-blue-900/20 border-t border-gray-200 dark:border-gray-700">
+        <div className="p-5 bg-brand-50 dark:bg-brand-900/20 border-t border-slate-100 dark:border-slate-700">
           {/* Steps */}
           {section.steps && section.steps.length > 0 && (
             <div className="mb-4">
-              <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-3">Solution:</h4>
+              <h4 className="font-semibold text-brand-800 dark:text-brand-300 mb-3">Solution:</h4>
               <div className="space-y-4">
                 {section.steps.map((step, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-7 h-7 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center text-sm font-bold text-blue-800 dark:text-blue-200">
+                    <span className="flex-shrink-0 w-7 h-7 bg-brand-100 dark:bg-brand-800 rounded-full flex items-center justify-center text-sm font-bold text-brand-700 dark:text-brand-200">
                       {step.step || i + 1}
                     </span>
                     <div className="flex-1">
-                      <p className="text-blue-900 dark:text-blue-100 mb-1">{step.description}</p>
+                      <p className="text-brand-900 dark:text-brand-100 mb-1">{step.description}</p>
                       {step.math && (
                         <div
                           className="text-lg"

@@ -1,15 +1,46 @@
 /**
- * Student Dashboard Page
- * Simple overview with assignments due and recent scores
+ * Student Dashboard
+ * Personalized greeting, action-forward, clean data display
  */
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ClipboardList, TrendingUp, Clock, Brain, Zap, PlayCircle, AlertTriangle, Target, ArrowRight } from 'lucide-react';
-import { Card, Button, Badge, EmptyState, LoadingSpinner } from '../../components/ui';
+import {
+  ClipboardList, Brain,
+  PlayCircle, AlertTriangle, Target, ArrowRight,
+  BookOpen, GraduationCap, BarChart3,
+} from 'lucide-react';
+import { Button, Badge, EmptyState, LoadingSpinner } from '../../components/ui';
 import { assignmentService, progressService } from '../../services';
+import { useAuth } from '../../hooks/useAuth';
+
+// Organic blob decoration — personality without gradients
+const Blob = ({ className }) => (
+  <svg
+    viewBox="0 0 200 200"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden="true"
+  >
+    <path
+      fill="currentColor"
+      d="M38.5,-65.2C50.2,-56.7,60.3,-47.1,68.1,-35C75.9,-22.9,81.3,-8.3,79.8,5.5C78.3,19.3,69.9,32.4,60.1,43.1C50.3,53.9,39.2,62.4,26.5,68.2C13.8,74.1,-0.5,77.3,-14.3,74.2C-28.1,71.1,-41.3,61.7,-52.1,50C-62.9,38.3,-71.2,24.3,-73.5,9C-75.8,-6.3,-72,-22.9,-63.7,-36.3C-55.4,-49.7,-42.6,-59.9,-29,-66.6C-15.5,-73.3,-1.1,-76.5,12.3,-75.5C25.7,-74.5,26.9,-73.8,38.5,-65.2Z"
+      transform="translate(100 100)"
+    />
+  </svg>
+);
+
+const getGreeting = () => {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+};
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const firstName = user?.first_name || user?.email?.split('@')[0] || 'there';
+
   const [assignments, setAssignments] = useState([]);
   const [inProgressAssessments, setInProgressAssessments] = useState([]);
   const [progress, setProgress] = useState(null);
@@ -35,7 +66,6 @@ const StudentDashboard = () => {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -47,247 +77,203 @@ const StudentDashboard = () => {
     );
   }
 
+  const accuracy = Math.round(progress?.overall_accuracy || 0);
+  const questionsAnswered = progress?.total_questions_answered || 0;
+  const sessions = progress?.sessions_completed || 0;
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Dashboard</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Your ZooPrep overview</p>
+    <div className="space-y-7">
+
+      {/* ── Greeting hero ── */}
+      <div className="relative overflow-hidden rounded-2xl bg-brand-600 px-7 py-8">
+        {/* Blob decorations */}
+        <Blob className="absolute -right-8 -top-10 w-48 h-48 text-brand-500/40 pointer-events-none" />
+        <Blob className="absolute right-24 -bottom-14 w-36 h-36 text-brand-700/30 pointer-events-none" />
+
+        <div className="relative z-10">
+          <p className="text-brand-100 text-sm font-medium mb-1">{getGreeting()},</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight mb-4">{firstName}</h1>
+
+          {/* Inline stats */}
+          <div className="flex flex-wrap gap-5">
+            <div>
+              <span className="text-2xl font-bold text-white">{accuracy}%</span>
+              <span className="text-brand-200 text-sm ml-1.5">accuracy</span>
+            </div>
+            <div className="w-px bg-brand-400/40 self-stretch" />
+            <div>
+              <span className="text-2xl font-bold text-white">{questionsAnswered}</span>
+              <span className="text-brand-200 text-sm ml-1.5">questions answered</span>
+            </div>
+            <div className="w-px bg-brand-400/40 self-stretch" />
+            <div>
+              <span className="text-2xl font-bold text-white">{sessions}</span>
+              <span className="text-brand-200 text-sm ml-1.5">sessions</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.overall_accuracy?.toFixed(0) || 0}%</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Overall Accuracy</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-              <ClipboardList className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.total_questions_answered || 0}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Questions Answered</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-              <Clock className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.sessions_completed || 0}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Sessions Completed</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      {/* In-Progress Assessments */}
+      {/* ── Assessment in progress banner ── */}
       {inProgressAssessments.length > 0 && (
-        <Card className="border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/10">
-          <Card.Header>
-            <div className="flex items-center gap-2">
-              <PlayCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-              <Card.Title className="text-amber-900 dark:text-amber-200">Continue Your Assessment</Card.Title>
-            </div>
-          </Card.Header>
-          <Card.Content>
-            <div className="space-y-3">
-              {inProgressAssessments.map((assessment) => (
-                <div
-                  key={assessment.session_id}
-                  className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border border-amber-100 dark:border-amber-800/30"
-                >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-medium text-gray-900 dark:text-gray-100">
-                        {assessment.title || 'Intake Assessment'}
-                      </p>
-                      <Badge variant="warning">In Progress</Badge>
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {assessment.questions_answered} of {assessment.total_questions} questions answered
-                      <span className="mx-2">•</span>
-                      {assessment.subject_area === 'math' ? 'Math' : 'Reading & Writing'}
-                      <span className="mx-2">•</span>
-                      From {assessment.tutor_name}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card overflow-hidden">
+          <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-amber-100 dark:border-amber-800/30 bg-amber-50 dark:bg-amber-900/10">
+            <PlayCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+            <span className="text-sm font-semibold text-amber-800 dark:text-amber-300">Continue your assessment</span>
+          </div>
+          <div className="divide-y divide-slate-100 dark:divide-slate-700">
+            {inProgressAssessments.map((a) => (
+              <div key={a.session_id} className="flex items-center justify-between px-5 py-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {a.title || 'Intake Assessment'}
                     </p>
+                    <Badge variant="warning" size="sm">In Progress</Badge>
                   </div>
-                  <Link to={`/assess/${assessment.invite_token}`}>
-                    <Button variant="primary" size="sm">
-                      Resume
-                    </Button>
-                  </Link>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    {a.questions_answered}/{a.total_questions} answered
+                    {' · '}{a.subject_area === 'math' ? 'Math' : 'Reading & Writing'}
+                    {' · '}From {a.tutor_name}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </Card.Content>
-        </Card>
+                <Link to={`/assess/${a.invite_token}`}>
+                  <Button size="sm">Resume</Button>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
 
-      {/* Adaptive Practice Card */}
-      <Card className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-white/20 rounded-xl">
-              <Brain className="h-8 w-8" />
+      {/* ── Quick actions ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { to: '/student/adaptive', icon: Brain, label: 'Adaptive Practice', color: 'text-brand-600', bg: 'bg-brand-50 dark:bg-brand-900/20' },
+          { to: '/student/questions', icon: BookOpen, label: 'Question Bank', color: 'text-violet-600', bg: 'bg-violet-50 dark:bg-violet-900/20' },
+          { to: '/student/lessons', icon: GraduationCap, label: 'Skill Lessons', color: 'text-accent-600', bg: 'bg-accent-50 dark:bg-accent-900/20' },
+          { to: '/student/progress', icon: BarChart3, label: 'My Progress', color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+        ].map((action) => (
+          <Link
+            key={action.to}
+            to={action.to}
+            className="group bg-white dark:bg-slate-800 rounded-2xl shadow-card p-4 flex flex-col items-start gap-3 hover:shadow-card-md transition-shadow"
+          >
+            <div className={`w-9 h-9 rounded-xl ${action.bg} flex items-center justify-center`}>
+              <action.icon className={`h-5 w-5 ${action.color}`} />
             </div>
-            <div>
-              <h3 className="text-xl font-semibold">Adaptive Practice</h3>
-              <p className="text-purple-100 mt-1">
-                AI-powered questions tailored to your skill level
-              </p>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200 leading-tight">{action.label}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* ── Areas to improve ── */}
+      {skills?.weak_skills?.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Areas to improve</h2>
             </div>
+            <span className="text-xs text-slate-400 dark:text-slate-500">From your intake assessment</span>
           </div>
-          <Link to="/student/adaptive">
-            <button className="inline-flex items-center px-4 py-2 bg-white text-purple-600 hover:bg-purple-50 font-medium rounded-lg transition-colors">
-              <Zap className="h-4 w-4 mr-2" />
-              Start Practice
-            </button>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
+            {skills.weak_skills.map((skill) => {
+              const pct = Math.round(skill.mastery_level);
+              const color = pct < 30 ? 'bg-rose-400' : pct < 60 ? 'bg-amber-400' : 'bg-accent-400';
+              return (
+                <div key={skill.skill_id} className="flex items-center gap-4 px-5 py-4">
+                  <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-bold text-slate-500 dark:text-slate-300">{skill.domain_code}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{skill.skill_name}</p>
+                    <div className="flex items-center gap-3 mt-1.5">
+                      <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden max-w-[120px]">
+                        <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="text-xs text-slate-500 dark:text-slate-400 flex-shrink-0">{pct}% mastery</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
+                    className="flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors flex-shrink-0"
+                  >
+                    Practice <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* ── Strengths ── */}
+      {skills?.strong_skills?.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <Target className="h-4 w-4 text-accent-500" />
+            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Your strengths</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {skills.strong_skills.slice(0, 3).map((skill) => (
+              <div
+                key={skill.skill_id}
+                className="bg-white dark:bg-slate-800 rounded-2xl shadow-card px-4 py-3.5 flex items-center gap-3"
+              >
+                <div className="w-9 h-9 rounded-xl bg-accent-50 dark:bg-accent-900/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-bold text-accent-600 dark:text-accent-400">{skill.domain_code}</span>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{skill.skill_name}</p>
+                  <p className="text-xs text-accent-600 dark:text-accent-400 font-semibold mt-0.5">{Math.round(skill.mastery_level)}% mastery</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Pending assignments ── */}
+      <section>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <ClipboardList className="h-4 w-4 text-slate-400" />
+            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Pending assignments</h2>
+          </div>
+          <Link to="/student/assignments" className="text-xs font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors">
+            View all
           </Link>
         </div>
-      </Card>
 
-      {/* Weak Skills - Areas to Improve */}
-      {skills && skills.weak_skills && skills.weak_skills.length > 0 && (
-        <Card>
-          <Card.Header>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-amber-500 dark:text-amber-400" />
-                <Card.Title>Areas to Improve</Card.Title>
+        {assignments.length > 0 ? (
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
+            {assignments.map((a) => (
+              <div key={a.id} className="flex items-center justify-between px-5 py-4">
+                <div>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{a.title}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    {a.total_questions} questions
+                    {a.due_date && ` · Due ${new Date(a.due_date).toLocaleDateString()}`}
+                  </p>
+                </div>
+                <Link to={`/student/test/${a.id}`}>
+                  <Button size="sm">Start</Button>
+                </Link>
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">Based on your intake assessment</span>
-            </div>
-          </Card.Header>
-          <Card.Content>
-            <div className="space-y-3">
-              {skills.weak_skills.map((skill) => (
-                <div
-                  key={skill.skill_id}
-                  className="flex items-center justify-between p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/30 rounded-lg"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="w-8 h-8 bg-amber-100 dark:bg-amber-800/40 rounded-full flex items-center justify-center text-xs font-medium text-amber-700 dark:text-amber-300">
-                        {skill.domain_code}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="font-medium text-gray-900 dark:text-gray-100 truncate">{skill.skill_name}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{skill.domain_name}</p>
-                      </div>
-                    </div>
-                    <div className="mt-2 flex items-center gap-4 text-sm">
-                      <span className={`font-medium ${skill.mastery_level < 30 ? 'text-rose-600 dark:text-rose-400' : skill.mastery_level < 60 ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
-                        {Math.round(skill.mastery_level)}% mastery
-                      </span>
-                      <span className="text-gray-500 dark:text-gray-400">
-                        {skill.questions_correct}/{skill.questions_attempted} correct
-                      </span>
-                      {skill.ability_theta !== null && (
-                        <span className="text-gray-500 dark:text-gray-400">
-                          Ability: {skill.ability_theta > 0 ? '+' : ''}{skill.ability_theta}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
-                    className="ml-4 flex-shrink-0"
-                  >
-                    Practice
-                    <ArrowRight className="h-4 w-4 ml-1" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </Card.Content>
-        </Card>
-      )}
-
-      {/* Strong Skills */}
-      {skills && skills.strong_skills && skills.strong_skills.length > 0 && (
-        <Card>
-          <Card.Header>
-            <div className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-emerald-500 dark:text-emerald-400" />
-              <Card.Title>Your Strengths</Card.Title>
-            </div>
-          </Card.Header>
-          <Card.Content>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {skills.strong_skills.slice(0, 3).map((skill) => (
-                <div
-                  key={skill.skill_id}
-                  className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/15 border border-emerald-100 dark:border-emerald-800/30 rounded-lg"
-                >
-                  <span className="w-8 h-8 bg-emerald-100 dark:bg-emerald-800/40 rounded-full flex items-center justify-center text-xs font-medium text-emerald-700 dark:text-emerald-300">
-                    {skill.domain_code}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-medium text-gray-900 dark:text-gray-100 truncate text-sm">{skill.skill_name}</p>
-                    <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">{Math.round(skill.mastery_level)}% mastery</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card.Content>
-        </Card>
-      )}
-
-      {/* Pending Assignments */}
-      <Card>
-        <Card.Header>
-          <div className="flex items-center justify-between">
-            <Card.Title>Pending Assignments</Card.Title>
-            <Link to="/student/assignments" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-              View all
-            </Link>
+            ))}
           </div>
-        </Card.Header>
-        <Card.Content>
-          {assignments.length > 0 ? (
-            <div className="space-y-3">
-              {assignments.map((assignment) => (
-                <div
-                  key={assignment.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
-                >
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{assignment.title}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {assignment.total_questions} questions
-                      {assignment.due_date && (
-                        <> - Due {new Date(assignment.due_date).toLocaleDateString()}</>
-                      )}
-                    </p>
-                  </div>
-                  <Link to={`/student/test/${assignment.id}`}>
-                    <Button variant="primary" size="sm">Start</Button>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          ) : (
+        ) : (
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card">
             <EmptyState
               icon={ClipboardList}
               title="No pending assignments"
               description="Check back later for new assignments from your tutor"
             />
-          )}
-        </Card.Content>
-      </Card>
+          </div>
+        )}
+      </section>
+
     </div>
   );
 };

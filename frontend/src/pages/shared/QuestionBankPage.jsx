@@ -523,7 +523,7 @@ const QuestionBankPage = () => {
         )}
 
         {/* Fixed bottom controls - offset for sidebar on desktop */}
-        <div className="fixed bottom-0 left-0 lg:left-64 right-0 z-50 flex items-center justify-between px-6 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 flex items-center justify-between px-6 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
           {/* Previous */}
           <Button
             variant="secondary"

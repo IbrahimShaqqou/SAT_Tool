@@ -1,244 +1,296 @@
 /**
- * Landing Page
- * Public landing page with feature preview and login prompt
+ * Landing Page — premium, scroll-animated, distinctive
  */
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import useScrollReveal from '../hooks/useScrollReveal';
 import {
-  BookOpen,
-  Brain,
-  GraduationCap,
-  ArrowRight,
-  CheckCircle2,
-  BarChart3
+  BookOpen, Brain, GraduationCap, ArrowRight,
+  CheckCircle2, BarChart3, Sparkles, TrendingUp,
+  Target, Zap, ChevronRight,
 } from 'lucide-react';
 import { Button } from '../components/ui';
+
+// Organic blob SVG — ZooPrep's personality element
+const Blob = ({ className }) => (
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className={className} aria-hidden="true">
+    <path fill="currentColor" d="M38.5,-65.2C50.2,-56.7,60.3,-47.1,68.1,-35C75.9,-22.9,81.3,-8.3,79.8,5.5C78.3,19.3,69.9,32.4,60.1,43.1C50.3,53.9,39.2,62.4,26.5,68.2C13.8,74.1,-0.5,77.3,-14.3,74.2C-28.1,71.1,-41.3,61.7,-52.1,50C-62.9,38.3,-71.2,24.3,-73.5,9C-75.8,-6.3,-72,-22.9,-63.7,-36.3C-55.4,-49.7,-42.6,-59.9,-29,-66.6C-15.5,-73.3,-1.1,-76.5,12.3,-75.5C25.7,-74.5,26.9,-73.8,38.5,-65.2Z" transform="translate(100 100)" />
+  </svg>
+);
+
+const Blob2 = ({ className }) => (
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className={className} aria-hidden="true">
+    <path fill="currentColor" d="M47.5,-73.7C60.6,-66.3,70,-52.4,76.3,-37.5C82.5,-22.7,85.5,-7,83.2,7.9C80.9,22.9,73.2,37.1,62.5,47.5C51.8,57.9,38.1,64.5,23.6,69.8C9.1,75.1,-6.2,79.1,-20.8,76.5C-35.3,73.9,-49.1,64.7,-59.2,52.4C-69.4,40.1,-75.8,24.7,-77.5,8.5C-79.1,-7.7,-76.1,-24.7,-68.1,-38.6C-60.2,-52.4,-47.4,-63.2,-33.4,-70C-19.4,-76.8,-4.2,-79.7,10,-78.9C24.2,-78,34.4,-81.1,47.5,-73.7Z" transform="translate(100 100)" />
+  </svg>
+);
+
+// Reusable scroll-reveal wrapper
+const Reveal = ({ children, className = '', stagger = false }) => {
+  const ref = useScrollReveal();
+  return (
+    <div ref={ref} className={`${stagger ? 'reveal-stagger' : 'reveal'} ${className}`}>
+      {children}
+    </div>
+  );
+};
 
 const LandingPage = () => {
   const { user, isLoading } = useAuth();
 
-  // If user is logged in, show quick links to their dashboard
+  // Logged-in user hub
   if (user && !isLoading) {
     const dashboardPath = user.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student';
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="max-w-4xl mx-auto px-4 py-16">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Welcome back, {user.first_name || user.email}!
+      <div className="min-h-screen" style={{ backgroundColor: '#f0fdff' }}>
+        <div className="max-w-3xl mx-auto px-4 py-16">
+          <div className="text-center mb-10">
+            <p className="text-brand-600 font-medium mb-2">Welcome back</p>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">
+              {user.first_name || user.email}
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
-              Continue your SAT prep journey
-            </p>
+            <p className="text-slate-500">Ready to keep improving?</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <Link
-              to={dashboardPath}
-              className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
-            >
-              <BarChart3 className="h-10 w-10 text-blue-600 dark:text-blue-400 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                Go to Dashboard
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                View your progress and continue where you left off
-              </p>
-            </Link>
-
-            <Link
-              to="/questions"
-              className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
-            >
-              <BookOpen className="h-10 w-10 text-green-600 dark:text-green-400 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                Question Bank
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Browse and practice SAT questions by topic
-              </p>
-            </Link>
-
-            <Link
-              to="/lessons"
-              className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
-            >
-              <GraduationCap className="h-10 w-10 text-purple-600 dark:text-purple-400 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                Skill Lessons
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Learn concepts with interactive lessons
-              </p>
-            </Link>
-
-            {user.role?.toLowerCase() === 'student' && (
+          <div className="grid sm:grid-cols-2 gap-3">
+            {[
+              { to: dashboardPath, icon: BarChart3, color: 'text-brand-600', bg: 'bg-brand-50', title: 'Dashboard', desc: 'Progress and recent activity' },
+              { to: '/questions', icon: BookOpen, color: 'text-violet-600', bg: 'bg-violet-50', title: 'Question Bank', desc: '3,271 SAT questions' },
+              { to: '/lessons', icon: GraduationCap, color: 'text-accent-600', bg: 'bg-accent-50', title: 'Skill Lessons', desc: 'Interactive lessons' },
+              ...(user.role?.toLowerCase() === 'student' ? [{ to: '/student/adaptive', icon: Brain, color: 'text-amber-600', bg: 'bg-amber-50', title: 'Adaptive Practice', desc: 'AI-personalized drills' }] : []),
+            ].map((item) => (
               <Link
-                to="/student/adaptive"
-                className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+                key={item.to}
+                to={item.to}
+                className="group flex items-center gap-4 p-5 bg-white rounded-2xl shadow-card hover:shadow-card-md transition-shadow"
               >
-                <Brain className="h-10 w-10 text-indigo-600 dark:text-indigo-400 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  Adaptive Practice
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Practice questions tailored to your level
-                </p>
+                <div className={`w-11 h-11 ${item.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                  <item.icon className={`h-5 w-5 ${item.color}`} />
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold text-slate-900 text-sm">{item.title}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-slate-300 group-hover:text-brand-500 transition-colors" />
               </Link>
-            )}
+            ))}
           </div>
         </div>
       </div>
     );
   }
 
-  // Public landing page for non-logged in users
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      {/* Header */}
-      <header className="px-4 py-6">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">ZooPrep</h1>
-          <div className="flex items-center gap-4">
-            <Link to="/login">
-              <Button variant="secondary">Log In</Button>
-            </Link>
-            <Link to="/register">
-              <Button variant="primary">Sign Up</Button>
-            </Link>
+    <div className="min-h-screen bg-white overflow-x-hidden">
+
+      {/* ── Nav ── */}
+      <nav className="border-b border-slate-100 sticky top-0 bg-white/90 backdrop-blur z-20">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center">
+              <span className="text-white font-bold text-xs">Z</span>
+            </div>
+            <span className="text-[14px] font-semibold text-slate-800 tracking-tight">ZooPrep</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link to="/questions" className="hidden sm:block text-sm text-slate-500 hover:text-slate-800 transition-colors">Questions</Link>
+            <Link to="/lessons" className="hidden sm:block text-sm text-slate-500 hover:text-slate-800 transition-colors mr-1">Lessons</Link>
+            <Link to="/login"><Button variant="secondary" size="sm">Log In</Button></Link>
+            <Link to="/register"><Button variant="primary" size="sm">Get Started</Button></Link>
           </div>
         </div>
-      </header>
+      </nav>
 
-      {/* Hero Section */}
-      <main className="max-w-6xl mx-auto px-4 py-12">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-            Master the SAT with
-            <span className="text-blue-600 dark:text-blue-400"> Adaptive Learning</span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
-            Personalized practice, expert lessons, and real-time progress tracking
-            to help you achieve your best SAT score.
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link to="/register">
-              <Button variant="primary" className="px-8 py-3 text-lg">
-                Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to="/questions">
-              <Button variant="secondary" className="px-8 py-3 text-lg">
-                Browse Questions
-              </Button>
-            </Link>
+      {/* ── Hero ── */}
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#f0fdff' }}>
+        {/* Blob decorations */}
+        <Blob className="absolute -right-20 top-0 w-[420px] h-[420px] text-brand-200/50 pointer-events-none" />
+        <Blob2 className="absolute -left-32 bottom-0 w-[300px] h-[300px] text-accent-100/60 pointer-events-none" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 pt-20 pb-24">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 bg-white border border-brand-200 rounded-full px-3.5 py-1 text-xs font-semibold text-brand-700 mb-6 shadow-sm">
+              <Sparkles className="h-3 w-3" />
+              3,271 questions · AI step-by-step explanations
+            </div>
+            <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 leading-[1.08] tracking-tight mb-5">
+              Score higher on the{' '}
+              <span className="text-brand-600">Digital SAT.</span>
+            </h1>
+            <p className="text-lg text-slate-500 leading-relaxed mb-8 max-w-xl">
+              Adaptive practice that adjusts to your level, AI explanations for every question,
+              and expert lessons for every skill — all in one place.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link to="/register">
+                <Button variant="primary" size="lg" className="w-full sm:w-auto px-7">
+                  Start for free <ArrowRight className="ml-1.5 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link to="/questions">
+                <Button variant="secondary" size="lg" className="w-full sm:w-auto px-7">
+                  Browse questions
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-6">
-              <BookOpen className="h-7 w-7 text-green-600 dark:text-green-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              Comprehensive Question Bank
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Access thousands of SAT-style questions organized by topic and difficulty.
-              Practice anytime, anywhere.
-            </p>
-            <Link
-              to="/questions"
-              className="text-green-600 dark:text-green-400 font-medium flex items-center gap-1 hover:underline"
-            >
-              Explore Questions <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-6">
-              <GraduationCap className="h-7 w-7 text-purple-600 dark:text-purple-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              Interactive Skill Lessons
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Learn key concepts with engaging lessons featuring worked examples,
-              visual explanations, and practice problems.
-            </p>
-            <Link
-              to="/lessons"
-              className="text-purple-600 dark:text-purple-400 font-medium flex items-center gap-1 hover:underline"
-            >
-              View Lessons <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-6">
-              <Brain className="h-7 w-7 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
-              Adaptive Practice
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Our smart algorithm adjusts to your skill level, giving you the right
-              questions to maximize your improvement.
-            </p>
-            <Link
-              to="/login"
-              className="text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1 hover:underline"
-            >
-              Sign Up to Access <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Why ZooPrep */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 md:p-12 shadow-lg border border-gray-200 dark:border-gray-700">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">
-            Why Students Love ZooPrep
-          </h3>
-          <div className="grid md:grid-cols-2 gap-6">
+      {/* ── Stats bar ── */}
+      <section className="border-y border-slate-100 bg-white">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-7">
+          <Reveal stagger className="flex flex-wrap justify-around gap-6 text-center">
             {[
-              'Real SAT-style questions with detailed explanations',
-              'Built-in Desmos calculator for math practice',
-              'Progress tracking to see your improvement',
-              'Lessons designed by SAT experts',
-              'Practice by skill or take full-length tests',
-              'Works on any device - phone, tablet, or computer',
-            ].map((feature, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+              { n: '3,271', label: 'Practice questions' },
+              { n: '40+', label: 'Skill areas' },
+              { n: '100%', label: 'Digital SAT format' },
+              { n: 'Free', label: 'To get started' },
+            ].map((s) => (
+              <div key={s.label}>
+                <div className="text-2xl font-bold text-brand-600">{s.n}</div>
+                <div className="text-sm text-slate-500 mt-0.5">{s.label}</div>
               </div>
             ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Features ── */}
+      <section className="py-20" style={{ backgroundColor: '#f0fdff' }}>
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <Reveal>
+            <div className="mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+                Built for how students actually prepare
+              </h2>
+              <p className="mt-2 text-slate-500 text-lg max-w-xl">
+                Not a question dump. A structured path from diagnosis to score improvement.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal stagger className="grid md:grid-cols-3 gap-5">
+            {[
+              {
+                icon: Brain, iconBg: 'bg-brand-100', iconColor: 'text-brand-600',
+                title: 'Adaptive Practice',
+                desc: 'The algorithm tracks your exact ability level per skill and serves questions at the right difficulty — so no time is wasted on questions too easy or impossible.',
+                link: '/register', linkText: 'Try it',
+              },
+              {
+                icon: Sparkles, iconBg: 'bg-accent-100', iconColor: 'text-accent-600',
+                title: 'AI Explanations',
+                desc: 'Every question has a structured step-by-step breakdown: worked math, highlighted reading evidence, grammar rule naming, and why each wrong choice fails.',
+                link: '/questions', linkText: 'See an example',
+              },
+              {
+                icon: GraduationCap, iconBg: 'bg-violet-100', iconColor: 'text-violet-600',
+                title: 'Expert Skill Lessons',
+                desc: 'Interactive lessons with Desmos-powered graphs, worked examples, and embedded practice for every SAT skill — not just video walkthroughs.',
+                link: '/lessons', linkText: 'Browse lessons',
+              },
+            ].map((f) => (
+              <div key={f.title} className="bg-white rounded-2xl p-6 shadow-card flex flex-col">
+                <div className={`w-10 h-10 ${f.iconBg} rounded-xl flex items-center justify-center mb-4`}>
+                  <f.icon className={`h-5 w-5 ${f.iconColor}`} />
+                </div>
+                <h3 className="font-semibold text-slate-900 mb-2">{f.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed flex-1">{f.desc}</p>
+                <Link to={f.link} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700">
+                  {f.linkText} <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── How it works ── */}
+      <section className="py-20 bg-white border-t border-slate-100">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <Reveal>
+            <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-12">How it works</h2>
+          </Reveal>
+          <Reveal stagger className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { n: '01', icon: Target, title: 'Intake assessment', desc: 'A short diagnostic pins your exact skill gaps across all SAT domains.' },
+              { n: '02', icon: BarChart3, title: 'Skill breakdown', desc: 'See mastery % for every skill. Know exactly what to focus on.' },
+              { n: '03', icon: Zap, title: 'Targeted drills', desc: 'Adaptive practice focuses your time on the highest-impact skills.' },
+              { n: '04', icon: TrendingUp, title: 'Score progress', desc: 'Track accuracy improvements and watch your estimated score climb.' },
+            ].map((step) => (
+              <div key={step.n}>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-400 mb-3 block">{step.n}</span>
+                <div className="w-9 h-9 bg-brand-50 rounded-xl flex items-center justify-center mb-3">
+                  <step.icon className="h-4.5 w-4.5 text-brand-600" style={{ width: 18, height: 18 }} />
+                </div>
+                <h3 className="font-semibold text-slate-900 text-sm mb-1">{step.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── What's included ── */}
+      <section className="py-20 relative overflow-hidden" style={{ backgroundColor: '#f0fdff' }}>
+        <Blob className="absolute right-0 top-1/2 -translate-y-1/2 w-72 h-72 text-brand-100/70 pointer-events-none" />
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10">
+          <Reveal>
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-8">Everything you need</h2>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {[
+                  '3,271 real Digital SAT questions',
+                  'AI step-by-step explanations for every question',
+                  'Built-in Desmos graphing calculator',
+                  'Expert lessons for every tested skill',
+                  'Adaptive practice adjusting to your level',
+                  'Full progress tracking and skill breakdown',
+                  'Tutor dashboard and assigned practice',
+                  'Works on any device',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 text-accent-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-slate-700">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="bg-brand-600 py-20">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
+          <Reveal>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
+              Start preparing smarter today
+            </h2>
+            <p className="text-brand-100 mb-8">Free to get started. No credit card required.</p>
+            <Link to="/register">
+              <button className="inline-flex items-center gap-2 bg-white text-brand-700 font-semibold px-8 py-3.5 rounded-xl hover:bg-brand-50 transition-colors">
+                Create free account <ArrowRight className="h-4 w-4" />
+              </button>
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="bg-slate-900 py-8">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-md bg-brand-500 flex items-center justify-center">
+              <span className="text-white font-bold text-[10px]">Z</span>
+            </div>
+            <span className="text-sm font-semibold text-white">ZooPrep</span>
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-16">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Ready to boost your SAT score?
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Join thousands of students preparing smarter with ZooPrep.
-          </p>
-          <Link to="/register">
-            <Button variant="primary" className="px-8 py-3 text-lg">
-              Start Practicing Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 text-center text-gray-500 dark:text-gray-400">
-          <p>&copy; {new Date().getFullYear()} ZooPrep. All rights reserved.</p>
+          <div className="flex gap-5 text-sm text-slate-400">
+            <Link to="/questions" className="hover:text-white transition-colors">Questions</Link>
+            <Link to="/lessons" className="hover:text-white transition-colors">Lessons</Link>
+            <Link to="/login" className="hover:text-white transition-colors">Log In</Link>
+          </div>
+          <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} ZooPrep</p>
         </div>
       </footer>
     </div>
