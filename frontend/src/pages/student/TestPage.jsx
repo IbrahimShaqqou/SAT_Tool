@@ -572,6 +572,7 @@ const TestPage = () => {
           questionNumber={currentIndex + 1}
           questionHtml={currentQuestion?.prompt_html || ''}
           stimulusHtml={null}
+          questionId={questionId}
           isMarked={isCurrentMarked}
           onToggleMark={handleToggleMark}
           onReport={() => console.log('Report question')}

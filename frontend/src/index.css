@@ -602,4 +602,25 @@ mark.highlight-red    { background: #fecaca; color: inherit; padding: 1px 3px; b
 .dark mark.highlight-red    { background: #7f1d1d; color: #fee2e2; }
 
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─────────────────────────────────────────────────
+   Student text-highlight marks (HighlightableText)
+   ───────────────────────────────────────────────── */
+mark[data-hl] {
+  border-radius: 2px;
+  padding: 0 1px;
+}
+mark.text-hl-yellow { background-color: #fde68a; color: inherit; }
+mark.text-hl-blue   { background-color: #bae6fd; color: inherit; }
+mark.text-hl-pink   { background-color: #fbcfe8; color: inherit; }
+
+.dark mark.text-hl-yellow { background-color: #78350f; color: #fef9c3; }
+.dark mark.text-hl-blue   { background-color: #1e3a8a; color: #dbeafe; }
+.dark mark.text-hl-pink   { background-color: #831843; color: #fce7f3; }
+
+.text-underline-mark {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
 .scrollbar-hide::-webkit-scrollbar { display: none; }

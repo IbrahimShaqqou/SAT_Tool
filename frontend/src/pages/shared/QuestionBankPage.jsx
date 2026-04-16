@@ -412,6 +412,7 @@ const QuestionBankPage = () => {
             questionNumber={currentIndex + 1}
             questionHtml={currentQuestion.prompt_html || ''}
             stimulusHtml={null}
+            questionId={currentQuestion.id}
             isMarked={isCurrentMarked}
             onToggleMark={handleToggleMark}
             onReport={() => console.log('Report question')}

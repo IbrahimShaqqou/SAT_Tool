@@ -3,31 +3,38 @@
  * Shows question number, mark for review, and the question prompt
  * Renders MathML content using MathJax
  */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { Flag, AlertTriangle } from 'lucide-react';
+import HighlightableText from './HighlightableText';
 
 const QuestionDisplay = ({
   questionNumber,
   questionHtml,
   stimulusHtml, // Optional stimulus content (graphs, tables, etc.)
+  questionId,
   isMarked,
   onToggleMark,
   onReport,
   hideMarkForReview = false, // Hide in adaptive mode
 }) => {
-  const contentRef = useRef(null);
+  // containerRef covers the entire content area (stimulus + question) for MathJax
+  const containerRef = useRef(null);
+  // questionContentRef is forwarded to HighlightableText's inner div for DOM serialization
+  const questionContentRef = useRef(null);
 
-  // Trigger MathJax rendering when question content changes
-  useEffect(() => {
-    if (contentRef.current && window.MathJax?.typesetPromise) {
-      // Clear any previous MathJax rendering
-      window.MathJax.typesetClear?.([contentRef.current]);
-      // Render new content
-      window.MathJax.typesetPromise([contentRef.current]).catch((err) => {
+  const runMathJax = useCallback(() => {
+    if (containerRef.current && window.MathJax?.typesetPromise) {
+      window.MathJax.typesetClear?.([containerRef.current]);
+      window.MathJax.typesetPromise([containerRef.current]).catch((err) => {
         console.warn('MathJax typeset error:', err);
       });
     }
-  }, [questionHtml, stimulusHtml]);
+  }, []);
+
+  // Trigger MathJax rendering when question content changes
+  useEffect(() => {
+    runMathJax();
+  }, [questionHtml, stimulusHtml, runMathJax]);
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -66,7 +73,7 @@ const QuestionDisplay = ({
       </div>
 
       {/* Question content */}
-      <div className="p-6" ref={contentRef}>
+      <div className="p-6" ref={containerRef}>
         {/* Stimulus content (graphs, tables, etc.) shown above question */}
         {stimulusHtml && (
           <div
@@ -74,10 +81,15 @@ const QuestionDisplay = ({
             dangerouslySetInnerHTML={{ __html: stimulusHtml }}
           />
         )}
-        {/* Question prompt */}
-        <div
-          className="prose prose-gray dark:prose-invert max-w-none question-content"
-          dangerouslySetInnerHTML={{ __html: questionHtml }}
+        {/* Question prompt — highlightable.
+            key=questionId forces a fresh mount on navigation so displayHtml
+            initialises correctly and MathJax always typesets the right content. */}
+        <HighlightableText
+          key={questionId ?? questionNumber}
+          html={questionHtml}
+          questionId={questionId ?? questionNumber}
+          contentRef={questionContentRef}
+          onAfterSave={runMathJax}
         />
       </div>
     </div>
