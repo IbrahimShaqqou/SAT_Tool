@@ -28,7 +28,7 @@ See detailed plan below under **"Phase 1: Question Normalization Plan"**.
 **Script:** `backend/scripts/convert_graph_images.py`
 
 ### Phase 2 — Step-by-Step Explanations
-LLM-generated per-question walkthroughs (oneprep.xyz style).
+LLM-generated per-question walkthroughs.
 - JSON schema: `steps[]` with `title`, `stepText` (markdown), `textHighlights` (exact substrings, color, `highlightedIn: stimulus|prompt|answer_choice`)
 - Generate via Claude API, validate substring accuracy, store in separate `QuestionExplanation` table
 - Frontend: accordion/stepper UI with colored highlight spans

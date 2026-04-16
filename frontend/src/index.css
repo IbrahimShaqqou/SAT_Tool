@@ -508,6 +508,16 @@ button svg ~ *:not(p):not(div):not(span):not(figure):not(math):not(mjx-container
   margin: 0;
 }
 
+/* Fractions inside table cells need inline-block so numerator/bar/denominator
+   stack correctly. The global display:inline collapses their height. */
+.question-content td mjx-container,
+.question-content th mjx-container,
+.question-content td math,
+.question-content th math {
+  display: inline-block !important;
+  vertical-align: middle;
+}
+
 /* Block math should have minimal margins */
 .question-content mjx-container[jax="CHTML"][display="true"] {
   display: block;

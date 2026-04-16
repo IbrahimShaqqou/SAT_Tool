@@ -2,7 +2,7 @@
  * Adaptive Practice Page - IRT-Based Intelligent Practice
  * Features real-time ability tracking and adaptive question selection
  */
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Brain,
@@ -21,7 +21,7 @@ import {
   Badge,
   LoadingSpinner,
 } from '../../components/ui';
-import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas } from '../../components/test';
+import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas, HighlightableText } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
 
@@ -313,13 +313,17 @@ const AdaptivePracticePage = () => {
     autoStartSession();
   }, [shouldAutoStart, autoStartSkillId, skills, autoStartAttempted]);
 
-  // Trigger MathJax when question changes
-  useEffect(() => {
+  const runMathJax = useCallback(() => {
     if (contentRef.current && window.MathJax?.typesetPromise) {
       window.MathJax.typesetClear?.([contentRef.current]);
       window.MathJax.typesetPromise([contentRef.current]).catch(console.error);
     }
-  }, [currentQuestion, lastResult, showExplanation]);
+  }, []);
+
+  // Trigger MathJax when question changes
+  useEffect(() => {
+    runMathJax();
+  }, [currentQuestion, lastResult, showExplanation, runMathJax]);
 
   // Start session
   const handleStartSession = async () => {
@@ -672,18 +676,24 @@ const AdaptivePracticePage = () => {
                !currentQuestion.prompt_html?.includes('<table') &&
                !isPassageInPrompt(currentQuestion.passage_html, currentQuestion.prompt_html) && (
                 <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                  <div
-                    className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 question-content"
-                    dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
+                  <HighlightableText
+                    key={`${currentQuestion.id}-passage`}
+                    html={currentQuestion.passage_html}
+                    questionId={`${currentQuestion.id}-passage`}
+                    className="prose-sm text-gray-600 dark:text-gray-300"
+                    onAfterSave={runMathJax}
                   />
                 </div>
               )}
 
               {/* Question content */}
               <div className="p-6">
-                <div
-                  className="prose prose-gray dark:prose-invert max-w-none question-content mb-6"
-                  dangerouslySetInnerHTML={{ __html: currentQuestion.prompt_html }}
+                <HighlightableText
+                  key={currentQuestion.id}
+                  html={currentQuestion.prompt_html}
+                  questionId={currentQuestion.id}
+                  className="mb-6"
+                  onAfterSave={runMathJax}
                 />
 
                 {/* Answer Choices */}
