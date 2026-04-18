@@ -19,6 +19,7 @@ import {
 import { useTimer } from '../../hooks';
 import { useAuth } from '../../contexts/AuthContext';
 import { assessService } from '../../services';
+import { StepByStepExplanation } from '../../components/explanation';
 
 // Assessment states
 const STATES = {
@@ -342,6 +343,7 @@ const AssessmentPage = () => {
           correctIndex: response.data.correct_answer?.index,
           correctAnswers: response.data.correct_answer?.answers,
           explanation: response.data.explanation_html,
+          explanationAvailable: response.data.explanation_available,
         },
       }));
     } catch (err) {
@@ -732,7 +734,7 @@ const AssessmentPage = () => {
                   Check Answer
                 </Button>
               )}
-              {currentChecked && currentChecked.explanation && (
+              {currentChecked && (currentChecked.explanationAvailable || currentChecked.explanation) && (
                 <Button
                   variant="secondary"
                   onClick={() => setShowExplanation(!showExplanation)}
@@ -751,14 +753,23 @@ const AssessmentPage = () => {
             </div>
 
             {/* Explanation display */}
-            {showExplanation && currentChecked?.explanation && (
-              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 className="text-sm font-medium text-blue-900 mb-2">Explanation</h4>
-                <div
-                  className="prose prose-sm prose-blue max-w-none text-blue-800 question-content"
-                  dangerouslySetInnerHTML={{ __html: currentChecked.explanation }}
+            {showExplanation && currentChecked && (
+              currentChecked.explanationAvailable ? (
+                <StepByStepExplanation
+                  questionId={String(currentQuestion.id)}
+                  passageHtml={currentQuestion.passage_html || null}
+                  promptHtml={currentQuestion.prompt_html || ''}
+                  choices={currentQuestion.choices_json || []}
                 />
-              </div>
+              ) : currentChecked.explanation ? (
+                <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
+                  <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
+                  <div
+                    className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200 question-content"
+                    dangerouslySetInnerHTML={{ __html: currentChecked.explanation }}
+                  />
+                </div>
+              ) : null
             )}
           </div>
         </div>
@@ -848,6 +859,7 @@ const AssessmentPage = () => {
         <TestHeader
           currentQuestion={currentIndex + 1}
           totalQuestions={questions.length}
+          hasTimeLimit={!!timeLimit}
           timeRemaining={timeLimit ? timeRemaining : null}
           formattedTime={timeLimit ? formattedTime : null}
           isPaused={isPaused}

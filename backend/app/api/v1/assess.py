@@ -355,18 +355,19 @@ def get_assessment_questions(
                 raw_prompt = q.raw_import_json.get("prompt_html")
 
                 if stimulus:
-                    # For Reading/Writing, use separate prompt and passage to avoid duplication
-                    # raw_prompt has only the question, stimulus has the passage
                     if q.subject_area and q.subject_area.value == "reading_writing":
+                        # R&W: stimulus is the passage, show separately in left pane
                         passage_html = stimulus
-                        # Use raw prompt if available (question only, no stimulus)
                         if raw_prompt:
                             prompt = raw_prompt
                     else:
-                        # For Math, stimulus is short (equations), keep combined in prompt
-                        # Database prompt_html should already have it, but ensure it does
-                        if stimulus not in prompt:
-                            prompt = f"{stimulus}\n\n{prompt}"
+                        # Math: only prepend stimulus when it contains an actual image
+                        # (graph, figure, diagram). Equation-only stimuli are already
+                        # expressed as LaTeX in raw_prompt and rendered better by MathJax.
+                        if raw_prompt:
+                            has_image = '<img' in stimulus
+                            prompt = f"{stimulus}\n\n{raw_prompt}" if has_image else raw_prompt
+                        # else: q.prompt_html already has content from import, leave as-is
 
             # Get choices for MCQ
             choices = None
@@ -496,6 +497,7 @@ def submit_answer(
         is_correct=is_correct,
         correct_answer=correct_answer or {},
         explanation_html=explanation,
+        explanation_available=question.explanation is not None,
     )
 
 

@@ -151,6 +151,7 @@ class AssessmentAnswerResult(BaseModel):
     is_correct: bool
     correct_answer: Dict[str, Any]
     explanation_html: Optional[str] = None
+    explanation_available: bool = False
 
 
 class AssessmentSubmit(BaseModel):
