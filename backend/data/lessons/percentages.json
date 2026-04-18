@@ -1,229 +1,254 @@
 {
   "skill_code": "Q.B.",
   "title": "Percentages",
-  "subtitle": "Master percent calculations, percent change, and multi-step percent problems",
-  "estimated_minutes": 18,
+  "subtitle": "Master percent calculations, percent change, multi-step percents, and exponential growth",
+  "estimated_minutes": 20,
   "difficulty_level": "foundational",
   "content": {
     "sections": [
       {
         "id": "intro",
         "type": "text",
-        "title": "The Three Core Percent Operations",
-        "content": "Almost every SAT percent question falls into one of three categories:\n\n1. **Find the percent:** What percent is 234 of 300?\n2. **Find the part:** What is 78% of 300?\n3. **Find the whole:** 80% of what number is 88?\n\nAll three use the same formula:\n$$\\text{Part} = \\text{Percent} \\times \\text{Whole}$$\nor in fraction form: $P = \\dfrac{\\%}{100} \\times W$"
+        "title": "The Master Formula — and Three Fast Operations",
+        "content": "Every SAT percent question uses one core relationship:\n\n$$\\text{Part} = \\text{Percent} \\times \\text{Whole}$$\n\nFrom this formula, you can solve three types:\n1. **Find the percent:** $\\% = \\dfrac{\\text{Part}}{\\text{Whole}} \\times 100$\n2. **Find the part:** Part $= \\dfrac{\\%}{100} \\times$ Whole\n3. **Find the whole:** Whole $= \\dfrac{\\text{Part}}{\\%/100}$\n\n**Key insight:** percent problems are just proportion problems in disguise."
       },
       {
         "id": "type-1-section",
         "type": "divider",
-        "title": "Type 1: Finding the Percent"
+        "title": "Type 1: Basic Percent Operations"
       },
       {
-        "id": "type-1-example",
+        "id": "type-1-example-1",
         "type": "worked-example",
-        "title": "Example: Part to Percent",
+        "title": "Example: Find the Percent",
         "source": "SAT Practice Question",
-        "problem": "Of 300,000 paper clips, 234,000 are size large. What percentage are size large?",
+        "problem": "Of 300,000 paper clips produced, 234,000 are size large. What percentage are size large?",
         "steps": [
           {
             "step": 1,
-            "description": "Divide part by whole",
-            "math": "\\frac{234{,}000}{300{,}000} = 0.78"
-          },
-          {
-            "step": 2,
-            "description": "Multiply by 100 to get percent",
-            "math": "0.78 \\times 100 = 78\\%"
+            "description": "Percent = Part/Whole × 100",
+            "math": "\\frac{234{,}000}{300{,}000} \\times 100 = 0.78 \\times 100 = 78\\%"
           }
         ],
         "answer": "$78\\%$"
       },
       {
-        "id": "type-2-section",
-        "type": "divider",
-        "title": "Type 2: Finding the Whole from a Percent"
-      },
-      {
-        "id": "type-2-example",
+        "id": "type-1-example-2",
         "type": "worked-example",
-        "title": "Example: Given Percent and Part, Find the Total",
+        "title": "Example: Find the Whole",
         "source": "SAT Practice Question",
-        "problem": "80% of the items in a sample are faulty. There are 88 faulty items. How many total items are in the sample?",
+        "problem": "One serving of cereal provides 180 mg of potassium, which is 5% of the recommended daily value. What is the recommended daily value?",
         "steps": [
           {
             "step": 1,
-            "description": "Use Part = Percent × Whole, solve for Whole",
-            "math": "88 = 0.80 \\times W"
+            "description": "180 is 5% of the daily value D. Write the equation",
+            "math": "0.05 \\times D = 180"
           },
           {
             "step": 2,
-            "description": "Divide both sides by 0.80",
-            "math": "W = \\frac{88}{0.80} = 110"
+            "description": "Divide both sides by 0.05",
+            "math": "D = \\frac{180}{0.05} = 3{,}600 \\text{ mg}"
           }
         ],
-        "answer": "$110$ total items"
+        "answer": "Recommended daily value $= 3{,}600$ mg",
+        "tip": "When the part is given and the whole is unknown: divide the part by the decimal percent. 5% → 0.05, so divide by 0.05."
+      },
+      {
+        "id": "type-2-section",
+        "type": "divider",
+        "title": "Type 2: Percent Change — The Multiplier Method"
+      },
+      {
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Use Multipliers, Not Formulas",
+        "content": "The fastest approach for percent increase/decrease is the **multiplier method**:\n\n- Increase by $r\\%$ → multiply by $(1 + r/100)$\n- Decrease by $r\\%$ → multiply by $(1 - r/100)$\n\n| Operation | Multiplier | Example |\n|---|---|---|\n| Increase 20% | 1.20 | $500 \\times 1.20 = 600$ |\n| Decrease 15% | 0.85 | $500 \\times 0.85 = 425$ |\n| Increase 100% (double) | 2.00 | $500 \\times 2.00 = 1000$ |\n| Decrease 50% (halve) | 0.50 | $500 \\times 0.50 = 250$ |\n\n**Finding percent change when given before and after:**\n$$\\%\\text{ change} = \\frac{\\text{New} - \\text{Old}}{\\text{Old}} \\times 100$$"
+      },
+      {
+        "id": "type-2-example-1",
+        "type": "worked-example",
+        "title": "Example: Percent Increase",
+        "source": "SAT Practice Question",
+        "problem": "Last year, a store had 35 employees. This year, the number is 60% greater. How many employees are there now?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "60% increase → multiply by 1.60",
+            "math": "35 \\times 1.60 = 56"
+          }
+        ],
+        "answer": "$56$ employees",
+        "tip": "Never calculate 60% of 35 and then add it — that's two steps. Just multiply by 1.60 directly."
+      },
+      {
+        "id": "type-2-example-2",
+        "type": "worked-example",
+        "title": "Example: Find the Percent Change",
+        "source": "SAT Practice Question",
+        "problem": "The minimum wage was $\\$1.00$ in 1960 and $\\$1.60$ in 1970. What was the percent increase?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Apply the percent change formula: (New − Old) / Old × 100",
+            "math": "\\frac{1.60 - 1.00}{1.00} \\times 100 = \\frac{0.60}{1.00} \\times 100 = 60\\%"
+          }
+        ],
+        "answer": "$60\\%$ increase",
+        "tip": "The denominator is ALWAYS the original (old) value. Dividing by the new value is the most common mistake."
       },
       {
         "id": "type-3-section",
         "type": "divider",
-        "title": "Type 3: Percent Change"
+        "title": "Type 3: Chained Percents — Don't Add Them Together"
       },
       {
         "id": "type-3-intro",
         "type": "text",
-        "title": "Percent Increase and Decrease",
-        "content": "$$\\text{Percent Change} = \\frac{\\text{New} - \\text{Old}}{\\text{Old}} \\times 100\\%$$\n\n- Positive result → percent **increase**\n- Negative result → percent **decrease**\n\n**Multiplier approach (faster):**\n- Increase by 20%: multiply by $1.20$\n- Decrease by 15%: multiply by $0.85$\n- \"What is $x$ increased by 43%?\" → $1.43x$"
+        "title": "Sequential Percent Changes",
+        "content": "When you apply multiple percent changes in sequence, **multiply the multipliers** — don't add the percentages.\n\n**Common trap:** \"20% increase followed by 20% decrease = 0% net change?\"\n\nNO: $1.20 \\times 0.80 = 0.96$ → 4% NET DECREASE\n\n**Key rule:** always apply each percent to the result of the previous step, not the original value."
       },
       {
         "id": "type-3-example-1",
         "type": "worked-example",
-        "title": "Example: Percent Increase",
+        "title": "Example: Two Sequential Percent Changes",
         "source": "SAT Practice Question",
-        "problem": "Last year Cedric had 35 plants. This year the number is 60% greater. How many plants does he have this year?",
+        "problem": "1,250 people attended a first session. 72% returned for the second. 36% of those who attended both sessions attended a third. How many attended all three?",
         "steps": [
           {
             "step": 1,
-            "description": "A 60% increase means multiply by 1.60",
-            "math": "35 \\times 1.60 = 56"
-          }
-        ],
-        "answer": "$56$ plants",
-        "tip": "Increase by $r\\%$ → multiply by $(1 + r/100)$. Decrease by $r\\%$ → multiply by $(1 - r/100)$."
-      },
-      {
-        "id": "type-3-example-2",
-        "type": "worked-example",
-        "title": "Example: Expressing Percent Increase as an Expression",
-        "source": "SAT Practice Question",
-        "problem": "Which expression represents the result of increasing a positive quantity $w$ by 43%?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "Increase by 43% means multiply by 1 + 0.43 = 1.43",
-            "math": "1.43w"
-          }
-        ],
-        "answer": "$1.43w$"
-      },
-      {
-        "id": "type-4-section",
-        "type": "divider",
-        "title": "Type 4: Percent Change from a Table"
-      },
-      {
-        "id": "type-4-example",
-        "type": "worked-example",
-        "title": "Example: Percent Increase from Historical Data",
-        "source": "SAT Practice Question",
-        "problem": "The minimum wage was $1.00 in 1960 and $1.60 in 1970. What was the percent increase?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "Apply the percent change formula",
-            "math": "\\frac{1.60 - 1.00}{1.00} \\times 100 = \\frac{0.60}{1.00} \\times 100 = 60\\%"
-          }
-        ],
-        "answer": "$60\\%$ increase"
-      },
-      {
-        "id": "type-5-section",
-        "type": "divider",
-        "title": "Type 5: Chained / Multi-Step Percent Problems"
-      },
-      {
-        "id": "type-5-intro",
-        "type": "text",
-        "title": "Applying a Percent Multiple Times",
-        "content": "Some problems apply a percent repeatedly or chain multiple percent operations.\n\n**Important:** Do NOT add percents together. Apply each percent to the result of the previous step."
-      },
-      {
-        "id": "type-5-example-1",
-        "type": "worked-example",
-        "title": "Example: Sequential Percentages",
-        "source": "SAT Practice Question",
-        "problem": "1,250 people attended a first session. 72% attended the second. 36% of those who attended both the first and second attended a third. How many attended all three?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "After 1st → 2nd session: 72% of 1,250",
+            "description": "After first → second: 72% of 1,250",
             "math": "0.72 \\times 1250 = 900"
           },
           {
             "step": 2,
-            "description": "After 2nd → 3rd session: 36% of 900",
+            "description": "After second → third: 36% of 900",
             "math": "0.36 \\times 900 = 324"
           }
         ],
         "answer": "$324$ people attended all three"
       },
       {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Price Increase Then Discount",
+        "source": "SAT Practice Question",
+        "problem": "A jacket originally costs $\\$80$. The store increases the price by 25%, then puts it on sale for 20% off. What is the final price?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "25% increase: multiply by 1.25",
+            "math": "80 \\times 1.25 = 100"
+          },
+          {
+            "step": 2,
+            "description": "20% discount: multiply by 0.80",
+            "math": "100 \\times 0.80 = 80"
+          }
+        ],
+        "answer": "Final price $= \\$80$. The jacket returns to its original price.",
+        "tip": "Overall multiplier = 1.25 × 0.80 = 1.00 (100% of original). So 25% up then 20% off gets back to the start. But 20% up then 25% off would give 1.20 × 0.75 = 0.90 → 10% net decrease."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Percent Problems from Tables"
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Percent from a Two-Way Table",
+        "source": "SAT Practice Question",
+        "problem": "A survey of 200 students showed that 120 prefer online learning and 80 prefer in-person. Of the 120 online learners, 90 said they find it easier. What percentage of all students find online learning easier?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The question asks for 90 out of all 200 students",
+            "math": "\\frac{90}{200} \\times 100 = 45\\%"
+          }
+        ],
+        "answer": "$45\\%$ of all students find online learning easier",
+        "tip": "Always identify the denominator: is the question asking 'percent of the whole' or 'percent of a subgroup'? The phrasing '% of all students' means denominator = 200."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Exponential Growth and Decay"
+      },
+      {
+        "id": "type-5-intro",
+        "type": "text",
+        "title": "When a Percent Applies Repeatedly",
+        "content": "When the same percent increase or decrease applies repeatedly over time, the result is **exponential growth or decay**:\n\n$$A = P \\cdot (1 + r)^t \\quad \\text{(growth)}$$\n$$A = P \\cdot (1 - r)^t \\quad \\text{(decay)}$$\n\nWhere:\n- $P$ = initial amount (principal)\n- $r$ = rate (as a decimal)\n- $t$ = number of time periods\n- $A$ = final amount\n\n**Key:** this is just the multiplier method applied $t$ times."
+      },
+      {
+        "id": "type-5-example-1",
+        "type": "worked-example",
+        "title": "Example: Population Growth",
+        "source": "SAT Practice Question",
+        "problem": "A city's population is 50,000. It grows at 3% per year. What is the population after 10 years?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use the growth formula with P = 50,000, r = 0.03, t = 10",
+            "math": "A = 50{,}000 \\times (1.03)^{10}"
+          },
+          {
+            "step": 2,
+            "description": "Compute (1.03)^10 ≈ 1.3439 using Desmos",
+            "math": "A \\approx 50{,}000 \\times 1.3439 \\approx 67{,}196"
+          }
+        ],
+        "answer": "Approximately $67{,}196$ people",
+        "tip": "Use Desmos to compute powers: type `50000 * (1.03)^10`. This is far faster than multiplying by 1.03 ten times.",
+        "desmos_equations": ["50000 * (1.03)^x"],
+        "desmos_bounds": { "left": -1, "right": 15, "bottom": 40000, "top": 80000 }
+      },
+      {
         "id": "type-5-example-2",
         "type": "worked-example",
-        "title": "Example: Returns Over Multiple Months",
+        "title": "Example: Depreciation (Exponential Decay)",
         "source": "SAT Practice Question",
-        "problem": "A company sold 1,300,000 units/month with a 15% return rate. How many units are retained (not returned) over 5 months total?",
+        "problem": "A car is purchased for $\\$24{,}000$ and depreciates by $15\\%$ per year. What is its value after 4 years?",
         "steps": [
           {
             "step": 1,
-            "description": "Units retained per month = 100% - 15% = 85% of sales",
-            "math": "0.85 \\times 1{,}300{,}000 = 1{,}105{,}000 \\text{ per month}"
+            "description": "Decay: multiply by (1 − 0.15) = 0.85 each year for 4 years",
+            "math": "A = 24{,}000 \\times (0.85)^4"
           },
           {
             "step": 2,
-            "description": "Over 5 months plus the first",
-            "math": "6 \\times 1{,}105{,}000 = 6{,}630{,}000"
+            "description": "Compute (0.85)^4 = 0.522",
+            "math": "A = 24{,}000 \\times 0.522 \\approx \\$12{,}528"
           }
         ],
-        "answer": "Approximately $6{,}630{,}000$ units (including month 1)"
-      },
-      {
-        "id": "type-6-section",
-        "type": "divider",
-        "title": "Type 6: Working Backwards from a Percent"
-      },
-      {
-        "id": "type-6-example",
-        "type": "worked-example",
-        "title": "Example: Find the Total from a Percent Relationship",
-        "source": "SAT Practice Question",
-        "problem": "One serving of cereal provides 180 mg of potassium, which is 5% of the recommended daily value. What is the total recommended daily value?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "180 mg is 5% of the daily value D",
-            "math": "0.05 \\times D = 180"
-          },
-          {
-            "step": 2,
-            "description": "Solve",
-            "math": "D = \\frac{180}{0.05} = 3{,}600 \\text{ mg}"
-          }
-        ],
-        "answer": "Recommended daily value is $3{,}600$ mg"
+        "answer": "Approximately $\\$12{,}528$",
+        "tip": "Decay multiplier = (1 − rate). Each year, the car is worth 85% of what it was the year before."
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Key Takeaways",
         "items": [
-          "**Part = Percent × Whole** is the master formula",
-          "**Finding the whole:** divide the part by the percent (as a decimal)",
-          "**Percent change:** $\\frac{\\text{New} - \\text{Old}}{\\text{Old}} \\times 100$",
-          "**Multiplier shortcut:** increase by $r\\%$ → multiply by $(1 + r/100)$; decrease → $(1 - r/100)$",
-          "**Chained percents:** apply each percent to the result of the previous step (don't add them)"
+          "**Part = Percent × Whole** — the master formula for all three basic operations",
+          "**Multiplier method:** increase r% → ×(1+r/100); decrease r% → ×(1−r/100)",
+          "**Percent change:** (New − Old) / Old × 100 — denominator is ALWAYS the old value",
+          "**Chained percents:** multiply the multipliers; NEVER add or subtract percentages",
+          "**Exponential growth/decay:** $A = P \\cdot (1 \\pm r)^t$",
+          "**Working backwards:** if 80% of whole = 88, then whole = 88 ÷ 0.80 = 110"
         ]
       },
       {
         "id": "common-mistakes",
         "type": "warning",
         "title": "Common Mistakes",
-        "content": "- Dividing by the new value instead of the old value in percent change\n- Adding percentages: a 20% increase followed by a 20% decrease is NOT 0% change\n- Forgetting to convert percent to decimal (using 78 instead of 0.78)\n- Working backwards: if 80% = 88, don't multiply 88 by 0.80 — divide by 0.80"
+        "content": "- Using the new value as the denominator in percent change (always use the OLD value)\n- Adding percentages: 30% increase + 20% decrease ≠ 10% net increase (it's 1.30 × 0.80 = 1.04, a 4% net increase)\n- Working backwards incorrectly: if 80% = 88, don't multiply by 0.80 — divide by 0.80\n- For repeated percent: multiplying by (1+r) only once instead of raising to the power t"
       }
     ],
     "sat_tips": [
-      "Memorize: increase by r% means multiply by (1 + r/100); decrease means multiply by (1 - r/100)",
-      "For 'what percent of X is Y' questions: divide Y by X, then multiply by 100",
-      "In multi-step percent problems, apply each percent to the *current* amount, not the original",
-      "To find the original when given a percent of it, divide the known amount by the decimal"
+      "Use the multiplier method — it's faster and avoids adding-percent errors",
+      "Percent change denominator = the ORIGINAL (starting) value, not the final value",
+      "For repeated growth/decay, use Desmos: type P * (1 + r)^t with actual numbers",
+      "Chained percents: multiply the multipliers together for the overall effect"
     ]
   }
 }

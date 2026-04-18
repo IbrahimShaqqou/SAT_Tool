@@ -1,8 +1,8 @@
 {
   "skill_code": "Q.E.",
   "title": "Probability and Conditional Probability",
-  "subtitle": "Master basic probability, two-way tables, and conditional probability",
-  "estimated_minutes": 20,
+  "subtitle": "Master basic probability, two-way tables, conditional probability, and complementary events",
+  "estimated_minutes": 22,
   "difficulty_level": "intermediate",
   "content": {
     "sections": [
@@ -10,157 +10,37 @@
         "id": "intro",
         "type": "text",
         "title": "The Core Formula",
-        "content": "Probability measures how likely an event is:\n\n$$P(\\text{event}) = \\frac{\\text{Number of favorable outcomes}}{\\text{Total number of outcomes}}$$\n\nProbability is always between 0 and 1 (or 0% and 100%).\n- $P = 0$: impossible\n- $P = 1$: certain\n- $P = 0.5$: equally likely to happen or not"
+        "content": "Probability measures how likely an event is:\n\n$$P(\\text{event}) = \\frac{\\text{Number of favorable outcomes}}{\\text{Total number of outcomes}}$$\n\n- Probability is always between 0 and 1 (or 0% and 100%)\n- $P = 0$: impossible; $P = 1$: certain; $P = 0.5$: 50-50\n\n**On the SAT:** nearly every probability problem involves either a two-way table or a simple list of outcomes. The challenge is identifying the correct numerator and denominator."
       },
       {
         "id": "type-1-section",
         "type": "divider",
-        "title": "Type 1: Simple Probability"
+        "title": "Type 1: Simple Probability from Counts"
       },
       {
-        "id": "type-1-example",
+        "id": "type-1-example-1",
         "type": "worked-example",
-        "title": "Example: Fair Die",
+        "title": "Example: Probability from a List",
         "source": "SAT Practice Question",
-        "problem": "Each face of a fair 14-sided die is labeled 1 through 14. What is the probability of rolling a 2?",
+        "problem": "A bag contains 7 red, 4 white, 11 blue, and 8 green marbles. One marble is drawn at random. What is the probability of drawing a red marble?",
         "steps": [
           {
             "step": 1,
-            "description": "One favorable outcome (rolling 2), 14 total possible outcomes",
-            "math": "P(2) = \\frac{1}{14}"
-          }
-        ],
-        "answer": "$\\dfrac{1}{14}$"
-      },
-      {
-        "id": "type-2-section",
-        "type": "divider",
-        "title": "Type 2: Probability from a Table"
-      },
-      {
-        "id": "type-2-intro",
-        "type": "text",
-        "title": "Count from the Relevant Row or Column",
-        "content": "When the SAT gives a table of counts, the key is identifying:\n- What is the **favorable count**? (read the matching cell)\n- What is the **total count**? (depends on what's asked — could be row total, column total, or overall total)"
-      },
-      {
-        "id": "type-2-example",
-        "type": "worked-example",
-        "title": "Example: Probability from a Two-Way Table",
-        "source": "SAT Practice Question",
-        "problem": "A table shows 14 cars for sale:\n- 2 are hybrid AND priced ≤$25,000\n- Total cars = 14\n\nIf one car is selected at random, what is the probability that it is a hybrid priced at no more than $25,000?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "Favorable outcomes = hybrid AND ≤$25,000 = 2",
-            "math": "\\text{Favorable} = 2"
+            "description": "Total marbles = 7 + 4 + 11 + 8 = 30",
+            "math": "\\text{Total} = 30"
           },
           {
             "step": 2,
-            "description": "Total outcomes = all cars = 14",
-            "math": "P = \\frac{2}{14} = \\frac{1}{7}"
+            "description": "Favorable outcomes = red marbles = 7",
+            "math": "P(\\text{red}) = \\frac{7}{30}"
           }
         ],
-        "answer": "$\\dfrac{1}{7}$"
+        "answer": "$P(\\text{red}) = \\dfrac{7}{30}$"
       },
       {
-        "id": "type-3-section",
-        "type": "divider",
-        "title": "Type 3: Conditional Probability"
-      },
-      {
-        "id": "type-3-intro",
-        "type": "text",
-        "title": "\"Given That\" — The Key Phrase",
-        "content": "**Conditional probability** is the probability of event A **given** that event B has already occurred:\n\n$$P(A \\mid B) = \\frac{\\text{Count of both A and B}}{\\text{Count of B}}$$\n\nIn a table, this means:\n- The denominator is the **total of the given condition** (the row or column total for the condition)\n- The numerator is the **intersection** of both conditions"
-      },
-      {
-        "id": "type-3-example-1",
+        "id": "type-1-example-2",
         "type": "worked-example",
-        "title": "Example: Conditional Probability from a Table",
-        "source": "SAT Practice Question",
-        "problem": "A table shows 48 Himalayan kittens by coat color (chocolate or seal) and eye color (blue or other). 14 are chocolate; 8 of those have deep blue eyes. What fraction of **chocolate-colored** kittens have deep blue eyes?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "The condition is 'chocolate-colored' → denominator = total chocolate kittens = 14",
-            "math": "\\text{Denominator} = 14"
-          },
-          {
-            "step": 2,
-            "description": "Favorable = chocolate AND blue eyes = 8",
-            "math": "P(\\text{blue eyes} \\mid \\text{chocolate}) = \\frac{8}{14} = \\frac{4}{7}"
-          }
-        ],
-        "answer": "$\\dfrac{4}{7}$",
-        "tip": "The phrase 'of the chocolate kittens' tells you the denominator is the chocolate total, NOT the grand total."
-      },
-      {
-        "id": "type-3-example-2",
-        "type": "worked-example",
-        "title": "Example: Conditional from 'has/does not have' structure",
-        "source": "SAT Practice Question",
-        "problem": "A table of state parks shows: 30 have camping but no bicycle paths; 50 have camping total; 20 have bicycle paths but no camping. If one park is selected at random, what is the probability it has camping but no bicycle paths?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "This is a simple probability (no 'given that' condition) — denominator is the TOTAL parks",
-            "math": "\\text{Assume total parks} = 50 + 20 + \\text{other categories}"
-          },
-          {
-            "step": 2,
-            "description": "Favorable = 30 (camping, no paths). Use total given in the problem",
-            "math": "P = \\frac{30}{\\text{Total}}"
-          }
-        ],
-        "answer": "Divide the count of (camping but no bicycle paths) by the total number of parks.",
-        "tip": "Read carefully: 'has X but not Y' means intersection of X with NOT Y. Find that cell in the table."
-      },
-      {
-        "id": "type-4-section",
-        "type": "divider",
-        "title": "Type 4: Complementary Probability"
-      },
-      {
-        "id": "type-4-intro",
-        "type": "text",
-        "title": "P(not A) = 1 - P(A)",
-        "content": "The probability of an event NOT happening equals:\n$$P(\\text{not A}) = 1 - P(A)$$\n\nThis is fastest when it's easier to calculate what you DON'T want."
-      },
-      {
-        "id": "type-4-example",
-        "type": "worked-example",
-        "title": "Example: Complementary Probability",
-        "source": "SAT Practice Question",
-        "problem": "A bag has 7 red, 4 white, 33 blue, and 33 yellow cubes. What is the probability of selecting a cube that is neither blue nor yellow?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "Total cubes = 7 + 4 + 33 + 33 = 77",
-            "math": "\\text{Total} = 77"
-          },
-          {
-            "step": 2,
-            "description": "Cubes that are blue or yellow = 33 + 33 = 66",
-            "math": ""
-          },
-          {
-            "step": 3,
-            "description": "Method 1 (direct): neither blue nor yellow = red + white = 7 + 4 = 11",
-            "math": "P = \\frac{11}{77} = \\frac{1}{7}"
-          }
-        ],
-        "answer": "$\\dfrac{1}{7}$"
-      },
-      {
-        "id": "type-5-section",
-        "type": "divider",
-        "title": "Type 5: Finding a Count from a Probability"
-      },
-      {
-        "id": "type-5-example",
-        "type": "worked-example",
-        "title": "Example: Find the Count from Given Probabilities",
+        "title": "Example: Find a Missing Count from a Probability",
         "source": "SAT Practice Question",
         "problem": "There are 350 customers in theaters A, B, and C. P(theater A) = 0.48, P(theater B) = 0.40. How many customers are in theater C?",
         "steps": [
@@ -171,62 +51,202 @@
           },
           {
             "step": 2,
-            "description": "Multiply by total customers",
-            "math": "0.12 \\times 350 = 42"
+            "description": "Count = probability × total",
+            "math": "0.12 \\times 350 = 42 \\text{ customers}"
           }
         ],
-        "answer": "$42$ customers in theater C"
+        "answer": "$42$ customers in theater C",
+        "tip": "When multiple mutually exclusive groups are given, probabilities must add to 1. Find the missing probability first, then multiply by the total."
       },
       {
-        "id": "type-6-section",
+        "id": "type-2-section",
         "type": "divider",
-        "title": "Type 6: Conditional Probability with Blood Types / Complex Tables"
+        "title": "Type 2: Probability from a Two-Way Table"
       },
       {
-        "id": "type-6-example",
+        "id": "type-2-intro",
+        "type": "text",
+        "title": "Reading the Correct Cell",
+        "content": "A two-way table shows counts for two categorical variables. SAT probability questions almost always ask you to:\n1. Find the **numerator** — the count matching both conditions (the intersection cell)\n2. Find the **denominator** — depends on whether it's a simple probability (grand total) or conditional (row/column total)\n\n**Simple probability:** denominator = grand total\n**Conditional probability:** denominator = total of the 'given' group"
+      },
+      {
+        "id": "type-2-example",
         "type": "worked-example",
-        "title": "Example: Conditional Probability (Advanced)",
+        "title": "Example: Read a Two-Way Table",
         "source": "SAT Practice Question",
-        "problem": "A table shows blood types (A, B, AB, O) and rhesus factor (positive, negative) for a group of 100 people. 60 are rhesus positive; of those, 25 are type A. If a rhesus-positive person is selected at random, what is the probability they are type A?",
+        "problem": "A survey of 100 people shows: 40 own cats, 35 own dogs, 15 own both, and 30 own neither. If one person is selected at random, what is the probability they own a cat but not a dog?",
         "steps": [
           {
             "step": 1,
-            "description": "Given condition: rhesus positive → denominator = 60",
-            "math": "\\text{Denominator} = 60"
+            "description": "Cat only = own cat − own both = 40 − 15 = 25",
+            "math": "\\text{Cat but not dog} = 40 - 15 = 25"
           },
           {
             "step": 2,
-            "description": "Favorable = type A AND rhesus positive = 25",
-            "math": "P(A \\mid \\text{rhesus+}) = \\frac{25}{60} = \\frac{5}{12}"
+            "description": "Denominator = total = 100",
+            "math": "P(\\text{cat only}) = \\frac{25}{100} = \\frac{1}{4}"
           }
         ],
-        "answer": "$\\dfrac{5}{12}$"
+        "answer": "$P = \\dfrac{1}{4}$",
+        "tip": "For 'A but not B' questions: count(A but not B) = count(A) − count(A and B). Draw a Venn diagram if needed."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Conditional Probability — \"Given That\""
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "The 'Given That' Changes the Denominator",
+        "content": "**Conditional probability** $P(A \\mid B)$ = probability of A **given** B has occurred:\n\n$$P(A \\mid B) = \\frac{\\text{Count of both A and B}}{\\text{Count of B (the given group)}}$$\n\n**How to recognize conditional probability in SAT language:**\n- \"Of the students who passed...\" → condition is 'passed'\n- \"Given that the person is female...\" → condition is 'female'\n- \"Among those who own dogs...\" → condition is 'dog owners'\n\n**Key:** the denominator changes from the grand total to the count of the **given group**."
+      },
+      {
+        "id": "type-3-example-1",
+        "type": "worked-example",
+        "title": "Example: Conditional from a Table",
+        "source": "SAT Practice Question",
+        "problem": "A table shows 48 Himalayan kittens by coat color and eye color:\n- 14 are chocolate-coated\n- Of the 14 chocolate, 8 have deep blue eyes\n\nWhat fraction of chocolate-coated kittens have deep blue eyes?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The condition is 'chocolate-coated' → denominator = 14 (total chocolate kittens)",
+            "math": "\\text{Denominator} = 14"
+          },
+          {
+            "step": 2,
+            "description": "Numerator = chocolate AND blue eyes = 8",
+            "math": "P(\\text{blue} \\mid \\text{chocolate}) = \\frac{8}{14} = \\frac{4}{7}"
+          }
+        ],
+        "answer": "$\\dfrac{4}{7}$",
+        "tip": "The phrase 'of the chocolate kittens' tells you the denominator is 14, NOT the grand total of 48."
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Conditional vs. Simple Probability — Spot the Difference",
+        "source": "SAT Practice Question",
+        "problem": "A school survey shows 200 students: 80 are in the band, 60 are in sports, 30 are in both, 90 are in neither.\n\n(A) What is P(band)?\n(B) What is P(band | sports)?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "(A) Simple probability: denominator = 200 (all students)",
+            "math": "P(\\text{band}) = \\frac{80}{200} = \\frac{2}{5}"
+          },
+          {
+            "step": 2,
+            "description": "(B) Conditional: given 'sports' → denominator = 60 (sports students). Both band AND sports = 30",
+            "math": "P(\\text{band} \\mid \\text{sports}) = \\frac{30}{60} = \\frac{1}{2}"
+          }
+        ],
+        "answer": "(A) $\\dfrac{2}{5}$, (B) $\\dfrac{1}{2}$",
+        "tip": "Compare: 40% of ALL students are in band, but 50% of SPORTS students are also in band. The 'given' group narrows your universe."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: Complementary Probability"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "P(not A) = 1 − P(A)",
+        "content": "The probability that an event does NOT happen:\n$$P(\\text{not A}) = 1 - P(A)$$\n\nUse this when it's easier to count what you **don't** want and subtract from 1.\n\n**Example:** P(at least one success) = 1 − P(no successes)"
+      },
+      {
+        "id": "type-4-example-1",
+        "type": "worked-example",
+        "title": "Example: 'Neither' Probability",
+        "source": "SAT Practice Question",
+        "problem": "A bag has 7 red, 4 white, 33 blue, and 33 yellow cubes. What is the probability of selecting a cube that is neither blue nor yellow?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Total = 7 + 4 + 33 + 33 = 77. Not blue and not yellow = red + white = 7 + 4 = 11",
+            "math": "P(\\text{neither}) = \\frac{11}{77} = \\frac{1}{7}"
+          }
+        ],
+        "answer": "$\\dfrac{1}{7}$",
+        "tip": "For 'neither A nor B': just count the items that are not A and not B directly. Complement shortcut: P(neither) = 1 − P(blue or yellow) = 1 − (66/77) = 11/77 = 1/7."
+      },
+      {
+        "id": "type-4-example-2",
+        "type": "worked-example",
+        "title": "Example: 'At Least One' Using Complement",
+        "source": "SAT Practice Question",
+        "problem": "A teacher randomly selects 2 students from a class of 10 (4 boys, 6 girls). What is the probability that at least one girl is selected? (Assume without replacement.)",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Use complement: P(at least 1 girl) = 1 − P(no girls)",
+            "math": "P(\\text{no girls}) = P(\\text{both boys})"
+          },
+          {
+            "step": 2,
+            "description": "P(both boys): P(1st is boy) × P(2nd is boy | 1st is boy)",
+            "math": "\\frac{4}{10} \\times \\frac{3}{9} = \\frac{12}{90} = \\frac{2}{15}"
+          },
+          {
+            "step": 3,
+            "description": "Apply complement",
+            "math": "P(\\text{at least 1 girl}) = 1 - \\frac{2}{15} = \\frac{13}{15}"
+          }
+        ],
+        "answer": "$\\dfrac{13}{15}$",
+        "tip": "Whenever you see 'at least one,' use the complement: 1 − P(none). Counting directly (exactly 1 girl + exactly 2 girls) is much harder."
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Probability from Complex Tables"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Build the Table from Information Given",
+        "source": "SAT Practice Question",
+        "problem": "A study of 200 people recorded whether they exercise regularly (yes/no) and whether they have high blood pressure (yes/no). 90 exercise regularly. Of those who exercise, 20 have high blood pressure. Of those who don't exercise, 60 have high blood pressure. Complete the table and find P(high BP | does not exercise).",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Fill in the table: Total = 200. Exercises = 90, doesn't exercise = 110",
+            "math": "\\text{Exercises: 20 high BP, 70 no high BP} \\qquad \\text{No exercise: 60 high BP, 50 no high BP}"
+          },
+          {
+            "step": 2,
+            "description": "P(high BP | no exercise): denominator = 110 (those who don't exercise)",
+            "math": "P = \\frac{60}{110} = \\frac{6}{11}"
+          }
+        ],
+        "answer": "$P(\\text{high BP} \\mid \\text{no exercise}) = \\dfrac{6}{11} \\approx 54.5\\%$",
+        "tip": "Build the full table even if the question only asks for one value — having all cells filled in prevents errors with numerators and denominators."
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Key Takeaways",
         "items": [
-          "**Basic probability:** favorable outcomes ÷ total outcomes",
-          "**Conditional probability:** 'given B' means denominator = total count of B",
-          "**Complementary:** P(not A) = 1 − P(A)",
-          "**Two-way tables:** read the correct row/column total for the denominator",
-          "**'But not':** find the cell where both conditions are satisfied (one yes, one no)",
-          "**Find a count from probability:** multiply probability by total"
+          "**Basic probability:** favorable count ÷ total count",
+          "**Simple vs. conditional:** 'given [group]' means denominator = that group's total, NOT the grand total",
+          "**'A but not B':** count(A) − count(A and B)",
+          "**Complementary:** P(not A) = 1 − P(A) — use this for 'at least one' questions",
+          "**'At least one' shortcut:** P(at least 1) = 1 − P(none)",
+          "**Probabilities sum to 1:** use to find a missing category's probability"
         ]
       },
       {
         "id": "common-mistakes",
         "type": "warning",
         "title": "Common Mistakes",
-        "content": "- Using the grand total as denominator for conditional probability (should use the 'given' group total)\n- Misidentifying 'given that' phrasing — 'of the [group]' means conditional\n- Forgetting that probabilities must sum to 1 when finding a missing category\n- Confusing P(A and B) with P(A | B) — they're different unless P(B) = 1"
+        "content": "- Conditional probability: using grand total instead of the 'given' group's total\n- 'A and B' vs. 'A | B': P(A and B) uses grand total as denominator; P(A | B) uses B's total\n- Forgetting to fill in the whole table before answering\n- For 'neither A nor B': trying to use 1 − P(A) − P(B) without accounting for overlap"
       }
     ],
     "sat_tips": [
-      "For conditional probability, the phrase 'of the [group]' tells you the denominator is that group's total",
-      "Always check: does the question ask for probability from the whole group (grand total) or from a subset (conditional)?",
-      "Two-way tables: probability questions almost always need one specific cell as the numerator",
-      "When probabilities are given, multiply by total to get counts; divide counts by total to get probabilities"
+      "The phrase 'of the [group]' (e.g., 'of the students who passed') always signals a conditional probability — change the denominator",
+      "For 'at least one' problems, use the complement: P(at least 1) = 1 − P(none)",
+      "When given probabilities that must sum to 1, find the missing probability first, then multiply by total to get count",
+      "Draw a Venn diagram for 'A but not B' and 'neither A nor B' problems — it prevents errors"
     ]
   }
 }

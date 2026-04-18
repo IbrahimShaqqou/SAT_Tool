@@ -1,16 +1,16 @@
 {
   "skill_code": "Q.A.",
   "title": "Ratios, Rates, Proportional Relationships, and Units",
-  "subtitle": "Master unit conversions, proportions, and real-world rate problems",
-  "estimated_minutes": 18,
+  "subtitle": "Master dimensional analysis, proportions, density, work-rate, and mixture problems",
+  "estimated_minutes": 22,
   "difficulty_level": "foundational",
   "content": {
     "sections": [
       {
         "id": "intro",
         "type": "text",
-        "title": "The Core Skill: Dimensional Analysis",
-        "content": "Ratios, rates, and units questions all come down to one master technique: **dimensional analysis** (also called the factor-label method).\n\nMultiply by fractions equal to 1 (where the top and bottom are the same quantity in different units) to cancel unwanted units.\n\nExample: convert 42 posters/min to posters/hour:\n$$42 \\frac{\\text{posters}}{\\text{min}} \\times 60 \\frac{\\text{min}}{\\text{hour}} = 2520 \\frac{\\text{posters}}{\\text{hour}}$$"
+        "title": "The Master Technique: Dimensional Analysis",
+        "content": "Every unit conversion, rate problem, and density question uses the same master technique: **dimensional analysis** (also called the factor-label method).\n\nThe idea: multiply by fractions equal to 1 (where numerator and denominator are the same quantity in different units) to **cancel unwanted units**.\n\n$$42 \\frac{\\text{posters}}{\\text{min}} \\times 60 \\frac{\\text{min}}{\\text{hour}} = 2520 \\frac{\\text{posters}}{\\text{hour}}$$\n\nThe units cancel just like variables in algebra. Practice: always write out units explicitly."
       },
       {
         "id": "type-1-section",
@@ -21,45 +21,45 @@
         "id": "type-1-intro",
         "type": "text",
         "title": "Cancel Units Like Fractions",
-        "content": "Write the starting rate as a fraction. Then multiply by conversion fractions until you reach the target unit.\n\n**Key rule:** Set up conversion fractions so the unit you want to eliminate is on the opposite side from where it starts."
+        "content": "Write the starting rate as a fraction. Multiply by conversion fractions until you reach the target unit.\n\n**Rule:** Place the unit you want to eliminate in the **denominator** of your conversion fraction.\n\n**Speed conversions to remember:**\n- Seconds → hours: multiply by 3,600 (60 × 60)\n- Minutes → hours: multiply by 60\n- Hours → minutes: multiply by 1/60"
       },
       {
         "id": "type-1-example-1",
         "type": "worked-example",
         "title": "Example: Speed Conversion",
         "source": "SAT Practice Question",
-        "problem": "The International Space Station orbits at 4.76 miles per second. What is the average speed in miles per hour?",
+        "problem": "The International Space Station orbits at 4.76 miles per second. What is its speed in miles per hour?",
         "steps": [
           {
             "step": 1,
-            "description": "Start with 4.76 miles/second. Convert seconds to hours",
-            "math": "4.76 \\frac{\\text{miles}}{\\text{second}} \\times \\frac{60 \\text{ seconds}}{1 \\text{ minute}} \\times \\frac{60 \\text{ minutes}}{1 \\text{ hour}}"
+            "description": "Convert seconds to hours: multiply by (60 sec/min) and (60 min/hr)",
+            "math": "4.76 \\frac{\\text{mi}}{\\text{sec}} \\times \\frac{60 \\text{ sec}}{1 \\text{ min}} \\times \\frac{60 \\text{ min}}{1 \\text{ hr}}"
           },
           {
             "step": 2,
-            "description": "Cancel units and multiply",
-            "math": "4.76 \\times 60 \\times 60 = 4.76 \\times 3600 = 17{,}136 \\text{ miles/hour}"
+            "description": "Seconds cancel, minutes cancel",
+            "math": "4.76 \\times 3600 = 17{,}136 \\text{ miles/hour}"
           }
         ],
         "answer": "$17{,}136$ miles per hour",
-        "tip": "There are 3,600 seconds in one hour. Multiplying a per-second rate by 3,600 converts it to per-hour."
+        "tip": "Shortcut: multiply any per-second rate by 3,600 to get per-hour. Multiply any per-minute rate by 60 to get per-hour."
       },
       {
         "id": "type-1-example-2",
         "type": "worked-example",
         "title": "Example: Multi-Step Unit Conversion",
         "source": "SAT Practice Question",
-        "problem": "How many fluid ounces are equivalent to 76 quarts?\n(Given: 8 fluid ounces = 1 cup; 4 cups = 1 quart)",
+        "problem": "How many fluid ounces are equivalent to 76 quarts? (Given: 8 fl oz = 1 cup; 4 cups = 1 quart)",
         "steps": [
           {
             "step": 1,
-            "description": "Convert quarts to cups first",
-            "math": "76 \\text{ quarts} \\times \\frac{4 \\text{ cups}}{1 \\text{ quart}} = 304 \\text{ cups}"
+            "description": "Set up the full conversion chain",
+            "math": "76 \\text{ qt} \\times \\frac{4 \\text{ cups}}{1 \\text{ qt}} \\times \\frac{8 \\text{ fl oz}}{1 \\text{ cup}}"
           },
           {
             "step": 2,
-            "description": "Convert cups to fluid ounces",
-            "math": "304 \\text{ cups} \\times \\frac{8 \\text{ fl oz}}{1 \\text{ cup}} = 2{,}432 \\text{ fl oz}"
+            "description": "Cancel quarts and cups",
+            "math": "76 \\times 4 \\times 8 = 76 \\times 32 = 2{,}432 \\text{ fl oz}"
           }
         ],
         "answer": "$2{,}432$ fluid ounces"
@@ -67,125 +67,153 @@
       {
         "id": "type-2-section",
         "type": "divider",
-        "title": "Type 2: Setting Up and Solving Proportions"
+        "title": "Type 2: Proportions"
       },
       {
         "id": "type-2-intro",
         "type": "text",
-        "title": "Two Equal Ratios",
-        "content": "A proportion says two ratios are equal: $\\dfrac{a}{b} = \\dfrac{c}{d}$\n\nTo solve, **cross-multiply**: $ad = bc$\n\nOr equivalently, multiply both sides by the same value to scale up or down."
+        "title": "Two Equal Ratios — Cross-Multiply or Scale",
+        "content": "A proportion sets two ratios equal: $\\dfrac{a}{b} = \\dfrac{c}{d}$\n\n**Cross-multiply:** $ad = bc$\n\n**Or scale up/down:** find what factor connects the two ratios, then apply it.\n\n**Example:** $\\dfrac{3}{5} = \\dfrac{x}{15}$. Since $5 \\times 3 = 15$, multiply the numerator too: $x = 3 \\times 3 = 9$."
       },
       {
         "id": "type-2-example-1",
         "type": "worked-example",
-        "title": "Example: Find the Missing Value",
+        "title": "Example: Find a Missing Value",
         "source": "SAT Practice Question",
-        "problem": "The ratio 140 to $m$ is equivalent to the ratio 4 to 28. What is the value of $m$?",
+        "problem": "The ratio $140 : m$ is equivalent to $4 : 28$. Find $m$.",
         "steps": [
           {
             "step": 1,
-            "description": "Set up the proportion",
-            "math": "\\frac{140}{m} = \\frac{4}{28}"
+            "description": "Simplify 4:28 = 1:7",
+            "math": "\\frac{4}{28} = \\frac{1}{7}"
           },
           {
             "step": 2,
-            "description": "Cross-multiply",
-            "math": "140 \\times 28 = 4m"
-          },
-          {
-            "step": 3,
-            "description": "Solve",
-            "math": "m = \\frac{140 \\times 28}{4} = \\frac{3920}{4} = 980"
+            "description": "So 140/m = 1/7 → m = 140 × 7",
+            "math": "m = 980"
           }
         ],
         "answer": "$m = 980$",
-        "tip": "Shortcut: $\\frac{4}{28} = \\frac{1}{7}$, so $\\frac{140}{m} = \\frac{1}{7}$ → $m = 140 \\times 7 = 980$"
+        "tip": "Always simplify the ratio first. 4:28 simplifies to 1:7, making the proportion much easier."
       },
       {
         "id": "type-2-example-2",
         "type": "worked-example",
-        "title": "Example: Lightning and Thunder Ratio",
+        "title": "Example: Maps and Scale Factors",
         "source": "SAT Practice Question",
-        "problem": "For a person $m$ miles from a lightning flash, the time interval before hearing thunder is $k$ seconds. The ratio $m : k$ is estimated as $1:5$. If the person hears thunder 50 seconds after seeing lightning, how many miles away is the lightning?",
+        "problem": "On a map, 1 inch represents 25 miles. Two cities are $3.5$ inches apart on the map. What is the actual distance between them?",
         "steps": [
           {
             "step": 1,
-            "description": "Set up the proportion: m/k = 1/5",
-            "math": "\\frac{m}{50} = \\frac{1}{5}"
+            "description": "Set up the proportion",
+            "math": "\\frac{1 \\text{ inch}}{25 \\text{ miles}} = \\frac{3.5 \\text{ inches}}{d \\text{ miles}}"
           },
           {
             "step": 2,
-            "description": "Solve for m",
-            "math": "m = \\frac{50}{5} = 10 \\text{ miles}"
+            "description": "Cross multiply",
+            "math": "d = 3.5 \\times 25 = 87.5 \\text{ miles}"
           }
         ],
-        "answer": "$10$ miles"
+        "answer": "$87.5$ miles"
       },
       {
         "id": "type-3-section",
         "type": "divider",
-        "title": "Type 3: Density and Derived Rates"
+        "title": "Type 3: Density Problems"
       },
       {
         "id": "type-3-intro",
         "type": "text",
         "title": "Density = Mass ÷ Volume",
-        "content": "**Density** problems give you density and one of (mass, volume) and ask for the other.\n\n$$\\text{Density} = \\frac{\\text{Mass}}{\\text{Volume}}$$\n$$\\text{Mass} = \\text{Density} \\times \\text{Volume}$$\n$$\\text{Volume} = \\frac{\\text{Mass}}{\\text{Density}}$$\n\n**Population density** works the same way:\n$$\\text{Population} = \\text{Density} \\times \\text{Area}$$"
+        "content": "$$\\text{Density} = \\frac{\\text{Mass}}{\\text{Volume}} \\qquad \\text{Mass} = \\text{Density} \\times \\text{Volume} \\qquad \\text{Volume} = \\frac{\\text{Mass}}{\\text{Density}}$$\n\n**Population density** works the same way:\n$$\\text{Population} = \\text{Density} \\times \\text{Area}$$\n\n**Strategy:** write the formula, identify what's given, solve for the unknown."
       },
       {
         "id": "type-3-example-1",
         "type": "worked-example",
         "title": "Example: Population Density",
         "source": "SAT Practice Question",
-        "problem": "Iceland's population density increased from 2.5 to 3.3 people per km². The land area is 100,250 km². By how many people did the population increase?",
+        "problem": "Iceland's population density increased from 2.5 people/km² to 3.3 people/km². The land area is 100,250 km². By how many people did the population increase?",
         "steps": [
           {
             "step": 1,
-            "description": "Find population at each density",
-            "math": "P_{1990} = 2.5 \\times 100{,}250 = 250{,}625"
+            "description": "Population = density × area. Find both populations",
+            "math": "P_1 = 2.5 \\times 100{,}250 = 250{,}625"
           },
           {
             "step": 2,
             "description": "",
-            "math": "P_{2014} = 3.3 \\times 100{,}250 = 330{,}825"
+            "math": "P_2 = 3.3 \\times 100{,}250 = 330{,}825"
           },
           {
             "step": 3,
             "description": "Find the increase",
-            "math": "330{,}825 - 250{,}625 = 80{,}200"
+            "math": "330{,}825 - 250{,}625 = 80{,}200 \\text{ people}"
           }
         ],
-        "answer": "Population increased by $80{,}200$ people"
-      },
-      {
-        "id": "type-3-example-2",
-        "type": "worked-example",
-        "title": "Example: Mass from Density and Volume",
-        "source": "SAT Practice Question",
-        "problem": "A cube of oak has density 807 kg/m³ and edge length 0.90 m. What is the mass, to the nearest whole number?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "Calculate the volume of the cube",
-            "math": "V = (0.90)^3 = 0.729 \\text{ m}^3"
-          },
-          {
-            "step": 2,
-            "description": "Mass = Density × Volume",
-            "math": "M = 807 \\times 0.729 \\approx 588 \\text{ kg}"
-          }
-        ],
-        "answer": "$588$ kg"
+        "answer": "Population increased by $80{,}200$ people",
+        "tip": "Shortcut: change in population = change in density × area = (3.3 − 2.5) × 100,250 = 0.8 × 100,250 = 80,200."
       },
       {
         "id": "type-4-section",
         "type": "divider",
-        "title": "Type 4: Algebraic Proportional Reasoning"
+        "title": "Type 4: Work-Rate Problems"
       },
       {
-        "id": "type-4-example",
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Combined Work: Add the Rates",
+        "content": "Work-rate problems ask how long it takes multiple workers (or machines) working together to complete a job.\n\n**Key formula:** when workers combine, **add their individual rates**.\n\n$$\\text{Combined rate} = \\text{Rate}_1 + \\text{Rate}_2$$\n\n**Individual rate** = fraction of job completed per unit time.\n- If worker A completes the job in 4 hours: rate = $\\dfrac{1}{4}$ job/hour\n- If worker B completes the job in 6 hours: rate = $\\dfrac{1}{6}$ job/hour\n- Together: rate = $\\dfrac{1}{4} + \\dfrac{1}{6} = \\dfrac{5}{12}$ job/hour\n- Time together = $\\dfrac{1}{\\text{combined rate}} = \\dfrac{12}{5} = 2.4$ hours"
+      },
+      {
+        "id": "type-4-example-1",
         "type": "worked-example",
-        "title": "Example: Find n from an Algebraic Proportion",
+        "title": "Example: Two Workers Together",
+        "source": "SAT Practice Question",
+        "problem": "Pump A can fill a tank in 3 hours. Pump B can fill the same tank in 5 hours. Working together, how long will they take?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Rate A = 1/3 tank/hr. Rate B = 1/5 tank/hr. Combined rate:",
+            "math": "\\frac{1}{3} + \\frac{1}{5} = \\frac{5}{15} + \\frac{3}{15} = \\frac{8}{15} \\text{ tanks/hr}"
+          },
+          {
+            "step": 2,
+            "description": "Time = 1 / rate = 15/8 hours",
+            "math": "t = \\frac{15}{8} = 1.875 \\text{ hours}"
+          }
+        ],
+        "answer": "$\\dfrac{15}{8}$ hours (1 hour 52.5 minutes)",
+        "tip": "Always faster than either alone, but not as fast as the sum. The combined time is between 0 and the faster individual time."
+      },
+      {
+        "id": "type-4-example-2",
+        "type": "worked-example",
+        "title": "Example: Find One Rate When Combined Rate is Known",
+        "source": "SAT Practice Question",
+        "problem": "Two machines together produce 180 parts per hour. Machine A produces 120 parts per hour on its own. How many parts per hour does Machine B produce?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Combined = Rate A + Rate B → solve for Rate B",
+            "math": "180 = 120 + \\text{Rate}_B"
+          },
+          {
+            "step": 2,
+            "description": "Solve",
+            "math": "\\text{Rate}_B = 60 \\text{ parts/hr}"
+          }
+        ],
+        "answer": "Machine B produces $60$ parts per hour"
+      },
+      {
+        "id": "type-5-section",
+        "type": "divider",
+        "title": "Type 5: Algebraic Proportional Reasoning"
+      },
+      {
+        "id": "type-5-example",
+        "type": "worked-example",
+        "title": "Example: Solve an Algebraic Proportion",
         "source": "SAT Practice Question",
         "problem": "If $\\dfrac{x}{y} = 4$ and $\\dfrac{24x}{ny} = 4$, what is the value of $n$?",
         "steps": [
@@ -201,36 +229,38 @@
           },
           {
             "step": 3,
-            "description": "Simplify (y cancels)",
+            "description": "Cancel y",
             "math": "\\frac{96}{n} = 4 \\Rightarrow n = 24"
           }
         ],
-        "answer": "$n = 24$"
+        "answer": "$n = 24$",
+        "tip": "When two variables appear in a proportion, substitute one in terms of the other to get a single equation."
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Key Takeaways",
         "items": [
-          "**Dimensional analysis:** multiply by conversion fractions to cancel unwanted units",
-          "**Proportions:** $\\frac{a}{b} = \\frac{c}{d}$ → cross-multiply to solve for the unknown",
+          "**Dimensional analysis:** write units and cancel them like fractions — don't guess, cancel",
+          "**Proportions:** cross-multiply, or find the scale factor and apply it directly",
+          "**Speed conversions:** per-second × 3,600 = per-hour; per-minute × 60 = per-hour",
           "**Density:** Mass = Density × Volume; Population = Density × Area",
-          "**Speed conversion:** multiply per-second by 3,600 to get per-hour; by 60 for per-minute",
-          "**Ratios:** simplify the ratio first, then use it to scale"
+          "**Work rates:** rate = 1/time; combined rate = sum of individual rates; time = 1/combined rate",
+          "**Algebraic proportions:** substitute one variable in terms of the other"
         ]
       },
       {
         "id": "common-mistakes",
         "type": "warning",
         "title": "Common Mistakes",
-        "content": "- Dividing instead of multiplying when converting (e.g., dividing by 60 to go from sec to hours — should multiply)\n- Forgetting to square or cube the length when computing area or volume\n- Cross-multiplying incorrectly: $\\frac{a}{b} = \\frac{c}{d}$ → $ad = bc$ (not $ac = bd$)\n- Confusing density with volume or mass in word problems"
+        "content": "- Unit conversions: inverting the conversion fraction (putting the wrong unit in the numerator)\n- Cross-multiplying: writing ad = bc correctly, but then dividing by the wrong term\n- Work-rate: adding times instead of rates (you add rates, not times)\n- Density: confusing which formula to use — write D = M/V, then solve for what's unknown\n- Scale factors: multiplying when you should divide (use dimensional analysis to check)"
       }
     ],
     "sat_tips": [
-      "Always write units explicitly and cancel them like fractions — this prevents conversion errors",
-      "For multi-step conversions, chain the fractions: everything in the numerator you want to keep, everything to cancel in the denominator",
-      "Proportions with one unknown: cross-multiply, then divide",
-      "Density, population density, and price-per-unit all follow the same structure: Rate = Quantity ÷ Count"
+      "Always write units — units that should cancel will cancel automatically if you set up the fraction correctly",
+      "For work-rate problems: individual rate = 1 / (time to complete alone). Combined = sum of rates",
+      "Map/model problems are just proportions: set up real/scale = real/scale and cross-multiply",
+      "Density shortcut: change in total = change in rate × constant (e.g., population increase = density increase × fixed area)"
     ]
   }
 }

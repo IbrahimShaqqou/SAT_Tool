@@ -1,16 +1,16 @@
 {
   "skill_code": "Q.F.",
   "title": "Inference from Sample Statistics and Margin of Error",
-  "subtitle": "Understand what sample data can and cannot tell us about a population",
-  "estimated_minutes": 16,
+  "subtitle": "Scale from samples to populations, interpret confidence intervals, and evaluate statistical claims",
+  "estimated_minutes": 18,
   "difficulty_level": "intermediate",
   "content": {
     "sections": [
       {
         "id": "intro",
         "type": "text",
-        "title": "From Sample to Population",
-        "content": "When we collect data from a **sample** (a subset of the population), we can make **inferences** — careful conclusions about the larger **population**.\n\nKey principle: If the sample was chosen **at random** and is representative, we can generalize the results to the population.\n\nTwo tools help us do this:\n1. **Point estimate:** the sample statistic (e.g., 32% of the sample)\n2. **Margin of error (MOE):** the range of uncertainty around the estimate"
+        "title": "Using Sample Data to Estimate Population Parameters",
+        "content": "When we collect data from a **sample** (a subset of the population), we can make **inferences** — careful conclusions about the larger **population**.\n\n**Two key tools:**\n1. **Point estimate:** the sample statistic (e.g., 32% of the sample likes the product)\n2. **Margin of error (MOE):** the range of uncertainty around the estimate\n\n**Confidence interval:** combines both into a range:\n$$\\text{Confidence interval} = (\\hat{p} - \\text{MOE},\\;\\; \\hat{p} + \\text{MOE})$$\n\n**Key principle:** a larger, randomly drawn sample gives a smaller margin of error (more precise estimate)."
       },
       {
         "id": "type-1-section",
@@ -20,20 +20,20 @@
       {
         "id": "type-1-intro",
         "type": "text",
-        "title": "Proportional Reasoning with Samples",
-        "content": "If $x\\%$ of a random sample has a characteristic, we can estimate that approximately $x\\%$ of the **entire population** has it.\n\n$$\\text{Estimated population count} = \\text{Population size} \\times \\text{Sample proportion}$$"
+        "title": "Multiply the Sample Proportion by the Population Size",
+        "content": "If $x\\%$ of a **random** sample has a characteristic, we estimate that approximately $x\\%$ of the **entire population** has it.\n\n$$\\text{Estimated population count} = \\text{Population size} \\times \\frac{\\text{Count in sample}}{\\text{Sample size}}$$\n\n**Only valid if:** the sample was randomly selected and representative."
       },
       {
         "id": "type-1-example-1",
         "type": "worked-example",
-        "title": "Example: Estimate from a Percentage",
+        "title": "Example: Scale a Percentage to the Population",
         "source": "SAT Practice Question",
-        "problem": "There are 55 students in Spanish club. A random sample was surveyed, and 20% said they plan to enroll in a new study program. Based on the survey, approximately how many Spanish club members plan to enroll?",
+        "problem": "There are 55 students in the Spanish club. A random sample was surveyed, and 20% plan to enroll in a new study program. Approximately how many club members plan to enroll?",
         "steps": [
           {
             "step": 1,
-            "description": "Apply the sample percentage to the population",
-            "math": "0.20 \\times 55 = 11"
+            "description": "Apply the sample proportion to the full population",
+            "math": "0.20 \\times 55 = 11 \\text{ students}"
           }
         ],
         "answer": "Approximately $11$ students"
@@ -41,22 +41,42 @@
       {
         "id": "type-1-example-2",
         "type": "worked-example",
-        "title": "Example: Estimate from a Fraction",
+        "title": "Example: Scale a Fraction to the Population",
         "source": "SAT Practice Question",
-        "problem": "A city has 50 city council members. A reporter polled 20 members and found 6 supported a specific bill. Estimate how many of all 50 members support it.",
+        "problem": "A city has 50 council members. A reporter polled 20 and found 6 supported a specific bill. Estimate how many of all 50 members support it.",
         "steps": [
           {
             "step": 1,
-            "description": "Find the sample proportion",
+            "description": "Sample proportion = 6/20",
             "math": "\\frac{6}{20} = 0.30 = 30\\%"
           },
           {
             "step": 2,
-            "description": "Apply to the full population",
-            "math": "0.30 \\times 50 = 15"
+            "description": "Apply to total",
+            "math": "0.30 \\times 50 = 15 \\text{ council members}"
           }
         ],
         "answer": "Approximately $15$ council members"
+      },
+      {
+        "id": "type-1-example-3",
+        "type": "worked-example",
+        "title": "Example: Use a Sample Table to Estimate a Population Count",
+        "source": "SAT Practice Question",
+        "problem": "A random sample of 80 fish from a lake contained 20 trout. If the lake contains an estimated 2,000 fish, approximately how many are trout?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Sample proportion of trout = 20/80 = 0.25",
+            "math": "\\frac{20}{80} = 0.25"
+          },
+          {
+            "step": 2,
+            "description": "Estimate population count",
+            "math": "0.25 \\times 2000 = 500 \\text{ trout}"
+          }
+        ],
+        "answer": "Approximately $500$ trout in the lake"
       },
       {
         "id": "type-2-section",
@@ -66,131 +86,140 @@
       {
         "id": "type-2-intro",
         "type": "text",
-        "title": "What the Margin of Error Means",
-        "content": "A **margin of error (MOE)** creates a **confidence interval**:\n\n$$\\text{Confidence interval} = (\\hat{p} - \\text{MOE},\\ \\hat{p} + \\text{MOE})$$\n\nwhere $\\hat{p}$ is the sample estimate.\n\n**Correct interpretation:** We're confident the true population parameter lies within this interval.\n\n**NOT correct to say:**\n- The true value is EXACTLY $\\hat{p}$\n- Values outside the interval are impossible\n- All individuals fall within the interval (the interval applies to the **average**, not individuals)"
+        "title": "What the MOE Means — and What It Doesn't",
+        "content": "A confidence interval is the range of **plausible** values for the true population parameter:\n\n$$\\text{Interval} = (\\hat{p} - \\text{MOE},\\;\\; \\hat{p} + \\text{MOE})$$\n\n**Correct interpretation:**\n- 'It is plausible that the true value is between [lower bound] and [upper bound]'\n\n**Incorrect interpretations:**\n- 'The true value is EXACTLY $\\hat{p}$' — the sample estimate could be off by the MOE\n- 'Values outside the interval are impossible' — they're just unlikely, not impossible\n- 'All individuals fall within the interval' — the interval is about the average, not individuals"
       },
       {
         "id": "type-2-example-1",
         "type": "worked-example",
-        "title": "Example: Interpret a Margin of Error",
+        "title": "Example: Compute and Interpret a Confidence Interval",
         "source": "SAT Practice Question",
-        "problem": "A park ranger surveyed hikers. The estimated mean hiking distance was 4.5 miles with a margin of error of 0.5 miles. Which conclusion is best?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "The confidence interval is 4.5 - 0.5 = 4.0 to 4.5 + 0.5 = 5.0",
-            "math": "(4.0 \\text{ miles},\\ 5.0 \\text{ miles})"
-          },
-          {
-            "step": 2,
-            "description": "The correct conclusion: the true mean is plausibly between 4.0 and 5.0 miles",
-            "math": "\\text{It is plausible that the true mean is between 4 and 5 miles}"
-          }
-        ],
-        "answer": "It is **plausible** that the mean distance hiked for all visitors is between 4 and 5 miles.",
-        "tip": "Key word: 'plausible.' The margin of error gives a range, not a guarantee. Values outside the interval are unlikely but not impossible."
-      },
-      {
-        "id": "type-2-example-2",
-        "type": "worked-example",
-        "title": "Example: Apply MOE Correctly",
-        "source": "SAT Practice Question",
-        "problem": "A sample estimates 32% of adults who own TVs use them for nature shows, with an associated margin of error of 3.41%. Which statement is supported?",
+        "problem": "A survey estimates that 32% of adults watch nature shows, with a margin of error of 3.41%. Which statement is best supported?",
         "steps": [
           {
             "step": 1,
             "description": "Compute the confidence interval",
-            "math": "32\\% - 3.41\\% = 28.59\\% \\quad \\text{to} \\quad 32\\% + 3.41\\% = 35.41\\%"
+            "math": "(32\\% - 3.41\\%,\\;\\; 32\\% + 3.41\\%) = (28.59\\%,\\;\\; 35.41\\%)"
           },
           {
             "step": 2,
-            "description": "The best conclusion covers this range",
-            "math": "\\text{Between 28.59\\% and 35.41\\% of all adults use TVs for nature shows}"
+            "description": "Correct statement: between 28.59% and 35.41% of adults watch nature shows",
+            "math": "\\text{'It is plausible that between 28.59\\% and 35.41\\% watch nature shows'}"
           }
         ],
-        "answer": "Between 28.59% and 35.41% of all adults who own TVs use them to watch nature shows."
+        "answer": "It is plausible that between $28.59\\%$ and $35.41\\%$ of adults watch nature shows.",
+        "tip": "Use the phrase 'it is plausible that' when interpreting confidence intervals. On the SAT, look for this language in the correct answer choice."
       },
       {
-        "id": "type-3-section",
-        "type": "divider",
-        "title": "Type 3: Identifying the Correct Inference"
-      },
-      {
-        "id": "type-3-intro",
-        "type": "text",
-        "title": "What Can and Cannot Be Concluded",
-        "content": "SAT Q.F. questions often give you several statements and ask which is a correct conclusion. Look for:\n\n**Correct:**\n- \"Approximately X% of [the target population] ...\"\n- \"It is plausible that the true [parameter] is between [MOE range]\"\n\n**Wrong:**\n- \"All fish in the pond weigh less than 2 pounds\" (too absolute — we only have a sample)\n- \"Exactly 30% of all fish...\" (a sample gives an estimate, not an exact figure)\n- \"The majority of all visitors...\" from one sample category"
-      },
-      {
-        "id": "type-3-example",
+        "id": "type-2-example-2",
         "type": "worked-example",
-        "title": "Example: Choose the Correct Conclusion",
+        "title": "Example: Is a Specific Claim Supported?",
         "source": "SAT Practice Question",
-        "problem": "A study sampled 150 largemouth bass from a pond. 30% weighed more than 2 pounds. Which statement is best supported?",
+        "problem": "A company estimates 12% of its products are defective, with a margin of error of 3.62%. Is the claim '35% are defective' supported by the data?",
         "steps": [
           {
             "step": 1,
-            "description": "The sample is of largemouth bass specifically, from one pond",
-            "math": "\\text{Target population: all largemouth bass in the pond}"
-          },
-          {
-            "step": 2,
-            "description": "The 30% applies to the sampled species and location",
-            "math": "\\text{Approximately 30\\% of all largemouth bass in the pond weigh more than 2 pounds}"
-          }
-        ],
-        "answer": "Approximately 30% of all **largemouth bass in the pond** weigh more than 2 pounds.",
-        "tip": "Be precise about the target population. If the sample was of largemouth bass, the inference is about largemouth bass — not all fish in the pond."
-      },
-      {
-        "id": "type-4-section",
-        "type": "divider",
-        "title": "Type 4: Checking a Specific Claim Against the MOE"
-      },
-      {
-        "id": "type-4-example",
-        "type": "worked-example",
-        "title": "Example: Is a Claim Supported?",
-        "source": "SAT Practice Question",
-        "problem": "A company estimates 12% of socks are defective, with a margin of error of 3.62%. Is a claim of 35% defective supported?",
-        "steps": [
-          {
-            "step": 1,
-            "description": "The confidence interval is 12% - 3.62% = 8.38% to 12% + 3.62% = 15.62%",
-            "math": "(8.38\\%,\\ 15.62\\%)"
+            "description": "Confidence interval: (12% − 3.62%, 12% + 3.62%) = (8.38%, 15.62%)",
+            "math": "(8.38\\%,\\;\\; 15.62\\%)"
           },
           {
             "step": 2,
             "description": "35% is far outside the interval → not supported",
-            "math": "35\\% \\gg 15.62\\% \\Rightarrow \\text{it is doubtful that 35\\% are defective}"
+            "math": "35\\% \\gg 15.62\\% \\Rightarrow \\text{'35% defective' is not supported}"
           }
         ],
-        "answer": "It is **plausible** that between 8.38% and 15.62% are defective. A claim of 35% is **not** supported."
+        "answer": "The claim of 35% is **not supported**. Only values between 8.38% and 15.62% are plausible based on the data."
+      },
+      {
+        "id": "type-3-section",
+        "type": "divider",
+        "title": "Type 3: Comparing Two Confidence Intervals"
+      },
+      {
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Overlapping Intervals — Can We Conclude a Difference?",
+        "content": "Two sample estimates with overlapping confidence intervals do NOT necessarily indicate a significant difference.\n\n**If two intervals overlap:** the difference could be due to sampling variability — we cannot conclude with confidence that the true population values are different.\n\n**If two intervals do not overlap:** there is strong evidence that the two true population values are different.\n\n**On the SAT:** if asked 'can we conclude Group A is higher than Group B?', check whether the intervals overlap."
+      },
+      {
+        "id": "type-3-example",
+        "type": "worked-example",
+        "title": "Example: Do the Intervals Overlap?",
+        "source": "SAT Practice Question",
+        "problem": "School A estimates 65% of students walk to school (MOE = 4%). School B estimates 58% of students walk (MOE = 5%). Can we conclude School A has a significantly higher proportion?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Interval for School A: (61%, 69%)",
+            "math": "(65-4, 65+4) = (61\\%, 69\\%)"
+          },
+          {
+            "step": 2,
+            "description": "Interval for School B: (53%, 63%)",
+            "math": "(58-5, 58+5) = (53\\%, 63\\%)"
+          },
+          {
+            "step": 3,
+            "description": "The intervals overlap from 61% to 63% → we cannot firmly conclude A > B",
+            "math": "\\text{Overlapping intervals} \\Rightarrow \\text{cannot conclude a significant difference}"
+          }
+        ],
+        "answer": "We **cannot** conclude School A has a significantly higher proportion — the intervals overlap.",
+        "tip": "Overlapping confidence intervals = cannot claim a significant difference. Non-overlapping = strong evidence of a real difference."
+      },
+      {
+        "id": "type-4-section",
+        "type": "divider",
+        "title": "Type 4: What Affects the Size of the Margin of Error"
+      },
+      {
+        "id": "type-4-intro",
+        "type": "text",
+        "title": "Larger Sample = Smaller MOE",
+        "content": "The margin of error depends on the sample size:\n- **Larger sample → smaller MOE** (more precise estimate)\n- **Smaller sample → larger MOE** (less precise estimate)\n\nThis makes intuitive sense: asking 10,000 people gives more reliable results than asking 10.\n\n**The SAT may ask:** 'What would increase the precision of the estimate?' Answer: increase the sample size."
+      },
+      {
+        "id": "type-4-example",
+        "type": "worked-example",
+        "title": "Example: Effect of Sample Size on MOE",
+        "source": "SAT Practice Question",
+        "problem": "A researcher surveys 50 people and gets an estimate with MOE = 8%. They want to reduce the MOE. What should they do?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "MOE decreases as sample size increases",
+            "math": "\\text{Larger sample} \\Rightarrow \\text{smaller MOE} \\Rightarrow \\text{more precise estimate}"
+          }
+        ],
+        "answer": "Increase the sample size. More observations reduce the margin of error.",
+        "tip": "Changing the question wording, time of survey, or target population does NOT decrease the MOE. Only increasing sample size does."
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Key Takeaways",
         "items": [
-          "**Sample → Population:** if the sample is random, multiply sample proportion by population size",
+          "**Sample → Population:** multiply sample proportion by population size to estimate count",
           "**Confidence interval:** estimate ± MOE gives the plausible range for the true parameter",
-          "**'Plausible,' not 'certain':** values in the interval are likely; values outside are unlikely but not impossible",
-          "**Be precise:** conclusions apply to the same population that was sampled (not broader)",
-          "**Correct language:** 'approximately', 'plausible', 'estimated' — not 'exactly' or 'all'"
+          "**'Plausible,' not 'certain':** values inside the interval are likely; outside are unlikely, not impossible",
+          "**Overlapping intervals:** cannot conclude a significant difference between two groups",
+          "**Larger sample → smaller MOE** → more precise estimate",
+          "**Correct language:** 'approximately,' 'plausible,' 'estimated' — never 'exactly' or 'all'"
         ]
       },
       {
         "id": "common-mistakes",
         "type": "warning",
         "title": "Common Mistakes",
-        "content": "- Concluding that a value outside the MOE is impossible — it's just unlikely\n- Applying the inference to a broader population than was sampled (e.g., all fish instead of just largemouth bass)\n- Saying the exact sample statistic is the true population value (it's an estimate)\n- Confusing MOE with standard deviation or range of individual values"
+        "content": "- Concluding a value outside the MOE is impossible — it's just unlikely\n- Applying the inference to a broader population than was sampled (e.g., all fish instead of just largemouth bass)\n- Saying the exact sample statistic is the true population value — it's an estimate\n- Confusing MOE with standard deviation (MOE is about population estimation; SD is about individual values)\n- Concluding A > B when the confidence intervals overlap"
       }
     ],
     "sat_tips": [
-      "Margin of error = confidence interval = estimate ± MOE. Values inside are 'plausible', not guaranteed",
-      "The inference only applies to the population that was sampled, not a broader group",
-      "Watch for answer choices that say 'exactly' or 'all' — those are almost always wrong for inference questions",
-      "To find estimated count: multiply proportion by population size"
+      "Confidence interval = estimate ± MOE. Values inside are 'plausible', not guaranteed",
+      "Scale from sample to population: population estimate = sample proportion × total population size",
+      "Watch for 'exactly' or 'all' in answer choices — those are almost always wrong for inference questions",
+      "Overlapping confidence intervals → cannot claim a statistically significant difference",
+      "To reduce MOE: increase sample size (the only correct answer to that question)"
     ]
   }
 }

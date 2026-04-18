@@ -1,16 +1,16 @@
 {
   "skill_code": "Q.D.",
   "title": "Two-Variable Data: Models and Scatterplots",
-  "subtitle": "Master scatterplots, lines of best fit, residuals, and model selection",
-  "estimated_minutes": 18,
+  "subtitle": "Master scatterplots, lines of best fit, residuals, and model selection using Desmos",
+  "estimated_minutes": 22,
   "difficulty_level": "intermediate",
   "content": {
     "sections": [
       {
         "id": "intro",
         "type": "text",
-        "title": "Scatterplots and Relationships",
-        "content": "A **scatterplot** displays the relationship between two quantitative variables. Each point represents one observation.\n\nTo analyze a scatterplot, ask:\n1. What is the **direction** (positive or negative association)?\n2. What is the **form** (linear, exponential, quadratic)?\n3. How **strong** is the relationship (points clustered tightly or scattered widely)?\n4. Are there any **outliers**?"
+        "title": "Analyzing Two-Variable Relationships",
+        "content": "A **scatterplot** shows the relationship between two quantitative variables. Each point represents one observation. To analyze any scatterplot, answer four questions:\n\n1. **Direction:** positive association (both increase) or negative (one goes up, other goes down)?\n2. **Form:** linear (straight trend), exponential (curves faster and faster), or quadratic (arc)?\n3. **Strength:** points tightly clustered (strong) or widely scattered (weak)?\n4. **Outliers:** any points far away from the general trend?"
       },
       {
         "id": "type-1-section",
@@ -21,33 +21,51 @@
         "id": "type-1-intro",
         "type": "text",
         "title": "Linear vs. Exponential vs. Quadratic",
-        "content": "Based on the shape of the scatterplot:\n\n- **Linear model** $y = mx + b$: points follow a straight-line pattern\n- **Exponential model** $y = a \\cdot b^x$: rapid increase/decrease that curves sharply; rate of change is proportional to current value\n- **Quadratic model** $y = ax^2 + bx + c$: arc shape, increases then decreases (or vice versa)\n\n**Key visual cues:**\n- Straight trend → linear\n- Consistent upward/downward curve, getting faster or slower → exponential\n- Arc shape (up then down or down then up) → quadratic"
+        "content": "The shape of the scatterplot tells you which model fits:\n\n| Model | Equation | When to use |\n|---|---|---|\n| Linear | $y = mx + b$ | Points form a straight line; constant rate of change |\n| Exponential | $y = a \\cdot b^x$ | Curve that accelerates (or decays); rate of change is proportional to current value |\n| Quadratic | $y = ax^2 + bx + c$ | Arc shape — goes up then down (or down then up) |\n\n**Practical test:**\n- Check **differences** between consecutive y-values. If they're roughly constant → linear.\n- Check **ratios** between consecutive y-values. If they're roughly constant → exponential.\n- If neither works but there's a clear arc → quadratic."
       },
       {
-        "id": "type-1-example",
+        "id": "type-1-example-1",
         "type": "worked-example",
-        "title": "Example: Select the Best Model",
+        "title": "Example: Identify the Model Type",
         "source": "SAT Practice Question",
-        "problem": "A scatterplot shows a curve that starts at $(0, 1)$, rises sharply to $(2, 6)$, then levels off to $(4, 7)$, $(6, 8)$, and then rises sharply again. Which type of model fits best?",
+        "problem": "A table shows population data at years 0, 10, 20, 30: the population is 100, 200, 400, 800. Does a linear or exponential model fit better?",
         "steps": [
           {
             "step": 1,
-            "description": "The curve slows in the middle and then increases again — not a simple arc",
-            "math": "\\text{Rapid increase, then slowdown, then rapid increase} \\Rightarrow \\text{not quadratic}"
+            "description": "Check differences: 200−100=100, 400−200=200, 800−400=400. Differences are NOT constant → not linear",
+            "math": "\\Delta y: 100, 200, 400 \\quad \\text{(not constant)}"
           },
           {
             "step": 2,
-            "description": "Check if the rate of change is consistent with linear — it's not (non-constant slope)",
-            "math": "\\text{Non-constant rate of change} \\Rightarrow \\text{not linear}"
-          },
-          {
-            "step": 3,
-            "description": "A consistent relative rate of change suggests exponential",
-            "math": "\\text{Exponential model}"
+            "description": "Check ratios: 200/100=2, 400/200=2, 800/400=2. Ratios ARE constant → exponential",
+            "math": "\\text{ratio} = 2 \\text{ each time} \\Rightarrow \\text{exponential model}"
           }
         ],
-        "answer": "Exponential model",
-        "tip": "To check: in a linear model, **differences** between y-values are constant. In an exponential model, **ratios** of consecutive y-values are constant."
+        "answer": "Exponential model — population doubles every 10 years.",
+        "tip": "The SAT often shows population, bacterial growth, or investment growth → these are almost always exponential.",
+        "desmos_equations": ["100 * 2^(x/10)"],
+        "desmos_bounds": { "left": -5, "right": 35, "bottom": -100, "top": 900 }
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Select the Model from a Scatterplot Description",
+        "source": "SAT Practice Question",
+        "problem": "A scatterplot shows data that rises steeply from x=0 to x=3, then levels off and rises slowly from x=3 to x=10. Which model best fits — linear, quadratic, or exponential with b < 1?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "The data is always increasing but the rate slows down — it doesn't arc back down (so not quadratic with turning point)",
+            "math": "\\text{Always increasing, decelerating} \\Rightarrow \\text{not quadratic}"
+          },
+          {
+            "step": 2,
+            "description": "Exponential growth would accelerate (not decelerate). But b could be > 1 with a log shape. More precisely: this looks like a concave-down exponential or a square-root model",
+            "math": "y = a \\cdot \\sqrt{x} \\text{ or } y = a \\ln(x) \\text{ type of growth}"
+          }
+        ],
+        "answer": "A quadratic or square-root model fits (answer depends on context the SAT provides). Key: decreasing rate of change = concave down.",
+        "tip": "On the SAT, you'll have a graph to look at. The question is: does the rate of change increase (convex up) or decrease (concave down)? Convex up → exponential; concave down → quadratic or logarithmic."
       },
       {
         "id": "type-2-section",
@@ -58,23 +76,33 @@
         "id": "type-2-intro",
         "type": "text",
         "title": "Reading the Line of Best Fit",
-        "content": "The **line of best fit** (regression line) passes through the center of the scatterplot. It minimizes the total error between the line and the data points.\n\n- **Slope** of the line of best fit = the average change in $y$ for a 1-unit increase in $x$\n- **y-intercept** = the predicted value of $y$ when $x = 0$\n\nA positive slope indicates a **positive association** (both increase together).\nA negative slope indicates a **negative association** (one increases as the other decreases)."
+        "content": "The **line of best fit** (regression line) minimizes the total distance from the line to all data points.\n\n**Slope** = the average change in $y$ for each 1-unit increase in $x$\n**y-intercept** = the predicted $y$ when $x = 0$\n\n**How to find the slope when given two points on the line:**\n$$m = \\frac{y_2 - y_1}{x_2 - x_1}$$\n\n**The slope has units:** if y is in dollars and x is in years, slope is in dollars per year."
       },
       {
-        "id": "type-2-example",
+        "id": "type-2-example-1",
         "type": "worked-example",
-        "title": "Example: Estimate the Slope",
+        "title": "Example: Find the Slope and Make a Prediction",
         "source": "SAT Practice Question",
-        "problem": "A scatterplot has 10 data points in a linear pattern trending downward from left to right. The line of best fit passes through approximately $(0, 7)$ and $(10, 0)$. What is the slope?",
+        "problem": "A line of best fit passes through $(0, 120)$ and $(8, 80)$. What is the slope, and what does it represent if $x$ is years and $y$ is number of subscribers (in thousands)?",
         "steps": [
           {
             "step": 1,
-            "description": "Use two points on the line to find slope",
-            "math": "m = \\frac{0 - 7}{10 - 0} = \\frac{-7}{10} = -0.7"
+            "description": "Calculate the slope",
+            "math": "m = \\frac{80 - 120}{8 - 0} = \\frac{-40}{8} = -5"
+          },
+          {
+            "step": 2,
+            "description": "Interpret: slope is -5 (in thousands of subscribers per year)",
+            "math": "\\text{The number of subscribers decreases by 5,000 per year}"
+          },
+          {
+            "step": 3,
+            "description": "Predict at x = 10: y = -5(10) + 120 = 70",
+            "math": "y = -5(10) + 120 = 70 \\text{ thousand subscribers}"
           }
         ],
-        "answer": "Slope $= -0.7$",
-        "tip": "Look for two clear points that the line of best fit passes through, not data points. Read coordinates carefully."
+        "answer": "Slope $= -5$. Subscribers decrease by 5,000 per year. Predicted value at $x = 10$: 70,000 subscribers.",
+        "tip": "The slope of the line of best fit always has units = (y units) / (x units). State what those units mean in context."
       },
       {
         "id": "type-3-section",
@@ -84,128 +112,137 @@
       {
         "id": "type-3-intro",
         "type": "text",
-        "title": "What is a Residual?",
-        "content": "A **residual** is the difference between the **actual** $y$-value of a data point and the **predicted** $y$-value from the line of best fit:\n\n$$\\text{Residual} = \\text{Actual} - \\text{Predicted}$$\n\n- **Positive residual:** data point is **above** the line\n- **Negative residual:** data point is **below** the line\n- **Zero residual:** data point is exactly on the line"
+        "title": "Residual = Actual − Predicted",
+        "content": "A **residual** measures how far an actual data point is from the line of best fit:\n\n$$\\text{Residual} = \\text{Actual } y - \\text{Predicted } y$$\n\n**Positive residual:** the actual point is **above** the line (actual > predicted)\n**Negative residual:** the actual point is **below** the line (actual < predicted)\n**Zero residual:** the point lies exactly on the line\n\n**Key:** residual is always Actual − Predicted (not the other way around)."
       },
       {
-        "id": "type-3-example",
+        "id": "type-3-example-1",
         "type": "worked-example",
         "title": "Example: Calculate a Residual",
         "source": "SAT Practice Question",
-        "problem": "In a scatterplot, the line of best fit predicts $y = 5$ when $x = 3$. The actual data point at $x = 3$ has $y = 12$. What is the residual?",
+        "problem": "The line of best fit predicts $y = 45$ when $x = 7$. The actual data point at $x = 7$ is $(7, 38)$. What is the residual?",
         "steps": [
           {
             "step": 1,
-            "description": "Apply the residual formula",
-            "math": "\\text{Residual} = \\text{Actual} - \\text{Predicted} = 12 - 5 = 7"
+            "description": "Apply the formula: Residual = Actual − Predicted",
+            "math": "\\text{Residual} = 38 - 45 = -7"
           }
         ],
-        "answer": "Residual $= 7$ (the data point is 7 units above the line)"
+        "answer": "Residual $= -7$. The actual value is 7 units below the predicted value.",
+        "tip": "Negative residual → point is below the line. Positive residual → above the line. This is easy to check: if the data point is below the line, you know the residual must be negative."
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Identify Which Point Has the Largest Residual",
+        "source": "SAT Practice Question",
+        "problem": "A scatterplot shows a line of best fit. Three data points are at approximately (2, 15), (5, 25), and (8, 10). The line passes through (2, 12), (5, 23), and (8, 34). Which point has the largest absolute residual?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Compute each residual",
+            "math": "\\text{At } x=2: 15-12=3 \\quad \\text{At } x=5: 25-23=2 \\quad \\text{At } x=8: 10-34=-24"
+          },
+          {
+            "step": 2,
+            "description": "The largest absolute residual is 24",
+            "math": "|{-24}| = 24 \\Rightarrow \\text{the point } (8, 10) \\text{ is the outlier}"
+          }
+        ],
+        "answer": "The point $(8, 10)$ has the largest absolute residual ($24$). It's far below the line.",
+        "tip": "When identifying which point is furthest from the line: the point that 'doesn't fit the pattern' visually is usually the one with the largest residual."
       },
       {
         "id": "type-4-section",
         "type": "divider",
-        "title": "Type 4: Interpreting a Scatterplot in Context"
+        "title": "Type 4: Reading Slope in Context"
       },
       {
         "id": "type-4-example",
         "type": "worked-example",
-        "title": "Example: Rate of Decrease from a Graph",
+        "title": "Example: Interpret Slope from a Real-World Equation",
         "source": "SAT Practice Question",
-        "problem": "A graph shows the temperature (°F) of coffee over 100 minutes after being removed from heat. The curve decreases rapidly at first, then levels off. During which time interval is the temperature decreasing most rapidly?",
+        "problem": "The equation $T = 4.2h + 15$ models the temperature $T$ (°C) of a metal plate that has been heated for $h$ hours. What is the best interpretation of the number 4.2?",
         "steps": [
           {
             "step": 1,
-            "description": "The steepest part of the curve indicates the fastest rate of decrease",
-            "math": "\\text{Steepest slope} \\Rightarrow \\text{fastest change}"
+            "description": "In y = mx + b, m is the slope. Here m = 4.2 and x = h (hours)",
+            "math": "\\text{slope} = 4.2 \\frac{°C}{\\text{hour}}"
           },
           {
             "step": 2,
-            "description": "An exponential decay curve is steepest near the beginning",
-            "math": "\\text{Fastest decrease: 0 to 10 minutes}"
+            "description": "Interpret: for each additional hour of heating, the temperature increases by 4.2°C",
+            "math": "\\text{Each hour adds 4.2°C}"
           }
         ],
-        "answer": "Temperature decreases most rapidly **between 0 and 10 minutes**."
+        "answer": "The plate's temperature increases by $4.2$°C for each additional hour of heating.",
+        "tip": "The slope always means: 'for each 1-unit increase in x, y changes by this amount.' Always include units in your answer."
+      },
+      {
+        "id": "desmos-section",
+        "type": "divider",
+        "title": "Using Desmos to Visualize Scatterplots"
+      },
+      {
+        "id": "desmos-text",
+        "type": "text",
+        "title": "Creating and Analyzing Scatterplots in Desmos",
+        "content": "Desmos has a powerful statistics mode for two-variable data:\n\n**Step 1: Enter your data in a table**\nClick the `+` button → select `table`. Enter x-values in column 1 and y-values in column 2.\n\n**Step 2: Create a regression line**\nIn a new expression box, type `y₁ ~ mx₁ + b` (using subscript 1). Desmos automatically computes the best-fit slope ($m$) and intercept ($b$), and displays them below the expression.\n\n**Step 3: Plot the model**\nDesmos will draw the line of best fit over your points. You can see which points are above/below the line (positive/negative residuals).\n\n**For exponential regression:** type `y₁ ~ a * b^x₁` to fit an exponential model.\n\n**For quadratic regression:** type `y₁ ~ ax₁² + bx₁ + c`.\n\n**On the SAT:** you'll be given a completed scatterplot with the line already drawn. Use Desmos to check predictions: enter the equation and evaluate at any x.",
+        "desmos_equations": ["y = -5x + 120"],
+        "desmos_bounds": { "left": -1, "right": 12, "bottom": 50, "top": 140 }
       },
       {
         "id": "type-5-section",
         "type": "divider",
-        "title": "Type 5: Using the Line of Best Fit for Predictions"
+        "title": "Type 5: Comparing Two Models"
       },
       {
         "id": "type-5-example",
         "type": "worked-example",
-        "title": "Example: Predict from the Line",
+        "title": "Example: Which Model Fits Better?",
         "source": "SAT Practice Question",
-        "problem": "A scatterplot of temperature ($y$, in °C) vs. time ($x$, in minutes) shows a linear trend. The line of best fit passes through $(0, 20)$ and $(8, 12)$. What temperature does the model predict at $x = 5$?",
+        "problem": "A dataset shows: when x goes from 1 to 5, y values are 3, 6, 12, 24, 48. Which equation models this data?\n\nA) $y = 3x$ \nB) $y = 3 \\cdot 2^{x-1}$ \nC) $y = x^2 + 2$",
         "steps": [
           {
             "step": 1,
-            "description": "Find the slope of the line",
-            "math": "m = \\frac{12 - 20}{8 - 0} = \\frac{-8}{8} = -1"
+            "description": "Test A at x=1,2,3: y = 3, 6, 9. But actual is 3, 6, 12 → doesn't match",
+            "math": "y = 3x \\text{ gives } 3, 6, 9, 12, 15 \\quad \\text{NO}"
           },
           {
             "step": 2,
-            "description": "Write the equation: y = -x + 20",
-            "math": "y = -x + 20"
-          },
-          {
-            "step": 3,
-            "description": "Predict at x = 5",
-            "math": "y = -5 + 20 = 15 \\text{ °C}"
+            "description": "Test B at x=1: 3×2⁰=3; x=2: 3×2¹=6; x=3: 3×2²=12; x=4: 3×2³=24; x=5: 3×2⁴=48 ✓",
+            "math": "y = 3 \\cdot 2^{x-1} \\text{ gives } 3, 6, 12, 24, 48 \\quad \\checkmark"
           }
         ],
-        "answer": "Predicted temperature at $x = 5$ is $15$°C"
-      },
-      {
-        "id": "type-6-section",
-        "type": "divider",
-        "title": "Type 6: Comparing Two Models"
-      },
-      {
-        "id": "type-6-example",
-        "type": "worked-example",
-        "title": "Example: When Is Model A Better Than Model B?",
-        "source": "SAT Practice Question",
-        "problem": "Two models $f$ and $g$ predict the same quantity. For $x < c$, $f(x) > g(x)$, and for $x > c$, $f(x) < g(x)$. This means the models cross at $x = c$ and switch which is larger.",
-        "steps": [
-          {
-            "step": 1,
-            "description": "Find where the models are equal: set f(x) = g(x) and solve for c",
-            "math": "f(c) = g(c)"
-          },
-          {
-            "step": 2,
-            "description": "For x < c: f(x) > g(x). For x > c: f(x) < g(x)",
-            "math": "\\text{The models swap which is larger at } x = c"
-          }
-        ],
-        "answer": "The correct description matches: there is a constant $c$ where $f$ and $g$ switch dominance."
+        "answer": "B) $y = 3 \\cdot 2^{x-1}$",
+        "tip": "To check an exponential model, verify the common ratio: 6/3 = 2, 12/6 = 2, 24/12 = 2. Constant ratio → exponential with base 2."
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Key Takeaways",
         "items": [
-          "**Model selection:** linear (straight line) vs. exponential (consistent ratio) vs. quadratic (arc shape)",
-          "**Slope of best fit:** rise ÷ run using two points on the line; positive = positive association",
-          "**Residual:** actual − predicted; positive = point above line; negative = point below",
-          "**Steepest part = fastest rate of change** in a curve",
-          "**Prediction:** use the best-fit equation; substitute the x-value"
+          "**Model selection:** constant differences → linear; constant ratios → exponential; arc shape → quadratic",
+          "**Slope of best fit:** Δy/Δx using two points on the LINE (not data points)",
+          "**Residual:** Actual − Predicted; positive = point above line, negative = below",
+          "**Slope interpretation:** 'for each 1-unit increase in x, y changes by [slope] [units]'",
+          "**Desmos regression:** table → enter data, then `y₁ ~ mx₁ + b` for linear fit",
+          "**Steepest part of curve = fastest rate of change** — look for it visually"
         ]
       },
       {
         "id": "common-mistakes",
         "type": "warning",
         "title": "Common Mistakes",
-        "content": "- Reading the slope using data points instead of points on the line of best fit\n- Confusing residual sign: residual = actual − predicted (not predicted − actual)\n- Choosing linear when the data has a clear curve (look for whether differences or ratios are constant)\n- Assuming a regression line passes through the origin — it almost never does"
+        "content": "- Computing slope from data points instead of two points on the best-fit line\n- Getting the residual formula backwards: it's Actual − Predicted (NOT Predicted − Actual)\n- Choosing linear when the data has a clear curve — check ratios, not just differences\n- Interpreting slope as a total amount instead of a per-unit rate of change\n- Saying 'at x = 0, y = [intercept]' without checking if x = 0 is meaningful in context"
       }
     ],
     "sat_tips": [
-      "Residual = Actual minus Predicted (not the other way around)",
-      "To identify model type: check if differences (linear) or ratios (exponential) between y-values are constant",
-      "For slope of best-fit: use two clear points on the LINE, not data points near it",
-      "Positive association: both variables increase together; negative: one goes up, other goes down"
+      "Residual = Actual − Predicted (write this down before computing)",
+      "To identify the model: test whether y-differences (linear) or y-ratios (exponential) are constant",
+      "For slope interpretation: 'for each 1-unit increase in x, y increases/decreases by |slope| units'",
+      "In Desmos, you can enter both a linear and exponential model and visually see which fits the pattern better",
+      "Largest residual = the point furthest from the line — visually the biggest outlier from the trend"
     ]
   }
 }

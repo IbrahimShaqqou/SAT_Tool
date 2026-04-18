@@ -1,16 +1,16 @@
 {
   "skill_code": "Q.G.",
   "title": "Evaluating Statistical Claims",
-  "subtitle": "Identify bias, generalizability, and the difference between correlation and causation",
-  "estimated_minutes": 14,
+  "subtitle": "Identify bias, generalizability, causation vs. correlation, and valid conclusions from studies",
+  "estimated_minutes": 18,
   "difficulty_level": "intermediate",
   "content": {
     "sections": [
       {
         "id": "intro",
         "type": "text",
-        "title": "The Two Big Questions",
-        "content": "Every statistical claim question on the SAT asks one of two things:\n\n1. **Is the sample biased?** Does it represent the population fairly?\n2. **How broadly can we generalize?** Who does the conclusion actually apply to?\n\nA secondary question:\n3. **Causation vs. correlation:** Can the study conclude that one thing *causes* another?"
+        "title": "Four Questions for Every Statistical Claim",
+        "content": "Every SAT question about a study or survey asks at least one of these four questions:\n\n1. **Is the sample biased?** Does it represent the target population?\n2. **How broadly can we generalize?** Who does the conclusion apply to?\n3. **Causation or correlation?** Can we say one thing *caused* another?\n4. **What is a valid conclusion?** Given what was studied, what can we say?\n\nLearn to identify which question is being asked before looking at the answer choices."
       },
       {
         "id": "type-1-section",
@@ -21,166 +21,223 @@
         "id": "type-1-intro",
         "type": "text",
         "title": "What Makes a Sample Biased?",
-        "content": "A sample is **biased** when it systematically over-represents or under-represents part of the population.\n\n**Biased sampling methods:**\n- Surveying only people who already agree with the hypothesis\n- Asking only one subgroup (dog owners about a dog park)\n- Voluntary response (people with strong opinions respond more)\n- Convenience sampling (only surveying easily accessible people)\n\n**Unbiased:** random sampling from the full population"
+        "content": "A sample is **biased** when it systematically over-represents or under-represents part of the population, making results unreliable for the whole group.\n\n**Common sources of bias:**\n- **Self-selection:** people who choose to participate have different views than those who don't\n- **Convenience sampling:** only surveying easily accessible people (students in one class, shoppers at one mall)\n- **Undercoverage:** leaving out parts of the population (surveying only online users about internet access)\n- **Leading questions:** question phrasing that nudges a particular answer\n\n**Unbiased sampling:** randomly selecting from the full target population."
       },
       {
-        "id": "type-1-example",
+        "id": "type-1-example-1",
         "type": "worked-example",
         "title": "Example: Dog Park Survey",
         "source": "SAT Practice Question",
-        "problem": "A city council surveyed 500 **dog owners** about converting a field to a dog park. The majority said yes. Which is the best description of the survey's limitation?",
+        "problem": "A city wants to know if residents support converting a field to a dog park. The city council surveys 500 **dog owners**. The majority support it. Which is the best description of this survey's limitation?",
         "steps": [
           {
             "step": 1,
-            "description": "The council wants to know all residents' opinions, but only surveyed dog owners",
-            "math": "\\text{Target population: all city residents}"
+            "description": "Target population = all city residents. Sample = dog owners only",
+            "math": "\\text{Sample} \\neq \\text{Target population}"
           },
           {
             "step": 2,
-            "description": "Dog owners have a systematic reason to favor a dog park — this is bias",
-            "math": "\\text{Sample is biased: not representative of all residents}"
+            "description": "Dog owners have a systematic reason to favor a dog park — they're not representative",
+            "math": "\\text{Biased: overrepresents people who benefit from a dog park}"
           }
         ],
-        "answer": "The survey sample is **biased** because it only includes dog owners, who are more likely to support a dog park than the general population.",
-        "tip": "Bias means the sample is not representative of the target population — certain groups are over- or under-represented."
+        "answer": "The survey is **biased** because it only includes dog owners, who are more likely to support the park than the general population.",
+        "tip": "Ask: 'Does the group being sampled have a systematic reason to respond differently from the whole population?' If yes → biased."
+      },
+      {
+        "id": "type-1-example-2",
+        "type": "worked-example",
+        "title": "Example: Voluntary Response Bias",
+        "source": "SAT Practice Question",
+        "problem": "A company posts an online survey asking customers to rate their service. 200 people respond. Should the company trust the results as representative of all customers?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Only customers who feel strongly (very satisfied or very dissatisfied) tend to respond voluntarily",
+            "math": "\\text{Voluntary response} \\Rightarrow \\text{biased toward strong opinions}"
+          },
+          {
+            "step": 2,
+            "description": "Silent majority (typical customers) are underrepresented",
+            "math": "\\text{Results do NOT represent all customers}"
+          }
+        ],
+        "answer": "No — voluntary response bias means the results overrepresent extreme opinions. Silent customers who were merely satisfied are underrepresented.",
+        "tip": "Voluntary response (people who choose to respond) always biases toward strong opinions. This is a very common SAT trap."
       },
       {
         "id": "type-2-section",
         "type": "divider",
-        "title": "Type 2: Identifying the Target Population for Generalization"
+        "title": "Type 2: Generalizability — Who Can the Results Apply To?"
       },
       {
         "id": "type-2-intro",
         "type": "text",
-        "title": "Conclusions Apply Only to the Population Sampled",
-        "content": "The conclusions from a study can only be extended to the **largest population** that the sample fairly represents.\n\n**Rules:**\n- If you randomly sampled California State University history professors → can generalize to *all California State University history professors*\n- Cannot generalize to all U.S. professors, or all history professors nationwide\n- Cannot generalize beyond the sampling frame"
+        "title": "Conclusions Can Only Apply to the Population That Was Sampled",
+        "content": "The conclusions from any study can be extended to, at most, the **population that the sample was drawn from** (the sampling frame).\n\n**You cannot generalize beyond the sampling frame.** Even if the sample was perfectly random:\n- Random sample from one school → can generalize to that school only\n- Random sample from all California State Universities → can generalize to all CSU students\n- Random sample from all U.S. universities → can generalize to all U.S. university students\n\n**Common wrong answers on SAT:** \"All high school students in the country...\" when only one school was sampled."
       },
       {
         "id": "type-2-example-1",
         "type": "worked-example",
-        "title": "Example: Scope of Generalization",
+        "title": "Example: What Is the Largest Population?",
         "source": "SAT Practice Question",
-        "problem": "Researchers randomly selected history professors from the California State Universities and asked about textbook publishers. What is the largest population this generalizes to?",
+        "problem": "Researchers randomly selected history professors from the California State Universities. What is the largest population to which the results can be generalized?",
         "steps": [
           {
             "step": 1,
-            "description": "Random sample: only from California State Universities",
-            "math": "\\text{Sampling frame: CSU history professors}"
+            "description": "The sampling frame = history professors at California State Universities",
+            "math": "\\text{Can generalize to: all history professors at all CSUs}"
           },
           {
             "step": 2,
-            "description": "The sample represents only this specific population",
-            "math": "\\text{Largest valid population: all history professors at all California State Universities}"
+            "description": "Cannot generalize to all U.S. history professors — not all universities were included",
+            "math": "\\text{Limit: CSU history professors only}"
           }
         ],
-        "answer": "All **history professors at all California State Universities**"
+        "answer": "All **history professors at California State Universities**",
+        "tip": "The 'largest population' question: always limit to the actual sampling frame — the group you actually sampled from."
       },
       {
         "id": "type-2-example-2",
         "type": "worked-example",
-        "title": "Example: School-Level vs. District-Level",
+        "title": "Example: School vs. District",
         "source": "SAT Practice Question",
-        "problem": "40 fourth-grade students were randomly selected from a certain school. 32 thought the morning announcements were helpful. What is the largest population this generalizes to?",
+        "problem": "40 fourth-grade students were randomly selected from Lincoln Elementary School. 32 thought morning announcements were helpful. Can we generalize to: (A) all fourth-graders at Lincoln, (B) all fourth-graders in the district, or (C) all fourth-graders in the state?",
         "steps": [
           {
             "step": 1,
-            "description": "The sample was from one school, fourth-grade specifically",
-            "math": "\\text{Sampling frame: fourth-graders at this specific school}"
+            "description": "Sample is from Lincoln Elementary only",
+            "math": "\\text{Sampling frame: Lincoln Elementary 4th graders}"
           },
           {
             "step": 2,
-            "description": "Cannot generalize to other schools or all grade levels",
-            "math": "\\text{Largest valid: all fourth-grade students at the school}"
+            "description": "Can generalize only to Lincoln's 4th graders",
+            "math": "\\text{Only (A) is valid. (B) and (C) go beyond the sampling frame.}"
           }
         ],
-        "answer": "All **fourth-grade students at that specific school**"
+        "answer": "(A) All fourth-graders at Lincoln Elementary School. Options B and C exceed the sampling frame.",
+        "tip": "Each step up (school → district → state → country) requires a random sample from that larger population."
       },
       {
         "id": "type-3-section",
         "type": "divider",
-        "title": "Type 3: What CAN Be Concluded from a Random Sample"
+        "title": "Type 3: Causation vs. Correlation"
       },
       {
-        "id": "type-3-example",
+        "id": "type-3-intro",
+        "type": "text",
+        "title": "Two Types of Studies — Different Conclusions",
+        "content": "| Study type | How subjects are divided | What can be concluded |\n|---|---|---|\n| **Observational study** | Researchers observe without assigning treatment | Association/correlation only — NOT causation |\n| **Randomized experiment** | Subjects are randomly assigned to treatment/control | Can conclude causation |\n\n**The key question:** Were subjects **randomly assigned** to groups?\n- YES → experiment → **causation possible**\n- NO → observational → **correlation only**, not causation\n\n**Why does random assignment matter?** It ensures the groups are similar in all background factors, so any difference in outcome must be due to the treatment."
+      },
+      {
+        "id": "type-3-example-1",
         "type": "worked-example",
-        "title": "Example: Correct Conclusion from a Random Sample",
+        "title": "Example: Can We Conclude Causation?",
         "source": "SAT Practice Question",
-        "problem": "1,000 adults were randomly selected from a large city. 78% said they're satisfied with air quality. Which statements can be concluded?\n\nI. About 78% of all city residents are satisfied with air quality.\nII. The sampling method produces reliable estimates.",
+        "problem": "A psychologist randomly assigned 35 students from one middle school to two groups: half played an educational math game, half didn't. Students who played the game scored higher on a fraction test. Can the psychologist conclude that the game CAUSED improved scores?",
         "steps": [
           {
             "step": 1,
-            "description": "Because the sample was random and large, it is representative",
-            "math": "\\text{Statement I: can be inferred — random sample from the city} \\checkmark"
+            "description": "Were subjects randomly assigned? YES — half were randomly assigned to play the game",
+            "math": "\\text{Random assignment} \\Rightarrow \\text{randomized experiment}"
           },
           {
             "step": 2,
-            "description": "Random sampling is a reliable method",
-            "math": "\\text{Statement II: also valid} \\checkmark"
+            "description": "Random assignment makes the groups initially similar, so the game is the only explanation",
+            "math": "\\text{Causation can be concluded for this population}"
+          },
+          {
+            "step": 3,
+            "description": "BUT: sample was from one middle school → can only generalize to students like those",
+            "math": "\\text{Cannot generalize to all students}"
           }
         ],
-        "answer": "Both Statement I and Statement II can be concluded.",
-        "tip": "A **random** sample allows generalization to the population it was drawn from. Non-random samples do not."
+        "answer": "Yes — causation CAN be concluded for the students in the study, because random assignment was used. But results generalize only to students similar to those at that school.",
+        "tip": "A study can conclude causation but have limited generalizability, or have broad generalizability but not conclude causation. These are separate questions."
+      },
+      {
+        "id": "type-3-example-2",
+        "type": "worked-example",
+        "title": "Example: Observational Study — No Causation",
+        "source": "SAT Practice Question",
+        "problem": "Researchers surveyed 1,000 adults and found that people who eat breakfast daily earn higher incomes on average. Can they conclude that eating breakfast CAUSES higher income?",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Researchers observed behavior — they did NOT randomly assign anyone to eat/skip breakfast",
+            "math": "\\text{Observational study} \\Rightarrow \\text{correlation only}"
+          },
+          {
+            "step": 2,
+            "description": "A third variable (e.g., lifestyle, schedule, economic background) could explain both breakfast habits and income",
+            "math": "\\text{Confounding variables prevent causal conclusion}"
+          }
+        ],
+        "answer": "No — this is an observational study. We can only say eating breakfast and income are **associated**, not that breakfast causes higher income.",
+        "tip": "When there's no random assignment, there are always possible 'confounding variables' that could explain the association. That's why observational studies can't prove causation."
       },
       {
         "id": "type-4-section",
         "type": "divider",
-        "title": "Type 4: Causation vs. Correlation"
+        "title": "Type 4: Choosing the Correct Conclusion"
       },
       {
         "id": "type-4-intro",
         "type": "text",
-        "title": "Observational vs. Experimental Studies",
-        "content": "- **Observational study:** researchers observe without intervening. Can only show **correlation** (association), not causation.\n- **Randomized experiment:** subjects are randomly assigned to treatment or control groups. When done correctly, can show **causation**.\n\nKey rule:\n- If researchers did NOT randomly assign subjects to groups → cannot conclude causation → observational study\n- If researchers DID randomly assign → can conclude causation → experiment"
+        "title": "Correct Language for Statistical Conclusions",
+        "content": "**Correct:** 'approximately,' 'estimated,' 'it is plausible that,' 'on average'\n**Incorrect:** 'exactly,' 'all,' 'certainly,' 'proves'\n\n**Correct conclusions from a random sample:**\n- Approximately X% of the [target population] has this characteristic\n- It is estimated that Y individuals in the [target population] will...\n\n**Wrong:**\n- All members of the population... (a sample can't speak for every individual)\n- Exactly 30%... (a sample gives an estimate, not a perfect figure)"
       },
       {
         "id": "type-4-example",
         "type": "worked-example",
-        "title": "Example: Can We Conclude Causation?",
+        "title": "Example: Identify the Valid Conclusion",
         "source": "SAT Practice Question",
-        "problem": "A psychologist chose 35 students at random from one middle school. Half were randomly assigned to play an educational game; the other half didn't. Those who played the game had higher accuracy on fraction problems. Can the psychologist conclude the game *caused* improved accuracy?",
+        "problem": "1,000 adults were randomly selected from a large city. 78% reported being satisfied with air quality. Which conclusion is best supported?\n\nA) Exactly 78% of all city residents are satisfied.\nB) Approximately 78% of all city residents are satisfied.\nC) All city residents are satisfied.\nD) The results cannot be generalized to the city.",
         "steps": [
           {
             "step": 1,
-            "description": "Were subjects randomly assigned to groups? YES — half were randomly assigned to play the game",
-            "math": "\\text{Random assignment} \\Rightarrow \\text{experimental study}"
+            "description": "The sample was RANDOM from the city → can generalize to city residents. Eliminates D",
+            "math": "\\text{Random sample} \\Rightarrow \\text{can generalize}"
           },
           {
             "step": 2,
-            "description": "Random assignment means the groups were initially similar in all ways, so differences in outcome are due to the treatment",
-            "math": "\\text{Can conclude: game caused improvement}"
+            "description": "A sample gives an estimate, not an exact figure. 'Exactly' is too strong. Eliminates A",
+            "math": "\\text{'Approximately' is correct language for sample estimates}"
           },
           {
             "step": 3,
-            "description": "But: sample was from one school — generalization is limited to students like those",
-            "math": "\\text{Can generalize only to students at that school (or similar middle school students)}"
+            "description": "C is way too strong — we can't say ALL residents are satisfied from 78% of a sample",
+            "math": "\\text{B is the only valid conclusion}"
           }
         ],
-        "answer": "Yes, causation can be concluded for the students in the study. But results generalize only to students similar to those in the sample."
+        "answer": "B) Approximately 78% of all city residents are satisfied.",
+        "tip": "On SAT, eliminate any choice with 'all,' 'exactly,' or 'certainly.' Correct statistical conclusions use 'approximately' and apply only to the sampled population."
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Key Takeaways",
         "items": [
-          "**Biased sample:** only represents part of the population → conclusions don't generalize well",
-          "**Random sample:** can generalize to the population it was drawn from, but no further",
-          "**Generalization scope:** limited to the sampling frame — the specific group from which the sample was drawn",
-          "**Correlation ≠ causation:** observational studies can show association; only randomized experiments can show causation",
-          "**Random assignment (experiment):** allows causal conclusions within the study population"
+          "**Biased sample:** systematically non-representative → conclusions don't generalize well",
+          "**Random sample:** can generalize to the population it was drawn from, but NO further",
+          "**Generalization scope:** limited to the sampling frame — always check who was actually sampled",
+          "**Causation:** only possible from a randomized experiment (random assignment to groups)",
+          "**Correlation:** all observational studies show only — not causation",
+          "**Valid language:** 'approximately,' not 'exactly' or 'all'"
         ]
       },
       {
         "id": "common-mistakes",
         "type": "warning",
         "title": "Common Mistakes",
-        "content": "- Generalizing to a larger population than was sampled (e.g., all U.S. students from one school's sample)\n- Concluding causation from an observational study\n- Saying a biased sample produces NO useful information — it still shows what's true for the biased group\n- Confusing 'random sample' (who is selected) with 'random assignment' (how subjects are divided into groups)"
+        "content": "- Generalizing beyond the sampling frame (e.g., all U.S. students from one school's data)\n- Confusing 'random sample' (who is selected) with 'random assignment' (how subjects are divided into groups) — they are DIFFERENT\n- Concluding causation from an observational study — the key question is 'were subjects randomly assigned?'\n- Saying a biased sample produces NO information — it does give information about the biased group, just not the full population\n- Accepting answer choices with 'all,' 'exactly,' or 'certainly' for sample-based conclusions"
       }
     ],
     "sat_tips": [
-      "Ask: 'Who was sampled?' — conclusions only apply to that group",
-      "Ask: 'Were subjects randomly assigned to treatment groups?' — if yes, causation is possible",
-      "Biased sample ≠ no information, just limited generalizability",
-      "The 'largest population' question: always limit to the actual sampling frame (the group actually sampled from)"
+      "Ask 'who was sampled?' → conclusions apply ONLY to that group",
+      "Ask 'were subjects randomly assigned to treatment groups?' → if yes, causation is possible",
+      "Random sample (selecting subjects) ≠ random assignment (dividing into treatment groups) — know the difference",
+      "Correct language for sample conclusions: 'approximately,' 'estimated,' 'plausible' — never 'exactly' or 'all'"
     ]
   }
 }
