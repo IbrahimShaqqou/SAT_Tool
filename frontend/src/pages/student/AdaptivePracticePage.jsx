@@ -18,7 +18,6 @@ import {
 import {
   Card,
   Button,
-  Badge,
   LoadingSpinner,
   ThetaBar,
 } from '../../components/ui';

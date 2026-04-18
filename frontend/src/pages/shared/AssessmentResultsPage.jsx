@@ -21,7 +21,7 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CheckCircle, XCircle, ChevronDown, ChevronUp,
-  Target, Clock, BookOpen, AlertTriangle, ArrowRight,
+  Clock, BookOpen, AlertTriangle,
   TrendingUp, Zap,
 } from 'lucide-react';
 import { Card, Button, LoadingSpinner } from '../../components/ui';
@@ -110,7 +110,6 @@ export default function AssessmentResultsPage({
     questions_answered = 0,
     questions_correct = 0,
     time_seconds = 0,
-    sections = [],
     domain_breakdown = [],
     worst_skills = [],
     questions = [],

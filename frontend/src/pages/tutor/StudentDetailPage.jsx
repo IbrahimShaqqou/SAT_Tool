@@ -33,14 +33,6 @@ const getMasteryLevel = (accuracy, questionsAttempted) => {
   return { level: 'Needs Practice', color: 'red', icon: AlertTriangle };
 };
 
-// IRT ability level helper
-const getAbilityLevel = (theta) => {
-  if (theta === null || theta === undefined) return { level: 'Unknown', color: 'gray' };
-  if (theta >= 1.5) return { level: 'Advanced', color: 'green' };
-  if (theta >= 0.5) return { level: 'Proficient', color: 'blue' };
-  if (theta >= -0.5) return { level: 'Developing', color: 'amber' };
-  return { level: 'Beginning', color: 'red' };
-};
 
 // Domain Card Component
 const DomainMasteryCard = ({ domain, skills }) => {
