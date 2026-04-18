@@ -35,6 +35,8 @@ import AdaptivePracticePage from './pages/student/AdaptivePracticePage';
 import StudentQuestionBankPage from './pages/student/QuestionBankPage';
 import LessonsPage from './pages/student/LessonsPage';
 import LessonViewerPage from './pages/student/LessonViewerPage';
+import DiagnosticLandingPage from './pages/student/DiagnosticLandingPage';
+import DiagnosticResultsPage from './pages/student/DiagnosticResultsPage';
 
 // Public Assessment
 import { AssessmentPage, IntakeResultsPage } from './pages/assess';
@@ -105,6 +107,8 @@ function App() {
         <Route path="/student/adaptive" element={<AdaptivePracticePage />} />
         <Route path="/student/lessons" element={<LessonsPage />} />
         <Route path="/student/lessons/:lessonId" element={<LessonViewerPage />} />
+        <Route path="/student/diagnostic" element={<DiagnosticLandingPage />} />
+        <Route path="/student/diagnostic/:sessionId/results" element={<DiagnosticResultsPage />} />
         <Route path="/student/progress" element={<ProgressPage />} />
         <Route path="/student/profile" element={<ProfilePage />} />
         <Route path="/student/settings" element={<SettingsPage />} />

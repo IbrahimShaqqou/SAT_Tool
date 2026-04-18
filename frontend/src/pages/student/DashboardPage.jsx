@@ -7,10 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   ClipboardList, Brain,
   PlayCircle, AlertTriangle, Target, ArrowRight,
-  BookOpen, GraduationCap, BarChart3,
+  BookOpen, GraduationCap, BarChart3, BarChart2,
 } from 'lucide-react';
-import { Button, Badge, EmptyState, LoadingSpinner } from '../../components/ui';
-import { assignmentService, progressService } from '../../services';
+import { Button, Badge, EmptyState, LoadingSpinner, ThetaBar } from '../../components/ui';
+import { assignmentService, progressService, recommendationService } from '../../services';
 import { useAuth } from '../../hooks/useAuth';
 
 // Organic blob decoration — personality without gradients
@@ -45,21 +45,32 @@ const StudentDashboard = () => {
   const [inProgressAssessments, setInProgressAssessments] = useState([]);
   const [progress, setProgress] = useState(null);
   const [skills, setSkills] = useState(null);
+  const [studyPlan, setStudyPlan] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasDiagnostic, setHasDiagnostic] = useState(true); // assume true until loaded
+  const [diagnosticBannerDismissed, setDiagnosticBannerDismissed] = useState(
+    () => sessionStorage.getItem('diagnostic_banner_dismissed') === '1'
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [assignmentsRes, progressRes, inProgressRes, skillsRes] = await Promise.all([
+        const [assignmentsRes, progressRes, inProgressRes, skillsRes, studyPlanRes] = await Promise.all([
           assignmentService.getAssignments({ status: 'pending', limit: 5 }),
           progressService.getSummary(),
           progressService.getInProgressAssessments(),
           progressService.getSkills().catch(() => ({ data: { skills: [], weak_skills: [], strong_skills: [] } })),
+          recommendationService.getStudyPlan().catch(() => ({ data: { tasks: [] } })),
         ]);
         setAssignments(assignmentsRes.data.items || []);
         setProgress(progressRes.data);
         setInProgressAssessments(inProgressRes.data.items || []);
         setSkills(skillsRes.data);
+        setStudyPlan(studyPlanRes.data.tasks || []);
+
+        // Check if student has taken a diagnostic
+        const totalSessions = progressRes.data?.sessions_completed || 0;
+        setHasDiagnostic(totalSessions > 0);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -68,6 +79,11 @@ const StudentDashboard = () => {
     };
     fetchData();
   }, []);
+
+  const dismissDiagnosticBanner = () => {
+    sessionStorage.setItem('diagnostic_banner_dismissed', '1');
+    setDiagnosticBannerDismissed(true);
+  };
 
   if (isLoading) {
     return (
@@ -111,8 +127,56 @@ const StudentDashboard = () => {
               <span className="text-brand-200 text-sm ml-1.5">sessions</span>
             </div>
           </div>
+
+          {/* Score goal chip */}
+          {user?.target_score && (
+            <div className="mt-4 flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 text-sm text-white">
+                <Target className="h-3.5 w-3.5 text-brand-200" />
+                Goal: <span className="font-bold">{user.target_score}</span>
+                {user.test_date && (
+                  <span className="text-brand-200">
+                    {' '}by{' '}
+                    {new Date(user.test_date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </span>
+                )}
+              </span>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* ── Diagnostic banner (shown when no sessions yet) ── */}
+      {!hasDiagnostic && !diagnosticBannerDismissed && (
+        <div className="relative overflow-hidden rounded-2xl bg-violet-600 px-6 py-5">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+                <BarChart2 className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-white">Start with a diagnostic to get your estimated SAT score</p>
+                <p className="text-violet-200 text-sm mt-0.5">30 questions · 25 min · personalized study plan</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <Link to="/student/diagnostic">
+                <Button size="sm" className="bg-white text-violet-700 hover:bg-violet-50 border-0 font-semibold">
+                  Take Diagnostic
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </Link>
+              <button
+                onClick={dismissDiagnosticBanner}
+                className="text-violet-300 hover:text-white p-1 rounded transition-colors"
+                aria-label="Dismiss"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Assessment in progress banner ── */}
       {inProgressAssessments.length > 0 && (
@@ -167,6 +231,38 @@ const StudentDashboard = () => {
         ))}
       </div>
 
+      {/* ── Today's Plan ── */}
+      {studyPlan.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <Target className="h-4 w-4 text-brand-500" />
+            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Today's Plan</h2>
+          </div>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
+            {studyPlan.map((task, i) => {
+              const icons = { review: '🔄', level_up: '⚡', focus: '🎯', lesson: '📖', nudge: '💪' };
+              return (
+                <div key={i} className="flex items-center justify-between px-5 py-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-lg flex-shrink-0">{icons[task.type] || '📌'}</span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{task.title}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">~{task.estimated_minutes} min</p>
+                    </div>
+                  </div>
+                  <Link to={task.cta_href} className="flex-shrink-0 ml-4">
+                    <Button size="sm" variant="secondary">
+                      {task.cta_label}
+                      <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                    </Button>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* ── Areas to improve ── */}
       {skills?.weak_skills?.length > 0 && (
         <section>
@@ -175,35 +271,31 @@ const StudentDashboard = () => {
               <AlertTriangle className="h-4 w-4 text-amber-500" />
               <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Areas to improve</h2>
             </div>
-            <span className="text-xs text-slate-400 dark:text-slate-500">From your intake assessment</span>
+            <span className="text-xs text-slate-400 dark:text-slate-500">From your practice</span>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-            {skills.weak_skills.map((skill) => {
-              const pct = Math.round(skill.mastery_level);
-              const color = pct < 30 ? 'bg-rose-400' : pct < 60 ? 'bg-amber-400' : 'bg-accent-400';
-              return (
-                <div key={skill.skill_id} className="flex items-center gap-4 px-5 py-4">
-                  <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-300">{skill.domain_code}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{skill.skill_name}</p>
-                    <div className="flex items-center gap-3 mt-1.5">
-                      <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden max-w-[120px]">
-                        <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
-                      </div>
-                      <span className="text-xs text-slate-500 dark:text-slate-400 flex-shrink-0">{pct}% mastery</span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
-                    className="flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors flex-shrink-0"
-                  >
-                    Practice <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
+            {skills.weak_skills.map((skill) => (
+              <div key={skill.skill_id} className="flex items-center gap-4 px-5 py-4">
+                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-300">{skill.domain_code}</span>
                 </div>
-              );
-            })}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate mb-1.5">{skill.skill_name}</p>
+                  <ThetaBar
+                    theta={skill.theta}
+                    masteryLevel={skill.mastery_level}
+                    isStale={skill.is_stale}
+                    size="full"
+                  />
+                </div>
+                <button
+                  onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
+                  className="flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors flex-shrink-0"
+                >
+                  Practice <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
           </div>
         </section>
       )}
@@ -219,15 +311,20 @@ const StudentDashboard = () => {
             {skills.strong_skills.slice(0, 3).map((skill) => (
               <div
                 key={skill.skill_id}
-                className="bg-white dark:bg-slate-800 rounded-2xl shadow-card px-4 py-3.5 flex items-center gap-3"
+                className="bg-white dark:bg-slate-800 rounded-2xl shadow-card px-4 py-3.5"
               >
-                <div className="w-9 h-9 rounded-xl bg-accent-50 dark:bg-accent-900/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-bold text-accent-600 dark:text-accent-400">{skill.domain_code}</span>
-                </div>
-                <div className="min-w-0">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-9 h-9 rounded-xl bg-accent-50 dark:bg-accent-900/20 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-bold text-accent-600 dark:text-accent-400">{skill.domain_code}</span>
+                  </div>
                   <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{skill.skill_name}</p>
-                  <p className="text-xs text-accent-600 dark:text-accent-400 font-semibold mt-0.5">{Math.round(skill.mastery_level)}% mastery</p>
                 </div>
+                <ThetaBar
+                  theta={skill.theta}
+                  masteryLevel={skill.mastery_level}
+                  isStale={skill.is_stale}
+                  size="full"
+                />
               </div>
             ))}
           </div>

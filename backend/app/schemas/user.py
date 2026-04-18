@@ -4,7 +4,7 @@ SAT Tutoring Platform - User Schemas
 Pydantic schemas for user-related API requests and responses.
 """
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional
 from uuid import UUID
 
@@ -48,6 +48,8 @@ class UserUpdate(BaseModel):
     first_name: Optional[str] = Field(None, min_length=1, max_length=100)
     last_name: Optional[str] = Field(None, min_length=1, max_length=100)
     profile_data: Optional[dict] = None
+    target_score: Optional[int] = Field(None, ge=400, le=1600)
+    test_date: Optional[date] = None
 
 
 class UserResponse(UserBase):
@@ -57,6 +59,8 @@ class UserResponse(UserBase):
     is_active: bool
     is_verified: bool
     tutor_id: Optional[UUID] = None
+    target_score: Optional[int] = None
+    test_date: Optional[date] = None
     created_at: datetime
     updated_at: datetime
 

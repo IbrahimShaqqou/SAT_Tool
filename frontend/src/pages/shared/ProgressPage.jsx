@@ -3,7 +3,9 @@
  * Comprehensive view of student's learning progress using Khan Academy-style 4-level mastery
  */
 import { useState, useEffect } from 'react';
-import { TrendingUp, Target, Award, Clock, BookOpen, ChevronDown, ChevronUp, AlertCircle, RefreshCw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { TrendingUp, Target, Award, Clock, BookOpen, ChevronDown, ChevronUp, AlertCircle, RefreshCw, CheckCircle } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { Card, Badge, LoadingSpinner } from '../../components/ui';
 import {
   MasteryBadge,
@@ -13,15 +15,17 @@ import {
 import { progressService } from '../../services';
 
 const ProgressPage = () => {
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(null);
   const [skills, setSkills] = useState(null);
+  const [scoreHistory, setScoreHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [expandedDomains, setExpandedDomains] = useState(new Set());
 
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const [summaryRes, skillsRes] = await Promise.all([
+        const [summaryRes, skillsRes, historyRes] = await Promise.all([
           progressService.getSummary(),
           progressService.getSkills().catch(() => ({
             data: {
@@ -35,9 +39,11 @@ const ProgressPage = () => {
               needs_review_count: 0,
             }
           })),
+          progressService.getScoreHistory().catch(() => ({ data: { history: [] } })),
         ]);
         setProgress(summaryRes.data);
         setSkills(skillsRes.data);
+        setScoreHistory(historyRes.data.history || []);
       } catch (error) {
         console.error('Failed to fetch progress:', error);
       } finally {
@@ -156,6 +162,53 @@ const ProgressPage = () => {
         </Card>
       </div>
 
+      {/* Score History Chart */}
+      <Card>
+        <Card.Header>
+          <Card.Title className="flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-brand-500" />
+            Score History
+          </Card.Title>
+          <Card.Description>Estimated SAT score over time</Card.Description>
+        </Card.Header>
+        <Card.Content>
+          {scoreHistory.length >= 2 ? (
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart data={scoreHistory.map(h => ({
+                date: new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                score: h.estimated_score,
+                low: h.score_low,
+                high: h.score_high,
+              }))}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+                <YAxis domain={[400, 1600]} tick={{ fontSize: 12 }} tickCount={5} />
+                <Tooltip
+                  formatter={(val, name) => name === 'score' ? [`${val}`, 'Estimated Score'] : null}
+                  labelStyle={{ fontWeight: 600 }}
+                />
+                <ReferenceLine y={1600} stroke="#e5e7eb" strokeDasharray="3 3" />
+                <Line
+                  type="monotone"
+                  dataKey="score"
+                  stroke="#4f46e5"
+                  strokeWidth={2.5}
+                  dot={{ fill: '#4f46e5', r: 5 }}
+                  activeDot={{ r: 7 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-32 flex flex-col items-center justify-center text-center">
+              <TrendingUp className="h-8 w-8 text-gray-300 dark:text-gray-600 mb-2" />
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Complete 2+ tests (diagnostic or practice) to see your score trend
+              </p>
+            </div>
+          )}
+        </Card.Content>
+      </Card>
+
       {/* Mastery Summary */}
       {skills && (skills.skills_mastered > 0 || skills.skills_proficient > 0 ||
                   skills.skills_familiar > 0 || skills.total_skills_practiced > 0) && (
@@ -203,7 +256,8 @@ const ProgressPage = () => {
                     key={skill.skill_id}
                     skillName={skill.skill_name}
                     level={skill.mastery_level}
-                    accuracy={skill.accuracy_percent}
+                    theta={skill.theta}
+                    abilitySe={skill.ability_se}
                     responsesCount={skill.responses_count}
                     daysAgo={skill.days_since_practice}
                     isStale={skill.is_stale}
@@ -231,7 +285,8 @@ const ProgressPage = () => {
                   key={skill.skill_id}
                   skillName={skill.skill_name}
                   level={skill.mastery_level}
-                  accuracy={skill.accuracy_percent}
+                  theta={skill.theta}
+                  abilitySe={skill.ability_se}
                   responsesCount={skill.responses_count}
                   daysAgo={skill.days_since_practice}
                   isStale={skill.is_stale}
@@ -259,7 +314,8 @@ const ProgressPage = () => {
                   key={skill.skill_id}
                   skillName={skill.skill_name}
                   level={skill.mastery_level}
-                  accuracy={skill.accuracy_percent}
+                  theta={skill.theta}
+                  abilitySe={skill.ability_se}
                   responsesCount={skill.responses_count}
                   daysAgo={skill.days_since_practice}
                   isStale={skill.is_stale}
@@ -332,6 +388,22 @@ const ProgressPage = () => {
                               </span>
                               {skill.is_stale && (
                                 <AlertCircle className="h-3.5 w-3.5 text-orange-500" />
+                              )}
+                              {skill.lesson_id && (
+                                <button
+                                  onClick={() => navigate(`/student/lessons/${skill.lesson_id}`)}
+                                  title={skill.lesson_completed ? 'Lesson completed' : 'Study lesson'}
+                                  className={`flex items-center gap-0.5 text-xs px-1.5 py-0.5 rounded-full transition-colors ${
+                                    skill.lesson_completed
+                                      ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
+                                      : 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 hover:bg-violet-200 dark:hover:bg-violet-900/50'
+                                  }`}
+                                >
+                                  {skill.lesson_completed
+                                    ? <CheckCircle className="h-3 w-3" />
+                                    : <BookOpen className="h-3 w-3" />
+                                  }
+                                </button>
                               )}
                             </div>
                             <div className="flex items-center gap-3">

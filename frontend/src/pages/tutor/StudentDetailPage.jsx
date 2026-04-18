@@ -16,11 +16,9 @@ import {
   XCircle,
   BarChart3,
   Zap,
-  RefreshCw,
 } from 'lucide-react';
-import { Card, Button, Badge, ProgressBar, Tabs, LoadingSpinner } from '../../components/ui';
+import { Card, Button, Badge, ProgressBar, Tabs, LoadingSpinner, ThetaBar } from '../../components/ui';
 import {
-  MasteryBadge,
   MasterySummary,
 } from '../../components/ui/MasteryBadge';
 import { AccuracyTrend, SkillBreakdown, DomainRadar } from '../../components/charts';
@@ -96,69 +94,34 @@ const DomainMasteryCard = ({ domain, skills }) => {
   );
 };
 
-// Skill Mastery Row Component - updated to use new 4-level system
+// Skill Mastery Row Component — uses ThetaBar with SE for tutor view
 const SkillMasteryRow = ({ skill }) => {
-  // Use new mastery_level (0-3) if available, otherwise fall back to accuracy-based
-  const masteryLevel = skill.mastery_level !== undefined ? skill.mastery_level : null;
-  const hasNewMastery = masteryLevel !== null && typeof masteryLevel === 'number' && masteryLevel <= 3;
-
-  const legacyMastery = getMasteryLevel(skill.accuracy, skill.questions_attempted);
-  const ability = getAbilityLevel(skill.ability_theta);
-  const LegacyMasteryIcon = legacyMastery.icon;
+  const masteryLevel = typeof skill.mastery_level === 'number' && skill.mastery_level <= 3
+    ? skill.mastery_level
+    : 0;
 
   return (
     <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-sm transition-shadow">
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            {hasNewMastery ? (
-              <MasteryBadge level={masteryLevel} size="sm" isStale={skill.is_stale} />
-            ) : (
-              LegacyMasteryIcon && <LegacyMasteryIcon className={`h-4 w-4 text-${legacyMastery.color}-500`} />
-            )}
-            <h4 className="font-medium text-gray-900 dark:text-gray-100">{skill.skill_name}</h4>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{skill.domain_name}</p>
+      <div className="flex items-center justify-between mb-2">
+        <div className="min-w-0 flex-1">
+          <h4 className="font-medium text-gray-900 dark:text-gray-100 truncate">{skill.skill_name}</h4>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{skill.domain_name}</p>
         </div>
-        <div className="text-right">
-          <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
-            {(skill.accuracy_percent || skill.accuracy || 0).toFixed(0)}%
-          </span>
+        <div className="text-right flex-shrink-0 ml-3">
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            {skill.responses_count || skill.questions_attempted || 0} questions
+            {skill.responses_count || skill.questions_attempted || 0}q
+            {skill.days_since_practice > 0 && ` · ${skill.days_since_practice}d ago`}
           </p>
         </div>
       </div>
-
-      <div className="mt-3">
-        <ProgressBar value={skill.accuracy_percent || skill.accuracy || 0} variant="auto" size="sm" />
-      </div>
-
-      <div className="mt-3 flex items-center justify-between text-sm">
-        {!hasNewMastery && (
-          <span className={`px-2 py-0.5 rounded-full text-xs bg-${legacyMastery.color}-100 text-${legacyMastery.color}-700`}>
-            {legacyMastery.level}
-          </span>
-        )}
-        {hasNewMastery && skill.is_stale && (
-          <span className="flex items-center gap-1 text-xs text-orange-500">
-            <RefreshCw className="h-3 w-3" />
-            Needs review
-          </span>
-        )}
-        {hasNewMastery && !skill.is_stale && skill.days_since_practice > 0 && (
-          <span className="text-xs text-gray-400">
-            {skill.days_since_practice}d ago
-          </span>
-        )}
-        {(skill.ability_theta !== null && skill.ability_theta !== undefined) || skill.theta !== null ? (
-          <span className={`flex items-center gap-1 text-xs text-${ability.color}-600 dark:text-${ability.color}-400`}>
-            <Brain className="h-3 w-3" />
-            IRT: {(skill.theta || skill.ability_theta) > 0 ? '+' : ''}{(skill.theta || skill.ability_theta)?.toFixed(2)}
-            <span className="text-gray-400 dark:text-gray-500">({ability.level})</span>
-          </span>
-        ) : null}
-      </div>
+      <ThetaBar
+        theta={skill.theta ?? skill.ability_theta ?? null}
+        masteryLevel={masteryLevel}
+        se={skill.ability_se ?? null}
+        isStale={skill.is_stale}
+        size="full"
+        showSE={true}
+      />
     </div>
   );
 };

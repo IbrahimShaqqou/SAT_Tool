@@ -19,7 +19,8 @@ from app.models.response import StudentResponse, StudentSkill
 from app.models.test import TestSession
 from app.models.invite import Invite
 from app.models.taxonomy import Skill, Domain
-from app.models.enums import TestStatus, SubjectArea
+from app.models.lesson import Lesson, LessonCompletion
+from app.models.enums import TestStatus, SubjectArea, TestType
 from app.schemas.progress import (
     ProgressSummary,
     ResponseHistoryItem,
@@ -197,7 +198,9 @@ def get_in_progress_assessments(
 def _build_skill_mastery_info(
     sr: StudentSkill,
     skill: Skill,
-    domain: Optional[Domain]
+    domain: Optional[Domain],
+    lesson: Optional[Lesson] = None,
+    lesson_completed: bool = False,
 ) -> SkillMasteryInfo:
     """Build SkillMasteryInfo from a StudentSkill record."""
     # Get stored mastery level enum (default to 0 if not set)
@@ -287,6 +290,7 @@ def _build_skill_mastery_info(
         responses_count=total,
         accuracy_percent=round(accuracy, 1),
         theta=round(sr.ability_theta, 2) if sr.ability_theta is not None else None,
+        ability_se=round(sr.ability_se, 2) if sr.ability_se is not None else None,
         confidence=confidence,
         hard_responses_count=hard_total,
         hard_accuracy_percent=round(hard_accuracy, 1),
@@ -300,6 +304,8 @@ def _build_skill_mastery_info(
         is_stale=is_stale,
         needs_review=needs_review,
         mastery_percentage=sr.mastery_level or 0.0,
+        lesson_id=str(lesson.id) if lesson else None,
+        lesson_completed=lesson_completed,
     )
 
 
@@ -325,6 +331,23 @@ def get_student_skills(
         StudentSkill.student_id == current_user.id
     ).all()
 
+    # Preload lessons for all practiced skills
+    skill_ids = [sr.skill_id for sr in skill_records]
+    lessons_map: dict = {}
+    if skill_ids:
+        lessons = db.query(Lesson).filter(Lesson.skill_id.in_(skill_ids)).all()
+        lessons_map = {lesson.skill_id: lesson for lesson in lessons}
+
+    # Preload lesson completions for this student
+    lesson_ids = [l.id for l in lessons_map.values()]
+    completed_set: set = set()
+    if lesson_ids:
+        completions = db.query(LessonCompletion).filter(
+            LessonCompletion.lesson_id.in_(lesson_ids),
+            LessonCompletion.student_id == current_user.id,
+        ).all()
+        completed_set = {str(c.lesson_id) for c in completions}
+
     skills = []
     for sr in skill_records:
         skill = db.query(Skill).filter(Skill.id == sr.skill_id).first()
@@ -332,7 +355,9 @@ def get_student_skills(
             continue
 
         domain = db.query(Domain).filter(Domain.id == skill.domain_id).first()
-        skill_info = _build_skill_mastery_info(sr, skill, domain)
+        lesson = lessons_map.get(skill.id)
+        lesson_done = str(lesson.id) in completed_set if lesson else False
+        skill_info = _build_skill_mastery_info(sr, skill, domain, lesson=lesson, lesson_completed=lesson_done)
         skills.append(skill_info)
 
     # Sort by mastery level (ascending) for weak skills, descending for strong
@@ -363,3 +388,49 @@ def get_student_skills(
         skills_familiar=familiar_count,
         skills_not_started=not_started_count,
     )
+
+
+@router.get("/score-history")
+def get_score_history(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Get the student's SAT score history over time.
+    Returns completed diagnostic and full-length test sessions with predicted scores.
+    """
+    sessions = (
+        db.query(TestSession)
+        .filter(
+            TestSession.student_id == current_user.id,
+            TestSession.status == TestStatus.COMPLETED,
+            TestSession.test_type.in_([TestType.DIAGNOSTIC, TestType.PRACTICE]),
+        )
+        .order_by(TestSession.completed_at.asc())
+        .all()
+    )
+
+    # For each session, look up the invite to get the predicted composite score
+    history = []
+    for session in sessions:
+        invite = db.query(Invite).filter(Invite.test_session_id == session.id).first()
+        if not invite:
+            continue
+
+        # Try to compute a predicted score from the session
+        from app.services.intake_service import calculate_intake_results
+        results = calculate_intake_results(db, session.id)
+        composite = results.get("predicted_composite")
+        if not composite:
+            continue
+
+        history.append({
+            "date": session.completed_at.isoformat() if session.completed_at else None,
+            "estimated_score": composite["mid"],
+            "score_low": composite["low"],
+            "score_high": composite["high"],
+            "type": session.test_type.value,
+            "session_id": str(session.id),
+        })
+
+    return {"history": history}

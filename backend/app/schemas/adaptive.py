@@ -283,8 +283,15 @@ class SkillMasteryInfo(BaseModel):
     is_stale: bool = Field(False, description="True if mastery has decayed due to inactivity")
     needs_review: bool = Field(False, description="Suggest practicing this skill")
 
+    # IRT standard error (tutor view)
+    ability_se: Optional[float] = Field(None, description="Standard error of IRT ability estimate")
+
     # Legacy percentage (for backwards compatibility)
     mastery_percentage: float = Field(0.0, description="Legacy 0-100 mastery percentage")
+
+    # Lesson info (for ProgressPage badges)
+    lesson_id: Optional[str] = Field(None, description="UUID of lesson for this skill, if any")
+    lesson_completed: bool = Field(False, description="Whether the student has completed the lesson")
 
 
 class SkillMasteryResponse(BaseModel):

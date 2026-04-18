@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, List, Optional
 import uuid
 
 from sqlalchemy import (
-    Boolean, Column, DateTime, Enum, ForeignKey, Index, String
+    Boolean, Column, Date, DateTime, Enum, ForeignKey, Index, Integer, String
 )
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import relationship, Mapped
@@ -113,6 +113,18 @@ class User(Base, TimestampMixin, SoftDeleteMixin):
         default=dict,
         nullable=False,
         comment="Role-specific profile data (grade level, subjects, etc.)"
+    )
+
+    # Score goal
+    target_score = Column(
+        Integer,
+        nullable=True,
+        comment="Student's target SAT score (400–1600)"
+    )
+    test_date = Column(
+        Date,
+        nullable=True,
+        comment="Student's planned SAT test date"
     )
 
     # Student-tutor relationship

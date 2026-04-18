@@ -19,6 +19,10 @@ export const progressService = {
   // Get student's skill abilities
   getSkills: () =>
     api.get('/progress/skills'),
+
+  // Get SAT score history for chart
+  getScoreHistory: () =>
+    api.get('/progress/score-history'),
 };
 
 export default progressService;

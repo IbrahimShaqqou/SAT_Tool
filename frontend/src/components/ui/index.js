@@ -16,3 +16,4 @@ export { default as EmptyState } from './EmptyState';
 export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { ToastProvider, useToast } from './Toast';
+export { default as ThetaBar } from './ThetaBar';

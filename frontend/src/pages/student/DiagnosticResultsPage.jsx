@@ -1,14 +1,14 @@
 /**
- * Intake Assessment Results Page
+ * Diagnostic Results Page
  * Thin wrapper around the shared AssessmentResultsPage.
  */
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import assessService from '../../services/assessService';
+import diagnosticService from '../../services/diagnosticService';
 import AssessmentResultsPage from '../shared/AssessmentResultsPage';
 
-export default function IntakeResultsPage() {
-  const { token } = useParams();
+export default function DiagnosticResultsPage() {
+  const { sessionId } = useParams();
   const navigate = useNavigate();
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,22 +18,22 @@ export default function IntakeResultsPage() {
     const fetchResults = async () => {
       try {
         setIsLoading(true);
-        const res = await assessService.getFullResults(token);
+        const res = await diagnosticService.getResults(sessionId);
         setResults(res.data);
       } catch (err) {
-        setError(err.response?.data?.detail || 'Failed to load results');
+        setError(err.response?.data?.detail || 'Failed to load diagnostic results');
       } finally {
         setIsLoading(false);
       }
     };
     fetchResults();
-  }, [token]);
+  }, [sessionId]);
 
   return (
     <AssessmentResultsPage
       results={results}
-      title="Intake Assessment Results"
-      subtitle="Review your performance and identify areas for improvement"
+      title="Diagnostic Results"
+      subtitle="Your estimated SAT score and personalized recommendations"
       isLoading={isLoading}
       error={error}
       onGoHome={() => navigate('/student/dashboard')}

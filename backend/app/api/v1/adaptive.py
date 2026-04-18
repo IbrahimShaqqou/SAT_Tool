@@ -370,6 +370,7 @@ def _build_skill_mastery_info(
         responses_count=total,
         accuracy_percent=round(accuracy, 1),
         theta=round(sr.ability_theta, 2) if sr.ability_theta is not None else None,
+        ability_se=round(sr.ability_se, 2) if sr.ability_se is not None else None,
         confidence=confidence,
         hard_responses_count=hard_total,
         hard_accuracy_percent=round(hard_accuracy, 1),

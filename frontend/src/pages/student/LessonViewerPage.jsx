@@ -183,6 +183,25 @@ const LessonViewerPage = ({ isPublic = false }) => {
         </div>
       )}
 
+      {/* Lesson Complete CTA — appears after marking complete */}
+      {!isPublic && !isTutorRoute && lesson.is_completed && lesson.skill_id && (
+        <div className="mb-8 rounded-2xl overflow-hidden border border-brand-200 dark:border-brand-800">
+          <div className="bg-brand-50 dark:bg-brand-900/20 px-6 py-5 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="h-6 w-6 text-brand-600 dark:text-brand-400 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-brand-900 dark:text-brand-100">Lesson complete!</p>
+                <p className="text-sm text-brand-700 dark:text-brand-300 mt-0.5">Ready to practice? Apply what you just learned.</p>
+              </div>
+            </div>
+            <Button variant="primary" size="sm" onClick={handlePractice} className="flex-shrink-0">
+              <Play className="h-4 w-4 mr-1.5" />
+              Practice {lesson.skill_name || 'This Skill'}
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Bottom Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 p-4 z-40">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">

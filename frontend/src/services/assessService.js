@@ -45,6 +45,10 @@ export const assessService = {
   // Get question-by-question review for completed assessment
   getReview: (token) =>
     api.get(`/assess/${token}/review`),
+
+  // Get unified full results (sections + domains + worst skills + questions)
+  getFullResults: (token) =>
+    api.get(`/assess/${token}/full-results`),
 };
 
 export default assessService;

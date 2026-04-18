@@ -14,3 +14,5 @@ export { default as inviteService } from './inviteService';
 export { default as assessService } from './assessService';
 export { default as adaptiveService } from './adaptiveService';
 export { default as lessonService } from './lessonService';
+export { default as diagnosticService } from './diagnosticService';
+export { default as recommendationService } from './recommendationService';

@@ -20,6 +20,7 @@ import {
   Button,
   Badge,
   LoadingSpinner,
+  ThetaBar,
 } from '../../components/ui';
 import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas, HighlightableText } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
@@ -159,19 +160,36 @@ const SessionResults = ({ results, onClose, onNewSession }) => {
         </div>
       </Card>
 
-      {/* Skill Progress - show mastery without theta */}
+      {/* Skill Progress - ThetaBar with level-change delta */}
       {results.skill_progress?.length > 0 && (
         <div>
           <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Skills Practiced</h3>
-          <div className="space-y-3">
-            {results.skill_progress.map(skill => (
-              <div key={skill.skill_id} className="flex items-center justify-between">
-                <span className="text-sm text-gray-700 dark:text-gray-300">{skill.skill_name}</span>
-                <Badge variant={skill.mastery_level >= 70 ? 'success' : skill.mastery_level >= 50 ? 'warning' : 'danger'}>
-                  {skill.mastery_level?.toFixed(0)}% mastery
-                </Badge>
-              </div>
-            ))}
+          <div className="space-y-4">
+            {results.skill_progress.map(skill => {
+              // Detect level-up: ability_after mastery_level_enum > ability_before
+              const levelBefore = skill.ability?.before_level ?? null;
+              const levelAfter = skill.ability?.after_level ?? (skill.mastery_level !== undefined ? Math.round(skill.mastery_level / 33.3) : null);
+              const levelNames = ['Not Started', 'Familiar', 'Proficient', 'Mastered'];
+              const levelColors = ['text-gray-500', 'text-blue-600', 'text-emerald-600', 'text-yellow-600'];
+              const didLevelUp = levelBefore !== null && levelAfter !== null && levelAfter > levelBefore;
+              return (
+                <div key={skill.skill_id}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.skill_name}</span>
+                    {didLevelUp && (
+                      <span className={`text-xs font-semibold ${levelColors[levelAfter] || 'text-gray-500'}`}>
+                        ↑ {levelNames[levelAfter] || 'Level Up'}
+                      </span>
+                    )}
+                  </div>
+                  <ThetaBar
+                    theta={skill.ability?.theta ?? null}
+                    masteryLevel={levelAfter ?? 0}
+                    size="full"
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

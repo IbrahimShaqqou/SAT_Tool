@@ -243,6 +243,10 @@ def update_current_user_profile(
         current_user.last_name = user_update.last_name
     if user_update.profile_data is not None:
         current_user.profile_data = user_update.profile_data
+    if user_update.target_score is not None:
+        current_user.target_score = user_update.target_score
+    if user_update.test_date is not None:
+        current_user.test_date = user_update.test_date
 
     db.commit()
     db.refresh(current_user)

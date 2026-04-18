@@ -3,7 +3,7 @@
  * Displays user profile information with edit capabilities
  */
 import { useState } from 'react';
-import { User, Mail, Calendar, Shield, Save, X } from 'lucide-react';
+import { User, Mail, Calendar, Shield, Save, X, Target } from 'lucide-react';
 import { Card, Button, LoadingSpinner } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { authService } from '../../services';
@@ -17,6 +17,8 @@ const ProfilePage = () => {
   const [formData, setFormData] = useState({
     first_name: user?.first_name || '',
     last_name: user?.last_name || '',
+    target_score: user?.target_score || '',
+    test_date: user?.test_date || '',
   });
 
   const handleSave = async () => {
@@ -25,7 +27,14 @@ const ProfilePage = () => {
     setSuccess(null);
 
     try {
-      await authService.updateProfile(formData);
+      const payload = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+      };
+      if (formData.target_score) payload.target_score = parseInt(formData.target_score, 10);
+      if (formData.test_date) payload.test_date = formData.test_date;
+
+      await authService.updateProfile(payload);
       if (refreshUser) {
         await refreshUser();
       }
@@ -42,6 +51,8 @@ const ProfilePage = () => {
     setFormData({
       first_name: user?.first_name || '',
       last_name: user?.last_name || '',
+      target_score: user?.target_score || '',
+      test_date: user?.test_date || '',
     });
     setIsEditing(false);
     setError(null);
@@ -64,21 +75,23 @@ const ProfilePage = () => {
     });
   };
 
+  const isStudent = user.role === 'student';
+
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Profile</h1>
-        <p className="text-gray-500 mt-1">Manage your account information</p>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Profile</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your account information</p>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
+        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400">
           {success}
         </div>
       )}
@@ -115,62 +128,106 @@ const ProfilePage = () => {
               <>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       First Name
                     </label>
                     <input
                       type="text"
                       value={formData.first_name}
                       onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Last Name
                     </label>
                     <input
                       type="text"
                       value={formData.last_name}
                       onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                     />
                   </div>
                 </div>
+                {isStudent && (
+                  <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-gray-700">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Target SAT Score
+                      </label>
+                      <input
+                        type="number"
+                        min="400"
+                        max="1600"
+                        step="10"
+                        placeholder="e.g. 1400"
+                        value={formData.target_score}
+                        onChange={(e) => setFormData({ ...formData, target_score: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Test Date
+                      </label>
+                      <input
+                        type="date"
+                        value={formData.test_date}
+                        onChange={(e) => setFormData({ ...formData, test_date: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               <>
-                <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
                   <User className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-sm text-gray-500">Name</p>
-                    <p className="font-medium text-gray-900">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Name</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
                       {user.first_name} {user.last_name}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
                   <Mail className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="font-medium text-gray-900">{user.email}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{user.email}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
                   <Shield className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-sm text-gray-500">Account Type</p>
-                    <p className="font-medium text-gray-900 capitalize">{user.role}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Account Type</p>
+                    <p className="font-medium text-gray-900 dark:text-white capitalize">{user.role}</p>
                   </div>
                 </div>
+
+                {isStudent && (
+                  <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
+                    <Target className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">SAT Goal</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {user.target_score
+                          ? `${user.target_score}${user.test_date ? ` by ${formatDate(user.test_date)}` : ''}`
+                          : 'Not set'}
+                      </p>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex items-center gap-3 py-3">
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-sm text-gray-500">Member Since</p>
-                    <p className="font-medium text-gray-900">{formatDate(user.created_at)}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Member Since</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{formatDate(user.created_at)}</p>
                   </div>
                 </div>
               </>
@@ -188,8 +245,8 @@ const ProfilePage = () => {
         <Card.Content>
           <div className="flex items-center justify-between py-3">
             <div>
-              <p className="font-medium text-gray-900">Password</p>
-              <p className="text-sm text-gray-500">Last changed: Unknown</p>
+              <p className="font-medium text-gray-900 dark:text-white">Password</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Last changed: Unknown</p>
             </div>
             <Button
               variant="secondary"

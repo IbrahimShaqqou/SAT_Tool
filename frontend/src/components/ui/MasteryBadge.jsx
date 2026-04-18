@@ -15,6 +15,7 @@ import {
   Trophy,
   AlertCircle
 } from 'lucide-react';
+import { ThetaBar } from './ThetaBar';
 
 // Mastery level configuration - using softer, muted colors
 export const MASTERY_LEVELS = {
@@ -105,59 +106,48 @@ export const MasteryBadge = ({
 };
 
 /**
- * Mastery progress card showing level with progress toward next level
+ * Mastery progress card showing level with ThetaBar and requirements checklist
  */
 export const MasteryProgressCard = ({
   level = 0,
+  theta = null,
+  abilitySe = null,
   progressPercent = 0,
   nextLevel = null,
   requirementsMet = {},
   isStale = false,
+  showSE = false,
   className = '',
 }) => {
   const config = MASTERY_LEVELS[level] || MASTERY_LEVELS[0];
   const nextConfig = nextLevel ? MASTERY_LEVELS[level + 1] : null;
-  const { Icon, name, bgClass, textClass, iconBgClass, progressBgClass } = config;
+  const { bgClass, borderClass } = config;
 
   return (
-    <div className={`rounded-lg border ${config.borderClass} ${bgClass} p-3 ${className}`}>
-      {/* Header with icon and level */}
-      <div className="flex items-center gap-2 mb-2">
-        <div className={`p-1.5 rounded-full ${iconBgClass}`}>
-          <Icon size={16} className={textClass} />
-        </div>
-        <div className="flex-1">
-          <div className={`font-semibold ${textClass}`}>{name}</div>
-          {isStale && (
-            <div className="text-xs text-orange-600 dark:text-orange-400 flex items-center gap-1">
-              <AlertCircle size={10} />
-              Needs review
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Progress bar toward next level */}
-      {nextConfig && (
-        <div className="mt-2">
-          <div className="flex justify-between text-xs mb-1">
-            <span className="text-gray-600 dark:text-gray-400">
-              Progress to {nextConfig.name}
-            </span>
-            <span className={textClass}>{Math.round(progressPercent)}%</span>
-          </div>
-          <div className="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className={`h-full ${progressBgClass} transition-all duration-300`}
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
+    <div className={`rounded-lg border ${borderClass} ${bgClass} p-3 ${className}`}>
+      {isStale && (
+        <div className="flex items-center gap-1 text-xs text-orange-600 dark:text-orange-400 mb-2">
+          <AlertCircle size={10} />
+          Mastery is fading — practice to keep it fresh
         </div>
       )}
 
+      {/* ThetaBar */}
+      <ThetaBar
+        theta={theta}
+        masteryLevel={level}
+        se={abilitySe}
+        isStale={isStale}
+        size="full"
+        showSE={showSE}
+      />
+
       {/* Requirements checklist */}
       {nextConfig && Object.keys(requirementsMet).length > 0 && (
-        <div className="mt-2 space-y-1">
+        <div className="mt-3 space-y-1">
+          <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+            To reach {nextConfig.name}:
+          </div>
           {Object.entries(requirementsMet).map(([key, met]) => (
             <div
               key={key}
@@ -182,25 +172,24 @@ export const MasteryProgressCard = ({
 };
 
 /**
- * Skill mastery row for displaying in lists
+ * Skill mastery row for displaying in lists, using ThetaBar
  */
 export const SkillMasteryRow = ({
   skillName,
   level = 0,
-  accuracy = 0,
+  theta = null,
+  abilitySe = null,
   responsesCount = 0,
   daysAgo = 0,
   isStale = false,
+  showSE = false,
   onClick,
   className = '',
 }) => {
-  const config = MASTERY_LEVELS[level] || MASTERY_LEVELS[0];
-  const { Icon, name, textClass, iconBgClass } = config;
-
   return (
     <div
       className={`
-        flex items-center gap-3 p-3 rounded-lg
+        p-3 rounded-lg
         bg-white dark:bg-gray-800
         border border-gray-200 dark:border-gray-700
         hover:border-gray-300 dark:hover:border-gray-600
@@ -210,43 +199,26 @@ export const SkillMasteryRow = ({
       `}
       onClick={onClick}
     >
-      {/* Mastery icon */}
-      <div className={`p-2 rounded-full ${iconBgClass}`}>
-        <Icon size={18} className={textClass} />
-      </div>
-
-      {/* Skill info */}
-      <div className="flex-1 min-w-0">
-        <div className="font-medium text-gray-900 dark:text-gray-100 truncate">
+      {/* Skill name + meta */}
+      <div className="flex items-center justify-between mb-2">
+        <span className="font-medium text-gray-900 dark:text-gray-100 truncate mr-2">
           {skillName}
-        </div>
-        <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
-          <span className={textClass}>{name}</span>
-          <span>•</span>
-          <span>{accuracy}% accuracy</span>
-          {responsesCount > 0 && (
-            <>
-              <span>•</span>
-              <span>{responsesCount} responses</span>
-            </>
-          )}
+        </span>
+        <div className="flex items-center gap-2 flex-shrink-0 text-xs text-gray-400 dark:text-gray-500">
+          {responsesCount > 0 && <span>{responsesCount}q</span>}
+          {daysAgo > 0 && <span>{daysAgo}d ago</span>}
         </div>
       </div>
 
-      {/* Stale indicator */}
-      {isStale && (
-        <div className="flex items-center gap-1 text-orange-500 dark:text-orange-400 text-sm">
-          <AlertCircle size={14} />
-          <span className="hidden sm:inline">Review</span>
-        </div>
-      )}
-
-      {/* Days ago */}
-      {daysAgo > 0 && !isStale && (
-        <div className="text-xs text-gray-400 dark:text-gray-500">
-          {daysAgo}d ago
-        </div>
-      )}
+      {/* ThetaBar */}
+      <ThetaBar
+        theta={theta}
+        masteryLevel={level}
+        se={abilitySe}
+        isStale={isStale}
+        size="full"
+        showSE={showSE}
+      />
     </div>
   );
 };
