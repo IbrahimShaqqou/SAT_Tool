@@ -240,11 +240,17 @@ const StudentDashboard = () => {
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
             {studyPlan.map((task, i) => {
-              const icons = { review: '🔄', level_up: '⚡', focus: '🎯', lesson: '📖', nudge: '💪' };
+              const typeColor = {
+                review: 'bg-amber-400',
+                level_up: 'bg-blue-500',
+                focus: 'bg-rose-400',
+                lesson: 'bg-violet-500',
+                nudge: 'bg-emerald-500',
+              };
               return (
                 <div key={i} className="flex items-center justify-between px-5 py-4">
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-lg flex-shrink-0">{icons[task.type] || '📌'}</span>
+                    <span className={`w-2 h-2 rounded-full flex-shrink-0 ${typeColor[task.type] || 'bg-slate-400'}`} />
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{task.title}</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">~{task.estimated_minutes} min</p>

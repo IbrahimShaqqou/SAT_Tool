@@ -666,7 +666,7 @@ const AdaptivePracticePage = () => {
       </div>
 
       {/* Main Content - matching TestPage layout */}
-      <div ref={contentRef} className={`flex-1 overflow-y-auto pb-20 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''}`}>
+      <div ref={contentRef} className={`flex-1 overflow-y-auto ${lastResult ? 'pb-52' : 'pb-28'} bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''}`}>
         <div className="max-w-3xl mx-auto">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
