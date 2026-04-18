@@ -163,13 +163,13 @@
           },
           {
             "step": 2,
-            "description": "Simplify the denominator: 2(x - 14) = 2·2(x/2 - 7)... note x-14 = 2(x/2 - 7). Actually factor: 2(x-14)",
+            "description": "Write as a single fraction — the denominator does not share a factor with the numerator",
             "math": "\\frac{(x-7)(8x-3)}{2(x-14)}"
           },
           {
             "step": 3,
-            "description": "Note x - 14 = (x - 7) - 7, which doesn't factor nicely with (x-7). The expression doesn't simplify further. Check the answer choices — the answer is (8x-3)/2 only if (x-7) cancels with (x-14). They don't cancel here.",
-            "math": "\\text{The fully simplified form: } \\frac{(x-7)(8x-3)}{2(x-14)}"
+            "description": "Since (x - 7) and (x - 14) are different factors, nothing cancels — this is the fully simplified form",
+            "math": "\\frac{(x-7)(8x-3)}{2(x-14)}"
           }
         ],
         "answer": "$\\dfrac{(x-7)(8x-3)}{2(x-14)}$",

@@ -75,7 +75,7 @@
         "type": "worked-example",
         "title": "Example: Monthly Pass vs. Individual Tickets",
         "source": "SAT Practice Question",
-        "problem": "A monthly pass costs $95 and allows unlimited trips. Individual tickets cost $1.50, $2.50, or $3.50 depending on length. What is the **minimum** number of trips per month for which the monthly pass could cost less than purchasing individual tickets?",
+        "problem": "A monthly pass costs \\$95 and allows unlimited trips. Individual tickets cost \\$1.50, \\$2.50, or \\$3.50 depending on length. What is the **minimum** number of trips per month for which the monthly pass could cost less than purchasing individual tickets?",
         "steps": [
           {
             "step": 1,

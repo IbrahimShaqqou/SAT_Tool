@@ -201,7 +201,7 @@
         "type": "worked-example",
         "title": "Example: Savings Account Growth",
         "source": "SAT Practice Question",
-        "problem": "Rosa opened a savings account. After 0 years: $604.00. After 1 year: $606.42. After 2 years: $608.84. The relationship is exponential. Which equation models the total amount $n$ after $t$ years?",
+        "problem": "Rosa opened a savings account. After 0 years: \\$604.00. After 1 year: \\$606.42. After 2 years: \\$608.84. The relationship is exponential. Which equation models the total amount $n$ after $t$ years?",
         "steps": [
           {
             "step": 1,

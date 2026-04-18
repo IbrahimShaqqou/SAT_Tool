@@ -133,20 +133,20 @@
         "type": "worked-example",
         "title": "Example: Use Congruent Triangles to Find Missing Values",
         "source": "SAT Practice Question",
-        "problem": "Triangles $EFG$ and $JKL$ are congruent with $E \\leftrightarrow J$, $F \\leftrightarrow K$, $G \\leftrightarrow L$. In $\\triangle EFG$: $EF = 15$, $FG = 22$, $\\angle E = 45°$, $\\angle F = 95°$. What are $\\angle K$ and $JL$?",
+        "problem": "Triangles $EFG$ and $JKL$ are congruent with $E \\leftrightarrow J$, $F \\leftrightarrow K$, $G \\leftrightarrow L$. In $\\triangle EFG$: $EF = 15$, $FG = 22$, $\\angle E = 45°$, $\\angle F = 95°$. What are $\\angle K$ and $KL$?",
         "steps": [
           {
             "step": 1,
-            "description": "∠K corresponds to ∠F, so ∠K = ∠F = 95°",
-            "math": "\\angle K = 95°"
+            "description": "∠K corresponds to ∠F (same position in the congruence statement), so ∠K = ∠F",
+            "math": "\\angle K = \\angle F = 95°"
           },
           {
             "step": 2,
-            "description": "JL corresponds to EG. First find ∠G = 180° - 45° - 95° = 40°. But we need EG, not ∠G. Actually, JL = EG. We can't compute EG without more info — check which side we can find. JK corresponds to EF, and KL corresponds to FG",
-            "math": "JK = EF = 15, \\quad KL = FG = 22"
+            "description": "KL corresponds to FG (K↔F, L↔G), so KL = FG",
+            "math": "KL = FG = 22"
           }
         ],
-        "answer": "$\\angle K = 95°$; all corresponding sides and angles are equal to their counterparts in $\\triangle EFG$.",
+        "answer": "$\\angle K = 95°$ and $KL = 22$.",
         "tip": "Always match vertices in order from the congruence statement. E↔J, F↔K, G↔L means the first triangle's E corresponds to the second triangle's J."
       },
       {

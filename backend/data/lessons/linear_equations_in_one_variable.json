@@ -274,7 +274,7 @@
         "type": "worked-example",
         "title": "Example: Setting Up an Equation",
         "source": "SAT Practice Question",
-        "problem": "A gym charges a one-time registration fee of $40 plus $25 per month. A member has paid a total of $265. Which equation represents this situation, where $n$ is the number of months?",
+        "problem": "A gym charges a one-time registration fee of \\$40 plus \\$25 per month. A member has paid a total of \\$265. Which equation represents this situation, where $n$ is the number of months?",
         "steps": [
           {
             "step": 1,
@@ -300,7 +300,7 @@
         "type": "worked-example",
         "title": "Example: Word Problem to Solution",
         "source": "SAT Practice Question",
-        "problem": "A landscaper charges $47 for each lawn plus a one-time equipment fee. If the landscaper earns $322 for mowing 6 lawns, what is the equipment fee?",
+        "problem": "A landscaper charges \\$47 for each lawn plus a one-time equipment fee. If the landscaper earns \\$322 for mowing 6 lawns, what is the equipment fee?",
         "steps": [
           {
             "step": 1,

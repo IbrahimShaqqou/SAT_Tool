@@ -265,7 +265,7 @@
         "type": "worked-example",
         "title": "Example: Flat Fee + Per-Unit Rate",
         "source": "SAT Practice Question",
-        "problem": "A window repair specialist charges $220 for the first two hours of repair plus an hourly fee for each additional hour. The total cost for 5 hours of repair is $400. Which function $f$ gives the total cost, in dollars, for $x$ hours of repair, where $x \\geq 2$?",
+        "problem": "A window repair specialist charges \\$220 for the first two hours of repair plus an hourly fee for each additional hour. The total cost for 5 hours of repair is \\$400. Which function $f$ gives the total cost, in dollars, for $x$ hours of repair, where $x \\geq 2$?",
         "steps": [
           {
             "step": 1,
@@ -291,7 +291,7 @@
         "type": "worked-example",
         "title": "Example: Two-Point Model (Demand)",
         "source": "SAT Practice Question",
-        "problem": "An economist modeled demand $Q$ for a product as a linear function of selling price $P$. The demand was 20,000 units when the selling price was $40, and 15,000 units when the selling price was $60. Based on the model, what is the demand when the selling price is $52?",
+        "problem": "An economist modeled demand $Q$ for a product as a linear function of selling price $P$. The demand was 20,000 units when the selling price was \\$40, and 15,000 units when the selling price was \\$60. Based on the model, what is the demand when the selling price is \\$52?",
         "steps": [
           {
             "step": 1,

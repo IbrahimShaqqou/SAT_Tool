@@ -116,7 +116,7 @@
         "type": "worked-example",
         "title": "Example: Equation with Two Like Terms",
         "source": "SAT Practice Question",
-        "problem": "$2(4 - x) + 3(4 - x) = 25$\n\nWhat is the positive solution?",
+        "problem": "$2(4 - x) + 3(4 - x) = 25$\n\nWhat is the value of $x$?",
         "steps": [
           {
             "step": 1,
@@ -125,11 +125,11 @@
           },
           {
             "step": 2,
-            "description": "Substitute back",
+            "description": "Substitute back: 4 - x = 5",
             "math": "4 - x = 5 \\Rightarrow x = -1"
           }
         ],
-        "answer": "$x = -1$ (note: the problem asks for 'positive solution' — double check which form is intended)",
+        "answer": "$x = -1$",
         "tip": "When you see the same expression repeated, substitute a single variable for it. This simplifies the algebra dramatically."
       },
       {
@@ -148,21 +148,26 @@
         "type": "worked-example",
         "title": "Example: Solve a Nonlinear System",
         "source": "SAT Practice Question",
-        "problem": "$y = \\sqrt{x} = 49$, $y = x + 9$\n\nThe graphs of the given equations intersect at point $(x, y)$. What is the value of $y$?",
+        "problem": "The graphs of $y = x^2 - 5x$ and $y = 6$ intersect at two points in the $xy$-plane. What is the greater $x$-coordinate of the two intersection points?",
         "steps": [
           {
             "step": 1,
-            "description": "From the first equation: x = 49 (squaring both sides of √x = 49... wait, re-reading: y = √49 = 7 is one reading, OR x = 49)",
-            "math": "\\sqrt{x} = 49 \\Rightarrow x = 49^2 = 2401 \\quad \\text{(if literal)} \\quad \\text{OR} \\quad x = 49"
+            "description": "Set the two expressions equal to each other",
+            "math": "x^2 - 5x = 6"
           },
           {
             "step": 2,
-            "description": "Substitute x = 49 into the second equation",
-            "math": "y = 49 + 9 = 58"
+            "description": "Move all terms to one side and factor",
+            "math": "x^2 - 5x - 6 = 0 \\Rightarrow (x - 6)(x + 1) = 0"
+          },
+          {
+            "step": 3,
+            "description": "Solve for x",
+            "math": "x = 6 \\text{ or } x = -1"
           }
         ],
-        "answer": "$y = 58$",
-        "tip": "Desmos: type both equations (using $x$ and $y$). Click the intersection point to get exact coordinates instantly."
+        "answer": "The greater $x$-coordinate is $\\mathbf{6}$.",
+        "tip": "Desmos: graph both equations. The two intersection points are visible immediately — click each one to read the exact coordinates."
       },
       {
         "id": "type-4-example-2",
