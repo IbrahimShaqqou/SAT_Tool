@@ -20,7 +20,7 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), autoincrement=True, primary_key=True),
         sa.Column(
             "question_id",
-            sa.Integer(),
+            UUID(as_uuid=True),
             sa.ForeignKey("questions.id", ondelete="CASCADE"),
             nullable=False,
             index=True,

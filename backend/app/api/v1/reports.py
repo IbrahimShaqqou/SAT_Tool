@@ -5,6 +5,7 @@ Lets students flag issues with questions (wrong answer key, broken image, etc.).
 Reports are stored in question_reports and visible to tutors/admins for triage.
 """
 
+import uuid
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -27,7 +28,7 @@ class QuestionReport(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    question_id = Column(Integer, ForeignKey("questions.id", ondelete="CASCADE"), nullable=False, index=True)
+    question_id = Column(UUID(as_uuid=True), ForeignKey("questions.id", ondelete="CASCADE"), nullable=False, index=True)
     reported_by = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True)
     reason = Column(String(50), nullable=False)
     notes = Column(Text, nullable=True)
@@ -58,7 +59,7 @@ class ReportCreate(BaseModel):
 
 @router.post("/questions/{question_id}/report", status_code=201)
 def report_question(
-    question_id: int,
+    question_id: uuid.UUID,
     body: ReportCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
