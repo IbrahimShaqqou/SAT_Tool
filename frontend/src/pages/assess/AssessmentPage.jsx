@@ -20,6 +20,7 @@ import { useTimer } from '../../hooks';
 import { useAuth } from '../../contexts/AuthContext';
 import { assessService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
+import ReportModal from '../../components/test/ReportModal';
 
 // Assessment states
 const STATES = {
@@ -70,6 +71,7 @@ const AssessmentPage = () => {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   // Auth state
   const [authMode, setAuthMode] = useState(AUTH_MODES.CHOOSE);
@@ -705,7 +707,7 @@ const AssessmentPage = () => {
             questionHtml={currentQuestion?.prompt_html || ''}
             isMarked={isCurrentMarked}
             onToggleMark={handleToggleMark}
-            onReport={() => console.log('Report question')}
+            onReport={() => setShowReportModal(true)}
           />
 
           {/* Answer choices */}
@@ -893,6 +895,14 @@ const AssessmentPage = () => {
           onClose={() => setShowCalculator(false)}
           initialPosition={{ x: window.innerWidth - 450, y: 80 }}
         />
+
+        {/* Report Modal */}
+        {showReportModal && (
+          <ReportModal
+            questionId={currentQuestion?.id}
+            onClose={() => setShowReportModal(false)}
+          />
+        )}
 
         {/* Submit Confirmation Modal */}
         <SubmitConfirmation

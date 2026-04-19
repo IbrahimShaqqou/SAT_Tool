@@ -16,6 +16,7 @@ import {
   SubmitConfirmation,
   DrawingCanvas,
 } from '../../components/test';
+import ReportModal from '../../components/test/ReportModal';
 import { useTimer } from '../../hooks';
 import { assignmentService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
@@ -41,6 +42,7 @@ const TestPage = () => {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [showNav, setShowNav] = useState(false);
@@ -575,7 +577,7 @@ const TestPage = () => {
           questionId={questionId}
           isMarked={isCurrentMarked}
           onToggleMark={handleToggleMark}
-          onReport={() => console.log('Report question')}
+          onReport={() => setShowReportModal(true)}
           hideMarkForReview={isAdaptive}
         />
 
@@ -870,6 +872,14 @@ const TestPage = () => {
         onClose={() => setShowReferenceSheet(false)}
         initialPosition={{ x: 100, y: 116 }}
       />
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <ReportModal
+          questionId={currentQuestion?.id}
+          onClose={() => setShowReportModal(false)}
+        />
+      )}
 
       {/* Submit Confirmation Modal */}
       <SubmitConfirmation

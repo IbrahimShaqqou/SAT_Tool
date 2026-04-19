@@ -24,6 +24,7 @@ import {
 import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas, HighlightableText } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
+import ReportModal from '../../components/test/ReportModal';
 
 /**
  * Check if passage content is already contained in the prompt (to avoid duplicates)
@@ -243,6 +244,7 @@ const AdaptivePracticePage = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
   const [showReferenceSheet, setShowReferenceSheet] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [calculatorKey, setCalculatorKey] = useState(0); // Force remount when needed
   const [error, setError] = useState(null);
 
@@ -681,8 +683,11 @@ const AdaptivePracticePage = () => {
                     {questionsAnswered + 1}
                   </span>
                 </div>
-                {/* Report button placeholder */}
-                <button className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm transition-colors">
+                {/* Report button */}
+                <button
+                  onClick={() => setShowReportModal(true)}
+                  className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm transition-colors"
+                >
                   <span>Report</span>
                 </button>
               </div>
@@ -870,6 +875,14 @@ const AdaptivePracticePage = () => {
         questionId={currentQuestion?.id ?? 0}
         scrollRef={contentRef}
       />
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <ReportModal
+          questionId={currentQuestion?.id}
+          onClose={() => setShowReportModal(false)}
+        />
+      )}
     </div>
   );
 };
