@@ -8,6 +8,7 @@ import { ArrowLeft, CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-
 import { Card, Button, ProgressBar, LoadingSpinner } from '../../components/ui';
 import { assignmentService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
+import { checkSprAnswer } from '../../utils';
 
 // Helper to format answer for display
 const formatAnswer = (answer, choices, answerType) => {
@@ -58,19 +59,9 @@ const QuestionResult = ({ question, index }) => {
       return selectedAnswer.index === correctAnswer.index;
     } else {
       // SPR - check if response matches any correct value
-      // selected_answer: { answer: "text" }
-      // correct_answer: { answers: ["val1", "val2", ...] }
       const userValue = selectedAnswer.answer;
       const correctValues = correctAnswer.answers || [];
-
-      // Handle "*" which means any answer is correct (manually graded)
-      if (correctValues.includes("*")) {
-        return true; // We can't auto-grade this
-      }
-
-      return correctValues.some(cv =>
-        String(cv).trim().toLowerCase() === String(userValue).trim().toLowerCase()
-      );
+      return checkSprAnswer(userValue, correctValues);
     }
   })();
 

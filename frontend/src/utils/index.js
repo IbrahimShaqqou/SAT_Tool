@@ -48,4 +48,40 @@ export function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-// Additional utilities will be added here as needed
+/**
+ * Check an SPR answer against a list of accepted answers.
+ * Handles: wildcard "*", exact match, numeric/fraction equivalence.
+ *
+ * @param {string} userAnswer - The student's answer
+ * @param {string[]} correctAnswers - Array of accepted answers
+ * @returns {boolean} Whether the answer is correct
+ */
+export function checkSprAnswer(userAnswer, correctAnswers) {
+  if (!correctAnswers || !correctAnswers.length) return false;
+  const user = String(userAnswer).trim().toLowerCase();
+  if (!user) return false;
+
+  const tryNumeric = (v) => {
+    const parts = v.split('/');
+    if (parts.length === 2) {
+      const num = parseFloat(parts[0]);
+      const den = parseFloat(parts[1]);
+      if (!isNaN(num) && !isNaN(den) && den !== 0) return num / den;
+    }
+    const n = parseFloat(v);
+    return isNaN(n) ? null : n;
+  };
+
+  const userNum = tryNumeric(user);
+
+  for (const ans of correctAnswers) {
+    const a = String(ans).trim().toLowerCase();
+    if (a === '*') return true;
+    if (user === a) return true;
+    if (userNum !== null) {
+      const aNum = tryNumeric(a);
+      if (aNum !== null && Math.abs(userNum - aNum) < 0.01) return true;
+    }
+  }
+  return false;
+}

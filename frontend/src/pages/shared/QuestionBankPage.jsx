@@ -25,6 +25,7 @@ import {
 } from '../../components/test';
 import { questionService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
+import { checkSprAnswer } from '../../utils';
 
 // Subject icons (lowercase to match API response)
 const subjectIcons = {
@@ -258,8 +259,8 @@ const QuestionBankPage = () => {
     setShowExplanation(false);
   }, [practiceQuestions.length]);
 
-  // Check answer for current question
-  const handleCheckAnswer = useCallback(() => {
+  // Check answer for current question (via backend API)
+  const handleCheckAnswer = useCallback(async () => {
     const question = currentQuestion;
     if (!question) return;
 
@@ -267,26 +268,45 @@ const QuestionBankPage = () => {
     const userAnswer = answers[questionId];
     if (userAnswer === undefined) return;
 
-    let isCorrect = false;
-    let correctIndex = null;
-    let correctAnswers = null;
+    try {
+      const answerPayload = question.answer_type === 'MCQ'
+        ? { index: userAnswer }
+        : { answer: userAnswer };
 
-    if (question.answer_type === 'MCQ') {
-      correctIndex = question.correct_answer?.index;
-      isCorrect = userAnswer === correctIndex;
-    } else {
-      correctAnswers = question.correct_answer?.answers || [];
-      const userAnswerNorm = String(userAnswer).trim().toLowerCase();
-      isCorrect = correctAnswers.some(ans =>
-        String(ans).trim().toLowerCase() === userAnswerNorm
-      );
+      const res = await questionService.checkAnswer(questionId, answerPayload);
+      const { is_correct, correct_answer, explanation_html, explanation_available } = res.data;
+
+      setCheckedAnswers(prev => ({
+        ...prev,
+        [questionId]: {
+          isCorrect: is_correct,
+          correctIndex: correct_answer?.index,
+          correctAnswers: correct_answer?.answers,
+          explanation: explanation_html,
+          explanationAvailable: explanation_available,
+        },
+      }));
+      setShowExplanation(true);
+    } catch (err) {
+      // Fallback to client-side check if API fails
+      let isCorrect = false;
+      let correctIndex = null;
+      let correctAnswers = null;
+
+      if (question.answer_type === 'MCQ') {
+        correctIndex = question.correct_answer?.index;
+        isCorrect = userAnswer === correctIndex;
+      } else {
+        correctAnswers = question.correct_answer?.answers || [];
+        isCorrect = checkSprAnswer(userAnswer, correctAnswers);
+      }
+
+      setCheckedAnswers(prev => ({
+        ...prev,
+        [questionId]: { isCorrect, correctIndex, correctAnswers },
+      }));
+      setShowExplanation(true);
     }
-
-    setCheckedAnswers(prev => ({
-      ...prev,
-      [questionId]: { isCorrect, correctIndex, correctAnswers },
-    }));
-    setShowExplanation(true);
   }, [currentQuestion, answers]);
 
   // Render domains view
@@ -444,7 +464,7 @@ const QuestionBankPage = () => {
                   Check Answer
                 </Button>
               )}
-              {currentChecked && (currentQuestion.explanation_html || currentQuestion.explanation_available) && (
+              {currentChecked && (currentChecked.explanation || currentChecked.explanationAvailable || currentQuestion.explanation_html || currentQuestion.explanation_available) && (
                 <Button
                   variant="secondary"
                   onClick={() => setShowExplanation(!showExplanation)}

@@ -20,6 +20,10 @@ export const questionService = {
   getRandomQuestions: (params = {}) =>
     api.get('/questions/random', { params }),
 
+  // Check an answer for a question (used by Question Bank practice)
+  checkAnswer: (id, answer) =>
+    api.post(`/questions/${id}/check`, { answer }),
+
   // Get step-by-step explanation for a question
   getExplanation: (id) =>
     api.get(`/questions/${id}/explanation`),

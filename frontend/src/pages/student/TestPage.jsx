@@ -20,40 +20,7 @@ import ReportModal from '../../components/test/ReportModal';
 import { useTimer } from '../../hooks';
 import { assignmentService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
-
-/**
- * Check an SPR answer against a list of accepted answers.
- * Handles: wildcard "*", exact match, numeric/fraction equivalence.
- */
-const checkSprAnswer = (userAnswer, correctAnswers) => {
-  if (!correctAnswers || !correctAnswers.length) return false;
-  const user = String(userAnswer).trim().toLowerCase();
-  if (!user) return false;
-
-  const tryNumeric = (v) => {
-    // Handle fractions like "3/4"
-    const parts = v.split('/');
-    if (parts.length === 2) {
-      const num = parseFloat(parts[0]);
-      const den = parseFloat(parts[1]);
-      if (!isNaN(num) && !isNaN(den) && den !== 0) return num / den;
-    }
-    const n = parseFloat(v);
-    return isNaN(n) ? null : n;
-  };
-
-  const userNum = tryNumeric(user);
-
-  for (const ans of correctAnswers) {
-    const a = String(ans).trim().toLowerCase();
-    if (a === '*') return true;
-    if (user === a) return true;
-    // Numeric equivalence
-    const aNum = tryNumeric(a);
-    if (userNum !== null && aNum !== null && Math.abs(userNum - aNum) < 0.01) return true;
-  }
-  return false;
-};
+import { checkSprAnswer } from '../../utils';
 
 const TestPage = () => {
   const { id } = useParams();

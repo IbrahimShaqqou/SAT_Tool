@@ -153,6 +153,42 @@ def get_question(
     return QuestionDetail.from_orm_with_choices(question)
 
 
+@router.post("/{question_id}/check")
+def check_question_answer(
+    question_id: UUID,
+    payload: dict,
+    db: Session = Depends(get_db),
+):
+    """
+    Check an answer for a question (used by Question Bank practice mode).
+    Returns is_correct, correct_answer, and explanation.
+    """
+    from app.services.answer_checker import check_answer
+
+    question = db.query(Question).filter(
+        Question.id == question_id,
+        Question.is_active == True,
+    ).first()
+
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+
+    is_correct = check_answer(
+        question.correct_answer_json, payload.get("answer", {}), question.answer_type.value
+    )
+
+    explanation = question.explanation_html
+    if not explanation and question.raw_import_json:
+        explanation = question.raw_import_json.get("rationale_html")
+
+    return {
+        "is_correct": is_correct,
+        "correct_answer": question.correct_answer_json,
+        "explanation_html": explanation,
+        "explanation_available": question.explanation is not None,
+    }
+
+
 @router.get("/{question_id}/explanation", response_model=ExplanationResponse)
 def get_question_explanation(
     question_id: UUID,
