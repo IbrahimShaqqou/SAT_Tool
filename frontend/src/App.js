@@ -25,6 +25,7 @@ import CreateAssignment from './pages/tutor/CreateAssignmentPage';
 import TutorAnalytics from './pages/tutor/AnalyticsPage';
 import TutorInvites from './pages/tutor/InvitesPage';
 import QuestionBankPage from './pages/tutor/QuestionBankPage';
+import StudentResultsPage from './pages/tutor/StudentResultsPage';
 
 // Student Pages
 import StudentDashboard from './pages/student/DashboardPage';
@@ -80,6 +81,7 @@ function App() {
         <Route path="/tutor" element={<TutorDashboard />} />
         <Route path="/tutor/students" element={<TutorStudents />} />
         <Route path="/tutor/students/:id" element={<StudentDetail />} />
+        <Route path="/tutor/students/:studentId/results/:sessionId" element={<StudentResultsPage />} />
         <Route path="/tutor/assignments" element={<TutorAssignments />} />
         <Route path="/tutor/assignments/new" element={<CreateAssignment />} />
         <Route path="/tutor/analytics" element={<TutorAnalytics />} />

@@ -1,14 +1,15 @@
 /**
- * Diagnostic Results Page
+ * Tutor Student Results Page
+ * Lets tutors view any student's completed session results.
  * Thin wrapper around the shared AssessmentResultsPage.
  */
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import diagnosticService from '../../services/diagnosticService';
+import api from '../../services/api';
 import AssessmentResultsPage from '../shared/AssessmentResultsPage';
 
-export default function DiagnosticResultsPage() {
-  const { sessionId } = useParams();
+export default function StudentResultsPage() {
+  const { studentId, sessionId } = useParams();
   const navigate = useNavigate();
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,10 +19,11 @@ export default function DiagnosticResultsPage() {
     const fetchResults = async () => {
       try {
         setIsLoading(true);
-        const res = await diagnosticService.getResults(sessionId);
+        // Use the diagnostic results endpoint (accepts any session for tutors)
+        const res = await api.get(`/diagnostic/${sessionId}/results`);
         setResults(res.data);
       } catch (err) {
-        setError(err.response?.data?.detail || 'Failed to load diagnostic results');
+        setError(err.response?.data?.detail || 'Failed to load student results');
       } finally {
         setIsLoading(false);
       }
@@ -32,11 +34,11 @@ export default function DiagnosticResultsPage() {
   return (
     <AssessmentResultsPage
       results={results}
-      title="Diagnostic Results"
-      subtitle="Review your performance and identify areas for improvement"
+      title="Student Assessment Results"
+      subtitle="Review this student's performance and identify areas to focus on"
       isLoading={isLoading}
       error={error}
-      onGoHome={() => navigate('/student/dashboard')}
+      onGoHome={() => navigate(`/tutor/students/${studentId}`)}
     />
   );
 }

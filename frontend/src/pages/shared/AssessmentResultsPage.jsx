@@ -2,12 +2,11 @@
  * Shared Assessment Results Page
  *
  * Used by: Intake Assessment, Diagnostic, Practice Tests
- * Renders a polished results view with:
- * - Big SAT score estimate
- * - Section scores (Math / R&W)
+ * Renders a results view focused on identifying skills to work on:
+ * - Accuracy summary (overall + per section)
+ * - Full skill breakdown grouped by Math / Reading & Writing
  * - Domain heatmap
- * - Worst skills with lesson + adaptive CTAs
- * - Full question review
+ * - Question review with expandable details
  *
  * Props:
  *   results        {object}  - The full results object (from /full-results endpoint)
@@ -21,8 +20,8 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CheckCircle, XCircle, ChevronDown, ChevronUp,
-  Clock, BookOpen, AlertTriangle,
-  TrendingUp, Zap,
+  Clock, BookOpen, AlertTriangle, Target,
+  TrendingUp, Zap, BarChart3,
 } from 'lucide-react';
 import { Card, Button, LoadingSpinner } from '../../components/ui';
 
@@ -36,32 +35,101 @@ const heatColor = (accuracy) => {
   return 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-300';
 };
 
-const ScoreGauge = ({ score, low, high, label, max = 800, color = 'brand' }) => {
-  const pct = score ? Math.round((score / max) * 100) : 0;
-  const colorMap = {
-    brand: 'bg-brand-600',
-    violet: 'bg-violet-600',
-  };
+// Accuracy badge color
+const accuracyBadge = (accuracy) => {
+  if (accuracy >= 75) return 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300';
+  if (accuracy >= 50) return 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300';
+  return 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300';
+};
+
+// Accuracy ring (circular progress)
+const AccuracyRing = ({ percent, size = 120, stroke = 10, label }) => {
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percent / 100) * circumference;
+  const color = percent >= 75 ? '#10b981' : percent >= 50 ? '#f59e0b' : '#f43f5e';
+
+  return (
+    <div className="flex flex-col items-center">
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2} cy={size / 2} r={radius}
+          fill="none" stroke="currentColor"
+          className="text-gray-200 dark:text-gray-700"
+          strokeWidth={stroke}
+        />
+        <circle
+          cx={size / 2} cy={size / 2} r={radius}
+          fill="none" stroke={color}
+          strokeWidth={stroke}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+        />
+      </svg>
+      <div className="absolute flex flex-col items-center justify-center" style={{ width: size, height: size }}>
+        <span className="text-3xl font-bold text-gray-900 dark:text-white">{Math.round(percent)}%</span>
+      </div>
+      {label && <span className="text-xs font-medium text-gray-500 dark:text-gray-400 mt-2">{label}</span>}
+    </div>
+  );
+};
+
+// Section accuracy bar
+const SectionBar = ({ label, correct, total }) => {
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const color = pct >= 75 ? 'bg-emerald-500' : pct >= 50 ? 'bg-amber-500' : 'bg-rose-500';
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-1.5">
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{label}</span>
-        {score ? (
-          <span className="text-sm text-gray-500 dark:text-gray-400">{low}–{high}</span>
-        ) : null}
+      <div className="flex items-baseline justify-between mb-1">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">{correct}/{total} ({pct}%)</span>
       </div>
-      <div className="flex items-center gap-3">
-        <div className="text-2xl font-bold text-gray-900 dark:text-white w-14 text-right">
-          {score ?? '–'}
-        </div>
-        <div className="flex-1 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-          <div className={`h-full rounded-full ${colorMap[color]}`} style={{ width: `${pct}%` }} />
-        </div>
-        <div className="text-xs text-gray-400 w-8">/{max}</div>
+      <div className="h-2.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
       </div>
     </div>
   );
 };
+
+// Skill row
+const SkillRow = ({ skill, rank, navigate }) => (
+  <div className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+    {rank !== undefined && (
+      <span className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs flex items-center justify-center font-bold flex-shrink-0">
+        {rank}
+      </span>
+    )}
+    <div className="flex-1 min-w-0">
+      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{skill.skill_name || 'Unknown Skill'}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400">
+        {skill.correct}/{skill.total} correct
+        {skill.domain_code && <> &middot; {skill.domain_code}</>}
+      </p>
+    </div>
+    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${accuracyBadge(skill.accuracy)}`}>
+      {Math.round(skill.accuracy)}%
+    </span>
+    <div className="flex gap-1.5 flex-shrink-0">
+      {skill.lesson_id && (
+        <button
+          onClick={() => navigate(`/student/lessons/${skill.lesson_id}`)}
+          className="flex items-center gap-1 text-xs font-semibold bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/50 px-2 py-1.5 rounded-lg transition-colors"
+        >
+          <BookOpen className="h-3.5 w-3.5" />
+          Study
+        </button>
+      )}
+      <button
+        onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
+        className="flex items-center gap-1 text-xs font-semibold bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/50 px-2 py-1.5 rounded-lg transition-colors"
+      >
+        <Zap className="h-3.5 w-3.5" />
+        Practice
+      </button>
+    </div>
+  </div>
+);
 
 export default function AssessmentResultsPage({
   results,
@@ -106,18 +174,27 @@ export default function AssessmentResultsPage({
   if (!results) return null;
 
   const {
-    score = {},
     questions_answered = 0,
     questions_correct = 0,
     time_seconds = 0,
+    section_accuracy = [],
     domain_breakdown = [],
+    all_skills = [],
     worst_skills = [],
     questions = [],
   } = results;
 
   const timeMinutes = Math.floor(time_seconds / 60);
+  const overallAccuracy = questions_answered > 0 ? (questions_correct / questions_answered) * 100 : 0;
   const correctQuestions = questions.filter(q => q.is_correct);
   const incorrectQuestions = questions.filter(q => !q.is_correct);
+
+  // Group skills by section for the breakdown
+  const mathSkills = all_skills.filter(s => s.section === 'math');
+  const rwSkills = all_skills.filter(s => s.section === 'reading_writing');
+
+  const mathSection = section_accuracy.find(s => s.section === 'math');
+  const rwSection = section_accuracy.find(s => s.section === 'reading_writing');
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -131,146 +208,105 @@ export default function AssessmentResultsPage({
 
       <div className="max-w-5xl mx-auto px-4 py-6 space-y-6">
 
-        {/* ── Big Score Hero ── */}
+        {/* ── Accuracy Summary ── */}
         <Card>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Total score */}
-              <div className="text-center">
-                {score.total ? (
-                  <>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1">Estimated SAT Score</p>
-                    <div className="text-6xl font-extrabold text-gray-900 dark:text-white">
-                      {score.total.toLocaleString()}
-                    </div>
-                    {score.range_low && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Range: {score.range_low}–{score.range_high}</p>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1">Score</p>
-                    <div className="text-5xl font-bold text-gray-900 dark:text-white">
-                      {Math.round((questions_correct / (questions_answered || 1)) * 100)}%
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{questions_correct}/{questions_answered} correct</p>
-                  </>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+              {/* Overall accuracy ring */}
+              <div className="flex justify-center relative">
+                <AccuracyRing percent={overallAccuracy} />
+              </div>
+
+              {/* Section bars + stats */}
+              <div className="md:col-span-2 space-y-5 md:border-l md:border-gray-200 dark:md:border-gray-700 md:pl-8">
+                {mathSection && (
+                  <SectionBar label="Math" correct={mathSection.correct} total={mathSection.total} />
                 )}
-              </div>
+                {rwSection && (
+                  <SectionBar label="Reading & Writing" correct={rwSection.correct} total={rwSection.total} />
+                )}
 
-              {/* Section scores */}
-              {(score.math || score.reading_writing) ? (
-                <div className="md:col-span-2 space-y-4 md:border-l md:border-gray-200 dark:md:border-gray-700 md:pl-8">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Section Scores</p>
-                  <ScoreGauge
-                    label="Math"
-                    score={score.math}
-                    low={score.math_low}
-                    high={score.math_high}
-                    color="brand"
-                  />
-                  <ScoreGauge
-                    label="Reading & Writing"
-                    score={score.reading_writing}
-                    low={score.rw_low}
-                    high={score.rw_high}
-                    color="violet"
-                  />
+                <div className="flex flex-wrap gap-6 text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700">
+                  <span className="flex items-center gap-1.5">
+                    <Target className="h-4 w-4" />
+                    {questions_correct}/{questions_answered} correct
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-4 w-4" />
+                    {timeMinutes} min
+                  </span>
                 </div>
-              ) : (
-                <div className="md:col-span-2 flex items-center justify-center border-l border-gray-200 dark:border-gray-700">
-                  <div className="text-center space-y-1">
-                    <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 justify-center">
-                      <Clock className="h-4 w-4" />
-                      <span className="text-sm">{timeMinutes} min</span>
-                    </div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">
-                      {questions_answered} questions answered
-                    </p>
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
-
-            {/* Stats row */}
-            {score.total && (
-              <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 flex flex-wrap gap-6 text-sm text-gray-500 dark:text-gray-400">
-                <span>{questions_answered} questions answered</span>
-                <span>{questions_correct} correct</span>
-                <span>{timeMinutes} minutes</span>
-              </div>
-            )}
           </div>
         </Card>
 
-        {/* ── Worst Skills + What to Do Next ── */}
+        {/* ── Focus Areas (worst 5) ── */}
         {worst_skills.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card>
-              <Card.Header>
-                <Card.Title className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-amber-500" />
-                  Focus Areas
-                </Card.Title>
-                <Card.Description>Skills that need the most attention</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                <div className="space-y-2">
-                  {worst_skills.map((skill, i) => (
-                    <div key={skill.skill_id} className="flex items-center gap-3">
-                      <span className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs flex items-center justify-center font-bold flex-shrink-0">
-                        {i + 1}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{skill.skill_name || 'Unknown Skill'}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {skill.correct}/{skill.total} correct · {skill.domain_code}
-                        </p>
-                      </div>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${heatColor(skill.accuracy)}`}>
-                        {Math.round(skill.accuracy)}%
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </Card.Content>
-            </Card>
+          <Card>
+            <Card.Header>
+              <Card.Title className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-amber-500" />
+                Focus Areas
+              </Card.Title>
+              <Card.Description>Skills that need the most work — start here for the biggest improvements</Card.Description>
+            </Card.Header>
+            <Card.Content>
+              <div className="divide-y divide-gray-100 dark:divide-gray-800">
+                {worst_skills.map((skill, i) => (
+                  <SkillRow key={skill.skill_id} skill={skill} rank={i + 1} navigate={navigate} />
+                ))}
+              </div>
+            </Card.Content>
+          </Card>
+        )}
 
-            <Card>
-              <Card.Header>
-                <Card.Title>What to Do Next</Card.Title>
-                <Card.Description>Recommended actions for each focus area</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                <div className="space-y-3">
-                  {worst_skills.map((skill) => (
-                    <div key={skill.skill_id} className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate min-w-0">
-                        {skill.skill_name || 'Unknown'}
-                      </p>
-                      <div className="flex gap-2 flex-shrink-0">
-                        {skill.lesson_id && (
-                          <button
-                            onClick={() => navigate(`/student/lessons/${skill.lesson_id}`)}
-                            className="flex items-center gap-1 text-xs font-semibold bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/50 px-2.5 py-1.5 rounded-lg transition-colors"
-                          >
-                            <BookOpen className="h-3.5 w-3.5" />
-                            Study
-                          </button>
-                        )}
-                        <button
-                          onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
-                          className="flex items-center gap-1 text-xs font-semibold bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/50 px-2.5 py-1.5 rounded-lg transition-colors"
-                        >
-                          <Zap className="h-3.5 w-3.5" />
-                          Practice
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Card.Content>
-            </Card>
+        {/* ── Full Skill Breakdown by Section ── */}
+        {all_skills.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Math skills */}
+            {mathSkills.length > 0 && (
+              <Card>
+                <Card.Header>
+                  <Card.Title className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-brand-500" />
+                    Math Skills
+                  </Card.Title>
+                  <Card.Description>
+                    {mathSection ? `${mathSection.correct}/${mathSection.total} correct (${mathSection.accuracy}%)` : ''}
+                  </Card.Description>
+                </Card.Header>
+                <Card.Content>
+                  <div className="divide-y divide-gray-100 dark:divide-gray-800">
+                    {mathSkills.map((skill) => (
+                      <SkillRow key={skill.skill_id} skill={skill} navigate={navigate} />
+                    ))}
+                  </div>
+                </Card.Content>
+              </Card>
+            )}
+
+            {/* R&W skills */}
+            {rwSkills.length > 0 && (
+              <Card>
+                <Card.Header>
+                  <Card.Title className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-violet-500" />
+                    Reading & Writing Skills
+                  </Card.Title>
+                  <Card.Description>
+                    {rwSection ? `${rwSection.correct}/${rwSection.total} correct (${rwSection.accuracy}%)` : ''}
+                  </Card.Description>
+                </Card.Header>
+                <Card.Content>
+                  <div className="divide-y divide-gray-100 dark:divide-gray-800">
+                    {rwSkills.map((skill) => (
+                      <SkillRow key={skill.skill_id} skill={skill} navigate={navigate} />
+                    ))}
+                  </div>
+                </Card.Content>
+              </Card>
+            )}
           </div>
         )}
 
@@ -291,7 +327,7 @@ export default function AssessmentResultsPage({
                     <div className="font-mono text-xs font-bold mb-1">{domain.domain_code}</div>
                     <div className="text-sm font-medium leading-tight mb-1">{domain.domain_name}</div>
                     <div className="text-xs opacity-75">
-                      {domain.correct}/{domain.total} · {Math.round(domain.accuracy)}%
+                      {domain.correct}/{domain.total} &middot; {Math.round(domain.accuracy)}%
                     </div>
                   </div>
                 ))}

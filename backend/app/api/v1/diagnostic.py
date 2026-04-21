@@ -19,10 +19,6 @@ from app.models.invite import Invite, generate_invite_token
 from app.models.test import TestSession, TestQuestion
 from app.models.enums import TestType, TestStatus, SubjectArea, InviteStatus, AssessmentType
 from app.services.intake_service import select_intake_questions, calculate_intake_results
-from app.models.question import Question
-from app.models.taxonomy import Skill, Domain
-from app.models.response import StudentResponse
-from app.models.lesson import Lesson
 
 router = APIRouter()
 
@@ -151,174 +147,39 @@ def get_diagnostic_results(
 ):
     """
     Get full results for a completed diagnostic session.
-    Same format as GET /assess/{token}/full-results.
+    Accessible by the student who took it OR any tutor/admin.
     """
     from uuid import UUID
+    from app.services.results_builder import build_results_payload
 
     try:
         sid = UUID(session_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid session ID")
 
-    session = db.query(TestSession).filter(
-        TestSession.id == sid,
-        TestSession.student_id == current_user.id,
-    ).first()
+    # Tutors/admins can view any session; students only their own
+    if current_user.role in ("tutor", "admin"):
+        session = db.query(TestSession).filter(TestSession.id == sid).first()
+    else:
+        session = db.query(TestSession).filter(
+            TestSession.id == sid,
+            TestSession.student_id == current_user.id,
+        ).first()
 
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
     if session.status != TestStatus.COMPLETED:
         raise HTTPException(status_code=400, detail="Diagnostic has not been completed yet")
 
-    # Use the same calculation as the intake full-results
     results = calculate_intake_results(db, session.id)
     if "error" in results:
         raise HTTPException(status_code=500, detail=results["error"])
 
-    # Build question review + skill stats
-    test_questions = db.query(TestQuestion).filter(
-        TestQuestion.test_session_id == session.id
-    ).order_by(TestQuestion.question_order).all()
-
-    responses = db.query(StudentResponse).filter(
-        StudentResponse.test_session_id == session.id
-    ).all()
-    response_map = {str(r.question_id): r for r in responses}
-
-    skill_stats: dict = {}
-    questions_review = []
-
-    for tq in test_questions:
-        q = db.query(Question).filter(Question.id == tq.question_id).first()
-        if not q:
-            continue
-        response = response_map.get(str(q.id))
-
-        skill_name = None
-        domain_name = None
-        domain_code = None
-        skill_id = q.skill_id
-
-        if skill_id:
-            skill = db.query(Skill).filter(Skill.id == skill_id).first()
-            if skill:
-                skill_name = skill.name
-        if q.domain_id:
-            domain = db.query(Domain).filter(Domain.id == q.domain_id).first()
-            if domain:
-                domain_name = domain.name
-                domain_code = domain.code
-
-        if skill_id:
-            if skill_id not in skill_stats:
-                skill_stats[skill_id] = {"correct": 0, "total": 0, "skill_name": skill_name, "domain_code": domain_code}
-            skill_stats[skill_id]["total"] += 1
-            if response and response.is_correct:
-                skill_stats[skill_id]["correct"] += 1
-
-        prompt = q.prompt_html
-        passage_html = None
-        if q.raw_import_json and isinstance(q.raw_import_json, dict):
-            stimulus = q.raw_import_json.get("stimulus_html")
-            raw_prompt = q.raw_import_json.get("prompt_html")
-            if stimulus:
-                if q.subject_area and q.subject_area.value == "reading_writing":
-                    passage_html = stimulus
-                    if raw_prompt:
-                        prompt = raw_prompt
-                else:
-                    if stimulus not in prompt:
-                        prompt = f"{stimulus}\n\n{prompt}"
-
-        choices = None
-        if q.choices_json:
-            choices = [
-                {"index": i, "content": c if isinstance(c, str) else c.get("content", "")}
-                for i, c in enumerate(q.choices_json)
-            ]
-
-        explanation = q.explanation_html
-        if not explanation and q.raw_import_json:
-            explanation = q.raw_import_json.get("rationale_html")
-
-        questions_review.append({
-            "order": tq.question_order,
-            "question_id": str(q.id),
-            "prompt_html": prompt,
-            "passage_html": passage_html,
-            "answer_type": q.answer_type.value,
-            "choices": choices,
-            "student_answer": response.response_json if response else None,
-            "correct_answer": q.correct_answer_json,
-            "is_correct": response.is_correct if response else False,
-            "explanation_html": explanation,
-            "skill_name": skill_name,
-            "domain_name": domain_name,
-            "domain_code": domain_code,
-            "time_spent_seconds": response.time_spent_seconds if response else 0,
-        })
-
-    # Worst skills with lesson lookup
-    skill_ids = list(skill_stats.keys())
-    lessons_by_skill: dict = {}
-    if skill_ids:
-        lessons = db.query(Lesson).filter(
-            Lesson.skill_id.in_(skill_ids),
-            Lesson.status == "published",
-        ).all()
-        for lesson in lessons:
-            lessons_by_skill[lesson.skill_id] = lesson
-
-    worst_skills = []
-    for skill_id, stats in skill_stats.items():
-        accuracy = (stats["correct"] / stats["total"] * 100) if stats["total"] > 0 else 0
-        lesson = lessons_by_skill.get(skill_id)
-        worst_skills.append({
-            "skill_id": skill_id,
-            "skill_name": stats["skill_name"],
-            "domain_code": stats["domain_code"],
-            "correct": stats["correct"],
-            "total": stats["total"],
-            "accuracy": round(accuracy, 1),
-            "lesson_id": str(lesson.id) if lesson else None,
-            "lesson_title": lesson.title if lesson else None,
-        })
-
-    worst_skills.sort(key=lambda x: (x["accuracy"], -x["total"]))
-    worst_skills = worst_skills[:5]
-
-    composite = results.get("predicted_composite")
-
-    return {
-        "type": "diagnostic",
-        "session_id": str(session.id),
-        "questions_answered": session.total_questions or 0,
-        "questions_correct": session.questions_correct or 0,
-        "time_seconds": session.time_spent_seconds or 0,
-        "score": {
-            "total": composite["mid"] if composite else None,
-            "range_low": composite["low"] if composite else None,
-            "range_high": composite["high"] if composite else None,
-            "math": next((s["predicted_score_mid"] for s in results.get("section_abilities", []) if s["section"] == "math"), None),
-            "math_low": next((s["predicted_score_low"] for s in results.get("section_abilities", []) if s["section"] == "math"), None),
-            "math_high": next((s["predicted_score_high"] for s in results.get("section_abilities", []) if s["section"] == "math"), None),
-            "reading_writing": next((s["predicted_score_mid"] for s in results.get("section_abilities", []) if s["section"] == "reading_writing"), None),
-            "rw_low": next((s["predicted_score_low"] for s in results.get("section_abilities", []) if s["section"] == "reading_writing"), None),
-            "rw_high": next((s["predicted_score_high"] for s in results.get("section_abilities", []) if s["section"] == "reading_writing"), None),
-        },
-        "sections": results.get("section_abilities", []),
-        "domain_breakdown": [
-            {
-                "domain_id": d["domain_id"],
-                "domain_code": d["domain_code"],
-                "domain_name": d["domain_name"],
-                "section": d["section"],
-                "correct": d["correct"],
-                "total": d["total"],
-                "accuracy": d["accuracy"],
-            }
-            for d in results.get("domain_abilities", [])
-        ],
-        "worst_skills": worst_skills,
-        "questions": questions_review,
+    # Use the session's test_type as the result type
+    type_map = {
+        TestType.DIAGNOSTIC: "diagnostic",
+        TestType.PRACTICE: "practice",
+        TestType.ASSIGNED: "assigned",
     }
+    rtype = type_map.get(session.test_type, "assessment")
+    return build_results_payload(db, session, results, result_type=rtype)
