@@ -165,6 +165,10 @@ def select_intake_questions(
     # Order questions: start with medium, alternate between easier and harder
     selected_questions = _order_questions_cat_style(selected_questions)
 
+    # Cap to requested count (skill minimum of 2 can overshoot)
+    if len(selected_questions) > question_count:
+        selected_questions = selected_questions[:question_count]
+
     return selected_questions
 
 

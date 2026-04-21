@@ -1,23 +1,77 @@
 /**
  * Diagnostic Landing Page
- * Students start their self-serve 30-question diagnostic from here.
+ * Students choose Math, Reading & Writing, or both before starting.
  */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Clock, Target, CheckCircle, ArrowRight } from 'lucide-react';
+import { Brain, Clock, Target, CheckCircle, ArrowRight, Calculator, BookOpenText } from 'lucide-react';
 import { Card, Button, LoadingSpinner } from '../../components/ui';
 import diagnosticService from '../../services/diagnosticService';
 
+const sectionOptions = [
+  {
+    key: 'both',
+    sections: ['math', 'reading_writing'],
+    label: 'Full Diagnostic',
+    desc: 'Math + Reading & Writing, covering all SAT domains',
+    time: '20–30 min',
+    icon: Brain,
+    color: 'brand',
+  },
+  {
+    key: 'math',
+    sections: ['math'],
+    label: 'Math Only',
+    desc: 'Covers all math domains — Algebra, Advanced Math, Problem Solving & Geometry',
+    time: '10–15 min',
+    icon: Calculator,
+    color: 'blue',
+  },
+  {
+    key: 'reading_writing',
+    sections: ['reading_writing'],
+    label: 'Reading & Writing Only',
+    desc: 'Covers all R&W domains — Craft & Structure, Information & Ideas, Standard English & Expression',
+    time: '10–15 min',
+    icon: BookOpenText,
+    color: 'purple',
+  },
+];
+
+const colorMap = {
+  brand: {
+    ring: 'ring-brand-600 dark:ring-brand-400 bg-brand-50 dark:bg-brand-900/20',
+    idle: 'hover:border-brand-300 dark:hover:border-brand-700',
+    iconBg: 'bg-brand-100 dark:bg-brand-900/30',
+    icon: 'text-brand-600 dark:text-brand-400',
+  },
+  blue: {
+    ring: 'ring-blue-600 dark:ring-blue-400 bg-blue-50 dark:bg-blue-900/20',
+    idle: 'hover:border-blue-300 dark:hover:border-blue-700',
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+    icon: 'text-blue-600 dark:text-blue-400',
+  },
+  purple: {
+    ring: 'ring-purple-600 dark:ring-purple-400 bg-purple-50 dark:bg-purple-900/20',
+    idle: 'hover:border-purple-300 dark:hover:border-purple-700',
+    iconBg: 'bg-purple-100 dark:bg-purple-900/30',
+    icon: 'text-purple-600 dark:text-purple-400',
+  },
+};
+
 export default function DiagnosticLandingPage() {
   const navigate = useNavigate();
+  const [selected, setSelected] = useState('both');
   const [isStarting, setIsStarting] = useState(false);
   const [error, setError] = useState(null);
+
+  const selectedOption = sectionOptions.find(o => o.key === selected);
 
   const handleStart = async () => {
     setIsStarting(true);
     setError(null);
     try {
-      const res = await diagnosticService.start();
+      const res = await diagnosticService.start(selectedOption.sections);
       const { token } = res.data;
       navigate(`/assess/${token}`);
     } catch (err) {
@@ -36,10 +90,50 @@ export default function DiagnosticLandingPage() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Know Where You Stand</h1>
           <p className="text-brand-100 text-lg">
-            Take a 30-question diagnostic to identify your strengths and pinpoint exactly what to study.
+            Take a diagnostic to identify your strengths and pinpoint exactly what to study.
           </p>
         </div>
       </div>
+
+      {/* Section picker */}
+      <Card>
+        <Card.Header>
+          <Card.Title>Choose your diagnostic</Card.Title>
+        </Card.Header>
+        <Card.Content>
+          <div className="space-y-3">
+            {sectionOptions.map((opt) => {
+              const isSelected = selected === opt.key;
+              const c = colorMap[opt.color];
+              const Icon = opt.icon;
+              return (
+                <button
+                  key={opt.key}
+                  onClick={() => setSelected(opt.key)}
+                  className={`
+                    w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all
+                    ${isSelected
+                      ? `${c.ring} ring-2 border-transparent`
+                      : `border-gray-200 dark:border-gray-700 ${c.idle}`
+                    }
+                  `}
+                >
+                  <div className={`w-10 h-10 rounded-xl ${c.iconBg} flex items-center justify-center flex-shrink-0`}>
+                    <Icon className={`h-5 w-5 ${c.icon}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 dark:text-white">{opt.label}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{opt.desc}</p>
+                  </div>
+                  <span className="text-xs font-medium text-gray-400 dark:text-gray-500 whitespace-nowrap">
+                    {opt.time}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </Card.Content>
+      </Card>
 
       {/* What to expect */}
       <Card>
@@ -49,8 +143,8 @@ export default function DiagnosticLandingPage() {
         <Card.Content>
           <div className="space-y-4">
             {[
-              { icon: Clock, title: '20–30 minutes', desc: 'Questions are adaptive — faster if you\'re confident, slower if mixed.' },
-              { icon: Target, title: '30 questions total', desc: '15 Math + 15 Reading & Writing, covering all SAT domains.' },
+              { icon: Clock, title: selectedOption.time, desc: 'Questions are adaptive — faster if you\'re confident, slower if mixed.' },
+              { icon: Target, title: '15 questions per section', desc: selected === 'both' ? 'Covers both Math and Reading & Writing.' : `Focused on ${selected === 'math' ? 'Math' : 'Reading & Writing'}.` },
               { icon: CheckCircle, title: 'Instant results', desc: 'See your accuracy, section breakdown, and which skills to focus on.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">
@@ -74,7 +168,7 @@ export default function DiagnosticLandingPage() {
           <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
             <li className="flex items-start gap-2">
               <span className="text-brand-500 font-bold mt-0.5">•</span>
-              Find a quiet spot with 25–30 minutes of uninterrupted time
+              Find a quiet spot with {selectedOption.time} of uninterrupted time
             </li>
             <li className="flex items-start gap-2">
               <span className="text-brand-500 font-bold mt-0.5">•</span>
@@ -108,7 +202,7 @@ export default function DiagnosticLandingPage() {
           </>
         ) : (
           <>
-            Start Diagnostic
+            Start {selectedOption.label}
             <ArrowRight className="h-5 w-5 ml-2" />
           </>
         )}
