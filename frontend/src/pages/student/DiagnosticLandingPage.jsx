@@ -13,8 +13,8 @@ const sectionOptions = [
     key: 'both',
     sections: ['math', 'reading_writing'],
     label: 'Full Diagnostic',
-    desc: 'Math + Reading & Writing, every skill covered',
-    time: '45–60 min',
+    desc: '58 questions — covers every skill across both sections',
+    time: '40–55 min',
     icon: Brain,
     color: 'brand',
   },
@@ -22,8 +22,8 @@ const sectionOptions = [
     key: 'math',
     sections: ['math'],
     label: 'Math Only',
-    desc: 'Covers all math domains — Algebra, Advanced Math, Problem Solving & Geometry',
-    time: '20–30 min',
+    desc: '38 questions — Algebra, Advanced Math, Problem Solving & Geometry',
+    time: '25–35 min',
     icon: Calculator,
     color: 'blue',
   },
@@ -31,8 +31,8 @@ const sectionOptions = [
     key: 'reading_writing',
     sections: ['reading_writing'],
     label: 'Reading & Writing Only',
-    desc: 'Covers all R&W domains — Craft & Structure, Information & Ideas, Standard English & Expression',
-    time: '20–30 min',
+    desc: '20 questions — Craft & Structure, Information & Ideas, Standard English & Expression',
+    time: '15–20 min',
     icon: BookOpenText,
     color: 'purple',
   },
@@ -144,7 +144,7 @@ export default function DiagnosticLandingPage() {
           <div className="space-y-4">
             {[
               { icon: Clock, title: selectedOption.time, desc: 'Questions are adaptive — faster if you\'re confident, slower if mixed.' },
-              { icon: Target, title: 'Every skill tested', desc: selected === 'both' ? 'At least 2 questions per skill across both Math and Reading & Writing.' : `At least 2 questions per skill across all ${selected === 'math' ? 'Math' : 'Reading & Writing'} domains.` },
+              { icon: Target, title: '2 questions per skill', desc: 'Every skill is tested with an easy and a hard question for accurate results.' },
               { icon: CheckCircle, title: 'Instant results', desc: 'See your accuracy, section breakdown, and which skills to focus on.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">

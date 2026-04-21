@@ -80,7 +80,8 @@ def select_intake_questions(
     db: Session,
     question_count: int,
     subject_area: Optional[SubjectArea] = None,
-    exclude_question_ids: set = None
+    exclude_question_ids: set = None,
+    questions_per_skill: Optional[int] = None,
 ) -> List[Question]:
     """
     Select questions for an intake assessment using skill-based stratified sampling.
@@ -143,8 +144,9 @@ def select_intake_questions(
     # Determine questions per skill
     # Goal: 2+ questions per skill with difficulty spread
     num_skills = len(skill_pools)
-    questions_per_skill = max(2, question_count // num_skills)
-    remainder = question_count % num_skills
+    if questions_per_skill is None:
+        questions_per_skill = max(2, question_count // num_skills)
+    remainder = 0 if questions_per_skill else question_count % num_skills
 
     selected_questions = []
     used_ids = set()

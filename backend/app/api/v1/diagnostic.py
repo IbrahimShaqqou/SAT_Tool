@@ -22,9 +22,7 @@ from app.services.intake_service import select_intake_questions, calculate_intak
 
 router = APIRouter()
 
-# Pass a high number so select_intake_questions covers all skills
-# (it selects max(2, count//num_skills) per skill for difficulty spread)
-QUESTIONS_PER_SECTION = 200
+QUESTIONS_PER_SKILL = 2
 
 
 class DiagnosticStartRequest(BaseModel):
@@ -88,13 +86,14 @@ def start_diagnostic(
             if invite:
                 return {"token": invite.token, "session_id": str(existing.id), "is_resuming": True}
 
-        # Select questions per section
+        # Select questions per section (fixed per-skill count covers every skill)
         section_questions = {}
         for section_key in valid_sections:
             qs = select_intake_questions(
                 db=db,
-                question_count=QUESTIONS_PER_SECTION,
+                question_count=999,  # ignored when questions_per_skill is set
                 subject_area=SECTION_MAP[section_key],
+                questions_per_skill=QUESTIONS_PER_SKILL,
             )
             section_questions[section_key] = qs
 
