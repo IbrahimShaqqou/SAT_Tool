@@ -17,6 +17,7 @@ import {
   FileText,
   BookOpen,
   GraduationCap,
+  ClipboardCheck,
 } from 'lucide-react';
 
 const tutorGroups = [
@@ -49,6 +50,7 @@ const studentGroups = [
     label: null,
     items: [
       { to: '/student', icon: LayoutDashboard, label: 'Dashboard', end: true },
+      { to: '/student/diagnostic', icon: ClipboardCheck, label: 'Diagnostic' },
       { to: '/student/assignments', icon: ClipboardList, label: 'My Assignments' },
     ],
   },
