@@ -13,8 +13,8 @@ const sectionOptions = [
     key: 'both',
     sections: ['math', 'reading_writing'],
     label: 'Full Diagnostic',
-    desc: 'Math + Reading & Writing, covering all SAT domains',
-    time: '20–30 min',
+    desc: 'Math + Reading & Writing, every skill covered',
+    time: '45–60 min',
     icon: Brain,
     color: 'brand',
   },
@@ -23,7 +23,7 @@ const sectionOptions = [
     sections: ['math'],
     label: 'Math Only',
     desc: 'Covers all math domains — Algebra, Advanced Math, Problem Solving & Geometry',
-    time: '10–15 min',
+    time: '20–30 min',
     icon: Calculator,
     color: 'blue',
   },
@@ -32,7 +32,7 @@ const sectionOptions = [
     sections: ['reading_writing'],
     label: 'Reading & Writing Only',
     desc: 'Covers all R&W domains — Craft & Structure, Information & Ideas, Standard English & Expression',
-    time: '10–15 min',
+    time: '20–30 min',
     icon: BookOpenText,
     color: 'purple',
   },
@@ -144,7 +144,7 @@ export default function DiagnosticLandingPage() {
           <div className="space-y-4">
             {[
               { icon: Clock, title: selectedOption.time, desc: 'Questions are adaptive — faster if you\'re confident, slower if mixed.' },
-              { icon: Target, title: '15 questions per section', desc: selected === 'both' ? 'Covers both Math and Reading & Writing.' : `Focused on ${selected === 'math' ? 'Math' : 'Reading & Writing'}.` },
+              { icon: Target, title: 'Every skill tested', desc: selected === 'both' ? 'At least 2 questions per skill across both Math and Reading & Writing.' : `At least 2 questions per skill across all ${selected === 'math' ? 'Math' : 'Reading & Writing'} domains.` },
               { icon: CheckCircle, title: 'Instant results', desc: 'See your accuracy, section breakdown, and which skills to focus on.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">

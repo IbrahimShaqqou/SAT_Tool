@@ -22,7 +22,9 @@ from app.services.intake_service import select_intake_questions, calculate_intak
 
 router = APIRouter()
 
-QUESTIONS_PER_SECTION = 15
+# Pass a high number so select_intake_questions covers all skills
+# (it selects max(2, count//num_skills) per skill for difficulty spread)
+QUESTIONS_PER_SECTION = 200
 
 
 class DiagnosticStartRequest(BaseModel):
