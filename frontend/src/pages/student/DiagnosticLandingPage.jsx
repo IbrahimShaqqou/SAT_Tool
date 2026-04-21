@@ -36,7 +36,7 @@ export default function DiagnosticLandingPage() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Know Where You Stand</h1>
           <p className="text-brand-100 text-lg">
-            Take a 30-question diagnostic to get your estimated SAT score across both sections.
+            Take a 30-question diagnostic to identify your strengths and pinpoint exactly what to study.
           </p>
         </div>
       </div>
@@ -51,7 +51,7 @@ export default function DiagnosticLandingPage() {
             {[
               { icon: Clock, title: '20–30 minutes', desc: 'Questions are adaptive — faster if you\'re confident, slower if mixed.' },
               { icon: Target, title: '30 questions total', desc: '15 Math + 15 Reading & Writing, covering all SAT domains.' },
-              { icon: CheckCircle, title: 'Instant results', desc: 'Get your estimated SAT score, section scores, and weakest skills.' },
+              { icon: CheckCircle, title: 'Instant results', desc: 'See your accuracy, section breakdown, and which skills to focus on.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">
                 <div className="w-9 h-9 rounded-xl bg-brand-50 dark:bg-brand-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">

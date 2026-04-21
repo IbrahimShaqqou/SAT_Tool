@@ -252,7 +252,7 @@ def start_assessment(
         # Otherwise proceed with what we have
 
     # Create test session (linked to student if authenticated)
-    test_type = TestType.DIAGNOSTIC if assessment_type == AssessmentType.INTAKE else TestType.PRACTICE
+    test_type = TestType.ASSIGNED if assessment_type == AssessmentType.INTAKE else TestType.PRACTICE
     session = TestSession(
         student_id=current_user.id if current_user else None,
         test_type=test_type,
@@ -557,6 +557,8 @@ def submit_assessment(
         questions_correct=correct,
         total_questions=total,
         time_spent_seconds=time_spent,
+        session_id=str(session.id),
+        test_type=session.test_type.value if session.test_type else None,
     )
 
 

@@ -17,6 +17,7 @@ class ProgressSummary(BaseModel):
     total_correct: int
     overall_accuracy: float
     sessions_completed: int
+    has_diagnostic: bool = False
     last_practice_at: Optional[datetime] = None
 
 

@@ -36,7 +36,7 @@ export default function IntakeResultsPage() {
       subtitle="Review your performance and identify areas for improvement"
       isLoading={isLoading}
       error={error}
-      onGoHome={() => navigate('/student/dashboard')}
+      onGoHome={() => navigate('/student')}
     />
   );
 }

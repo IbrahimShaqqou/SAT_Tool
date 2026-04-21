@@ -165,6 +165,8 @@ class AssessmentComplete(BaseModel):
     questions_correct: int
     total_questions: int
     time_spent_seconds: int
+    session_id: Optional[str] = None
+    test_type: Optional[str] = None  # "DIAGNOSTIC", "PRACTICE", etc.
 
 
 # =============================================================================

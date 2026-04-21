@@ -651,13 +651,24 @@ const AssessmentPage = () => {
   // Completed state
   if (state === STATES.COMPLETED && results) {
     const passed = results.score_percentage >= 70;
+    const isDiagnostic = results.test_type === 'DIAGNOSTIC';
+    const resultsUrl = isDiagnostic && results.session_id
+      ? `/student/diagnostic/${results.session_id}/results`
+      : `/assess/${token}/results`;
+
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="max-w-lg w-full text-center">
           <div className="p-8">
             <CheckCircle className={`h-16 w-16 mx-auto mb-4 ${passed ? 'text-green-500' : 'text-amber-500'}`} />
-            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Assessment Complete</h1>
-            <p className="text-gray-600 mb-6">Thank you for completing the assessment</p>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+              {isDiagnostic ? 'Diagnostic Complete' : 'Assessment Complete'}
+            </h1>
+            <p className="text-gray-600 mb-6">
+              {isDiagnostic
+                ? 'Great work! Let\'s see where you stand.'
+                : 'Thank you for completing the assessment'}
+            </p>
 
             <div className="bg-gray-50 rounded-lg p-6 mb-6">
               <p className="text-4xl font-bold text-gray-900 mb-2">
@@ -675,14 +686,16 @@ const AssessmentPage = () => {
               variant="primary"
               size="lg"
               className="w-full mb-4"
-              onClick={() => window.location.href = `/assess/${token}/results`}
+              onClick={() => window.location.href = resultsUrl}
             >
               View Detailed Results
             </Button>
 
-            <p className="text-sm text-gray-500">
-              Your tutor will review your results and may reach out to you.
-            </p>
+            {!isDiagnostic && (
+              <p className="text-sm text-gray-500">
+                Your tutor will review your results and may reach out to you.
+              </p>
+            )}
           </div>
         </Card>
       </div>

@@ -539,7 +539,7 @@ export default function AssessmentResultsPage({
             <div className="flex flex-wrap justify-center gap-3">
               <Button
                 variant="secondary"
-                onClick={onGoHome || (() => navigate('/student/dashboard'))}
+                onClick={onGoHome || (() => navigate('/student'))}
               >
                 Go to Dashboard
               </Button>

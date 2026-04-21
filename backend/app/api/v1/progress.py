@@ -89,6 +89,13 @@ def get_progress_summary(
         TestSession.status == TestStatus.COMPLETED,
     ).scalar() or 0
 
+    # Check if student has completed a diagnostic
+    has_diagnostic = db.query(func.count(TestSession.id)).filter(
+        TestSession.student_id == current_user.id,
+        TestSession.test_type == TestType.DIAGNOSTIC,
+        TestSession.status == TestStatus.COMPLETED,
+    ).scalar() > 0
+
     # Get last practice time
     last_response = db.query(StudentResponse.submitted_at).filter(
         StudentResponse.student_id == current_user.id,
@@ -101,6 +108,7 @@ def get_progress_summary(
         total_correct=total_correct,
         overall_accuracy=round(accuracy, 1),
         sessions_completed=sessions_completed,
+        has_diagnostic=has_diagnostic,
         last_practice_at=last_practice_at,
     )
 
@@ -172,9 +180,13 @@ def get_in_progress_assessments(
         if not session or session.status != TestStatus.IN_PROGRESS:
             continue
 
-        # Get tutor name
-        tutor = db.query(User).filter(User.id == invite.tutor_id).first()
-        tutor_name = f"{tutor.first_name} {tutor.last_name}" if tutor else "Your Tutor"
+        # Get tutor name (self-serve diagnostics have tutor_id == student_id)
+        is_self_serve = invite.tutor_id and str(invite.tutor_id) == str(invite.student_id)
+        if is_self_serve:
+            tutor_name = "Self-Assessment"
+        else:
+            tutor = db.query(User).filter(User.id == invite.tutor_id).first()
+            tutor_name = f"{tutor.first_name} {tutor.last_name}" if tutor else "Your Tutor"
 
         items.append(InProgressAssessment(
             session_id=session.id,

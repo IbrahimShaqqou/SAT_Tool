@@ -68,9 +68,8 @@ const StudentDashboard = () => {
         setSkills(skillsRes.data);
         setStudyPlan(studyPlanRes.data.tasks || []);
 
-        // Check if student has taken a diagnostic
-        const totalSessions = progressRes.data?.sessions_completed || 0;
-        setHasDiagnostic(totalSessions > 0);
+        // Check if student has completed a diagnostic
+        setHasDiagnostic(progressRes.data?.has_diagnostic || false);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -155,8 +154,8 @@ const StudentDashboard = () => {
                 <BarChart2 className="h-5 w-5 text-white" />
               </div>
               <div>
-                <p className="font-semibold text-white">Start with a diagnostic to get your estimated SAT score</p>
-                <p className="text-violet-200 text-sm mt-0.5">30 questions · 25 min · personalized study plan</p>
+                <p className="font-semibold text-white">Start with a diagnostic to find out what to study</p>
+                <p className="text-violet-200 text-sm mt-0.5">30 questions · 25 min · identify your strengths and weak spots</p>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -197,8 +196,8 @@ const StudentDashboard = () => {
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     {a.questions_answered}/{a.total_questions} answered
-                    {' · '}{a.subject_area === 'math' ? 'Math' : 'Reading & Writing'}
-                    {' · '}From {a.tutor_name}
+                    {a.subject_area && <>{' · '}{a.subject_area === 'math' ? 'Math' : 'Reading & Writing'}</>}
+                    {a.tutor_name !== 'Self-Assessment' && <>{' · '}From {a.tutor_name}</>}
                   </p>
                 </div>
                 <Link to={`/assess/${a.invite_token}`}>
