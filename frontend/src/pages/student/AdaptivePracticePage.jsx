@@ -738,9 +738,10 @@ const AdaptivePracticePage = () => {
                     {/* Show correct answer for SPR if wrong */}
                     {!lastResult.is_correct && lastResult.correct_answer && currentQuestion.answer_type !== 'MCQ' && (
                       <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                        Correct answer: {
-                          lastResult.correct_answer.answers?.join(' or ') || 'See explanation'
-                        }
+                        {lastResult.correct_answer.answers?.length > 0 &&
+                         !lastResult.correct_answer.answers.includes('*')
+                          ? `Correct answer: ${lastResult.correct_answer.answers.join(' or ')}`
+                          : 'See explanation for the correct answer'}
                       </div>
                     )}
 

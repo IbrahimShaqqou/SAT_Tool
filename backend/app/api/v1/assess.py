@@ -453,17 +453,9 @@ def submit_answer(
         )
 
     # Check correctness
+    from app.services.answer_checker import check_answer
     correct_answer = question.correct_answer_json
-    is_correct = False
-
-    if question.answer_type.value == "MCQ":
-        submitted_index = request.answer.get("index")
-        correct_index = correct_answer.get("index") if correct_answer else None
-        is_correct = submitted_index == correct_index
-    else:  # SPR
-        submitted_answer = str(request.answer.get("answer", "")).strip().lower()
-        correct_answers = correct_answer.get("answers", []) if correct_answer else []
-        is_correct = submitted_answer in [str(a).strip().lower() for a in correct_answers]
+    is_correct = check_answer(correct_answer, request.answer, question.answer_type.value)
 
     # Create response record (link to student if available)
     student_id = invite.student_id or session.student_id

@@ -96,17 +96,8 @@ def _get_student_name(user: User) -> str:
 
 def _check_answer(question: Question, submitted_answer: dict) -> bool:
     """Check if submitted answer is correct."""
-    correct = question.correct_answer_json
-
-    if "index" in submitted_answer and "index" in correct:
-        return submitted_answer["index"] == correct["index"]
-
-    if "answer" in submitted_answer and "answers" in correct:
-        user_answer = str(submitted_answer["answer"]).strip().lower()
-        correct_answers = [str(a).strip().lower() for a in correct["answers"]]
-        return user_answer in correct_answers
-
-    return False
+    from app.services.answer_checker import check_answer
+    return check_answer(question.correct_answer_json, submitted_answer, question.answer_type.value)
 
 
 def _get_student_ability_for_assignment(
