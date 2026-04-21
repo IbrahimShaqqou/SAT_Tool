@@ -126,7 +126,7 @@ def start_diagnostic(
             title="Diagnostic Assessment",
             subject_area=None,
             question_count=total,
-            is_adaptive=False,  # Questions already selected
+            is_adaptive=0,  # Questions already selected (Integer column: 0=False)
             assessment_type=AssessmentType.INTAKE,
             status=InviteStatus.USED,  # Pre-used so the start endpoint skips re-selection
             test_session_id=session.id,
