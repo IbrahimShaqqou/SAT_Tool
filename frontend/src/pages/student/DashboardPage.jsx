@@ -230,37 +230,52 @@ const StudentDashboard = () => {
         ))}
       </div>
 
-      {/* ── Today's Plan ── */}
+      {/* ── Study Plan preview ── */}
       {studyPlan.length > 0 && (
         <section>
-          <div className="flex items-center gap-2 mb-3">
-            <Target className="h-4 w-4 text-brand-500" />
-            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Today's Plan</h2>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Target className="h-4 w-4 text-brand-500" />
+              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Study Plan</h2>
+            </div>
+            <Link to="/student/study-plan" className="text-xs font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors">
+              View full plan
+            </Link>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-            {studyPlan.map((task, i) => {
+            {studyPlan.slice(0, 4).map((task, i) => {
               const typeColor = {
                 review: 'bg-amber-400',
                 level_up: 'bg-blue-500',
-                focus: 'bg-rose-400',
-                lesson: 'bg-violet-500',
-                nudge: 'bg-emerald-500',
+                lesson_then_practice: 'bg-violet-500',
+                practice: 'bg-brand-500',
+                new_skill: 'bg-emerald-500',
+                nudge: 'bg-slate-400',
               };
+              const primaryAction = task.actions?.[0] || task;
+              const href = primaryAction.href || primaryAction.cta_href;
+              const label = primaryAction.label || primaryAction.cta_label || 'Start';
               return (
                 <div key={i} className="flex items-center justify-between px-5 py-4">
                   <div className="flex items-center gap-3 min-w-0">
                     <span className={`w-2 h-2 rounded-full flex-shrink-0 ${typeColor[task.type] || 'bg-slate-400'}`} />
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{task.title}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">~{task.estimated_minutes} min</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
+                        {task.domain_code && <span className="font-medium">{task.domain_code}</span>}
+                        {task.domain_code && ' · '}
+                        ~{task.estimated_minutes} min
+                      </p>
                     </div>
                   </div>
-                  <Link to={task.cta_href} className="flex-shrink-0 ml-4">
-                    <Button size="sm" variant="secondary">
-                      {task.cta_label}
-                      <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                    </Button>
-                  </Link>
+                  {href && (
+                    <Link to={href} className="flex-shrink-0 ml-4">
+                      <Button size="sm" variant="secondary">
+                        {label}
+                        <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               );
             })}
