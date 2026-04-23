@@ -9,7 +9,7 @@ import {
   Target, RefreshCw, TrendingUp, BookOpen, Brain, Sparkles,
   ChevronDown, ChevronRight, CheckCircle2, Circle, ArrowRight,
 } from 'lucide-react';
-import { Button, LoadingSpinner, Badge, EmptyState } from '../../components/ui';
+import { Button, LoadingSpinner, EmptyState } from '../../components/ui';
 import { recommendationService } from '../../services';
 
 const typeConfig = {
