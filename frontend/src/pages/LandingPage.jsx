@@ -1,13 +1,13 @@
 /**
  * Landing Page — premium, scroll-animated, distinctive
  */
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import useScrollReveal from '../hooks/useScrollReveal';
 import {
-  BookOpen, Brain, GraduationCap, ArrowRight,
+  Brain, GraduationCap, ArrowRight,
   CheckCircle2, BarChart3, Sparkles, TrendingUp,
-  Target, Zap, ChevronRight,
+  Target, Zap,
 } from 'lucide-react';
 import { Button } from '../components/ui';
 
@@ -37,46 +37,10 @@ const Reveal = ({ children, className = '', stagger = false }) => {
 const LandingPage = () => {
   const { user, isLoading } = useAuth();
 
-  // Logged-in user hub
+  // Logged-in users go straight to their dashboard
   if (user && !isLoading) {
     const dashboardPath = user.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student';
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: '#f0fdff' }}>
-        <div className="max-w-3xl mx-auto px-4 py-16">
-          <div className="text-center mb-10">
-            <p className="text-brand-600 font-medium mb-2">Welcome back</p>
-            <h1 className="text-4xl font-bold text-slate-900 mb-2">
-              {user.first_name || user.email}
-            </h1>
-            <p className="text-slate-500">Ready to keep improving?</p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-3">
-            {[
-              { to: dashboardPath, icon: BarChart3, color: 'text-brand-600', bg: 'bg-brand-50', title: 'Dashboard', desc: 'Progress and recent activity' },
-              { to: '/questions', icon: BookOpen, color: 'text-violet-600', bg: 'bg-violet-50', title: 'Question Bank', desc: '3,271 SAT questions' },
-              { to: '/lessons', icon: GraduationCap, color: 'text-accent-600', bg: 'bg-accent-50', title: 'Skill Lessons', desc: 'Interactive lessons' },
-              ...(user.role?.toLowerCase() === 'student' ? [{ to: '/student/adaptive', icon: Brain, color: 'text-amber-600', bg: 'bg-amber-50', title: 'Adaptive Practice', desc: 'AI-personalized drills' }] : []),
-            ].map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="group flex items-center gap-4 p-5 bg-white rounded-2xl shadow-card hover:shadow-card-md transition-shadow"
-              >
-                <div className={`w-11 h-11 ${item.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                  <item.icon className={`h-5 w-5 ${item.color}`} />
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-slate-900 text-sm">{item.title}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
-                </div>
-                <ChevronRight className="h-4 w-4 text-slate-300 group-hover:text-brand-500 transition-colors" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+    return <Navigate to={dashboardPath} replace />;
   }
 
   return (
