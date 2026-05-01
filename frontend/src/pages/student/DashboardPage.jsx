@@ -96,6 +96,11 @@ const StudentDashboard = () => {
   const questionsAnswered = progress?.total_questions_answered || 0;
   const sessions = progress?.sessions_completed || 0;
 
+  // Filter study plan tasks by checked-off state (syncs with StudyPlanPage)
+  let studyPlanCompleted = {};
+  try { studyPlanCompleted = JSON.parse(localStorage.getItem('study_plan_completed') || '{}'); } catch {}
+  const studyPlanVisible = studyPlan.filter(t => !studyPlanCompleted[t.skill_id]);
+
   return (
     <div className="space-y-7">
 
@@ -231,7 +236,7 @@ const StudentDashboard = () => {
       </div>
 
       {/* ── Study Plan preview ── */}
-      {studyPlan.length > 0 && (
+      {studyPlanVisible.length > 0 && (
         <section>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
@@ -243,7 +248,7 @@ const StudentDashboard = () => {
             </Link>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-            {studyPlan.slice(0, 4).map((task, i) => {
+            {studyPlanVisible.slice(0, 4).map((task, i) => {
               const typeColor = {
                 review: 'bg-amber-400',
                 level_up: 'bg-blue-500',

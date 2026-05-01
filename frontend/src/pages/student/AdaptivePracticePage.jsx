@@ -596,9 +596,12 @@ const AdaptivePracticePage = () => {
       <div className="sticky top-0 z-30 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => {
-              if (window.confirm('Exit practice? Your answers and ability scores have been saved.')) {
-                navigate('/student/adaptive');
+            onClick={async () => {
+              if (window.confirm('Exit practice? Your progress will be saved.')) {
+                try {
+                  if (session) await adaptiveService.completeSession(session.id);
+                } catch {}
+                navigate('/student');
               }
             }}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"

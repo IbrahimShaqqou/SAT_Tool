@@ -4,7 +4,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Copy, Link as LinkIcon, Plus, Trash2, ExternalLink, X, Check, User, BarChart3 } from 'lucide-react';
+import { Copy, Link as LinkIcon, Plus, Trash2, ExternalLink, X, Check, User, BarChart3, FileSearch } from 'lucide-react';
 import { Card, Button, Input, Select, Modal, Badge, LoadingSpinner, Table, ProgressBar } from '../../components/ui';
 import { inviteService } from '../../services';
 
@@ -618,15 +618,25 @@ const InvitesPage = () => {
               </div>
             )}
 
-            {/* Link to Student Profile */}
-            {selectedResults.student_id && (
-              <div className="pt-4 border-t">
-                <Link to={`/tutor/students/${selectedResults.student_id}`}>
-                  <Button variant="primary" className="w-full">
-                    <User className="h-4 w-4 mr-2" />
-                    View Full Student Profile
-                  </Button>
-                </Link>
+            {/* Action buttons */}
+            {(selectedResults.student_id || selectedResults.test_session_id) && (
+              <div className="pt-4 border-t space-y-2">
+                {selectedResults.student_id && selectedResults.test_session_id && (
+                  <Link to={`/tutor/students/${selectedResults.student_id}/results/${selectedResults.test_session_id}`}>
+                    <Button variant="primary" className="w-full">
+                      <FileSearch className="h-4 w-4 mr-2" />
+                      Review Each Question
+                    </Button>
+                  </Link>
+                )}
+                {selectedResults.student_id && (
+                  <Link to={`/tutor/students/${selectedResults.student_id}`}>
+                    <Button variant="secondary" className="w-full">
+                      <User className="h-4 w-4 mr-2" />
+                      View Full Student Profile
+                    </Button>
+                  </Link>
+                )}
               </div>
             )}
           </div>

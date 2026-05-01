@@ -754,6 +754,7 @@ def get_invite_results(
 
     return {
         "invite_id": invite.id,
+        "test_session_id": str(session.id),
         "title": invite.title,
         "student_id": invite.student_id,
         "student_name": f"{student.first_name} {student.last_name}" if student else invite.guest_name,
