@@ -3,7 +3,7 @@
  * For students taking assessments via invite links
  * Requires student account (login or register)
  */
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { CheckCircle, AlertCircle, User, UserPlus } from 'lucide-react';
 import { Card, Button, Input, LoadingSpinner } from '../../components/ui';
@@ -38,6 +38,25 @@ const AUTH_MODES = {
   CHOOSE: 'choose',
   LOGIN: 'login',
   REGISTER: 'register',
+};
+
+// MathJax-aware HTML renderer — typesets after each render
+const MathContent = ({ html, className = '' }) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (ref.current && window.MathJax?.typesetPromise) {
+      window.MathJax.typesetClear?.([ref.current]);
+      window.MathJax.typesetPromise([ref.current]).catch(() => {});
+    }
+  }, [html]);
+  if (!html) return null;
+  return (
+    <div
+      ref={ref}
+      className={`question-content ${className}`}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 };
 
 // Extract error message from API response
@@ -779,9 +798,9 @@ const AssessmentPage = () => {
               ) : currentChecked.explanation ? (
                 <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
                   <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
-                  <div
-                    className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200 question-content"
-                    dangerouslySetInnerHTML={{ __html: currentChecked.explanation }}
+                  <MathContent
+                    html={currentChecked.explanation}
+                    className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
                   />
                 </div>
               ) : null
@@ -794,9 +813,9 @@ const AssessmentPage = () => {
     // Passage panel content
     const passagePanel = hasPassage ? (
       <div className="h-full overflow-auto p-6 pb-20 bg-white">
-        <div
+        <MathContent
+          html={currentQuestion.passage_html}
           className="prose prose-gray max-w-none"
-          dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
         />
       </div>
     ) : null;

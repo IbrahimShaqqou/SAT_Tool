@@ -349,25 +349,17 @@ def get_assessment_questions(
             prompt = q.prompt_html
             passage_html = None
 
-            # Handle stimulus/passage from raw_import_json
+            # For R&W, split the passage out of the prompt so it can render
+            # in a separate panel. Math keeps stimulus+prompt together because
+            # the stimulus (equations, figures) belongs inline with the prompt.
             if q.raw_import_json and isinstance(q.raw_import_json, dict):
-                stimulus = q.raw_import_json.get("stimulus_html")
-                raw_prompt = q.raw_import_json.get("prompt_html")
-
-                if stimulus:
-                    if q.subject_area and q.subject_area.value == "reading_writing":
-                        # R&W: stimulus is the passage, show separately in left pane
+                if q.subject_area and q.subject_area.value == "reading_writing":
+                    stimulus = q.raw_import_json.get("stimulus_html")
+                    raw_prompt = q.raw_import_json.get("prompt_html")
+                    if stimulus:
                         passage_html = stimulus
                         if raw_prompt:
                             prompt = raw_prompt
-                    else:
-                        # Math: only prepend stimulus when it contains an actual image
-                        # (graph, figure, diagram). Equation-only stimuli are already
-                        # expressed as LaTeX in raw_prompt and rendered better by MathJax.
-                        if raw_prompt:
-                            has_image = '<img' in stimulus
-                            prompt = f"{stimulus}\n\n{raw_prompt}" if has_image else raw_prompt
-                        # else: q.prompt_html already has content from import, leave as-is
 
             # Get choices for MCQ
             choices = None

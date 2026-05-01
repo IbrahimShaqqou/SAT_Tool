@@ -16,7 +16,7 @@
  *   isLoading      {bool}
  *   error          {string|null}
  */
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CheckCircle, XCircle, ChevronDown, ChevronUp,
@@ -89,6 +89,27 @@ const SectionBar = ({ label, correct, total }) => {
         <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
       </div>
     </div>
+  );
+};
+
+// Renders HTML with MathJax typesetting (matches question bank rendering)
+const MathContent = ({ html, className = '' }) => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref.current && window.MathJax?.typesetPromise) {
+      window.MathJax.typesetClear?.([ref.current]);
+      window.MathJax.typesetPromise([ref.current]).catch(() => {});
+    }
+  }, [html]);
+
+  if (!html) return null;
+  return (
+    <div
+      ref={ref}
+      className={`question-content ${className}`}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 };
 
@@ -446,14 +467,14 @@ export default function AssessmentResultsPage({
                 {expandedQuestions.has(index) && (
                   <div className="p-5 border-t border-gray-200 dark:border-gray-700">
                     {q.passage_html && (
-                      <div
+                      <MathContent
+                        html={q.passage_html}
                         className="mb-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg prose prose-sm dark:prose-invert max-w-none"
-                        dangerouslySetInnerHTML={{ __html: q.passage_html }}
                       />
                     )}
-                    <div
-                      className="prose prose-sm dark:prose-invert max-w-none question-content mb-4"
-                      dangerouslySetInnerHTML={{ __html: q.prompt_html }}
+                    <MathContent
+                      html={q.prompt_html}
+                      className="prose prose-sm dark:prose-invert max-w-none mb-4"
                     />
 
                     {q.answer_type === 'MCQ' && q.choices && (
@@ -479,9 +500,9 @@ export default function AssessmentResultsPage({
                               }`}>
                                 {CHOICE_LABELS[ci]}
                               </span>
-                              <div
+                              <MathContent
+                                html={choice.content}
                                 className="flex-1 prose prose-sm dark:prose-invert max-w-none"
-                                dangerouslySetInnerHTML={{ __html: choice.content }}
                               />
                               {isStudent && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">Your answer</span>}
                               {isCorrect && <span className="text-xs text-emerald-600 dark:text-emerald-400 ml-auto font-medium">Correct</span>}
@@ -516,9 +537,9 @@ export default function AssessmentResultsPage({
                           <BookOpen className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                           <span className="font-medium text-blue-900 dark:text-blue-300">Explanation</span>
                         </div>
-                        <div
+                        <MathContent
+                          html={q.explanation_html}
                           className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300"
-                          dangerouslySetInnerHTML={{ __html: q.explanation_html }}
                         />
                       </div>
                     )}
