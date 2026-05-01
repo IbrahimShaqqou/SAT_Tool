@@ -19,7 +19,7 @@ const Card = ({
 
   return (
     <div
-      className={`bg-white dark:bg-slate-800 rounded-2xl shadow-card ${paddingStyles[padding]} ${className}`}
+      className={`bg-surface-card rounded-2xl shadow-card ${paddingStyles[padding]} ${className}`}
       {...props}
     >
       {children}
@@ -28,19 +28,19 @@ const Card = ({
 };
 
 const CardHeader = ({ children, className = '' }) => (
-  <div className={`mb-4 pb-4 border-b border-slate-100 dark:border-slate-700 ${className}`}>
+  <div className={`mb-4 pb-4 border-b border-edge-subtle ${className}`}>
     {children}
   </div>
 );
 
 const CardTitle = ({ children, className = '' }) => (
-  <h3 className={`text-lg font-semibold text-slate-900 dark:text-slate-100 ${className}`}>
+  <h3 className={`text-lg font-semibold text-ink-body ${className}`}>
     {children}
   </h3>
 );
 
 const CardDescription = ({ children, className = '' }) => (
-  <p className={`mt-1 text-sm text-slate-500 dark:text-slate-400 ${className}`}>
+  <p className={`mt-1 text-sm text-ink-subtle ${className}`}>
     {children}
   </p>
 );
@@ -50,7 +50,7 @@ const CardContent = ({ children, className = '' }) => (
 );
 
 const CardFooter = ({ children, className = '' }) => (
-  <div className={`mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 ${className}`}>
+  <div className={`mt-4 pt-4 border-t border-edge-subtle ${className}`}>
     {children}
   </div>
 );
