@@ -63,22 +63,22 @@ const ForgotPasswordPage = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          <h2 className="text-xl font-semibold text-ink-body mb-2">
             Check your email
           </h2>
-          <p className="text-sm text-gray-600 mb-6">
+          <p className="text-sm text-ink-muted mb-6">
             If an account with that email exists, we've sent password reset instructions.
           </p>
 
           {/* Development mode: show reset link directly */}
           {resetUrl && (
-            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-xs text-yellow-700 mb-2">
+            <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/50 rounded-lg">
+              <p className="text-xs text-yellow-700 dark:text-yellow-300 mb-2">
                 Development mode - Reset link:
               </p>
               <a
                 href={resetUrl}
-                className="text-sm text-blue-600 hover:underline break-all"
+                className="text-sm text-brand-600 dark:text-brand-400 hover:underline break-all"
               >
                 {resetUrl}
               </a>
@@ -87,7 +87,7 @@ const ForgotPasswordPage = () => {
 
           <Link
             to="/login"
-            className="text-sm font-medium text-gray-900 hover:underline"
+            className="text-sm font-medium text-ink-body hover:underline"
           >
             Back to sign in
           </Link>
@@ -98,16 +98,16 @@ const ForgotPasswordPage = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 text-center mb-2">
+      <h2 className="text-xl font-semibold text-ink-body text-center mb-2">
         Reset your password
       </h2>
-      <p className="text-sm text-gray-600 text-center mb-6">
+      <p className="text-sm text-ink-muted text-center mb-6">
         Enter your email address and we'll send you instructions to reset your password.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200">
+          <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50">
             {error}
           </div>
         )}
@@ -136,9 +136,9 @@ const ForgotPasswordPage = () => {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-ink-subtle">
         Remember your password?{' '}
-        <Link to="/login" className="font-medium text-gray-900 hover:underline">
+        <Link to="/login" className="font-medium text-ink-body hover:underline">
           Sign in
         </Link>
       </p>

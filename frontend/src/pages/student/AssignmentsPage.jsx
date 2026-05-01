@@ -75,8 +75,8 @@ const AssignmentsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">My Assignments</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">View and complete your assigned practice</p>
+        <h1 className="text-2xl font-semibold text-ink-body">My Assignments</h1>
+        <p className="text-ink-subtle mt-1">View and complete your assigned practice</p>
       </div>
 
       <Tabs value={filter} onValueChange={setFilter}>
@@ -115,7 +115,7 @@ const AssignmentsPage = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-3">
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">{assignment.title}</h3>
+                      <h3 className="font-medium text-ink-body">{assignment.title}</h3>
                       {overdue ? (
                         <Badge variant="danger">Overdue</Badge>
                       ) : (
@@ -125,7 +125,7 @@ const AssignmentsPage = () => {
                         <Badge variant="info" size="sm">Adaptive</Badge>
                       )}
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-sm text-ink-subtle mt-1">
                       {assignment.total_questions ? (
                         <>{assignment.questions_answered}/{assignment.total_questions} questions</>
                       ) : (
@@ -137,7 +137,7 @@ const AssignmentsPage = () => {
                     </p>
                     <div className="flex items-center gap-4 mt-1">
                       {assignment.due_date && (
-                        <p className={`text-sm flex items-center gap-1 ${overdue ? 'text-rose-600 dark:text-rose-400' : 'text-gray-400 dark:text-gray-500'}`}>
+                        <p className={`text-sm flex items-center gap-1 ${overdue ? 'text-rose-600 dark:text-rose-400' : 'text-ink-faint'}`}>
                           {overdue ? <AlertTriangle className="h-3.5 w-3.5" /> : <Clock className="h-3.5 w-3.5" />}
                           {overdue ? (
                             <>Overdue - was due {new Date(assignment.due_date).toLocaleDateString()}</>
@@ -147,7 +147,7 @@ const AssignmentsPage = () => {
                         </p>
                       )}
                       {assignment.time_limit_minutes && (
-                        <p className="text-sm text-gray-400 dark:text-gray-500 flex items-center gap-1">
+                        <p className="text-sm text-ink-faint flex items-center gap-1">
                           <Clock className="h-3.5 w-3.5" />
                           {assignment.time_limit_minutes} min limit
                         </p>

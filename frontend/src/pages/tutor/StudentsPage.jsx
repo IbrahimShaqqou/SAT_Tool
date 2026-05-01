@@ -72,8 +72,8 @@ const StudentsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Students</h1>
-          <p className="text-gray-500 mt-1">Manage your student roster</p>
+          <h1 className="text-2xl font-semibold text-ink-body">Students</h1>
+          <p className="text-ink-subtle mt-1">Manage your student roster</p>
         </div>
         <div className="flex gap-2">
           <Button variant="primary" onClick={() => setShowAddModal(true)}>
@@ -86,13 +86,13 @@ const StudentsPage = () => {
       {/* Search */}
       <Card padding="sm">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-faint" />
           <input
             type="text"
             placeholder="Search students..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full pl-10 pr-4 py-2 border border-edge bg-surface-input text-ink-body placeholder:text-ink-faint rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
       </Card>
@@ -139,10 +139,10 @@ const StudentsPage = () => {
                     <div className="flex items-center gap-3">
                       <Avatar name={`${student.first_name} ${student.last_name}`} size="sm" />
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-ink-body">
                           {student.first_name} {student.last_name}
                         </p>
-                        <p className="text-sm text-gray-500">{student.email}</p>
+                        <p className="text-sm text-ink-subtle">{student.email}</p>
                       </div>
                     </div>
                   </Table.Cell>
@@ -155,7 +155,7 @@ const StudentsPage = () => {
                   <Table.Cell>
                     {student.assignments_pending || 0} pending
                   </Table.Cell>
-                  <Table.Cell className="text-gray-500">
+                  <Table.Cell className="text-ink-subtle">
                     {student.last_active_at
                       ? new Date(student.last_active_at).toLocaleDateString()
                       : 'Never'}
@@ -178,12 +178,12 @@ const StudentsPage = () => {
         title="Add Student"
       >
         <form onSubmit={handleAddStudent} className="space-y-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-ink-muted">
             Enter the email address of a registered student account to add them to your roster.
           </p>
 
           {addError && (
-            <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200">
+            <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50">
               {addError}
             </div>
           )}

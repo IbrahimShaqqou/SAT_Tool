@@ -12,6 +12,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Semantic theme tokens — defined as CSS variables in index.css so
+        // both light and dark values stay in one place. Use these instead
+        // of `bg-white dark:bg-slate-800` patterns.
+        surface: {
+          page: 'var(--surface-page)',
+          card: 'var(--surface-card)',
+          muted: 'var(--surface-muted)',
+          input: 'var(--surface-input)',
+          overlay: 'var(--surface-overlay)',
+        },
+        ink: {
+          body: 'var(--ink-body)',
+          muted: 'var(--ink-muted)',
+          subtle: 'var(--ink-subtle)',
+          faint: 'var(--ink-faint)',
+          inverse: 'var(--ink-inverse)',
+        },
+        edge: {
+          DEFAULT: 'var(--edge-default)',
+          subtle: 'var(--edge-subtle)',
+          strong: 'var(--edge-strong)',
+        },
         // Brand: cyan-teal — distinctive, not the typical blue/indigo
         brand: {
           50:  '#ecfeff',

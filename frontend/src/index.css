@@ -8,6 +8,50 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────
+   Semantic theme tokens
+   ─────────────────────────────────────────────────
+   Use these via Tailwind utilities (bg-surface-card,
+   text-ink-body, border-edge) instead of writing
+   `bg-white dark:bg-slate-800` everywhere. Both
+   modes are kept in sync from one place.
+*/
+:root {
+  --surface-page: #f0fdff;
+  --surface-card: #ffffff;
+  --surface-muted: #f8fafc;        /* slate-50 */
+  --surface-input: #ffffff;
+  --surface-overlay: rgba(15, 23, 42, 0.40);
+
+  --ink-body: #0f172a;              /* slate-900 */
+  --ink-muted: #334155;             /* slate-700 */
+  --ink-subtle: #64748b;            /* slate-500 */
+  --ink-faint: #94a3b8;             /* slate-400 */
+  --ink-inverse: #ffffff;
+
+  --edge-default: #e2e8f0;          /* slate-200 */
+  --edge-subtle: #f1f5f9;           /* slate-100 */
+  --edge-strong: #cbd5e1;           /* slate-300 */
+}
+
+.dark {
+  --surface-page: #0a1929;
+  --surface-card: #1e293b;          /* slate-800 */
+  --surface-muted: #1e293b80;       /* slate-800 / 50 */
+  --surface-input: #334155;         /* slate-700 */
+  --surface-overlay: rgba(0, 0, 0, 0.60);
+
+  --ink-body: #f1f5f9;              /* slate-100 */
+  --ink-muted: #cbd5e1;             /* slate-300 */
+  --ink-subtle: #94a3b8;            /* slate-400 */
+  --ink-faint: #64748b;             /* slate-500 */
+  --ink-inverse: #0f172a;
+
+  --edge-default: #334155;          /* slate-700 */
+  --edge-subtle: #1e293b;           /* slate-800 */
+  --edge-strong: #475569;           /* slate-600 */
+}
+
 /* Base layer for dark mode transitions */
 @layer base {
   html {
@@ -18,15 +62,8 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Barely-tinted cyan background — airy, distinctive, not generic gray */
-    background-color: #f0fdff;
-    @apply text-slate-800;
-  }
-
-  .dark body,
-  html.dark body {
-    background-color: #0a1929;
-    @apply text-slate-100;
+    background-color: var(--surface-page);
+    color: var(--ink-body);
   }
 
   /* Ensure all text in dark mode defaults to light colors */

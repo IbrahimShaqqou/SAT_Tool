@@ -85,20 +85,20 @@ const ResetPasswordPage = () => {
   if (!token) {
     return (
       <div className="text-center">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-          <svg className="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
+          <svg className="h-6 w-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+        <h2 className="text-xl font-semibold text-ink-body mb-2">
           Invalid reset link
         </h2>
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-sm text-ink-muted mb-6">
           This password reset link is invalid or has expired.
         </p>
         <Link
           to="/forgot-password"
-          className="text-sm font-medium text-gray-900 hover:underline"
+          className="text-sm font-medium text-ink-body hover:underline"
         >
           Request a new reset link
         </Link>
@@ -110,15 +110,15 @@ const ResetPasswordPage = () => {
   if (success) {
     return (
       <div className="text-center">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-          <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
+          <svg className="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+        <h2 className="text-xl font-semibold text-ink-body mb-2">
           Password reset successful
         </h2>
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-sm text-ink-muted mb-6">
           Your password has been updated. You can now sign in with your new password.
         </p>
         <Button
@@ -133,16 +133,16 @@ const ResetPasswordPage = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 text-center mb-2">
+      <h2 className="text-xl font-semibold text-ink-body text-center mb-2">
         Create new password
       </h2>
-      <p className="text-sm text-gray-600 text-center mb-6">
+      <p className="text-sm text-ink-muted text-center mb-6">
         Enter a new password for your account.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {apiError && (
-          <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200">
+          <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50">
             {apiError}
           </div>
         )}
@@ -182,8 +182,8 @@ const ResetPasswordPage = () => {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
-        <Link to="/login" className="font-medium text-gray-900 hover:underline">
+      <p className="mt-6 text-center text-sm text-ink-subtle">
+        <Link to="/login" className="font-medium text-ink-body hover:underline">
           Back to sign in
         </Link>
       </p>

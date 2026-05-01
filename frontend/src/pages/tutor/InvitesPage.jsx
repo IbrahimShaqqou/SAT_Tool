@@ -210,13 +210,13 @@ const InvitesPage = () => {
       render: (row) => {
         if (row.status === 'used' && row.score_percentage != null) {
           return (
-            <span className={row.score_percentage >= 70 ? 'text-green-600' : 'text-amber-600'}>
+            <span className={row.score_percentage >= 70 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}>
               {row.score_percentage.toFixed(0)}%
             </span>
           );
         }
         if (row.status === 'used') {
-          return <span className="text-gray-400">Pending</span>;
+          return <span className="text-ink-faint">Pending</span>;
         }
         return '-';
       },
@@ -231,7 +231,7 @@ const InvitesPage = () => {
           return (
             <Link
               to={`/tutor/students/${row.student_id}`}
-              className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
+              className="text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 hover:underline flex items-center gap-1"
             >
               <User className="h-3 w-3" />
               {name}
@@ -270,7 +270,7 @@ const InvitesPage = () => {
                 onClick={() => handleRevoke(row.id)}
                 title="Revoke"
               >
-                <Trash2 className="h-4 w-4 text-red-500" />
+                <Trash2 className="h-4 w-4 text-red-500 dark:text-red-400" />
               </Button>
             </>
           )}
@@ -281,7 +281,7 @@ const InvitesPage = () => {
               onClick={() => handleViewResults(row.id)}
               title="View Results"
             >
-              <BarChart3 className="h-4 w-4 text-blue-500" />
+              <BarChart3 className="h-4 w-4 text-brand-500 dark:text-brand-400" />
             </Button>
           )}
         </div>
@@ -301,8 +301,8 @@ const InvitesPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Intake Assessments</h1>
-          <p className="text-gray-500 mt-1">Generate intake assessment links for new students</p>
+          <h1 className="text-2xl font-semibold text-ink-body">Intake Assessments</h1>
+          <p className="text-ink-subtle mt-1">Generate intake assessment links for new students</p>
         </div>
         <Button variant="primary" onClick={() => setShowModal(true)}>
           <Plus className="h-4 w-4 mr-2" />
@@ -312,27 +312,27 @@ const InvitesPage = () => {
 
       {/* Auth Error Banner */}
       {authError && (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="border-red-200 dark:border-red-800/50 bg-red-50 dark:bg-red-900/20">
           <div className="flex items-center gap-3 p-4">
-            <div className="text-red-600 font-medium">Session expired</div>
-            <div className="text-red-600 text-sm">Please refresh the page and log in again to continue.</div>
+            <div className="text-red-600 dark:text-red-400 font-medium">Session expired</div>
+            <div className="text-red-600 dark:text-red-400 text-sm">Please refresh the page and log in again to continue.</div>
           </div>
         </Card>
       )}
 
       {/* Generated Link Display */}
       {generatedLink && (
-        <Card className="border-green-200 bg-green-50 relative">
+        <Card className="border-emerald-200 dark:border-emerald-800/50 bg-emerald-50 dark:bg-emerald-900/20 relative">
           <button
             onClick={() => setGeneratedLink('')}
-            className="absolute top-3 right-3 p-1 rounded-full hover:bg-green-100 transition-colors"
+            className="absolute top-3 right-3 p-1 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-800/40 transition-colors"
             title="Dismiss"
           >
-            <X className="h-4 w-4 text-green-600" />
+            <X className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </button>
           <Card.Header>
             <div className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-green-600" />
+              <Check className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               <Card.Title>Link Generated Successfully</Card.Title>
             </div>
             <Card.Description>Share this link with your student. It's also saved below in "Your Invite Links".</Card.Description>
@@ -342,7 +342,7 @@ const InvitesPage = () => {
               <Input
                 value={generatedLink}
                 readOnly
-                className="flex-1 bg-white"
+                className="flex-1"
               />
               <Button variant="secondary" onClick={handleCopy}>
                 <Copy className="h-4 w-4 mr-2" />
@@ -364,16 +364,16 @@ const InvitesPage = () => {
       {invites.length === 0 && (
         <Card>
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <LinkIcon className="h-6 w-6 text-blue-600" />
+            <div className="p-3 bg-brand-100 dark:bg-brand-900/30 rounded-lg">
+              <LinkIcon className="h-6 w-6 text-brand-600 dark:text-brand-400" />
             </div>
             <div>
-              <h3 className="font-medium text-gray-900">Intake Assessment Links</h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <h3 className="font-medium text-ink-body">Intake Assessment Links</h3>
+              <p className="text-sm text-ink-muted mt-1">
                 The recommended way to onboard new students. Intake assessments use adaptive
                 question selection to efficiently measure ability across all SAT domains.
               </p>
-              <ul className="mt-3 text-sm text-gray-600 space-y-1">
+              <ul className="mt-3 text-sm text-ink-muted space-y-1">
                 <li><strong>1.</strong> Generate an intake assessment link</li>
                 <li><strong>2.</strong> Share the link with your student</li>
                 <li><strong>3.</strong> Student completes 40 questions (~60 min)</li>
@@ -408,14 +408,14 @@ const InvitesPage = () => {
       >
         <div className="space-y-4">
           {/* Info banner for intake */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800">
+          <div className="bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/50 rounded-lg p-3 text-sm text-brand-800 dark:text-brand-200">
             <strong>Intake Assessment:</strong> Tests each domain with adaptive difficulty to establish
             baseline ability levels. Results include predicted section scores and priority skills.
           </div>
 
           {/* Error message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-800">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg p-3 text-sm text-red-800 dark:text-red-300">
               {error}
             </div>
           )}
@@ -450,17 +450,17 @@ const InvitesPage = () => {
             const estimatedTime = getEstimatedTime(questionCount);
             const domainCount = formData.subject_area === 'math' ? 4 : 3;
             return (
-              <div className="text-sm bg-gray-50 rounded-lg p-3 space-y-1">
+              <div className="text-sm bg-surface-muted rounded-lg p-3 space-y-1">
                 <div className="flex justify-between">
-                  <span className="text-gray-600"><strong>Questions:</strong></span>
-                  <span className="text-gray-900">{questionCount}</span>
+                  <span className="text-ink-muted"><strong>Questions:</strong></span>
+                  <span className="text-ink-body">{questionCount}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600"><strong>Estimated time:</strong></span>
-                  <span className="text-gray-900">~{estimatedTime} minutes</span>
+                  <span className="text-ink-muted"><strong>Estimated time:</strong></span>
+                  <span className="text-ink-body">~{estimatedTime} minutes</span>
                 </div>
                 {formData.assessment_type === 'intake' && (
-                  <div className="text-gray-500 text-xs pt-1 border-t border-gray-200 mt-2">
+                  <div className="text-ink-subtle text-xs pt-1 border-t border-edge mt-2">
                     10 questions per domain × {domainCount} domains for reliable ability estimates
                   </div>
                 )}
@@ -519,25 +519,25 @@ const InvitesPage = () => {
             <LoadingSpinner size="lg" />
           </div>
         ) : selectedResults?.error ? (
-          <div className="text-center py-8 text-red-500">
+          <div className="text-center py-8 text-red-500 dark:text-red-400">
             {selectedResults.error}
           </div>
         ) : selectedResults ? (
           <div className="space-y-6">
             {/* Student Info */}
-            <div className="flex items-center justify-between pb-4 border-b">
+            <div className="flex items-center justify-between pb-4 border-b border-edge">
               <div>
-                <h3 className="font-semibold text-gray-900">{selectedResults.student_name}</h3>
-                <p className="text-sm text-gray-500">{selectedResults.student_email}</p>
+                <h3 className="font-semibold text-ink-body">{selectedResults.student_name}</h3>
+                <p className="text-sm text-ink-subtle">{selectedResults.student_email}</p>
               </div>
               <div className="text-right">
                 <p className={`text-3xl font-bold ${
-                  selectedResults.score_percentage >= 70 ? 'text-green-600' :
-                  selectedResults.score_percentage >= 50 ? 'text-amber-600' : 'text-red-600'
+                  selectedResults.score_percentage >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
+                  selectedResults.score_percentage >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
                 }`}>
                   {selectedResults.score_percentage?.toFixed(0)}%
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-ink-subtle">
                   {selectedResults.overall?.correct} / {selectedResults.overall?.total} correct
                 </p>
               </div>
@@ -546,23 +546,23 @@ const InvitesPage = () => {
             {/* Section Scores */}
             {selectedResults.section_abilities?.length > 0 && (
               <div>
-                <h4 className="font-medium text-gray-900 mb-3">Section Scores</h4>
+                <h4 className="font-medium text-ink-body mb-3">Section Scores</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {selectedResults.section_abilities.map((section) => (
-                    <div key={section.section} className="p-4 bg-gray-50 rounded-lg">
+                    <div key={section.section} className="p-4 bg-surface-muted rounded-lg">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="font-medium capitalize">
+                        <span className="font-medium capitalize text-ink-body">
                           {section.section.replace('_', ' & ')}
                         </span>
-                        <span className="text-lg font-bold text-blue-600">
+                        <span className="text-lg font-bold text-brand-600 dark:text-brand-400">
                           {section.predicted_score_mid}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 mb-2">
+                      <p className="text-xs text-ink-subtle mb-2">
                         Predicted: {section.predicted_score_low} - {section.predicted_score_high}
                       </p>
                       <ProgressBar value={section.accuracy} variant="auto" size="sm" />
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-ink-subtle mt-1">
                         {section.correct}/{section.total} correct ({section.accuracy}%)
                       </p>
                     </div>
@@ -574,24 +574,24 @@ const InvitesPage = () => {
             {/* Domain Breakdown */}
             {selectedResults.domain_abilities?.length > 0 && (
               <div>
-                <h4 className="font-medium text-gray-900 mb-3">Domain Breakdown</h4>
+                <h4 className="font-medium text-ink-body mb-3">Domain Breakdown</h4>
                 <div className="space-y-3">
                   {selectedResults.domain_abilities.map((domain) => (
-                    <div key={domain.domain_id} className="p-3 border rounded-lg">
+                    <div key={domain.domain_id} className="p-3 border border-edge rounded-lg">
                       <div className="flex justify-between items-center mb-2">
                         <div>
-                          <span className="font-medium text-gray-900">{domain.domain_name}</span>
-                          <span className="text-xs text-gray-500 ml-2">({domain.domain_code})</span>
+                          <span className="font-medium text-ink-body">{domain.domain_name}</span>
+                          <span className="text-xs text-ink-subtle ml-2">({domain.domain_code})</span>
                         </div>
                         <span className={`font-bold ${
-                          domain.accuracy >= 70 ? 'text-green-600' :
-                          domain.accuracy >= 50 ? 'text-amber-600' : 'text-red-600'
+                          domain.accuracy >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
+                          domain.accuracy >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
                         }`}>
                           {domain.accuracy}%
                         </span>
                       </div>
                       <ProgressBar value={domain.accuracy} variant="auto" size="sm" />
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-ink-subtle mt-1">
                         {domain.correct}/{domain.total} correct • Ability: {domain.theta > 0 ? '+' : ''}{domain.theta}
                       </p>
                     </div>
@@ -603,15 +603,15 @@ const InvitesPage = () => {
             {/* Priority Areas */}
             {selectedResults.priority_areas?.length > 0 && (
               <div>
-                <h4 className="font-medium text-gray-900 mb-3">Priority Areas for Improvement</h4>
+                <h4 className="font-medium text-ink-body mb-3">Priority Areas for Improvement</h4>
                 <div className="space-y-2">
                   {selectedResults.priority_areas.map((area, idx) => (
-                    <div key={idx} className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <div key={idx} className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg">
                       <div className="flex justify-between items-start">
-                        <span className="font-medium text-amber-900">{area.domain_name}</span>
+                        <span className="font-medium text-amber-900 dark:text-amber-200">{area.domain_name}</span>
                         <Badge variant="warning">{area.current_level}</Badge>
                       </div>
-                      <p className="text-sm text-amber-700 mt-1">{area.recommendation}</p>
+                      <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">{area.recommendation}</p>
                     </div>
                   ))}
                 </div>
@@ -620,7 +620,7 @@ const InvitesPage = () => {
 
             {/* Action buttons */}
             {(selectedResults.student_id || selectedResults.test_session_id) && (
-              <div className="pt-4 border-t space-y-2">
+              <div className="pt-4 border-t border-edge space-y-2">
                 {selectedResults.student_id && selectedResults.test_session_id && (
                   <Link to={`/tutor/students/${selectedResults.student_id}/results/${selectedResults.test_session_id}`}>
                     <Button variant="primary" className="w-full">

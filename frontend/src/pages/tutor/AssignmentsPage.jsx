@@ -68,8 +68,8 @@ const AssignmentsPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Assignments</h1>
-          <p className="text-gray-500 mt-1">Create and manage student assignments</p>
+          <h1 className="text-2xl font-semibold text-ink-body">Assignments</h1>
+          <p className="text-ink-subtle mt-1">Create and manage student assignments</p>
         </div>
         <Link to="/tutor/assignments/new">
           <Button variant="primary">
@@ -114,12 +114,12 @@ const AssignmentsPage = () => {
               {assignments.map((assignment) => {
                 const overdue = isOverdue(assignment.due_date, assignment.status);
                 return (
-                  <Table.Row key={assignment.id} className={overdue ? 'bg-red-50' : ''}>
+                  <Table.Row key={assignment.id} className={overdue ? 'bg-red-50 dark:bg-red-900/20' : ''}>
                     <Table.Cell>
                       <div>
-                        <span className="font-medium text-gray-900">{assignment.title}</span>
+                        <span className="font-medium text-ink-body">{assignment.title}</span>
                         {assignment.is_adaptive && (
-                          <span className="ml-2 inline-flex items-center gap-1 text-xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded">
+                          <span className="ml-2 inline-flex items-center gap-1 text-xs px-1.5 py-0.5 bg-edge-subtle text-ink-muted rounded">
                             <Brain className="h-3 w-3" />
                             Adaptive
                           </span>
@@ -130,14 +130,14 @@ const AssignmentsPage = () => {
                     <Table.Cell>{getStatusBadge(assignment)}</Table.Cell>
                     <Table.Cell>
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-900">
+                        <span className="text-ink-body">
                           {assignment.questions_answered}
                           {assignment.total_questions ? `/${assignment.total_questions}` : ''}
                         </span>
                         {assignment.score_percentage !== null && (
                           <span className={`text-sm ${
-                            assignment.score_percentage >= 70 ? 'text-green-600' :
-                            assignment.score_percentage >= 50 ? 'text-amber-600' : 'text-red-600'
+                            assignment.score_percentage >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
+                            assignment.score_percentage >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
                           }`}>
                             ({assignment.score_percentage.toFixed(0)}%)
                           </span>
@@ -145,9 +145,9 @@ const AssignmentsPage = () => {
                       </div>
                     </Table.Cell>
                     <Table.Cell>
-                      <div className="flex items-center gap-3 text-sm text-gray-500">
+                      <div className="flex items-center gap-3 text-sm text-ink-subtle">
                         {assignment.time_limit_minutes && (
-                          <span className={`flex items-center gap-1 ${assignment.time_expired ? 'text-amber-600' : ''}`} title={assignment.time_expired ? 'Timer Ran Out' : 'Time Limit'}>
+                          <span className={`flex items-center gap-1 ${assignment.time_expired ? 'text-amber-600 dark:text-amber-400' : ''}`} title={assignment.time_expired ? 'Timer Ran Out' : 'Time Limit'}>
                             {assignment.time_expired ? (
                               <TimerOff className="h-3.5 w-3.5" />
                             ) : (
@@ -157,20 +157,20 @@ const AssignmentsPage = () => {
                           </span>
                         )}
                         {!assignment.total_questions && (
-                          <span className="text-xs text-gray-400">Unlimited</span>
+                          <span className="text-xs text-ink-faint">Unlimited</span>
                         )}
                       </div>
                     </Table.Cell>
                     <Table.Cell>
                       {assignment.due_date ? (
                         <div className={`flex items-center gap-1 text-sm ${
-                          overdue ? 'text-red-600' : 'text-gray-500'
+                          overdue ? 'text-red-600 dark:text-red-400' : 'text-ink-subtle'
                         }`}>
                           {overdue && <AlertTriangle className="h-3.5 w-3.5" />}
                           {new Date(assignment.due_date).toLocaleDateString()}
                         </div>
                       ) : (
-                        <span className="text-gray-400 text-sm">No deadline</span>
+                        <span className="text-ink-faint text-sm">No deadline</span>
                       )}
                     </Table.Cell>
                   </Table.Row>

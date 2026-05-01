@@ -410,12 +410,12 @@ const AssessmentPage = () => {
   // Error state
   if (state === STATES.ERROR) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center p-4">
         <Card className="max-w-md w-full text-center">
           <div className="p-6">
             <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <h1 className="text-xl font-semibold text-gray-900 mb-2">Assessment Unavailable</h1>
-            <p className="text-gray-600">{error}</p>
+            <h1 className="text-xl font-semibold text-ink-body mb-2">Assessment Unavailable</h1>
+            <p className="text-ink-muted">{error}</p>
           </div>
         </Card>
       </div>
@@ -425,7 +425,7 @@ const AssessmentPage = () => {
   // Loading state
   if (state === STATES.LOADING) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
+      <div className="flex items-center justify-center h-screen bg-surface-page">
         <LoadingSpinner size="lg" text="Loading assessment..." />
       </div>
     );
@@ -434,18 +434,18 @@ const AssessmentPage = () => {
   // Auth required state - login or register
   if (state === STATES.AUTH_REQUIRED && config) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center p-4">
         <Card className="max-w-lg w-full">
           <div className="p-6">
             {/* Assessment info header */}
             <div className="text-center mb-6">
-              <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+              <h1 className="text-2xl font-semibold text-ink-body mb-2">
                 {config.title || 'SAT Practice Assessment'}
               </h1>
-              <p className="text-gray-600">
+              <p className="text-ink-muted">
                 Prepared by {config.tutor_name}
               </p>
-              <div className="mt-4 bg-gray-50 rounded-lg p-3 text-sm text-gray-600">
+              <div className="mt-4 bg-surface-muted rounded-lg p-3 text-sm text-ink-muted">
                 <div>{config.question_count} questions</div>
                 <div>{config.subject_area === 'math' ? 'Math' : 'Reading & Writing'}</div>
                 {config.time_limit_minutes && <div>~{config.time_limit_minutes} minutes</div>}
@@ -454,7 +454,7 @@ const AssessmentPage = () => {
 
             {/* Auth error */}
             {authError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+              <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg text-sm text-red-700 dark:text-red-300">
                 {authError}
               </div>
             )}
@@ -462,7 +462,7 @@ const AssessmentPage = () => {
             {/* Choose mode */}
             {authMode === AUTH_MODES.CHOOSE && (
               <div className="space-y-4">
-                <p className="text-center text-gray-600 mb-4">
+                <p className="text-center text-ink-muted mb-4">
                   Create an account or log in to take this assessment. Your results will be saved to your profile.
                 </p>
                 <Button
@@ -515,7 +515,7 @@ const AssessmentPage = () => {
                 </Button>
                 <button
                   type="button"
-                  className="w-full text-sm text-gray-600 hover:text-gray-900"
+                  className="w-full text-sm text-ink-muted hover:text-ink-body"
                   onClick={() => {
                     setAuthMode(AUTH_MODES.CHOOSE);
                     setAuthError('');
@@ -577,7 +577,7 @@ const AssessmentPage = () => {
                 </Button>
                 <button
                   type="button"
-                  className="w-full text-sm text-gray-600 hover:text-gray-900"
+                  className="w-full text-sm text-ink-muted hover:text-ink-body"
                   onClick={() => {
                     setAuthMode(AUTH_MODES.CHOOSE);
                     setAuthError('');
@@ -598,37 +598,37 @@ const AssessmentPage = () => {
     const hasInProgress = config.has_in_progress_session;
 
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center p-4">
         <Card className="max-w-lg w-full">
           <div className="p-6 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+            <h1 className="text-2xl font-semibold text-ink-body mb-2">
               {config.title || 'SAT Practice Assessment'}
             </h1>
-            <p className="text-gray-600 mb-2">
+            <p className="text-ink-muted mb-2">
               Prepared by {config.tutor_name}
             </p>
 
             {/* Show logged in user */}
             {user && (
-              <p className="text-sm text-green-600 mb-6">
+              <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-6">
                 Logged in as {user.first_name} {user.last_name}
               </p>
             )}
 
             {/* Resume session notice */}
             {hasInProgress && (
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 text-left">
-                <h3 className="font-medium text-amber-900 mb-2">Resume Your Session</h3>
-                <p className="text-sm text-amber-800">
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-4 mb-6 text-left">
+                <h3 className="font-medium text-amber-900 dark:text-amber-200 mb-2">Resume Your Session</h3>
+                <p className="text-sm text-amber-800 dark:text-amber-300">
                   You have an in-progress session with {config.questions_answered} of {config.question_count} questions answered.
                   Click continue to pick up where you left off.
                 </p>
               </div>
             )}
 
-            <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
-              <h3 className="font-medium text-gray-900 mb-3">Assessment Details</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+            <div className="bg-surface-muted rounded-lg p-4 mb-6 text-left">
+              <h3 className="font-medium text-ink-body mb-3">Assessment Details</h3>
+              <ul className="space-y-2 text-sm text-ink-muted">
                 <li><strong>Questions:</strong> {config.question_count}</li>
                 <li><strong>Subject:</strong> {config.subject_area === 'math' ? 'Math' : config.subject_area === 'reading_writing' ? 'Reading & Writing' : 'Math & Reading/Writing'}</li>
                 <li><strong>Time Limit:</strong> {config.time_limit_minutes ? `${config.time_limit_minutes} minutes` : 'No limit'}</li>
@@ -636,7 +636,7 @@ const AssessmentPage = () => {
             </div>
 
             {!hasInProgress && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-left text-sm text-blue-800">
+              <div className="bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/50 rounded-lg p-4 mb-6 text-left text-sm text-brand-800 dark:text-brand-200">
                 <strong>Before you begin:</strong>
                 <ul className="mt-2 space-y-1 list-disc list-inside">
                   <li>Find a quiet place without distractions</li>
@@ -658,10 +658,10 @@ const AssessmentPage = () => {
   // Submitting state
   if (state === STATES.SUBMITTING) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
+      <div className="flex items-center justify-center h-screen bg-surface-page">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Submitting your assessment...</p>
+          <p className="mt-4 text-ink-muted">Submitting your assessment...</p>
         </div>
       </div>
     );
@@ -676,27 +676,27 @@ const AssessmentPage = () => {
       : `/assess/${token}/results`;
 
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center p-4">
         <Card className="max-w-lg w-full text-center">
           <div className="p-8">
-            <CheckCircle className={`h-16 w-16 mx-auto mb-4 ${passed ? 'text-green-500' : 'text-amber-500'}`} />
-            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+            <CheckCircle className={`h-16 w-16 mx-auto mb-4 ${passed ? 'text-emerald-500 dark:text-emerald-400' : 'text-amber-500 dark:text-amber-400'}`} />
+            <h1 className="text-2xl font-semibold text-ink-body mb-2">
               {isDiagnostic ? 'Diagnostic Complete' : 'Assessment Complete'}
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-ink-muted mb-6">
               {isDiagnostic
                 ? 'Great work! Let\'s see where you stand.'
                 : 'Thank you for completing the assessment'}
             </p>
 
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
-              <p className="text-4xl font-bold text-gray-900 mb-2">
+            <div className="bg-surface-muted rounded-lg p-6 mb-6">
+              <p className="text-4xl font-bold text-ink-body mb-2">
                 {results.score_percentage.toFixed(0)}%
               </p>
-              <p className="text-gray-600">
+              <p className="text-ink-muted">
                 {results.questions_correct} out of {results.total_questions} correct
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-ink-subtle mt-2">
                 Time: {Math.floor(results.time_spent_seconds / 60)} minutes
               </p>
             </div>
@@ -711,7 +711,7 @@ const AssessmentPage = () => {
             </Button>
 
             {!isDiagnostic && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-ink-subtle">
                 Your tutor will review your results and may reach out to you.
               </p>
             )}
@@ -732,7 +732,7 @@ const AssessmentPage = () => {
 
     // Question panel content
     const questionPanel = (
-      <div className="h-full flex flex-col bg-white pb-16">
+      <div className="h-full flex flex-col bg-surface-card pb-16">
         <div className="flex-1 overflow-auto">
           <QuestionDisplay
             questionNumber={currentIndex + 1}
@@ -778,7 +778,7 @@ const AssessmentPage = () => {
                 </Button>
               )}
               {currentChecked && !currentChecked.isCorrect && currentQuestion?.answer_type === 'SPR' && (
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-ink-muted">
                   {currentChecked.correctAnswers?.length > 0 && currentChecked.correctAnswers[0] !== '*'
                     ? `Correct answer: ${currentChecked.correctAnswers.join(' or ')}`
                     : 'See explanation for correct answer'}
@@ -812,7 +812,7 @@ const AssessmentPage = () => {
 
     // Passage panel content
     const passagePanel = hasPassage ? (
-      <div className="h-full overflow-auto p-6 pb-20 bg-white">
+      <div className="h-full overflow-auto p-6 pb-20 bg-surface-card">
         <MathContent
           html={currentQuestion.passage_html}
           className="prose prose-gray max-w-none"
@@ -825,7 +825,7 @@ const AssessmentPage = () => {
       <>
         {/* Collapsible Question Navigator */}
         {showNav && (
-          <div className="fixed bottom-16 left-0 right-0 z-40 bg-white shadow-lg border-t border-gray-200">
+          <div className="fixed bottom-16 left-0 right-0 z-40 bg-surface-card shadow-lg border-t border-edge">
             <QuestionNav
               totalQuestions={questions.length}
               currentIndex={currentIndex}
@@ -841,7 +841,7 @@ const AssessmentPage = () => {
         )}
 
         {/* Fixed bottom controls */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white">
+        <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-edge bg-surface-card">
           {/* Previous */}
           <Button
             variant="secondary"
@@ -855,10 +855,10 @@ const AssessmentPage = () => {
           {/* Question selector */}
           <button
             onClick={() => setShowNav(!showNav)}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-ink-muted bg-edge-subtle rounded-lg hover:bg-edge"
           >
             <span className="font-semibold">{currentIndex + 1}</span>
-            <span className="text-gray-400">/</span>
+            <span className="text-ink-faint">/</span>
             <span>{questions.length}</span>
             <svg className={`w-4 h-4 transition-transform ${showNav ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -888,7 +888,7 @@ const AssessmentPage = () => {
     );
 
     return (
-      <div className="h-screen flex flex-col bg-white">
+      <div className="h-screen flex flex-col bg-surface-card">
         {/* Header */}
         <TestHeader
           currentQuestion={currentIndex + 1}
@@ -954,8 +954,8 @@ const AssessmentPage = () => {
         {isPaused && timeLimit && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
             <Card className="text-center">
-              <h2 className="text-xl font-semibold text-gray-900">Test Paused</h2>
-              <p className="text-gray-500 mt-2">Click resume to continue</p>
+              <h2 className="text-xl font-semibold text-ink-body">Test Paused</h2>
+              <p className="text-ink-subtle mt-2">Click resume to continue</p>
               <Button
                 variant="primary"
                 className="mt-4"

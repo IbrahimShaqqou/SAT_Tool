@@ -67,7 +67,7 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
 
   if (Object.keys(skillsByDomain).length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-8 text-ink-subtle">
         No skills available for this subject
       </div>
     );
@@ -81,19 +81,19 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
         const allSelected = selectedCount === domainSkills.length;
 
         return (
-          <div key={domainName} className="border border-gray-200 rounded-lg overflow-hidden">
+          <div key={domainName} className="border border-edge rounded-lg overflow-hidden">
             {/* Domain Header */}
             <div
-              className="flex items-center justify-between px-4 py-3 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-between px-4 py-3 bg-surface-muted cursor-pointer hover:bg-edge-subtle transition-colors"
               onClick={() => toggleDomain(domainName)}
             >
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono px-2 py-1 bg-gray-200 text-gray-600 rounded">
+                <span className="text-xs font-mono px-2 py-1 bg-edge-subtle text-ink-muted rounded">
                   {code}
                 </span>
-                <span className="font-medium text-gray-900">{domainName}</span>
+                <span className="font-medium text-ink-body">{domainName}</span>
                 {selectedCount > 0 && (
-                  <span className="text-xs px-2 py-0.5 bg-gray-900 text-white rounded-full">
+                  <span className="text-xs px-2 py-0.5 bg-brand-600 text-white rounded-full">
                     {selectedCount} selected
                   </span>
                 )}
@@ -107,23 +107,23 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
                   }}
                   className={`text-xs px-2 py-1 rounded transition-colors ${
                     allSelected
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'
+                      ? 'bg-brand-600 text-white'
+                      : 'bg-surface-card border border-edge text-ink-muted hover:bg-surface-muted'
                   }`}
                 >
                   {allSelected ? 'Deselect All' : 'Select All'}
                 </button>
                 {isExpanded ? (
-                  <ChevronDown className="h-5 w-5 text-gray-400" />
+                  <ChevronDown className="h-5 w-5 text-ink-faint" />
                 ) : (
-                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                  <ChevronRight className="h-5 w-5 text-ink-faint" />
                 )}
               </div>
             </div>
 
             {/* Skills List */}
             {isExpanded && (
-              <div className="p-3 bg-white border-t border-gray-200">
+              <div className="p-3 bg-surface-card border-t border-edge">
                 <div className="grid grid-cols-1 gap-2">
                   {domainSkills.map(skill => {
                     const isSelected = selectedSkills.includes(skill.id);
@@ -134,18 +134,18 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
                         onClick={() => onToggleSkill(skill.id)}
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all ${
                           isSelected
-                            ? 'bg-gray-900 text-white'
-                            : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                            ? 'bg-brand-600 text-white'
+                            : 'bg-surface-muted text-ink-muted hover:bg-edge-subtle'
                         }`}
                       >
                         <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
-                          isSelected ? 'bg-white' : 'border-2 border-gray-300'
+                          isSelected ? 'bg-white' : 'border-2 border-edge-strong'
                         }`}>
-                          {isSelected && <Check className="h-3.5 w-3.5 text-gray-900" />}
+                          {isSelected && <Check className="h-3.5 w-3.5 text-brand-600" />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className={`text-xs font-mono ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>
+                            <span className={`text-xs font-mono ${isSelected ? 'text-brand-100' : 'text-ink-subtle'}`}>
                               {skill.code}
                             </span>
                             <span className="font-medium truncate">{skill.name}</span>
@@ -322,13 +322,13 @@ const CreateAssignmentPage = () => {
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-semibold text-gray-900">Create Assignment</h1>
+        <h1 className="text-2xl font-semibold text-ink-body">Create Assignment</h1>
       </div>
 
       <Card>
         <form onSubmit={handleSubmit} className="space-y-5">
           {errors.submit && (
-            <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200">
+            <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50">
               {errors.submit}
             </div>
           )}
@@ -394,10 +394,10 @@ const CreateAssignmentPage = () => {
 
             {formData.is_adaptive && formData.unlimited_questions && (
               <div className="flex flex-col">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink-muted mb-1">
                   Number of Questions
                 </label>
-                <div className="h-10 flex items-center px-3 bg-gray-100 border border-gray-200 rounded-lg text-gray-600 text-sm">
+                <div className="h-10 flex items-center px-3 bg-surface-muted border border-edge rounded-lg text-ink-muted text-sm">
                   Unlimited - student ends when ready
                 </div>
               </div>
@@ -407,7 +407,7 @@ const CreateAssignmentPage = () => {
           {/* Skill Selection - Always visible */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-sm font-medium text-gray-900">
+              <label className="block text-sm font-medium text-ink-body">
                 {formData.is_adaptive ? (
                   <>Select Skills to Practice <span className="text-red-500">*</span></>
                 ) : (
@@ -415,35 +415,35 @@ const CreateAssignmentPage = () => {
                 )}
               </label>
               {formData.selectedSkills.length > 0 && (
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-ink-subtle">
                   {formData.selectedSkills.length} skill{formData.selectedSkills.length !== 1 ? 's' : ''} selected
                 </span>
               )}
             </div>
             {!formData.is_adaptive && (
-              <p className="text-sm text-gray-500 mb-2">
+              <p className="text-sm text-ink-subtle mb-2">
                 Choose specific domains and skills to focus the assignment on
               </p>
             )}
             {errors.skills && (
-              <p className="text-sm text-red-600 mb-2">{errors.skills}</p>
+              <p className="text-sm text-red-600 dark:text-red-400 mb-2">{errors.skills}</p>
             )}
             {skillsError && (
-              <div className="p-4 mb-2 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-600">Error loading skills: {skillsError}</p>
+              <div className="p-4 mb-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg">
+                <p className="text-sm text-red-600 dark:text-red-400">Error loading skills: {skillsError}</p>
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
-                  className="mt-2 text-sm text-red-700 underline hover:no-underline"
+                  className="mt-2 text-sm text-red-700 dark:text-red-300 underline hover:no-underline"
                 >
                   Reload page
                 </button>
               </div>
             )}
-            <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
+            <div className="max-h-64 overflow-y-auto border border-edge rounded-lg">
               {skillsLoading ? (
-                <div className="flex items-center justify-center py-8 text-gray-500">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div>
+                <div className="flex items-center justify-center py-8 text-ink-subtle">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-brand-600 mr-2"></div>
                   Loading skills...
                 </div>
               ) : (
@@ -461,8 +461,8 @@ const CreateAssignmentPage = () => {
           <div
             className={`p-4 rounded-xl border-2 transition-all ${
               formData.is_adaptive
-                ? 'border-gray-900 bg-gray-50'
-                : 'border-gray-200 hover:border-gray-300'
+                ? 'border-brand-500 bg-surface-muted'
+                : 'border-edge hover:border-edge-strong'
             }`}
           >
             <div
@@ -470,18 +470,18 @@ const CreateAssignmentPage = () => {
               onClick={() => setFormData(prev => ({ ...prev, is_adaptive: !prev.is_adaptive }))}
             >
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${formData.is_adaptive ? 'bg-gray-900' : 'bg-gray-200'}`}>
-                  <Brain className={`h-5 w-5 ${formData.is_adaptive ? 'text-white' : 'text-gray-500'}`} />
+                <div className={`p-2 rounded-lg ${formData.is_adaptive ? 'bg-brand-600' : 'bg-edge'}`}>
+                  <Brain className={`h-5 w-5 ${formData.is_adaptive ? 'text-white' : 'text-ink-subtle'}`} />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Adaptive Mode (IRT)</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="font-medium text-ink-body">Adaptive Mode (IRT)</p>
+                  <p className="text-sm text-ink-subtle">
                     Questions adapt to student's ability level in real-time
                   </p>
                 </div>
               </div>
               <div className={`w-12 h-6 rounded-full transition-colors ${
-                formData.is_adaptive ? 'bg-gray-900' : 'bg-gray-300'
+                formData.is_adaptive ? 'bg-brand-600' : 'bg-edge-strong'
               }`}>
                 <div className={`w-5 h-5 rounded-full bg-white shadow transform transition-transform mt-0.5 ${
                   formData.is_adaptive ? 'translate-x-6' : 'translate-x-0.5'
@@ -490,23 +490,23 @@ const CreateAssignmentPage = () => {
             </div>
 
             {formData.is_adaptive && (
-              <div className="mt-4 pt-4 border-t border-gray-200 space-y-4">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="mt-4 pt-4 border-t border-edge space-y-4">
+                <div className="flex items-center gap-2 text-sm text-ink-muted">
                   <Zap className="h-4 w-4" />
                   <span>Each question optimally challenges the student based on their performance</span>
                 </div>
 
                 {/* Question mode toggle */}
-                <div className="flex items-center gap-4 p-3 bg-white rounded-lg border border-gray-200">
+                <div className="flex items-center gap-4 p-3 bg-surface-card rounded-lg border border-edge">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
                       name="question_mode"
                       checked={formData.unlimited_questions}
                       onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: true }))}
-                      className="w-4 h-4 text-gray-900 focus:ring-gray-900"
+                      className="w-4 h-4 text-brand-600 focus:ring-brand-500"
                     />
-                    <span className="text-sm text-gray-700">Unlimited practice</span>
+                    <span className="text-sm text-ink-muted">Unlimited practice</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -514,9 +514,9 @@ const CreateAssignmentPage = () => {
                       name="question_mode"
                       checked={!formData.unlimited_questions}
                       onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: false }))}
-                      className="w-4 h-4 text-gray-900 focus:ring-gray-900"
+                      className="w-4 h-4 text-brand-600 focus:ring-brand-500"
                     />
-                    <span className="text-sm text-gray-700">Fixed question count</span>
+                    <span className="text-sm text-ink-muted">Fixed question count</span>
                   </label>
                 </div>
               </div>
@@ -526,7 +526,7 @@ const CreateAssignmentPage = () => {
           {/* Time Limit & Due Date */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-ink-muted mb-1">
                 <span className="flex items-center gap-1">
                   <Clock className="h-4 w-4" />
                   Time Limit
@@ -541,14 +541,14 @@ const CreateAssignmentPage = () => {
                 placeholder="No limit (minutes)"
               />
               {formData.time_limit_minutes && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-ink-subtle mt-1">
                   Timer auto-submits when time expires
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-ink-muted mb-1">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   Due Date
@@ -561,7 +561,7 @@ const CreateAssignmentPage = () => {
                 onChange={handleChange}
               />
               {formData.due_date && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-ink-subtle mt-1">
                   Student cannot start after this date
                 </p>
               )}
@@ -569,7 +569,7 @@ const CreateAssignmentPage = () => {
           </div>
 
           {/* Submit Buttons */}
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4 border-t border-edge">
             <Button
               type="submit"
               variant="primary"

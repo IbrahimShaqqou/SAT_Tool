@@ -19,11 +19,18 @@ import { Eraser, Trash2, Undo2 } from 'lucide-react';
 
 const COLORS = [
   { value: '#111827', label: 'Black' },
+  { value: '#ffffff', label: 'White' },
   { value: '#ef4444', label: 'Red' },
   { value: '#3b82f6', label: 'Blue' },
   { value: '#22c55e', label: 'Green' },
   { value: '#f59e0b', label: 'Amber' },
 ];
+
+const isDarkMode = () =>
+  typeof document !== 'undefined' &&
+  document.documentElement.classList.contains('dark');
+
+const getDefaultPenColor = () => (isDarkMode() ? '#ffffff' : '#111827');
 
 const PEN_SIZE = 3;
 const ERASER_SIZES = [12, 22, 36];
@@ -79,9 +86,24 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
   const xOffsetRef = useRef(0);
   const animFrameRef = useRef(null);
 
-  const [penColor, setPenColor] = useState(COLORS[0].value);
+  const [penColor, setPenColor] = useState(getDefaultPenColor);
   const [isEraser, setIsEraser] = useState(false);
   const [eraserSizeIdx, setEraserSizeIdx] = useState(1);
+
+  // Switch the default pen color when the user toggles theme, but only if
+  // the user hasn't explicitly picked a non-default ink color yet.
+  useEffect(() => {
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => {
+      setPenColor((prev) => {
+        if (prev === '#111827' && isDarkMode()) return '#ffffff';
+        if (prev === '#ffffff' && !isDarkMode()) return '#111827';
+        return prev;
+      });
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   const penColorRef = useRef(penColor);
   const isEraserRef = useRef(isEraser);
@@ -332,7 +354,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
       {/* Floating toolbar — shown when draw mode is active, above the bottom nav */}
       {isActive && (
         <div
-          className="fixed z-30 flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-600"
+          className="fixed z-30 flex items-center gap-1.5 px-3 py-2 bg-surface-card rounded-full shadow-lg border border-edge"
           style={{ bottom: 80, right: 16 }}
         >
           {COLORS.map(({ value, label }) => (
@@ -340,7 +362,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
               key={value}
               title={label}
               onClick={() => { setPenColor(value); setIsEraser(false); }}
-              className="w-5 h-5 rounded-full transition-transform hover:scale-110 focus:outline-none"
+              className="w-5 h-5 rounded-full transition-transform hover:scale-110 focus:outline-none border border-edge"
               style={{
                 backgroundColor: value,
                 outline: !isEraser && penColor === value ? '2px solid #6b7280' : '2px solid transparent',
@@ -349,15 +371,15 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
             />
           ))}
 
-          <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
+          <div className="w-px h-5 bg-edge mx-0.5" />
 
           <button
             title="Eraser"
             onClick={() => setIsEraser(!isEraser)}
             className={`p-1 rounded-lg transition-colors ${
               isEraser
-                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-brand-600 text-white'
+                : 'text-ink-muted hover:bg-edge-subtle'
             }`}
           >
             <Eraser className="h-4 w-4" />
@@ -365,7 +387,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
 
           {isEraser && (
             <>
-              <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
+              <div className="w-px h-5 bg-edge mx-0.5" />
               {ERASER_SIZES.map((size, idx) => (
                 <button
                   key={size}
@@ -373,12 +395,12 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
                   onClick={() => setEraserSizeIdx(idx)}
                   className={`flex items-center justify-center w-6 h-6 rounded-lg transition-colors ${
                     eraserSizeIdx === idx
-                      ? 'bg-gray-200 dark:bg-gray-600'
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'bg-edge-strong'
+                      : 'hover:bg-edge-subtle'
                   }`}
                 >
                   <span
-                    className="rounded-full border border-gray-500 dark:border-gray-400 bg-white dark:bg-gray-300"
+                    className="rounded-full border border-ink-faint bg-surface-input"
                     style={{ width: 4 + idx * 4, height: 4 + idx * 4 }}
                   />
                 </button>
@@ -386,12 +408,12 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
             </>
           )}
 
-          <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-0.5" />
+          <div className="w-px h-5 bg-edge mx-0.5" />
 
           <button
             title="Undo (Ctrl+Z)"
             onClick={handleUndo}
-            className="p-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-1 text-ink-muted hover:bg-edge-subtle rounded-lg transition-colors"
           >
             <Undo2 className="h-4 w-4" />
           </button>
@@ -399,7 +421,7 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
           <button
             title="Clear all drawings"
             onClick={handleClear}
-            className="p-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-1 text-ink-muted hover:bg-edge-subtle rounded-lg transition-colors"
           >
             <Trash2 className="h-4 w-4" />
           </button>
