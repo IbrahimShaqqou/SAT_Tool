@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import json
+import re
 import uuid
 
 from sqlalchemy.orm import Session
@@ -27,6 +28,25 @@ DIFFICULTY_MAP: Dict[str, DifficultyLevel] = {
 
 # Default data directory (backend/data/)
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
+
+
+_MATHML_BLOCK_RE = re.compile(
+    r"<math\b[^>]*>.*?</math>", re.IGNORECASE | re.DOTALL
+)
+
+
+def is_mathml_only_stimulus(stimulus: str) -> bool:
+    """Return True when the stimulus is just MathML wrapped in whitespace.
+
+    Such stimuli duplicate the LaTeX already in prompt_html and should not
+    be prepended — otherwise the equation renders twice (MathML + LaTeX).
+    Any non-MathML content (img, svg, table, figure, plain text, etc.)
+    means the stimulus carries information not present in the prompt and
+    must be kept.
+    """
+    if not stimulus:
+        return False
+    return _MATHML_BLOCK_RE.sub("", stimulus).strip() == ""
 
 
 def import_normalized_questions(
@@ -118,11 +138,15 @@ def import_normalized_questions(
             explanation = q_data.get("rationale_html", "")
             stimulus = q_data.get("stimulus_html", "")
 
-            # Prepend stimulus to prompt if present (for both math and reading)
-            # This handles equations, graphs, tables shown "above" the question
+            # Prepend stimulus to prompt only when it adds visual content
+            # (graphs, tables, figures, R&W passages). Skip for math
+            # MathML-only stimuli — those duplicate the LaTeX already in
+            # prompt_html and render the equation twice.
             prompt = q_data.get("prompt_html", "")
             if stimulus:
-                prompt = f"{stimulus}\n\n{prompt}"
+                is_math = subject_area == SubjectArea.MATH
+                if not (is_math and is_mathml_only_stimulus(stimulus)):
+                    prompt = f"{stimulus}\n\n{prompt}"
 
             # Build question record
             question = Question(
