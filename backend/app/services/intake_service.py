@@ -16,6 +16,7 @@ from sqlalchemy import func
 
 from app.models.question import Question
 from app.models.taxonomy import Domain, Skill
+from app.models.lesson import Lesson
 from app.models.response import StudentResponse
 from app.models.test import TestSession, TestQuestion
 from app.models.enums import SubjectArea, DifficultyLevel, AnswerType
@@ -432,10 +433,19 @@ def calculate_intake_results(
     if not responses:
         return {"error": "No responses found"}
 
+    # Pre-fetch all questions referenced by these responses in a single query,
+    # so the per-domain and per-skill loops below can do an in-memory lookup
+    # instead of issuing N queries each.
+    question_ids = [r.question_id for r in responses]
+    questions_by_id: Dict[Any, Question] = {
+        q.id: q
+        for q in db.query(Question).filter(Question.id.in_(question_ids)).all()
+    }
+
     # Group responses by domain
     domain_responses = {}
     for r in responses:
-        q = db.query(Question).filter(Question.id == r.question_id).first()
+        q = questions_by_id.get(r.question_id)
         if q and q.domain_id:
             if q.domain_id not in domain_responses:
                 domain_responses[q.domain_id] = []
@@ -518,6 +528,57 @@ def calculate_intake_results(
             "recommendation": _get_recommendation(d["theta"], d["accuracy"]),
         })
 
+    # Group responses by skill (parallel to the per-domain grouping above)
+    skill_groups: Dict[int, Dict[str, Any]] = {}
+    for r in responses:
+        q = questions_by_id.get(r.question_id)
+        if not q or not q.skill_id:
+            continue
+        sid = q.skill_id
+        if sid not in skill_groups:
+            skill_groups[sid] = {
+                "skill_id": sid,
+                "domain_id": q.domain_id,
+                "correct": 0,
+                "total": 0,
+            }
+        skill_groups[sid]["total"] += 1
+        if r.is_correct:
+            skill_groups[sid]["correct"] += 1
+
+    # Resolve skill metadata + active lesson_id in two batched queries
+    skill_ids = list(skill_groups.keys())
+    skills_by_id: Dict[int, Skill] = {}
+    lesson_by_skill: Dict[int, UUID] = {}
+    if skill_ids:
+        skills = db.query(Skill).filter(Skill.id.in_(skill_ids)).all()
+        skills_by_id = {s.id: s for s in skills}
+
+        lessons = db.query(Lesson).filter(
+            Lesson.skill_id.in_(skill_ids),
+            Lesson.is_active == True,  # noqa: E712
+        ).all()
+        lesson_by_skill = {l.skill_id: l.id for l in lessons}
+
+    # Build the breakdown array (skills the student actually saw)
+    skill_breakdown = []
+    for sid, g in skill_groups.items():
+        skill = skills_by_id.get(sid)
+        if not skill:
+            continue
+        domain_meta = domain_abilities.get(g["domain_id"])
+        skill_breakdown.append({
+            "skill_id": sid,
+            "skill_name": skill.name,
+            "domain_id": g["domain_id"],
+            "domain_code": domain_meta["domain_code"] if domain_meta else "",
+            "domain_name": domain_meta["domain_name"] if domain_meta else "",
+            "correct": g["correct"],
+            "total": g["total"],
+            "accuracy": round(g["correct"] / g["total"] * 100, 1) if g["total"] > 0 else 0,
+            "lesson_id": lesson_by_skill.get(sid),
+        })
+
     return {
         "overall": {
             "correct": all_correct,
@@ -528,6 +589,7 @@ def calculate_intake_results(
         "domain_abilities": list(domain_abilities.values()),
         "priority_areas": priority_areas,
         "predicted_composite": _calculate_composite_score(section_abilities),
+        "skill_breakdown": skill_breakdown,
     }
 
 
