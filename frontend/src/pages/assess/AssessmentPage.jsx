@@ -731,9 +731,12 @@ const AssessmentPage = () => {
     const isAnswered = currentAnswer !== undefined;
 
     // Question panel content
+    // - In passage mode, this panel is one half of a SplitPane and must own its own scroll.
+    // - In math/no-passage mode, the page itself scrolls so we drop the inner overflow-auto
+    //   so the document body becomes the scroll context (mouse wheel anywhere = scroll).
     const questionPanel = (
-      <div className="h-full flex flex-col bg-surface-card pb-16">
-        <div className="flex-1 overflow-auto">
+      <div className={hasPassage ? "h-full flex flex-col bg-surface-card pb-16" : "bg-surface-card pb-24"}>
+        <div className={hasPassage ? "flex-1 overflow-auto" : ""}>
           <QuestionDisplay
             questionNumber={currentIndex + 1}
             questionHtml={currentQuestion?.prompt_html || ''}
@@ -888,24 +891,26 @@ const AssessmentPage = () => {
     );
 
     return (
-      <div className="h-screen flex flex-col bg-surface-card">
-        {/* Header */}
-        <TestHeader
-          currentQuestion={currentIndex + 1}
-          totalQuestions={questions.length}
-          hasTimeLimit={!!timeLimit}
-          timeRemaining={timeLimit ? timeRemaining : null}
-          formattedTime={timeLimit ? formattedTime : null}
-          isPaused={isPaused}
-          onPause={pauseTimer}
-          onResume={resumeTimer}
-          onCalculatorToggle={() => setShowCalculator(!showCalculator)}
-          showCalculator={showCalculator}
-          subjectArea={config?.subject_area || 'math'}
-        />
+      <div className={`${hasPassage ? 'h-screen' : 'min-h-screen'} flex flex-col bg-surface-card`}>
+        {/* Header — sticky in math mode so the timer stays visible while the page scrolls */}
+        <div className={hasPassage ? '' : 'sticky top-0 z-30 bg-surface-card'}>
+          <TestHeader
+            currentQuestion={currentIndex + 1}
+            totalQuestions={questions.length}
+            hasTimeLimit={!!timeLimit}
+            timeRemaining={timeLimit ? timeRemaining : null}
+            formattedTime={timeLimit ? formattedTime : null}
+            isPaused={isPaused}
+            onPause={pauseTimer}
+            onResume={resumeTimer}
+            onCalculatorToggle={() => setShowCalculator(!showCalculator)}
+            showCalculator={showCalculator}
+            subjectArea={config?.subject_area || 'math'}
+          />
+        </div>
 
         {/* Main content */}
-        <div className={`flex-1 overflow-hidden transition-all duration-300 ${showCalculator ? 'mr-[440px]' : ''}`}>
+        <div className={`flex-1 ${hasPassage ? 'overflow-hidden' : ''} transition-all duration-300 ${showCalculator ? 'mr-[440px]' : ''}`}>
           {hasPassage ? (
             <SplitPane
               left={passagePanel}
@@ -915,7 +920,7 @@ const AssessmentPage = () => {
               minRight={35}
             />
           ) : (
-            <div className="h-full max-w-3xl mx-auto">
+            <div className="max-w-3xl mx-auto">
               {questionPanel}
             </div>
           )}
