@@ -9,3 +9,4 @@ export { default as AssignmentsPage } from './AssignmentsPage';
 export { default as CreateAssignmentPage } from './CreateAssignmentPage';
 export { default as AnalyticsPage } from './AnalyticsPage';
 export { default as InvitesPage } from './InvitesPage';
+export { default as IntakeResultsPage } from './IntakeResultsPage';
