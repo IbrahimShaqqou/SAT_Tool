@@ -4,8 +4,8 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Copy, Link as LinkIcon, Plus, Trash2, ExternalLink, X, Check, User, BarChart3, FileSearch } from 'lucide-react';
-import { Card, Button, Input, Select, Modal, Badge, LoadingSpinner, Table, ProgressBar } from '../../components/ui';
+import { Copy, Link as LinkIcon, Plus, Trash2, ExternalLink, X, Check, User, BarChart3 } from 'lucide-react';
+import { Card, Button, Input, Select, Modal, Badge, LoadingSpinner, Table } from '../../components/ui';
 import { inviteService } from '../../services';
 
 const InvitesPage = () => {
@@ -24,9 +24,6 @@ const InvitesPage = () => {
     expires_in_days: '',
   });
   const [error, setError] = useState('');
-  const [showResultsModal, setShowResultsModal] = useState(false);
-  const [selectedResults, setSelectedResults] = useState(null);
-  const [loadingResults, setLoadingResults] = useState(false);
 
   useEffect(() => {
     fetchInvites();
@@ -131,20 +128,6 @@ const InvitesPage = () => {
       fetchInvites();
     } catch (error) {
       console.error('Failed to revoke invite:', error);
-    }
-  };
-
-  const handleViewResults = async (inviteId) => {
-    setLoadingResults(true);
-    setShowResultsModal(true);
-    try {
-      const response = await inviteService.getResults(inviteId);
-      setSelectedResults(response.data);
-    } catch (error) {
-      console.error('Failed to fetch results:', error);
-      setSelectedResults({ error: 'Failed to load results' });
-    } finally {
-      setLoadingResults(false);
     }
   };
 
@@ -275,14 +258,11 @@ const InvitesPage = () => {
             </>
           )}
           {row.status === 'used' && row.score_percentage != null && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleViewResults(row.id)}
-              title="View Results"
-            >
-              <BarChart3 className="h-4 w-4 text-brand-500 dark:text-brand-400" />
-            </Button>
+            <Link to={`/tutor/invites/${row.id}/results`} title="View Results">
+              <Button variant="ghost" size="sm">
+                <BarChart3 className="h-4 w-4 text-brand-500 dark:text-brand-400" />
+              </Button>
+            </Link>
           )}
         </div>
       ),
@@ -504,156 +484,6 @@ const InvitesPage = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Results Modal */}
-      <Modal
-        isOpen={showResultsModal}
-        onClose={() => {
-          setShowResultsModal(false);
-          setSelectedResults(null);
-        }}
-        title="Assessment Results"
-        size="lg"
-      >
-        {loadingResults ? (
-          <div className="flex items-center justify-center py-12">
-            <LoadingSpinner size="lg" />
-          </div>
-        ) : selectedResults?.error ? (
-          <div className="text-center py-8 text-red-500 dark:text-red-400">
-            {selectedResults.error}
-          </div>
-        ) : selectedResults ? (
-          <div className="space-y-6">
-            {/* Student Info */}
-            <div className="flex items-center justify-between pb-4 border-b border-edge">
-              <div>
-                <h3 className="font-semibold text-ink-body">{selectedResults.student_name}</h3>
-                <p className="text-sm text-ink-subtle">{selectedResults.student_email}</p>
-              </div>
-              <div className="text-right">
-                <p className={`text-3xl font-bold ${
-                  selectedResults.score_percentage >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
-                  selectedResults.score_percentage >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
-                }`}>
-                  {selectedResults.score_percentage?.toFixed(0)}%
-                </p>
-                <p className="text-sm text-ink-subtle">
-                  {selectedResults.overall?.correct} / {selectedResults.overall?.total} correct
-                </p>
-              </div>
-            </div>
-
-            {/* Section Scores */}
-            {selectedResults.section_abilities?.length > 0 && (
-              <div>
-                <h4 className="font-medium text-ink-body mb-3">Section Scores</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {selectedResults.section_abilities.map((section) => (
-                    <div key={section.section} className="p-4 bg-surface-muted rounded-lg">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="font-medium capitalize text-ink-body">
-                          {section.section.replace('_', ' & ')}
-                        </span>
-                        <span className="text-lg font-bold text-brand-600 dark:text-brand-400">
-                          {section.predicted_score_mid}
-                        </span>
-                      </div>
-                      <p className="text-xs text-ink-subtle mb-2">
-                        Predicted: {section.predicted_score_low} - {section.predicted_score_high}
-                      </p>
-                      <ProgressBar value={section.accuracy} variant="auto" size="sm" />
-                      <p className="text-xs text-ink-subtle mt-1">
-                        {section.correct}/{section.total} correct ({section.accuracy}%)
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Domain Breakdown */}
-            {selectedResults.domain_abilities?.length > 0 && (
-              <div>
-                <h4 className="font-medium text-ink-body mb-3">Domain Breakdown</h4>
-                <div className="space-y-3">
-                  {selectedResults.domain_abilities.map((domain) => (
-                    <div key={domain.domain_id} className="p-3 border border-edge rounded-lg">
-                      <div className="flex justify-between items-center mb-2">
-                        <div>
-                          <span className="font-medium text-ink-body">{domain.domain_name}</span>
-                          <span className="text-xs text-ink-subtle ml-2">({domain.domain_code})</span>
-                        </div>
-                        <span className={`font-bold ${
-                          domain.accuracy >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
-                          domain.accuracy >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
-                        }`}>
-                          {domain.accuracy}%
-                        </span>
-                      </div>
-                      <ProgressBar value={domain.accuracy} variant="auto" size="sm" />
-                      <p className="text-xs text-ink-subtle mt-1">
-                        {domain.correct}/{domain.total} correct • Ability: {domain.theta > 0 ? '+' : ''}{domain.theta}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Priority Areas */}
-            {selectedResults.priority_areas?.length > 0 && (
-              <div>
-                <h4 className="font-medium text-ink-body mb-3">Priority Areas for Improvement</h4>
-                <div className="space-y-2">
-                  {selectedResults.priority_areas.map((area, idx) => (
-                    <div key={idx} className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg">
-                      <div className="flex justify-between items-start">
-                        <span className="font-medium text-amber-900 dark:text-amber-200">{area.domain_name}</span>
-                        <Badge variant="warning">{area.current_level}</Badge>
-                      </div>
-                      <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">{area.recommendation}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Action buttons */}
-            {(selectedResults.student_id || selectedResults.test_session_id) && (
-              <div className="pt-4 border-t border-edge space-y-2">
-                {selectedResults.student_id && selectedResults.test_session_id && (
-                  <Link to={`/tutor/students/${selectedResults.student_id}/results/${selectedResults.test_session_id}`}>
-                    <Button variant="primary" className="w-full">
-                      <FileSearch className="h-4 w-4 mr-2" />
-                      Review Each Question
-                    </Button>
-                  </Link>
-                )}
-                {selectedResults.student_id && (
-                  <Link to={`/tutor/students/${selectedResults.student_id}`}>
-                    <Button variant="secondary" className="w-full">
-                      <User className="h-4 w-4 mr-2" />
-                      View Full Student Profile
-                    </Button>
-                  </Link>
-                )}
-              </div>
-            )}
-          </div>
-        ) : null}
-
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setShowResultsModal(false);
-              setSelectedResults(null);
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };
