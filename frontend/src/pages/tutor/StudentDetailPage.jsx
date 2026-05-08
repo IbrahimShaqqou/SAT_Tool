@@ -46,8 +46,8 @@ const DomainMasteryCard = ({ domain, skills }) => {
       <Card.Content className="pt-4">
         <div className="flex items-start justify-between mb-3">
           <div>
-            <h3 className="font-semibold text-gray-900">{domain.domain_name}</h3>
-            <p className="text-sm text-gray-500">{domain.questions_attempted} questions</p>
+            <h3 className="font-semibold text-ink-body">{domain.domain_name}</h3>
+            <p className="text-sm text-ink-subtle">{domain.questions_attempted} questions</p>
           </div>
           <div className="text-right">
             <span className={`text-2xl font-bold text-${mastery.color}-600`}>
@@ -64,20 +64,20 @@ const DomainMasteryCard = ({ domain, skills }) => {
 
         {domainSkills.length > 0 && (
           <div className="mt-4 space-y-2">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Skills in this domain</p>
+            <p className="text-xs font-medium text-ink-subtle uppercase tracking-wide">Skills in this domain</p>
             {domainSkills.slice(0, 4).map(skill => (
               <div key={skill.skill_id} className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 truncate flex-1 mr-2">{skill.skill_name}</span>
+                <span className="text-ink-muted truncate flex-1 mr-2">{skill.skill_name}</span>
                 <span className={`font-medium ${
-                  skill.accuracy >= 70 ? 'text-green-600' :
-                  skill.accuracy >= 50 ? 'text-amber-600' : 'text-red-600'
+                  skill.accuracy >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
+                  skill.accuracy >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
                 }`}>
                   {skill.accuracy.toFixed(0)}%
                 </span>
               </div>
             ))}
             {domainSkills.length > 4 && (
-              <p className="text-xs text-gray-400">+{domainSkills.length - 4} more skills</p>
+              <p className="text-xs text-ink-faint">+{domainSkills.length - 4} more skills</p>
             )}
           </div>
         )}
@@ -93,14 +93,14 @@ const SkillMasteryRow = ({ skill }) => {
     : 0;
 
   return (
-    <div className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-sm transition-shadow">
+    <div className="p-4 bg-surface-card border border-edge rounded-lg hover:shadow-sm transition-shadow">
       <div className="flex items-center justify-between mb-2">
         <div className="min-w-0 flex-1">
-          <h4 className="font-medium text-gray-900 dark:text-gray-100 truncate">{skill.skill_name}</h4>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{skill.domain_name}</p>
+          <h4 className="font-medium text-ink-body truncate">{skill.skill_name}</h4>
+          <p className="text-xs text-ink-subtle mt-0.5">{skill.domain_name}</p>
         </div>
         <div className="text-right flex-shrink-0 ml-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-ink-subtle">
             {skill.responses_count || skill.questions_attempted || 0}q
             {skill.days_since_practice > 0 && ` · ${skill.days_since_practice}d ago`}
           </p>
@@ -197,8 +197,8 @@ const StudentDetailPage = () => {
         <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <AlertTriangle className="h-8 w-8 text-amber-500" />
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Unable to load student</h2>
-        <p className="text-gray-500 mb-6">
+        <h2 className="text-xl font-semibold text-ink-body mb-2">Unable to load student</h2>
+        <p className="text-ink-subtle mb-6">
           {error || 'The student may not be in your roster or the student ID is invalid.'}
         </p>
         <Link to="/tutor/students">
@@ -244,10 +244,10 @@ const StudentDetailPage = () => {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-2xl font-semibold text-ink-body">
               {student.first_name} {student.last_name}
             </h1>
-            <p className="text-gray-500">{student.email}</p>
+            <p className="text-ink-subtle">{student.email}</p>
           </div>
         </div>
         <Link to={`/tutor/assignments/new?student=${id}`}>
@@ -260,7 +260,7 @@ const StudentDetailPage = () => {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+        <Card className="bg-gradient-to-br from-brand-500 to-brand-600 text-white">
           <div className="flex items-center gap-3">
             <TrendingUp className="h-8 w-8 opacity-80" />
             <div>
@@ -275,8 +275,8 @@ const StudentDetailPage = () => {
               <Target className="h-5 w-5 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{totalQuestions}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Questions</p>
+              <p className="text-2xl font-semibold text-ink-body">{totalQuestions}</p>
+              <p className="text-sm text-ink-subtle">Questions</p>
             </div>
           </div>
         </Card>
@@ -286,8 +286,8 @@ const StudentDetailPage = () => {
               <CheckCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{masteredCount}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Skills Mastered</p>
+              <p className="text-2xl font-semibold text-ink-body">{masteredCount}</p>
+              <p className="text-sm text-ink-subtle">Skills Mastered</p>
             </div>
           </div>
         </Card>
@@ -297,8 +297,8 @@ const StudentDetailPage = () => {
               <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{weakAreasCount}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Weak Areas</p>
+              <p className="text-2xl font-semibold text-ink-body">{weakAreasCount}</p>
+              <p className="text-sm text-ink-subtle">Weak Areas</p>
             </div>
           </div>
         </Card>
@@ -308,8 +308,8 @@ const StudentDetailPage = () => {
               <Clock className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
             </div>
             <div>
-              <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{progress?.sessions_completed || 0}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Sessions</p>
+              <p className="text-2xl font-semibold text-ink-body">{progress?.sessions_completed || 0}</p>
+              <p className="text-sm text-ink-subtle">Sessions</p>
             </div>
           </div>
         </Card>
@@ -373,9 +373,9 @@ const StudentDetailPage = () => {
             ) : (
               <Card>
                 <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No Domain Data Yet</h3>
-                  <p className="text-gray-500 max-w-md mx-auto">
+                  <BookOpen className="h-12 w-12 text-ink-faint mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-ink-body mb-2">No Domain Data Yet</h3>
+                  <p className="text-ink-subtle max-w-md mx-auto">
                     As {student.first_name} completes practice sessions, their domain mastery will appear here.
                   </p>
                 </div>
@@ -417,9 +417,9 @@ const StudentDetailPage = () => {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <Brain className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No Skill Data Yet</h3>
-                  <p className="text-gray-500">
+                  <Brain className="h-12 w-12 text-ink-faint mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-ink-body mb-2">No Skill Data Yet</h3>
+                  <p className="text-ink-subtle">
                     Skills will appear here once {student.first_name} answers some practice questions.
                   </p>
                 </div>
@@ -447,22 +447,22 @@ const StudentDetailPage = () => {
                         key={skill.skill_id}
                         className={`p-4 rounded-lg border-l-4 ${
                           skill.priority === 'high'
-                            ? 'bg-red-50 border-red-500'
+                            ? 'bg-red-50 dark:bg-red-900/20 border-red-500'
                             : skill.priority === 'medium'
-                            ? 'bg-amber-50 border-amber-500'
-                            : 'bg-gray-50 border-gray-400'
+                            ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-500'
+                            : 'bg-surface-muted border-edge-strong'
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div>
-                            <h4 className="font-medium text-gray-900">{skill.skill_name}</h4>
-                            <p className="text-sm text-gray-500 mt-1">
+                            <h4 className="font-medium text-ink-body">{skill.skill_name}</h4>
+                            <p className="text-sm text-ink-subtle mt-1">
                               {skill.questions_attempted} questions attempted
                             </p>
                           </div>
                           <div className="text-right">
                             <span className={`text-xl font-bold ${
-                              skill.accuracy < 50 ? 'text-red-600' : 'text-amber-600'
+                              skill.accuracy < 50 ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'
                             }`}>
                               {skill.accuracy.toFixed(0)}%
                             </span>
@@ -479,9 +479,9 @@ const StudentDetailPage = () => {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Great Progress!</h3>
-                    <p className="text-gray-500">
+                    <CheckCircle className="h-12 w-12 text-emerald-500 dark:text-emerald-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-ink-body mb-2">Great Progress!</h3>
+                    <p className="text-ink-subtle">
                       No significant weak areas detected. Keep up the good work!
                     </p>
                   </div>
@@ -497,9 +497,9 @@ const StudentDetailPage = () => {
               <Card.Content>
                 {weaknesses?.weak_skills?.length > 0 ? (
                   <div className="space-y-4">
-                    <div className="p-4 bg-blue-50 rounded-lg">
-                      <h4 className="font-medium text-blue-900 mb-2">Create Targeted Practice</h4>
-                      <p className="text-sm text-blue-700 mb-3">
+                    <div className="p-4 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/50 rounded-lg">
+                      <h4 className="font-medium text-brand-900 dark:text-brand-200 mb-2">Create Targeted Practice</h4>
+                      <p className="text-sm text-brand-700 dark:text-brand-300 mb-3">
                         Focus on the {weaknesses.weak_skills.filter(s => s.priority === 'high').length || 1} high-priority skill(s) listed.
                       </p>
                       <Link to={`/tutor/assignments/new?student=${id}&skills=${weaknesses.weak_skills.slice(0, 3).map(s => s.skill_id).join(',')}`}>
@@ -509,17 +509,17 @@ const StudentDetailPage = () => {
                         </Button>
                       </Link>
                     </div>
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-medium text-gray-900 mb-2">Review Mistakes</h4>
-                      <p className="text-sm text-gray-600">
+                    <div className="p-4 bg-surface-muted rounded-lg">
+                      <h4 className="font-medium text-ink-body mb-2">Review Mistakes</h4>
+                      <p className="text-sm text-ink-muted">
                         Look at the specific questions {student.first_name} got wrong in these skill areas to identify patterns.
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4 bg-green-50 rounded-lg">
-                    <h4 className="font-medium text-green-900 mb-2">Keep Challenging!</h4>
-                    <p className="text-sm text-green-700">
+                  <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-lg">
+                    <h4 className="font-medium text-emerald-900 dark:text-emerald-200 mb-2">Keep Challenging!</h4>
+                    <p className="text-sm text-emerald-700 dark:text-emerald-300">
                       {student.first_name} is doing well. Consider introducing more advanced questions or new topics to continue growth.
                     </p>
                   </div>
@@ -542,8 +542,8 @@ const StudentDetailPage = () => {
                   <AccuracyTrend data={accuracyData} height={250} />
                 ) : (
                   <div className="text-center py-12">
-                    <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">Not enough data points for trend analysis</p>
+                    <BarChart3 className="h-12 w-12 text-ink-faint mx-auto mb-4" />
+                    <p className="text-ink-subtle">Not enough data points for trend analysis</p>
                   </div>
                 )}
               </Card.Content>
@@ -559,8 +559,8 @@ const StudentDetailPage = () => {
                   <SkillBreakdown data={skillData.slice(0, 8)} height={250} />
                 ) : (
                   <div className="text-center py-12">
-                    <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">No skill data available yet</p>
+                    <BarChart3 className="h-12 w-12 text-ink-faint mx-auto mb-4" />
+                    <p className="text-ink-subtle">No skill data available yet</p>
                   </div>
                 )}
               </Card.Content>
