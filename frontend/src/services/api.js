@@ -62,11 +62,13 @@ api.interceptors.response.use(
 
     // Handle 401 errors with token refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
-      // Don't retry refresh endpoint itself
-      if (originalRequest.url === '/auth/refresh') {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+      // Don't intercept auth endpoints — let 401s propagate to the caller
+      const authEndpoints = ['/auth/login', '/auth/register', '/auth/refresh'];
+      if (authEndpoints.some(ep => originalRequest.url?.includes(ep))) {
+        if (originalRequest.url?.includes('/auth/refresh')) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+        }
         return Promise.reject(error);
       }
 
