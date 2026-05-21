@@ -1,0 +1,108 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e9]:
+    - complementary [ref=e10]:
+      - generic [ref=e14]: Z
+      - navigation [ref=e15]:
+        - generic [ref=e16]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e18]
+          - link "Study Plan" [ref=e23] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e24]
+          - link "Diagnostic" [ref=e27] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e28]
+          - link "My Assignments" [ref=e32] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e33]
+        - generic [ref=e36]:
+          - link "Question Bank" [ref=e38] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e39]
+          - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e43]
+          - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e47]
+        - link "My Progress" [ref=e52] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e53]
+    - generic [ref=e56]:
+      - banner [ref=e57]:
+        - button "Test Student Test Student" [ref=e59] [cursor=pointer]:
+          - generic "Test Student" [ref=e60]: TS
+          - generic [ref=e61]: Test Student
+          - img [ref=e62]
+      - main [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e213]:
+            - generic [ref=e214]:
+              - button [ref=e215] [cursor=pointer]:
+                - img [ref=e216]
+              - generic [ref=e218]:
+                - text: "Two-variable data: Models and scatterplots"
+                - generic [ref=e219]: (Passport to Advanced Math)
+            - generic [ref=e220]:
+              - generic [ref=e221]: Question
+              - generic [ref=e222]: 1 of 63
+            - generic [ref=e223]:
+              - button "Draw on question" [ref=e224] [cursor=pointer]:
+                - img [ref=e225]
+              - button "Reference Sheet" [ref=e228] [cursor=pointer]:
+                - img [ref=e229]
+              - button "Calculator" [ref=e232] [cursor=pointer]:
+                - img [ref=e233]
+          - generic [ref=e238]:
+            - generic [ref=e239]:
+              - generic [ref=e240]:
+                - generic [ref=e241]:
+                  - generic [ref=e242]: "1"
+                  - button "Mark for Review" [ref=e243] [cursor=pointer]:
+                    - img [ref=e244]
+                    - generic [ref=e246]: Mark for Review
+                - button "Report" [ref=e247] [cursor=pointer]:
+                  - img [ref=e248]
+                  - generic [ref=e250]: Report
+              - generic [ref=e253]:
+                - paragraph [ref=e254]:
+                  - img [ref=e255]
+                - paragraph [ref=e256]: The scatterplot above shows the densities of 7 planetoids, in grams per cubic centimeter, with respect to their average distances from the Sun in astronomical units (AU). The line of best fit is also shown. An astronomer has discovered a new planetoid about 1.2 AU from the Sun. According to the line of best fit, which of the following best approximates the density of the planetoid, in grams per cubic centimeter?
+                - paragraph
+            - generic [ref=e258]:
+              - button "A 3.6" [ref=e259] [cursor=pointer]:
+                - generic [ref=e260]: A
+                - paragraph [ref=e262]: "3.6"
+              - button "B 4.1" [ref=e263] [cursor=pointer]:
+                - generic [ref=e264]: B
+                - paragraph [ref=e266]: "4.1"
+              - button "C 4.6" [ref=e267] [cursor=pointer]:
+                - generic [ref=e268]: C
+                - paragraph [ref=e270]: "4.6"
+              - button "D 5.5" [ref=e271] [cursor=pointer]:
+                - generic [ref=e272]: D
+                - paragraph [ref=e274]: "5.5"
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e275]:
+            - button "Previous" [disabled] [ref=e276]
+            - button "1 / 63" [ref=e277] [cursor=pointer]:
+              - generic [ref=e278]: "1"
+              - generic [ref=e279]: /
+              - generic [ref=e280]: "63"
+              - img [ref=e281]
+            - button "Next" [ref=e284] [cursor=pointer]
+  - paragraph [ref=e285]
+  - paragraph [ref=e286]

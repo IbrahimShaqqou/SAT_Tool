@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - button [ref=e176] [cursor=pointer]:
+                - img [ref=e177]
+              - generic [ref=e179]:
+                - text: Text Structure and Purpose
+                - generic [ref=e180]: (Craft and Structure)
+            - generic [ref=e181]:
+              - generic [ref=e182]: Question
+              - generic [ref=e183]: 1 of 130
+            - button "Draw on question" [ref=e185] [cursor=pointer]:
+              - img [ref=e186]
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - generic [ref=e192]:
+                - generic [ref=e193]:
+                  - generic [ref=e194]: "1"
+                  - button "Mark for Review" [ref=e195] [cursor=pointer]:
+                    - img [ref=e196]
+                    - generic [ref=e198]: Mark for Review
+                - button "Report" [ref=e199] [cursor=pointer]:
+                  - img [ref=e200]
+                  - generic [ref=e202]: Report
+              - generic [ref=e205]:
+                - paragraph [ref=e206]:
+                  - text: The people of medieval Europe have traditionally been seen as uninterested in cleanliness and hygiene, but modern research has shown that this is largely a myth. According to historian Eleanor Janega, most medieval towns in Europe had at least one public bathhouse, which often offered both full-immersion baths and—more affordably—steam baths.
+                  - region "Referenced Content" [ref=e207]: While such amenities were available mainly to town dwellers
+                  - text: ", regular bathing in rivers and streams or daily sponge baths at home were common practices throughout medieval Europe."
+                - paragraph [ref=e208]: Which choice best describes the function of the underlined portion?
+            - generic [ref=e210]:
+              - button "A It asserts that in medieval Europe steam baths were more popular in rural areas than in urban ones." [ref=e211] [cursor=pointer]:
+                - generic [ref=e212]: A
+                - paragraph [ref=e214]: It asserts that in medieval Europe steam baths were more popular in rural areas than in urban ones.
+              - button "B It describes a limitation of earlier historians’ studies of medieval European bathing habits." [ref=e215] [cursor=pointer]:
+                - generic [ref=e216]: B
+                - paragraph [ref=e218]: It describes a limitation of earlier historians’ studies of medieval European bathing habits.
+              - button "C It concedes that not all people in medieval Europe had access to public bathhouses." [ref=e219] [cursor=pointer]:
+                - generic [ref=e220]: C
+                - paragraph [ref=e222]: It concedes that not all people in medieval Europe had access to public bathhouses.
+              - button "D It explains why Janega decided to study the popularity of public bathhouses in medieval Europe." [ref=e223] [cursor=pointer]:
+                - generic [ref=e224]: D
+                - paragraph [ref=e226]: It explains why Janega decided to study the popularity of public bathhouses in medieval Europe.
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e227]:
+            - button "Previous" [disabled] [ref=e228]
+            - button "1 / 130" [ref=e229] [cursor=pointer]:
+              - generic [ref=e230]: "1"
+              - generic [ref=e231]: /
+              - generic [ref=e232]: "130"
+              - img [ref=e233]
+            - button "Next" [ref=e236] [cursor=pointer]
+  - paragraph [ref=e237]
+  - paragraph [ref=e238]

@@ -1,0 +1,179 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e9]:
+    - complementary [ref=e10]:
+      - generic [ref=e14]: Z
+      - navigation [ref=e15]:
+        - generic [ref=e16]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e18]
+          - link "Study Plan" [ref=e23] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e24]
+          - link "Diagnostic" [ref=e27] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e28]
+          - link "My Assignments" [ref=e32] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e33]
+        - generic [ref=e36]:
+          - link "Question Bank" [ref=e38] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e39]
+          - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e43]
+          - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e47]
+        - link "My Progress" [ref=e52] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e53]
+    - generic [ref=e56]:
+      - banner [ref=e57]:
+        - button "Test Student Test Student" [ref=e59] [cursor=pointer]:
+          - generic "Test Student" [ref=e60]: TS
+          - generic [ref=e61]: Test Student
+          - img [ref=e62]
+      - main [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e403]:
+            - heading "Question Bank" [level=1] [ref=e404]
+            - paragraph [ref=e405]: Browse questions by domain and skill
+          - generic [ref=e406]:
+            - generic [ref=e408]:
+              - img [ref=e410]
+              - generic [ref=e412]:
+                - heading "Math" [level=3] [ref=e413]
+                - paragraph [ref=e414]: 1681 questions
+            - generic [ref=e416]:
+              - generic [ref=e417]:
+                - button "Heart of Algebra 561 questions" [ref=e418] [cursor=pointer]:
+                  - generic [ref=e419]:
+                    - img [ref=e420]
+                    - generic [ref=e422]: Heart of Algebra
+                  - generic [ref=e423]: 561 questions
+                - generic [ref=e425]:
+                  - button "Systems of two linear equations in two variables 112" [ref=e426] [cursor=pointer]:
+                    - generic [ref=e427]: Systems of two linear equations in two variables
+                    - generic [ref=e428]:
+                      - generic [ref=e429]: "112"
+                      - img [ref=e430]
+                  - button "Linear equations in one variable 104" [ref=e432] [cursor=pointer]:
+                    - generic [ref=e433]: Linear equations in one variable
+                    - generic [ref=e434]:
+                      - generic [ref=e435]: "104"
+                      - img [ref=e436]
+                  - button "Linear functions 151" [ref=e438] [cursor=pointer]:
+                    - generic [ref=e439]: Linear functions
+                    - generic [ref=e440]:
+                      - generic [ref=e441]: "151"
+                      - img [ref=e442]
+                  - button "Linear equations in two variables 124" [ref=e444] [cursor=pointer]:
+                    - generic [ref=e445]: Linear equations in two variables
+                    - generic [ref=e446]:
+                      - generic [ref=e447]: "124"
+                      - img [ref=e448]
+                  - button "Linear inequalities in one or two variables 70" [ref=e450] [cursor=pointer]:
+                    - generic [ref=e451]: Linear inequalities in one or two variables
+                    - generic [ref=e452]:
+                      - generic [ref=e453]: "70"
+                      - img [ref=e454]
+              - generic [ref=e456]:
+                - button "Problem Solving and Data Analysis 477 questions" [ref=e457] [cursor=pointer]:
+                  - generic [ref=e458]:
+                    - img [ref=e459]
+                    - generic [ref=e461]: Problem Solving and Data Analysis
+                  - generic [ref=e462]: 477 questions
+                - generic [ref=e464]:
+                  - button "Nonlinear functions 227" [ref=e465] [cursor=pointer]:
+                    - generic [ref=e466]: Nonlinear functions
+                    - generic [ref=e467]:
+                      - generic [ref=e468]: "227"
+                      - img [ref=e469]
+                  - button "Nonlinear equations in one variable and systems of equations in two variables 148" [ref=e471] [cursor=pointer]:
+                    - generic [ref=e472]: Nonlinear equations in one variable and systems of equations in two variables
+                    - generic [ref=e473]:
+                      - generic [ref=e474]: "148"
+                      - img [ref=e475]
+                  - button "Equivalent expressions 102" [ref=e477] [cursor=pointer]:
+                    - generic [ref=e478]: Equivalent expressions
+                    - generic [ref=e479]:
+                      - generic [ref=e480]: "102"
+                      - img [ref=e481]
+              - generic [ref=e483]:
+                - button "Passport to Advanced Math 374 questions" [ref=e484] [cursor=pointer]:
+                  - generic [ref=e485]:
+                    - img [ref=e486]
+                    - generic [ref=e488]: Passport to Advanced Math
+                  - generic [ref=e489]: 374 questions
+                - generic [ref=e491]:
+                  - button "Ratios, rates, proportional relationships, and units 84" [ref=e492] [cursor=pointer]:
+                    - generic [ref=e493]: Ratios, rates, proportional relationships, and units
+                    - generic [ref=e494]:
+                      - generic [ref=e495]: "84"
+                      - img [ref=e496]
+                  - button "Inference from sample statistics and margin of error 24" [ref=e498] [cursor=pointer]:
+                    - generic [ref=e499]: Inference from sample statistics and margin of error
+                    - generic [ref=e500]:
+                      - generic [ref=e501]: "24"
+                      - img [ref=e502]
+                  - button "Percentages 76" [ref=e504] [cursor=pointer]:
+                    - generic [ref=e505]: Percentages
+                    - generic [ref=e506]:
+                      - generic [ref=e507]: "76"
+                      - img [ref=e508]
+                  - button "Probability and conditional probability 43" [ref=e510] [cursor=pointer]:
+                    - generic [ref=e511]: Probability and conditional probability
+                    - generic [ref=e512]:
+                      - generic [ref=e513]: "43"
+                      - img [ref=e514]
+                  - 'button "One-variable data: Distributions and measures of center and spread 73" [ref=e516] [cursor=pointer]':
+                    - generic [ref=e517]: "One-variable data: Distributions and measures of center and spread"
+                    - generic [ref=e518]:
+                      - generic [ref=e519]: "73"
+                      - img [ref=e520]
+                  - 'button "Two-variable data: Models and scatterplots 63" [ref=e522] [cursor=pointer]':
+                    - generic [ref=e523]: "Two-variable data: Models and scatterplots"
+                    - generic [ref=e524]:
+                      - generic [ref=e525]: "63"
+                      - img [ref=e526]
+                  - 'button "Evaluating statistical claims: Observational studies and experiments 11" [ref=e528] [cursor=pointer]':
+                    - generic [ref=e529]: "Evaluating statistical claims: Observational studies and experiments"
+                    - generic [ref=e530]:
+                      - generic [ref=e531]: "11"
+                      - img [ref=e532]
+              - button "Additional Topics in Math 269 questions" [ref=e535] [cursor=pointer]:
+                - generic [ref=e536]:
+                  - img [ref=e537]
+                  - generic [ref=e539]: Additional Topics in Math
+                - generic [ref=e540]: 269 questions
+          - generic [ref=e541]:
+            - generic [ref=e543]:
+              - img [ref=e545]
+              - generic [ref=e547]:
+                - heading "Reading & Writing" [level=3] [ref=e548]
+                - paragraph [ref=e549]: 1590 questions
+            - generic [ref=e551]:
+              - button "Information and Ideas 478 questions" [ref=e553] [cursor=pointer]:
+                - generic [ref=e554]:
+                  - img [ref=e555]
+                  - generic [ref=e557]: Information and Ideas
+                - generic [ref=e558]: 478 questions
+              - button "Craft and Structure 412 questions" [ref=e560] [cursor=pointer]:
+                - generic [ref=e561]:
+                  - img [ref=e562]
+                  - generic [ref=e564]: Craft and Structure
+                - generic [ref=e565]: 412 questions
+              - button "Expression of Ideas 343 questions" [ref=e567] [cursor=pointer]:
+                - generic [ref=e568]:
+                  - img [ref=e569]
+                  - generic [ref=e571]: Expression of Ideas
+                - generic [ref=e572]: 343 questions
+              - button "Standard English Conventions 357 questions" [ref=e574] [cursor=pointer]:
+                - generic [ref=e575]:
+                  - img [ref=e576]
+                  - generic [ref=e578]: Standard English Conventions
+                - generic [ref=e579]: 357 questions
+  - paragraph [ref=e401]
+  - paragraph [ref=e402]

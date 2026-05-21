@@ -79,7 +79,7 @@ def list_questions(
         )
     else:
         return QuestionListResponse(
-            items=[QuestionBrief.model_validate(q) for q in questions],
+            items=[QuestionBrief.from_orm_with_choices(q) for q in questions],
             total=total,
             limit=limit,
             offset=offset,

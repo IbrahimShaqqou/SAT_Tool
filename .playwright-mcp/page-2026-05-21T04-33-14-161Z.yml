@@ -1,0 +1,22 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "SYN Question 100 of 182" [level=1] [ref=e3]
+    - paragraph [ref=e4]:
+      - strong [ref=e5]: "Question ID:"
+      - text: 8e9f0c43-8ece-4dc3-ad36-3e1aff021ac1
+    - paragraph [ref=e6]:
+      - strong [ref=e7]: "UID:"
+      - text: ccb53efc-1cef-4e1d-8a56-2e5bb13a1a6d
+    - paragraph [ref=e8]:
+      - strong [ref=e9]: "Skill:"
+      - text: Rhetorical Synthesis (SYN)
+  - generic [ref=e10]:
+    - heading "Question" [level=2] [ref=e11]
+    - paragraph [ref=e12]: "While researching a topic, a student has taken the following notes:"
+    - list [ref=e13]:
+      - listitem [ref=e14]: In 1965, Yale University historians claimed that a world map called the Vinland Map was drawn in the fifteenth century.
+      - listitem [ref=e15]: Since that time, the map’s age has been the subject of debate.
+      - listitem [ref=e16]: In 2021, researchers conducted a study to analyze the elemental composition of the map’s ink.
+      - listitem [ref=e17]: Their analysis revealed that the ink contains a titanium compound not used in inks until the 1920s.
+      - listitem [ref=e18]: The researchers concluded that the map was drawn in the twentieth century.
+    - paragraph [ref=e19]: The student wants to present the study and its findings. Which choice most effectively uses relevant information from the notes to accomplish this goal?

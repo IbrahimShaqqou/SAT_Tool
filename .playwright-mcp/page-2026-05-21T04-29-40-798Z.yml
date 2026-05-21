@@ -1,0 +1,197 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e9]: ZooPrep
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Dashboard" [ref=e12] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e13]
+          - generic [ref=e18]: Dashboard
+        - link "Study Plan" [ref=e19] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e20]
+          - generic [ref=e23]: Study Plan
+        - link "Diagnostic" [ref=e24] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e25]
+          - generic [ref=e29]: Diagnostic
+        - link "My Assignments" [ref=e30] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e31]
+          - generic [ref=e34]: My Assignments
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: Practice
+        - link "Question Bank" [ref=e37] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e38]
+          - generic [ref=e41]: Question Bank
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+          - generic [ref=e46]: Skill Lessons
+        - link "Adaptive Practice" [ref=e47] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e48]
+          - generic [ref=e51]: Adaptive Practice
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Progress
+        - link "My Progress" [ref=e54] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e55]
+          - generic [ref=e58]: My Progress
+    - button "Collapse" [ref=e60] [cursor=pointer]:
+      - img [ref=e61]
+      - generic [ref=e63]: Collapse
+  - generic [ref=e64]:
+    - banner [ref=e65]:
+      - button "Test Student Test Student" [ref=e67] [cursor=pointer]:
+        - generic "Test Student" [ref=e68]: TS
+        - generic [ref=e69]: Test Student
+        - img [ref=e70]
+    - main [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - img
+          - img
+          - generic [ref=e75]:
+            - paragraph [ref=e76]: Good morning,
+            - heading "Test" [level=1] [ref=e77]
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]: 100%
+                - text: accuracy
+              - generic [ref=e82]: 3questions answered
+              - generic [ref=e84]: 1sessions
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - img [ref=e89]
+            - generic [ref=e90]:
+              - paragraph [ref=e91]: Start with a diagnostic to find out what to study
+              - paragraph [ref=e92]: 30 questions · 25 min · identify your strengths and weak spots
+          - generic [ref=e93]:
+            - link "Take Diagnostic" [ref=e94] [cursor=pointer]:
+              - /url: /student/diagnostic
+              - button "Take Diagnostic" [ref=e95]:
+                - text: Take Diagnostic
+                - img [ref=e96]
+            - button "Dismiss" [ref=e98] [cursor=pointer]: ✕
+        - generic [ref=e99]:
+          - link "Adaptive Practice" [ref=e100] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e102]
+            - generic [ref=e105]: Adaptive Practice
+          - link "Question Bank" [ref=e106] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e108]
+            - generic [ref=e111]: Question Bank
+          - link "Skill Lessons" [ref=e112] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e114]
+            - generic [ref=e117]: Skill Lessons
+          - link "My Progress" [ref=e118] [cursor=pointer]:
+            - /url: /student/progress
+            - img [ref=e120]
+            - generic [ref=e122]: My Progress
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - generic [ref=e125]:
+              - img [ref=e126]
+              - heading "Study Plan" [level=2] [ref=e130]
+            - link "View full plan" [ref=e131] [cursor=pointer]:
+              - /url: /student/study-plan
+          - generic [ref=e132]:
+            - generic [ref=e133]:
+              - generic [ref=e136]:
+                - paragraph [ref=e137]: "Improve: Linear equations in two variables"
+                - paragraph [ref=e138]: H · ~15 min
+              - link "Study Lesson" [ref=e139] [cursor=pointer]:
+                - /url: /student/lessons/6e251a32-4291-4c40-aaa9-d5427f0c32e7
+                - button "Study Lesson" [ref=e140]:
+                  - text: Study Lesson
+                  - img [ref=e141]
+            - generic [ref=e143]:
+              - generic [ref=e146]:
+                - paragraph [ref=e147]: "Improve: Central Ideas and Details"
+                - paragraph [ref=e148]: INI · ~10 min
+              - link "Practice" [ref=e149] [cursor=pointer]:
+                - /url: /student/adaptive?skill=49&autostart=true
+                - button "Practice" [ref=e150]:
+                  - text: Practice
+                  - img [ref=e151]
+            - generic [ref=e153]:
+              - generic [ref=e156]:
+                - paragraph [ref=e157]: "Learn: Systems of two linear equations in two variables"
+                - paragraph [ref=e158]: H · ~15 min
+              - link "Study Lesson" [ref=e159] [cursor=pointer]:
+                - /url: /student/lessons/28786b46-9719-4d57-a8a9-ae3eb8533d89
+                - button "Study Lesson" [ref=e160]:
+                  - text: Study Lesson
+                  - img [ref=e161]
+            - generic [ref=e163]:
+              - generic [ref=e166]:
+                - paragraph [ref=e167]: "Learn: Linear equations in one variable"
+                - paragraph [ref=e168]: H · ~15 min
+              - link "Study Lesson" [ref=e169] [cursor=pointer]:
+                - /url: /student/lessons/ab83df51-2376-4a1c-b296-1192a4ac1839
+                - button "Study Lesson" [ref=e170]:
+                  - text: Study Lesson
+                  - img [ref=e171]
+        - generic [ref=e173]:
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - img [ref=e176]
+              - heading "Areas to improve" [level=2] [ref=e178]
+            - generic [ref=e179]: From your practice
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - generic [ref=e183]: H
+              - generic [ref=e184]:
+                - paragraph [ref=e185]: Linear equations in two variables
+                - generic [ref=e186]:
+                  - generic [ref=e187]: Not Started
+                  - generic [ref=e197]: θ +0.37
+              - button "Practice" [ref=e198] [cursor=pointer]:
+                - text: Practice
+                - img [ref=e199]
+            - generic [ref=e201]:
+              - generic [ref=e203]: INI
+              - generic [ref=e204]:
+                - paragraph [ref=e205]: Central Ideas and Details
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Not Started
+                  - generic [ref=e217]: θ +0.68
+              - button "Practice" [ref=e218] [cursor=pointer]:
+                - text: Practice
+                - img [ref=e219]
+        - generic [ref=e221]:
+          - generic [ref=e222]:
+            - img [ref=e223]
+            - heading "Your strengths" [level=2] [ref=e227]
+          - generic [ref=e228]:
+            - generic [ref=e229]:
+              - generic [ref=e230]:
+                - generic [ref=e232]: INI
+                - paragraph [ref=e233]: Central Ideas and Details
+              - generic [ref=e234]:
+                - generic [ref=e235]: Not Started
+                - generic [ref=e245]: θ +0.68
+            - generic [ref=e246]:
+              - generic [ref=e247]:
+                - generic [ref=e249]: H
+                - paragraph [ref=e250]: Linear equations in two variables
+              - generic [ref=e251]:
+                - generic [ref=e252]: Not Started
+                - generic [ref=e262]: θ +0.37
+        - generic [ref=e263]:
+          - generic [ref=e264]:
+            - generic [ref=e265]:
+              - img [ref=e266]
+              - heading "Pending assignments" [level=2] [ref=e269]
+            - link "View all" [ref=e270] [cursor=pointer]:
+              - /url: /student/assignments
+          - generic [ref=e272]:
+            - img [ref=e274]
+            - heading "No pending assignments" [level=3] [ref=e277]
+            - paragraph [ref=e278]: Check back later for new assignments from your tutor

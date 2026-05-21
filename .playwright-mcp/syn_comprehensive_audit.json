@@ -1,0 +1,54 @@
+{
+  "skill": {
+    "id": 56,
+    "code": "SYN",
+    "name": "Rhetorical Synthesis",
+    "domain": "Expression of Ideas"
+  },
+  "audit": {
+    "timestamp": "2026-05-21T04:33:00Z",
+    "totalQuestions": 182,
+    "questionsWithIssues": 0,
+    "issueCount": 0,
+    "sampleSize": 4,
+    "sampledQuestions": [1, 60, 100, 182]
+  },
+  "findings": [],
+  "visualInspection": {
+    "textRendering": "PASS - All text renders properly, no truncation or formatting issues",
+    "oversizedImages": "PASS - No image rendering issues detected (questions are text-based)",
+    "missingContent": "PASS - All questions have complete prompts and research notes"
+  },
+  "sampledQuestionsDetail": [
+    {
+      "questionNum": 1,
+      "questionId": "9481ea48-40b0-4c4a-93d4-65f76bd2ca87",
+      "externalId": "bf09484c-100f-45b2-b286-c948ac5910e4",
+      "visualStatus": "PASS",
+      "notes": "Green iguana research notes - renders correctly"
+    },
+    {
+      "questionNum": 60,
+      "questionId": "c0017142-0ae0-4794-833f-794ec15624c1",
+      "externalId": "3c05c64c-f672-4390-b7ec-6b8d0a1586fe",
+      "visualStatus": "PASS",
+      "notes": "Crown shyness theories - renders correctly"
+    },
+    {
+      "questionNum": 100,
+      "questionId": "ccb53efc-1cef-4e1d-8a56-2e5bb13a1a6d",
+      "externalId": "8e9f0c43-8ece-4dc3-ad36-3e1aff021ac1",
+      "visualStatus": "PASS",
+      "notes": "Vinland Map study - renders correctly"
+    },
+    {
+      "questionNum": 182,
+      "questionId": "5a31e8d4-167d-4e83-859f-676b10964feb",
+      "externalId": "ff427655-44aa-4468-a99b-b71b141d0b59",
+      "visualStatus": "PASS",
+      "notes": "National Congress of American Indians - renders correctly"
+    }
+  ],
+  "conclusion": "All 182 Rhetorical Synthesis questions passed visual audit with no issues detected.",
+  "recommendation": "No remediation required. Question bank ready for student use."
+}

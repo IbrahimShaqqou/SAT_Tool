@@ -1,0 +1,324 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - button [ref=e66] [cursor=pointer]:
+                - img [ref=e67]
+              - generic [ref=e69]:
+                - heading "Adaptive Practice" [level=1] [ref=e70]
+                - generic [ref=e71]:
+                  - generic [ref=e72]: Question 1
+                  - generic [ref=e73]: "|"
+                  - generic [ref=e74]: 0 correct
+            - generic [ref=e75]:
+              - button "Draw on question" [ref=e76] [cursor=pointer]:
+                - img [ref=e77]
+              - button "End Practice" [ref=e80] [cursor=pointer]
+              - button "Reference" [ref=e81] [cursor=pointer]:
+                - img [ref=e82]
+                - text: Reference
+              - button "Calculator" [ref=e85] [cursor=pointer]:
+                - img [ref=e86]
+                - text: Calculator
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - generic [ref=e92]: "1"
+              - button "Report" [ref=e93] [cursor=pointer]:
+                - generic [ref=e94]: Report
+            - generic [ref=e95]:
+              - paragraph [ref=e98]: A bag containing 10,000 beads of assorted colors is purchased from a craft store. To estimate the percent of red beads in the bag, a sample of beads is selected at random. The percent of red beads in the bag was estimated to be 15%, with an associated margin of error of 2%. If r is the actual number of red beads in the bag, which of the following is most plausible?
+              - generic [ref=e99]:
+                - button "A" [ref=e100] [cursor=pointer]:
+                  - generic [ref=e101]: A
+                  - paragraph [ref=e103]:
+                    - generic [ref=e106]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: r
+                          - generic:
+                            - generic: ">"
+                          - generic:
+                            - generic: "1"
+                          - generic:
+                            - generic: "7"
+                            - generic: "0"
+                            - generic: "0"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: r
+                              - generic:
+                                - generic: ">"
+                              - generic:
+                                - generic: "1"
+                              - generic:
+                                - generic: "7"
+                                - generic: "0"
+                                - generic: "0"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: r
+                                  - generic:
+                                    - generic: ">"
+                                  - generic:
+                                    - generic: "1"
+                                  - generic:
+                                    - generic: "7"
+                                    - generic: "0"
+                                    - generic: "0"
+                                - generic:
+                                  - math:
+                                    - generic: r
+                                    - generic: ">"
+                                    - generic: "1"
+                                    - generic: "700"
+                - button "B" [ref=e107] [cursor=pointer]:
+                  - generic [ref=e108]: B
+                  - paragraph [ref=e110]:
+                    - generic [ref=e113]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "1"
+                          - generic:
+                            - generic: "3"
+                            - generic: "0"
+                            - generic: "0"
+                          - generic:
+                            - generic: <
+                          - generic:
+                            - generic: r
+                          - generic:
+                            - generic: <
+                          - generic:
+                            - generic: "1"
+                          - generic:
+                            - generic: "7"
+                            - generic: "0"
+                            - generic: "0"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: "1"
+                              - generic:
+                                - generic: "3"
+                                - generic: "0"
+                                - generic: "0"
+                              - generic:
+                                - generic: <
+                              - generic:
+                                - generic: r
+                              - generic:
+                                - generic: <
+                              - generic:
+                                - generic: "1"
+                              - generic:
+                                - generic: "7"
+                                - generic: "0"
+                                - generic: "0"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: "1"
+                                  - generic:
+                                    - generic: "3"
+                                    - generic: "0"
+                                    - generic: "0"
+                                  - generic:
+                                    - generic: <
+                                  - generic:
+                                    - generic: r
+                                  - generic:
+                                    - generic: <
+                                  - generic:
+                                    - generic: "1"
+                                  - generic:
+                                    - generic: "7"
+                                    - generic: "0"
+                                    - generic: "0"
+                                - generic:
+                                  - math:
+                                    - generic: "1"
+                                    - generic: "300"
+                                    - generic: <
+                                    - generic: r
+                                    - generic: <
+                                    - generic: "1"
+                                    - generic: "700"
+                - button "C" [ref=e114] [cursor=pointer]:
+                  - generic [ref=e115]: C
+                  - paragraph [ref=e117]:
+                    - generic [ref=e120]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "2"
+                            - generic: "0"
+                            - generic: "0"
+                          - generic:
+                            - generic: <
+                          - generic:
+                            - generic: r
+                          - generic:
+                            - generic: <
+                          - generic:
+                            - generic: "1"
+                          - generic:
+                            - generic: "5"
+                            - generic: "0"
+                            - generic: "0"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: "2"
+                                - generic: "0"
+                                - generic: "0"
+                              - generic:
+                                - generic: <
+                              - generic:
+                                - generic: r
+                              - generic:
+                                - generic: <
+                              - generic:
+                                - generic: "1"
+                              - generic:
+                                - generic: "5"
+                                - generic: "0"
+                                - generic: "0"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: "2"
+                                    - generic: "0"
+                                    - generic: "0"
+                                  - generic:
+                                    - generic: <
+                                  - generic:
+                                    - generic: r
+                                  - generic:
+                                    - generic: <
+                                  - generic:
+                                    - generic: "1"
+                                  - generic:
+                                    - generic: "5"
+                                    - generic: "0"
+                                    - generic: "0"
+                                - generic:
+                                  - math:
+                                    - generic: "200"
+                                    - generic: <
+                                    - generic: r
+                                    - generic: <
+                                    - generic: "1"
+                                    - generic: "500"
+                - button "D" [active] [ref=e121] [cursor=pointer]:
+                  - generic [ref=e122]: D
+                  - paragraph [ref=e124]:
+                    - generic [ref=e127]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: r
+                          - generic:
+                            - generic: <
+                          - generic:
+                            - generic: "1"
+                          - generic:
+                            - generic: "3"
+                            - generic: "0"
+                            - generic: "0"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: r
+                              - generic:
+                                - generic: <
+                              - generic:
+                                - generic: "1"
+                              - generic:
+                                - generic: "3"
+                                - generic: "0"
+                                - generic: "0"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: r
+                                  - generic:
+                                    - generic: <
+                                  - generic:
+                                    - generic: "1"
+                                  - generic:
+                                    - generic: "3"
+                                    - generic: "0"
+                                    - generic: "0"
+                                - generic:
+                                  - math:
+                                    - generic: r
+                                    - generic: <
+                                    - generic: "1"
+                                    - generic: "300"
+          - generic [ref=e128]:
+            - generic [ref=e130]: Question 1(unlimited)
+            - button "Check Answer" [ref=e132] [cursor=pointer]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e133]
+  - paragraph [ref=e134]

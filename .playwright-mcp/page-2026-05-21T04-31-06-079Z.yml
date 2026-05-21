@@ -1,0 +1,25 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "FSS Question 150 of 177" [level=1] [ref=e3]
+    - paragraph [ref=e4]:
+      - strong [ref=e5]: "Question ID:"
+      - text: b85c19ed
+    - paragraph [ref=e6]:
+      - strong [ref=e7]: "UID:"
+      - text: d7281b2e-b5ad-4914-ab0b-65e47edb5e13
+    - paragraph [ref=e8]:
+      - strong [ref=e9]: "Skill:"
+      - text: Form, Structure, and Sense (FSS)
+  - generic [ref=e11]:
+    - heading "Question" [level=2] [ref=e12]
+    - paragraph [ref=e14]: The violins handmade in the seventeenth century by Italian craftsman Antonio Stradivari have been celebrated as some of the finest in the world. In close collaboration with musicians, Stradivari introduced changes to the shape of a traditional violin, flattening some of the instrument’s curves and making ______blank lighter overall.
+    - paragraph [ref=e16]: Which choice completes the text so that it conforms to the conventions of Standard English?
+    - list [ref=e17]:
+      - listitem [ref=e18]:
+        - paragraph [ref=e19]: those
+      - listitem [ref=e20]:
+        - paragraph [ref=e21]: one
+      - listitem [ref=e22]:
+        - paragraph [ref=e23]: them
+      - listitem [ref=e24]:
+        - paragraph [ref=e25]: it

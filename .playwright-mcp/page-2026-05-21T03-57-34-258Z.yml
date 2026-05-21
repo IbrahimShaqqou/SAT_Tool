@@ -1,0 +1,95 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - button [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+              - generic [ref=e189]:
+                - heading "Adaptive Practice" [level=1] [ref=e190]
+                - generic [ref=e191]:
+                  - generic [ref=e192]: Question 1
+                  - generic [ref=e193]: "|"
+                  - generic [ref=e194]: 0 correct
+            - generic [ref=e195]:
+              - button "Draw on question" [ref=e196] [cursor=pointer]:
+                - img [ref=e197]
+              - button "End Practice" [ref=e200] [cursor=pointer]
+              - button "Calculator" [ref=e201] [cursor=pointer]:
+                - img [ref=e202]
+                - text: Calculator
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - generic [ref=e208]: "1"
+              - button "Report" [ref=e209] [cursor=pointer]:
+                - generic [ref=e210]: Report
+            - generic [ref=e211]:
+              - paragraph [ref=e214]:
+                - text: On a 210-mile trip, Cameron drove at an average speed of 60 miles per hour for the first x hours. He then completed the trip, driving at an average speed of 50 miles per hour for the remaining y hours. If
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - generic [ref=e221]: x
+                    - generic [ref=e223]: =
+                    - generic [ref=e225]: "1"
+                  - math [ref=e227]:
+                    - generic [ref=e228]: x
+                    - generic [ref=e229]: =
+                    - generic [ref=e230]: "1"
+                - text: ", what is the value of y ?"
+              - generic [ref=e231]:
+                - textbox "Your answer" [active] [ref=e233]
+                - paragraph [ref=e234]: Enter a number, fraction (3/4), or decimal (0.75)
+          - generic [ref=e235]:
+            - generic [ref=e237]: Question 1(unlimited)
+            - button "Check Answer" [disabled] [ref=e239]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e240]
+  - paragraph [ref=e241]

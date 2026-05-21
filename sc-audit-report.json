@@ -1,0 +1,15 @@
+{
+  "skill": "S.C. - Right triangles and trigonometry",
+  "skillCode": "S.C.",
+  "totalQuestionsChecked": 541,
+  "questionsWithIssues": 1,
+  "auditDate": "2026-05-21T04:31:13.392Z",
+  "issues": [
+    {
+      "questionNumber": 50,
+      "issues": [
+        "Only 3/4 answer choices visible"
+      ]
+    }
+  ]
+}

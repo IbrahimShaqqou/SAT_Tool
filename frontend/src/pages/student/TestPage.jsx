@@ -556,7 +556,7 @@ const TestPage = () => {
   const isCurrentMarked = markedForReview.has(questionId);
   const answeredCount = Object.keys(answers).length;
   const currentChecked = checkedAnswers[questionId];
-  const isAnswered = currentAnswer !== undefined;
+  const isAnswered = currentAnswer !== undefined && currentAnswer !== '' && currentAnswer !== null;
 
   // Question panel content (without bottom nav - that's now fixed to viewport)
   // For split pane (with passage), use scrollable container

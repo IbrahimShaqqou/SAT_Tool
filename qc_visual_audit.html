@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q.C. Skill Visual Audit</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .question-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question-header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .question-id {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .question-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .difficulty-E { background: #d4edda; color: #155724; }
+        .difficulty-M { background: #fff3cd; color: #856404; }
+        .difficulty-H { background: #f8d7da; color: #721c24; }
+        .question-content {
+            line-height: 1.6;
+        }
+        .question-content img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .question-content svg {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+        .issue-alert {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-top: 15px;
+            color: #856404;
+        }
+        .issue-alert strong {
+            color: #721c24;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .summary {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Q.C. Skill Visual Audit</h1>
+    <div class="summary">
+        <strong>Skill:</strong> Q.C. - One-variable data: Distributions and measures of center and spread<br>
+        <strong>Total Questions:</strong> 73<br>
+        <strong>Questions with Potential Issues:</strong> <span id="issue-count">Loading...</span>
+    </div>
+
+    <div id="questions-container">
+        <div class="loading">Loading questions...</div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/v1';
+        const FLAGGED_QUESTIONS = [
+            "020fe564-4e2f-41e6-a886-6a704fb0d258",
+            "82ee7203-4faf-4fa3-8853-307fa17ecc1a",
+            "710266ae-b2e0-42cd-92af-53cc32e02d1a",
+            "f66a9be8-cfd4-4865-9e3f-5dc01e47b24b"
+        ];
+
+        async function fetchQuestion(questionId) {
+            const response = await fetch(`${API_BASE}/questions/${questionId}`);
+            if (!response.ok) throw new Error(`Failed to fetch question ${questionId}`);
+            return response.json();
+        }
+
+        function analyzeIssues(question) {
+            const issues = [];
+            const html = question.prompt_html || '';
+
+            // Check for oversized images/SVGs
+            const svgMatch = html.match(/width="(\d+)"|height="(\d+)"/g);
+            if (svgMatch) {
+                svgMatch.forEach(match => {
+                    const size = parseInt(match.match(/\d+/)[0]);
+                    if (size > 800) {
+                        issues.push(`Large dimension detected: ${match}`);
+                    }
+                });
+            }
+
+            // Check for images without dimensions
+            if (html.includes('<img') && !html.match(/<img[^>]*width=/)) {
+                issues.push('Image found without width attribute');
+            }
+
+            // Check for unclosed tags
+            const mathOpen = (html.match(/<math/g) || []).length;
+            const mathClose = (html.match(/<\/math>/g) || []).length;
+            if (mathOpen !== mathClose) {
+                issues.push(`Unclosed <math> tags: ${mathOpen} open, ${mathClose} close`);
+            }
+
+            // Check for empty content
+            if (!html || html.trim().length < 10) {
+                issues.push('Empty or very short prompt content');
+            }
+
+            return issues;
+        }
+
+        function renderQuestion(question, index) {
+            const issues = analyzeIssues(question);
+            const difficultyMap = { E: 'Easy', M: 'Medium', H: 'Hard' };
+
+            return `
+                <div class="question-card">
+                    <div class="question-header">
+                        <div><strong>Question ${index + 1} of ${FLAGGED_QUESTIONS.length}</strong></div>
+                        <div class="question-id">ID: ${question.id}</div>
+                        <div class="question-meta">
+                            <span class="badge difficulty-${question.difficulty}">
+                                ${difficultyMap[question.difficulty] || question.difficulty}
+                            </span>
+                            <span class="badge" style="background: #e9ecef; color: #495057;">
+                                ${question.answer_type}
+                            </span>
+                        </div>
+                    </div>
+
+                    ${issues.length > 0 ? `
+                        <div class="issue-alert">
+                            <strong>⚠️ Detected Issues:</strong>
+                            <ul style="margin: 5px 0 0 20px;">
+                                ${issues.map(issue => `<li>${issue}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    <div class="question-content">
+                        ${question.prompt_html || '<em>No prompt content</em>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadAllQuestions() {
+            const container = document.getElementById('questions-container');
+            const issueCountEl = document.getElementById('issue-count');
+
+            try {
+                container.innerHTML = '<div class="loading">Fetching questions...</div>';
+
+                const questions = await Promise.all(
+                    FLAGGED_QUESTIONS.map(id => fetchQuestion(id))
+                );
+
+                const html = questions.map((q, i) => renderQuestion(q, i)).join('');
+                container.innerHTML = html;
+
+                issueCountEl.textContent = FLAGGED_QUESTIONS.length;
+
+                // Trigger MathJax rendering if needed
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="question-card" style="background: #f8d7da; border-color: #f5c6cb;">
+                        <strong>Error loading questions:</strong><br>
+                        ${error.message}<br><br>
+                        <em>Make sure the backend server is running on http://localhost:8000</em>
+                    </div>
+                `;
+                console.error('Error:', error);
+            }
+        }
+
+        // Load questions when page loads
+        loadAllQuestions();
+    </script>
+</body>
+</html>

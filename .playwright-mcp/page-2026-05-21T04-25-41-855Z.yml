@@ -1,0 +1,38 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e8]: Z
+    - navigation [ref=e9]:
+      - generic [ref=e10]:
+        - link "Dashboard" [ref=e11] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e12]
+        - link "Study Plan" [ref=e17] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e18]
+        - link "Diagnostic" [ref=e21] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e22]
+        - link "My Assignments" [ref=e26] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e27]
+      - generic [ref=e30]:
+        - link "Question Bank" [ref=e32] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e33]
+        - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e37]
+        - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e41]
+      - link "My Progress" [ref=e46] [cursor=pointer]:
+        - /url: /student/progress
+        - img [ref=e47]
+  - generic [ref=e50]:
+    - banner [ref=e51]:
+      - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+        - generic "Test Student" [ref=e54]: TS
+        - generic [ref=e55]: Test Student
+        - img [ref=e56]
+    - main [ref=e58]:
+      - img [ref=e61]

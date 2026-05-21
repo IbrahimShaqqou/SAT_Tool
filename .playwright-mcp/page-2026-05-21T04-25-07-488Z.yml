@@ -1,0 +1,95 @@
+- generic [ref=e9]:
+  - complementary [ref=e10]:
+    - generic [ref=e14]: Z
+    - navigation [ref=e15]:
+      - generic [ref=e16]:
+        - link "Dashboard" [ref=e17] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e18]
+        - link "Study Plan" [ref=e23] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e24]
+        - link "Diagnostic" [ref=e27] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e28]
+        - link "My Assignments" [ref=e32] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e33]
+      - generic [ref=e36]:
+        - link "Question Bank" [ref=e38] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e39]
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+        - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e47]
+      - link "My Progress" [ref=e52] [cursor=pointer]:
+        - /url: /student/progress
+        - img [ref=e53]
+  - generic [ref=e56]:
+    - banner [ref=e57]:
+      - button "Test Student Test Student" [ref=e59] [cursor=pointer]:
+        - generic "Test Student" [ref=e60]: TS
+        - generic [ref=e61]: Test Student
+        - img [ref=e62]
+    - main [ref=e64]:
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - heading "Question Bank" [level=1] [ref=e67]
+          - paragraph [ref=e68]: Browse questions by domain and skill
+        - generic [ref=e69]:
+          - generic [ref=e71]:
+            - img [ref=e73]
+            - generic [ref=e75]:
+              - heading "Math" [level=3] [ref=e76]
+              - paragraph [ref=e77]: 1681 questions
+          - generic [ref=e79]:
+            - button "Heart of Algebra 561 questions" [ref=e81] [cursor=pointer]:
+              - generic [ref=e82]:
+                - img [ref=e83]
+                - generic [ref=e85]: Heart of Algebra
+              - generic [ref=e86]: 561 questions
+            - button "Problem Solving and Data Analysis 477 questions" [ref=e88] [cursor=pointer]:
+              - generic [ref=e89]:
+                - img [ref=e90]
+                - generic [ref=e92]: Problem Solving and Data Analysis
+              - generic [ref=e93]: 477 questions
+            - button "Passport to Advanced Math 374 questions" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]:
+                - img [ref=e97]
+                - generic [ref=e99]: Passport to Advanced Math
+              - generic [ref=e100]: 374 questions
+            - button "Additional Topics in Math 269 questions" [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]:
+                - img [ref=e104]
+                - generic [ref=e106]: Additional Topics in Math
+              - generic [ref=e107]: 269 questions
+        - generic [ref=e108]:
+          - generic [ref=e110]:
+            - img [ref=e112]
+            - generic [ref=e114]:
+              - heading "Reading & Writing" [level=3] [ref=e115]
+              - paragraph [ref=e116]: 1590 questions
+          - generic [ref=e118]:
+            - button "Information and Ideas 478 questions" [ref=e120] [cursor=pointer]:
+              - generic [ref=e121]:
+                - img [ref=e122]
+                - generic [ref=e124]: Information and Ideas
+              - generic [ref=e125]: 478 questions
+            - button "Craft and Structure 412 questions" [active] [ref=e127] [cursor=pointer]:
+              - generic [ref=e128]:
+                - img [ref=e169]
+                - generic [ref=e131]: Craft and Structure
+              - generic [ref=e132]: 412 questions
+            - button "Expression of Ideas 343 questions" [ref=e134] [cursor=pointer]:
+              - generic [ref=e135]:
+                - img [ref=e136]
+                - generic [ref=e138]: Expression of Ideas
+              - generic [ref=e139]: 343 questions
+            - button "Standard English Conventions 357 questions" [ref=e141] [cursor=pointer]:
+              - generic [ref=e142]:
+                - img [ref=e143]
+                - generic [ref=e145]: Standard English Conventions
+              - generic [ref=e146]: 357 questions

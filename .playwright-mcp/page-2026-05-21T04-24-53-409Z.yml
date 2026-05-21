@@ -1,0 +1,177 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e193]:
+            - generic [ref=e194]:
+              - button [ref=e195] [cursor=pointer]:
+                - img [ref=e196]
+              - generic [ref=e198]:
+                - text: Lines, angles, and triangles
+                - generic [ref=e199]: (Additional Topics in Math)
+            - generic [ref=e200]:
+              - generic [ref=e201]: Question
+              - generic [ref=e202]: 1 of 79
+            - generic [ref=e203]:
+              - button "Draw on question" [ref=e204] [cursor=pointer]:
+                - img [ref=e205]
+              - button "Reference Sheet" [ref=e208] [cursor=pointer]:
+                - img [ref=e209]
+              - button "Calculator" [ref=e212] [cursor=pointer]:
+                - img [ref=e213]
+          - generic [ref=e218]:
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e221]:
+                  - generic [ref=e222]: "1"
+                  - button "Mark for Review" [ref=e223] [cursor=pointer]:
+                    - img [ref=e224]
+                    - generic [ref=e226]: Mark for Review
+                - button "Report" [ref=e227] [cursor=pointer]:
+                  - img [ref=e228]
+                  - generic [ref=e230]: Report
+              - generic [ref=e233]:
+                - paragraph
+                - figure [ref=e234]:
+                  - img "A diagram of 4 lines and 1 line segment. Refer to long description." [ref=e235]
+                  - region "Long description for diagram of 4 lines and 1 line segment" [ref=e279]
+                - paragraph [ref=e280]:
+                  - text: In the figure, parallel lines
+                  - generic [ref=e281]:
+                    - generic [ref=e284]: q
+                    - generic [ref=e286]:
+                      - generic [ref=e289]: q
+                      - math [ref=e291]:
+                        - generic [ref=e292]: q
+                  - text: and
+                  - generic [ref=e293]:
+                    - generic [ref=e296]: t
+                    - generic [ref=e298]:
+                      - generic [ref=e301]: t
+                      - math [ref=e303]:
+                        - generic [ref=e304]: t
+                  - text: are intersected by lines
+                  - generic [ref=e305]:
+                    - generic [ref=e308]: r
+                    - generic [ref=e310]:
+                      - generic [ref=e313]: r
+                      - math [ref=e315]:
+                        - generic [ref=e316]: r
+                  - text: and
+                  - generic [ref=e317]:
+                    - generic [ref=e320]: s
+                    - generic [ref=e322]:
+                      - generic [ref=e325]: s
+                      - math [ref=e327]:
+                        - generic [ref=e328]: s
+                  - text: . If
+                  - generic [ref=e329]:
+                    - generic [ref=e331]:
+                      - generic [ref=e333]: a
+                      - generic [ref=e335]: =
+                      - generic [ref=e336]:
+                        - generic [ref=e337]: "4"
+                        - generic [ref=e338]: "3"
+                    - generic [ref=e340]:
+                      - generic [ref=e342]:
+                        - generic [ref=e344]: a
+                        - generic [ref=e346]: =
+                        - generic [ref=e347]:
+                          - generic [ref=e348]: "4"
+                          - generic [ref=e349]: "3"
+                      - math [ref=e351]:
+                        - generic [ref=e352]:
+                          - generic [ref=e353]: a
+                          - generic [ref=e354]: =
+                          - generic [ref=e355]: "43"
+                  - text: and
+                  - generic [ref=e356]:
+                    - generic [ref=e358]:
+                      - generic [ref=e360]: b
+                      - generic [ref=e362]: =
+                      - generic [ref=e363]:
+                        - generic [ref=e364]: "1"
+                        - generic [ref=e365]: "2"
+                        - generic [ref=e366]: "2"
+                    - generic [ref=e368]:
+                      - generic [ref=e370]:
+                        - generic [ref=e372]: b
+                        - generic [ref=e374]: =
+                        - generic [ref=e375]:
+                          - generic [ref=e376]: "1"
+                          - generic [ref=e377]: "2"
+                          - generic [ref=e378]: "2"
+                      - math [ref=e380]:
+                        - generic [ref=e381]:
+                          - generic [ref=e382]: b
+                          - generic [ref=e383]: =
+                          - generic [ref=e384]: "122"
+                  - text: ", what is the value of"
+                  - generic [ref=e385]:
+                    - generic [ref=e388]: w
+                    - generic [ref=e390]:
+                      - generic [ref=e393]: w
+                      - math [ref=e395]:
+                        - generic [ref=e396]: w
+                  - text: "?"
+            - generic [ref=e398]:
+              - textbox "Your answer" [ref=e400]
+              - paragraph [ref=e401]: Enter a number, fraction (3/4), or decimal (0.75)
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e402]:
+            - button "Previous" [disabled] [ref=e403]
+            - button "1 / 79" [ref=e404] [cursor=pointer]:
+              - generic [ref=e405]: "1"
+              - generic [ref=e406]: /
+              - generic [ref=e407]: "79"
+              - img [ref=e408]
+            - button "Next" [ref=e411] [cursor=pointer]
+  - paragraph [ref=e412]
+  - paragraph [ref=e413]

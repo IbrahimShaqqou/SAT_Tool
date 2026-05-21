@@ -1,0 +1,303 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - button [ref=e66] [cursor=pointer]:
+                - img [ref=e67]
+              - generic [ref=e69]:
+                - heading "Adaptive Practice" [level=1] [ref=e70]
+                - generic [ref=e71]:
+                  - generic [ref=e72]: Question 1
+                  - generic [ref=e73]: "|"
+                  - generic [ref=e74]: 0 correct
+            - generic [ref=e75]:
+              - button "Draw on question" [ref=e76] [cursor=pointer]:
+                - img [ref=e77]
+              - button "End Practice" [ref=e80] [cursor=pointer]
+              - button "Calculator" [ref=e81] [cursor=pointer]:
+                - img [ref=e82]
+                - text: Calculator
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - generic [ref=e88]: "1"
+              - button "Report" [ref=e89] [cursor=pointer]:
+                - generic [ref=e90]: Report
+            - img "The figure presents the graph of a line in the coordinate plane. The horizontal m-axis is labeled “Time, in minutes,” and the numbers 0 through 7 are indicated. The vertical d-axis is labeled “Distance traveled, in feet,” and the numbers 0 through 7 are indicated. The line passes through the points with coordinates 1 comma 2 and 3 comma 6." [ref=e96]
+            - generic [ref=e97]:
+              - generic [ref=e99]:
+                - img "The figure presents the graph of a line in the coordinate plane. The horizontal m-axis is labeled “Time, in minutes,” and the numbers 0 through 7 are indicated. The vertical d-axis is labeled “Distance traveled, in feet,” and the numbers 0 through 7 are indicated. The line passes through the points with coordinates 1 comma 2 and 3 comma 6." [ref=e102]
+                - paragraph [ref=e103]: The graph above shows the distance traveled d, in feet, by a product on a conveyor belt m minutes after the product is placed on the belt. Which of the following equations correctly relates d and m ?
+              - generic [ref=e104]:
+                - button "A" [ref=e105] [cursor=pointer]:
+                  - generic [ref=e106]: A
+                  - paragraph [ref=e108]:
+                    - generic [ref=e111]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: d
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: "2"
+                          - generic:
+                            - generic: m
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: d
+                              - generic:
+                                - generic: =
+                              - generic:
+                                - generic: "2"
+                              - generic:
+                                - generic: m
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: d
+                                  - generic:
+                                    - generic: =
+                                  - generic:
+                                    - generic: "2"
+                                  - generic:
+                                    - generic: m
+                                - generic:
+                                  - math:
+                                    - generic: d
+                                    - generic: =
+                                    - generic: "2"
+                                    - generic: m
+                - button "B" [ref=e112] [cursor=pointer]:
+                  - generic [ref=e113]: B
+                  - paragraph [ref=e115]:
+                    - generic [ref=e118]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: d
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic: "1"
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: "2"
+                          - generic:
+                            - generic: m
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: d
+                              - generic:
+                                - generic: =
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic: "1"
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic: "2"
+                              - generic:
+                                - generic: m
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: d
+                                  - generic:
+                                    - generic: =
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic: "1"
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - generic:
+                                                - generic: "2"
+                                  - generic:
+                                    - generic: m
+                                - generic:
+                                  - math:
+                                    - generic: d
+                                    - generic: =
+                                    - generic:
+                                      - generic: "1"
+                                      - generic: "2"
+                                    - generic: m
+                - button "C" [ref=e119] [cursor=pointer]:
+                  - generic [ref=e120]: C
+                  - paragraph [ref=e122]:
+                    - generic [ref=e125]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: d
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: m
+                          - generic:
+                            - generic: +
+                          - generic:
+                            - generic: "2"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: d
+                              - generic:
+                                - generic: =
+                              - generic:
+                                - generic: m
+                              - generic:
+                                - generic: +
+                              - generic:
+                                - generic: "2"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: d
+                                  - generic:
+                                    - generic: =
+                                  - generic:
+                                    - generic: m
+                                  - generic:
+                                    - generic: +
+                                  - generic:
+                                    - generic: "2"
+                                - generic:
+                                  - math:
+                                    - generic: d
+                                    - generic: =
+                                    - generic: m
+                                    - generic: +
+                                    - generic: "2"
+                - button "D" [ref=e126] [cursor=pointer]:
+                  - generic [ref=e127]: D
+                  - paragraph [ref=e129]:
+                    - generic [ref=e132]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: d
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: "2"
+                          - generic:
+                            - generic: m
+                          - generic:
+                            - generic: +
+                          - generic:
+                            - generic: "2"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: d
+                              - generic:
+                                - generic: =
+                              - generic:
+                                - generic: "2"
+                              - generic:
+                                - generic: m
+                              - generic:
+                                - generic: +
+                              - generic:
+                                - generic: "2"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: d
+                                  - generic:
+                                    - generic: =
+                                  - generic:
+                                    - generic: "2"
+                                  - generic:
+                                    - generic: m
+                                  - generic:
+                                    - generic: +
+                                  - generic:
+                                    - generic: "2"
+                                - generic:
+                                  - math:
+                                    - generic: d
+                                    - generic: =
+                                    - generic: "2"
+                                    - generic: m
+                                    - generic: +
+                                    - generic: "2"
+          - generic [ref=e133]:
+            - generic [ref=e135]: Question 1(unlimited)
+            - button "Check Answer" [disabled] [ref=e137]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e138]
+  - paragraph [ref=e139]

@@ -1,0 +1,202 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - button [ref=e177] [cursor=pointer]:
+                - img [ref=e178]
+              - generic [ref=e180]:
+                - text: Linear equations in one variable
+                - generic [ref=e181]: (Heart of Algebra)
+            - generic [ref=e182]:
+              - generic [ref=e183]: Question
+              - generic [ref=e184]: 1 of 104
+            - generic [ref=e185]:
+              - button "Draw on question" [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+              - button "Reference Sheet" [ref=e190] [cursor=pointer]:
+                - img [ref=e191]
+              - button "Calculator" [ref=e194] [cursor=pointer]:
+                - img [ref=e195]
+          - generic [ref=e200]:
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]:
+                  - generic [ref=e204]: "1"
+                  - button "Mark for Review" [ref=e205] [cursor=pointer]:
+                    - img [ref=e206]
+                    - generic [ref=e208]: Mark for Review
+                - button "Report" [ref=e209] [cursor=pointer]:
+                  - img [ref=e210]
+                  - generic [ref=e212]: Report
+              - paragraph [ref=e216]:
+                - text: If
+                - generic [ref=e217]:
+                  - generic [ref=e219]:
+                    - generic [ref=e220]:
+                      - generic [ref=e222]: "5"
+                      - generic [ref=e224]: x
+                    - generic [ref=e226]: =
+                    - generic [ref=e227]:
+                      - generic [ref=e228]: "2"
+                      - generic [ref=e229]: "0"
+                  - generic [ref=e231]:
+                    - generic [ref=e233]:
+                      - generic [ref=e234]:
+                        - generic [ref=e236]: "5"
+                        - generic [ref=e238]: x
+                      - generic [ref=e240]: =
+                      - generic [ref=e241]:
+                        - generic [ref=e242]: "2"
+                        - generic [ref=e243]: "0"
+                    - math [ref=e245]:
+                      - generic [ref=e246]:
+                        - generic [ref=e247]:
+                          - generic [ref=e248]: "5"
+                          - generic [ref=e249]: x
+                        - generic [ref=e250]: =
+                        - generic [ref=e251]: "20"
+                - text: ", what is the value of"
+                - generic [ref=e252]:
+                  - generic [ref=e254]:
+                    - generic [ref=e255]:
+                      - generic [ref=e256]: "1"
+                      - generic [ref=e257]: "5"
+                    - generic [ref=e259]: x
+                  - generic [ref=e261]:
+                    - generic [ref=e263]:
+                      - generic [ref=e264]:
+                        - generic [ref=e265]: "1"
+                        - generic [ref=e266]: "5"
+                      - generic [ref=e268]: x
+                    - math [ref=e270]:
+                      - generic [ref=e271]:
+                        - generic [ref=e272]: "15"
+                        - generic [ref=e273]: x
+                - text: "?"
+            - generic [ref=e275]:
+              - button "A" [ref=e276] [cursor=pointer]:
+                - generic [ref=e277]: A
+                - paragraph [ref=e279]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: "7"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "7"
+                        - generic:
+                          - math:
+                            - generic: "7"
+              - button "B" [ref=e280] [cursor=pointer]:
+                - generic [ref=e281]: B
+                - paragraph [ref=e283]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: "1"
+                        - generic: "2"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "1"
+                            - generic: "2"
+                        - generic:
+                          - math:
+                            - generic: "12"
+              - button "C" [ref=e284] [cursor=pointer]:
+                - generic [ref=e285]: C
+                - paragraph [ref=e287]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: "2"
+                        - generic: "3"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "2"
+                            - generic: "3"
+                        - generic:
+                          - math:
+                            - generic: "23"
+              - button "D" [ref=e288] [cursor=pointer]:
+                - generic [ref=e289]: D
+                - paragraph [ref=e291]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: "6"
+                        - generic: "0"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "6"
+                            - generic: "0"
+                        - generic:
+                          - math:
+                            - generic: "60"
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e292]:
+            - button "Previous" [disabled] [ref=e293]
+            - button "1 / 104" [ref=e294] [cursor=pointer]:
+              - generic [ref=e295]: "1"
+              - generic [ref=e296]: /
+              - generic [ref=e297]: "104"
+              - img [ref=e298]
+            - button "Next" [ref=e301] [cursor=pointer]
+  - paragraph [ref=e302]
+  - paragraph [ref=e303]

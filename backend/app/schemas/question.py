@@ -46,8 +46,31 @@ class QuestionBrief(BaseModel):
     difficulty: Optional[DifficultyLevel] = None
     answer_type: AnswerType
     prompt_html: str
+    choices: Optional[List[ChoiceOption]] = None
 
     model_config = {"from_attributes": True}
+
+    @classmethod
+    def from_orm_with_choices(cls, question) -> "QuestionBrief":
+        """Create from ORM object, transforming choices_json to choices list."""
+        choices = None
+        if question.choices_json:
+            choices = [
+                ChoiceOption(index=i, content=c)
+                for i, c in enumerate(question.choices_json)
+            ]
+
+        return cls(
+            id=question.id,
+            external_id=question.external_id,
+            subject_area=question.subject_area,
+            domain=DomainBrief.model_validate(question.domain) if question.domain else None,
+            skill=SkillBrief.model_validate(question.skill) if question.skill else None,
+            difficulty=question.difficulty,
+            answer_type=question.answer_type,
+            prompt_html=question.prompt_html,
+            choices=choices,
+        )
 
 
 class QuestionDetail(BaseModel):

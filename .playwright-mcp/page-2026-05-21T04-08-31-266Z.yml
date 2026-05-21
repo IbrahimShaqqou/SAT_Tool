@@ -1,0 +1,532 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - button [ref=e143] [cursor=pointer]:
+                - img [ref=e144]
+              - generic [ref=e146]:
+                - text: Nonlinear functions
+                - generic [ref=e147]: (Problem Solving and Data Analysis)
+            - generic [ref=e148]:
+              - generic [ref=e149]: Question
+              - generic [ref=e150]: 1 of 227
+            - generic [ref=e151]:
+              - button "Draw on question" [ref=e152] [cursor=pointer]:
+                - img [ref=e153]
+              - button "Reference Sheet" [ref=e156] [cursor=pointer]:
+                - img [ref=e157]
+              - button "Calculator" [ref=e160] [cursor=pointer]:
+                - img [ref=e161]
+          - generic [ref=e166]:
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]:
+                  - generic [ref=e170]: "1"
+                  - button "Mark for Review" [ref=e171] [cursor=pointer]:
+                    - img [ref=e172]
+                    - generic [ref=e174]: Mark for Review
+                - button "Report" [ref=e175] [cursor=pointer]:
+                  - img [ref=e176]
+                  - generic [ref=e178]: Report
+              - paragraph [ref=e182]:
+                - text: A function
+                - generic [ref=e183]:
+                  - generic [ref=e186]: p
+                  - generic [ref=e188]:
+                    - generic [ref=e191]: p
+                    - math [ref=e193]:
+                      - generic [ref=e194]: p
+                - text: estimates that there were
+                - generic [ref=e195]:
+                  - generic [ref=e197]:
+                    - generic [ref=e198]: "2"
+                    - generic [ref=e199]: ","
+                    - generic [ref=e200]: "0"
+                    - generic [ref=e201]: "0"
+                    - generic [ref=e202]: "0"
+                  - generic [ref=e204]:
+                    - generic [ref=e206]:
+                      - generic [ref=e207]: "2"
+                      - generic [ref=e208]: ","
+                      - generic [ref=e209]: "0"
+                      - generic [ref=e210]: "0"
+                      - generic [ref=e211]: "0"
+                    - math [ref=e213]:
+                      - generic [ref=e214]: 2,000
+                - text: animals in a population in
+                - generic [ref=e215]:
+                  - generic [ref=e217]:
+                    - generic [ref=e218]: "1"
+                    - generic [ref=e219]: "9"
+                    - generic [ref=e220]: "9"
+                    - generic [ref=e221]: "8"
+                  - generic [ref=e223]:
+                    - generic [ref=e225]:
+                      - generic [ref=e226]: "1"
+                      - generic [ref=e227]: "9"
+                      - generic [ref=e228]: "9"
+                      - generic [ref=e229]: "8"
+                    - math [ref=e231]:
+                      - generic [ref=e232]: "1998"
+                - text: . Each year from
+                - generic [ref=e233]:
+                  - generic [ref=e235]:
+                    - generic [ref=e236]: "1"
+                    - generic [ref=e237]: "9"
+                    - generic [ref=e238]: "9"
+                    - generic [ref=e239]: "8"
+                  - generic [ref=e241]:
+                    - generic [ref=e243]:
+                      - generic [ref=e244]: "1"
+                      - generic [ref=e245]: "9"
+                      - generic [ref=e246]: "9"
+                      - generic [ref=e247]: "8"
+                    - math [ref=e249]:
+                      - generic [ref=e250]: "1998"
+                - text: to
+                - generic [ref=e251]:
+                  - generic [ref=e253]:
+                    - generic [ref=e254]: "2"
+                    - generic [ref=e255]: "0"
+                    - generic [ref=e256]: "1"
+                    - generic [ref=e257]: "0"
+                  - generic [ref=e259]:
+                    - generic [ref=e261]:
+                      - generic [ref=e262]: "2"
+                      - generic [ref=e263]: "0"
+                      - generic [ref=e264]: "1"
+                      - generic [ref=e265]: "0"
+                    - math [ref=e267]:
+                      - generic [ref=e268]: "2010"
+                - text: ", the function estimates that the number of animals in this population increased by"
+                - generic [ref=e269]:
+                  - generic [ref=e270]:
+                    - generic [ref=e272]: "3"
+                    - generic [ref=e274]: "%"
+                  - generic [ref=e276]:
+                    - generic [ref=e277]:
+                      - generic [ref=e279]: "3"
+                      - generic [ref=e281]: "%"
+                    - math [ref=e283]:
+                      - generic [ref=e284]: "3"
+                      - generic [ref=e285]: "%"
+                - text: of the number of animals in the population the previous year. Which equation defines this function, where
+                - generic [ref=e286]:
+                  - generic [ref=e287]:
+                    - generic [ref=e289]: p
+                    - generic [ref=e290]:
+                      - generic [ref=e292]: (
+                      - generic [ref=e294]: x
+                      - generic [ref=e296]: )
+                  - generic [ref=e298]:
+                    - generic [ref=e299]:
+                      - generic [ref=e301]: p
+                      - generic [ref=e302]:
+                        - generic [ref=e304]: (
+                        - generic [ref=e306]: x
+                        - generic [ref=e308]: )
+                    - math [ref=e310]:
+                      - generic [ref=e311]: p
+                      - generic [ref=e313]: x
+                - text: is the estimated number of animals in the population
+                - generic [ref=e314]:
+                  - generic [ref=e317]: x
+                  - generic [ref=e319]:
+                    - generic [ref=e322]: x
+                    - math [ref=e324]:
+                      - generic [ref=e325]: x
+                - text: years after
+                - generic [ref=e326]:
+                  - generic [ref=e328]:
+                    - generic [ref=e329]: "1"
+                    - generic [ref=e330]: "9"
+                    - generic [ref=e331]: "9"
+                    - generic [ref=e332]: "8"
+                  - generic [ref=e334]:
+                    - generic [ref=e336]:
+                      - generic [ref=e337]: "1"
+                      - generic [ref=e338]: "9"
+                      - generic [ref=e339]: "9"
+                      - generic [ref=e340]: "8"
+                    - math [ref=e342]:
+                      - generic [ref=e343]: "1998"
+                - text: "?"
+            - generic [ref=e345]:
+              - button "A" [ref=e346] [cursor=pointer]:
+                - generic [ref=e347]: A
+                - paragraph [ref=e349]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: p
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic: x
+                        - generic:
+                          - generic: )
+                      - generic:
+                        - generic: =
+                      - generic:
+                        - generic: "2"
+                        - generic: ","
+                        - generic: "0"
+                        - generic: "0"
+                        - generic: "0"
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: (
+                          - generic:
+                            - generic: "3"
+                          - generic:
+                            - generic: )
+                        - generic:
+                          - generic:
+                            - generic: x
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: p
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic: x
+                            - generic:
+                              - generic: )
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: "2"
+                            - generic: ","
+                            - generic: "0"
+                            - generic: "0"
+                            - generic: "0"
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: (
+                              - generic:
+                                - generic: "3"
+                              - generic:
+                                - generic: )
+                            - generic:
+                              - generic:
+                                - generic: x
+                        - generic:
+                          - math:
+                            - generic: p
+                            - generic:
+                              - generic: x
+                            - generic: =
+                            - generic: 2,000
+                            - generic:
+                              - generic:
+                                - generic: "3"
+                              - generic: x
+              - button "B" [ref=e350] [cursor=pointer]:
+                - generic [ref=e351]: B
+                - paragraph [ref=e353]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: p
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic: x
+                        - generic:
+                          - generic: )
+                      - generic:
+                        - generic: =
+                      - generic:
+                        - generic: "2"
+                        - generic: ","
+                        - generic: "0"
+                        - generic: "0"
+                        - generic: "0"
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: (
+                          - generic:
+                            - generic: "1"
+                            - generic: .
+                            - generic: "9"
+                            - generic: "7"
+                          - generic:
+                            - generic: )
+                        - generic:
+                          - generic:
+                            - generic: x
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: p
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic: x
+                            - generic:
+                              - generic: )
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: "2"
+                            - generic: ","
+                            - generic: "0"
+                            - generic: "0"
+                            - generic: "0"
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: (
+                              - generic:
+                                - generic: "1"
+                                - generic: .
+                                - generic: "9"
+                                - generic: "7"
+                              - generic:
+                                - generic: )
+                            - generic:
+                              - generic:
+                                - generic: x
+                        - generic:
+                          - math:
+                            - generic: p
+                            - generic:
+                              - generic: x
+                            - generic: =
+                            - generic: 2,000
+                            - generic:
+                              - generic:
+                                - generic: "1.97"
+                              - generic: x
+              - button "C" [ref=e354] [cursor=pointer]:
+                - generic [ref=e355]: C
+                - paragraph [ref=e357]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: p
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic: x
+                        - generic:
+                          - generic: )
+                      - generic:
+                        - generic: =
+                      - generic:
+                        - generic: "2"
+                        - generic: ","
+                        - generic: "0"
+                        - generic: "0"
+                        - generic: "0"
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: (
+                          - generic:
+                            - generic: "1"
+                            - generic: .
+                            - generic: "0"
+                            - generic: "3"
+                          - generic:
+                            - generic: )
+                        - generic:
+                          - generic:
+                            - generic: x
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: p
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic: x
+                            - generic:
+                              - generic: )
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: "2"
+                            - generic: ","
+                            - generic: "0"
+                            - generic: "0"
+                            - generic: "0"
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: (
+                              - generic:
+                                - generic: "1"
+                                - generic: .
+                                - generic: "0"
+                                - generic: "3"
+                              - generic:
+                                - generic: )
+                            - generic:
+                              - generic:
+                                - generic: x
+                        - generic:
+                          - math:
+                            - generic: p
+                            - generic:
+                              - generic: x
+                            - generic: =
+                            - generic: 2,000
+                            - generic:
+                              - generic:
+                                - generic: "1.03"
+                              - generic: x
+              - button "D" [ref=e358] [cursor=pointer]:
+                - generic [ref=e359]: D
+                - paragraph [ref=e361]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: p
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic: x
+                        - generic:
+                          - generic: )
+                      - generic:
+                        - generic: =
+                      - generic:
+                        - generic: "2"
+                        - generic: ","
+                        - generic: "0"
+                        - generic: "0"
+                        - generic: "0"
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: (
+                          - generic:
+                            - generic: "0"
+                            - generic: .
+                            - generic: "9"
+                            - generic: "7"
+                          - generic:
+                            - generic: )
+                        - generic:
+                          - generic:
+                            - generic: x
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: p
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic: x
+                            - generic:
+                              - generic: )
+                          - generic:
+                            - generic: =
+                          - generic:
+                            - generic: "2"
+                            - generic: ","
+                            - generic: "0"
+                            - generic: "0"
+                            - generic: "0"
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: (
+                              - generic:
+                                - generic: "0"
+                                - generic: .
+                                - generic: "9"
+                                - generic: "7"
+                              - generic:
+                                - generic: )
+                            - generic:
+                              - generic:
+                                - generic: x
+                        - generic:
+                          - math:
+                            - generic: p
+                            - generic:
+                              - generic: x
+                            - generic: =
+                            - generic: 2,000
+                            - generic:
+                              - generic:
+                                - generic: "0.97"
+                              - generic: x
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e362]:
+            - button "Previous" [disabled] [ref=e363]
+            - button "1 / 227" [ref=e364] [cursor=pointer]:
+              - generic [ref=e365]: "1"
+              - generic [ref=e366]: /
+              - generic [ref=e367]: "227"
+              - img [ref=e368]
+            - button "Next" [ref=e371] [cursor=pointer]
+  - paragraph [ref=e372]
+  - paragraph [ref=e373]

@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 15 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - paragraph [ref=e5]: Rita’s total bill at a restaurant was $25.00, including tax. If she left a tip of 20% of the total bill, what was the amount of the tip?
+    - generic [ref=e6]:
+      - generic [ref=e7] [cursor=pointer]:
+        - strong [ref=e8]: A.
+        - paragraph [ref=e9]: $3.50
+      - generic [ref=e10] [cursor=pointer]:
+        - strong [ref=e11]: B.
+        - paragraph [ref=e12]: $4.00
+      - generic [ref=e13] [cursor=pointer]:
+        - strong [ref=e14]: C.
+        - paragraph [ref=e15]: $4.50
+      - generic [ref=e16] [cursor=pointer]:
+        - strong [ref=e17]: D.
+        - paragraph [ref=e18]: $5.00
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - strong [ref=e21]: "ID:"
+        - text: 621c874b-c1c1-46d9-abd6-bc9fdf712bd0
+      - generic [ref=e22]:
+        - strong [ref=e23]: "Type:"
+        - text: MCQ
+      - generic [ref=e24]:
+        - strong [ref=e25]: "Difficulty:"
+        - text: E

@@ -1,0 +1,88 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - button [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+              - generic [ref=e189]:
+                - heading "Adaptive Practice" [level=1] [ref=e190]
+                - generic [ref=e191]:
+                  - generic [ref=e192]: Question 2
+                  - generic [ref=e193]: "|"
+                  - generic [ref=e194]: 1 correct
+            - generic [ref=e195]:
+              - button "Draw on question" [ref=e196] [cursor=pointer]:
+                - img [ref=e197]
+              - button "End Practice" [ref=e200] [cursor=pointer]
+              - button "Calculator" [ref=e201] [cursor=pointer]:
+                - img [ref=e202]
+                - text: Calculator
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - generic [ref=e208]: "2"
+              - button "Report" [ref=e209] [cursor=pointer]:
+                - generic [ref=e210]: Report
+            - generic [ref=e211]:
+              - generic [ref=e351]:
+                - paragraph [ref=e352]:
+                  - img "The figure presents a scatterplot titled “Number of Cornflowers and Wallflowers at Garden Store.” The horizontal axis is labeled “Number of cornflowers,” and the numbers 0 through 20, in increments of 2, are indicated. The vertical axis is labeled “Number of wallflowers,” and the numbers 0 through 20, in increments of 2, are indicated. There are 5 data points on the graph. The data represented by the points are as follows. Data point 1. Number of cornflowers, 0. Number of wallflowers, 12. Data point 2. Number of cornflowers, 4. Number of wallflowers, 9. Data point 3. Number of cornflowers, 8. Number of wallflowers, 6. Data point 4. Number of cornflowers, 12. Number of wallflowers, 3. Data point 5. Number of cornflowers, 16. Number of wallflowers, 0." [ref=e353]
+                - paragraph [ref=e354]: The points plotted in the coordinate plane above represent the possible numbers of wallflowers and cornflowers that someone can buy at the Garden Store in order to spend exactly $24.00 total on the two types of flowers. The price of each wallflower is the same and the price of each cornflower is the same. What is the price, in dollars, of 1 cornflower?
+                - paragraph
+              - generic [ref=e231]:
+                - textbox "Your answer" [ref=e233]
+                - paragraph [ref=e234]: Enter a number, fraction (3/4), or decimal (0.75)
+          - generic [ref=e235]:
+            - generic [ref=e237]: Question 2(unlimited)
+            - button "Check Answer" [disabled] [ref=e355]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e240]
+  - paragraph [ref=e241]

@@ -1,0 +1,29 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 43 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - img "The figure presents a 2-column table, with 6 rows of data, titled “Where Do People Get Most of Their Medical Information?” The heading for the first column is “Source,” and the heading for the second column is “Percent of those surveyed.” The 6 rows of data are as follows. Row 1. Doctor, 63 percent. Row 2. Internet, 13 percent. Row 3. Magazines / brochures, 9 percent. Row 4. Pharmacy, 6 percent. Row 5. Television, 2 percent. Row 6. Other / none of the above, 7 percent." [ref=e8]
+      - paragraph [ref=e9]: The table above shows a summary of 1,200 responses to a survey question. Based on the table, how many of those surveyed get most of their medical information from either a doctor or the Internet?
+    - generic [ref=e10]:
+      - generic [ref=e11] [cursor=pointer]:
+        - strong [ref=e12]: A.
+        - paragraph [ref=e13]: "865"
+      - generic [ref=e14] [cursor=pointer]:
+        - strong [ref=e15]: B.
+        - paragraph [ref=e16]: "887"
+      - generic [ref=e17] [cursor=pointer]:
+        - strong [ref=e18]: C.
+        - paragraph [ref=e19]: "912"
+      - generic [ref=e20] [cursor=pointer]:
+        - strong [ref=e21]: D.
+        - paragraph [ref=e22]: "926"
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - strong [ref=e25]: "ID:"
+        - text: 831009de-42fa-42b6-8090-49f7b604feed
+      - generic [ref=e26]:
+        - strong [ref=e27]: "Type:"
+        - text: MCQ
+      - generic [ref=e28]:
+        - strong [ref=e29]: "Difficulty:"
+        - text: E

@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 30 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - paragraph [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - generic [ref=e8]:
+            - generic [ref=e9]: "3"
+            - generic [ref=e10]: "7"
+          - generic [ref=e12]: "%"
+        - math [ref=e14]:
+          - generic [ref=e15]: "37"
+          - generic [ref=e16]: "%"
+      - text: of the items in a box are green. Of those,
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]: "3"
+            - generic [ref=e21]: "7"
+          - generic [ref=e23]: "%"
+        - math [ref=e25]:
+          - generic [ref=e26]: "37"
+          - generic [ref=e27]: "%"
+      - text: are also rectangular. Of the green rectangular items,
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - generic [ref=e31]: "4"
+            - generic [ref=e32]: "2"
+          - generic [ref=e34]: "%"
+        - math [ref=e36]:
+          - generic [ref=e37]: "42"
+          - generic [ref=e38]: "%"
+      - text: are also metal. Which of the following is closest to the percentage of the items in the box that are not rectangular green metal items?
+    - generic [ref=e39]:
+      - generic [ref=e40] [cursor=pointer]:
+        - strong [ref=e41]: A.
+        - paragraph [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]:
+                - generic [ref=e46]: "1"
+                - generic [ref=e47]: .
+                - generic [ref=e48]: "1"
+                - generic [ref=e49]: "6"
+              - generic [ref=e51]: "%"
+            - math [ref=e53]:
+              - generic [ref=e54]: "1.16"
+              - generic [ref=e55]: "%"
+      - generic [ref=e56] [cursor=pointer]:
+        - strong [ref=e57]: B.
+        - paragraph [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - generic [ref=e61]:
+                - generic [ref=e62]: "5"
+                - generic [ref=e63]: "7"
+                - generic [ref=e64]: .
+                - generic [ref=e65]: "5"
+                - generic [ref=e66]: "0"
+              - generic [ref=e68]: "%"
+            - math [ref=e70]:
+              - generic [ref=e71]: "57.50"
+              - generic [ref=e72]: "%"
+      - generic [ref=e73] [cursor=pointer]:
+        - strong [ref=e74]: C.
+        - paragraph [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - generic [ref=e79]: "9"
+                - generic [ref=e80]: "4"
+                - generic [ref=e81]: .
+                - generic [ref=e82]: "2"
+                - generic [ref=e83]: "5"
+              - generic [ref=e85]: "%"
+            - math [ref=e87]:
+              - generic [ref=e88]: "94.25"
+              - generic [ref=e89]: "%"
+      - generic [ref=e90] [cursor=pointer]:
+        - strong [ref=e91]: D.
+        - paragraph [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]:
+              - generic [ref=e95]:
+                - generic [ref=e96]: "9"
+                - generic [ref=e97]: "8"
+                - generic [ref=e98]: .
+                - generic [ref=e99]: "8"
+                - generic [ref=e100]: "4"
+              - generic [ref=e102]: "%"
+            - math [ref=e104]:
+              - generic [ref=e105]: "98.84"
+              - generic [ref=e106]: "%"
+    - generic [ref=e107]:
+      - generic [ref=e108]:
+        - strong [ref=e109]: "ID:"
+        - text: d298ede9-4ca2-48ef-b2b9-1701647654c1
+      - generic [ref=e110]:
+        - strong [ref=e111]: "Type:"
+        - text: MCQ
+      - generic [ref=e112]:
+        - strong [ref=e113]: "Difficulty:"
+        - text: H

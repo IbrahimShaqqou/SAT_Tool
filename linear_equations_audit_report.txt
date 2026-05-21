@@ -1,0 +1,72 @@
+VISUAL AUDIT REPORT
+===================
+Skill: H.A. - Linear equations in one variable (Code: H.A., Skill ID: 31)
+Date: 2026-05-21
+Total Questions Audited: 104
+
+METHODOLOGY:
+- Analyzed all 104 questions via API for structural issues
+- Checked HTML content for parsing errors, LaTeX rendering, and broken content
+- Sampled questions visually using Playwright browser automation
+- Examined prompt_html, stimulus_html, and passage_html for each question
+
+SUMMARY:
+--------
+Total questions checked: 104
+Issues found: 16 (15.4%)
+
+ISSUE BREAKDOWN:
+---------------
+
+**LaTeX Rendering Errors**: 16 questions
+- Issue: Raw LaTeX delimiters (\( and \)) found in HTML instead of rendered math
+- This suggests MathJax/KaTeX preprocessing did not complete
+- Math will display as raw code instead of formatted equations
+
+AFFECTED QUESTIONS:
+------------------
+Q8   (9277dab4): LaTeX rendering issue
+Q11  (e42f4707): LaTeX rendering issue  
+Q12  (039e49bd): LaTeX rendering issue
+Q22  (78ff431f): LaTeX rendering issue
+Q23  (81393128): LaTeX rendering issue
+Q30  (f80d3300): LaTeX rendering issue
+Q38  (7532d625): LaTeX rendering issue
+Q44  (c829c804): LaTeX rendering issue
+Q46  (dff2a9c8): LaTeX rendering issue
+Q54  (445b47b9): LaTeX rendering issue
+Q63  (9663a36c): LaTeX rendering issue
+Q78  (b6383cfe): LaTeX rendering issue
+Q82  (e2d605f9): LaTeX rendering issue
+Q84  (f3d7f417): LaTeX rendering issue
+Q85  (fa513f0a): LaTeX rendering issue
+Q101 (d68c9dc7): LaTeX rendering issue
+
+NO ISSUES DETECTED FOR:
+-----------------------
+- Oversized images: 0 questions
+- Missing content (undefined/null): 0 questions
+- Missing answer choices: 0 questions (all MCQ have 4 choices, all SPR have 0 choices as expected)
+- Blank questions: 0 questions
+
+SAMPLE LATEX ERRORS:
+-------------------
+Q8:  "\(2 x + 3 = 7\)" appears as raw text
+Q11: "\(2 \times ( x - 5 ) = 10\)" appears as raw text
+Q22: "\(3 x + 2 = 8\)" appears as raw text
+Q30: "\(6 x + k = 6 x + 5\)" appears as raw text
+
+RECOMMENDATIONS:
+---------------
+1. Run LaTeX preprocessing/rendering pipeline on affected questions
+2. Convert \(...\) delimiters to proper MathML or MathJax format
+3. Re-verify rendering in browser after fixes
+4. Consider automated LaTeX validation in question import pipeline
+
+POSITIVE FINDINGS:
+-----------------
+- 84.6% of questions render correctly (88/104)
+- All questions have valid structure (prompt, appropriate answer format)
+- No missing or broken images detected
+- No abnormally large embedded images
+- All answer choice counts correct for question type

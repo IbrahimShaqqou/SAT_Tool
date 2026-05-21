@@ -1,0 +1,2347 @@
+{
+  "items": [
+    {
+      "id": "06a23155-4ea1-488d-ac83-666c5a84fc55",
+      "external_id": "db6eb1b9-7dd0-44a8-ad7c-17272f0ab74e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The people of medieval Europe have traditionally been seen as uninterested in cleanliness and hygiene, but modern research has shown that this is largely a myth. According to historian Eleanor Janega, most medieval towns in Europe had at least one public bathhouse, which often offered both full-immersion baths and&mdash;more affordably&mdash;steam baths. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">While such amenities were available mainly to town dwellers</span>, regular bathing in rivers and streams or daily sponge baths at home were common practices throughout medieval Europe.</p>\n\n<p>Which choice best describes the function of the underlined portion?</p>"
+    },
+    {
+      "id": "0b5abbd5-55f5-44af-902e-5275671ff2fd",
+      "external_id": "e23221e6-e381-428d-a72e-148099c2db03",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Part of the Atacama Desert in Peru has surprisingly rich plant life despite receiving almost no rainfall. Moisture from winter fog sustains plants once they&rsquo;re growing, but the soil&rsquo;s tough crust makes it hard for seeds to germinate in the first place. Local birds that dig nests in the ground seem to be of help: <span role=\"region\" aria-label=\"Referenced Content\"><u>they churn the soil, exposing buried seeds to moisture and nutrients</u></span>. Indeed, in 2016 Cristina Rengifo Faiffer found that mounds of soil dug up by birds were far more fertile and supported more seedlings than soil in undisturbed areas.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "0bd70615-54de-47c0-92ab-a582d83e094c",
+      "external_id": "f5c6397f-331d-43b2-a866-f5e107c938a2",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from <span data-ssml-sub-alias=\"H D&rsquo;s\">H.D.&rsquo;s</span> 1916 poem &ldquo;Mid-Day.&rdquo; In the poem, the speaker is on a path in an outdoor setting.</p>\n<blockquote class=\"dap_poemexcerpt\">\n<p><span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">A slight wind shakes the seed-pods</span>&mdash;</p>\n<p>my thoughts are spent</p>\n<p>as the black seeds.</p>\n<p>My thoughts tear me,</p>\n<p>I dread their fever.</p>\n<p>I am scattered in its whirl.</p>\n<p>I am scattered like</p>\n<p>the hot shrivelled seeds.</p>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "0f572ccb-4c5e-44ba-8c51-3bda8473a98f",
+      "external_id": "d3a2c8db-64f1-4bb7-a5cd-d5e2e85cff00",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Jean Webster&rsquo;s 1912 novel <em>Daddy-Long-Legs. </em>The narrator is a young college student writing letters detailing her weekly experiences.</p>\n<blockquote>\n<p>[The college is] organizing the Freshman basket-ball team and there&rsquo;s just a chance that I shall make it. I&rsquo;m little of course, but terribly quick and wiry and tough. While the others are hopping about in the air, I can dodge under their feet and grab the ball.&nbsp;</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "18ec6e9f-828f-4d78-9703-c8a8d753982c",
+      "external_id": "cea5f5ab-4538-45a7-9529-dde6612b574b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Aphra Behn&rsquo;s 1689 novel <em>The Lucky Mistake</em>. Atlante and Rinaldo are neighbors who have been secretly exchanging letters through Charlot, Atlante&rsquo;s sister.</p>\n<p style='padding-left: 1em;'>[Atlante] gave this letter to Charlot; who immediately ran into the balcony with it, where she still found Rinaldo in a melancholy posture, leaning his head on his hand: She showed him the letter, but was afraid to toss it to him, for fear it might fall to the ground; so he ran and fetched a long cane, which he cleft at one end, and held it while she put the letter into the cleft, and stayed not to hear what he said to it. But never was man so transported with joy, as he was at the reading of this letter; it gives him new wounds; for to the generous, nothing obliges love so much as love.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "1cd7504c-3878-47fb-9b73-901fa7424029",
+      "external_id": "dfd0d4bc-5a39-4171-bf70-e1e20cdf53c7",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>By combining Indigenous and classical music, Cree composer and cellist Cris Derksen creates works that reflect the diverse cultural landscape of Canada. For her album <em>Orchestral Powwow</em>, Derksen composed new songs in the style of traditional powwow music that were accompanied by classical arrangements played by an orchestra. But where an orchestra would normally follow the directions of a conductor, the musicians on <em>Orchestral Powwow</em> are led by the beat of a powwow drum.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "2c681b6d-acb3-4400-b32b-901bcae645ae",
+      "external_id": "fc8b9029-ef6e-41af-b781-9a6e1d7d99a9",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from George Eliot&rsquo;s <span data-ssml-say-as=\"date\">1857</span> short story &ldquo;The Sad Fortunes of the <span data-ssml-sub-alias=\"Reverend\">Rev.</span> Amos Barton.&rdquo; <span data-ssml-sub-alias=\"Mr\">Mr.</span> Ely is a clergyman in the town of Milby.&nbsp;</p>\n<blockquote>\n<p>By the laity of Milby and its neighbourhood [<span data-ssml-sub-alias=\"Mr\">Mr.</span> Ely] was regarded as a man of quite remarkable powers and learning, who must make a considerable sensation in London pulpits and drawing-rooms on his occasional visit to the metropolis; and by his brother clergy he was regarded as a discreet and agreeable fellow. <span data-ssml-sub-alias=\"Mr\">Mr.</span> Ely never got into a warm discussion; he suggested what might be thought, but rarely said what he thought himself; he never let either men or women see that he was laughing at them, and he never gave any one an opportunity of laughing at <em>him</em>.</p>\n</blockquote>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "300f4a8b-4a89-4b47-b433-b4031dbae58b",
+      "external_id": "fd26b16b-b40f-41dd-9c46-56a7b75a39a4",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Annie Dillard&rsquo;s 1987 autobiographical novel <em>An American Childhood</em>. The narrator is a young girl living in Pittsburgh.</p>\n<blockquote>\n<p>I walked. My mother had given me the freedom of the streets as soon as I could say our telephone number. I walked and memorized the neighborhood. I made a mental map and located myself upon it. At night in bed I rehearsed the small world&rsquo;s scheme and set challenges: <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Find the store using backyards only. Imagine a route from the school to my friend&rsquo;s house.</span></p>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;1987 by Annie Dillard</span></p>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "3418ad89-5e19-4571-928a-2cf9294188ed",
+      "external_id": "d638bcde-7d1d-49a9-bc6d-25921dd34d83",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Gwendolyn Bennett&rsquo;s 1926 poem &ldquo;Street Lamps in Early Spring.&rdquo; </p>\n<p style=\"padding-left:1em;\">Night wears a garment<br>All velvet soft, all violet blue...&nbsp;<br>And over her face she draws a veil<br>As shimmering fine as floating dew...&nbsp;<br>And here and there<br>In the black of her hair<br>The subtle hands of Night<br>Move slowly with their gem-starred light.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "3f70049f-4687-49d2-b40b-1170847b87f6",
+      "external_id": "e8d48ed3-91c6-4fe8-acfb-3db993b286d5",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The mimosa tree evolved in East Asia, where the beetle <em>Bruchidius terrenus</em> preys on its seeds. In <span data-ssml-say-as=\"date\">1785</span>, mimosa trees were introduced to North America, far from any <em><span data-ssml-sub-alias=\"B\">B.</span> terrenus</em>. <span role=\"region\" aria-label=\"Referenced Content\"><u>But evolutionary links between predators and their prey can persist across centuries and continents.</u></span> Around 2001, <em><span data-ssml-sub-alias=\"B\">B.</span> terrenus</em> was introduced in southeastern North America near where botanist Shu-Mei Chang and colleagues had been monitoring mimosa trees. Within a year, 93 percent of the trees had been attacked by the beetles.</p>\n\n<p>Which choice best describes the function of the third sentence in the overall structure of the text?</p>"
+    },
+    {
+      "id": "45c7c745-1e05-4347-ab05-c70310c322ef",
+      "external_id": "cd905936-a52a-48db-b822-2f9d35bfa472",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Works of moral philosophy, such as Plato&rsquo;s <em>Republic</em> or Aristotle&rsquo;s <em>Nicomachean Ethics</em>, are partly concerned with how to live a morally good life. But philosopher Jonathan Barnes argues that works that present a method of living such a life without also supplying a motive are inherently useful only to those already wishing to be morally good&mdash;those with no desire for moral goodness will not choose to follow their rules. However, some works of moral philosophy attempt to describe what constitutes a morally good life while also proposing reasons for living one.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "4715142a-1395-4c15-b126-350c3feb563b",
+      "external_id": "fbe51458-49ab-47e9-81c2-97eef07bd4f3",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Today composer Scott Joplin is mainly celebrated for his catchy ragtime pieces &ldquo;Maple Leaf Rag&rdquo; and &ldquo;The Entertainer.&rdquo; However, by overlooking his less famous works, listeners will miss the full range of Joplin&rsquo;s creativity. For instance, his waltz &ldquo;Pleasant Moments&rdquo; and his opera <em>Treemonisha</em> skillfully blend ragtime and classical music. These masterpieces deserve as much fame as Joplin&rsquo;s biggest hits.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "4bbf75cb-d4c0-4400-aafa-abeb62b53b5f",
+      "external_id": "dd64897e-af58-4a44-af71-adf471237c46",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Herman Melville&rsquo;s 1854 novel <em>The Lightning-rod Man</em>.</p>\n\n<p>The stranger still stood in the exact middle of the cottage, where he had first planted himself. <span role=\"region\" aria-label=\"Referenced Content\"><u>His singularity impelled a closer scrutiny.</u></span> A lean, gloomy figure. Hair dark and lank, mattedly streaked over his brow. His sunken pitfalls of eyes were ringed by indigo halos, and played with an innocuous sort of lightning: the gleam without the bolt. The whole man was dripping. He stood in a puddle on the bare oak floor: his strange walking-stick vertically resting at his side.</p>\n\n<p>Which choice best states the function of the underlined sentence in the overall structure of the text?</p>"
+    },
+    {
+      "id": "64704353-533f-4250-b4a2-26bd2e4934c9",
+      "external_id": "cde63301-7c85-42df-894a-eef1fe02b78e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Industrial activity is often assumed to be a threat to wildlife, but that isn&rsquo;t always so. <span role=\"region\" aria-label=\"Referenced Content\"><u>Consider the silver-studded blue butterfly (<em>Plebejus argus</em>)</u></span>: as forest growth has reduced grasslands in northern Germany, many of these butterflies have left meadow habitats and are now thriving in active limestone quarries. In a survey of multiple active quarries and patches of maintained grassland, an ecologist found silver-studded blue butterflies in 100% of the quarries but only 57% of the grassland patches. Moreover, butterfly populations in the quarries were four times larger than those in the meadows.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "6a53b91f-fa2d-4102-97af-1c3e2a4c56f5",
+      "external_id": "cba2a03d-01c9-484c-8444-e46e790572c1",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In 1801, a Blackfoot chief named Ac Ko Mok Ki drew a finely detailed map of the Upper Missouri region. <span role=\"region\" aria-label=\"Referenced Content\"><u>This work demonstrates a vast amount of topographic knowledge, as the map features specific names of mountains and rivers, as well as the first-known sketch of the drainage network of the Missouri River.</u></span> The map is especially notable because Ac Ko Mok Ki also included details about the numerous tribes that lived in the area.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "70c9512b-6a16-4c1f-a4b3-88e198fd5b9d",
+      "external_id": "ca5b1d5f-300e-4c93-99ab-c2dde2f1efd5",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Jazz tap is a dance form that was first developed in African American communities. Jazz tap was heavily influenced by jazz music, which became widely popular in the United States in the 1920s. Tap dancers were inspired by jazz music&rsquo;s quick rhythms and by the way jazz musicians would make up melodies as they played. As jazz music continued to develop in the 1930s and 1940s, jazz tap evolved with it. Because of jazz music&rsquo;s influence, jazz tap quickly developed into a dance form that was very different from earlier kinds of tap dance.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "80147aa2-76b9-41c9-aaf9-70a53f41f6f0",
+      "external_id": "ee33fbc4-0490-49f4-8393-c3efc14cea61",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Pam Mu&ntilde;oz Ryan&rsquo;s 2020 novel <em>Ma&ntilde;analand</em>. In the village where Max lives, there is an old fortress called La Reina. Children in the village say that the fortress is haunted.</p>\n<blockquote>\n<p>For as long as he could remember, Max had begged Pap&aacute; [his father] to take him to see La Reina and the ruins up close. He&rsquo;d be a hero among his friends if he was the first boy to cross the haunted gates! Just because Pap&aacute; didn&rsquo;t believe in ghosts didn&rsquo;t mean they weren&rsquo;t there. Maybe this summer Pap&aacute; would finally take him. He <em>was</em> almost twelve.</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2020 by Pam Mu&ntilde;oz Ryan</span></p>\n\n<p>Which choice best describes the overall purpose of the text?</p>"
+    },
+    {
+      "id": "830a2304-2737-46e2-8e3b-ab6b7a2e9bd2",
+      "external_id": "dafd5a78-106e-4ee5-86f5-b1cbf3ff7649",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Susan Glaspell&rsquo;s 1912 short story &ldquo;&lsquo;Out There.&rsquo;&rdquo; An elderly shop owner is looking at a picture that he recently acquired and hopes to sell.</p>\n<p style='padding-left: 1em;'>It did seem that the picture failed to fit in with the rest of the shop. A persuasive young fellow who claimed he was closing out his stock let the old man have it for what he called a song. It was only a little out-of-the-way store which subsisted chiefly on the framing of pictures. The old man looked around at his views of the city, his pictures of cats and dogs, his flaming bits of landscape. &ldquo;Don&rsquo;t belong in here,&rdquo; he fumed.</p>\n<p style='padding-left: 1em;'>And yet the old man was secretly proud of his acquisition. There was a hidden dignity in his scowling as he shuffled about pondering the least ridiculous place for the picture.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "9692c985-9864-4440-acd1-268aa6083894",
+      "external_id": "de88f494-3ef6-402d-be8d-1783d9cab9fd",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Horizontal gene transfer occurs when an organism of one species acquires genetic material from an organism of another species through nonreproductive means. The genetic material can then be transferred &ldquo;vertically&rdquo; in the second species&mdash;that is, through reproductive inheritance. Scientist Atma Ivancevic and her team have hypothesized infection by invertebrate parasites as a mechanism of horizontal gene transfer between vertebrate species: <span role=\"region\" aria-label=\"Referenced Content\"><u>while feeding, a parasite could acquire a gene from one host, then relocate to a host from a different vertebrate species and transfer the gene to it in turn.</u></span></p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "97fd0cf3-3222-4ef5-a5e7-1cdbe6bd491f",
+      "external_id": "cc760895-edda-480b-bf75-c3910b4efcd9",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In many agricultural environments, the banks of streams are kept forested to protect water quality, but it&rsquo;s been unclear what effects these forests may have on stream biodiversity. To investigate the issue, biologist Xingli Giam and colleagues studied an Indonesian oil palm plantation, comparing the species richness of forested streams with that of nonforested streams. Giam and colleagues found that species richness was significantly higher in forested streams, a finding the researchers attribute to the role leaf litter plays in sheltering fish from predators and providing food resources.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "9ec727bc-1367-4be3-9a48-d1c7f72ec701",
+      "external_id": "e92aaa3a-7c96-442b-9dff-e9d2bf7aff7d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Michelene Pesantubbee, a historian and citizen of the Choctaw Nation, has identified a dilemma inherent to research on the status of women in her tribe during the 1600s and 1700s: the primary sources from that era, travel narratives and other accounts by male European colonizers, underestimate the degree of power conferred on Choctaw women by their traditional roles in political, civic, and ceremonial life. Pesantubbee argues that the Choctaw oral tradition and findings from archaeological sites in the tribe&rsquo;s homeland supplement the written record by providing crucial insights into those roles.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "a60bb0f7-36a7-4c88-a986-1ceb11b752f3",
+      "external_id": "eb155e60-62a3-4056-846e-5ccb9c6d3ff2",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Many archaeologists assume that large-scale engineering projects in ancient societies required an elite class to plan and direct the necessary labor. However, recent discoveries, such as the excavation of an ancient canal near the Gulf Coast of Alabama, have complicated this picture. Using radiocarbon dating, a team of researchers concluded that the 1.39-kilometer-long canal was most likely constructed between 576 and 650 CE by an Indigenous society that was relatively free of social classes.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "bb6e8430-0ab1-40b0-b94b-cb0c0517fa5e",
+      "external_id": "cde9a15d-94aa-427a-a266-4dc5e6fda272",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Lucy Maud Montgomery&rsquo;s 1908 novel <em>Anne of Green Gables</em>. Anne, an eleven-year-old girl, has come to live on a farm with a woman named Marilla in Nova Scotia, Canada.</p>\n<blockquote>\n<p>&nbsp;Anne reveled in the world of color about her.</p>\n<p>&ldquo;Oh, Marilla,&rdquo; she exclaimed one Saturday morning, coming dancing in with her arms full of gorgeous boughs, &ldquo;I&rsquo;m so glad I live in a world where there are Octobers. It would be terrible if we just skipped from September to November, wouldn&rsquo;t it? Look at these maple branches. Don&rsquo;t they give you a thrill&mdash;several thrills? I&rsquo;m going to decorate my room with them.&rdquo;</p>\n<p>&ldquo;Messy things,&rdquo; said Marilla, whose aesthetic sense was not noticeably developed. &ldquo;You clutter up your room entirely too much with out-of-doors stuff, Anne. Bedrooms were made to sleep in.&rdquo;</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "c2a592a3-f63a-4cae-a90c-182e947d8fa6",
+      "external_id": "fb51949d-6200-410a-ae7b-8a3bbacbe9a1",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The 1967 release of Harold Cruse&rsquo;s book <em>The Crisis of the Negro Intellectual </em>isolated him from almost all other scholars and activists of the American Civil Rights Movement&mdash;though many of those thinkers disagreed with each other, he nonetheless found ways to disagree with them all. He thought that activists who believed that Black people such as himself should culturally assimilate were na&iuml;ve. <span role=\"region\" aria-label=\"Referenced Content\"><u>But he also sharply criticized Black nationalists such as Marcus Garvey who wanted to establish independent, self-contained Black economies and societies, even though Cruse himself identified as a Black nationalist.</u></span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "c6728246-5b95-4d57-91e5-64bc9dfb05cf",
+      "external_id": "d0188b1a-6020-4e1a-b729-9c623cb8ae21",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Genetic studies have led researchers to suggest that turtles are most closely related to the group that includes modern crocodiles. But studies of fossils have suggested instead that turtles are most closely related to other groups, such as the one that contains modern snakes. <u>However, many of the fossil studies have relied on incomplete data sets.</u>&nbsp;For a 2022 investigation, biologist Tiago R. Sim&otilde;es and colleagues examined more than 1,000 reptile fossils collected worldwide. From this large data set, they found clear agreement with the results of the genetic studies.</p>\n\n<p>Which choice best describes the function of the underlined sentence?</p>"
+    },
+    {
+      "id": "ca74f27f-4008-4768-9b3c-025ec04fbfd5",
+      "external_id": "e6bad7f8-224c-4645-ade4-595f666af6a0",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In 2023 literary scholar Jeremy Douglass cautioned technology investors and enthusiasts who predict conventional books&rsquo; ultimate displacement by newer forms of media. Douglass observed that <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">the concept of an &ldquo;interactive&rdquo; text is much older than technologists assume, extending back to the first time readers scratched notes into a text&rsquo;s margins</span>. In addition, newer media, such as video games, haven&rsquo;t replaced older forms of entertainment, such as comic books, but rather exist alongside them. Douglass believes that rather than supplanting books, technology is simply making new forms of expression possible.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "d9ab78eb-868f-4949-88d7-5d0494b38601",
+      "external_id": "cffe3569-b063-48e5-8f14-b024cdd172c3",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Pteropods are small swimming snails with thin, delicate calcium carbonate shells. These animals are thought to be especially vulnerable to ocean acidification due to calcium carbonate&rsquo;s susceptibility to dissolution at lower pH values. Victoria <span data-ssml-sub-alias=\"L\">L.</span> Peck and colleagues recently found that the periostracum (a protective coating on pteropods&rsquo; outer shells) prevents this dissolution when intact. Moreover, the team was surprised to discover that even when the periostracum is breached, pteropods can still mitigate damage by rebuilding the inner shell wall.</p>\n\n<p>Which choice best describes the main purpose of the text?</p>"
+    },
+    {
+      "id": "dc630a80-fc41-45bd-b1a3-9a330e7a33ae",
+      "external_id": "f12a997a-31ff-47d9-a5ec-a9dfe7c771a3",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Louise Erdrich&rsquo;s 1986 novel <em>The Beet Queen</em>. The narrator discusses her relationship with her young niece, Dot. Celestine, the narrator&rsquo;s sister-in-law, is Dot&rsquo;s mother.</p>\n<blockquote>\n<p>Dot was as impatient with babyhood as I. She tried at once to grow out of it. Celestine never saw that, because she, and only she, took pleasure in Dot&rsquo;s helpless softness. Only Celestine was saddened by her daughter&rsquo;s fierce progress. Day by day, Dot grew stronger. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">In her shopping-cart stroller she exercised to exhaustion, bouncing for hours to develop her leg muscles.</span></p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;1986 by Louise Erdrich</span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "def2604c-22ae-4dc7-8398-3548c404a9ad",
+      "external_id": "d35de12c-c36a-4170-bf0b-a7b48ef2ab13",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Wakako Yamauchi is best known for <em>And the Soul Shall Dance</em>, her 1977 play about a Japanese American family in Southern California. The play is based on a short story Yamauchi had published three years earlier. Adapting the story wasn&rsquo;t easy. Theater relies on dialogue between characters, but the original story features little dialogue and instead describes its characters&rsquo; silent thoughts. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">To transform the story into a play, Yamauchi created situations where characters reveal their thoughts by speaking them aloud during conversations with each other.</span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "ef952d01-67c3-47e5-8044-cffcb7dc4984",
+      "external_id": "fa957156-8cc2-4f2e-9d24-170c33468451",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from John Dryden&rsquo;s 1697 translation of Virgil&rsquo;s poem the <em>Aeneid</em>, written in the first century BCE. Queen Dido has just heard the Trojan hero Aeneas recount a sad tale.</p>\n<blockquote class=\"dap_poemexcerpt\">\n<p>But anxious cares already seiz&rsquo;d the queen:</p>\n<p>She fed within her veins a flame unseen;</p>\n<p>The hero&rsquo;s valor, acts, and birth inspire</p>\n<p>Her soul with love, and fan the secret fire.</p>\n<p>His words, his looks, imprinted in her heart,</p>\n<p>Improve the passion, and increase the smart.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "f96b1ba6-91ee-499f-a060-876a2ab0e6d0",
+      "external_id": "fbf9124c-da88-4779-9ace-37fb7407f43a",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Catherine L. Cardel&uacute;s is a researcher who studies canopy soil. Canopy soil is formed in a tree&rsquo;s branches (its canopy) when dead leaves and other falling things collect. This material breaks down, becoming canopy soil. Canopy soil helps preserve a healthy water cycle (how water moves through the environment) in rainforests. This benefit is one reason Cardel&uacute;s is interested in the canopy soils in large choib&aacute; trees in rainforests in Costa Rica.</p>\n\n<p>Which choice best describes the text&rsquo;s overall structure?</p>"
+    },
+    {
+      "id": "fad161fe-a632-4fb6-8d31-976b16ce043b",
+      "external_id": "e64cc822-9a70-4136-9e1f-ca5807590936",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Betty Smith&rsquo;s 1943 novel <em>A Tree Grows in Brooklyn</em>. Francie, a young girl, visits the library often.</p>\n<blockquote>\n<p>Francie thought that all the books in the world were in that library and she had a plan about reading all the books in the world. She was reading a book a day in alphabetical order and not skipping the dry ones. She remembered that the first author had been Abbott. She had been reading a book a day for a long time now and she was still in the B&rsquo;s. Already she had read about bees and buffaloes, Bermuda vacations and Byzantine architecture. For all her enthusiasm, she had to admit that some of the B&rsquo;s had been hard going. But Francie was a reader.</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;1947 by Betty Smith</span></p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "09ec97c1-f12d-4a7a-ba53-4e3421ba99df",
+      "external_id": "b3948d60-bbfa-4ec4-9d7b-332e9fd5a85b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Streams and rivers carry soil and rocks from one location to another. But there is another way for these geological materials to move. <span role=\"region\" aria-label=\"Referenced Content\"><u>Scientists call this process &ldquo;aeolian transport.&rdquo;</u></span> In aeolian transport, winds move small particles of soil or rock over potentially great distances. Geologist Melisa Diaz and her team studied dust in Antarctica to find out if it was moved by aeolian transport. They discovered that the dust matched geological material in Australia. Aeolian transport had carried it from one continent to another, across thousands of miles of open ocean.&nbsp;</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "102f77ac-633b-4b78-a14b-6defa85ffc2a",
+      "external_id": "acd6b2f3-e160-4d5f-89b8-43ff4ec933f5",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Jackie Ormes&rsquo;s <em>Torchy Brown in Dixie to Harlem</em> (1937&ndash;38) was the first comic strip by a Black woman to appear in a widely read newspaper. The strip tells the story of Torchy, a young woman who leaves Mississippi to become a performer in New York City. Torchy&rsquo;s story reflects the experience of the Great Migration (1910&ndash;1970), when millions of Black Americans left the South in search of opportunities in other parts of the United States. <em>Torchy Brown</em> thus shows how Ormes used comics to comment humorously on issues affecting Black Americans, which she continued to do throughout her career.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "175ff152-9f2e-4743-97ff-89c31eedf497",
+      "external_id": "9e968857-b523-4000-87f3-1e967558647d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Charlotte Forten Grimk&eacute;&rsquo;s 1888 poem &ldquo;At Newport.&rdquo;</p>\n<p style='padding-left: 1em;'>Oh, deep delight to watch the gladsome waves<br>Exultant leap upon the rugged rocks;<br><span role=\"region\" aria-label=\"Referenced Content\"><u>Ever repulsed, yet ever rushing on&mdash;</u></span><br><span role=\"region\" aria-label=\"Referenced Content\"><u>Filled with a life that will not know defeat;</u></span><br>To see the glorious hues of sky and sea.<br>The distant snowy sails, glide spirit like,<br>Into an unknown world, to feel the sweet<br>Enchantment of the sea thrill all the soul,<br>Clearing the clouded brain, making the heart<br>Leap joyous as it own bright, singing waves!</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "24265577-bbbf-4c5c-8aec-97de9c1201f3",
+      "external_id": "93c8d343-f963-49c8-bf46-80629c5666c8",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Animals use many objects as tools to achieve goals more easily. Such goals include grooming, finding food, and protecting themselves. For a long time, people thought tool use was unique to primates. Dolphins and other animals, though, have busted the myth that tool use requires hands. Inventively, dolphins use sponges to protect their noses from scratches when foraging on the seafloor. Palm cockatoos also get creative. They use leaves to pad their beaks when opening nuts.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "36bd72ef-a6de-49a9-b900-b64ecb34cbaa",
+      "external_id": "b8ed217a-9630-41e6-ad8d-68c20e8669d8",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Scholarly accounts of the Chicano movement&mdash;a movement that advocated for the social, political, and cultural empowerment of Mexican Americans and reached its zenith in the 1960s and 1970s&mdash;<span role=\"region\" aria-label=\"Referenced Content\"><u>tend to focus on the most militant, outspoken figures in the movement</u></span>, making it seem uniformly radical. Geographer Juan Herrera has shown, however, that if we shift our focus toward the way the movement manifested in comparatively low-profile neighborhood institutions and projects, we see participants espousing an array of political orientations and approaches to community activism.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "37bfff7a-08a2-4900-87c7-87a085a611ad",
+      "external_id": "c891e806-b841-42c9-a0c0-f2daa1bdf13d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Hiroshi Senju is known worldwide for his paintings of waterfalls. These paintings are large and tend not to show the entire waterfall.&nbsp; Instead, Senju focuses on just the point where the falling water reaches the pool below, keeping the top of the waterfall out of view. While Senju&rsquo;s paintings are rooted in art movements originating in the United States, the artist uses traditional Japanese techniques and materials that make his work instantly recognizable.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "3e9bdaa4-19d3-4180-8b74-4571366830a4",
+      "external_id": "c7d24c9d-51e9-4df1-9751-908a625051bf",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Walt Whitman&rsquo;s 1860 poem &ldquo;Calamus 24.&rdquo;</p>\n<p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">I HEAR it is charged against me that I seek to destroy institutions;</p><p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">But really I am neither for nor against institutions</p><p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">(What indeed have I in common with them?&mdash;Or what with the destruction of them?),</p><p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">Only I will establish in the Mannahatta [Manhattan] and in every city of These States, inland and seaboard,</p><p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">And in the fields and woods, and above every keel [ship] little or large, that dents the water,</p><p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">Without edifices, or rules, or trustees, or any argument,</p><p style=\"margin-bottom: 0; padding-left: 2em; text-indent: -1em;\">The institution of the dear love of comrades.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "4146b263-5d4e-482d-bc99-e24a9992e65a",
+      "external_id": "ab1942cc-c8a3-4152-89f3-830501d63d60",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>When ancient oak planks were unearthed during subway construction in Rome, Mauro Bernabei and his team examined the growth rings in the wood to determine where these planks came from. By comparing the growth rings on the planks to records of similar rings in oaks from Europe, the team could trace the wood to the Jura region of France, hundreds of kilometers from Rome. <span role=\"region\" aria-label=\"Referenced Content\"><u>Because timber could only have been transported from distant Jura to Rome by boat, the team&rsquo;s findings suggest the complexity of Roman trade routes.</u></span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "4bbedafb-2135-4334-b165-d8d780da0935",
+      "external_id": "954b1912-8588-4645-b40d-01f11f433cee",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from <em>Indian Boyhood</em>, a 1902 memoir by Ohiyesa (Charles A. Eastman), a Santee Dakota writer. In the text, Ohiyesa recalls how the women in his tribe harvested maple syrup during his childhood.</p>\n<p style='padding-left: 1em;'>Now the women began to test the trees&mdash;moving leisurely among them, axe in hand, and striking a single quick blow, to see if the sap would appear. <span role=\"region\" aria-label=\"Referenced Content\"><u>The trees, like people, have their individual characters; some were ready to yield up their life-blood, while others were more reluctant.</u></span> Now one of the birchen basins was set under each tree, and a hardwood chip driven deep into the cut which the axe had made. From the corners of this chip&mdash;at first drop by drop, then more freely&mdash;the sap trickled into the little dishes.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "5fa85411-3bf3-4183-b28b-60fd231934a7",
+      "external_id": "c486f251-594d-4d6e-afb0-a61589b83081",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Louise Erdrich&rsquo;s 2020 novel <em>The Night Watchman</em>. Louis Pipestone is collecting signatures for a petition from fellow members of the Turtle Mountain Band of Chippewa on the tribe&rsquo;s reservation in North Dakota.</p>\n<blockquote>\n<p>Louis Pipestone tended the petition like a garden. He kept it with him at all times. In town, his eyes sharpened when he noticed a tribal member who hadn&rsquo;t yet signed. Wherever they were&mdash;at the gas pump, mercantile [general store], at Henry&rsquo;s [Caf&eacute;], on the road, or outside the clinic and hospital&mdash;Louis cornered them. If they were waiting for a baby to be born, he&rsquo;d have them sign. If they were laughing, if they were arguing. If they were taking a child home from school, they signed.</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2020 by Louise Erdrich</span></p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "670fdcd6-7bf7-4193-afc7-60a2881f5f6d",
+      "external_id": "a5519521-ef02-40ab-a805-e6af602b98f1",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In the late 1800s, Spanish-language newspapers flourished in cities across Texas. San Antonio alone produced eleven newspapers in Spanish between 1890 and 1900. But El Paso surpassed all other cities in the state. This city produced twenty-two newspapers in Spanish during that period. El Paso is located on the border with Mexico and has always had a large population of Spanish speakers. Thus, it is unsurprising that this city became such a rich site for Spanish-language journalism.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "69d824e9-9cbd-4051-a4c3-1a2c52f225f7",
+      "external_id": "a1a1c45f-ecb0-4123-bbf0-c76f9f4b3866",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Reyna Grande&rsquo;s 2012 memoir <em>The Distance Between Us</em>. In the text, Grande reflects on a time when she and her older sister Mago were children. A Barbie is a type of doll.</p>\n<blockquote>\n<p>I begged Mago to come play with me. She wasn&rsquo;t as interested in my Barbie as she had been just two months before, <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">which made me sad because that was the only thing Mago had envied me for</span>. Usually, it was me doing the envying. After I pestered her relentlessly, she finally put her notebook down and came over to me.</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2012 by Reyna Grande</span></p>\n\n<p>Which choice best describes the function of the underlined portion in the text?</p>"
+    },
+    {
+      "id": "6a1cdcdb-7bd2-4cdd-b081-0d0a09e6c289",
+      "external_id": "8e664921-823b-4d03-a43c-670dc18d0e90",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Etsu Inagaki Sugimoto&rsquo;s 1925 memoir <em>A Daughter of the Samurai</em>. As a young woman, Sugimoto moved from feudal Japan to the United States.</p>\n<blockquote>\n<p>The standards of my own and my adopted country differed so widely in some ways, and my love for both lands was so sincere, that sometimes I had an odd feeling of standing upon a cloud in space, and gazing with measuring eyes upon two separate worlds. At first I was continually trying to explain, by Japanese standards, all the queer things that came every day before my surprised eyes; for no one seemed to know the origin or significance of even the most familiar customs, nor why they existed and were followed.</p>\n</blockquote>\n\n<p>Which choice best describes the main purpose of the text?</p>"
+    },
+    {
+      "id": "7025d951-c0da-4420-beee-d25e82876e24",
+      "external_id": "b0090b4e-4876-4e24-98f7-1f24465a1e5e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Jason Reynolds&rsquo;s 2016 novel <em>Ghost</em>. The narrator, who is in middle school, is at a bus stop.</p>\n<blockquote>\n<p>I just go there [to the bus stop] to look at the people working out. See, the gym across the street has this big window&mdash;like the whole wall is a window&mdash;and they have those machines that make you feel like you walking up steps and so everybody just be facing the bus stop, looking all crazy like they&rsquo;re about to pass out. And trust me, there ain&rsquo;t nothing funnier than that. So I check that out for a little while like it&rsquo;s some kind of movie: <em>The About to Pass Out Show</em>, starring stair-stepper person one through ten.</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2016 by Jason Reynolds</span></p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "7402b81b-97e2-497b-957a-b18b8b00db98",
+      "external_id": "a6f59ea2-5571-474d-a655-ec5ccc5f3224",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The north celestial pole (NCP)&mdash;the fixed point around which stars in the Northern Hemisphere (including the Sun) appear to rotate&mdash;is discernible only at night. Inspired by the navigational strategies of some insects and birds, researchers devised a method for locating the NCP in daytime using skylight polarization, which occurs as atmospheric particles scatter sunlight. A polarimetric camera captures images of polarization patterns, which rotate as the Sun&rsquo;s position in the sky changes; temporal variances across images can then be used to determine an observer&rsquo;s latitude and bearing relative to the NCP.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "77a5c865-7ef8-47c0-ae02-70e27a2921f4",
+      "external_id": "a514995b-6afc-4b83-a9be-20a8fcc15cc0",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p><span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Several studies have found negligible electoral consequences for governments that impose fiscal austerity measures, yet some European governments recently suffered electorally due to their austerity programs.</span> Evelyne Huebscher and colleagues attribute this incongruity to governments&rsquo; tendency&mdash;not followed in the recent European cases&mdash;to implement austerity programs strategically to avoid electoral costs (e.g., setting spending cuts to take effect only after the next election), which has obscured the inherent political risks of austerity measures in the election data scholars have examined.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "8b0ad05f-9071-4345-8d9a-20b5af0cee0e",
+      "external_id": "c4195587-80c5-4da8-a4fb-f1de1e93c448",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Many films from the early 1900s have been lost. These losses include several films by the first wave of Black women filmmakers. We know about these lost movies only from small pieces of evidence. For example, an advertisement for Jennie Louise Touissant Welcome&rsquo;s documentary <em>Doing Their Bit</em> still exists. There&rsquo;s a reference in a magazine to Tressie Souders&rsquo;s film <em>A Woman&rsquo;s Error</em>. And Maria P. Williams&rsquo;s <em>The Flames of Wrath</em> is mentioned in a letter and a newspaper article, and one image from the movie was discovered in the 1990s.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "8f10e6d6-1ede-4366-8040-aa1e14f88685",
+      "external_id": "8ae88d41-852c-442e-902f-de986c82588a",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Were penguins always flightless? <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Theresa Cole and her team argue that penguins could fly at some point, but that they lost that ability more than 60 million years ago as they adapted to marine life.</span> After examining various penguin fossils and genetic information, the researchers concluded that over time penguins developed underwater vision, blood oxygenation, and bone density better suited for swimming than flying. Thus, environmental conditions might have driven penguins to change from flyers to swimmers.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "94d2a210-c4c7-4898-8805-6fabcac396dd",
+      "external_id": "8e2a723f-b84f-4b55-8bb7-88822941ec52",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>According to Indian economist and sociologist Radhakamal Mukerjee (1889&ndash;1968), the Eurocentric concepts that informed early twentieth-century social scientific methods&mdash;for example, the idea that all social relations are reducible to struggles between individuals&mdash;had little relevance for India. Making the social sciences more responsive to Indians&rsquo; needs, Mukerjee argued, required constructing analytical categories informed by India&rsquo;s cultural and ecological circumstances. Mukerjee thus proposed the communalist &ldquo;Indian village&rdquo; as the ideal model on which to base Indian economic and social policy.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "a7086202-9395-4e4c-9b35-b4a462e9313b",
+      "external_id": "c1003325-7bbc-4d51-93e2-c27bf1a3917d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Sarah Orne Jewett&rsquo;s <span data-ssml-say-as=\"date\">1899</span> short story &ldquo;Martha&rsquo;s Lady.&rdquo; Martha is employed by Miss Pyne as a maid.&nbsp;</p>\n<blockquote>\n<p>Miss Pyne sat by the window watching, in her best dress, looking stately and calm; she seldom went out now, and it was almost time for the carriage. Martha was just coming in from the garden with the strawberries, and with more flowers in her apron. It was a bright cool evening in June, the golden robins sang in the elms, and the sun was going down behind the apple-trees at the foot of the garden. The beautiful old house stood wide open to the long-expected guest.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "af42a783-df11-40b1-8aea-ff082e152c9c",
+      "external_id": "a7022df3-d84a-409c-8d2a-e41dc46ef787",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Asteroid 6478 Gault has experienced intermittent mass loss since at least 2013, but in contrast to some other asteroids with repeated mass-loss episodes, 6478 Gault has not lost mass at its perihelion (the closest point of its orbit to the Sun), and thus the loss is not attributable to solar energy&ndash;driven ice vaporization. And as Jane X. Luu et al. point out, the singular nature of impact ejection makes it untenable as an account of multiple loss episodes of similar duration over several years. Instead, Luu et al. are likely correct that 6478 Gault is shedding mass due to rotational instability.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "c7481e02-e7af-4ac5-809b-e73b46ca3c85",
+      "external_id": "b9b4834e-dc53-477b-ad36-547a276d1f78",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Space scientists Anna-Lisa Paul, Stephen M. Elardo, and Robert Ferl planted seeds of <em>Arabidopsis thaliana</em> in samples of lunar regolith&mdash;the surface material of the Moon&mdash;and, serving as a control group, in terrestrial soil. They found that while all the seeds germinated, the roots of the regolith-grown plants were stunted compared with those in the control group. Moreover, unlike the plants in the control group, the regolith-grown plants exhibited red pigmentation, reduced leaf size, and inhibited growth rates&mdash;indicators of stress that were corroborated by postharvest molecular analysis.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "cc687ae5-1e72-457c-aadf-9ecc648f0b26",
+      "external_id": "aad1548f-6e40-4882-bee8-7c87df1ee4af",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In the 1950s, scientists didn&rsquo;t know much about the ocean floor. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Many scientists at the time believed that the ocean floor was mostly flat.</span> But geologist Marie Tharp and her research partner, Bruce Heezen, proved that this idea was wrong. Using sonar data collected from the Atlantic Ocean, Tharp and Heezen showed that the floor was filled with canyons, mountains, and valleys.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "d7de5442-53b0-4836-b234-8b80b1155207",
+      "external_id": "a60a2428-46a8-48e8-a14d-997cb9b1d0c8",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Researchers have long hypothesized that woolly mammoths were hunted to extinction in North America by humans using spears with grooved tips known as Clovis points. One anthropologist set out to test this hypothesis. Using a mechanical spear-thrower, he launched spears with Clovis points into mounds of clay&mdash;substitutes for the animals&rsquo; large bodies. The projectiles generally penetrated only a few inches into the clay, an amount insufficient to have harmed most woolly mammoths. This led the anthropologist to conclude that hunters using spears with Clovis points likely weren&rsquo;t the principal drivers of the extinction.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "f7780345-8bb6-4bcb-bae8-85b543fbc869",
+      "external_id": "a11efda3-36f3-406a-a3a7-dc51a1f9dcba",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Charles Chesnutt&rsquo;s 1899 short story &ldquo;Mars Jeems&rsquo;s Nightmare.&rdquo; The narrator and his wife have recently moved to the southern United States, and Julius is their carriage driver.</p>\n<blockquote>\n<p>Julius [was] very useful when we moved to our new residence. He had a thorough knowledge of the neighborhood, was familiar with the roads and the watercourses, knew the qualities of the various soils and what they would produce, and where the best hunting and fishing were to be had. He was a marvelous hand in the management of horses and dogs.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "f80ce879-ad20-470d-976b-bfce687680d7",
+      "external_id": "933abd6a-3b9c-43c8-8968-4872b315e1e0",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In the <em>Here and Now Storybook</em> (1921), educator Lucy Sprague Mitchell advanced the then controversial idea that books for very young children should imitate how they use language, since toddlers, who cannot yet grasp narrative or abstract ideas, seek reassurance in verbal repetition and naming. The most enduring example of this idea is Margaret Wise Brown&rsquo;s 1947 picture book <em>Goodnight Moon</em>, in which a young rabbit names the objects in his room as he drifts off to sleep. Scholars note that the book&rsquo;s emphasis on repetition, rhythm, and nonsense rhyme speaks directly to Mitchell&rsquo;s influence.&nbsp;</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "f8827104-fab5-4a8b-893d-673bfb787525",
+      "external_id": "bbc2f30a-29db-4ab7-9560-db3564f5c92b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Raymond Antrobus, an accomplished poet and writer of prose, recently released his debut spoken word poetry album, <em>The First Time I Wore Hearing Aids</em>, in collaboration with producer Ian Brennan. The album contains both autobiographical and reflective pieces combining Antrobus&rsquo;s spoken words with Brennan&rsquo;s fragmented audio elements and pieces of music to convey how people who are deaf may experience sound, both its presence and absence. Some critics suggest that the album questions the function of sound in the world, highlighting that the experience of sound is multifaceted.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "ff505900-01c9-4f04-8718-631853372a24",
+      "external_id": "aff6e638-9bf2-42d9-b22c-e7d9483b72ce",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Jane Austen&rsquo;s 1814 novel <em>Mansfield Park</em>. The speaker, Tom, is considering staging a play at home with a group of his friends and family.</p>\n<p style=\"padding-left:1em;\">We mean nothing but a little amusement among ourselves, just to vary the scene, and exercise our powers in something new. We want no audience, no publicity. We may be trusted, I think, in choosing some play most perfectly unexceptionable; and I can conceive no greater harm or danger to any of us in conversing in the elegant written language of some respectable author than in chattering in words of our own.</p>\n\n<p>Which choice best states the main purpose of the text? </p>"
+    },
+    {
+      "id": "0c4c36cf-fee2-47aa-8924-06200887ea43",
+      "external_id": "877f8ed3-8200-4855-bf07-0def8ec4ca65",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Oral histories&mdash;whether they consist of interviews or recordings of songs and stories&mdash;can offer researchers a rich view of people&rsquo;s everyday experiences. For her book about coal mining communities in Kentucky during the twentieth century, Karida Brown therefore relied in part on interviews with coal miners and their families. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">By doing so, she gained valuable insights into her subjects&rsquo; day-to-day lives.</span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "13e33995-3d8e-4e45-84e6-5273e03d6822",
+      "external_id": "7e5bce0a-8e6c-416d-a05a-7f82981e35b9",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Archaeologists studying the ancient city of Pompeii in Italy recently discovered a well-preserved food shop known as a <span lang=\"la\"><em>thermopolium</em></span>. The site contains food remains, artworks, and decorations. These items give researchers a better understanding of what daily life in Pompeii may have been like. For example, the archaeologists found a ceramic jar that they believe likely contained a meat and seafood stew.&nbsp;</p>\n\n<p>Which choice best states the main purpose of the text?&nbsp;</p>"
+    },
+    {
+      "id": "164d8f36-9d01-410f-b777-8e58a33e0873",
+      "external_id": "71564701-b50a-43c8-8810-64202df68434",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Joan Didion&rsquo;s memoir <em>The Year of Magical Thinking</em>. In the text, the author discusses her home life.</p>\n<blockquote>\n<p><span data-ssml-sub-alias=\"In\">[I]n</span> California we heated our houses by building fires. We built fires even on summer evenings, because the fog came in. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Fires said we were home, we had drawn the circle, we were safe through the night.</span></p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2005 by Joan Didion</span></p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "20ac64e3-3a11-46ab-8082-bf0a144a076d",
+      "external_id": "56b1bb4c-306d-49a9-bc32-3cf03a66363e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Mathematician Claude Shannon is widely regarded as a foundational figure in information theory. His most important paper, &ldquo;A Mathematical Theory of Communication,&rdquo; published in 1948 when he was employed at Bell Labs, utilized a concept called a &ldquo;binary digit&rdquo; (shortened to &ldquo;bit&rdquo;) to measure the amount of information in any signal and determine the fastest rate at which information could be transmitted while still being reliably decipherable. Robert Gallagher, one of Shannon&rsquo;s colleagues, said that the bit was &ldquo;[Shannon&rsquo;s] discovery, and from it the whole communications revolution has sprung.&rdquo;</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "2596c2c5-3640-48a5-8431-35dd5f60146c",
+      "external_id": "6a6b1ad3-4428-4275-82f3-bd2d09419e44",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Paul Laurence Dunbar&rsquo;s 1902 novel <em>The Sport of the Gods</em>. Joe and some of his family members have recently moved to New York City.</p>\n<blockquote>\n<p>[Joe] was wild with enthusiasm and with a desire to be a part of all that the metropolis meant. In the evening he saw the young fellows passing by dressed in their spruce clothes, and he wondered with a sort of envy where they could be going. Back home there had been no place much worth going to, except church and one or two people&rsquo;s houses.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "25b87746-5db5-48b9-b446-44c74bbe4883",
+      "external_id": "7bf9e792-28f1-417b-a375-b25cfccfd531",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>For his 1986 album <em>Keyboard Fantasies</em>, Beverly Glenn-Copeland wrote songs grounded in traditional soul and folk music, then accompanied them with futuristic synthesizer arrangements featuring ambient sounds and complex rhythms. The result was so strange, so unprecedented, that the album attracted little attention when first released. In recent years, however, a younger generation of musicians has embraced the stylistic experimentation of <em>Keyboard Fantasies</em>. <span role=\"region\" aria-label=\"Referenced Content\"><u>Alternative R&amp;B musicians Blood Orange and Moses Sumney, among other contemporary recording artists, cite the album as an influence.</u></span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "26aa0565-843c-4b00-86af-55a48baa8439",
+      "external_id": "5cf14ea8-47ef-470c-8743-feee8cae657d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Charles Dickens&rsquo;s 1854 novel <em>Hard Times</em>. Coketown is a fictional town in England.&nbsp;</p>\n<p>[Coketown] contained several large streets all very like one another, and many small streets still more like one another, inhabited by people equally like one another, who all went in and out at the same hours, with the same sound upon the same pavements, to do the same work, and to whom every day was the same as yesterday and tomorrow, and every year the counterpart of the last and the next.&nbsp;</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "33c7fd6d-f666-4b22-a7a3-43f6f28e4853",
+      "external_id": "5b1fdc2d-15c8-4a59-a9c1-283120066d2e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>A study by a team including finance professor Madhu Veeraraghavan suggests that exposure to sunshine during the workday can lead to overly optimistic behavior. <span role=\"region\" aria-label=\"Referenced Content\"><u>Using data spanning from 1994 to 2010 for a set of US companies, the team compared over 29,000 annual earnings forecasts to the actual earnings later reported by those companies.</u></span> The team found that the greater the exposure to sunshine at work in the two weeks before a manager submitted an earnings forecast, the more the manager&rsquo;s forecast exceeded what the company actually earned that year.</p>\n\n<p>Which choice best states the function of the underlined sentence in the overall structure of the text?</p>"
+    },
+    {
+      "id": "3419db29-5702-4fba-a887-b18e35857b31",
+      "external_id": "69ec77e4-c7d7-4efe-9a81-1ce5e38048f9",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Louisa May Alcott&rsquo;s 1869 novel <em>An Old-Fashioned Girl</em>. Polly, a teenager, is visiting her friend Fanny.</p>\n<blockquote>\n<p>Fanny&rsquo;s friends did not interest Polly much; she was rather afraid of them [because] they seemed so much older and wiser than herself, even those younger in years. They talked about things of which she knew nothing and when Fanny tried to explain, she didn&rsquo;t find them interesting; indeed, some of them rather shocked and puzzled her.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "406dc4ed-2f70-4bc7-9456-0da563280e55",
+      "external_id": "58ab09e9-8947-41ac-9df7-24c500ab07dc",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The majority of plastics today wind up in landfills or are, at best, recycled into materials that have a very limited range of applications. To address this problem, chemist Guoliang Liu and colleagues designed a reactor that melts polyethylene and polypropylene&mdash;two widely used plastics&mdash;into a wax. The wax can then be transformed into a surfactant (<span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">a chemical compound usable as a detergent</span>). With this promising new method, plastic waste could be turned into a range of useful cleaning products.</p>\n\n<p>Which choice best states the function of the underlined portion of the text?</p>"
+    },
+    {
+      "id": "40bd3a38-487d-4447-92be-e92448cd9d63",
+      "external_id": "80a445fc-7451-4feb-9c70-fef18d824c85",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In the early days of television in the 1940s, many people thought that US television programs would rely on the financial support of ad agencies and commercial sponsors, much like radio did. But advertisers hesitated to jump into a new space, <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">particularly at a time when the manufacturing of new television sets was stalled due to the US&rsquo;s involvement in World War II.</span> Broadcasters, like the National Broadcasting Company (NBC), needed to persuade advertisers to support their programming despite not knowing whether there would be a robust television audience to begin with.</p>\n\n<p>Which choice best describes the function of the underlined phrase in the text as a whole?</p>"
+    },
+    {
+      "id": "41794582-030a-48f5-bd22-6c8750976d58",
+      "external_id": "76b5da5f-b488-4d02-bf4d-1ee40073babb",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from the 1924 poem &ldquo;Cycle&rdquo; by D&rsquo;Arcy McNickle, who was a citizen of the Confederated Salish and Kootenai Tribes.</p>\n<p style=\"padding-left:1em;\">There shall be new roads wending,<br>A new beating of the drum&mdash;<br>Men&rsquo;s eyes shall have fresh seeing,<br>Grey lives reprise their span&mdash;<br>But under the new sun&rsquo;s being,<br>Completing what night began,<br>There&rsquo;ll be the same backs bending,<br>The same sad feet shall drum&mdash;<br>When this night finds its ending<br>And day shall have come.....</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "45d9e357-25f5-4b14-8260-d441a90663f6",
+      "external_id": "7483ce79-f6c7-4625-8d06-0c2ce2007173",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Virginia Woolf&rsquo;s 1919 novel <em>Night and Day</em>. The text describes a gathering of young artists and intellectuals.</p>\n<blockquote>\n<p>One person after another rose, and, as with <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content 1\">an ill-balanced axe, attempted to hew out</span> his conception of art a little more clearly, and sat down with the feeling that, for some reason which he could not grasp, his <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content 2\">strokes had gone awry</span>. As they sat down they turned almost invariably to the person sitting next them, and rectified and continued what they had just said in public.</p>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined portions in the text as a whole?</p>"
+    },
+    {
+      "id": "5e81c321-fa90-4d9f-8c32-0eeed0c9f4ad",
+      "external_id": "689c01c1-59f6-4675-b4bf-ac212217317e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Vadamalai Elangovan and Ganapathi Marimuthu showed that high moonlight intensity inhibits the activity of the greater short-nosed fruit bat (<em>Cynopterus sphinx</em>), a result explicable in terms of benefits and costs: greater lunar intensity may not enable the bats to increase foraging success enough to offset the higher chance of detection by predatory owls or hawks. Most other nocturnal mammals respond to lunar intensity variations similarly to greater short-nosed fruit bats, but mongoose lemurs (<em>Eulemur mongoz</em>) display the opposite pattern, as their heavy reliance on visual foraging results in a different balance of reward and risk.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "6225734a-e57e-4082-90de-d73b5f9a5d50",
+      "external_id": "78b449b0-524f-4f61-b288-843feac3cd05",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Oscar Wilde&rsquo;s 1897 nonfiction work <em>De Profundis</em>.&nbsp;</p>\n<blockquote>\n<p>People whose desire is solely for self-realisation never know where they are going. They can&rsquo;t know. In one sense of the word it is of course necessary to know oneself: that is the first achievement of knowledge. But to recognise that the soul of a man is unknowable, is the ultimate achievement of wisdom. The final mystery is oneself. When one has weighed the sun in the balance, and measured the steps of the moon, and mapped out the seven heavens star by star, there still remains oneself. <span role=\"region\" aria-label=\"Referenced Content\"><u>Who can calculate the orbit of his own soul?</u></span></p>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined question in the text as a whole?</p>"
+    },
+    {
+      "id": "62fb1e33-9877-46ff-926a-22ad722505c4",
+      "external_id": "764d0330-8716-4b9d-82e0-9937bbe940f4",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Musician Joni Mitchell, who is also a painter, uses images she creates for her album covers to emphasize ideas expressed in her music. For the cover of her album <em>Turbulent Indigo</em> (1994), Mitchell painted a striking self-portrait that closely resembles Vincent van Gogh&rsquo;s <em>Self-Portrait with Bandaged Ear</em> (1889). The image calls attention to the album&rsquo;s title song, in which Mitchell sings about the legacy of the postimpressionist painter. In that song, Mitchell also hints that she feels a strong artistic connection to Van Gogh&mdash;an idea that is reinforced by her imagery on the cover.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "6ed62af6-4b3a-4b57-82ea-6184a5a2f27c",
+      "external_id": "84227a81-f371-47dd-9a1f-c05f87fb6a99",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Holly Goldberg Sloan&rsquo;s 2017 novel <em>Short</em>.&nbsp;</p>\n<blockquote>\n<p>More than two years ago my parents bought a piano from some people who were moving to Utah. Mom and Dad gave it to my brothers and me for Christmas. I had to act really happy because it was such a big present, but I pretty much hated the thing from the second it was carried into the hallway upstairs, which is right next to my bedroom. The piano glared at me. It was like a songbird in a cage. It wanted to be set free.&nbsp;&nbsp;</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2017 by Holly Goldberg Sloan</span></p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "937f78c0-6304-4702-b0de-e3a59bc51d7c",
+      "external_id": "74296e25-0508-4526-8a58-add1bad87c0b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from the 1895 poem &ldquo;Marshlands&rdquo; by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake.&nbsp;</p>\n<blockquote class=\"dap_poemexcerpt\">\n<p>Among the wild rice in the still lagoon,</p>\n<p>In monotone the lizard shrills his tune.</p>\n<p>The wild goose, homing, seeks a sheltering,</p>\n<p>Where rushes grow, and oozing lichens cling.</p>\n<p>Late cranes with heavy wing, and lazy flight,</p>\n<p>Sail up the silence with the nearing night.</p>\n<p>And like a spirit, swathed in some soft veil,</p>\n<p>Steals twilight and its shadows o&rsquo;er the swale.</p>\n<p>Hushed lie the sedges, and the vapours creep,</p>\n<p>Thick, grey and humid, while the marshes sleep.</p>\n</blockquote>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "94680094-b960-4e66-b763-64ef5692c3e9",
+      "external_id": "6fb16aae-a444-4c87-81b1-7785b6a4f310",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>During Rome&rsquo;s republican period, which ended in the first century BCE, libraries were predominantly owned by wealthy individuals who tightly controlled access to their book collections. The first public library became available in Rome in 28 BCE and was soon followed by one commissioned by Emperor Augustus. As modern scholar Fabio Fernandes notes, however, these two traditions aren&rsquo;t as distinct as they seem, as both the emperor and the private library owners viewed their libraries as extensions of their personal patronage, just on vastly differing scales.&nbsp;</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "9f5bad0d-268a-4b4a-8aa2-716f9d54c835",
+      "external_id": "72ddbf87-a223-4eca-82cb-507e95e7ec29",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Georgia Douglas Johnson&rsquo;s 1922 poem &ldquo;Benediction.&rdquo;</p>\n<p style=\"padding-left:1em;\">Go forth, my son,<br>Winged by my heart&rsquo;s desire!<br>Great reaches, yet unknown,<br>Await<br>For your possession.<br>I may not, if I would,<br>Retrace the way with you,<br>My pilgrimage is through,<br>But life is calling you!</p>\n\n<p>Which choice best states the main purpose of the text? </p>"
+    },
+    {
+      "id": "b7841665-daa3-4439-adaa-a07540e8f8a1",
+      "external_id": "70d5421e-f9db-4ec5-8547-47a13fba6de4",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Paul Laurence Dunbar&rsquo;s 1913 poem &ldquo;The Poet and His Song.&rdquo;</p>\n<blockquote class=\"dap_poemexcerpt\">\n<p>A song is but a little thing,</p>\n<p>And yet what joy it is to sing!</p>\n<p>In hours of toil it gives me zest,</p>\n<p>And when at eve I long for rest;</p>\n<p>When cows come home along the bars,</p>\n<p style=\"padding-left: 1em;\">And in the fold I hear the bell,</p>\n<p>As Night, the shepherd, herds his stars,</p>\n<p style=\"padding-left: 1em;\">I sing my song, and all is well.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "c389b861-1339-403f-a630-1e839283c766",
+      "external_id": "5de42b6f-7064-4a4b-b0bc-05112104d99d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p><em>Dubautia carrii</em> is a species in a family of plants known collectively as the silversword alliance, all of which grow only on the Hawaiian Islands. Members of this alliance exhibit an extraordinary range of phenotypes, with some species maturing into vines and others into shrubs and trees. All species in the alliance descended from a single ancestral tarweed plant that arrived on the islands around 5 million years ago. The tarweed&rsquo;s descendants diversified into distinct species as they adapted to live in the wide variety of habitats found on the Hawaiian Islands.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "cc5cfb57-0168-4ab7-b5fd-6248b3398fd4",
+      "external_id": "86098b00-368a-4b50-a487-f5018dae5073",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Charlotte Perkins Gilman&rsquo;s 1910 poem &ldquo;The Earth&rsquo;s Entail.&rdquo;</p>\n<p>No matter how we cultivate the land,</p>\n<p> Taming the forest and the prairie free;</p>\n<p>No matter how we irrigate the sand,</p>\n<p>Making the desert blossom at command,</p>\n<p>&nbsp;We must always leave the borders of the sea;</p>\n<p>&nbsp;The immeasureable reaches</p>\n<p>&nbsp;Of the windy wave-wet beaches,</p>\n<p>The million-mile-long margin of the sea.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "d433c3cb-723e-4ac7-ba84-54eb9fa72409",
+      "external_id": "578cc30c-1ac6-42d8-9008-0835a3954d6e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Chile&rsquo;s Atacama Desert is one of the driest places on Earth. <span role=\"region\" aria-label=\"Referenced Content\"><u>Mary Beth Wilhelm and other astrobiologists search for life, or its remains, in this harsh place because the desert closely mirrors the extreme environment on Mars.</u></span> The algae and bacteria found in Atacama&rsquo;s driest regions may offer clues about Martian life. By studying how these and other microorganisms survive such extreme conditions on Earth, Wilhelm&rsquo;s team hopes to determine whether similar life might have existed on Mars and to develop the best tools to look for evidence of it.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "d8839303-6845-4a80-a384-7dc6caff9e90",
+      "external_id": "723188b7-ae26-4fed-ba30-fff237aa57b9",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>San Francisco is known for the colorful murals painted on many of its buildings. The densest collection of murals is found on Balmy Alley in the Mission District neighborhood. In the 1970s, Latina artists painted vivid scenes of community life on walls along this block. As the original murals have faded, later generations of artists have painted new ones over them. As a result, Balmy Alley has become a living showcase of San Francisco&rsquo;s artistic spirit, with its murals reflecting changes in the cultural life of the city.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "d9618085-a380-4b35-af39-94723ccdee59",
+      "external_id": "69ffa021-54b6-43c3-8d07-59cd5f399958",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>A number of Indigenous politicians have been elected to the United States Congress since 2000 as members of the country&rsquo;s two established political parties. In Canada and several Latin American countries, on the other hand, Indigenous people have formed their own political parties to advance candidates who will advocate for the interests of their communities. This movement has been particularly successful in Ecuador, where Guadalupe Llori, a member of the Indigenous party known as Pachakutik, was elected president of the National Assembly in 2021.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "dd4a837e-a757-4056-8351-dc90af4f7612",
+      "external_id": "79335607-3a0f-4eeb-8346-917a62740507",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Generally it takes Tule geese about four days to migrate south for the winter. From their summer breeding grounds in Cook Inlet, Alaska, <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">the birds begin by flying over the Gulf of Alaska, keeping about 100 miles from the Canadian shore</span>. They pause to rest on the Pacific Ocean, then fly toward Summer Lake, Oregon, before finally arriving at their winter destination of Sacramento Valley, California. In 2020, however, it took the geese over twice as long to make their way from Cook Inlet to Sacramento Valley. According to researchers, the reason was airborne pollutants.</p>\n\n<p>Which choice best states the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "de6fa817-d1f6-405a-999b-645367dd2185",
+      "external_id": "625c02d2-0bcb-44a8-a217-9c702d07ff3e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Ameen Rihani&rsquo;s 1921 poem &ldquo;The Wanderer.&rdquo;&nbsp;</p>\n<blockquote class=\"dap_poemexcerpt\">\n<p>I wander among the hills of alien lands</p>\n<p style=\"padding-left: 1em;\">Where Nature her prerogative resigns</p>\n<p>To Man; where Comfort in her shack reclines</p>\n<p style=\"padding-left: 1em;\">And all the arts and sciences commands.</p>\n<div role=\"region\" aria-label=\"Referenced Content\">\n<p style=\"padding-left: 2em;\"><span style=\"text-decoration: underline;\">But in my soul</span></p>\n<p style=\"padding-left: 2em;\"><span style=\"text-decoration: underline;\">The eastern billows roll&mdash;</span></p>\n<p><span style=\"text-decoration: underline;\">I hear the voices of my native strands.</span></p>\n</div>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined lines in the text as a whole?</p>"
+    },
+    {
+      "id": "e893daa8-e12b-4fa8-8f35-fcd950f5e1b1",
+      "external_id": "81e3f6f7-1778-4ead-90bb-961faaffe78b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In most building demolitions, the building materials are destroyed and sent to landfills. City officials in Portland, Oregon, wanted to reduce this waste. The officials passed a law requiring demolition companies to deconstruct some buildings instead. Deconstruction involves carefully taking buildings apart piece by piece. Damage to the materials is avoided so that they can be reused in new constructions. A 2019 study found that 27 percent of materials from deconstructions in Portland were able to be reused. The remaining materials were processed for recycling instead of going to a landfill.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "edafdd48-d18b-46ef-a4c1-d3da9cc85f1b",
+      "external_id": "5cc8a1c1-01e8-4a02-9ae8-a2b0498e7246",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Zora Neale Hurston&rsquo;s 1921 short story &ldquo;John Redding Goes to Sea.&rdquo; John is a child who lives in a town in the woods.</p>\n<p style=\"padding-left:1em;\">Perhaps ten-year-old John was puzzling to the folk there in the Florida woods for he was an imaginative child and fond of day-dreams. The St. John River flowed a scarce three hundred feet from his back door. On its banks at this point grow numerous palms, luxuriant magnolias and bay trees. On the bosom of the stream float millions of delicately colored hyacinths. <span role=\"region\" aria-label=\"Referenced Content\"><u>[John Redding] loved to wander down to the water&rsquo;s edge, and, casting in dry twigs, watch them sail away down stream to Jacksonville, the sea, the wide world and [he] wanted to follow them.</u></span></p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "f76ba38c-0c72-4d6a-be21-db22cabbb913",
+      "external_id": "5313f490-da70-4092-a7f7-924b356ff26f",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Historians have argued that a crucial component of the Civil Rights Movement&rsquo;s success in the 1960s was the Southern Christian Leadership Conference&rsquo;s Citizen Education Program (CEP), which invited promising activists from across the South to its one-week training sessions in Dorchester, Georgia. Led by experienced organizers such as Dorothy Cotton and Septima Clark, CEP attendees<span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">&mdash;more than 7,000 in all&mdash;</span>participated in workshops on topics ranging from public speaking to legal doctrine before returning home and using their newly acquired knowledge to spearhead local civil rights initiatives.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "002bd20d-7947-483c-ae3c-052cc9b4f18e",
+      "external_id": "494abf7a-ebf2-4532-baa3-9a1a31df2d9f",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Edith Wharton&rsquo;s 1905 novel <em>The House of Mirth</em>. Lily Bart and a companion are walking through a park.</p>\n<p style='padding-left: 1em;'>Lily had no real intimacy with nature, but she had a passion for the appropriate and could be keenly sensitive to a scene which was the fitting background of her own sensations. <span role=\"region\" aria-label=\"Referenced Content\"><u>The landscape outspread below her seemed an enlargement of her present mood, and she found something of herself in its calmness, its breadth, its long free reaches.</u></span> On the nearer slopes the sugar-maples wavered like pyres of light; lower down was a massing of grey orchards, and here and there the lingering green of an oak-grove.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "031f436a-e040-44ea-a2ef-95a12a089d5f",
+      "external_id": "2e248540-d692-48d7-a8e8-c5f17ef896ad",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Why do sand cats purr but lions roar? Researchers hypothesize that this difference between the two feline species may be partly due to a U-shaped bone in their throats called the hyoid. Sand cats, which are much smaller than lions, have a rigid hyoid that rumbles when the cat&rsquo;s larynx vibrates, resulting in a purr. By contrast, lions have a somewhat flexible hyoid, and the bone is attached to the skull with a stretchy ligament that sand cats lack. These traits allow lions and most other species of big cats to produce powerful roars. The same traits may also prevent most big cats from purring.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "080d295b-4d27-4bbc-ae06-88e9e5bbc02b",
+      "external_id": "4ddfe9f8-17bc-4b2a-8529-78df75ad8daa",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Some bird species don&rsquo;t raise their own chicks. Instead, adult females lay their eggs in other nests, next to another bird species&rsquo; own eggs. <span role=\"region\" aria-label=\"Referenced Content\"><u>Female cuckoos have been seen quickly laying eggs in the nests of other bird species when those birds are out looking for food.</u></span> After the eggs hatch, the noncuckoo parents will typically raise the cuckoo chicks as if they were their own offspring, even if the cuckoos look very different from the other chicks.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "1aece3f0-4e49-4727-bcad-c6ca902928b8",
+      "external_id": "4e03d824-fe3e-4523-9cd5-e6c43ba07526",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Changes to vegetation cover and other human activities influence carbon and nitrogen levels in soil, though how deep these effects extend is unclear. Hypothesizing that differences in land use lead to differences in carbon and nitrogen levels that are not restricted to the topsoil layer (0&ndash;30 cm deep), Chukwuebuka Okolo and colleagues sampled soils across multiple land-use types (e.g., grazing land, cropland, forest) within each of several Ethiopian locations. They found, though, that across land-use types, carbon and nitrogen decreased to comparably low levels beyond depths of 30 cm.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "21d702a1-9a51-4154-8b43-b2e7b633718c",
+      "external_id": "3696c982-6fc7-4417-bf1c-61d772c2aa07",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In 1973, poet Miguel Algar&iacute;n started inviting other writers who, like him, were Nuyorican&mdash;a term for New Yorkers of Puerto Rican heritage&mdash;to gather in his apartment to present their work. The gatherings were so well attended that Algar&iacute;n soon had to rent space in a cafe to accommodate them. Thus, the Nuyorican Poets Cafe was born. Moving to a permanent location in 1981, the Nuyorican Poets Cafe expanded its original scope beyond the written word, hosting art exhibitions and musical performances as well. Half a century since its inception, it continues to foster emerging Nuyorican talent.</p>\n\n<p>Which choice best describes the overall purpose of the text?</p>"
+    },
+    {
+      "id": "29664fcd-ac54-4770-bee8-70e107b29e5d",
+      "external_id": "27f12799-39fb-45b0-8ddc-23c62a3c6395",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>On painter William H. Johnson&rsquo;s return to the United States in 1938 after a decade in Europe, his style underwent an abrupt transformation. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Turning away from landscapes painted in an expressionist style&mdash;a style that often involves using fluid, distorted shapes and thick, textured brushstrokes to express the artist&rsquo;s subjective experience of reality&mdash;Johnson began painting portraits of Black Americans in a bold new way.</span> Evocative of African sculpture and American and Scandinavian folk art, these portraits feature flat, deliberately oversimplified figures in a vibrant but limited color palette.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "379b2db5-3f56-4a8c-936d-a3d81e3c4de4",
+      "external_id": "1eec9ae0-8d1c-4de1-8b23-b633d3775c78",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Charlotte Bront&euml;&rsquo;s 1847 novel <em>Jane Eyre</em>. Jane, the narrator, works as a governess at Thornfield Hall.</p>\n<p style='padding-left: 1em;'>I went on with my day&rsquo;s business tranquilly; but ever and anon vague suggestions kept wandering across my brain of reasons why I should quit Thornfield; and I kept involuntarily framing advertisements and pondering conjectures about new situations: these thoughts I did not think to check; they might germinate and bear fruit if they could.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "3d6c2d7a-86ee-4959-a2d2-2c20749d769f",
+      "external_id": "3273611e-e72f-439b-90f4-26966e30cbe4",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Joseph Conrad&rsquo;s 1907 novel <em>The Secret Agent: A Simple Tale. </em>Mr. Verloc is navigating the London streets on his way to a meeting.</p>\n<p>Before reaching Knightsbridge, Mr. Verloc took a turn to the left out of the busy main thoroughfare, uproarious with the traffic of swaying omnibuses and trotting vans, in the almost silent, swift flow of hansoms [horse-drawn carriages]. Under his hat, worn with a slight backward tilt, his hair had been carefully brushed into respectful sleekness; for his business was with an Embassy. And Mr. Verloc, steady like a rock&mdash;<u>a soft kind of rock</u>&mdash;marched now along a street which could with every propriety be described as private.</p>\n\n<p>Which choice best describes the function of the underlined phrase in the text as a whole?</p>"
+    },
+    {
+      "id": "4225bc1e-c40a-42fd-8fb9-1d973a2b8038",
+      "external_id": "2a2016ca-71fa-44f3-a3d6-b35f3b0bcf9f",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Companies are providing consumers with more opportunities to purchase customized products than ever before. Whether buying customized sneakers, jewelry, or clothing, consumers can participate in the design of products to meet their specific needs and tastes. In turn, companies profit too: studies have shown that consumers are willing to pay more and wait longer for a customized product. Still, it can be difficult for companies to offer customization while keeping costs low, as the standard methods of mass production may not be able to accommodate making a unique product each time.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "4b202273-3bcd-4bb6-8eeb-11e869f7f28a",
+      "external_id": "2524d8f3-37eb-4f4b-8aff-8fc1f38cc2e1",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Herman Melville&rsquo;s 1857 novel <em>The Confidence-Man</em>. Humphry Davy was a prominent British chemist and inventor.</p>\n<blockquote>\n<p>Years ago, a grave American savant, being in London, observed at an evening party there, a certain coxcombical fellow, as he thought, an absurd ribbon in his lapel, and full of smart [banter], whisking about to the admiration of as many as were disposed to admire. Great was the savant&rsquo;s disdain; but, chancing ere long to find himself in a corner with the jackanapes, got into conversation with him, when he was somewhat ill-prepared for the good sense of the jackanapes, but was altogether thrown aback, upon subsequently being [informed that he was] no less a personage than Sir Humphry Davy.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "53aedf29-dacd-42d8-bde3-6077f2b95b50",
+      "external_id": "1c7c3a67-8305-40af-b1a1-8c1a30c3ab08",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Researchers have found a nearly 164,000-year-old molar from a member of the archaic human species known as Denisovans in a cave in Laos, suggesting that Denisovans lived in a wider range of environments than indicated by earlier evidence. <span role=\"region\" aria-label=\"Referenced Content\"><u>Before the discovery, Denisovans were thought to have lived only at high altitudes in relatively cold climates in what are now Russia and China</u></span>, but the discovery of the tooth in Laos suggests that they may have lived at low altitudes in relatively warm climates in Southeast Asia as well.</p>\n\n<p>Which choice best states the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "59460749-f918-42ea-9378-88168fa3ef8e",
+      "external_id": "393bfeee-c2e9-46ee-9345-cc936d64c420",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from the 1923 poem &ldquo;Black Finger&rdquo; by Angelina Weld Grimk&eacute;, a Black American writer. A cypress is a type of evergreen tree.</p>\n\n<p style=\"padding-left:1em;\">I have just seen a most beautiful thing,<br>Slim and still,<br>&ensp;Against a gold, gold sky,<br>&ensp;A straight black cypress,<br>Sensitive,<br>Exquisite,<br>A black finger<br>Pointing upwards.<br>Why, beautiful still finger, are you black?<br>And why are you pointing upwards?</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "5a0869bb-7a51-48cb-a83d-e8307cf1132e",
+      "external_id": "3cd2b9b2-3881-44c2-9327-ad7e42ca47c5",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p><u>In Jane Austen&rsquo;s novel <em>Mansfield Park</em>, an almost imperceptible smile from potential suitor Henry Crawford causes the protagonist Fanny Price to blush; her embarrassment grows when she suspects that he is aware of it.</u> This moment&mdash;in which Fanny not only infers Henry&rsquo;s mental state through his gestures, but also infers that <em>he</em> is drawing inferences about <em>her</em> mental state&mdash;illustrates what literary scholar George Butte calls &ldquo;deep intersubjectivity,&rdquo; a technique for representing interactions between consciousnesses through which Austen&rsquo;s novels derive much of their social and psychological drama.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "5c2c92da-2c9a-49f9-a89c-c71b852709a2",
+      "external_id": "3f75cf38-c11b-4bb3-9283-c7bfb82bca68",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Cynthia Kadohata&rsquo;s 2004 novel <em>Kira-Kira</em>.</p>\n<blockquote>\n<p><span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">[Uncle Katsuhisa] was as loud as my father was quiet.</span> Even when he wasn&rsquo;t talking, he made a lot of noise, clearing his throat and sniffing and tapping his fingers.</p>\n</blockquote>\n<p style=\"text-align: right;\"><span class=\"dap_copyright\">&copy;2004 by Cynthia Kadohata</span></p>\n\n<p>Which choice best describes the function of the underlined sentence?</p>"
+    },
+    {
+      "id": "752f2384-12e8-4f15-b26c-820f88e44979",
+      "external_id": "449936c8-0127-4cdc-9c9b-ed39cfce811b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from George Bernard Shaw&rsquo;s 1912 play <em>Pygmalion</em>. Henry Higgins has just arrived at the house of his mother (<span data-ssml-sub-alias=\"Mrs\">Mrs.</span> Higgins). She is expecting her friends to visit soon.</p>\n<blockquote>\n<p><span data-ssml-sub-alias=\"Mrs\">MRS.</span> HIGGINS: I&rsquo;m serious, Henry. You offend all my friends: they stop coming whenever they meet you.</p>\n<p>HIGGINS: Nonsense! I know I have no small talk; but people don&rsquo;t mind.</p>\n<p><span data-ssml-sub-alias=\"Mrs\">MRS.</span> HIGGINS: Oh! don&rsquo;t they? Small talk indeed! What about your large talk? Really, dear, you mustn&rsquo;t stay.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "753cf643-c6bf-4541-b543-6b2e620c1a49",
+      "external_id": "36d2382a-8d23-44b1-a32d-dc1668bbe98d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Some studies have suggested that posture can influence cognition, but we should not overstate this phenomenon. A case in point: In a 2014 study, Megan O&rsquo;Brien and Alaa Ahmed had subjects stand or sit while making risky simulated economic decisions. Standing is more physically unstable and cognitively demanding than sitting; accordingly, O&rsquo;Brien and Ahmed hypothesized that standing subjects would display more risk aversion during the decision-making tasks than sitting subjects did, since they would want to avoid further feelings of discomfort and complicated risk evaluations. But O&rsquo;Brien and Ahmed actually found no difference in the groups&rsquo; performance.&nbsp;</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "78bba41d-7d1b-43ee-8953-9c25f49fef8d",
+      "external_id": "38bf02b6-4e04-45bf-9f5f-3a8b5fafeb02",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p><span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">Individual elephants and Arctic herbivores such as caribou tend to have fixed geographic ranges throughout their lifetimes,</span> which had prompted some researchers to speculate that the Arctic woolly mammoth, an extinct elephantid, might have exhibited similar behavior. Mammoth tusks grew in sequential layers, incorporating ingested minerals and organics, and so each ivory stratum reflects the ratio of strontium isotopes (<sup>87</sup><span data-ssml-say-as=\"characters\">Sr</span>/<sup>86</sup><span data-ssml-say-as=\"characters\">Sr</span>) in the local environment; thus, the sequence of strata shows where the animal roamed during life. Recent analysis of the strontium ratios in the strata of one Arctic woolly mammoth tusk in relation to the geographic distribution of strontium ratios in the environment shows the animal&rsquo;s range begin to expand as it reached sexual maturity, only to contract again in its final 1.5 years.</p>\n\n<p>Which choice best describes the function of the underlined statement in the text as a whole?</p>"
+    },
+    {
+      "id": "7e8f71f5-6263-4119-a532-55bb8b5fbd03",
+      "external_id": "0c0f5772-1466-45bb-9070-8e471968273b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Astronomers are confident that the star Betelgeuse will eventually consume all the helium in its core and explode in a supernova. <span role=\"region\" aria-label=\"Referenced Content\"><u>They are much less confident, however, about when this will happen, since that depends on internal characteristics of Betelgeuse that are largely unknown.</u></span> Astrophysicist Sarafina El-Badry Nance and colleagues recently investigated whether acoustic waves in the star could be used to determine internal stellar states but concluded that this method could not sufficiently reveal Betelgeuse&rsquo;s internal characteristics to allow its evolutionary state to be firmly fixed.</p>\n\n<p>Which choice best describes the function of the second sentence in the overall structure of the text?</p>"
+    },
+    {
+      "id": "859a46f6-6a05-49d0-9c75-d8693c15caac",
+      "external_id": "0d2a7aa4-0630-4de6-b251-a0dce3c73714",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Archeological excavation of Market Street Chinatown, a nineteenth-century Chinese American community in San Jose, California, provided the first evidence that Asian food products were imported to the United States in the 1800s: bones from a freshwater fish species native to Southeast Asia. <u><em>Jinshanzhuang</em>&mdash;Hong Kong&ndash;based import/export firms&mdash;likely coordinated the fish&rsquo;s transport from Chinese-operated fisheries in Vietnam and Malaysia to North American markets.</u> This route reveals the (often overlooked) multinational dimensions of the trade networks linking Chinese diaspora communities.</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "93f23974-201d-42b9-baa1-e338318216dc",
+      "external_id": "2abccfa3-61cd-42dd-9d4a-1d073b749b79",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Very little is known about the role nocturnal insects, such as moths, play in flower pollination because it is difficult to monitor insects at night. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">To address this problem, a team of scientists used time-lapse cameras to record pollinator visits to red clover all day and night.</span> The recordings showed that while most pollinator visits were by bumblebees, one-third of visits were by moths. Additionally, flowers that were visited by both moths and bees produced more seeds than flowers that were only visited by bees.</p>\n\n<p>Which choice best states the function of the underlined sentence?&nbsp;</p>"
+    },
+    {
+      "id": "9610bf14-286d-475c-a3de-23a419794e72",
+      "external_id": "206213a4-9e14-4f92-ac95-ebae79522520",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p><span role=\"region\" aria-label=\"Referenced Content\"><u>Yawn contagion occurs when one individual yawns in response to another&rsquo;s yawn.</u></span> Studies of this behavior in primates have focused on populations in captivity, but biologist Elisabetta Palagi and her colleagues have shown that it can occur in wild primate populations as well. In their study, which focused on a wild population of gelada monkeys (<em>Theropithecus gelada</em>) in Ethiopia, the researchers further reported that yawn contagion most commonly occurred in males and across different social groups instead of within a single social group.</p>\n\n<p>Which choice best describes the function of the first sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "99b947f0-7f2d-4b40-8aea-2886e7fd31c9",
+      "external_id": "191cd5fb-1cf9-4faa-9d3b-975330cb2f5e",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Ordinary soap bubbles usually exist for a minute or less before popping due to either a rupture forced by gravity-induced drainage or the evaporation of the liquid from which the bubble is composed. But physicist Aymeric Roux and colleagues discovered ways to mitigate these factors, resulting in bubbles that can last for a year or more. For example, glycerol tends to adhere to water molecules, so <span role=\"region\" aria-label=\"Referenced Content\"><u>a bubble with a shell that contains both water and glycerol is able to draw additional water molecules from the surrounding air and thereby compensate for evaporation.</u></span></p>\n\n<p>Which choice best states the purpose of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "9a574b8f-80ca-433b-8263-136fc36fc45e",
+      "external_id": "14336308-2ccb-468e-864a-06a0b47ab7d4",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The Bayeux Tapestry, from eleventh-century France, depicts 75 scenes over 250 feet of fabric. It was likely produced by workers embroidering in sections and then joining the resulting panels together. It&rsquo;s plausible that the workshop that produced the tapestry had never produced one so large, and some researchers claim that a close examination of the joins&mdash;the places where the panels are stitched together&mdash;suggests that the workers developed and refined their joining process over the course of production. <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">For example, the first join the workers completed exhibits a clear misalignment of the borders of the two panels, whereas the later joins are virtually invisible.</span>&nbsp;&nbsp;</p>\n\n<p>Which choice best describes the function of the underlined sentence in the text as a whole?</p>"
+    },
+    {
+      "id": "9ce6f423-1aef-4d2e-8b57-df835950c698",
+      "external_id": "2d6912cd-b169-4b29-8eda-a71d3b4be08d",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Historians Tiya Miles and Roy E. Finkenbine have both documented the assistance Indigenous peoples gave to Black freedom seekers leaving the South before the US Civil War. Much of the historical evidence of this help comes from Indigenous oral traditions and from autobiographies written by the freedom seekers.&nbsp;<u>One such narrative is Jermain Loguen&rsquo;s autobiography, which tells about how Neshnab&eacute; (Potawatomi) villagers offered him food, lodging, and directions during his 1835 journey from Tennessee to Canada.</u></p>\n\n<p>Which choice best describes the function of the underlined sentence?</p>"
+    },
+    {
+      "id": "aa16520f-76a9-4451-9e7d-a1fd75ca78f4",
+      "external_id": "0a8d9bf8-77a2-4f8f-99fb-5b40b66c5e7f",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In 2020, rap artist and professor A.D. Carson published the first peer-reviewed rap album about his experiences with Black masculinity called &ldquo;i used to love to dream.&rdquo; Typically in peer review, experts evaluate scholarly articles prior to publication. For Carson&rsquo;s album, dubbed a &ldquo;mixtap/e/ssay,&rdquo; peer review involved both scholars and rap artists. In combining elements of a mixtape album with scholarly essays that connect Carson&rsquo;s lyrics to historical and contemporary contexts for listeners both inside and outside academia, Carson&rsquo;s album helped redefine how scholarship is created and shared.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "afdbfed0-42fa-4b66-b343-aed25a7b51f5",
+      "external_id": "1dddd092-c772-4d86-abfa-44d31120ec46",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>According to historian Vicki L. Ruiz, Mexican American women made crucial contributions to the labor movement during World War II. At the time, food processing companies entered into contracts to supply United States armed forces with canned goods. Increased production quotas conferred greater bargaining power on the companies&rsquo; employees, many of whom were Mexican American women: <span role=\"region\" aria-label=\"Referenced Content\"><u>employees insisted on more favorable benefits, and employers, who were anxious to fulfill the contracts, complied.</u></span> Thus, labor activism became a platform for Mexican American women to assert their agency.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "b0d3b5b3-3185-4449-9c3a-2f5304408ae6",
+      "external_id": "4d2b960a-1f3a-47d1-bbc8-7a1b716d193b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Composer Florence Price won first place for her score Symphony in E Minor at the 1932 Wanamaker Foundation Awards. The piece was performed the following year by the Chicago Symphony Orchestra, a significant recognition of its quality. Price continued to compose many musical pieces throughout her career, blending traditional Black spirituals with classical European Romantic musical traditions. In recent years, Price&rsquo;s concertos and symphonies have been performed and recorded by several major orchestras, further preserving her work for others to enjoy.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "b84a19ce-017b-4029-830d-51e4c01128ce",
+      "external_id": "3e625130-1460-4d6b-9e10-881fc3de26f3",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In 2007, computer scientist Luis von Ahn was working on converting printed books into a digital format. He found that some words were distorted enough that digital scanners couldn&rsquo;t recognize them, but most humans could easily read them. Based on that finding, von Ahn invented a simple security test to keep automated &ldquo;bots&rdquo; out of websites. The first version of the reCAPTCHA test asked users to type one known word and one of the many words scanners couldn&rsquo;t recognize. Correct answers proved the users were humans and added data to the book-digitizing project.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "ddede776-57fa-47e1-bc5d-0a90c401cbb1",
+      "external_id": "2837f39a-6678-4d66-b907-310733820fcd",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is adapted from Herman Melville&rsquo;s 1855 novel <em>Israel Potter</em>. Israel is a young man wandering through New England during the late eighteenth century.</p>\n<blockquote>\n<p>He hired himself out for three months; at the end of that time to receive for his wages two hundred acres of land lying in New Hampshire. [...] His employer proving false to the contract in the matter of the land, and there being no law in the country to force him to fulfil it, Israel&mdash;<span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">who, however brave-hearted, and even much of a dare-devil upon a pinch, seems nevertheless to have evinced, throughout many parts of his career, a singular patience and mildness</span>&mdash;was obliged to look round for other means of livelihood than clearing out a farm for himself in the wilderness.</p>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "de804fd3-2348-4c0f-b7b7-ba80722dd291",
+      "external_id": "19e7a039-c56e-47d2-b158-e21a8308c847",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from George Marion McClellan&rsquo;s 1895 poem &ldquo;Eternity.&rdquo;</p>\n<blockquote class=\"dap_poemexcerpt\">\n<p>My spirit swoons, and all my senses cry</p>\n<p>For Ocean&rsquo;s breast and covering of the sky.</p>\n<p>Rock me to sleep, ye waves, and outward bound,</p>\n<p>Just let me drift far out from toil and care,</p>\n<p>Where lapping of the waves shall be the sound,</p>\n<p>Which mingled with the winds that gently bear</p>\n<p>Me on between a peaceful sea and sky,</p>\n<p>To make my soothing slumberous lullaby.</p>\n</blockquote>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "dfbff626-993b-4625-89f4-4de715b7b2cc",
+      "external_id": "1b7212bd-9d4c-4b33-99ae-05ced7a6728f",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Using NASA&rsquo;s powerful James Webb Space Telescope (JWST), Mercedes L&oacute;pez-Morales and colleagues measured the wavelengths of light traveling through the atmosphere of WASP-39b, an exoplanet, or planet outside our solar system. Different molecules absorb different wavelengths of light, and the wavelength measurements showed the presence of carbon dioxide (CO₂) in WASP-39b&rsquo;s atmosphere. This finding not only offers the first decisive evidence of CO₂ in the atmosphere of an exoplanet but also illustrates the potential for future scientific breakthroughs held by the JWST.</p>\n\n<p>Which choice best describes the overall structure of the text?</p>"
+    },
+    {
+      "id": "e1c61dc2-af56-4841-8055-48c044709ac6",
+      "external_id": "1f2f2b52-c5d9-413f-8c35-2736973d9293",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In response to concerns that some recent financial crises were exacerbated by consumers misunderstanding risks associated with credit cards, loans, and other financial products, policymakers in many countries have instituted risk-disclosure requirements on sellers of those products. Enrique Seira <span data-ssml-sub-alias=\"et al\">et al.</span> investigated a variety of risk-disclosure messages sent to thousands of credit card customers and found that the messages had only small and short-lived effects on behavior. Seira <span data-ssml-sub-alias=\"et al\">et al.</span> asserted that such effects may nevertheless be worth pursuing, <span style=\"text-decoration: underline;\" role=\"region\" aria-label=\"Referenced Content\">given the negligible cost of messaging</span>.</p>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?</p>"
+    },
+    {
+      "id": "eca0e96c-5d8a-43ee-98b0-2b2c81e5f8a6",
+      "external_id": "1ae2ad8e-208a-49a9-8815-6724ef54cba3",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>In 1154, Muhammad al-Idrisi completed a collection of maps of the lands known to medieval Arabic and European scholars. This collection was titled <span lang=\"ar\"><em>Al-Kitāb al-Rujārī</em></span> (<em>The Book of Roger</em>), after the Norman king Roger II who hired him to create it. To create the collection, al-Idrisi consulted Arabic and Greek maps and interviewed travelers about the lands they visited. He included these travelers&rsquo; stories alongside the map illustrations.&nbsp;</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "1edbae5a-b7dd-4e45-a49d-b166797e2b1a",
+      "external_id": "0933d0e5-0612-448b-8d36-60bce5520e55",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>A study by Dr. Paul Hanel and colleagues concluded that people are more likely to behave politely when listening to ideas they disagree with if they think about values before they engage in a discussion. Study participants were assigned to one of two groups. The experimental group spent a few minutes writing about one of their personal values before they had a group discussion on a controversial topic. And the control group spent a few minutes writing about a drink (tea, milk, etc.) before their group discussion on that topic. Hanel and colleagues found that the experimental group&rsquo;s discussion was more civil than the control group&rsquo;s discussion was.&nbsp;</p>\n\n<p>Which choice best describes the main purpose of the text?</p>"
+    },
+    {
+      "id": "c4bcd7bc-16fd-47a5-a8a5-4da7a5d9e339",
+      "external_id": "01611dc3-f580-44be-9169-dbf82d4aaabe",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p><span role=\"region\" aria-label=\"Referenced Content\"><u>&ldquo;How lifelike are they?&rdquo;</u></span> Many computer animators prioritize this question as they strive to create ever more realistic environments and lighting. Generally, while characters in computer-animated films appear highly exaggerated, environments and lighting are carefully engineered to mimic reality. But some animators, such as Pixar&rsquo;s Sanjay Patel, are focused on a different question. Rather than asking first whether the environments and lighting they&rsquo;re creating are convincingly lifelike, Patel and others are asking whether these elements reflect their films&rsquo; unique stories.</p>\n\n<p>Which choice best describes the function of the underlined question in the text as a whole?</p>"
+    },
+    {
+      "id": "d7b7aa8e-7784-4eea-8c5c-d09dbb1bb60e",
+      "external_id": "02063032-370b-410d-96df-d4cab4cb231b",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The field of study called affective neuroscience seeks instinctive, physiological causes for feelings such as pleasure or displeasure. Because these sensations are linked to a chemical component (for example, the release of the neurotransmitter dopamine in the brain when one receives or expects a reward), they can be said to have a partly physiological basis. These processes have been described in mammals, but Jingnan Huang and his colleagues have recently observed that some behaviors of honeybees (such as foraging) are also motivated by a dopamine-based signaling process.</p>\n\n<p>What choice best describes the main purpose of the text?</p>"
+    },
+    {
+      "id": "e68f3e5e-e54c-46cc-a2bf-9162b38d0966",
+      "external_id": "08889d3e-5844-4d9c-b199-8872759e78e9",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "E",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>The following text is from Srimati Svarna Kumari Devi&rsquo;s 1894 novel <em>The Fatal Garland</em>&nbsp;(translated by A. Christina Albers in 1910). Shakti is walking near a riverbank that she visited frequently during her childhood.</p>\n<blockquote>\n<p>She crossed the woods she knew so well. <span role=\"region\" aria-label=\"Referenced Content\"><u>The trees seemed to extend their branches like welcoming arms.</u></span> They greeted her as an old friend. Soon she reached the river-side.</p>\n</blockquote>\n\n<p>Which choice best describes the function of the underlined portion in the text as a whole?&nbsp;</p>"
+    },
+    {
+      "id": "ea8b9136-4cff-4329-b5ae-3bc1247c3d3a",
+      "external_id": "0a8ab139-6641-4c5d-b8bf-5cd25d41c750",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "H",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Studying late nineteenth- and early twentieth-century artifacts from an agricultural and domestic site in Texas, archaeologist Ayana O. Flewellen found that Black women employed as farm workers utilized hook-and-eye closures to fasten their clothes at the waist, giving themselves a silhouette similar to the one that was popular in contemporary fashion and typically achieved through more restrictive garments such as corsets. Flewellen argues that this sartorial practice shows that these women balanced hegemonic ideals of femininity with the requirements of their physically demanding occupation.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    },
+    {
+      "id": "ebb9e286-693a-4eae-9eb2-b61ba399cf7f",
+      "external_id": "09c41447-e1f1-4921-a393-2e9aa2a61bc1",
+      "subject_area": "reading_writing",
+      "domain": {
+        "id": 6,
+        "code": "CAS",
+        "name": "Craft and Structure"
+      },
+      "skill": {
+        "id": 53,
+        "code": "TSP",
+        "name": "Text Structure and Purpose"
+      },
+      "difficulty": "M",
+      "answer_type": "MCQ",
+      "prompt_html": "<p>Early in the Great Migration of 1910&ndash;1970, which involved the mass migration of Black people from the southern to the northern United States, political activist and <em>Chicago Defender</em> writer Fannie Barrier Williams was instrumental in helping other Black women establish themselves in the North. Many women hoped for better employment opportunities in the North because, in the South, they faced much competition for domestic employment and men tended to get agricultural work. To aid with this transition, Barrier Williams helped secure job placement in the North for many women before they even began their journey.</p>\n\n<p>Which choice best states the main purpose of the text?</p>"
+    }
+  ],
+  "total": 130,
+  "limit": 200,
+  "offset": 0
+}

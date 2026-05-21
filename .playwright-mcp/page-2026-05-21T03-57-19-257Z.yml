@@ -1,0 +1,129 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e8]: Z
+    - navigation [ref=e9]:
+      - generic [ref=e10]:
+        - link "Dashboard" [ref=e11] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e12]
+        - link "Study Plan" [ref=e17] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e18]
+        - link "Diagnostic" [ref=e21] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e22]
+        - link "My Assignments" [ref=e26] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e27]
+      - generic [ref=e30]:
+        - link "Question Bank" [ref=e32] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e33]
+        - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e37]
+        - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e41]
+      - link "My Progress" [ref=e46] [cursor=pointer]:
+        - /url: /student/progress
+        - img [ref=e47]
+  - generic [ref=e50]:
+    - banner [ref=e51]:
+      - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+        - generic "Test Student" [ref=e54]: TS
+        - generic [ref=e55]: Test Student
+        - img [ref=e56]
+    - main [ref=e58]:
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - button [ref=e61] [cursor=pointer]:
+            - img [ref=e62]
+          - generic [ref=e64]:
+            - heading "Adaptive Practice" [level=1] [ref=e65]
+            - paragraph [ref=e66]: Questions selected based on your ability level
+        - generic [ref=e67]:
+          - heading "How Adaptive Practice Works" [level=3] [ref=e69]:
+            - img [ref=e70]
+            - text: How Adaptive Practice Works
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - paragraph [ref=e79]: Questions are selected based on your current skill level using IRT (Item Response Theory)
+            - generic [ref=e80]:
+              - img [ref=e82]
+              - paragraph [ref=e86]: Questions adapt to your skill level as you practice
+            - generic [ref=e87]:
+              - img [ref=e89]
+              - paragraph [ref=e93]: Questions target the "zone of proximal development" - challenging but achievable
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - heading "Select Skills to Practice" [level=3] [ref=e96]
+            - paragraph [ref=e97]: Choose one or more skills to focus on
+          - generic [ref=e99]:
+            - generic [ref=e100]:
+              - generic [ref=e101]: 1 skill selected
+              - generic [ref=e102]:
+                - button "Select All" [ref=e103] [cursor=pointer]
+                - button "Clear" [ref=e104] [cursor=pointer]
+            - generic [ref=e105]:
+              - generic [ref=e106]:
+                - button "Heart of Algebra 1/5" [ref=e183] [cursor=pointer]:
+                  - generic [ref=e108]: Heart of Algebra
+                  - generic [ref=e109]:
+                    - generic [ref=e110]: 1/5
+                    - img [ref=e165]
+                - generic [ref=e167]:
+                  - generic [ref=e168] [cursor=pointer]:
+                    - checkbox "Linear equations in two variables" [checked] [active] [ref=e169]
+                    - generic [ref=e170]: Linear equations in two variables
+                  - generic [ref=e171] [cursor=pointer]:
+                    - checkbox "Systems of two linear equations in two variables" [ref=e172]
+                    - generic [ref=e173]: Systems of two linear equations in two variables
+                  - generic [ref=e174] [cursor=pointer]:
+                    - checkbox "Linear equations in one variable" [ref=e175]
+                    - generic [ref=e176]: Linear equations in one variable
+                  - generic [ref=e177] [cursor=pointer]:
+                    - checkbox "Linear inequalities in one or two variables" [ref=e178]
+                    - generic [ref=e179]: Linear inequalities in one or two variables
+                  - generic [ref=e180] [cursor=pointer]:
+                    - checkbox "Linear functions" [ref=e181]
+                    - generic [ref=e182]: Linear functions
+              - button "Problem Solving and Data Analysis 0/3" [ref=e114] [cursor=pointer]:
+                - generic [ref=e115]: Problem Solving and Data Analysis
+                - generic [ref=e116]:
+                  - generic [ref=e117]: 0/3
+                  - img [ref=e118]
+              - button "Passport to Advanced Math 0/7" [ref=e121] [cursor=pointer]:
+                - generic [ref=e122]: Passport to Advanced Math
+                - generic [ref=e123]:
+                  - generic [ref=e124]: 0/7
+                  - img [ref=e125]
+              - button "Additional Topics in Math 0/4" [ref=e128] [cursor=pointer]:
+                - generic [ref=e129]: Additional Topics in Math
+                - generic [ref=e130]:
+                  - generic [ref=e131]: 0/4
+                  - img [ref=e132]
+              - button "Information and Ideas 0/3" [ref=e135] [cursor=pointer]:
+                - generic [ref=e136]: Information and Ideas
+                - generic [ref=e137]:
+                  - generic [ref=e138]: 0/3
+                  - img [ref=e139]
+              - button "Craft and Structure 0/3" [ref=e142] [cursor=pointer]:
+                - generic [ref=e143]: Craft and Structure
+                - generic [ref=e144]:
+                  - generic [ref=e145]: 0/3
+                  - img [ref=e146]
+              - button "Expression of Ideas 0/2" [ref=e149] [cursor=pointer]:
+                - generic [ref=e150]: Expression of Ideas
+                - generic [ref=e151]:
+                  - generic [ref=e152]: 0/2
+                  - img [ref=e153]
+              - button "Standard English Conventions 0/2" [ref=e156] [cursor=pointer]:
+                - generic [ref=e157]: Standard English Conventions
+                - generic [ref=e158]:
+                  - generic [ref=e159]: 0/2
+                  - img [ref=e160]
+        - button "Start Adaptive Practice" [ref=e162] [cursor=pointer]:
+          - img [ref=e163]
+          - text: Start Adaptive Practice

@@ -1,0 +1,119 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e188]:
+            - generic [ref=e189]:
+              - button [ref=e190] [cursor=pointer]:
+                - img [ref=e191]
+              - generic [ref=e193]:
+                - heading "Adaptive Practice" [level=1] [ref=e194]
+                - generic [ref=e195]:
+                  - generic [ref=e196]: Question 1
+                  - generic [ref=e197]: "|"
+                  - generic [ref=e198]: 0 correct
+            - generic [ref=e199]:
+              - button "Draw on question" [ref=e200] [cursor=pointer]:
+                - img [ref=e201]
+              - button "End Practice" [ref=e204] [cursor=pointer]
+              - button "Calculator" [ref=e205] [cursor=pointer]:
+                - img [ref=e206]
+                - text: Calculator
+          - generic [ref=e209]:
+            - generic [ref=e210]:
+              - generic [ref=e212]: "1"
+              - button "Report" [ref=e213] [cursor=pointer]:
+                - generic [ref=e214]: Report
+            - paragraph [ref=e219]:
+              - math "open parenthesis, b minus 2, close parenthesis, times x, equals 8" [ref=e222]
+            - generic [ref=e223]:
+              - generic [ref=e225]:
+                - paragraph [ref=e227]:
+                  - generic [ref=e232]:
+                    - generic [ref=e233]:
+                      - generic [ref=e235]: (
+                      - generic [ref=e237]: b
+                      - generic [ref=e239]: −
+                      - generic [ref=e241]: "2"
+                      - generic [ref=e243]: )
+                      - generic [ref=e245]: ×
+                      - generic [ref=e247]: x
+                      - generic [ref=e249]: =
+                      - generic [ref=e251]: "8"
+                    - math [ref=e253]:
+                      - generic [ref=e254]: (
+                      - generic [ref=e255]: b
+                      - generic [ref=e256]: −
+                      - generic [ref=e257]: "2"
+                      - generic [ref=e258]: )
+                      - generic [ref=e259]: ×
+                      - generic [ref=e260]: x
+                      - generic [ref=e261]: =
+                      - generic [ref=e262]: "8"
+                - paragraph [ref=e263]: In the given equation, b is a constant. If the equation has no solution, what is the value of b ?
+              - generic [ref=e264]:
+                - button "A 2" [ref=e265] [cursor=pointer]:
+                  - generic [ref=e266]: A
+                  - paragraph [ref=e268]: "2"
+                - button "B 4" [ref=e269] [cursor=pointer]:
+                  - generic [ref=e270]: B
+                  - paragraph [ref=e272]: "4"
+                - button "C 6" [ref=e273] [cursor=pointer]:
+                  - generic [ref=e274]: C
+                  - paragraph [ref=e276]: "6"
+                - button "D 10" [ref=e277] [cursor=pointer]:
+                  - generic [ref=e278]: D
+                  - paragraph [ref=e280]: "10"
+          - generic [ref=e281]:
+            - generic [ref=e283]: Question 1(unlimited)
+            - button "Check Answer" [ref=e285] [cursor=pointer]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e286]
+  - paragraph [ref=e287]

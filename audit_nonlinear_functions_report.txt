@@ -1,0 +1,308 @@
+/Users/ibrahim/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Auditing questions for skill: P.C. - Nonlinear functions (ID: 35)
+================================================================================
+
+Fetching questions from: http://localhost:8000/api/v1/questions?skill_id=35&limit=500&full=true
+Total questions: 227
+Questions fetched: 227
+
+Question 3 (ID: 0ff7d2c7...): 1 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+
+Question 4 (ID: 11381a9e...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 12 (ID: 8927e995...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 14 (ID: a7b4cfca...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 19 (ID: f76846b1...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 2 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 26 (ID: 14356339...): 2 issue(s)
+  - Prompt LaTeX: LaTeX commands: 3 occurrences
+  - Prompt LaTeX: LaTeX braces: 6 occurrences
+
+Question 34 (ID: 309703c7...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 35 (ID: 345afd65...): 1 issue(s)
+  - Prompt LaTeX: LaTeX commands: 4 occurrences
+
+Question 37 (ID: 3dc26e8a...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 43 (ID: 5ff7353d...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 3 occurrences
+  - Prompt LaTeX: Superscripts: 3 occurrences
+
+Question 46 (ID: 84d6ff57...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 49 (ID: 8de7de7f...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 52 (ID: a08febdb...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 2 occurrences
+  - Prompt LaTeX: Superscripts: 2 occurrences
+
+Question 53 (ID: adc4d93e...): 1 issue(s)
+  - Prompt LaTeX: Inline math mode: 1 occurrences
+
+Question 56 (ID: d1d4d500...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 60 (ID: eb0b8611...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 65 (ID: f77c6a9c...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 70 (ID: 1460adfd...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 74 (ID: 2c8885d6...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 81 (ID: 606d8f93...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 83 (ID: 60a4b2f0...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 2 occurrences
+  - Prompt LaTeX: LaTeX braces: 3 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 87 (ID: 7b74cfd6...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 88 (ID: 8616f714...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 92 (ID: 96af9ba2...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 93 (ID: 96fcdbbf...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 94 (ID: 98a16ef5...): 1 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+
+Question 102 (ID: c0440df6...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 103 (ID: c1361415...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 113 (ID: eb6ebad5...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 5 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 117 (ID: 0810038d...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 2 occurrences
+  - Prompt LaTeX: Superscripts: 2 occurrences
+
+Question 118 (ID: 0f23511a...): 4 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 3 occurrences
+  - Prompt LaTeX: Subscripts: 2 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 122 (ID: 26199c16...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 124 (ID: 333fab0f...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 128 (ID: 42da5a21...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 129 (ID: 430f7e2c...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 130 (ID: 49c16eea...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 134 (ID: 6035245b...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 135 (ID: 66c0654f...): 7 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+  - Empty choice A
+  - Empty choice B
+  - Empty choice C
+  - Empty choice D
+
+Question 136 (ID: 74373c51...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 138 (ID: 7bbb1484...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 149 (ID: a94f06e1...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 155 (ID: c608a98d...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 2 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 157 (ID: cc514199...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 158 (ID: d24d5fa0...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 162 (ID: f0afd01c...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 163 (ID: f69bf034...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 169 (ID: 1e42c884...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 4 occurrences
+  - Prompt LaTeX: LaTeX braces: 4 occurrences
+  - Prompt LaTeX: Superscripts: 4 occurrences
+
+Question 170 (ID: 1f588d3e...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 177 (ID: 52163345...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 184 (ID: 73dad7e1...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 187 (ID: 8059ae07...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 189 (ID: 866a7993...): 4 issue(s)
+  - Empty choice A
+  - Empty choice B
+  - Empty choice C
+  - Empty choice D
+
+Question 190 (ID: 8e26d682...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 191 (ID: 910545d7...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 199 (ID: bd21d7a7...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 200 (ID: c1243998...): 2 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 207 (ID: e4d32298...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 215 (ID: 5c489528...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 216 (ID: 5d69b4ec...): 1 issue(s)
+  - Prompt LaTeX: Inline math mode: 1 occurrences
+
+Question 218 (ID: 8248a99b...): 3 issue(s)
+  - Prompt LaTeX: LaTeX commands: 1 occurrences
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+  - Prompt LaTeX: Superscripts: 1 occurrences
+
+Question 221 (ID: ade9900e...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+Question 224 (ID: d8bb3fd7...): 1 issue(s)
+  - Prompt LaTeX: LaTeX braces: 1 occurrences
+
+================================================================================
+SUMMARY:
+Skill: P.C. - Nonlinear functions
+Total questions checked: 227
+Issues found: 62
+
+Questions with issues:
+  - Question 3 (ID: 0ff7d2c7...): 1 issue(s)
+  - Question 4 (ID: 11381a9e...): 2 issue(s)
+  - Question 12 (ID: 8927e995...): 1 issue(s)
+  - Question 14 (ID: a7b4cfca...): 1 issue(s)
+  - Question 19 (ID: f76846b1...): 3 issue(s)
+  - Question 26 (ID: 14356339...): 2 issue(s)
+  - Question 34 (ID: 309703c7...): 1 issue(s)
+  - Question 35 (ID: 345afd65...): 1 issue(s)
+  - Question 37 (ID: 3dc26e8a...): 2 issue(s)
+  - Question 43 (ID: 5ff7353d...): 2 issue(s)
+  - Question 46 (ID: 84d6ff57...): 1 issue(s)
+  - Question 49 (ID: 8de7de7f...): 1 issue(s)
+  - Question 52 (ID: a08febdb...): 2 issue(s)
+  - Question 53 (ID: adc4d93e...): 1 issue(s)
+  - Question 56 (ID: d1d4d500...): 1 issue(s)
+  - Question 60 (ID: eb0b8611...): 1 issue(s)
+  - Question 65 (ID: f77c6a9c...): 1 issue(s)
+  - Question 70 (ID: 1460adfd...): 1 issue(s)
+  - Question 74 (ID: 2c8885d6...): 1 issue(s)
+  - Question 81 (ID: 606d8f93...): 1 issue(s)
+  - Question 83 (ID: 60a4b2f0...): 3 issue(s)
+  - Question 87 (ID: 7b74cfd6...): 1 issue(s)
+  - Question 88 (ID: 8616f714...): 1 issue(s)
+  - Question 92 (ID: 96af9ba2...): 2 issue(s)
+  - Question 93 (ID: 96fcdbbf...): 2 issue(s)
+  - Question 94 (ID: 98a16ef5...): 1 issue(s)
+  - Question 102 (ID: c0440df6...): 3 issue(s)
+  - Question 103 (ID: c1361415...): 3 issue(s)
+  - Question 113 (ID: eb6ebad5...): 3 issue(s)
+  - Question 117 (ID: 0810038d...): 2 issue(s)
+  - Question 118 (ID: 0f23511a...): 4 issue(s)
+  - Question 122 (ID: 26199c16...): 1 issue(s)
+  - Question 124 (ID: 333fab0f...): 1 issue(s)
+  - Question 128 (ID: 42da5a21...): 1 issue(s)
+  - Question 129 (ID: 430f7e2c...): 3 issue(s)
+  - Question 130 (ID: 49c16eea...): 1 issue(s)
+  - Question 134 (ID: 6035245b...): 1 issue(s)
+  - Question 135 (ID: 66c0654f...): 7 issue(s)
+  - Question 136 (ID: 74373c51...): 1 issue(s)
+  - Question 138 (ID: 7bbb1484...): 1 issue(s)
+  - Question 149 (ID: a94f06e1...): 1 issue(s)
+  - Question 155 (ID: c608a98d...): 3 issue(s)
+  - Question 157 (ID: cc514199...): 1 issue(s)
+  - Question 158 (ID: d24d5fa0...): 1 issue(s)
+  - Question 162 (ID: f0afd01c...): 2 issue(s)
+  - Question 163 (ID: f69bf034...): 1 issue(s)
+  - Question 169 (ID: 1e42c884...): 3 issue(s)
+  - Question 170 (ID: 1f588d3e...): 3 issue(s)
+  - Question 177 (ID: 52163345...): 3 issue(s)
+  - Question 184 (ID: 73dad7e1...): 1 issue(s)
+  - Question 187 (ID: 8059ae07...): 1 issue(s)
+  - Question 189 (ID: 866a7993...): 4 issue(s)
+  - Question 190 (ID: 8e26d682...): 1 issue(s)
+  - Question 191 (ID: 910545d7...): 1 issue(s)
+  - Question 199 (ID: bd21d7a7...): 1 issue(s)
+  - Question 200 (ID: c1243998...): 2 issue(s)
+  - Question 207 (ID: e4d32298...): 1 issue(s)
+  - Question 215 (ID: 5c489528...): 1 issue(s)
+  - Question 216 (ID: 5d69b4ec...): 1 issue(s)
+  - Question 218 (ID: 8248a99b...): 3 issue(s)
+  - Question 221 (ID: ade9900e...): 1 issue(s)
+  - Question 224 (ID: d8bb3fd7...): 1 issue(s)

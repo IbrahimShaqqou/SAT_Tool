@@ -387,7 +387,7 @@ const AdaptivePracticePage = () => {
 
   // Submit answer
   const handleSubmitAnswer = async () => {
-    if (answer === null || answer === undefined) return;
+    if (answer === null || answer === undefined || answer === '') return;
 
     setIsSubmitting(true);
     setPreviousAbility(currentAbility);
@@ -825,7 +825,7 @@ const AdaptivePracticePage = () => {
             <Button
               variant="primary"
               onClick={handleSubmitAnswer}
-              disabled={answer === null || answer === undefined || isSubmitting}
+              disabled={answer === null || answer === undefined || answer === '' || isSubmitting}
               className="min-w-[200px]"
             >
               {isSubmitting ? 'Checking...' : 'Check Answer'}

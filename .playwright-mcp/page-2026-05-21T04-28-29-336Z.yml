@@ -1,0 +1,13 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "Skill BOU - Boundaries Visual Audit" [level=1] [ref=e3]
+    - paragraph [ref=e4]:
+      - strong [ref=e5]: "Skill ID:"
+      - text: "57"
+    - paragraph [ref=e6]:
+      - strong [ref=e7]: "Domain:"
+      - text: Standard English Conventions
+    - paragraph [ref=e8]:
+      - strong [ref=e9]: "Total Questions:"
+      - text: Loading...
+  - paragraph [ref=e12]: "Error loading questions: Unexpected token '<', \""

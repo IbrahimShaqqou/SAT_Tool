@@ -1,0 +1,331 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e141]: ZooPrep
+    - navigation [ref=e9]:
+      - generic [ref=e10]:
+        - link "Dashboard" [ref=e11] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e12]
+          - generic [ref=e142]: Dashboard
+        - link "Study Plan" [ref=e17] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e18]
+          - generic [ref=e143]: Study Plan
+        - link "Diagnostic" [ref=e21] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e22]
+          - generic [ref=e144]: Diagnostic
+        - link "My Assignments" [ref=e26] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e27]
+          - generic [ref=e145]: My Assignments
+      - generic [ref=e30]:
+        - paragraph [ref=e146]: Practice
+        - link "Question Bank" [ref=e32] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e33]
+          - generic [ref=e147]: Question Bank
+        - link "Skill Lessons" [active] [ref=e36] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e37]
+          - generic [ref=e148]: Skill Lessons
+        - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e41]
+          - generic [ref=e149]: Adaptive Practice
+      - generic [ref=e44]:
+        - paragraph [ref=e150]: Progress
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+          - generic [ref=e151]: My Progress
+    - button "Collapse" [ref=e153] [cursor=pointer]:
+      - img [ref=e154]
+      - generic [ref=e156]: Collapse
+  - generic [ref=e50]:
+    - banner [ref=e51]:
+      - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+        - generic "Test Student" [ref=e54]: TS
+        - generic [ref=e55]: Test Student
+        - img [ref=e56]
+    - main [ref=e58]:
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - heading "Skill Lessons" [level=1] [ref=e160]
+            - paragraph [ref=e161]: Learn concepts before you practice
+          - generic [ref=e162]:
+            - img [ref=e163]
+            - generic [ref=e166]: 0 / 19 completed
+        - generic [ref=e167]:
+          - button "Math 19" [ref=e168] [cursor=pointer]:
+            - img [ref=e169]
+            - text: Math
+            - generic [ref=e171]: "19"
+          - button "Reading & Writing 0" [ref=e172] [cursor=pointer]:
+            - img [ref=e173]
+            - text: Reading & Writing
+            - generic [ref=e175]: "0"
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - img [ref=e180]
+              - generic [ref=e182]:
+                - heading "Heart of Algebra" [level=2] [ref=e183]
+                - paragraph [ref=e184]: 0 of 5 lessons completed
+              - generic [ref=e187]: 0%
+            - generic [ref=e188]:
+              - button "H.D. Systems of Two Linear Equations Master solving systems using substitution, elimination, and Desmos 20 min intermediate Start Learning" [ref=e189] [cursor=pointer]:
+                - generic [ref=e190]: H.D.
+                - heading "Systems of Two Linear Equations" [level=3] [ref=e191]
+                - paragraph [ref=e192]: Master solving systems using substitution, elimination, and Desmos
+                - generic [ref=e193]:
+                  - generic [ref=e194]:
+                    - img [ref=e195]
+                    - text: 20 min
+                  - generic [ref=e198]: intermediate
+                - generic [ref=e199]:
+                  - generic [ref=e200]: Start Learning
+                  - img [ref=e201]
+              - button "H.A. Linear Equations in One Variable Master solving equations and finding related expressions 18 min foundational Start Learning" [ref=e204] [cursor=pointer]:
+                - generic [ref=e205]: H.A.
+                - heading "Linear Equations in One Variable" [level=3] [ref=e206]
+                - paragraph [ref=e207]: Master solving equations and finding related expressions
+                - generic [ref=e208]:
+                  - generic [ref=e209]:
+                    - img [ref=e210]
+                    - text: 18 min
+                  - generic [ref=e213]: foundational
+                - generic [ref=e214]:
+                  - generic [ref=e215]: Start Learning
+                  - img [ref=e216]
+              - button "H.B. Linear Functions Master evaluating, building, and interpreting linear functions 22 min foundational Start Learning" [ref=e219] [cursor=pointer]:
+                - generic [ref=e220]: H.B.
+                - heading "Linear Functions" [level=3] [ref=e221]
+                - paragraph [ref=e222]: Master evaluating, building, and interpreting linear functions
+                - generic [ref=e223]:
+                  - generic [ref=e224]:
+                    - img [ref=e225]
+                    - text: 22 min
+                  - generic [ref=e228]: foundational
+                - generic [ref=e229]:
+                  - generic [ref=e230]: Start Learning
+                  - img [ref=e231]
+              - button "H.C. Linear Equations in Two Variables Master slope, intercepts, parallel/perpendicular lines, and interpreting equations 20 min foundational Start Learning" [ref=e234] [cursor=pointer]:
+                - generic [ref=e235]: H.C.
+                - heading "Linear Equations in Two Variables" [level=3] [ref=e236]
+                - paragraph [ref=e237]: Master slope, intercepts, parallel/perpendicular lines, and interpreting equations
+                - generic [ref=e238]:
+                  - generic [ref=e239]:
+                    - img [ref=e240]
+                    - text: 20 min
+                  - generic [ref=e243]: foundational
+                - generic [ref=e244]:
+                  - generic [ref=e245]: Start Learning
+                  - img [ref=e246]
+              - button "H.E. Linear Inequalities in One or Two Variables Master writing, solving, and graphing inequalities for SAT success 20 min intermediate Start Learning" [ref=e249] [cursor=pointer]:
+                - generic [ref=e250]: H.E.
+                - heading "Linear Inequalities in One or Two Variables" [level=3] [ref=e251]
+                - paragraph [ref=e252]: Master writing, solving, and graphing inequalities for SAT success
+                - generic [ref=e253]:
+                  - generic [ref=e254]:
+                    - img [ref=e255]
+                    - text: 20 min
+                  - generic [ref=e258]: intermediate
+                - generic [ref=e259]:
+                  - generic [ref=e260]: Start Learning
+                  - img [ref=e261]
+          - generic [ref=e264]:
+            - generic [ref=e265]:
+              - img [ref=e267]
+              - generic [ref=e269]:
+                - heading "Problem Solving and Data Analysis" [level=2] [ref=e270]
+                - paragraph [ref=e271]: 0 of 3 lessons completed
+              - generic [ref=e274]: 0%
+            - generic [ref=e275]:
+              - button "P.C. Nonlinear Functions Master quadratic and exponential functions — graphs, formulas, and real-world models 28 min intermediate Start Learning" [ref=e276] [cursor=pointer]:
+                - generic [ref=e277]: P.C.
+                - heading "Nonlinear Functions" [level=3] [ref=e278]
+                - paragraph [ref=e279]: Master quadratic and exponential functions — graphs, formulas, and real-world models
+                - generic [ref=e280]:
+                  - generic [ref=e281]:
+                    - img [ref=e282]
+                    - text: 28 min
+                  - generic [ref=e285]: intermediate
+                - generic [ref=e286]:
+                  - generic [ref=e287]: Start Learning
+                  - img [ref=e288]
+              - button "P.B. Nonlinear Equations in One Variable Master solving quadratics, counting solutions, and nonlinear systems 25 min intermediate Start Learning" [ref=e291] [cursor=pointer]:
+                - generic [ref=e292]: P.B.
+                - heading "Nonlinear Equations in One Variable" [level=3] [ref=e293]
+                - paragraph [ref=e294]: Master solving quadratics, counting solutions, and nonlinear systems
+                - generic [ref=e295]:
+                  - generic [ref=e296]:
+                    - img [ref=e297]
+                    - text: 25 min
+                  - generic [ref=e300]: intermediate
+                - generic [ref=e301]:
+                  - generic [ref=e302]: Start Learning
+                  - img [ref=e303]
+              - button "P.A. Equivalent Expressions Master simplifying, factoring, and rewriting algebraic expressions 22 min intermediate Start Learning" [ref=e306] [cursor=pointer]:
+                - generic [ref=e307]: P.A.
+                - heading "Equivalent Expressions" [level=3] [ref=e308]
+                - paragraph [ref=e309]: Master simplifying, factoring, and rewriting algebraic expressions
+                - generic [ref=e310]:
+                  - generic [ref=e311]:
+                    - img [ref=e312]
+                    - text: 22 min
+                  - generic [ref=e315]: intermediate
+                - generic [ref=e316]:
+                  - generic [ref=e317]: Start Learning
+                  - img [ref=e318]
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - img [ref=e324]
+              - generic [ref=e326]:
+                - heading "Passport to Advanced Math" [level=2] [ref=e327]
+                - paragraph [ref=e328]: 0 of 7 lessons completed
+              - generic [ref=e331]: 0%
+            - generic [ref=e332]:
+              - button "Q.A. Ratios, Rates, Proportional Relationships, and Units Master dimensional analysis, proportions, density, work-rate, and mixture problems 22 min foundational Start Learning" [ref=e333] [cursor=pointer]:
+                - generic [ref=e334]: Q.A.
+                - heading "Ratios, Rates, Proportional Relationships, and Units" [level=3] [ref=e335]
+                - paragraph [ref=e336]: Master dimensional analysis, proportions, density, work-rate, and mixture problems
+                - generic [ref=e337]:
+                  - generic [ref=e338]:
+                    - img [ref=e339]
+                    - text: 22 min
+                  - generic [ref=e342]: foundational
+                - generic [ref=e343]:
+                  - generic [ref=e344]: Start Learning
+                  - img [ref=e345]
+              - button "Q.F. Inference from Sample Statistics and Margin of Error Scale from samples to populations, interpret confidence intervals, and evaluate statistical claims 18 min intermediate Start Learning" [ref=e348] [cursor=pointer]:
+                - generic [ref=e349]: Q.F.
+                - heading "Inference from Sample Statistics and Margin of Error" [level=3] [ref=e350]
+                - paragraph [ref=e351]: Scale from samples to populations, interpret confidence intervals, and evaluate statistical claims
+                - generic [ref=e352]:
+                  - generic [ref=e353]:
+                    - img [ref=e354]
+                    - text: 18 min
+                  - generic [ref=e357]: intermediate
+                - generic [ref=e358]:
+                  - generic [ref=e359]: Start Learning
+                  - img [ref=e360]
+              - button "Q.B. Percentages Master percent calculations, percent change, multi-step percents, and exponential growth 20 min foundational Start Learning" [ref=e363] [cursor=pointer]:
+                - generic [ref=e364]: Q.B.
+                - heading "Percentages" [level=3] [ref=e365]
+                - paragraph [ref=e366]: Master percent calculations, percent change, multi-step percents, and exponential growth
+                - generic [ref=e367]:
+                  - generic [ref=e368]:
+                    - img [ref=e369]
+                    - text: 20 min
+                  - generic [ref=e372]: foundational
+                - generic [ref=e373]:
+                  - generic [ref=e374]: Start Learning
+                  - img [ref=e375]
+              - button "Q.E. Probability and Conditional Probability Master basic probability, two-way tables, conditional probability, and complementary events 22 min intermediate Start Learning" [ref=e378] [cursor=pointer]:
+                - generic [ref=e379]: Q.E.
+                - heading "Probability and Conditional Probability" [level=3] [ref=e380]
+                - paragraph [ref=e381]: Master basic probability, two-way tables, conditional probability, and complementary events
+                - generic [ref=e382]:
+                  - generic [ref=e383]:
+                    - img [ref=e384]
+                    - text: 22 min
+                  - generic [ref=e387]: intermediate
+                - generic [ref=e388]:
+                  - generic [ref=e389]: Start Learning
+                  - img [ref=e390]
+              - 'button "Q.C. One-Variable Data: Distributions and Measures Master mean, median, mode, spread, standard deviation, and box plots 22 min foundational Start Learning" [ref=e393] [cursor=pointer]':
+                - generic [ref=e394]: Q.C.
+                - 'heading "One-Variable Data: Distributions and Measures" [level=3] [ref=e395]'
+                - paragraph [ref=e396]: Master mean, median, mode, spread, standard deviation, and box plots
+                - generic [ref=e397]:
+                  - generic [ref=e398]:
+                    - img [ref=e399]
+                    - text: 22 min
+                  - generic [ref=e402]: foundational
+                - generic [ref=e403]:
+                  - generic [ref=e404]: Start Learning
+                  - img [ref=e405]
+              - 'button "Q.D. Two-Variable Data: Models and Scatterplots Master scatterplots, lines of best fit, residuals, and model selection using Desmos 22 min intermediate Start Learning" [ref=e408] [cursor=pointer]':
+                - generic [ref=e409]: Q.D.
+                - 'heading "Two-Variable Data: Models and Scatterplots" [level=3] [ref=e410]'
+                - paragraph [ref=e411]: Master scatterplots, lines of best fit, residuals, and model selection using Desmos
+                - generic [ref=e412]:
+                  - generic [ref=e413]:
+                    - img [ref=e414]
+                    - text: 22 min
+                  - generic [ref=e417]: intermediate
+                - generic [ref=e418]:
+                  - generic [ref=e419]: Start Learning
+                  - img [ref=e420]
+              - button "Q.G. Evaluating Statistical Claims Identify bias, generalizability, causation vs. correlation, and valid conclusions from studies 18 min intermediate Start Learning" [ref=e423] [cursor=pointer]:
+                - generic [ref=e424]: Q.G.
+                - heading "Evaluating Statistical Claims" [level=3] [ref=e425]
+                - paragraph [ref=e426]: Identify bias, generalizability, causation vs. correlation, and valid conclusions from studies
+                - generic [ref=e427]:
+                  - generic [ref=e428]:
+                    - img [ref=e429]
+                    - text: 18 min
+                  - generic [ref=e432]: intermediate
+                - generic [ref=e433]:
+                  - generic [ref=e434]: Start Learning
+                  - img [ref=e435]
+          - generic [ref=e438]:
+            - generic [ref=e439]:
+              - img [ref=e441]
+              - generic [ref=e444]:
+                - heading "Additional Topics in Math" [level=2] [ref=e445]
+                - paragraph [ref=e446]: 0 of 4 lessons completed
+              - generic [ref=e449]: 0%
+            - generic [ref=e450]:
+              - button "S.B. Lines, Angles, and Triangles Master angle relationships, parallel lines, congruence, similarity, and triangle properties 25 min intermediate Start Learning" [ref=e451] [cursor=pointer]:
+                - generic [ref=e452]: S.B.
+                - heading "Lines, Angles, and Triangles" [level=3] [ref=e453]
+                - paragraph [ref=e454]: Master angle relationships, parallel lines, congruence, similarity, and triangle properties
+                - generic [ref=e455]:
+                  - generic [ref=e456]:
+                    - img [ref=e457]
+                    - text: 25 min
+                  - generic [ref=e460]: intermediate
+                - generic [ref=e461]:
+                  - generic [ref=e462]: Start Learning
+                  - img [ref=e463]
+              - button "S.A. Area and Volume Master area, surface area, volume formulas, scaling, and shaded-region problems 22 min foundational Start Learning" [ref=e466] [cursor=pointer]:
+                - generic [ref=e467]: S.A.
+                - heading "Area and Volume" [level=3] [ref=e468]
+                - paragraph [ref=e469]: Master area, surface area, volume formulas, scaling, and shaded-region problems
+                - generic [ref=e470]:
+                  - generic [ref=e471]:
+                    - img [ref=e472]
+                    - text: 22 min
+                  - generic [ref=e475]: foundational
+                - generic [ref=e476]:
+                  - generic [ref=e477]: Start Learning
+                  - img [ref=e478]
+              - button "S.C. Right Triangles and Trigonometry Master the Pythagorean theorem, special triangles, SOH-CAH-TOA, and complementary angle identities 25 min intermediate Start Learning" [ref=e481] [cursor=pointer]:
+                - generic [ref=e482]: S.C.
+                - heading "Right Triangles and Trigonometry" [level=3] [ref=e483]
+                - paragraph [ref=e484]: Master the Pythagorean theorem, special triangles, SOH-CAH-TOA, and complementary angle identities
+                - generic [ref=e485]:
+                  - generic [ref=e486]:
+                    - img [ref=e487]
+                    - text: 25 min
+                  - generic [ref=e490]: intermediate
+                - generic [ref=e491]:
+                  - generic [ref=e492]: Start Learning
+                  - img [ref=e493]
+              - button "S.D. Circles Master circle equations, arc length, radians, and angle relationships 20 min intermediate Start Learning" [ref=e496] [cursor=pointer]:
+                - generic [ref=e497]: S.D.
+                - heading "Circles" [level=3] [ref=e498]
+                - paragraph [ref=e499]: Master circle equations, arc length, radians, and angle relationships
+                - generic [ref=e500]:
+                  - generic [ref=e501]:
+                    - img [ref=e502]
+                    - text: 20 min
+                  - generic [ref=e505]: intermediate
+                - generic [ref=e506]:
+                  - generic [ref=e507]: Start Learning
+                  - img [ref=e508]

@@ -1,0 +1,22 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "SYN Question 60 of 182" [level=1] [ref=e3]
+    - paragraph [ref=e4]:
+      - strong [ref=e5]: "Question ID:"
+      - text: 3c05c64c-f672-4390-b7ec-6b8d0a1586fe
+    - paragraph [ref=e6]:
+      - strong [ref=e7]: "UID:"
+      - text: c0017142-0ae0-4794-833f-794ec15624c1
+    - paragraph [ref=e8]:
+      - strong [ref=e9]: "Skill:"
+      - text: Rhetorical Synthesis (SYN)
+  - generic [ref=e10]:
+    - heading "Question" [level=2] [ref=e11]
+    - paragraph [ref=e12]: "While researching a topic, a student has taken the following notes:"
+    - list [ref=e13]:
+      - listitem [ref=e14]: Crown shyness is a phenomenon in which the tops (crowns) of neighboring trees grow close together but don’t overlap.
+      - listitem [ref=e15]: To explain how this happens, Australian forester M.R. Jacobs proposes the mutual abrasion theory.
+      - listitem [ref=e16]: According to Jacobs’s theory, when trees brush against one another, branches break off.
+      - listitem [ref=e17]: Malaysian scholar Francis S.P. Ng posits the mutual shade avoidance theory.
+      - listitem [ref=e18]: According to Ng’s theory, when tree branches detect shade from nearby trees’ branches, they stop growing.
+    - paragraph [ref=e19]: The student wants to compare the causes of crown shyness proposed in the two theories. Which choice most effectively uses relevant information from the notes to accomplish this goal?

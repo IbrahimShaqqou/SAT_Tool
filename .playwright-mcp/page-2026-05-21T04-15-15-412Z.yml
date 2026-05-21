@@ -1,0 +1,232 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - button [ref=e165] [cursor=pointer]:
+                - img [ref=e166]
+              - generic [ref=e168]:
+                - text: Equivalent expressions
+                - generic [ref=e169]: (Problem Solving and Data Analysis)
+            - generic [ref=e170]:
+              - generic [ref=e171]: Question
+              - generic [ref=e172]: 10 of 102
+            - generic [ref=e173]:
+              - button "Draw on question" [ref=e174] [cursor=pointer]:
+                - img [ref=e175]
+              - button "Reference Sheet" [ref=e178] [cursor=pointer]:
+                - img [ref=e179]
+              - button "Calculator" [ref=e182] [cursor=pointer]:
+                - img [ref=e183]
+          - generic [ref=e188]:
+            - generic [ref=e189]:
+              - generic [ref=e190]:
+                - generic [ref=e191]:
+                  - generic [ref=e192]: "10"
+                  - button "Mark for Review" [ref=e193] [cursor=pointer]:
+                    - img [ref=e194]
+                    - generic [ref=e196]: Mark for Review
+                - button "Report" [ref=e197] [cursor=pointer]:
+                  - img [ref=e198]
+                  - generic [ref=e200]: Report
+              - paragraph [ref=e417]:
+                - text: If
+                - generic [ref=e418]:
+                  - generic [ref=e419]:
+                    - generic [ref=e421]: k
+                    - generic [ref=e423]: −
+                    - generic [ref=e425]: x
+                  - math [ref=e427]:
+                    - generic [ref=e428]: k
+                    - generic [ref=e429]: "-"
+                    - generic [ref=e430]: x
+                - text: is a factor of the expression
+                - generic [ref=e431]:
+                  - generic [ref=e432]:
+                    - generic [ref=e434]: −
+                    - generic [ref=e435]:
+                      - generic [ref=e437]: x
+                      - generic [ref=e440]: "2"
+                    - generic [ref=e442]: +
+                    - generic [ref=e444]:
+                      - generic [ref=e447]: "1"
+                      - generic [ref=e453]:
+                        - generic [ref=e454]: "2"
+                        - generic [ref=e455]: "9"
+                    - generic [ref=e457]: "n"
+                    - generic [ref=e458]:
+                      - generic [ref=e460]: k
+                      - generic [ref=e463]: "2"
+                  - math [ref=e465]:
+                    - generic [ref=e466]: "-"
+                    - generic [ref=e467]:
+                      - generic [ref=e468]: x
+                      - generic [ref=e469]: "2"
+                    - generic [ref=e470]: +
+                    - generic [ref=e471]:
+                      - generic [ref=e472]: "1"
+                      - generic [ref=e473]: "29"
+                    - generic [ref=e474]: "n"
+                    - generic [ref=e475]:
+                      - generic [ref=e476]: k
+                      - generic [ref=e477]: "2"
+                - text: ", where"
+                - generic [ref=e478]:
+                  - generic [ref=e481]: "n"
+                  - math [ref=e483]:
+                    - generic [ref=e484]: "n"
+                - text: and
+                - generic [ref=e485]:
+                  - generic [ref=e488]: k
+                  - math [ref=e490]:
+                    - generic [ref=e491]: k
+                - text: are constants and
+                - generic [ref=e492]:
+                  - generic [ref=e493]:
+                    - generic [ref=e495]: k
+                    - generic [ref=e497]: ">"
+                    - generic [ref=e499]: "0"
+                  - math [ref=e501]:
+                    - generic [ref=e502]: k
+                    - generic [ref=e503]: ">"
+                    - generic [ref=e504]: "0"
+                - text: ", what is the value of"
+                - generic [ref=e505]:
+                  - generic [ref=e508]: "n"
+                  - math [ref=e510]:
+                    - generic [ref=e511]: "n"
+                - text: "?"
+            - generic [ref=e512]:
+              - button "A" [ref=e513] [cursor=pointer]:
+                - generic [ref=e514]: A
+                - paragraph [ref=e516]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: −
+                      - generic:
+                        - generic: "2"
+                        - generic: "9"
+                    - generic:
+                      - math:
+                        - generic: "-"
+                        - generic: "29"
+              - button "B" [ref=e517] [cursor=pointer]:
+                - generic [ref=e518]: B
+                - paragraph [ref=e520]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: −
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: "1"
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic: "2"
+                                      - generic: "9"
+                    - generic:
+                      - math:
+                        - generic:
+                          - generic: "-"
+                          - generic:
+                            - generic: "1"
+                            - generic: "29"
+              - button "C" [ref=e521] [cursor=pointer]:
+                - generic [ref=e522]: C
+                - paragraph [ref=e524]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: "1"
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic: "2"
+                                    - generic: "9"
+                    - generic:
+                      - math:
+                        - generic:
+                          - generic: "1"
+                          - generic: "29"
+              - button "D" [ref=e525] [cursor=pointer]:
+                - generic [ref=e526]: D
+                - paragraph [ref=e528]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: "2"
+                        - generic: "9"
+                    - generic:
+                      - math:
+                        - generic: "29"
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e256]:
+            - button "Previous" [ref=e257] [cursor=pointer]
+            - button "10 / 102" [ref=e529] [cursor=pointer]:
+              - generic [ref=e259]: "10"
+              - generic [ref=e260]: /
+              - generic [ref=e261]: "102"
+              - img [ref=e262]
+            - button "Next" [ref=e265] [cursor=pointer]
+  - paragraph [ref=e266]
+  - paragraph [ref=e267]

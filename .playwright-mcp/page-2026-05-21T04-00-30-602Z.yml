@@ -1,0 +1,96 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e9]:
+    - complementary [ref=e10]:
+      - generic [ref=e14]: Z
+      - navigation [ref=e15]:
+        - generic [ref=e16]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e18]
+          - link "Study Plan" [ref=e23] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e24]
+          - link "Diagnostic" [ref=e27] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e28]
+          - link "My Assignments" [ref=e32] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e33]
+        - generic [ref=e36]:
+          - link "Question Bank" [ref=e38] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e39]
+          - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e43]
+          - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e47]
+        - link "My Progress" [ref=e52] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e53]
+    - generic [ref=e56]:
+      - banner [ref=e57]:
+        - button "Test Student Test Student" [ref=e59] [cursor=pointer]:
+          - generic "Test Student" [ref=e60]: TS
+          - generic [ref=e61]: Test Student
+          - img [ref=e62]
+      - main [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - button [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+              - generic [ref=e189]:
+                - heading "Adaptive Practice" [level=1] [ref=e190]
+                - generic [ref=e191]:
+                  - generic [ref=e192]: Question 1
+                  - generic [ref=e193]: "|"
+                  - generic [ref=e194]: 0 correct
+            - generic [ref=e195]:
+              - button "Draw on question" [ref=e196] [cursor=pointer]:
+                - img [ref=e197]
+              - button "End Practice" [ref=e200] [cursor=pointer]
+              - button "Calculator" [ref=e201] [cursor=pointer]:
+                - img [ref=e202]
+                - text: Calculator
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - generic [ref=e208]: "1"
+              - button "Report" [ref=e209] [cursor=pointer]:
+                - generic [ref=e210]: Report
+            - generic [ref=e211]:
+              - generic [ref=e213]:
+                - paragraph [ref=e214]: Paleontologist Alan Tennyson and colleagues studied fossil bones found in New Zealand that are more than 55 million years old. The researchers determined that the fossil bones belonged to two previously unknown species of prehistoric penguins. Moreover, they estimated that one of the two penguin species was more than three times the size of the emperor penguin, which is the largest penguin species that exists today.
+                - paragraph [ref=e215]: Based on the text, which choice best describes the two previously unknown penguin species?
+              - generic [ref=e216]:
+                - button "A They are frequently studied by paleontologists." [ref=e217] [cursor=pointer]:
+                  - generic [ref=e218]: A
+                  - paragraph [ref=e220]: They are frequently studied by paleontologists.
+                - button "B They are no longer living species." [ref=e221] [cursor=pointer]:
+                  - generic [ref=e222]: B
+                  - paragraph [ref=e224]: They are no longer living species.
+                - button "C They were smaller than penguin species that exist today." [ref=e225] [cursor=pointer]:
+                  - generic [ref=e226]: C
+                  - paragraph [ref=e228]: They were smaller than penguin species that exist today.
+                - button "D They spent little of their lives in water." [ref=e229] [cursor=pointer]:
+                  - generic [ref=e230]: D
+                  - paragraph [ref=e232]: They spent little of their lives in water.
+          - generic [ref=e233]:
+            - generic [ref=e235]: Question 1(unlimited)
+            - button "Check Answer" [disabled] [ref=e237]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e238]
+  - paragraph [ref=e239]

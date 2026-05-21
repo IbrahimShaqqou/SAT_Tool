@@ -1,0 +1,134 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 76 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - paragraph [ref=e5]:
+      - text: The positive number
+      - generic [ref=e6]:
+        - generic [ref=e9]: a
+        - math [ref=e11]:
+          - generic [ref=e12]: a
+      - text: is
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e16]:
+            - generic [ref=e17]: "2"
+            - generic [ref=e18]: ","
+            - generic [ref=e19]: "2"
+            - generic [ref=e20]: "4"
+            - generic [ref=e21]: "1"
+          - generic [ref=e23]: "%"
+        - math [ref=e25]:
+          - generic [ref=e27]: 2,241
+          - generic [ref=e28]: "%"
+      - text: of the sum of the positive numbers
+      - generic [ref=e29]:
+        - generic [ref=e32]: b
+        - math [ref=e34]:
+          - generic [ref=e35]: b
+      - text: and
+      - generic [ref=e36]:
+        - generic [ref=e39]: c
+        - math [ref=e41]:
+          - generic [ref=e42]: c
+      - text: ", and"
+      - generic [ref=e43]:
+        - generic [ref=e46]: b
+        - math [ref=e48]:
+          - generic [ref=e49]: b
+      - text: is
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e53]:
+            - generic [ref=e54]: "8"
+            - generic [ref=e55]: "3"
+          - generic [ref=e57]: "%"
+        - math [ref=e59]:
+          - generic [ref=e61]: "83"
+          - generic [ref=e62]: "%"
+      - text: of
+      - generic [ref=e63]:
+        - generic [ref=e66]: c
+        - math [ref=e68]:
+          - generic [ref=e69]: c
+      - text: . What percent of
+      - generic [ref=e70]:
+        - generic [ref=e73]: b
+        - math [ref=e75]:
+          - generic [ref=e76]: b
+      - text: is
+      - generic [ref=e77]:
+        - generic [ref=e80]: a
+        - math [ref=e82]:
+          - generic [ref=e83]: a
+      - text: "?"
+    - generic [ref=e84]:
+      - generic [ref=e85] [cursor=pointer]:
+        - strong [ref=e86]: A.
+        - paragraph [ref=e87]:
+          - generic [ref=e88]:
+            - generic [ref=e89]:
+              - generic [ref=e91]:
+                - generic [ref=e92]: "2"
+                - generic [ref=e93]: "3"
+                - generic [ref=e94]: .
+                - generic [ref=e95]: "2"
+                - generic [ref=e96]: "4"
+              - generic [ref=e98]: "%"
+            - math [ref=e100]:
+              - generic [ref=e102]: "23.24"
+              - generic [ref=e103]: "%"
+      - generic [ref=e104] [cursor=pointer]:
+        - strong [ref=e105]: B.
+        - paragraph [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic [ref=e110]:
+                - generic [ref=e111]: "4"
+                - generic [ref=e112]: "9"
+                - generic [ref=e113]: .
+                - generic [ref=e114]: "4"
+                - generic [ref=e115]: "1"
+              - generic [ref=e117]: "%"
+            - math [ref=e119]:
+              - generic [ref=e121]: "49.41"
+              - generic [ref=e122]: "%"
+      - generic [ref=e123] [cursor=pointer]:
+        - strong [ref=e124]: C.
+        - paragraph [ref=e125]:
+          - generic [ref=e126]:
+            - generic [ref=e127]:
+              - generic [ref=e129]:
+                - generic [ref=e130]: "2"
+                - generic [ref=e131]: ","
+                - generic [ref=e132]: "3"
+                - generic [ref=e133]: "2"
+                - generic [ref=e134]: "4"
+              - generic [ref=e136]: "%"
+            - math [ref=e138]:
+              - generic [ref=e140]: 2,324
+              - generic [ref=e141]: "%"
+      - generic [ref=e142] [cursor=pointer]:
+        - strong [ref=e143]: D.
+        - paragraph [ref=e144]:
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e148]:
+                - generic [ref=e149]: "4"
+                - generic [ref=e150]: ","
+                - generic [ref=e151]: "9"
+                - generic [ref=e152]: "4"
+                - generic [ref=e153]: "1"
+              - generic [ref=e155]: "%"
+            - math [ref=e157]:
+              - generic [ref=e159]: 4,941
+              - generic [ref=e160]: "%"
+    - generic [ref=e161]:
+      - generic [ref=e162]:
+        - strong [ref=e163]: "ID:"
+        - text: fd70dc3f-5240-47a8-9ff8-719d88d2f8e5
+      - generic [ref=e164]:
+        - strong [ref=e165]: "Type:"
+        - text: MCQ
+      - generic [ref=e166]:
+        - strong [ref=e167]: "Difficulty:"
+        - text: H

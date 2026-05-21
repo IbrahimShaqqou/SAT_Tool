@@ -1,0 +1,54 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e9]: ZooPrep
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Dashboard" [ref=e12] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e13]
+          - generic [ref=e18]: Dashboard
+        - link "Study Plan" [ref=e19] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e20]
+          - generic [ref=e23]: Study Plan
+        - link "Diagnostic" [ref=e24] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e25]
+          - generic [ref=e29]: Diagnostic
+        - link "My Assignments" [ref=e30] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e31]
+          - generic [ref=e34]: My Assignments
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: Practice
+        - link "Question Bank" [ref=e37] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e38]
+          - generic [ref=e41]: Question Bank
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+          - generic [ref=e46]: Skill Lessons
+        - link "Adaptive Practice" [ref=e47] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e48]
+          - generic [ref=e51]: Adaptive Practice
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Progress
+        - link "My Progress" [ref=e54] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e55]
+          - generic [ref=e58]: My Progress
+    - button "Collapse" [ref=e60] [cursor=pointer]:
+      - img [ref=e61]
+      - generic [ref=e63]: Collapse
+  - generic [ref=e64]:
+    - banner [ref=e65]:
+      - button "Test Student Test Student" [ref=e67] [cursor=pointer]:
+        - generic "Test Student" [ref=e68]: TS
+        - generic [ref=e69]: Test Student
+        - img [ref=e70]
+    - main [ref=e72]:
+      - img [ref=e75]

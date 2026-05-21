@@ -1,0 +1,174 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e414]:
+            - heading "Question Bank" [level=1] [ref=e415]
+            - paragraph [ref=e416]: Browse questions by domain and skill
+          - generic [ref=e417]:
+            - generic [ref=e419]:
+              - img [ref=e421]
+              - generic [ref=e423]:
+                - heading "Math" [level=3] [ref=e424]
+                - paragraph [ref=e425]: 1681 questions
+            - generic [ref=e427]:
+              - button "Heart of Algebra 561 questions" [ref=e429] [cursor=pointer]:
+                - generic [ref=e430]:
+                  - img [ref=e431]
+                  - generic [ref=e433]: Heart of Algebra
+                - generic [ref=e434]: 561 questions
+              - button "Problem Solving and Data Analysis 477 questions" [ref=e436] [cursor=pointer]:
+                - generic [ref=e437]:
+                  - img [ref=e438]
+                  - generic [ref=e440]: Problem Solving and Data Analysis
+                - generic [ref=e441]: 477 questions
+              - generic [ref=e442]:
+                - button "Passport to Advanced Math 374 questions" [ref=e443] [cursor=pointer]:
+                  - generic [ref=e444]:
+                    - img [ref=e445]
+                    - generic [ref=e447]: Passport to Advanced Math
+                  - generic [ref=e448]: 374 questions
+                - generic [ref=e450]:
+                  - button "Ratios, rates, proportional relationships, and units 84" [ref=e451] [cursor=pointer]:
+                    - generic [ref=e452]: Ratios, rates, proportional relationships, and units
+                    - generic [ref=e453]:
+                      - generic [ref=e454]: "84"
+                      - img [ref=e455]
+                  - button "Inference from sample statistics and margin of error 24" [ref=e457] [cursor=pointer]:
+                    - generic [ref=e458]: Inference from sample statistics and margin of error
+                    - generic [ref=e459]:
+                      - generic [ref=e460]: "24"
+                      - img [ref=e461]
+                  - button "Percentages 76" [ref=e463] [cursor=pointer]:
+                    - generic [ref=e464]: Percentages
+                    - generic [ref=e465]:
+                      - generic [ref=e466]: "76"
+                      - img [ref=e467]
+                  - button "Probability and conditional probability 43" [ref=e469] [cursor=pointer]:
+                    - generic [ref=e470]: Probability and conditional probability
+                    - generic [ref=e471]:
+                      - generic [ref=e472]: "43"
+                      - img [ref=e473]
+                  - 'button "One-variable data: Distributions and measures of center and spread 73" [ref=e475] [cursor=pointer]':
+                    - generic [ref=e476]: "One-variable data: Distributions and measures of center and spread"
+                    - generic [ref=e477]:
+                      - generic [ref=e478]: "73"
+                      - img [ref=e479]
+                  - 'button "Two-variable data: Models and scatterplots 63" [ref=e481] [cursor=pointer]':
+                    - generic [ref=e482]: "Two-variable data: Models and scatterplots"
+                    - generic [ref=e483]:
+                      - generic [ref=e484]: "63"
+                      - img [ref=e485]
+                  - 'button "Evaluating statistical claims: Observational studies and experiments 11" [ref=e487] [cursor=pointer]':
+                    - generic [ref=e488]: "Evaluating statistical claims: Observational studies and experiments"
+                    - generic [ref=e489]:
+                      - generic [ref=e490]: "11"
+                      - img [ref=e491]
+              - generic [ref=e493]:
+                - button "Additional Topics in Math 269 questions" [ref=e494] [cursor=pointer]:
+                  - generic [ref=e495]:
+                    - img [ref=e496]
+                    - generic [ref=e498]: Additional Topics in Math
+                  - generic [ref=e499]: 269 questions
+                - generic [ref=e501]:
+                  - button "Lines, angles, and triangles 79" [ref=e502] [cursor=pointer]:
+                    - generic [ref=e503]: Lines, angles, and triangles
+                    - generic [ref=e504]:
+                      - generic [ref=e505]: "79"
+                      - img [ref=e506]
+                  - button "Area and volume 86" [ref=e508] [cursor=pointer]:
+                    - generic [ref=e509]: Area and volume
+                    - generic [ref=e510]:
+                      - generic [ref=e511]: "86"
+                      - img [ref=e512]
+                  - button "Right triangles and trigonometry 54" [ref=e514] [cursor=pointer]:
+                    - generic [ref=e515]: Right triangles and trigonometry
+                    - generic [ref=e516]:
+                      - generic [ref=e517]: "54"
+                      - img [ref=e518]
+                  - button "Circles 50" [ref=e520] [cursor=pointer]:
+                    - generic [ref=e521]: Circles
+                    - generic [ref=e522]:
+                      - generic [ref=e523]: "50"
+                      - img [ref=e524]
+          - generic [ref=e526]:
+            - generic [ref=e528]:
+              - img [ref=e530]
+              - generic [ref=e532]:
+                - heading "Reading & Writing" [level=3] [ref=e533]
+                - paragraph [ref=e534]: 1590 questions
+            - generic [ref=e536]:
+              - button "Information and Ideas 478 questions" [ref=e538] [cursor=pointer]:
+                - generic [ref=e539]:
+                  - img [ref=e540]
+                  - generic [ref=e542]: Information and Ideas
+                - generic [ref=e543]: 478 questions
+              - generic [ref=e544]:
+                - button "Craft and Structure 412 questions" [active] [ref=e545] [cursor=pointer]:
+                  - generic [ref=e546]:
+                    - img [ref=e565]
+                    - generic [ref=e549]: Craft and Structure
+                  - generic [ref=e550]: 412 questions
+                - generic [ref=e568]:
+                  - button "Words in Context 226" [ref=e569] [cursor=pointer]:
+                    - generic [ref=e570]: Words in Context
+                    - generic [ref=e571]:
+                      - generic [ref=e572]: "226"
+                      - img [ref=e573]
+                  - button "Text Structure and Purpose 130" [ref=e575] [cursor=pointer]:
+                    - generic [ref=e576]: Text Structure and Purpose
+                    - generic [ref=e577]:
+                      - generic [ref=e578]: "130"
+                      - img [ref=e579]
+                  - button "Cross-Text Connections 56" [ref=e581] [cursor=pointer]:
+                    - generic [ref=e582]: Cross-Text Connections
+                    - generic [ref=e583]:
+                      - generic [ref=e584]: "56"
+                      - img [ref=e585]
+              - button "Expression of Ideas 343 questions" [ref=e552] [cursor=pointer]:
+                - generic [ref=e553]:
+                  - img [ref=e554]
+                  - generic [ref=e556]: Expression of Ideas
+                - generic [ref=e557]: 343 questions
+              - button "Standard English Conventions 357 questions" [ref=e559] [cursor=pointer]:
+                - generic [ref=e560]:
+                  - img [ref=e561]
+                  - generic [ref=e563]: Standard English Conventions
+                - generic [ref=e564]: 357 questions
+  - paragraph [ref=e412]
+  - paragraph [ref=e413]

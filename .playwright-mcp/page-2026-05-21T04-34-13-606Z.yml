@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 70 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - paragraph [ref=e5]:
+        - img "The figure presents a line graph. The horizontal axis is labeled “Year,” and the years 2003 through 2015 are indicated. The vertical axis is labeled “Annual snowfall, in inches,” and the numbers 0 through 60, in increments of 10, are indicated. There are 13 points indicated on the graph. The data represented by the 13 points are as follows. Note that all values are approximate. Year, 2003. Number of inches, 40. Year, 2004. Number of inches, 12. Year, 2005. Number of inches, 13. Year, 2006. Number of inches, 14. Year, 2007. Number of inches, 10. Year, 2008. Number of inches, 5. Year, 2009. Number of inches, 8. Year, 2010. Number of inches, 56. Year, 2011. Number of inches, 10. Year, 2012. Number of inches, 3. Year, 2013. Number of inches, 4. Year, 2014. Number of inches, 32. Year, 2015. Number of inches, 19." [ref=e6]
+      - paragraph [ref=e7]:
+        - text: The line graph shows the total amount of snow, in inches, recorded each year in Washington, DC, from 2003 to 2015. If
+        - generic [ref=e11]:
+          - generic [ref=e12]:
+            - generic [ref=e14]: p
+            - generic [ref=e16]: "%"
+          - math [ref=e18]:
+            - generic [ref=e19]: p
+            - generic [ref=e20]: "%"
+        - text: is the percent decrease in the annual snowfall from 2003 to 2007, what is the value of p ?
+      - paragraph
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - strong [ref=e23]: "ID:"
+        - text: 580136f4-5bd6-44f6-9d10-3b2d21a3ff54
+      - generic [ref=e24]:
+        - strong [ref=e25]: "Type:"
+        - text: SPR
+      - generic [ref=e26]:
+        - strong [ref=e27]: "Difficulty:"
+        - text: H

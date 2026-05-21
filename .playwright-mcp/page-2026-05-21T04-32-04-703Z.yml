@@ -1,0 +1,64 @@
+- generic [active] [ref=e1]:
+  - heading "S.A. (Area and Volume) - Image Questions Audit" [level=1] [ref=e2]
+  - generic [ref=e3]:
+    - strong [ref=e4]: "Summary:"
+    - text: Found 3 questions with embedded images.
+    - strong [ref=e5]: "Issue:"
+    - text: All images lack explicit width/height attributes.
+    - strong [ref=e6]: "Action:"
+    - text: Visual inspection required to verify rendering.
+  - generic [ref=e7]:
+    - strong [ref=e9]: Question 1 of 3
+    - generic [ref=e10]:
+      - img "The figure presents the graph of square A B C D in the x y plane. The numbers negative 5 and 5 are indicated on each axis. The coordinates of each vertex are as follows. Vertex A has coordinates 0 comma negative 5. Vertex B has coordinates negative 5 comma 0. Vertex C has coordinates 0 comma 5. Vertex D has coordinates 5 comma 0." [ref=e13]
+      - paragraph [ref=e14]: In the xy-plane shown, square ABCD has its diagonals on the x- and y-axes. What is the area, inÂ square units, of the square?
+    - generic [ref=e15]:
+      - strong [ref=e16]: "ID:"
+      - text: 5c24ab58-ea1e-4858-b87c-d6cdbea0afb2
+      - strong [ref=e17]: "External ID:"
+      - text: fe0a4dd4-f49a-4978-96ae-b6ea3c2fdfc2
+      - strong [ref=e18]: "HTML Size:"
+      - text: 144,144 bytes
+  - generic [ref=e19]:
+    - strong [ref=e21]: Question 2 of 3
+    - generic [ref=e22]:
+      - img "The figure presents a right rectangular prism. The length of the prism is 6 centimeters, the width of the prism is 2 centimeters, and the height of the prism is 3 centimeters." [ref=e27]
+      - paragraph [ref=e28]:
+        - text: The figure shows the lengths, in centimeters (cm), of the edges of a right rectangular prism. The volume V of a right rectangular prism is
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e35]: l
+            - generic [ref=e37]: w
+            - generic [ref=e39]: h
+          - math [ref=e41]:
+            - generic [ref=e42]: l
+            - generic [ref=e43]: w
+            - generic [ref=e44]: h
+        - text: ", where"
+        - generic [ref=e48]:
+          - generic [ref=e51]: l
+          - math [ref=e53]:
+            - generic [ref=e54]: l
+        - text: is the length of the prism, w is the width of the prism, and h is the height of the prism. What is the volume, in cubic centimeters, of the prism?
+    - generic [ref=e55]:
+      - strong [ref=e56]: "ID:"
+      - text: ceaf807d-708f-4d88-a9a9-03d20990f259
+      - strong [ref=e57]: "External ID:"
+      - text: e593ae28-bb99-4ac7-9b10-3f38edec38e8
+      - strong [ref=e58]: "HTML Size:"
+      - text: 74,967 bytes
+  - generic [ref=e59]:
+    - strong [ref=e61]: Question 3 of 3
+    - generic [ref=e62]:
+      - paragraph [ref=e63]:
+        - 'img "The figure presents a cylindrical shape with a circular base and a larger circular top. The diameter of the circular base is labeled â€œk over 2,â€ the diameter of the circular top is labeled â€œk,â€ and the height is labeled â€œk.â€ The volume of the figure is equal to the fraction with numerator 7 pi k cubed, and denominator 48" [ref=e64]'
+      - paragraph [ref=e65]: The glass pictured above can hold a maximum volume of 473 cubic centimeters, which is approximately 16 fluid ounces. What is the value of k, in centimeters?
+      - paragraph [ref=e66]: Â
+      - paragraph
+    - generic [ref=e67]:
+      - strong [ref=e68]: "ID:"
+      - text: 2a260744-f2f1-4d55-9a5d-2d368b5ef619
+      - strong [ref=e69]: "External ID:"
+      - text: f2569c9d-cb7a-4c5c-bc90-d091658a28c9
+      - strong [ref=e70]: "HTML Size:"
+      - text: 42,918 bytes

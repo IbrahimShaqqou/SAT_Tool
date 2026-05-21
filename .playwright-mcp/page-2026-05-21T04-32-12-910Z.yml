@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 8 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - paragraph [ref=e5]: There were approximately 113,000 occupational therapy jobs in the United States in 2012. The Bureau of Labor Statistics has projected that this number will increase by 29% from 2012 to 2022. Of the following, which is closest to the number of occupational therapy jobs the bureau has projected for the United States in 2022?
+    - generic [ref=e6]:
+      - generic [ref=e7] [cursor=pointer]:
+        - strong [ref=e8]: A.
+        - paragraph [ref=e9]: 115,900
+      - generic [ref=e10] [cursor=pointer]:
+        - strong [ref=e11]: B.
+        - paragraph [ref=e12]: 116,300
+      - generic [ref=e13] [cursor=pointer]:
+        - strong [ref=e14]: C.
+        - paragraph [ref=e15]: 142,000
+      - generic [ref=e16] [cursor=pointer]:
+        - strong [ref=e17]: D.
+        - paragraph [ref=e18]: 145,800
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - strong [ref=e21]: "ID:"
+        - text: 2abf4ad2-af82-46f4-b0b2-94d7f983f7d2
+      - generic [ref=e22]:
+        - strong [ref=e23]: "Type:"
+        - text: MCQ
+      - generic [ref=e24]:
+        - strong [ref=e25]: "Difficulty:"
+        - text: E

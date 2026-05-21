@@ -1,0 +1,316 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - button [ref=e179] [cursor=pointer]:
+                - img [ref=e180]
+              - generic [ref=e182]:
+                - text: Systems of two linear equations in two variables
+                - generic [ref=e183]: (Heart of Algebra)
+            - generic [ref=e184]:
+              - generic [ref=e185]: Question
+              - generic [ref=e186]: 1 of 112
+            - generic [ref=e187]:
+              - button "Draw on question" [ref=e188] [cursor=pointer]:
+                - img [ref=e189]
+              - button "Reference Sheet" [ref=e192] [cursor=pointer]:
+                - img [ref=e193]
+              - button "Calculator" [ref=e196] [cursor=pointer]:
+                - img [ref=e197]
+          - generic [ref=e202]:
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e205]:
+                  - generic [ref=e206]: "1"
+                  - button "Mark for Review" [ref=e207] [cursor=pointer]:
+                    - img [ref=e208]
+                    - generic [ref=e210]: Mark for Review
+                - button "Report" [ref=e211] [cursor=pointer]:
+                  - img [ref=e212]
+                  - generic [ref=e214]: Report
+              - generic [ref=e217]:
+                - paragraph
+                - figure [ref=e218]:
+                  - img "Graph of a system of 2 lines in the x y plane with the origin labeled O. The x axis ranges from negative 10 to 0. The y axis ranges from negative 10 to 0. Refer to long description." [ref=e219]
+                  - region "Long description for graph of a system of 2 lines" [ref=e560]
+                - paragraph [ref=e561]:
+                  - text: The graph of a system of linear equations is shown. What is the solution
+                  - generic [ref=e562]:
+                    - generic [ref=e564]:
+                      - generic [ref=e566]: (
+                      - generic [ref=e567]:
+                        - generic [ref=e569]: x
+                        - generic [ref=e571]: ","
+                        - generic [ref=e573]: "y"
+                      - generic [ref=e575]: )
+                    - generic [ref=e577]:
+                      - generic [ref=e579]:
+                        - generic [ref=e581]: (
+                        - generic [ref=e582]:
+                          - generic [ref=e584]: x
+                          - generic [ref=e586]: ","
+                          - generic [ref=e588]: "y"
+                        - generic [ref=e590]: )
+                      - math [ref=e592]:
+                        - generic [ref=e594]:
+                          - generic [ref=e595]: x
+                          - generic [ref=e596]: ","
+                          - generic [ref=e597]: "y"
+                  - text: to the system?
+            - generic [ref=e599]:
+              - button "A" [ref=e600] [cursor=pointer]:
+                - generic [ref=e601]: A
+                - paragraph [ref=e603]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic:
+                            - generic: "0"
+                          - generic:
+                            - generic: ","
+                          - generic:
+                            - generic:
+                              - generic: −
+                            - generic:
+                              - generic: "7"
+                        - generic:
+                          - generic: )
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic:
+                                - generic: "0"
+                              - generic:
+                                - generic: ","
+                              - generic:
+                                - generic:
+                                  - generic: −
+                                - generic:
+                                  - generic: "7"
+                            - generic:
+                              - generic: )
+                        - generic:
+                          - math:
+                            - generic:
+                              - generic:
+                                - generic: "0"
+                                - generic: ","
+                                - generic:
+                                  - generic: "-"
+                                  - generic: "7"
+              - button "B" [ref=e604] [cursor=pointer]:
+                - generic [ref=e605]: B
+                - paragraph [ref=e607]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic:
+                            - generic: "0"
+                          - generic:
+                            - generic: ","
+                          - generic:
+                            - generic:
+                              - generic: −
+                            - generic:
+                              - generic: "3"
+                        - generic:
+                          - generic: )
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic:
+                                - generic: "0"
+                              - generic:
+                                - generic: ","
+                              - generic:
+                                - generic:
+                                  - generic: −
+                                - generic:
+                                  - generic: "3"
+                            - generic:
+                              - generic: )
+                        - generic:
+                          - math:
+                            - generic:
+                              - generic:
+                                - generic: "0"
+                                - generic: ","
+                                - generic:
+                                  - generic: "-"
+                                  - generic: "3"
+              - button "C" [ref=e608] [cursor=pointer]:
+                - generic [ref=e609]: C
+                - paragraph [ref=e611]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: −
+                            - generic:
+                              - generic: "4"
+                          - generic:
+                            - generic: ","
+                          - generic:
+                            - generic:
+                              - generic: −
+                            - generic:
+                              - generic: "3"
+                        - generic:
+                          - generic: )
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic: −
+                                - generic:
+                                  - generic: "4"
+                              - generic:
+                                - generic: ","
+                              - generic:
+                                - generic:
+                                  - generic: −
+                                - generic:
+                                  - generic: "3"
+                            - generic:
+                              - generic: )
+                        - generic:
+                          - math:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic: "-"
+                                  - generic: "4"
+                                - generic: ","
+                                - generic:
+                                  - generic: "-"
+                                  - generic: "3"
+              - button "D" [ref=e612] [cursor=pointer]:
+                - generic [ref=e613]: D
+                - paragraph [ref=e615]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: (
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: −
+                            - generic:
+                              - generic: "4"
+                          - generic:
+                            - generic: ","
+                          - generic:
+                            - generic: "0"
+                        - generic:
+                          - generic: )
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: (
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic: −
+                                - generic:
+                                  - generic: "4"
+                              - generic:
+                                - generic: ","
+                              - generic:
+                                - generic: "0"
+                            - generic:
+                              - generic: )
+                        - generic:
+                          - math:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic: "-"
+                                  - generic: "4"
+                                - generic: ","
+                                - generic: "0"
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e616]:
+            - button "Previous" [disabled] [ref=e617]
+            - button "1 / 112" [ref=e618] [cursor=pointer]:
+              - generic [ref=e619]: "1"
+              - generic [ref=e620]: /
+              - generic [ref=e621]: "112"
+              - img [ref=e622]
+            - button "Next" [ref=e625] [cursor=pointer]
+  - paragraph [ref=e626]
+  - paragraph [ref=e627]

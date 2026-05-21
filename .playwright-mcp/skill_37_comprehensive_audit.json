@@ -1,0 +1,995 @@
+{
+  "skill": {
+    "id": 37,
+    "code": "P.A.",
+    "name": "Equivalent expressions",
+    "domain": "Problem Solving and Data Analysis"
+  },
+  "audit": {
+    "timestamp": "2026-05-21T04:16:10.091Z",
+    "totalQuestions": 102,
+    "questionsWithIssues": 89,
+    "issueCount": 89
+  },
+  "findings": [
+    {
+      "questionNum": 1,
+      "questionId": "2ac51123-99a1-43e3-b340-791be4958c92",
+      "externalId": "f0b83e7a-34aa-4196-b081-3b114f36d86c",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 2,
+      "questionId": "617db71e-2c2e-4cd3-9c19-da8f54a7dbeb",
+      "externalId": "f5195c2f-b319-4461-9bb3-49a77d44ea36",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 3,
+      "questionId": "688df85a-c23e-4486-9259-da152ee94c1f",
+      "externalId": "fe8889cf-eeea-4460-83f0-4adf594c98f1",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 4,
+      "questionId": "b3d1b0f5-b47b-44e7-a37b-8401f0990954",
+      "externalId": "f310628c-cdcd-47f7-9252-52e9fd1b43b8",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 5,
+      "questionId": "ca3d21c1-0c81-4d1b-a931-7f700f4b7c9a",
+      "externalId": "fefd0641-1549-4867-b848-7eaf6422e3c6",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 6,
+      "questionId": "d47e05a8-5133-4b5b-819f-bd0f0019f1d2",
+      "externalId": "f6ae956c-b079-410b-8528-f086f65ae774",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 7,
+      "questionId": "d525e983-da46-4aa4-8f17-5cf424439f6c",
+      "externalId": "fcd84555-5e4a-4723-a4a3-da174bb334b0",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 9,
+      "questionId": "0bbf3924-d636-4b58-bb7f-0688d6993543",
+      "externalId": "c7e0ffcd-cb85-4ea3-be4d-6dc522beeba4",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 10,
+      "questionId": "14ec0eee-3340-4689-9a10-0a1ddcf28842",
+      "externalId": "df4b49df-b18b-4637-993b-790f6808a51b",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 11,
+      "questionId": "1db4ea94-0278-4d99-ab9b-48ac2c065395",
+      "externalId": "bd215896-5637-4396-99f4-e92dcb4dee3a",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 12,
+      "questionId": "290d3a08-00d9-4c70-99fd-c0a181ba9181",
+      "externalId": "ba3b7ce2-669b-4d76-b93f-911f9f6f4a1a",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 13,
+      "questionId": "3f73ae40-11c1-47e8-a3aa-dbc0213bb64a",
+      "externalId": "e629fd8f-cb0d-4bed-a4c6-1fa17fd79e22",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 15,
+      "questionId": "5fd4ea88-ce98-45a2-9e25-b483c754a0d2",
+      "externalId": "bf251f6b-7de1-4dc7-a141-15f0e5196708",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 16,
+      "questionId": "64d1ed98-b936-4c09-b3c9-bc1b2ce6f772",
+      "externalId": "cbb5c54e-50a6-4e26-ab7d-f2acf0140451",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 17,
+      "questionId": "6540b738-ffe8-4080-87ac-3f77f0223ff3",
+      "externalId": "bb882bdf-8b6b-46f5-bc13-213abec5752d",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 18,
+      "questionId": "67b12753-2966-4f9c-b11d-dd7aeb15ba20",
+      "externalId": "bcd12dc8-4b83-436c-9406-b5d6a7ebaf14",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 19,
+      "questionId": "76846ff9-ae52-4dc9-9689-fee7a17dbc67",
+      "externalId": "cd5cd2de-5e06-4ff0-bbbf-b4918e8761fd",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 20,
+      "questionId": "7830fd32-458f-4852-a1e4-0466a7840925",
+      "externalId": "dcdbde7e-7521-4bc1-ac80-9a6d02d73397",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 21,
+      "questionId": "78be0fb3-2693-4abb-b42a-347dd6a70d9b",
+      "externalId": "ea2d85be-756b-43a4-931f-233d2270c78c",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 22,
+      "questionId": "7f2d68d1-fae4-4304-9d33-37a0331385ec",
+      "externalId": "c502da97-d905-4ce0-bec6-a35eefd96b1b",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 23,
+      "questionId": "80f81b5a-8a90-43da-9f9f-eae2fdb92b9c",
+      "externalId": "e92e95a8-1aeb-48df-9faf-f24e33a8ce56",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 24,
+      "questionId": "957c9a1f-c5b4-4df8-ab7a-dbfa6f9e5f8d",
+      "externalId": "dff3bb19-03d9-4b4d-8956-8c4baf7c8e33",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 25,
+      "questionId": "af30aef7-07c3-4fe3-ab43-ee3f92c8d5ea",
+      "externalId": "c5d6c8d1-532a-4f76-bea0-e831a9915d95",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 26,
+      "questionId": "b5ce2213-f7e8-4b03-8f94-8edb634128a2",
+      "externalId": "edb21dda-4c91-47ed-9f4f-6b586cec3b11",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 27,
+      "questionId": "b7e5e953-b03d-4dc6-9473-1ab58fa0269f",
+      "externalId": "d891eb73-639c-45bf-b10b-40438aa301f2",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 29,
+      "questionId": "c81bbe3d-571e-4c41-96fe-aea8a9407543",
+      "externalId": "d01a3601-ee61-4c52-a0aa-5b5bd7756d06",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 30,
+      "questionId": "c9b3113e-e769-4092-a33b-dce93f927151",
+      "externalId": "d4bd12a4-d755-4e7a-b314-8dbe51f8ee82",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 31,
+      "questionId": "caad7142-3a17-49be-aba5-44c1e7f4faf0",
+      "externalId": "d246eaab-7366-4aa3-b329-734096f5c394",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 32,
+      "questionId": "d80cd2b9-b8a7-404e-bba9-168847827258",
+      "externalId": "cc7de6f1-16f5-4b0c-b45d-0f7c80bb7c83",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 33,
+      "questionId": "daeb640c-6783-4452-97c2-4cc6f946bd97",
+      "externalId": "ce0dd0ce-9d80-485f-8ab6-97e810fbc823",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 35,
+      "questionId": "f78226b8-97b3-4834-9ffc-43844c856065",
+      "externalId": "cadae8a7-8f51-471c-bb42-032a9a5054a9",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 36,
+      "questionId": "21751119-44cd-4001-ba77-5888a44ff830",
+      "externalId": "87896da4-48cf-40fc-8cae-8aca2dc48153",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 37,
+      "questionId": "23976be4-7a70-4f90-ac02-8afa54256994",
+      "externalId": "b147c98f-9c8e-4f86-b7db-4e5f6ea46192",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 38,
+      "questionId": "28efbf79-b507-40a9-a46b-04888431ec0d",
+      "externalId": "8bc13c17-d38f-42b0-927e-603b404c8c7e",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 39,
+      "questionId": "2b5d620e-4bfc-4c3e-bfa9-e9ecba7b79bb",
+      "externalId": "9f846287-d5bc-4224-b0b4-f37a1db1e82c",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 40,
+      "questionId": "35128c19-afa6-4abb-9386-4e45befb37a3",
+      "externalId": "7befdc0b-178a-44d3-87a0-bb4fac363e4e",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 41,
+      "questionId": "35e0f08b-d3eb-4260-921d-72a657e0f89e",
+      "externalId": "a348bae9-0d28-4172-89aa-0442df69792b",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 42,
+      "questionId": "3fa9384a-3bf3-45d5-bd2d-211a957ae92d",
+      "externalId": "87593133-11c6-4cd7-8738-319e784053ef",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 43,
+      "questionId": "422a2e02-8a18-4e00-96d1-607911279c68",
+      "externalId": "91741146-0613-4ab5-a2c0-7eadf0b6c07a",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 44,
+      "questionId": "4adea6f3-e454-4953-8702-a76627d1916b",
+      "externalId": "b0f80856-a7cf-4b74-b27c-320f58604caa",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 47,
+      "questionId": "695be307-afab-4e87-af4e-104ef1dff040",
+      "externalId": "b510c444-9f16-4a2b-8b9c-a98cb0c0b332",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 48,
+      "questionId": "821352ce-8c8d-466d-ac55-0ba11f2c143c",
+      "externalId": "a0fbeef0-4f5f-4969-ba66-f2fe756ba5e4",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 50,
+      "questionId": "8eee558a-0de6-4000-aa1a-15b7afdfb254",
+      "externalId": "921cf21a-cf52-4948-be8e-c7489d24cfe3",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 52,
+      "questionId": "9f92d149-9cc2-48f5-a2b4-9c75a5619f25",
+      "externalId": "9022835c-fb5b-45a4-b57e-2013f0d93619",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 53,
+      "questionId": "a9ac1bb2-080a-4ecb-8955-0f192c1467b0",
+      "externalId": "b897865c-50c0-4444-a852-db1a52b6c8cb",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 54,
+      "questionId": "af8c8ac0-2607-4750-853f-6d93aff308ff",
+      "externalId": "9fae62e3-f1cd-4828-9379-f885cebe5d5f",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 55,
+      "questionId": "dd0c8525-8e78-4a24-8e38-fe7a85b0f447",
+      "externalId": "ae11caf5-f035-4ad1-a62c-9afa99f8b13b",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 56,
+      "questionId": "e61469ed-5886-4215-88d4-aaf72fa66573",
+      "externalId": "a3fb785e-b43a-4fec-b32a-4d66979afb50",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 57,
+      "questionId": "10ba15a4-e9d5-4ea7-adfe-177a49cc47db",
+      "externalId": "6043455d-f2c9-4035-924e-756790b2a91b",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 58,
+      "questionId": "21c4da81-bfa8-471e-ae24-b006c21dd880",
+      "externalId": "4cc1307b-8f47-4607-bf75-e1dd93d6cd31",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 59,
+      "questionId": "22cdc847-22d3-46af-8bfc-be9f5f7ddd2c",
+      "externalId": "61dfa97b-4a3f-4a3a-9330-43ce655bbc1f",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 60,
+      "questionId": "25fb652d-59b2-4364-9598-d7a874eaf46c",
+      "externalId": "54b02ac7-8144-4e19-9478-f2a0125b0578",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 61,
+      "questionId": "388b9077-53cd-427b-b830-d57ad098df93",
+      "externalId": "5a93bb63-449b-426a-8492-392bf5a72075",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 62,
+      "questionId": "3f5dbcf3-08c2-4dc4-a398-a6aee60b278a",
+      "externalId": "6534ed52-4b2a-4171-8e4e-1ad5482678d4",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 63,
+      "questionId": "6101d8e3-a5ff-461d-88ae-ee3108621e33",
+      "externalId": "5d0a7678-34a9-4bf9-8b8f-7e6143c3cacb",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 64,
+      "questionId": "82c01969-bae7-404e-a01c-971057d4c646",
+      "externalId": "4a4f0820-66c3-4252-a5ac-eaca79a59fd6",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 65,
+      "questionId": "89325514-657c-4244-840a-0bf51a028cde",
+      "externalId": "5748c5e6-3876-4b1d-a79c-98ffc2df4f01",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 66,
+      "questionId": "952aaf3f-a47d-4fca-b53c-ed53f62b787b",
+      "externalId": "55fb52d9-d59c-4696-97b5-b3ba796efa8d",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 67,
+      "questionId": "ab67204e-048b-4223-a11b-96b3707d57e7",
+      "externalId": "6c79e6ef-f147-40df-9047-2036943b35cd",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 68,
+      "questionId": "c04ab16e-bdaf-4d80-bc91-c76920ba76d1",
+      "externalId": "626c66ad-8ea0-4df4-9dbd-ea8aff9020fe",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 70,
+      "questionId": "e582994b-a031-46c7-9f42-e620628c71d6",
+      "externalId": "517a3a89-e9b3-4c48-8290-9add386f1a18",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 71,
+      "questionId": "ff2dee65-31f0-44e8-885c-f6af86a345fd",
+      "externalId": "4fd8957f-8711-4a35-ab7c-dce0712fd4b5",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 72,
+      "questionId": "0644e9ee-4519-4023-a068-2428a47b1840",
+      "externalId": "33f9cecc-f6c4-432b-9b5b-995c8c45aae1",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 73,
+      "questionId": "08f4f839-e3f6-4898-9f22-5f36c33f89e1",
+      "externalId": "3e785172-08ab-46ec-840e-16cb83c67899",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 74,
+      "questionId": "250273bf-dc2e-4cf4-9be1-1662568d9e8b",
+      "externalId": "3456e731-2719-4af6-8c7f-0874ecb1b3c7",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 75,
+      "questionId": "25aed8c2-1d75-43a5-b1f2-cd6a9f2d54d9",
+      "externalId": "14c4f302-14cc-4bd0-b52a-ff9ee5ef96ec",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 76,
+      "questionId": "2de9a2d9-b37f-4b95-b825-39b97df6a79a",
+      "externalId": "1f0a2b88-a380-4d58-a8f9-5d92c242ce92",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 77,
+      "questionId": "2e493483-39bc-477c-a224-1aaae0f0d089",
+      "externalId": "26199cf1-ad3e-4556-a258-4dc6f585e366",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 79,
+      "questionId": "432ac66c-60fd-4b4d-9305-42f1a346b59b",
+      "externalId": "3057bc56-c2f1-452d-a769-6b500d12f401",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 80,
+      "questionId": "452d3164-a9de-488f-96b2-89be435a0589",
+      "externalId": "39d2f131-473f-46e5-9430-248847032ef1",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 81,
+      "questionId": "4ead2139-fb0c-4dc7-9e47-bd0e57577aa2",
+      "externalId": "31fa1672-c3f7-4e6c-a7f5-e7206f34fddc",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 82,
+      "questionId": "5b50d2c5-1837-40a6-9cc9-b71ddc80e9ee",
+      "externalId": "3b7745f4-1277-4f2f-9d6c-8dcd82c8d59d",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 83,
+      "questionId": "8e356c97-47fa-46e8-86a4-8a1c650e4d11",
+      "externalId": "2df40af9-7dc5-4be7-b68e-8909b1b67c10",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 85,
+      "questionId": "a15b7b22-1ae5-4bc8-b120-092c52406870",
+      "externalId": "14c2ac3b-aab7-4ff3-900d-48cc1692f527",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 86,
+      "questionId": "b9431563-a1a2-4051-9d81-992161c55b6a",
+      "externalId": "2e18c4cd-8ae8-4edf-993d-d0a893d22dd3",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 87,
+      "questionId": "e53948e0-56a3-47de-9fc5-fae7349a0077",
+      "externalId": "307d3be2-c903-4943-8e6c-d5cb417992cd",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 88,
+      "questionId": "e8ad9523-3808-4ae3-b54b-e1bf13a66dae",
+      "externalId": "2520d50d-5fdf-4439-a9ad-ed8c8acd9a88",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 91,
+      "questionId": "fbcb13e0-0503-4e29-9335-fbb9dc9a9cb3",
+      "externalId": "392d3aee-f776-4873-b514-343a1d43bd17",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 92,
+      "questionId": "fe3eb9f8-259d-4c51-b84d-5d3c4a8755f6",
+      "externalId": "24709753-58b0-4689-b7bf-2853ad32f70e",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 93,
+      "questionId": "10590b68-9361-4c4b-898b-a8c743ba52e0",
+      "externalId": "1201ba81-051c-4e6b-915d-400100ae655f",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 94,
+      "questionId": "2be63f98-56d0-4d3d-9e0f-abccca9a4ebd",
+      "externalId": "02f3b84c-0c50-4f9f-aa28-02d7ae75e99d",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 95,
+      "questionId": "2fa415a9-1691-4a76-bfe4-0b309e8d7206",
+      "externalId": "06196605-85cf-40d3-8d7e-7f265b652d0c",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 96,
+      "questionId": "5dd58078-ef18-48e6-9115-6fcfa5babf45",
+      "externalId": "0ebf254d-ddfd-494d-8d4a-03e813e36798",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 97,
+      "questionId": "6ff11e60-707a-429e-92c2-eac85be2ccdf",
+      "externalId": "0a047024-b70d-43ac-8d8f-fade14c45deb",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 98,
+      "questionId": "727b1c88-9874-41e0-90e8-8d59c474a83f",
+      "externalId": "119743e6-90de-4f11-a3d4-3313e3fb742c",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 99,
+      "questionId": "89d6872f-77e8-4337-b18b-fec638272027",
+      "externalId": "12b4e8a6-e7d5-4acc-9336-0f87f6f44eb1",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 100,
+      "questionId": "a3f3ce7c-6273-4556-a916-b500ba9ca22f",
+      "externalId": "069dfdcf-e062-4c12-8d4c-27b606e2809a",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 101,
+      "questionId": "d980451f-4ef5-4c4d-8265-eef3fea8568a",
+      "externalId": "0660b69e-aff6-4c4f-b106-a9c49331bda7",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    },
+    {
+      "questionNum": 102,
+      "questionId": "f78b804b-b635-4898-9ca9-73f82db198e9",
+      "externalId": "09d3d2eb-5974-4e59-a9f5-68c66d0659d8",
+      "issues": [
+        {
+          "type": "missing content",
+          "description": "MCQ question has no answer choices"
+        }
+      ]
+    }
+  ]
+}

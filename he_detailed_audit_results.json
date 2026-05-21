@@ -1,0 +1,173 @@
+{
+  "skill": "H.E. - Linear inequalities in one or two variables",
+  "skillCode": "H.E.",
+  "totalQuestionsChecked": 70,
+  "questionsWithIssues": 15,
+  "issuesSummary": [
+    {
+      "questionNumber": 3,
+      "questionId": "1721196a-ca3b-4b1e-9356-e2da87d5b8c8",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 16, close: 12, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 6,
+      "questionId": "28c54699-758c-492d-9adf-76245f0b9045",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 15, close: 11, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 9,
+      "questionId": "2f9afc7f-72a6-4c6b-acba-9a0eefedf3eb",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 19, close: 15, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 11,
+      "questionId": "351701f2-411f-43ef-8680-fba54dbbe043",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 29, close: 22, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 21,
+      "questionId": "5f766bd8-cf3d-4776-8b31-a6161e8e2d16",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 18, close: 14, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 24,
+      "questionId": "6bed8a1c-4d10-4875-8acf-55634514a991",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 18, close: 14, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 27,
+      "questionId": "713d1d26-6cd4-4fca-aed0-d7d29313edf5",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 31, close: 24, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 42,
+      "questionId": "a1591364-8ee7-4a94-88c8-02039d9ab55f",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 23, close: 17, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 44,
+      "questionId": "a247ffbc-54a6-4040-8ac3-38192c14dea7",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 27, close: 22, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 47,
+      "questionId": "a860feb3-70b7-423f-9585-8965047dc7c0",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 19, close: 15, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 49,
+      "questionId": "aea9b7cb-4f3a-4f26-aca9-6b28f92dc517",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 17, close: 13, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 56,
+      "questionId": "bda2daf7-894b-4a47-aabc-fa0076465287",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 25, close: 20, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 58,
+      "questionId": "c344bb34-97a3-4a39-95cd-791cb1095a15",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 20, close: 16, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 63,
+      "questionId": "daec4b85-07d3-4e5a-9ad1-86315ce951a8",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 18, close: 14, self-closing: 0)"
+        }
+      ]
+    },
+    {
+      "questionNumber": 70,
+      "questionId": "fef99200-de97-49cb-8878-76bce36182d9",
+      "issueCount": 1,
+      "issues": [
+        {
+          "type": "parsing error",
+          "description": "Possible unclosed HTML tags (open: 26, close: 20, self-closing: 0)"
+        }
+      ]
+    }
+  ]
+}

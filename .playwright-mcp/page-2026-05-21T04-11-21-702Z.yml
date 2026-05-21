@@ -1,0 +1,112 @@
+- generic [ref=e52]:
+  - complementary [ref=e53]:
+    - generic [ref=e57]: Z
+    - navigation [ref=e58]:
+      - generic [ref=e59]:
+        - link "Dashboard" [ref=e60] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e61]
+        - link "Study Plan" [ref=e66] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e67]
+        - link "Diagnostic" [ref=e70] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e71]
+        - link "My Assignments" [ref=e75] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e76]
+      - generic [ref=e79]:
+        - link "Question Bank" [ref=e81] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e82]
+        - link "Skill Lessons" [ref=e85] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e86]
+        - link "Adaptive Practice" [ref=e89] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e90]
+      - link "My Progress" [ref=e95] [cursor=pointer]:
+        - /url: /student/progress
+        - img [ref=e96]
+  - generic [ref=e99]:
+    - banner [ref=e100]:
+      - button "Test Student Test Student" [ref=e102] [cursor=pointer]:
+        - generic "Test Student" [ref=e103]: TS
+        - generic [ref=e104]: Test Student
+        - img [ref=e105]
+    - main [ref=e107]:
+      - generic [ref=e108]:
+        - generic [ref=e109]:
+          - button [ref=e110] [cursor=pointer]:
+            - img [ref=e111]
+          - generic [ref=e113]:
+            - heading "Adaptive Practice" [level=1] [ref=e114]
+            - paragraph [ref=e115]: Questions selected based on your ability level
+        - generic [ref=e116]:
+          - heading "How Adaptive Practice Works" [level=3] [ref=e118]:
+            - img [ref=e119]
+            - text: How Adaptive Practice Works
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - img [ref=e126]
+              - paragraph [ref=e128]: Questions are selected based on your current skill level using IRT (Item Response Theory)
+            - generic [ref=e129]:
+              - img [ref=e131]
+              - paragraph [ref=e135]: Questions adapt to your skill level as you practice
+            - generic [ref=e136]:
+              - img [ref=e138]
+              - paragraph [ref=e142]: Questions target the "zone of proximal development" - challenging but achievable
+        - generic [ref=e143]:
+          - generic [ref=e144]:
+            - heading "Select Skills to Practice" [level=3] [ref=e145]
+            - paragraph [ref=e146]: Choose one or more skills to focus on
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e150]: 0 skills selected
+              - generic [ref=e151]:
+                - button "Select All" [ref=e152] [cursor=pointer]
+                - button "Clear" [ref=e153] [cursor=pointer]
+            - generic [ref=e154]:
+              - button "Heart of Algebra 0/5" [ref=e156] [cursor=pointer]:
+                - generic [ref=e157]: Heart of Algebra
+                - generic [ref=e158]:
+                  - generic [ref=e159]: 0/5
+                  - img [ref=e160]
+              - button "Problem Solving and Data Analysis 0/3" [ref=e163] [cursor=pointer]:
+                - generic [ref=e164]: Problem Solving and Data Analysis
+                - generic [ref=e165]:
+                  - generic [ref=e166]: 0/3
+                  - img [ref=e167]
+              - button "Passport to Advanced Math 0/7" [ref=e170] [cursor=pointer]:
+                - generic [ref=e171]: Passport to Advanced Math
+                - generic [ref=e172]:
+                  - generic [ref=e173]: 0/7
+                  - img [ref=e174]
+              - button "Additional Topics in Math 0/4" [ref=e177] [cursor=pointer]:
+                - generic [ref=e178]: Additional Topics in Math
+                - generic [ref=e179]:
+                  - generic [ref=e180]: 0/4
+                  - img [ref=e181]
+              - button "Information and Ideas 0/3" [ref=e184] [cursor=pointer]:
+                - generic [ref=e185]: Information and Ideas
+                - generic [ref=e186]:
+                  - generic [ref=e187]: 0/3
+                  - img [ref=e188]
+              - button "Craft and Structure 0/3" [ref=e191] [cursor=pointer]:
+                - generic [ref=e192]: Craft and Structure
+                - generic [ref=e193]:
+                  - generic [ref=e194]: 0/3
+                  - img [ref=e195]
+              - button "Expression of Ideas 0/2" [ref=e198] [cursor=pointer]:
+                - generic [ref=e199]: Expression of Ideas
+                - generic [ref=e200]:
+                  - generic [ref=e201]: 0/2
+                  - img [ref=e202]
+              - button "Standard English Conventions 0/2" [ref=e205] [cursor=pointer]:
+                - generic [ref=e206]: Standard English Conventions
+                - generic [ref=e207]:
+                  - generic [ref=e208]: 0/2
+                  - img [ref=e209]
+        - button "Start Adaptive Practice" [disabled] [ref=e211]:
+          - img [ref=e212]
+          - text: Start Adaptive Practice

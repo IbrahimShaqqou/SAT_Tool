@@ -1,0 +1,21 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "SYN Question 1 of 182" [level=1] [ref=e3]
+    - paragraph [ref=e4]:
+      - strong [ref=e5]: "Question ID:"
+      - text: bf09484c-100f-45b2-b286-c948ac5910e4
+    - paragraph [ref=e6]:
+      - strong [ref=e7]: "UID:"
+      - text: 9481ea48-40b0-4c4a-93d4-65f76bd2ca87
+    - paragraph [ref=e8]:
+      - strong [ref=e9]: "Skill:"
+      - text: Rhetorical Synthesis (SYN)
+  - generic [ref=e10]:
+    - heading "Question" [level=2] [ref=e11]
+    - paragraph [ref=e12]: "While researching a topic, a student has taken the following notes:"
+    - list [ref=e13]:
+      - listitem [ref=e14]: The green iguana is a species of reptile.
+      - listitem [ref=e15]: It can be found in Central America and Brazil.
+      - listitem [ref=e16]: The green iguana primarily eats leaves and fruit.
+      - listitem [ref=e17]: It has an average length of 4.8 feet.
+    - paragraph [ref=e18]: The student wants to specify the average length of the green iguana. Which choice most effectively uses relevant information from the notes to accomplish this goal?

@@ -1,0 +1,182 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "Test Student Test Student" [ref=e53] [cursor=pointer]:
+          - generic "Test Student" [ref=e54]: TS
+          - generic [ref=e55]: Test Student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - button [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+              - generic [ref=e189]:
+                - heading "Adaptive Practice" [level=1] [ref=e190]
+                - generic [ref=e191]:
+                  - generic [ref=e192]: Question 2
+                  - generic [ref=e193]: "|"
+                  - generic [ref=e194]: 1 correct
+            - generic [ref=e195]:
+              - button "Draw on question" [ref=e196] [cursor=pointer]:
+                - img [ref=e197]
+              - button "End Practice" [ref=e200] [cursor=pointer]
+              - button "Calculator" [ref=e201] [cursor=pointer]:
+                - img [ref=e202]
+                - text: Calculator
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - generic [ref=e208]: "2"
+              - button "Report" [ref=e209] [cursor=pointer]:
+                - generic [ref=e210]: Report
+            - generic [ref=e211]:
+              - paragraph [ref=e214]:
+                - text: On a 210-mile trip, Cameron drove at an average speed of 60 miles per hour for the first x hours. He then completed the trip, driving at an average speed of 50 miles per hour for the remaining y hours. If
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - generic [ref=e221]: x
+                    - generic [ref=e223]: =
+                    - generic [ref=e225]: "1"
+                  - generic [ref=e242]:
+                    - generic [ref=e243]:
+                      - generic [ref=e245]: x
+                      - generic [ref=e247]: =
+                      - generic [ref=e249]: "1"
+                    - math [ref=e251]:
+                      - generic [ref=e252]: x
+                      - generic [ref=e253]: =
+                      - generic [ref=e254]: "1"
+                - text: ", what is the value of y ?"
+              - generic [ref=e231]:
+                - generic [ref=e232]:
+                  - textbox "Your answer" [disabled] [ref=e233]: "3"
+                  - generic [ref=e255]: Correct
+                - paragraph [ref=e234]: Enter a number, fraction (3/4), or decimal (0.75)
+              - generic [ref=e257]:
+                - generic [ref=e259]:
+                  - generic [ref=e260]:
+                    - generic [ref=e261]: Step-by-Step Explanation
+                    - generic [ref=e262]: Math
+                  - paragraph [ref=e263]: This problem requires setting up a linear equation based on the distance formula and then substituting the given value to solve for the unknown variable.
+                - generic [ref=e264]:
+                  - button "1 Set" [ref=e265] [cursor=pointer]:
+                    - generic [ref=e266]: "1"
+                    - generic [ref=e267]: Set
+                  - button "2 Substitute" [ref=e268] [cursor=pointer]:
+                    - generic [ref=e269]: "2"
+                    - generic [ref=e270]: Substitute
+                  - button "3 Solve" [ref=e271] [cursor=pointer]:
+                    - generic [ref=e272]: "3"
+                    - generic [ref=e273]: Solve
+                - generic [ref=e274]:
+                  - 'heading "Step 1: Set Up the Distance Equation" [level=3] [ref=e275]'
+                  - paragraph [ref=e277]:
+                    - text: The total distance of the trip is 210 miles. Cameron drove at 60 mph for
+                    - generic [ref=e278]:
+                      - math [ref=e280]:
+                        - generic [ref=e283]: x
+                      - generic [ref=e285]: x
+                    - text: hours and 50 mph for
+                    - generic [ref=e286]:
+                      - math [ref=e288]:
+                        - generic [ref=e291]: "y"
+                      - generic [ref=e293]: "y"
+                    - text: hours. The formula for distance is
+                    - generic [ref=e294]:
+                      - math [ref=e296]:
+                        - generic [ref=e298]:
+                          - generic [ref=e299]: d
+                          - generic [ref=e300]: i
+                          - generic [ref=e301]: s
+                          - generic [ref=e302]: t
+                          - generic [ref=e303]: a
+                          - generic [ref=e304]: "n"
+                          - generic [ref=e305]: c
+                          - generic [ref=e306]: e
+                          - generic [ref=e307]: =
+                          - generic [ref=e308]: s
+                          - generic [ref=e309]: p
+                          - generic [ref=e310]: e
+                          - generic [ref=e311]: e
+                          - generic [ref=e312]: d
+                          - generic [ref=e313]: ×
+                          - generic [ref=e314]: t
+                          - generic [ref=e315]: i
+                          - generic [ref=e316]: m
+                          - generic [ref=e317]: e
+                      - generic [ref=e318]:
+                        - generic [ref=e319]: distance =
+                        - generic [ref=e320]: speed ×
+                        - generic [ref=e321]: time
+                    - text: ". So, the total distance can be expressed as:"
+                    - generic [ref=e323]:
+                      - math [ref=e325]:
+                        - generic [ref=e327]:
+                          - generic [ref=e328]: "60"
+                          - generic [ref=e329]: x
+                          - generic [ref=e330]: +
+                          - generic [ref=e331]: "50"
+                          - generic [ref=e332]: "y"
+                          - generic [ref=e333]: =
+                          - generic [ref=e334]: "210"
+                      - generic [ref=e335]:
+                        - generic [ref=e336]: 60x +
+                        - generic [ref=e337]: 50y =
+                        - generic [ref=e338]: "210"
+                - generic [ref=e339]:
+                  - button "Prev" [disabled] [ref=e340]:
+                    - img [ref=e341]
+                    - text: Prev
+                  - generic [ref=e343]: 1 / 3
+                  - button "Next" [ref=e344] [cursor=pointer]:
+                    - text: Next
+                    - img [ref=e345]
+          - generic [ref=e235]:
+            - generic [ref=e237]: Question 2(unlimited)
+            - generic [ref=e348]: ✓ Correct!
+            - button "Next Question" [ref=e349] [cursor=pointer]
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+  - paragraph [ref=e240]
+  - paragraph [ref=e241]

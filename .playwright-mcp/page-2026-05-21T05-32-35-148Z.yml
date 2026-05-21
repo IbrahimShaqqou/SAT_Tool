@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e9]:
+    - complementary [ref=e10]:
+      - generic [ref=e14]: Z
+      - navigation [ref=e15]:
+        - generic [ref=e16]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e18]
+          - link "Study Plan" [ref=e23] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e24]
+          - link "Diagnostic" [ref=e27] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e28]
+          - link "My Assignments" [ref=e32] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e33]
+        - generic [ref=e36]:
+          - link "Question Bank" [ref=e38] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e39]
+          - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e43]
+          - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e47]
+        - link "My Progress" [ref=e52] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e53]
+    - generic [ref=e56]:
+      - banner [ref=e57]:
+        - button "Test Student Test Student" [ref=e59] [cursor=pointer]:
+          - generic "Test Student" [ref=e60]: TS
+          - generic [ref=e61]: Test Student
+          - img [ref=e62]
+      - main [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e219]:
+            - generic [ref=e220]:
+              - button [ref=e221] [cursor=pointer]:
+                - img [ref=e222]
+              - generic [ref=e224]:
+                - text: "Evaluating statistical claims: Observational studies and experiments"
+                - generic [ref=e225]: (Passport to Advanced Math)
+            - generic [ref=e226]:
+              - generic [ref=e227]: Question
+              - generic [ref=e228]: 1 of 11
+            - generic [ref=e229]:
+              - button "Draw on question" [ref=e230] [cursor=pointer]:
+                - img [ref=e231]
+              - button "Reference Sheet" [ref=e234] [cursor=pointer]:
+                - img [ref=e235]
+              - button "Calculator" [ref=e238] [cursor=pointer]:
+                - img [ref=e239]
+          - generic [ref=e244]:
+            - generic [ref=e245]:
+              - generic [ref=e246]:
+                - generic [ref=e247]:
+                  - generic [ref=e248]: "1"
+                  - button "Mark for Review" [ref=e249] [cursor=pointer]:
+                    - img [ref=e250]
+                    - generic [ref=e252]: Mark for Review
+                - button "Report" [ref=e253] [cursor=pointer]:
+                  - img [ref=e254]
+                  - generic [ref=e256]: Report
+              - paragraph [ref=e260]: To determine the mean number of children per household in a community, Tabitha surveyed 20 families at a playground. For the 20 families surveyed, the mean number of children per household was 2.4. Which of the following statements must be true?
+            - generic [ref=e262]:
+              - button "A The mean number of children per household in the community is 2.4." [ref=e263] [cursor=pointer]:
+                - generic [ref=e264]: A
+                - paragraph [ref=e266]: The mean number of children per household in the community is 2.4.
+              - button "B A determination about the mean number of children per household in the community should not be made because the sample size is too small." [ref=e267] [cursor=pointer]:
+                - generic [ref=e268]: B
+                - paragraph [ref=e270]: A determination about the mean number of children per household in the community should not be made because the sample size is too small.
+              - button "C The sampling method is flawed and may produce a biased estimate of the mean number of children per household in the community." [ref=e271] [cursor=pointer]:
+                - generic [ref=e272]: C
+                - paragraph [ref=e274]: The sampling method is flawed and may produce a biased estimate of the mean number of children per household in the community.
+              - button "D The sampling method is not flawed and is likely to produce an unbiased estimate of the mean number of children per household in the community." [ref=e275] [cursor=pointer]:
+                - generic [ref=e276]: D
+                - paragraph [ref=e278]: The sampling method is not flawed and is likely to produce an unbiased estimate of the mean number of children per household in the community.
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e279]:
+            - button "Previous" [disabled] [ref=e280]
+            - button "1 / 11" [ref=e281] [cursor=pointer]:
+              - generic [ref=e282]: "1"
+              - generic [ref=e283]: /
+              - generic [ref=e284]: "11"
+              - img [ref=e285]
+            - button "Next" [ref=e288] [cursor=pointer]
+  - paragraph [ref=e289]
+  - paragraph [ref=e290]

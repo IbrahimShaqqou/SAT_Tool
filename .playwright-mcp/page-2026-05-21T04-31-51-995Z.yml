@@ -1,0 +1,65 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: "Question 1 of 76 | Skill: Q.B. - Percentages"
+  - generic [ref=e3]:
+    - paragraph [ref=e5]:
+      - text: The number
+      - generic [ref=e6]:
+        - generic [ref=e9]: a
+        - math [ref=e11]:
+          - generic [ref=e12]: a
+      - text: is
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - generic [ref=e16]: "6"
+            - generic [ref=e17]: "0"
+          - generic [ref=e19]: "%"
+        - math [ref=e21]:
+          - generic [ref=e22]: "60"
+          - generic [ref=e23]: "%"
+      - text: greater than the positive number
+      - generic [ref=e24]:
+        - generic [ref=e27]: b
+        - math [ref=e29]:
+          - generic [ref=e30]: b
+      - text: . The number
+      - generic [ref=e31]:
+        - generic [ref=e34]: c
+        - math [ref=e36]:
+          - generic [ref=e37]: c
+      - text: is
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - generic [ref=e41]: "4"
+            - generic [ref=e42]: "5"
+          - generic [ref=e44]: "%"
+        - math [ref=e46]:
+          - generic [ref=e47]: "45"
+          - generic [ref=e48]: "%"
+      - text: less than
+      - generic [ref=e49]:
+        - generic [ref=e52]: a
+        - math [ref=e54]:
+          - generic [ref=e55]: a
+      - text: . The number
+      - generic [ref=e56]:
+        - generic [ref=e59]: c
+        - math [ref=e61]:
+          - generic [ref=e62]: c
+      - text: is how many times
+      - generic [ref=e63]:
+        - generic [ref=e66]: b
+        - math [ref=e68]:
+          - generic [ref=e69]: b
+      - text: "?"
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - strong [ref=e72]: "ID:"
+        - text: 0c01c262-d115-438a-bcb5-7cf67ef283c1
+      - generic [ref=e73]:
+        - strong [ref=e74]: "Type:"
+        - text: SPR
+      - generic [ref=e75]:
+        - strong [ref=e76]: "Difficulty:"
+        - text: H
