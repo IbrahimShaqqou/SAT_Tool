@@ -189,14 +189,6 @@ class TestModule(Base, TimestampMixin):
         back_populates="modules"
     )
 
-    responses: Mapped[List["StudentResponse"]] = relationship(
-        "StudentResponse",
-        primaryjoin="and_(TestModule.test_session_id == StudentResponse.test_session_id, "
-                   "StudentResponse.question_id.in_(TestModule.question_ids))",
-        foreign_keys="[StudentResponse.test_session_id, StudentResponse.question_id]",
-        viewonly=True
-    )
-
     # Indexes
     __table_args__ = (
         Index("idx_test_module_session_number", "test_session_id", "module_number"),
