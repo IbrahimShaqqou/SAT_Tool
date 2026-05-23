@@ -22,6 +22,7 @@ import {
   ReferenceSheet,
   SplitPane,
   DrawingCanvas,
+  HighlightableText,
 } from '../../components/test';
 import { questionService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
@@ -63,11 +64,47 @@ const QuestionBankPage = () => {
 
   // Current question
   const currentQuestion = practiceQuestions[currentIndex] || null;
-  const passageHtml = currentQuestion?.passage_html;
-  const hasPassage = !!passageHtml;
 
   // Determine subject area from current question or domain
   const subjectArea = currentQuestion?.subject_area || selectedDomain?.subject_area || 'math';
+
+  // For R/W questions, College Board ships passage and question concatenated
+  // in prompt_html. Split the last block into the question pane and the rest
+  // into the passage pane so they render side-by-side like Bluebook.
+  const { passageHtml, questionHtml } = useMemo(() => {
+    // Explicit passage_html field (rarely populated) takes precedence
+    if (currentQuestion?.passage_html) {
+      return {
+        passageHtml: currentQuestion.passage_html,
+        questionHtml: currentQuestion.prompt_html || '',
+      };
+    }
+
+    // Only split for Reading & Writing — math prompts are single-statement
+    if (subjectArea !== 'reading_writing' || !currentQuestion?.prompt_html) {
+      return { passageHtml: null, questionHtml: currentQuestion?.prompt_html || '' };
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(`<div>${currentQuestion.prompt_html}</div>`, 'text/html');
+    const root = doc.body.firstChild;
+    const blocks = root ? Array.from(root.children) : [];
+
+    // Need at least 2 blocks to have something resembling passage + question
+    if (blocks.length < 2) {
+      return { passageHtml: null, questionHtml: currentQuestion.prompt_html };
+    }
+
+    // The last block is the question stem; everything before is the passage
+    const last = blocks[blocks.length - 1];
+    const passageBlocks = blocks.slice(0, -1);
+    return {
+      passageHtml: passageBlocks.map((el) => el.outerHTML).join(''),
+      questionHtml: last.outerHTML,
+    };
+  }, [currentQuestion, subjectArea]);
+
+  const hasPassage = !!passageHtml;
 
   // Load domains on mount
   useEffect(() => {
@@ -430,7 +467,7 @@ const QuestionBankPage = () => {
         <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
           <QuestionDisplay
             questionNumber={currentIndex + 1}
-            questionHtml={currentQuestion.prompt_html || ''}
+            questionHtml={questionHtml || currentQuestion.prompt_html || ''}
             stimulusHtml={null}
             questionId={currentQuestion.id}
             isMarked={isCurrentMarked}
@@ -514,12 +551,13 @@ const QuestionBankPage = () => {
       </div>
     );
 
-    // Passage panel content
+    // Passage panel content (highlightable, same UX as question prompt)
     const passagePanel = hasPassage ? (
       <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-900">
-        <div
-          className="prose prose-gray dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
+        <HighlightableText
+          key={`passage-${currentQuestion.id}`}
+          html={passageHtml}
+          questionId={`passage-${currentQuestion.id}`}
         />
       </div>
     ) : null;
@@ -618,7 +656,7 @@ const QuestionBankPage = () => {
             </span>
           </div>
 
-          {/* Right: Draw toggle + Reference Sheet and Calculator toggle */}
+          {/* Right: Draw, Reference Sheet (math), Calculator (math) */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsDrawing((d) => !d)}

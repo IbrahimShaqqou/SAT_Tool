@@ -132,7 +132,54 @@ const HighlightableText = ({ html, questionId, className = '', contentRef: exter
       const container = containerRef.current;
       if (!container?.contains(range.commonAncestorContainer)) return;
 
-      const rect = range.getBoundingClientRect();
+      // If either boundary falls inside a MathJax / MathML container,
+      // expand the range to fully include that container. Without this,
+      // range.extractContents() clones the container, leaving one copy
+      // in place and placing another inside the new <mark> — i.e. the
+      // formula appears to duplicate on highlight.
+      const expanded = range.cloneRange();
+      const findMathAncestor = (node) => {
+        let el = node;
+        while (el && el !== container && el.closest) {
+          const m = el.closest(
+            'mjx-container, .MathJax, .MathJax_Display, .MathJax_Preview, math, ' +
+            '.math-container, .math-inline, .math-display, .math_expression, ' +
+            '[data-mjx-texclass], [data-mathml]'
+          );
+          if (m && container.contains(m)) {
+            // Walk up to the outermost math-related wrapper so the entire
+            // formula (and any sibling rendered MathJax) is included.
+            let outer = m;
+            while (
+              outer.parentElement &&
+              outer.parentElement !== container &&
+              outer.parentElement.matches?.(
+                'mjx-container, .MathJax, .MathJax_Display, .MathJax_Preview, math, ' +
+                '.math-container, .math-inline, .math-display, .math_expression'
+              )
+            ) {
+              outer = outer.parentElement;
+            }
+            return outer;
+          }
+          el = el.parentNode;
+        }
+        return null;
+      };
+      const startMath = findMathAncestor(
+        expanded.startContainer.nodeType === 1
+          ? expanded.startContainer
+          : expanded.startContainer.parentNode
+      );
+      if (startMath) expanded.setStartBefore(startMath);
+      const endMath = findMathAncestor(
+        expanded.endContainer.nodeType === 1
+          ? expanded.endContainer
+          : expanded.endContainer.parentNode
+      );
+      if (endMath) expanded.setEndAfter(endMath);
+
+      const rect = expanded.getBoundingClientRect();
       if (!rect.width) return;
 
       // Clamp x so toolbar stays within viewport
@@ -141,7 +188,7 @@ const HighlightableText = ({ html, questionId, className = '', contentRef: exter
         window.innerWidth - 130
       );
 
-      setToolbar({ x: clampedX, y: rect.top, range: range.cloneRange(), markEl: null });
+      setToolbar({ x: clampedX, y: rect.top, range: expanded, markEl: null });
     });
   }, []);
 

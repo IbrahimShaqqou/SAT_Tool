@@ -10,7 +10,7 @@ import {
   BookOpen, BarChart3, BarChart2, FileText,
 } from 'lucide-react';
 import { Button, Badge, EmptyState, LoadingSpinner, ThetaBar } from '../../components/ui';
-import { assignmentService, progressService, recommendationService, practiceService } from '../../services';
+import { assignmentService, progressService, recommendationService } from '../../services';
 import { useAuth } from '../../hooks/useAuth';
 
 // Organic blob decoration — personality without gradients

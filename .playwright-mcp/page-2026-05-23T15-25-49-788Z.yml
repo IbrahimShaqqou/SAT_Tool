@@ -1,0 +1,184 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e8]: Z
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - link "Dashboard" [ref=e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e12]
+          - link "Study Plan" [ref=e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e18]
+          - link "Diagnostic" [ref=e21] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e22]
+          - link "My Assignments" [ref=e26] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e27]
+        - generic [ref=e30]:
+          - link "Question Bank" [ref=e32] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e33]
+          - link "Skill Lessons" [ref=e36] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e37]
+          - link "Adaptive Practice" [ref=e40] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e41]
+        - link "My Progress" [ref=e46] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e47]
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - button "john student john student" [ref=e53] [cursor=pointer]:
+          - generic "john student" [ref=e54]: JS
+          - generic [ref=e55]: john student
+          - img [ref=e56]
+      - main [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - button [ref=e177] [cursor=pointer]:
+                - img [ref=e178]
+              - generic [ref=e180]:
+                - text: Linear functions
+                - generic [ref=e181]: (Heart of Algebra)
+            - generic [ref=e182]:
+              - generic [ref=e183]: Question
+              - generic [ref=e184]: 1 of 151
+            - generic [ref=e185]:
+              - button "Draw on question" [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+              - button "Reference Sheet" [ref=e190] [cursor=pointer]:
+                - img [ref=e191]
+              - button "Calculator" [ref=e194] [cursor=pointer]:
+                - img [ref=e195]
+          - generic [ref=e200]:
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]:
+                  - generic [ref=e204]: "1"
+                  - button "Mark for Review" [ref=e205] [cursor=pointer]:
+                    - img [ref=e206]
+                    - generic [ref=e208]: Mark for Review
+                - button "Report" [ref=e209] [cursor=pointer]:
+                  - img [ref=e210]
+                  - generic [ref=e212]: Report
+              - paragraph [ref=e216]:
+                - text: The function f is defined by
+                - generic [ref=e221]:
+                  - generic [ref=e222]:
+                    - generic [ref=e224]: f
+                    - generic [ref=e226]: (
+                    - generic [ref=e228]: x
+                    - generic [ref=e230]: )
+                    - generic [ref=e232]: =
+                    - generic [ref=e234]: m
+                    - generic [ref=e236]: x
+                    - generic [ref=e238]: +
+                    - generic [ref=e240]: b
+                  - generic [ref=e242]:
+                    - generic [ref=e243]:
+                      - generic [ref=e245]: f
+                      - generic [ref=e247]: (
+                      - generic [ref=e249]: x
+                      - generic [ref=e251]: )
+                      - generic [ref=e253]: =
+                      - generic [ref=e255]: m
+                      - generic [ref=e257]: x
+                      - generic [ref=e259]: +
+                      - generic [ref=e261]: b
+                    - math [ref=e263]:
+                      - generic [ref=e264]: f
+                      - generic [ref=e265]: (
+                      - generic [ref=e266]: x
+                      - generic [ref=e267]: )
+                      - generic [ref=e268]: =
+                      - generic [ref=e269]: m
+                      - generic [ref=e270]: x
+                      - generic [ref=e271]: +
+                      - generic [ref=e272]: b
+                - text: ", where m and b are constants. If"
+                - generic [ref=e277]:
+                  - generic [ref=e278]:
+                    - generic [ref=e280]: f
+                    - generic [ref=e282]: (
+                    - generic [ref=e284]: "0"
+                    - generic [ref=e286]: )
+                    - generic [ref=e288]: =
+                    - generic [ref=e289]:
+                      - generic [ref=e290]: "1"
+                      - generic [ref=e291]: "8"
+                  - generic [ref=e293]:
+                    - generic [ref=e294]:
+                      - generic [ref=e296]: f
+                      - generic [ref=e298]: (
+                      - generic [ref=e300]: "0"
+                      - generic [ref=e302]: )
+                      - generic [ref=e304]: =
+                      - generic [ref=e305]:
+                        - generic [ref=e306]: "1"
+                        - generic [ref=e307]: "8"
+                    - math [ref=e309]:
+                      - generic [ref=e310]: f
+                      - generic [ref=e311]: (
+                      - generic [ref=e312]: "0"
+                      - generic [ref=e313]: )
+                      - generic [ref=e314]: =
+                      - generic [ref=e315]: "18"
+                - text: and
+                - generic [ref=e320]:
+                  - generic [ref=e321]:
+                    - generic [ref=e323]: f
+                    - generic [ref=e325]: (
+                    - generic [ref=e327]: "1"
+                    - generic [ref=e329]: )
+                    - generic [ref=e331]: =
+                    - generic [ref=e332]:
+                      - generic [ref=e333]: "2"
+                      - generic [ref=e334]: "0"
+                  - generic [ref=e336]:
+                    - generic [ref=e337]:
+                      - generic [ref=e339]: f
+                      - generic [ref=e341]: (
+                      - generic [ref=e343]: "1"
+                      - generic [ref=e345]: )
+                      - generic [ref=e347]: =
+                      - generic [ref=e348]:
+                        - generic [ref=e349]: "2"
+                        - generic [ref=e350]: "0"
+                    - math [ref=e352]:
+                      - generic [ref=e353]: f
+                      - generic [ref=e354]: (
+                      - generic [ref=e355]: "1"
+                      - generic [ref=e356]: )
+                      - generic [ref=e357]: =
+                      - generic [ref=e358]: "20"
+                - text: ", what is the value of m ?"
+            - generic [ref=e360]:
+              - textbox "Your answer" [ref=e362]
+              - paragraph [ref=e363]: Enter a number, fraction (3/4), or decimal (0.75)
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e364]:
+            - button "Previous" [disabled] [ref=e365]
+            - button "1 / 151" [ref=e366] [cursor=pointer]:
+              - generic [ref=e367]: "1"
+              - generic [ref=e368]: /
+              - generic [ref=e369]: "151"
+              - img [ref=e370]
+            - button "Next" [ref=e373] [cursor=pointer]
+  - paragraph [ref=e374]
+  - paragraph [ref=e375]

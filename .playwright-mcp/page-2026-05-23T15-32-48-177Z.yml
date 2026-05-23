@@ -1,0 +1,106 @@
+- generic [ref=e1]:
+  - generic [ref=e9]:
+    - complementary [ref=e10]:
+      - generic [ref=e14]: Z
+      - navigation [ref=e15]:
+        - generic [ref=e16]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e18]
+          - link "Study Plan" [ref=e23] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e24]
+          - link "Diagnostic" [ref=e27] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e28]
+          - link "My Assignments" [ref=e32] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e33]
+        - generic [ref=e36]:
+          - link "Question Bank" [ref=e38] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e39]
+          - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e43]
+          - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e47]
+        - link "My Progress" [ref=e52] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e53]
+    - generic [ref=e56]:
+      - banner [ref=e57]:
+        - button "john student john student" [ref=e59] [cursor=pointer]:
+          - generic "john student" [ref=e60]: JS
+          - generic [ref=e61]: john student
+          - img [ref=e62]
+      - main [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - button [ref=e171] [cursor=pointer]:
+                - img [ref=e172]
+              - generic [ref=e174]:
+                - text: Central Ideas and Details
+                - generic [ref=e175]: (Information and Ideas)
+            - generic [ref=e176]:
+              - generic [ref=e177]: Question
+              - generic [ref=e178]: 2 of 116
+            - button "Draw on question" [ref=e180] [cursor=pointer]:
+              - img [ref=e181]
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - generic [ref=e190]:
+                  - generic [ref=e191]: "2"
+                  - button "Mark for Review" [ref=e192] [cursor=pointer]:
+                    - img [ref=e193]
+                    - generic [ref=e195]: Mark for Review
+                - button "Report" [ref=e196] [cursor=pointer]:
+                  - img [ref=e197]
+                  - generic [ref=e199]: Report
+              - generic [ref=e238]:
+                - paragraph [ref=e239]:
+                  - text: The following text is from Edith Nesbit’s 1902 novel
+                  - emphasis [ref=e240]: Five Children and It
+                  - text: . Five young siblings have just moved with their parents from London to a house in the countryside that they call the White House.
+                - blockquote [ref=e241]:
+                  - paragraph [ref=e242]: It was not really a pretty house at all; it was quite ordinary, and mother thought it was rather inconvenient, and was quite annoyed at there being no shelves, to speak of, and hardly a cupboard in the place. Father used to say that the ironwork on the roof and coping was like an architect’s nightmare. But the house was deep in the country, with no other house in sight, and the children had been in London for two years, without so much as once going to the seaside even for a day by an excursion train, and so the White House seemed to them a sort of Fairy Palace set down in an Earthly Paradise.
+                - paragraph [ref=e243]: Which choice best states the main idea of the text?
+            - generic [ref=e208]:
+              - button "A Although their parents believe the house has several drawbacks, the children are enchanted by it." [ref=e244] [cursor=pointer]:
+                - generic [ref=e210]: A
+                - paragraph [ref=e245]: Although their parents believe the house has several drawbacks, the children are enchanted by it.
+              - button "B The children don’t like the house nearly as much as their parents do." [ref=e246] [cursor=pointer]:
+                - generic [ref=e214]: B
+                - paragraph [ref=e247]: The children don’t like the house nearly as much as their parents do.
+              - button "C Each member of the family admires a different characteristic of the house." [ref=e248] [cursor=pointer]:
+                - generic [ref=e218]: C
+                - paragraph [ref=e249]: Each member of the family admires a different characteristic of the house.
+              - button "D The house is beautiful and well built, but the children miss their old home in London." [ref=e250] [cursor=pointer]:
+                - generic [ref=e222]: D
+                - paragraph [ref=e251]: The house is beautiful and well built, but the children miss their old home in London.
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e225]:
+            - button "Previous" [ref=e226] [cursor=pointer]
+            - button "2 / 116" [ref=e252] [cursor=pointer]:
+              - generic [ref=e228]: "2"
+              - generic [ref=e229]: /
+              - generic [ref=e230]: "116"
+              - img [ref=e231]
+            - button "Next" [active] [ref=e234] [cursor=pointer]
+  - paragraph [ref=e235]
+  - paragraph [ref=e236]
