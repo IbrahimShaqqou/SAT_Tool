@@ -1,0 +1,139 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e9]: ZooPrep
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Dashboard" [ref=e12] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e13]
+          - generic [ref=e18]: Dashboard
+        - link "Study Plan" [ref=e19] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e20]
+          - generic [ref=e23]: Study Plan
+        - link "Diagnostic" [ref=e24] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e25]
+          - generic [ref=e29]: Diagnostic
+        - link "My Assignments" [ref=e30] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e31]
+          - generic [ref=e34]: My Assignments
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: Practice
+        - link "Question Bank" [ref=e37] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e38]
+          - generic [ref=e41]: Question Bank
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+          - generic [ref=e46]: Skill Lessons
+        - link "Adaptive Practice" [ref=e47] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e48]
+          - generic [ref=e51]: Adaptive Practice
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Progress
+        - link "My Progress" [ref=e54] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e55]
+          - generic [ref=e58]: My Progress
+    - button "Collapse" [ref=e60] [cursor=pointer]:
+      - img [ref=e61]
+      - generic [ref=e63]: Collapse
+  - generic [ref=e64]:
+    - banner [ref=e65]:
+      - button "john student john student" [ref=e67] [cursor=pointer]:
+        - generic "john student" [ref=e68]: JS
+        - generic [ref=e69]: john student
+        - img [ref=e70]
+    - main [ref=e72]:
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - heading "SAT Practice Test 4 Results" [level=1] [ref=e76]
+          - paragraph [ref=e77]: Completed on May 23, 2026 at 03:04 AM
+        - generic [ref=e79]:
+          - paragraph [ref=e80]: Total SAT Score
+          - generic [ref=e81]: "640"
+          - paragraph [ref=e82]: out of 1600
+          - paragraph [ref=e84]:
+            - generic [ref=e85]: 1th percentile
+            - text: — You scored higher than 1% of test takers
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - heading "Math" [level=2] [ref=e89]
+              - generic [ref=e90]: "300"
+            - generic [ref=e91]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: Accuracy
+                - generic [ref=e95]: 9/44 (20.5%)
+              - generic [ref=e98]:
+                - paragraph [ref=e99]: Performance by Module
+                - generic [ref=e100]:
+                  - generic [ref=e101]:
+                    - generic [ref=e102]: "Module 1:"
+                    - generic [ref=e103]: 4/22
+                  - generic [ref=e104]:
+                    - generic [ref=e105]: "Module 2 (easier):"
+                    - generic [ref=e106]: 5/22
+              - generic [ref=e107]: Needs Improvement
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - heading "Reading & Writing" [level=2] [ref=e110]
+              - generic [ref=e111]: "340"
+            - generic [ref=e112]:
+              - generic [ref=e114]:
+                - generic [ref=e115]: Accuracy
+                - generic [ref=e116]: 15/54 (27.8%)
+              - generic [ref=e119]:
+                - paragraph [ref=e120]: Performance by Module
+                - generic [ref=e121]:
+                  - generic [ref=e122]:
+                    - generic [ref=e123]: "Module 1:"
+                    - generic [ref=e124]: 6/27
+                  - generic [ref=e125]:
+                    - generic [ref=e126]: "Module 2 (easier):"
+                    - generic [ref=e127]: 9/27
+              - generic [ref=e128]: Needs Improvement
+        - generic [ref=e129]:
+          - heading "Understanding Your Score" [level=3] [ref=e130]
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - heading "SAT Score Range" [level=4] [ref=e133]
+              - list [ref=e134]:
+                - listitem [ref=e135]: "• 1400-1600: Excellent (Top 10%)"
+                - listitem [ref=e136]: "• 1200-1390: Good (Top 25%)"
+                - listitem [ref=e137]: "• 1000-1190: Average (50th percentile)"
+                - listitem [ref=e138]: "• 800-990: Below Average"
+                - listitem [ref=e139]: "• 400-790: Needs Significant Improvement"
+            - generic [ref=e140]:
+              - heading "Adaptive Testing" [level=4] [ref=e141]
+              - paragraph [ref=e142]: "This test used 2-stage adaptive testing, just like the real digital SAT:"
+              - list [ref=e143]:
+                - listitem [ref=e144]: • Module 1 determines your Module 2 difficulty
+                - listitem [ref=e145]: "• Harder Module 2: Higher score potential (up to 800)"
+                - listitem [ref=e146]: "• Easier Module 2: Lower ceiling (~680)"
+                - listitem [ref=e147]: • You took the easier Math Module 2
+                - listitem [ref=e148]: • You took the easier R&W Module 2
+        - generic [ref=e149]:
+          - heading "Recommended Next Steps" [level=3] [ref=e150]
+          - list [ref=e151]:
+            - listitem [ref=e152]:
+              - img [ref=e153]
+              - generic [ref=e155]: Review your incorrect answers to identify patterns and weak areas
+            - listitem [ref=e156]:
+              - img [ref=e157]
+              - generic [ref=e159]: Practice targeted skills where you scored below 70%
+            - listitem [ref=e160]:
+              - img [ref=e161]
+              - generic [ref=e163]: Take another practice test in 1-2 weeks to track improvement
+            - listitem [ref=e164]:
+              - img [ref=e165]
+              - generic [ref=e167]: Work with your tutor on test-taking strategies and time management
+        - generic [ref=e168]:
+          - button "Take Another Practice Test" [ref=e169] [cursor=pointer]
+          - button "Return to Dashboard" [ref=e170] [cursor=pointer]

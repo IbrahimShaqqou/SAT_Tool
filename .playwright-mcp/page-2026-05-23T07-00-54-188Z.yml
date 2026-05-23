@@ -1,0 +1,130 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e9]: ZooPrep
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Dashboard" [ref=e12] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e13]
+          - generic [ref=e18]: Dashboard
+        - link "Study Plan" [ref=e19] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e20]
+          - generic [ref=e23]: Study Plan
+        - link "Diagnostic" [ref=e24] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e25]
+          - generic [ref=e29]: Diagnostic
+        - link "My Assignments" [ref=e30] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e31]
+          - generic [ref=e34]: My Assignments
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: Practice
+        - link "Question Bank" [ref=e37] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e38]
+          - generic [ref=e41]: Question Bank
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+          - generic [ref=e46]: Skill Lessons
+        - link "Adaptive Practice" [ref=e47] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e48]
+          - generic [ref=e51]: Adaptive Practice
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Progress
+        - link "My Progress" [ref=e54] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e55]
+          - generic [ref=e58]: My Progress
+    - button "Collapse" [ref=e60] [cursor=pointer]:
+      - img [ref=e61]
+      - generic [ref=e63]: Collapse
+  - generic [ref=e64]:
+    - banner [ref=e65]:
+      - button "john student john student" [ref=e67] [cursor=pointer]:
+        - generic "john student" [ref=e68]: JS
+        - generic [ref=e69]: john student
+        - img [ref=e70]
+    - main [ref=e72]:
+      - generic [ref=e217]:
+        - generic [ref=e219]:
+          - generic [ref=e220]:
+            - heading "Reading and Writing Module 1" [level=1] [ref=e221]
+            - generic [ref=e222]: Question 2 of 27
+          - generic [ref=e223]:
+            - generic [ref=e224]: 31:17
+            - button "Exit Test" [ref=e225] [cursor=pointer]
+        - generic [ref=e228]:
+          - generic [ref=e229]:
+            - generic [ref=e230]:
+              - generic [ref=e231]:
+                - generic [ref=e232]: Question 2
+                - generic [ref=e233]: (Words in Context)
+              - button "Flag" [ref=e234] [cursor=pointer]:
+                - img [ref=e235]
+                - generic [ref=e237]: Flag
+            - generic [ref=e238]:
+              - paragraph [ref=e300]:
+                - text: The artisans of the Igun Eronmwon guild in Benin City, Nigeria, typically ______
+                - generic [ref=e301]: blank
+                - text: the bronze- and brass-casting techniques that have been passed down through their families since the thirteenth century, but they don’t strictly observe every tradition; for example, guild members now use air-conditioning motors instead of handheld bellows to help heat their forges.
+              - paragraph [ref=e302]: Which choice completes the text with the most logical and precise word or phrase?
+            - generic [ref=e242]:
+              - button "A. experiment with" [ref=e303] [cursor=pointer]:
+                - generic [ref=e244]:
+                  - generic [ref=e245]: A.
+                  - paragraph [ref=e304]: experiment with
+              - button "B. adhere to" [ref=e305] [cursor=pointer]:
+                - generic [ref=e249]:
+                  - generic [ref=e250]: B.
+                  - paragraph [ref=e306]: adhere to
+              - button "C. improve on" [ref=e307] [cursor=pointer]:
+                - generic [ref=e254]:
+                  - generic [ref=e255]: C.
+                  - paragraph [ref=e308]: improve on
+              - button "D. grapple with" [ref=e309] [cursor=pointer]:
+                - generic [ref=e259]:
+                  - generic [ref=e260]: D.
+                  - paragraph [ref=e310]: grapple with
+          - generic [ref=e263]:
+            - button "← Previous" [ref=e264] [cursor=pointer]
+            - button "Next →" [active] [ref=e265] [cursor=pointer]
+          - generic [ref=e266]:
+            - heading "Question Navigator" [level=3] [ref=e267]
+            - generic [ref=e268]:
+              - button "1" [ref=e269] [cursor=pointer]
+              - button "2" [ref=e270] [cursor=pointer]
+              - button "3" [ref=e271] [cursor=pointer]
+              - button "4" [ref=e272] [cursor=pointer]
+              - button "5" [ref=e273] [cursor=pointer]
+              - button "6" [ref=e274] [cursor=pointer]
+              - button "7" [ref=e275] [cursor=pointer]
+              - button "8" [ref=e276] [cursor=pointer]
+              - button "9" [ref=e277] [cursor=pointer]
+              - button "10" [ref=e278] [cursor=pointer]
+              - button "11" [ref=e279] [cursor=pointer]
+              - button "12" [ref=e280] [cursor=pointer]
+              - button "13" [ref=e281] [cursor=pointer]
+              - button "14" [ref=e282] [cursor=pointer]
+              - button "15" [ref=e283] [cursor=pointer]
+              - button "16" [ref=e284] [cursor=pointer]
+              - button "17" [ref=e285] [cursor=pointer]
+              - button "18" [ref=e286] [cursor=pointer]
+              - button "19" [ref=e287] [cursor=pointer]
+              - button "20" [ref=e288] [cursor=pointer]
+              - button "21" [ref=e289] [cursor=pointer]
+              - button "22" [ref=e290] [cursor=pointer]
+              - button "23" [ref=e291] [cursor=pointer]
+              - button "24" [ref=e292] [cursor=pointer]
+              - button "25" [ref=e293] [cursor=pointer]
+              - button "26" [ref=e294] [cursor=pointer]
+              - button "27" [ref=e295] [cursor=pointer]
+            - generic [ref=e296]:
+              - generic [ref=e297]: "Answered: 1"
+              - generic [ref=e298]: "Flagged: 0"
+              - generic [ref=e299]: "Unanswered: 26"

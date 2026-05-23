@@ -6,6 +6,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { startPracticeTest, getCurrentModule, submitModule } from '../../services/practiceTestApi';
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 const PracticeTestTakingPage = () => {
   const { testNumber } = useParams();
   const navigate = useNavigate();
@@ -25,24 +27,37 @@ const PracticeTestTakingPage = () => {
   // Initialize test session
   useEffect(() => {
     initializeTest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testNumber]);
 
   const initializeTest = async () => {
     try {
       setLoading(true);
-      // Start test session
-      const startResponse = await startPracticeTest(testNumber);
-      setSessionId(startResponse.session_id);
 
-      // Load first module
-      const moduleResponse = await getCurrentModule(startResponse.session_id);
+      // The URL param is either a test number (initial start) or a session UUID
+      // (returning from a break to take the next module).
+      let activeSessionId;
+      if (UUID_REGEX.test(testNumber)) {
+        activeSessionId = testNumber;
+      } else {
+        const startResponse = await startPracticeTest(testNumber);
+        activeSessionId = startResponse.session_id;
+      }
+      setSessionId(activeSessionId);
+
+      // Load current module (first module on initial start, or next module after break)
+      const moduleResponse = await getCurrentModule(activeSessionId);
       setModuleData(moduleResponse);
       setTimeRemaining(moduleResponse.time_limit_minutes * 60); // Convert to seconds
       setStartTime(Date.now());
+      // Reset per-module state when re-entering after a break
+      setResponses({});
+      setFlaggedQuestions(new Set());
+      setCurrentQuestionIndex(0);
       setError(null);
     } catch (err) {
       console.error('Error initializing test:', err);
-      setError('Failed to start practice test');
+      setError('Failed to load test module');
     } finally {
       setLoading(false);
     }
@@ -249,39 +264,53 @@ const PracticeTestTakingPage = () => {
             </button>
           </div>
 
-          {/* Stimulus (if present) */}
-          {currentQuestion.stimulus_html && (
-            <div
-              className="prose max-w-none mb-6 p-4 bg-gray-50 rounded"
-              dangerouslySetInnerHTML={{ __html: currentQuestion.stimulus_html }}
-            />
-          )}
-
-          {/* Question Prompt */}
+          {/* Question Prompt (includes stimulus passage if any) */}
           <div
-            className="prose max-w-none mb-6 font-medium"
+            className="prose max-w-none mb-6"
             dangerouslySetInnerHTML={{ __html: currentQuestion.prompt_html }}
           />
 
-          {/* Answer Choices */}
-          <div className="space-y-3">
-            {Object.entries(currentQuestion.answer_choices).map(([key, value]) => (
-              <button
-                key={key}
-                onClick={() => handleSelectAnswer(currentQuestion.question_id, key)}
-                className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
-                  responses[currentQuestion.question_id] === key
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300 bg-white'
-                }`}
-              >
-                <div className="flex items-start">
-                  <span className="font-semibold mr-3 text-gray-700">{key}.</span>
-                  <span className="text-gray-900">{value}</span>
-                </div>
-              </button>
-            ))}
-          </div>
+          {/* Answer Choices (MCQ) or Free Response (SPR) */}
+          {currentQuestion.answer_type === 'MCQ' ? (
+            <div className="space-y-3">
+              {(currentQuestion.choices || []).map((choiceHtml, idx) => {
+                const letter = String.fromCharCode(65 + idx); // A, B, C, D
+                const isSelected = responses[currentQuestion.question_id] === idx;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => handleSelectAnswer(currentQuestion.question_id, idx)}
+                    className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
+                      isSelected
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-300 bg-white'
+                    }`}
+                  >
+                    <div className="flex items-start">
+                      <span className="font-semibold mr-3 text-gray-700">{letter}.</span>
+                      <span
+                        className="text-gray-900 prose max-w-none"
+                        dangerouslySetInnerHTML={{ __html: choiceHtml }}
+                      />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your answer
+              </label>
+              <input
+                type="text"
+                value={responses[currentQuestion.question_id] || ''}
+                onChange={(e) => handleSelectAnswer(currentQuestion.question_id, e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
+                placeholder="Enter your answer"
+              />
+            </div>
+          )}
         </div>
 
         {/* Navigation */}
@@ -323,7 +352,7 @@ const PracticeTestTakingPage = () => {
                 className={`w-10 h-10 rounded text-sm font-medium transition-colors ${
                   idx === currentQuestionIndex
                     ? 'bg-blue-600 text-white'
-                    : responses[q.question_id]
+                    : responses[q.question_id] !== undefined && responses[q.question_id] !== null && responses[q.question_id] !== ''
                     ? 'bg-green-100 text-green-800 border border-green-300'
                     : flaggedQuestions.has(q.question_id)
                     ? 'bg-yellow-100 text-yellow-800 border border-yellow-300'

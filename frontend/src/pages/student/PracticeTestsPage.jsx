@@ -174,7 +174,7 @@ const PracticeTestsPage = () => {
           </li>
           <li className="flex items-start">
             <span className="font-semibold mr-2">4.</span>
-            <span>Take breaks between sections (5 minutes each)</span>
+            <span>Take breaks between sections (10 minutes each, skippable)</span>
           </li>
           <li className="flex items-start">
             <span className="font-semibold mr-2">5.</span>

@@ -1,0 +1,56 @@
+- generic [ref=e9]:
+  - complementary [ref=e10]:
+    - generic [ref=e12]:
+      - generic [ref=e14]: Z
+      - generic [ref=e15]: ZooPrep
+    - navigation [ref=e16]:
+      - generic [ref=e17]:
+        - link "Dashboard" [ref=e18] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e19]
+          - generic [ref=e24]: Dashboard
+        - link "Study Plan" [ref=e25] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e26]
+          - generic [ref=e29]: Study Plan
+        - link "Diagnostic" [ref=e30] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e31]
+          - generic [ref=e35]: Diagnostic
+        - link "My Assignments" [ref=e36] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e37]
+          - generic [ref=e40]: My Assignments
+      - generic [ref=e41]:
+        - paragraph [ref=e42]: Practice
+        - link "Question Bank" [ref=e43] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e44]
+          - generic [ref=e47]: Question Bank
+        - link "Skill Lessons" [ref=e48] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e49]
+          - generic [ref=e52]: Skill Lessons
+        - link "Adaptive Practice" [ref=e53] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e54]
+          - generic [ref=e57]: Adaptive Practice
+      - generic [ref=e58]:
+        - paragraph [ref=e59]: Progress
+        - link "My Progress" [ref=e60] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e61]
+          - generic [ref=e64]: My Progress
+    - button "Collapse" [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+      - generic [ref=e69]: Collapse
+  - generic [ref=e70]:
+    - banner [ref=e71]:
+      - button "john student john student" [ref=e73] [cursor=pointer]:
+        - generic "john student" [ref=e74]: JS
+        - generic [ref=e75]: john student
+        - img [ref=e76]
+    - main [ref=e78]:
+      - generic [ref=e176]:
+        - paragraph [ref=e177]: Failed to start practice test
+        - button "Back to Practice Tests" [ref=e178] [cursor=pointer]

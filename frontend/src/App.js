@@ -2,7 +2,7 @@
  * SAT Tutoring Platform - Main App Component
  * Root component with routing configuration
  */
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
 // Layouts
 import { AppLayout, PublicLayout, AuthGuard } from './components/layout';
@@ -126,12 +126,22 @@ function App() {
         <Route path="/student/full-length/:id/results" element={<FullLengthResultsPage />} />
         <Route path="/student/practice-tests" element={<PracticeTestsPage />} />
         <Route path="/student/practice-tests/:testNumber/start" element={<PracticeTestStartPage />} />
-        <Route path="/student/practice-tests/take/:testNumber" element={<PracticeTestTakingPage />} />
-        <Route path="/student/practice-tests/break/:sessionId" element={<PracticeTestBreakPage />} />
         <Route path="/student/practice-tests/results/:sessionId" element={<PracticeTestResultsPage />} />
         <Route path="/student/progress" element={<ProgressPage />} />
         <Route path="/student/profile" element={<ProfilePage />} />
         <Route path="/student/settings" element={<SettingsPage />} />
+      </Route>
+
+      {/* Distraction-free practice test routes (no sidebar / app layout) */}
+      <Route
+        element={
+          <AuthGuard requiredRole="student">
+            <Outlet />
+          </AuthGuard>
+        }
+      >
+        <Route path="/student/practice-tests/take/:testNumber" element={<PracticeTestTakingPage />} />
+        <Route path="/student/practice-tests/break/:sessionId" element={<PracticeTestBreakPage />} />
       </Route>
 
       {/* 404 */}

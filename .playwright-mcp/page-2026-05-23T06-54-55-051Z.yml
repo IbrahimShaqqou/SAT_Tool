@@ -1,0 +1,148 @@
+- generic [ref=e49]:
+  - complementary [ref=e50]:
+    - generic [ref=e52]:
+      - generic [ref=e54]: Z
+      - generic [ref=e55]: ZooPrep
+    - navigation [ref=e56]:
+      - generic [ref=e57]:
+        - link "Dashboard" [ref=e58] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e59]
+          - generic [ref=e64]: Dashboard
+        - link "Study Plan" [ref=e65] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e66]
+          - generic [ref=e69]: Study Plan
+        - link "Diagnostic" [ref=e70] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e71]
+          - generic [ref=e75]: Diagnostic
+        - link "My Assignments" [ref=e76] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e77]
+          - generic [ref=e80]: My Assignments
+      - generic [ref=e81]:
+        - paragraph [ref=e82]: Practice
+        - link "Question Bank" [ref=e83] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e84]
+          - generic [ref=e87]: Question Bank
+        - link "Skill Lessons" [ref=e88] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e89]
+          - generic [ref=e92]: Skill Lessons
+        - link "Adaptive Practice" [ref=e93] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e94]
+          - generic [ref=e97]: Adaptive Practice
+      - generic [ref=e98]:
+        - paragraph [ref=e99]: Progress
+        - link "My Progress" [ref=e100] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e101]
+          - generic [ref=e104]: My Progress
+    - button "Collapse" [ref=e106] [cursor=pointer]:
+      - img [ref=e107]
+      - generic [ref=e109]: Collapse
+  - generic [ref=e110]:
+    - banner [ref=e111]:
+      - button "example student example student" [ref=e113] [cursor=pointer]:
+        - generic "example student" [ref=e114]: ES
+        - generic [ref=e115]: example student
+        - img [ref=e116]
+    - main [ref=e118]:
+      - generic [ref=e490]:
+        - generic [ref=e491]:
+          - heading "SAT Practice Test 4" [level=1] [ref=e492]
+          - paragraph [ref=e493]: Official College Board Practice Test 4 with both adaptive variants
+          - generic [ref=e494]:
+            - generic [ref=e495]: 98 Questions
+            - generic [ref=e496]: •
+            - generic [ref=e497]: 2 hours 14 minutes
+            - generic [ref=e498]: •
+            - generic [ref=e499]: Adaptive Testing
+        - generic [ref=e500]:
+          - heading "Test Structure" [level=2] [ref=e501]
+          - generic [ref=e502]:
+            - generic [ref=e503]:
+              - heading "Reading and Writing Section" [level=3] [ref=e504]
+              - generic [ref=e505]:
+                - generic [ref=e506]:
+                  - generic [ref=e507]: Module 1 (Standard)
+                  - generic [ref=e508]: 27 questions • 32 minutes
+                - generic [ref=e509]:
+                  - generic [ref=e510]: 10-Minute Break
+                  - generic [ref=e511]: (Skippable)
+                - generic [ref=e512]:
+                  - generic [ref=e513]: Module 2 (Adaptive)
+                  - generic [ref=e514]: 27 questions • 32 minutes
+            - generic [ref=e515]:
+              - heading "Math Section" [level=3] [ref=e516]
+              - generic [ref=e517]:
+                - generic [ref=e518]:
+                  - generic [ref=e519]: 10-Minute Break
+                  - generic [ref=e520]: (Skippable)
+                - generic [ref=e521]:
+                  - generic [ref=e522]: Module 1 (Standard)
+                  - generic [ref=e523]: 22 questions • 35 minutes
+                - generic [ref=e524]:
+                  - generic [ref=e525]: 10-Minute Break
+                  - generic [ref=e526]: (Skippable)
+                - generic [ref=e527]:
+                  - generic [ref=e528]: Module 2 (Adaptive)
+                  - generic [ref=e529]: 22 questions • 35 minutes
+        - generic [ref=e530]:
+          - heading "Important Information" [level=2] [ref=e531]
+          - list [ref=e532]:
+            - listitem [ref=e533]:
+              - img [ref=e534]
+              - generic [ref=e536]:
+                - strong [ref=e537]: "Adaptive Testing:"
+                - text: Your performance on Module 1 determines the difficulty of Module 2 in each section
+            - listitem [ref=e538]:
+              - img [ref=e539]
+              - generic [ref=e541]:
+                - strong [ref=e542]: "Timed Modules:"
+                - text: Each module has a strict time limit. When time expires, the module submits automatically
+            - listitem [ref=e543]:
+              - img [ref=e544]
+              - generic [ref=e546]:
+                - strong [ref=e547]: "No Going Back:"
+                - text: Once you submit a module, you cannot return to it
+            - listitem [ref=e548]:
+              - img [ref=e549]
+              - generic [ref=e551]:
+                - strong [ref=e552]: "Breaks:"
+                - text: 10-minute breaks between sections are skippable if you want to continue
+            - listitem [ref=e553]:
+              - img [ref=e554]
+              - generic [ref=e556]:
+                - strong [ref=e557]: "Scoring:"
+                - text: You'll receive scaled scores (200-800 per section) just like the real SAT
+        - generic [ref=e558]:
+          - heading "Testing Conditions" [level=2] [ref=e559]
+          - list [ref=e560]:
+            - listitem [ref=e561]:
+              - generic [ref=e562]: ✓
+              - generic [ref=e563]: Find a quiet, distraction-free environment
+            - listitem [ref=e564]:
+              - generic [ref=e565]: ✓
+              - generic [ref=e566]: Have scratch paper and a calculator ready (for Math section)
+            - listitem [ref=e567]:
+              - generic [ref=e568]: ✓
+              - generic [ref=e569]: Ensure you have 2+ hours of uninterrupted time
+            - listitem [ref=e570]:
+              - generic [ref=e571]: ✓
+              - generic [ref=e572]: Close all other applications and browser tabs
+            - listitem [ref=e573]:
+              - generic [ref=e574]: ✗
+              - generic [ref=e575]: No phones, notes, or outside help during the test
+            - listitem [ref=e576]:
+              - generic [ref=e577]: ✗
+              - generic [ref=e578]: No looking up answers or using AI tools
+          - generic [ref=e579] [cursor=pointer]:
+            - checkbox "I acknowledge that I will take this test under proper testing conditions and treat it like the real SAT." [ref=e580]
+            - generic [ref=e581]: I acknowledge that I will take this test under proper testing conditions and treat it like the real SAT.
+        - generic [ref=e582]:
+          - button "Start Practice Test" [disabled] [ref=e583]
+          - button "Cancel" [ref=e584] [cursor=pointer]

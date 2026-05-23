@@ -1,0 +1,100 @@
+- generic [ref=e49]:
+  - complementary [ref=e50]:
+    - generic [ref=e52]:
+      - generic [ref=e54]: Z
+      - generic [ref=e55]: ZooPrep
+    - navigation [ref=e56]:
+      - generic [ref=e57]:
+        - link "Dashboard" [ref=e58] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e59]
+          - generic [ref=e64]: Dashboard
+        - link "Study Plan" [ref=e65] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e66]
+          - generic [ref=e69]: Study Plan
+        - link "Diagnostic" [ref=e70] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e71]
+          - generic [ref=e75]: Diagnostic
+        - link "My Assignments" [ref=e76] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e77]
+          - generic [ref=e80]: My Assignments
+      - generic [ref=e81]:
+        - paragraph [ref=e82]: Practice
+        - link "Question Bank" [ref=e83] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e84]
+          - generic [ref=e87]: Question Bank
+        - link "Skill Lessons" [ref=e88] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e89]
+          - generic [ref=e92]: Skill Lessons
+        - link "Adaptive Practice" [ref=e93] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e94]
+          - generic [ref=e97]: Adaptive Practice
+      - generic [ref=e98]:
+        - paragraph [ref=e99]: Progress
+        - link "My Progress" [ref=e100] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e101]
+          - generic [ref=e104]: My Progress
+    - button "Collapse" [ref=e106] [cursor=pointer]:
+      - img [ref=e107]
+      - generic [ref=e109]: Collapse
+  - generic [ref=e110]:
+    - banner [ref=e111]:
+      - button "example student example student" [ref=e113] [cursor=pointer]:
+        - generic "example student" [ref=e114]: ES
+        - generic [ref=e115]: example student
+        - img [ref=e116]
+    - main [ref=e118]:
+      - generic [ref=e441]:
+        - generic [ref=e442]:
+          - heading "Official SAT Practice Tests" [level=1] [ref=e443]
+          - paragraph [ref=e444]: Take full-length official College Board practice tests with adaptive Module 2 sections. Each test takes approximately 2 hours and 14 minutes.
+        - generic [ref=e445]:
+          - heading "About These Tests" [level=3] [ref=e446]
+          - list [ref=e447]:
+            - listitem [ref=e448]: • Complete SAT simulation with 98 questions (54 Reading/Writing, 44 Math)
+            - listitem [ref=e449]: "• Adaptive testing: Module 2 difficulty adjusts based on Module 1 performance"
+            - listitem [ref=e450]: • Timed modules matching the real digital SAT
+            - listitem [ref=e451]: • Instant scoring with section scores (200-800) and total score (400-1600)
+        - generic [ref=e453]:
+          - generic [ref=e454]:
+            - generic [ref=e455]:
+              - heading "SAT Practice Test 4" [level=3] [ref=e456]
+              - paragraph [ref=e457]: 98 questions · 134 minutes
+            - generic [ref=e458]: Available
+          - paragraph [ref=e459]: Official College Board Practice Test 4 with both adaptive variants
+          - generic [ref=e460]:
+            - generic [ref=e461]:
+              - img [ref=e462]
+              - text: "Reading & Writing: 54 questions (2 modules)"
+            - generic [ref=e464]:
+              - img [ref=e465]
+              - text: "Math: 44 questions (2 modules)"
+            - generic [ref=e467]:
+              - img [ref=e468]
+              - text: 2 hours 14 minutes (timed)
+          - button "Start Practice Test" [ref=e470] [cursor=pointer]
+        - generic [ref=e471]:
+          - heading "Before You Start" [level=3] [ref=e472]
+          - list [ref=e473]:
+            - listitem [ref=e474]:
+              - generic [ref=e475]: "1."
+              - generic [ref=e476]: Find a quiet place with no distractions
+            - listitem [ref=e477]:
+              - generic [ref=e478]: "2."
+              - generic [ref=e479]: Have scratch paper and a calculator ready for the Math section
+            - listitem [ref=e480]:
+              - generic [ref=e481]: "3."
+              - generic [ref=e482]: Plan for 2+ hours of uninterrupted time
+            - listitem [ref=e483]:
+              - generic [ref=e484]: "4."
+              - generic [ref=e485]: Take breaks between sections (5 minutes each)
+            - listitem [ref=e486]:
+              - generic [ref=e487]: "5."
+              - generic [ref=e488]: Treat this like the real SAT - no phones, no looking up answers

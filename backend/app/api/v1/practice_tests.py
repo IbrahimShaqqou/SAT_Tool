@@ -90,10 +90,9 @@ class ModuleQuestion(BaseModel):
     domain: str
     skill_name: str
     difficulty: str
+    answer_type: str
     prompt_html: str
-    stimulus_html: Optional[str]
-    answer_choices: dict
-    has_image: bool
+    choices: List[str]
 
 
 class ModuleDetail(BaseModel):
@@ -328,7 +327,7 @@ def get_current_module(
         subject = "reading_writing"
         module_num = 2
         # Check Module 1 performance
-        rw_m1_completed = [m for m in modules_completed if m.get("subject") == "reading_writing" and m.get("module_number") == 1]
+        rw_m1_completed = [m for m in modules_completed if m.get("subject") == "reading_writing" and m.get("module_num") == 1]
         if not rw_m1_completed:
             raise HTTPException(status_code=400, detail="Must complete Reading/Writing Module 1 first")
 
@@ -346,7 +345,7 @@ def get_current_module(
         subject = "math"
         module_num = 2
         # Check Module 1 performance
-        math_m1_completed = [m for m in modules_completed if m.get("subject") == "math" and m.get("module_number") == 1]
+        math_m1_completed = [m for m in modules_completed if m.get("subject") == "math" and m.get("module_num") == 1]
         if not math_m1_completed:
             raise HTTPException(status_code=400, detail="Must complete Math Module 1 first")
 
@@ -357,8 +356,11 @@ def get_current_module(
     else:
         raise HTTPException(status_code=400, detail="Invalid module number")
 
-    # Update session with path selection
-    session.session_state["module_2_paths"] = module_2_paths
+    # Update session with path selection. Replace the whole dict so SQLAlchemy
+    # detects the change to the JSONB column.
+    new_state = dict(session.session_state or {})
+    new_state["module_2_paths"] = module_2_paths
+    session.session_state = new_state
     db.commit()
 
     # Get module from database
@@ -377,10 +379,10 @@ def get_current_module(
 
     # Get questions in order
     question_uids = module.question_uids
-    questions = db.query(Question).filter(Question.uId.in_(question_uids)).all()
+    questions = db.query(Question).filter(Question.external_id.in_(question_uids)).all()
 
-    # Create lookup dict
-    question_map = {q.uId: q for q in questions}
+    # Create lookup dict by external_id (the College Board uId)
+    question_map = {q.external_id: q for q in questions}
 
     # Order questions according to module
     ordered_questions = []
@@ -392,13 +394,12 @@ def get_current_module(
         ordered_questions.append(ModuleQuestion(
             question_id=q.id,
             question_number=i + 1,
-            domain=q.domain,
-            skill_name=q.skill_name or "",
-            difficulty=q.difficulty,
+            domain=q.domain.name if q.domain else "",
+            skill_name=q.skill.name if q.skill else "",
+            difficulty=str(q.difficulty.value if hasattr(q.difficulty, "value") else q.difficulty),
+            answer_type=str(q.answer_type.value if hasattr(q.answer_type, "value") else q.answer_type),
             prompt_html=q.prompt_html,
-            stimulus_html=q.stimulus_html,
-            answer_choices=q.answer_choices,
-            has_image=bool(q.image_url)
+            choices=q.choices_json or [],
         ))
 
     return ModuleDetail(
@@ -444,8 +445,24 @@ def submit_module(
 
     for response in submission.responses:
         question = db.query(Question).filter(Question.id == response["question_id"]).first()
-        if question and question.correct_answer == response["selected_answer"]:
-            correct_count += 1
+        if not question:
+            continue
+        selected = response.get("selected_answer")
+        if selected is None:
+            continue
+        correct_json = question.correct_answer_json or {}
+        if "index" in correct_json:
+            # MCQ: compare integer index
+            try:
+                if int(selected) == int(correct_json["index"]):
+                    correct_count += 1
+            except (TypeError, ValueError):
+                pass
+        elif "answers" in correct_json:
+            # SPR (free response): student answer matches any accepted answer (case-insensitive)
+            accepted = [str(a).strip().lower() for a in correct_json["answers"]]
+            if str(selected).strip().lower() in accepted:
+                correct_count += 1
 
     # Determine subject and module number
     if current_module == 1:
@@ -473,8 +490,12 @@ def submit_module(
     is_complete = current_module == 4
     next_module = None if is_complete else current_module + 1
 
-    session.session_state["current_module"] = next_module
-    session.session_state["modules_completed"] = modules_completed
+    # Replace the JSONB dict entirely so SQLAlchemy detects the change.
+    # Mutating nested keys on a JSONB column does not flag the row as dirty.
+    new_state = dict(session.session_state or {})
+    new_state["current_module"] = next_module
+    new_state["modules_completed"] = modules_completed
+    session.session_state = new_state
 
     if is_complete:
         session.status = TestStatus.COMPLETED

@@ -54,12 +54,23 @@ app.add_middleware(
 async def global_exception_handler(request: Request, exc: Exception):
     """
     Handle all unhandled exceptions with proper logging.
-    CORS middleware will add headers to this response.
+    Manually adds CORS headers so the browser surfaces the real error
+    instead of reporting "blocked by CORS policy".
     """
     error_trace = traceback.format_exc()
     print(f"Unhandled exception: {exc}")
     print(f"Request: {request.method} {request.url}")
     print(f"Traceback: {error_trace}")
+
+    # Determine if request origin is allowed and echo it back. The CORSMiddleware
+    # does not run when this exception handler short-circuits the response, so
+    # without these headers the browser masks the real error as a CORS failure.
+    origin = request.headers.get("origin")
+    headers = {}
+    if origin and origin in settings.allowed_origins_list:
+        headers["Access-Control-Allow-Origin"] = origin
+        headers["Access-Control-Allow-Credentials"] = "true"
+        headers["Vary"] = "Origin"
 
     return JSONResponse(
         status_code=500,
@@ -67,7 +78,8 @@ async def global_exception_handler(request: Request, exc: Exception):
             "detail": "Internal server error",
             "type": type(exc).__name__,
             "message": str(exc) if settings.debug else "An unexpected error occurred",
-        }
+        },
+        headers=headers,
     )
 
 

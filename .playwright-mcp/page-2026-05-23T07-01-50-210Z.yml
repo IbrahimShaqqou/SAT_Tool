@@ -1,0 +1,95 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e9]: ZooPrep
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Dashboard" [ref=e12] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e13]
+          - generic [ref=e18]: Dashboard
+        - link "Study Plan" [ref=e19] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e20]
+          - generic [ref=e23]: Study Plan
+        - link "Diagnostic" [ref=e24] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e25]
+          - generic [ref=e29]: Diagnostic
+        - link "My Assignments" [ref=e30] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e31]
+          - generic [ref=e34]: My Assignments
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: Practice
+        - link "Question Bank" [ref=e37] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e38]
+          - generic [ref=e41]: Question Bank
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+          - generic [ref=e46]: Skill Lessons
+        - link "Adaptive Practice" [ref=e47] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e48]
+          - generic [ref=e51]: Adaptive Practice
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Progress
+        - link "My Progress" [ref=e54] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e55]
+          - generic [ref=e58]: My Progress
+    - button "Collapse" [ref=e60] [cursor=pointer]:
+      - img [ref=e61]
+      - generic [ref=e63]: Collapse
+  - generic [ref=e64]:
+    - banner [ref=e65]:
+      - button "john student john student" [ref=e67] [cursor=pointer]:
+        - generic "john student" [ref=e68]: JS
+        - generic [ref=e69]: john student
+        - img [ref=e70]
+    - main [ref=e72]:
+      - generic [ref=e326]:
+        - generic [ref=e327]:
+          - generic [ref=e328]:
+            - img [ref=e330]
+            - heading "Reading and Writing Section Complete!" [level=2] [ref=e332]
+            - paragraph [ref=e333]: Module 1 submitted. Loading adaptive Module 2...
+          - generic [ref=e335]:
+            - img [ref=e336]
+            - generic [ref=e338]:
+              - paragraph [ref=e339]: Standard Module Selected
+              - paragraph [ref=e340]: You'll continue with Module 2.
+          - generic [ref=e341]:
+            - paragraph [ref=e342]: Break Time Remaining
+            - generic [ref=e343]: 9:59
+            - paragraph [ref=e344]: 10-minute break (skippable)
+          - generic [ref=e345]:
+            - heading "Up Next:" [level=3] [ref=e346]
+            - paragraph [ref=e347]: Reading and Writing Section • Module 2
+          - generic [ref=e348]:
+            - button "Continue to Next Section" [ref=e349] [cursor=pointer]
+            - paragraph [ref=e350]: Or wait for the timer to complete automatically
+        - generic [ref=e351]:
+          - heading "Break Recommendations" [level=3] [ref=e352]
+          - list [ref=e353]:
+            - listitem [ref=e354]:
+              - img [ref=e355]
+              - generic [ref=e357]: Stretch and move around
+            - listitem [ref=e358]:
+              - img [ref=e359]
+              - generic [ref=e361]: Have a snack or drink water
+            - listitem [ref=e362]:
+              - img [ref=e363]
+              - generic [ref=e365]: Use the restroom
+            - listitem [ref=e366]:
+              - img [ref=e367]
+              - generic [ref=e369]: Take a few deep breaths
+            - listitem [ref=e370]:
+              - img [ref=e371]
+              - generic [ref=e373]: Don't review notes or study materials
+            - listitem [ref=e374]:
+              - img [ref=e375]
+              - generic [ref=e377]: Don't use your phone or computer (except to continue)
