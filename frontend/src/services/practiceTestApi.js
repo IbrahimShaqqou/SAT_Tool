@@ -57,7 +57,7 @@ export const getTestResults = async (sessionId) => {
   return response.data;
 };
 
-export default {
+const practiceTestApi = {
   listPracticeTests,
   getPracticeTest,
   startPracticeTest,
@@ -65,3 +65,5 @@ export default {
   submitModule,
   getTestResults
 };
+
+export default practiceTestApi;

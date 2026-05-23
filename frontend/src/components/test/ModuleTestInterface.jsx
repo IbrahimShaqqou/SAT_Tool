@@ -5,16 +5,14 @@
  */
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { practiceService, responseService } from '../../services';
-import { LoadingSpinner, Button } from '../ui';
+import { LoadingSpinner } from '../ui';
 import {
-  TestHeader,
   QuestionNav,
   QuestionDisplay,
   AnswerChoices,
   DesmosCalculator,
   ReferenceSheet,
   SplitPane,
-  DrawingCanvas,
 } from './';
 import { useTimer } from '../../hooks';
 
@@ -30,6 +28,7 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
   const [showCalculator, setShowCalculator] = useState(false);
   const [showReferenceSheet, setShowReferenceSheet] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isDrawing, setIsDrawing] = useState(false);
 
   // Refs

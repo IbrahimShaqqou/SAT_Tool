@@ -8,7 +8,9 @@ import { practiceService } from '../../services';
 import { LoadingSpinner } from '../ui';
 
 const ModuleCompleteScreen = ({ module, moduleNumber, onSubmit, onBack }) => {
+  // eslint-disable-next-line no-unused-vars
   const [questions, setQuestions] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [answers, setAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);

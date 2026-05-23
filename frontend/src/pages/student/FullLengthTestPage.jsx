@@ -26,6 +26,7 @@ const FullLengthTestPage = () => {
   const navigate = useNavigate();
 
   // Test and module state
+  // eslint-disable-next-line no-unused-vars
   const [testSession, setTestSession] = useState(null);
   const [modules, setModules] = useState([]);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);

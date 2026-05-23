@@ -17,6 +17,7 @@ const PracticeTestStartPage = () => {
 
   useEffect(() => {
     loadTest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testNumber]);
 
   const loadTest = async () => {

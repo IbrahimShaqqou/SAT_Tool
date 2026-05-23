@@ -16,6 +16,7 @@ const PracticeTestResultsPage = () => {
 
   useEffect(() => {
     loadResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
   const loadResults = async () => {

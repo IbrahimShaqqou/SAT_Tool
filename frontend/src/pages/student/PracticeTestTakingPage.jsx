@@ -2,7 +2,7 @@
  * Practice Test Taking Page - Main test interface with timer and questions
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { startPracticeTest, getCurrentModule, submitModule } from '../../services/practiceTestApi';
 
@@ -78,6 +78,7 @@ const PracticeTestTakingPage = () => {
     }, 1000);
 
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeRemaining, isSubmitting]);
 
   const handleAutoSubmit = async () => {
