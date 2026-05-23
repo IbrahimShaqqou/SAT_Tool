@@ -165,7 +165,7 @@ const StudentDashboard = () => {
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <Link to="/student/diagnostic">
-                <Button size="sm" className="bg-white text-violet-700 hover:bg-violet-50 border-0 font-semibold">
+                <Button size="sm" className="!bg-white !text-violet-700 hover:!bg-violet-50 border-0 font-semibold">
                   Take Diagnostic
                   <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
@@ -229,15 +229,8 @@ const StudentDashboard = () => {
           <div className="flex items-center gap-2 flex-shrink-0">
             <Button
               size="sm"
-              className="bg-white text-[#0077C8] hover:bg-blue-50 border-0 font-semibold"
-              onClick={async () => {
-                try {
-                  const response = await practiceService.createFullLengthTest();
-                  navigate(`/student/full-length/${response.data.id}`);
-                } catch (error) {
-                  console.error('Failed to create test:', error);
-                }
-              }}
+              className="!bg-white !text-[#0077C8] hover:!bg-blue-50 border-0 font-semibold"
+              onClick={() => navigate('/student/practice-tests')}
             >
               Start Test
               <ArrowRight className="h-4 w-4 ml-1" />
