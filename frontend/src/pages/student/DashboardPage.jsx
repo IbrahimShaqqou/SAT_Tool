@@ -7,10 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   ClipboardList, Brain,
   PlayCircle, AlertTriangle, Target, ArrowRight,
-  BookOpen, GraduationCap, BarChart3, BarChart2,
+  BookOpen, GraduationCap, BarChart3, BarChart2, FileText,
 } from 'lucide-react';
 import { Button, Badge, EmptyState, LoadingSpinner, ThetaBar } from '../../components/ui';
-import { assignmentService, progressService, recommendationService } from '../../services';
+import { assignmentService, progressService, recommendationService, practiceService } from '../../services';
 import { useAuth } from '../../hooks/useAuth';
 
 // Organic blob decoration — personality without gradients
@@ -213,6 +213,38 @@ const StudentDashboard = () => {
           </div>
         </div>
       )}
+
+      {/* ── Full-Length SAT Practice Test Banner ── */}
+      <div className="relative overflow-hidden rounded-2xl bg-[#0077C8] px-6 py-5">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+              <FileText className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <p className="font-semibold text-white">Take a Full-Length SAT Practice Test</p>
+              <p className="text-blue-100 text-sm mt-0.5">98 questions · 2 hrs 14 min · realistic Bluebook format</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Button
+              size="sm"
+              className="bg-white text-[#0077C8] hover:bg-blue-50 border-0 font-semibold"
+              onClick={async () => {
+                try {
+                  const response = await practiceService.createFullLengthTest();
+                  navigate(`/student/full-length/${response.data.id}`);
+                } catch (error) {
+                  console.error('Failed to create test:', error);
+                }
+              }}
+            >
+              Start Test
+              <ArrowRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* ── Quick actions ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

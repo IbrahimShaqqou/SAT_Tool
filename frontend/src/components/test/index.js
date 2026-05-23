@@ -13,3 +13,9 @@ export { default as SplitPane } from './SplitPane';
 export { default as SubmitConfirmation } from './SubmitConfirmation';
 export { default as DrawingCanvas } from './DrawingCanvas';
 export { default as HighlightableText } from './HighlightableText';
+
+// Full-length test components
+export { ModuleStartScreen } from './ModuleStartScreen';
+export { ModuleTestInterface } from './ModuleTestInterface';
+export { ModuleCompleteScreen } from './ModuleCompleteScreen';
+export { BreakScreen } from './BreakScreen';

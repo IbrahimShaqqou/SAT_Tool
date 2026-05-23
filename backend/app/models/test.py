@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from app.models.question import Question
     from app.models.response import StudentResponse
     from app.models.assignment import Assignment
+    from app.models.test_module import TestModule, ModuleBreak
 
 
 class TestSession(Base, TimestampMixin):
@@ -198,6 +199,20 @@ class TestSession(Base, TimestampMixin):
         "TestQuestion",
         back_populates="test_session",
         order_by="TestQuestion.question_order"
+    )
+
+    modules: Mapped[List["TestModule"]] = relationship(
+        "TestModule",
+        back_populates="test_session",
+        order_by="TestModule.module_number",
+        cascade="all, delete-orphan"
+    )
+
+    breaks: Mapped[List["ModuleBreak"]] = relationship(
+        "ModuleBreak",
+        back_populates="test_session",
+        order_by="ModuleBreak.after_module_number",
+        cascade="all, delete-orphan"
     )
 
     __table_args__ = (

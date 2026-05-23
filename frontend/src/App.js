@@ -40,6 +40,8 @@ import LessonViewerPage from './pages/student/LessonViewerPage';
 import DiagnosticLandingPage from './pages/student/DiagnosticLandingPage';
 import DiagnosticResultsPage from './pages/student/DiagnosticResultsPage';
 import StudyPlanPage from './pages/student/StudyPlanPage';
+import FullLengthTestPage from './pages/student/FullLengthTestPage';
+import FullLengthResultsPage from './pages/student/FullLengthResultsPage';
 
 // Public Assessment
 import { AssessmentPage, IntakeResultsPage } from './pages/assess';
@@ -115,6 +117,8 @@ function App() {
         <Route path="/student/study-plan" element={<StudyPlanPage />} />
         <Route path="/student/diagnostic" element={<DiagnosticLandingPage />} />
         <Route path="/student/diagnostic/:sessionId/results" element={<DiagnosticResultsPage />} />
+        <Route path="/student/full-length/:id" element={<FullLengthTestPage />} />
+        <Route path="/student/full-length/:id/results" element={<FullLengthResultsPage />} />
         <Route path="/student/progress" element={<ProgressPage />} />
         <Route path="/student/profile" element={<ProfilePage />} />
         <Route path="/student/settings" element={<SettingsPage />} />

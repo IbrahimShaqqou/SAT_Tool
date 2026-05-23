@@ -31,6 +31,25 @@ export const practiceService = {
   // Get session results
   getResults: (id) =>
     api.get(`/practice/${id}/results`),
+
+  // Full-length SAT practice tests
+  createFullLengthTest: () =>
+    api.post('/practice/full-length'),
+
+  getFullLengthTest: (id) =>
+    api.get(`/practice/full-length/${id}`),
+
+  startModule: (moduleId) =>
+    api.post(`/practice/full-length/modules/${moduleId}/start`),
+
+  getModuleQuestions: (moduleId) =>
+    api.get(`/practice/full-length/modules/${moduleId}/questions`),
+
+  submitModule: (moduleId, timeExpired = false) =>
+    api.post(`/practice/full-length/modules/${moduleId}/submit`, { time_expired: timeExpired }),
+
+  getFullLengthResults: (testId) =>
+    api.get(`/practice/full-length/${testId}/results`),
 };
 
 export default practiceService;

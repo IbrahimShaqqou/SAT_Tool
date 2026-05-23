@@ -17,6 +17,7 @@ from app.models.user import User
 from app.models.question import Question
 from app.models.taxonomy import Domain, Skill
 from app.models.test import TestSession, TestQuestion
+from app.models.test_module import TestModule, ModuleBreak
 from app.models.response import StudentResponse
 from app.models.enums import TestType, TestStatus, SubjectArea
 from app.schemas.practice import (
@@ -42,6 +43,7 @@ from app.services.irt_service import (
     DEFAULT_B,
     DEFAULT_C_MCQ,
 )
+from app.services.test_generation_service import TestGenerationService
 from app.models.response import StudentSkill
 from app.models.enums import AnswerType
 
@@ -691,3 +693,349 @@ def get_session_results(
         questions=question_results,
         skill_breakdown=skill_breakdown,
     )
+
+
+# ===================================================================
+# FULL-LENGTH SAT PRACTICE TEST ENDPOINTS (Bluebook Format)
+# ===================================================================
+
+@router.post("/full-length", status_code=status.HTTP_201_CREATED)
+def create_full_length_test(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Generate a new full-length SAT practice test in Bluebook format.
+
+    Creates a test with 4 modules:
+    - Math Module 1: 22 questions, 35 minutes
+    - Math Module 2: 22 questions, 35 minutes
+    - Reading/Writing Module 1: 27 questions, 32 minutes
+    - Reading/Writing Module 2: 27 questions, 32 minutes
+
+    Total: 98 questions, 2 hours 14 minutes (134 minutes)
+
+    Returns the test session with all modules ready.
+    """
+    test_gen_service = TestGenerationService(db)
+
+    try:
+        test_session = test_gen_service.generate_full_length_sat(
+            student_id=current_user.id,
+            avoid_recent_days=7
+        )
+
+        return {
+            "id": test_session.id,
+            "test_type": test_session.test_type,
+            "status": test_session.status,
+            "total_questions": test_session.total_questions,
+            "time_limit_minutes": test_session.time_limit_minutes,
+            "modules": [
+                {
+                    "id": m.id,
+                    "module_number": m.module_number,
+                    "title": m.title,
+                    "subject_area": m.subject_area,
+                    "total_questions": m.total_questions,
+                    "time_limit_minutes": m.time_limit_minutes,
+                    "status": m.status
+                }
+                for m in test_session.modules
+            ],
+            "created_at": test_session.created_at
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to generate test: {str(e)}"
+        )
+
+
+@router.get("/full-length/{test_id}")
+def get_full_length_test(
+    test_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Get full-length test details including module status."""
+    test_session = db.query(TestSession).filter(
+        TestSession.id == test_id,
+        TestSession.student_id == current_user.id,
+        TestSession.test_type == TestType.FULL_LENGTH
+    ).first()
+
+    if not test_session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Full-length test not found"
+        )
+
+    return {
+        "id": test_session.id,
+        "status": test_session.status,
+        "started_at": test_session.started_at,
+        "completed_at": test_session.completed_at,
+        "modules": [
+            {
+                "id": m.id,
+                "module_number": m.module_number,
+                "title": m.title,
+                "subject_area": m.subject_area,
+                "total_questions": m.total_questions,
+                "time_limit_minutes": m.time_limit_minutes,
+                "status": m.status,
+                "questions_answered": m.questions_answered,
+                "questions_correct": m.questions_correct,
+                "started_at": m.started_at,
+                "completed_at": m.completed_at,
+                "time_spent_seconds": m.time_spent_seconds
+            }
+            for m in test_session.modules
+        ],
+        "breaks": [
+            {
+                "after_module": b.after_module_number,
+                "before_module": b.before_module_number,
+                "duration_minutes": b.break_duration_minutes,
+                "started_at": b.started_at,
+                "ended_at": b.ended_at
+            }
+            for b in test_session.breaks
+        ]
+    }
+
+
+@router.post("/full-length/modules/{module_id}/start")
+def start_module(
+    module_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Start a module in a full-length test.
+
+    Sets status to IN_PROGRESS and records start time.
+    Timer begins immediately.
+    """
+    module = db.query(TestModule).filter(
+        TestModule.id == module_id
+    ).first()
+
+    if not module:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Module not found"
+        )
+
+    # Verify ownership
+    if module.test_session.student_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized"
+        )
+
+    test_gen_service = TestGenerationService(db)
+
+    try:
+        updated_module = test_gen_service.start_module(module_id)
+
+        return {
+            "id": updated_module.id,
+            "status": updated_module.status,
+            "started_at": updated_module.started_at,
+            "time_limit_minutes": updated_module.time_limit_minutes
+        }
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
+@router.get("/full-length/modules/{module_id}/questions")
+def get_module_questions(
+    module_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get all questions for a module.
+
+    Returns questions in order for the student to work through.
+    """
+    module = db.query(TestModule).filter(
+        TestModule.id == module_id
+    ).first()
+
+    if not module:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Module not found"
+        )
+
+    # Verify ownership
+    if module.test_session.student_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized"
+        )
+
+    test_gen_service = TestGenerationService(db)
+    questions = test_gen_service.get_module_questions(module_id)
+
+    # Get existing responses for this module
+    responses = db.query(StudentResponse).filter(
+        StudentResponse.test_session_id == module.test_session_id,
+        StudentResponse.question_id.in_([q.id for q in questions])
+    ).all()
+
+    response_dict = {r.question_id: r for r in responses}
+
+    # Format questions with answer status
+    question_list = []
+    for idx, question in enumerate(questions):
+        response = response_dict.get(question.id)
+
+        # Format choices
+        choices = None
+        if question.choices_json:
+            choices = [
+                {"index": i, "content": c}
+                for i, c in enumerate(question.choices_json)
+            ]
+
+        question_list.append({
+            "index": idx,
+            "question_id": question.id,
+            "external_id": question.external_id,
+            "prompt_html": question.prompt_html,
+            "stimulus_html": question.stimulus_html,
+            "choices": choices,
+            "answer_type": question.answer_type,
+            "difficulty": question.difficulty_level,
+            "is_answered": response is not None,
+            "your_answer": response.response_json if response else None,
+            "is_flagged": idx in (module.flagged_question_indices or [])
+        })
+
+    return {
+        "module_id": module.id,
+        "module_number": module.module_number,
+        "title": module.title,
+        "total_questions": module.total_questions,
+        "questions": question_list
+    }
+
+
+@router.post("/full-length/modules/{module_id}/submit")
+def submit_module(
+    module_id: UUID,
+    time_expired: bool = False,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Submit a module (mark as completed).
+
+    After submission, student cannot return to this module.
+    Calculates module scoring based on responses.
+    """
+    module = db.query(TestModule).filter(
+        TestModule.id == module_id
+    ).first()
+
+    if not module:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Module not found"
+        )
+
+    # Verify ownership
+    if module.test_session.student_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized"
+        )
+
+    test_gen_service = TestGenerationService(db)
+
+    try:
+        updated_module = test_gen_service.submit_module(module_id, time_expired)
+
+        return {
+            "id": updated_module.id,
+            "status": updated_module.status,
+            "completed_at": updated_module.completed_at,
+            "time_spent_seconds": updated_module.time_spent_seconds,
+            "questions_answered": updated_module.questions_answered,
+            "questions_correct": updated_module.questions_correct,
+            "score_percentage": updated_module.score_percentage
+        }
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
+@router.get("/full-length/{test_id}/results")
+def get_full_length_results(
+    test_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get complete results for a full-length test.
+
+    Returns SAT-scaled scores (200-800 per section, 400-1600 total)
+    plus detailed breakdown by module and skill.
+    """
+    test_session = db.query(TestSession).filter(
+        TestSession.id == test_id,
+        TestSession.student_id == current_user.id,
+        TestSession.test_type == TestType.FULL_LENGTH
+    ).first()
+
+    if not test_session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Full-length test not found"
+        )
+
+    test_gen_service = TestGenerationService(db)
+    scores = test_gen_service.calculate_test_score(test_id)
+
+    # Get module details
+    modules = db.query(TestModule).filter(
+        TestModule.test_session_id == test_id
+    ).order_by(TestModule.module_number).all()
+
+    module_results = []
+    for module in modules:
+        module_results.append({
+            "module_number": module.module_number,
+            "title": module.title,
+            "subject_area": module.subject_area,
+            "questions_correct": module.questions_correct,
+            "total_questions": module.total_questions,
+            "score_percentage": module.score_percentage,
+            "time_spent_seconds": module.time_spent_seconds
+        })
+
+    return {
+        "test_id": test_session.id,
+        "status": test_session.status,
+        "started_at": test_session.started_at,
+        "completed_at": test_session.completed_at,
+        "scores": {
+            "math": scores["math_score"],
+            "reading_writing": scores["reading_writing_score"],
+            "total": scores["total_score"],
+            "math_correct": scores["math_correct"],
+            "math_total": scores["math_total"],
+            "rw_correct": scores["rw_correct"],
+            "rw_total": scores["rw_total"]
+        },
+        "modules": module_results
+    }

@@ -34,6 +34,7 @@ class TestType(str, enum.Enum):
     DIAGNOSTIC = "diagnostic"       # Initial skill assessment
     FULL_LENGTH = "full_length"     # Complete SAT simulation
     ADAPTIVE = "adaptive"           # IRT-based adaptive practice
+    OFFICIAL_PRACTICE = "official_practice"  # Official College Board Practice Test
 
 
 class TestStatus(str, enum.Enum):
@@ -89,3 +90,10 @@ class AssessmentType(str, enum.Enum):
     SECTION = "section"         # Math OR Reading/Writing only
     DOMAIN = "domain"           # Single domain focus
     QUICK_CHECK = "quick_check" # Quick skill verification
+
+
+class ModuleType(str, enum.Enum):
+    """Module types for 2-stage adaptive testing."""
+    MODULE_1_STANDARD = "module_1_standard"      # Fixed difficulty Module 1
+    MODULE_2_EASIER = "module_2_easier"          # Easier adaptive branch
+    MODULE_2_HARDER = "module_2_harder"          # Harder adaptive branch

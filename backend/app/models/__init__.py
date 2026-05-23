@@ -54,6 +54,7 @@ from app.models.adaptive import (
 
 # Tests
 from app.models.test import TestSession, TestQuestion
+from app.models.test_module import TestModule, ModuleBreak
 
 # Assignments
 from app.models.assignment import Assignment, AssignmentQuestion
@@ -98,6 +99,8 @@ __all__ = [
     "StudentSectionAbility",
     "TestSession",
     "TestQuestion",
+    "TestModule",
+    "ModuleBreak",
     "Assignment",
     "AssignmentQuestion",
     "InviteStatus",

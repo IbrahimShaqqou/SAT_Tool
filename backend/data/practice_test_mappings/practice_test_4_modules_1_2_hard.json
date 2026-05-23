@@ -1,0 +1,960 @@
+{
+  "test_number": 4,
+  "test_name": "SAT Practice 4",
+  "date_extracted": "2026-05-22",
+  "note": "Module 2 is the HARDER version (student scored well on Module 1). Module 1 questions copied from easy variant.",
+  "rw_module_1": [
+    "7a55e35d-d8ae-488b-9bcc-08cdf7b74f33",
+    "fe1a1e94-a295-4dbb-a6d0-dfac55c42730",
+    "c9cd45f4-7fbe-44ef-8120-5b5846f2f601",
+    "ce71526c-7867-4157-8a51-3accf30d355d",
+    "070cc628-5e22-4f16-9fc3-47500b504daa",
+    "bf4d194d-8fb1-49d6-83cf-0ff34ffbd53a",
+    "43423d98-c90d-4e30-a3a2-1bd4ce3a1270",
+    "423665f3-c8e6-42ae-b3a6-59aba12fde73",
+    "de55e61c-ae3f-4b6f-9d19-f9a1752107da",
+    "0b98b330-000e-4552-9b98-b2a5ad69ac4d",
+    "260e6a1e-361e-4eb3-947c-82d66f9ac6fd",
+    "4c92cb78-2c3f-4d81-8d2e-a06f691ba16e",
+    "d94c0fc0-ff30-48a0-a3d4-8ffe769eff8c",
+    "82b20e63-e01b-4f12-af46-f234dffb0335",
+    "75650e68-abbf-4ed5-8665-8128ad73e782",
+    "01d91d3b-341d-48d6-a27f-ed1a7dca7d1c",
+    "9c788092-c364-48bc-8dbc-6165eb9606b3",
+    "5bf0c440-4daf-4fb6-bc2b-e43b0943ac55",
+    "e5c7cf3d-4739-4d26-a02a-15a9ac5ced28",
+    "10724406-5c32-46a4-9f76-eb4bd7fdd49a",
+    "68524fd1-a0ba-440c-a8b8-23ff03376824",
+    "6dc1b4b6-0f74-4d4c-8cdf-9efed419dee8",
+    "d8d83807-07dd-4b42-836e-dbd7ea2ea191",
+    "d8fec38d-52f4-4af7-8668-aea22a26dfc5",
+    "58914316-6a2c-4a2d-aeeb-cf2034f916de",
+    "e5bf223f-33f8-46f0-893d-189fafc17168",
+    "ed6e9f58-ad57-4dc9-b3e9-51bc524cfd4f"
+  ],
+  "rw_module_2_harder": [
+    "3a84b607-0d2c-48b7-b769-41f16138f8ba",
+    "74d8972a-1c58-45c2-b6dc-e4942de18ff6",
+    "5db2f58f-2236-4844-a53c-c7e923b75f8a",
+    "aff3f9f9-150e-4c17-a193-9f158bf37d65",
+    "954b1912-8588-4645-b40d-01f11f433cee",
+    "1eec9ae0-8d1c-4de1-8b23-b633d3775c78",
+    "764d0330-8716-4b9d-82e0-9937bbe940f4",
+    "5b1fdc2d-15c8-4a59-a9c1-283120066d2e",
+    "a4a359c5-eeed-4604-a702-6f3a8d52e75e",
+    "bd1f5845-b172-4732-8afe-2fd1980f200a",
+    "1299a1b8-11f3-457d-a6e1-0b81596c5a1f",
+    "1da52f74-ec72-43ad-9ddd-65bd0e653bf0",
+    "ee6a5d4d-6c43-47c5-96bd-629d6b5f18c2",
+    "34465990-18ed-445b-b5f3-0faf6599ed0d",
+    "d09c2bc9-a25d-46d6-b52f-d86f82782ffd",
+    "c8e12649-3d27-4fee-81a0-b81d03c39a35",
+    "0e49734f-57ab-48fd-9b74-11621bb6645c",
+    "2ef17144-524e-40a2-b689-9e901115c1b5",
+    "c737018f-6632-4290-a99b-4daa0a90b138",
+    "a10a7e33-a5b1-421a-8c41-342da83e40ca",
+    "c985b544-14d7-40a4-b0d3-878c844ff306",
+    "6ea0e409-a1e4-443a-acb8-ea2c648ca9b3",
+    "0de17cbe-195d-4148-bc32-e06b3e10a24f",
+    "05821d83-810a-4991-8594-eaddab4557bd",
+    "e0752f42-bdef-4742-9a68-40fba4c833a6",
+    "82fd5c1d-343e-486a-9801-188e6be8b586",
+    "0bfd56d3-fa6c-4d4f-8d70-490438373dd3"
+  ],
+  "math_module_1": [
+    "889ea8cf-badb-47ef-b15a-360559c04a29",
+    "98b85f4b-3df7-4134-ad99-0b24b83bf7f6",
+    "16b8a398-2d02-400e-b5e3-f1270f5a9c35",
+    "d862da0c-9894-4500-a18e-6f4bab074a50",
+    "6aa421ae-9aa7-40b6-9478-e539b4efc7d7",
+    "0b746561-2736-4f1e-abf9-351fea4e81f6",
+    "1326ec1b-a2df-4ef5-9ebd-148d67354150",
+    "ba5ea905-1646-42e2-a291-09d9ce4ebb1e",
+    "e9c7d460-326e-4a56-9d1b-700b343e12f0",
+    "895dfd07-b2d7-49f8-983f-89c4b82f6599",
+    "46430e32-da44-47d0-9533-7e8cffa94671",
+    "e543fbaa-e0be-4f63-abfe-f1decb3f5fdc",
+    "95bf49fe-456b-468a-9722-37b223d534cb",
+    "ebb67cff-0be6-49f6-b0a8-95a8ca9ddcd1",
+    "582785fd-8e31-42b0-9c9d-46a2183860e8",
+    "f0b83e7a-34aa-4196-b081-3b114f36d86c",
+    "52b4a07f-657d-4b2b-b9e8-cde51e3f2aad",
+    "b869369c-1afb-495b-8525-724acfb5051a",
+    "0eeb3559-9c9d-4457-ba3b-f6eda64c52cb",
+    "dc50b354-b03f-4fae-8ebf-bd19e023cdda",
+    "8c9abab8-de69-4713-93d3-c72423171dc9",
+    "a1e2d08e-4fc4-45ea-8bbb-a996a14a0b10"
+  ],
+  "math_module_2_harder": [
+    "03227496-d5ae-42f7-a86d-fc2f312edb51",
+    "371341f1-77aa-4849-b7c0-9dee64773d71",
+    "171e5804-96b0-4e3f-95b9-2f4e04ce5eb6",
+    "cf3f4008-84fa-4a2e-af97-8f8de7e9a966",
+    "6f304113-85cd-4930-ac36-c777b4c1a583",
+    "a6dd3223-7a74-4898-9ade-67dca60ea2a2",
+    "708d8bcd-7279-4914-9a0a-8d369136910a",
+    "13c27936-b67a-4f69-84ee-16cdc3fa934f",
+    "35add8a9-5ab0-4896-8836-e553f5ea3d9d",
+    "8aa8d0f8-e2ba-4482-ab49-7c1a6c5f5fe6",
+    "71cdf101-a40a-49b2-b6ae-70a8c433d340",
+    "d55aa43a-ebf0-42fb-a63e-55799194560d",
+    "551a512c-9703-43b1-b8c0-fd0af4e89ba9",
+    "bb791f20-7072-4b03-a56d-34b083361e38",
+    "6043455d-f2c9-4035-924e-756790b2a91b",
+    "d7e96295-34ee-4903-a32b-4abce70f60af",
+    "ef4c9cd0-eb20-40dc-915d-9b2e4fe459cf",
+    "3cf63674-2d21-44e3-8f52-320185b9ecf4",
+    "3254b028-4bc1-4a5d-a56e-32a25fd70df6",
+    "b8a3b472-476e-4b02-8ee3-147abc15ccea",
+    "74ba1cb8-d88c-4d44-9f89-6aae884d66e2",
+    "971ac238-5160-450a-8dbb-f7005873c331"
+  ],
+  "matches": [
+    {
+      "questionNumber": 1,
+      "section": "rw",
+      "module": 1,
+      "uId": "7a55e35d-d8ae-488b-9bcc-08cdf7b74f33",
+      "similarity": 0.9367,
+      "preview": "Reading and Writing: Question 1Although critics believed that customers would never agree to pay to ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 2,
+      "section": "rw",
+      "module": 1,
+      "uId": "fe1a1e94-a295-4dbb-a6d0-dfac55c42730",
+      "similarity": 0.9473,
+      "preview": "Reading and Writing: Question 2The artisans of the Igun Eronmwon guild in Benin City, Nigeria, typic",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 3,
+      "section": "rw",
+      "module": 1,
+      "uId": "c9cd45f4-7fbe-44ef-8120-5b5846f2f601",
+      "similarity": 0.9033,
+      "preview": "Reading and Writing: Question 3Set in a world where science fiction tropes exist as everyday realiti",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 4,
+      "section": "rw",
+      "module": 1,
+      "uId": "ce71526c-7867-4157-8a51-3accf30d355d",
+      "similarity": 0.9055,
+      "preview": "Reading and Writing: Question 4In a 2019 study, Jeremy Gunawardena and colleagues found that the sin",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 5,
+      "section": "rw",
+      "module": 1,
+      "uId": "070cc628-5e22-4f16-9fc3-47500b504daa",
+      "similarity": 0.9525,
+      "preview": "Reading and Writing: Question 5Some economic historians ______blank that late nineteenth- and early ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 6,
+      "section": "rw",
+      "module": 1,
+      "uId": "bf4d194d-8fb1-49d6-83cf-0ff34ffbd53a",
+      "similarity": 0.8905,
+      "preview": "Reading and Writing: Question 6The following text is adapted from Karel \u010capek\u2019s 1920 play\u00a0R.U.R. (Ro",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 7,
+      "section": "rw",
+      "module": 1,
+      "uId": "43423d98-c90d-4e30-a3a2-1bd4ce3a1270",
+      "similarity": 0.7481,
+      "preview": "Reading and Writing: Question 7In 2014, Amelia Quon and her team at NASA set out to build a helicopt",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 8,
+      "section": "rw",
+      "module": 1,
+      "uId": "423665f3-c8e6-42ae-b3a6-59aba12fde73",
+      "similarity": 0.6943,
+      "preview": "Reading and Writing: Question 8In West Africa, jalis have traditionally been keepers of information ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 9,
+      "section": "rw",
+      "module": 1,
+      "uId": "de55e61c-ae3f-4b6f-9d19-f9a1752107da",
+      "similarity": 0.843,
+      "preview": "Reading and Writing: Question 9The following text is adapted from Jack London\u2019s 1903 novel The Call ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 10,
+      "section": "rw",
+      "module": 1,
+      "uId": null,
+      "similarity": 0.0,
+      "preview": "Reading and Writing: Question 10The Souls of Black Folk is a 1903 book by W.E.B. Du Bois. In the boo",
+      "error": "No match above threshold",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 11,
+      "section": "rw",
+      "module": 1,
+      "uId": "0b98b330-000e-4552-9b98-b2a5ad69ac4d",
+      "similarity": 0.7932,
+      "preview": "Reading and Writing: Question 11\n\n\n\n\n605550454035302520151050Female farmersas a percentage of totaln",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 12,
+      "section": "rw",
+      "module": 1,
+      "uId": "260e6a1e-361e-4eb3-947c-82d66f9ac6fd",
+      "similarity": 0.7019,
+      "preview": "Reading and Writing: Question 12Scholars have noted that F. Scott Fitzgerald\u2019s writings were likely ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 13,
+      "section": "rw",
+      "module": 1,
+      "uId": "4c92cb78-2c3f-4d81-8d2e-a06f691ba16e",
+      "similarity": 0.7521,
+      "preview": "Reading and Writing: Question 13Herbivorous sauropod dinosaurs could grow more than 100 feet long an",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 14,
+      "section": "rw",
+      "module": 1,
+      "uId": "d94c0fc0-ff30-48a0-a3d4-8ffe769eff8c",
+      "similarity": 0.9621,
+      "preview": "Reading and Writing: Question 14Known for her massive photorealistic paintings of African American f",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 15,
+      "section": "rw",
+      "module": 1,
+      "uId": "82b20e63-e01b-4f12-af46-f234dffb0335",
+      "similarity": 0.9423,
+      "preview": "Reading and Writing: Question 15In 2010, archaeologist Noel Hidalgo Tan was visiting the twelfth-cen",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 16,
+      "section": "rw",
+      "module": 1,
+      "uId": "75650e68-abbf-4ed5-8665-8128ad73e782",
+      "similarity": 0.8438,
+      "preview": "Reading and Writing: Question 16Cheng Dang and her colleagues at the University of Washington recent",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 17,
+      "section": "rw",
+      "module": 1,
+      "uId": "01d91d3b-341d-48d6-a27f-ed1a7dca7d1c",
+      "similarity": 0.9655,
+      "preview": "Reading and Writing: Question 17The Mission 66 initiative, which was approved by Congress in 1956, r",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 18,
+      "section": "rw",
+      "module": 1,
+      "uId": "9c788092-c364-48bc-8dbc-6165eb9606b3",
+      "similarity": 0.9229,
+      "preview": "Reading and Writing: Question 18The Progressive Era in the United States witnessed the rise of numer",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 19,
+      "section": "rw",
+      "module": 1,
+      "uId": "5bf0c440-4daf-4fb6-bc2b-e43b0943ac55",
+      "similarity": 0.6267,
+      "preview": "Reading and Writing: Question 19Eli Eisenberg, a genetics expert at Tel Aviv University in Israel, r",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 20,
+      "section": "rw",
+      "module": 1,
+      "uId": "e5c7cf3d-4739-4d26-a02a-15a9ac5ced28",
+      "similarity": 0.9422,
+      "preview": "Reading and Writing: Question 20A model created by biologist Luis Valente predicts that the rate of ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 21,
+      "section": "rw",
+      "module": 1,
+      "uId": "10724406-5c32-46a4-9f76-eb4bd7fdd49a",
+      "similarity": 0.951,
+      "preview": "Reading and Writing: Question 21Award-winning travel writer Linda Watanabe McFerrin considers the ba",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 22,
+      "section": "rw",
+      "module": 1,
+      "uId": "68524fd1-a0ba-440c-a8b8-23ff03376824",
+      "similarity": 0.6894,
+      "preview": "Reading and Writing: Question 22 While researching a topic, a student has taken the following notes:",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 23,
+      "section": "rw",
+      "module": 1,
+      "uId": "6dc1b4b6-0f74-4d4c-8cdf-9efed419dee8",
+      "similarity": 0.7068,
+      "preview": "Reading and Writing: Question 23While researching a topic, a student has taken the following notes:\n",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 24,
+      "section": "rw",
+      "module": 1,
+      "uId": "d8d83807-07dd-4b42-836e-dbd7ea2ea191",
+      "similarity": 0.6424,
+      "preview": "Reading and Writing: Question 24While researching a topic, a student has taken the following notes:\n",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 25,
+      "section": "rw",
+      "module": 1,
+      "uId": "d8fec38d-52f4-4af7-8668-aea22a26dfc5",
+      "similarity": 0.6904,
+      "preview": "Reading and Writing: Question 25While researching a topic, a student has taken the following notes:\n",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 26,
+      "section": "rw",
+      "module": 1,
+      "uId": "58914316-6a2c-4a2d-aeeb-cf2034f916de",
+      "similarity": 0.672,
+      "preview": "Reading and Writing: Question 26While researching a topic, a student has taken the following notes:\n",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 27,
+      "section": "rw",
+      "module": 1,
+      "uId": "e5bf223f-33f8-46f0-893d-189fafc17168",
+      "similarity": 0.6647,
+      "preview": "Reading and Writing: Question 27While researching a topic, a student has taken the following notes:\n",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 55,
+      "section": "math",
+      "module": 1,
+      "uId": "889ea8cf-badb-47ef-b15a-360559c04a29",
+      "similarity": 0.8293,
+      "preview": "Math: Question 1If x=7, what is the value of x+20?13202734",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 56,
+      "section": "math",
+      "module": 1,
+      "uId": "98b85f4b-3df7-4134-ad99-0b24b83bf7f6",
+      "similarity": 0.6167,
+      "preview": "Math: Question 2Data set X: 5, 9, 9, 13\nData set Y: 5, 9, 9, 13, 27\nThe lists give the values in dat",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 57,
+      "section": "math",
+      "module": 1,
+      "uId": "16b8a398-2d02-400e-b5e3-f1270f5a9c35",
+      "similarity": 0.943,
+      "preview": "Math: Question 3\nRight triangle upper P upper Q upper R is labeled as follows:\n\nAngle upper R is a r",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 58,
+      "section": "math",
+      "module": 1,
+      "uId": "d862da0c-9894-4500-a18e-6f4bab074a50",
+      "similarity": 0.9529,
+      "preview": "Math: Question 4A rocket contained 467,000 kilograms (kg) of propellant before launch. Exactly 21 se",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 59,
+      "section": "math",
+      "module": 1,
+      "uId": "6aa421ae-9aa7-40b6-9478-e539b4efc7d7",
+      "similarity": 0.8732,
+      "preview": "Math: Question 54x=20\n-3x+y=-7\nThe solution to the given system of equations is x,y. What is the val",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 60,
+      "section": "math",
+      "module": 1,
+      "uId": "0b746561-2736-4f1e-abf9-351fea4e81f6",
+      "similarity": 0.9913,
+      "preview": "Math: Question 6A certain apprentice has enrolled in 85 hours of training courses. The equation 10x+",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 61,
+      "section": "math",
+      "module": 1,
+      "uId": "1326ec1b-a2df-4ef5-9ebd-148d67354150",
+      "similarity": 0.9798,
+      "preview": "Math: Question 7Square X has a side length of 12 centimeters. The perimeter of square Y is 2 times t",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 62,
+      "section": "math",
+      "module": 1,
+      "uId": "ba5ea905-1646-42e2-a291-09d9ce4ebb1e",
+      "similarity": 0.9461,
+      "preview": "Math: Question 8gm=-0.05m+12.1\nThe given function g models the number of gallons of gasoline that re",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 63,
+      "section": "math",
+      "module": 1,
+      "uId": "e9c7d460-326e-4a56-9d1b-700b343e12f0",
+      "similarity": 0.9126,
+      "preview": "Math: Question 9If 4x-4=112, what is the positive value of x-1?",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 64,
+      "section": "math",
+      "module": 1,
+      "uId": "895dfd07-b2d7-49f8-983f-89c4b82f6599",
+      "similarity": 0.8681,
+      "preview": "Math: Question 1017b=11xy\nThe given equation relates the positive numbers b, x, and y. Which equatio",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 65,
+      "section": "math",
+      "module": 1,
+      "uId": "46430e32-da44-47d0-9533-7e8cffa94671",
+      "similarity": 0.9409,
+      "preview": "Math: Question 11\n\n\nx\n10\n15\n20\n25\n\n\nfx\n82\n137\n192\n247\n\n\n\nThe table shows four values of x and their ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 66,
+      "section": "math",
+      "module": 1,
+      "uId": "e543fbaa-e0be-4f63-abfe-f1decb3f5fdc",
+      "similarity": 0.9121,
+      "preview": "Math: Question 12(5x3-3)-(-4x3+8)\nThe given expression is equivalent to bx3-11, where b is a constan",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 67,
+      "section": "math",
+      "module": 1,
+      "uId": "95bf49fe-456b-468a-9722-37b223d534cb",
+      "similarity": 0.9024,
+      "preview": "Math: Question 13y>14\n4x+y<18\nThe point x,53 is a solution to the system of inequalities in the xy-p",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 68,
+      "section": "math",
+      "module": 1,
+      "uId": "ebb67cff-0be6-49f6-b0a8-95a8ca9ddcd1",
+      "similarity": 0.9353,
+      "preview": "Math: Question 14Bacteria are growing in a liquid growth medium. There were 300,000 cells per millil",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 69,
+      "section": "math",
+      "module": 1,
+      "uId": "582785fd-8e31-42b0-9c9d-46a2183860e8",
+      "similarity": 0.6888,
+      "preview": "Math: Question 15\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n  ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 70,
+      "section": "math",
+      "module": 1,
+      "uId": "f0b83e7a-34aa-4196-b081-3b114f36d86c",
+      "similarity": 0.8662,
+      "preview": "Math: Question 16Which expression is equivalent to x9y97, where x and y are positive?xy79xy97xy16xy6",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 71,
+      "section": "math",
+      "module": 1,
+      "uId": "52b4a07f-657d-4b2b-b9e8-cde51e3f2aad",
+      "similarity": 0.942,
+      "preview": "Math: Question 17The population of City A increased by 7% from 2015 to 2016. If the 2016 population ",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 72,
+      "section": "math",
+      "module": 1,
+      "uId": "b869369c-1afb-495b-8525-724acfb5051a",
+      "similarity": 0.7444,
+      "preview": "Math: Question 18Which of the following systems of linear equations has no solution?x=3\ny=5y=6x+6\ny=",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 73,
+      "section": "math",
+      "module": 1,
+      "uId": "0eeb3559-9c9d-4457-ba3b-f6eda64c52cb",
+      "similarity": 0.9284,
+      "preview": "Math: Question 19The first term of a sequence is 9. Each term after the first is 4 times the precedi",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 74,
+      "section": "math",
+      "module": 1,
+      "uId": "dc50b354-b03f-4fae-8ebf-bd19e023cdda",
+      "similarity": 0.8828,
+      "preview": "Math: Question 20The minimum value of x is 12 less than 6 times another number n. Which inequality s",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 75,
+      "section": "math",
+      "module": 1,
+      "uId": "8c9abab8-de69-4713-93d3-c72423171dc9",
+      "similarity": 0.88,
+      "preview": "Math: Question 21RS=20\nST=48\nTR=52\nThe side lengths of right triangle RST are given. Triangle RST is",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 76,
+      "section": "math",
+      "module": 1,
+      "uId": "a1e2d08e-4fc4-45ea-8bbb-a996a14a0b10",
+      "similarity": 0.9675,
+      "preview": "Math: Question 22The graph of 9x-10y=19 is translated down 4 units in the xy-plane. What is the x-co",
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 10,
+      "section": "rw",
+      "module": 1,
+      "uId": "ed6e9f58-ad57-4dc9-b3e9-51bc524cfd4f",
+      "similarity": 1.0,
+      "preview": "Manually matched Q10",
+      "manual": true,
+      "note": "Copied from easy variant (Module 1 is same in both)"
+    },
+    {
+      "questionNumber": 28,
+      "section": "rw",
+      "module": 2,
+      "uId": "3a84b607-0d2c-48b7-b769-41f16138f8ba",
+      "similarity": 0.9608,
+      "preview": "Reading and Writing: Question 1In studying the use of external stimuli to reduce the itching sensati"
+    },
+    {
+      "questionNumber": 29,
+      "section": "rw",
+      "module": 2,
+      "uId": "74d8972a-1c58-45c2-b6dc-e4942de18ff6",
+      "similarity": 0.9429,
+      "preview": "Reading and Writing: Question 2New and interesting research conducted by Suleiman A. Al-Sweedan and "
+    },
+    {
+      "questionNumber": 30,
+      "section": "rw",
+      "module": 2,
+      "uId": "5db2f58f-2236-4844-a53c-c7e923b75f8a",
+      "similarity": 0.9559,
+      "preview": "Reading and Writing: Question 3Whether the reign of a French monarch such as Hugh Capet or Henry I w"
+    },
+    {
+      "questionNumber": 31,
+      "section": "rw",
+      "module": 2,
+      "uId": "aff3f9f9-150e-4c17-a193-9f158bf37d65",
+      "similarity": 0.959,
+      "preview": "Reading and Writing: Question 4Researcher Haesung Jung led a 2020 study showing that individual acts"
+    },
+    {
+      "questionNumber": 32,
+      "section": "rw",
+      "module": 2,
+      "uId": "954b1912-8588-4645-b40d-01f11f433cee",
+      "similarity": 0.7946,
+      "preview": "Reading and Writing: Question 5The following text is adapted from Indian Boyhood, a 1902 memoir by O"
+    },
+    {
+      "questionNumber": 33,
+      "section": "rw",
+      "module": 2,
+      "uId": "1eec9ae0-8d1c-4de1-8b23-b633d3775c78",
+      "similarity": 0.7611,
+      "preview": "Reading and Writing: Question 6The following text is from Charlotte Bront\u00eb\u2019s 1847 novel Jane Eyre. J"
+    },
+    {
+      "questionNumber": 34,
+      "section": "rw",
+      "module": 2,
+      "uId": "764d0330-8716-4b9d-82e0-9937bbe940f4",
+      "similarity": 0.7756,
+      "preview": "Reading and Writing: Question 7Musician Joni Mitchell, who is also a painter, uses images she create"
+    },
+    {
+      "questionNumber": 35,
+      "section": "rw",
+      "module": 2,
+      "uId": "5b1fdc2d-15c8-4a59-a9c1-283120066d2e",
+      "similarity": 0.8446,
+      "preview": "Reading and Writing: Question 8A study by a team including finance professor Madhu Veeraraghavan sug"
+    },
+    {
+      "questionNumber": 36,
+      "section": "rw",
+      "module": 2,
+      "uId": "a4a359c5-eeed-4604-a702-6f3a8d52e75e",
+      "similarity": 0.8363,
+      "preview": "Reading and Writing: Question 9\u00a0Text 1\nMost animals can regenerate some parts of their bodies, such "
+    },
+    {
+      "questionNumber": 37,
+      "section": "rw",
+      "module": 2,
+      "uId": "bd1f5845-b172-4732-8afe-2fd1980f200a",
+      "similarity": 0.8288,
+      "preview": "Reading and Writing: Question 10Credited Film Output of James Young Deer, Dark Cloud, Edwin Carewe, "
+    },
+    {
+      "questionNumber": 38,
+      "section": "rw",
+      "module": 2,
+      "uId": "1299a1b8-11f3-457d-a6e1-0b81596c5a1f",
+      "similarity": 0.6292,
+      "preview": "Reading and Writing: Question 11Mosasaurs were large marine reptiles that lived in the Late Cretaceo"
+    },
+    {
+      "questionNumber": 39,
+      "section": "rw",
+      "module": 2,
+      "uId": "1da52f74-ec72-43ad-9ddd-65bd0e653bf0",
+      "similarity": 0.7731,
+      "preview": "Reading and Writing: Question 12\n\n\n\n\n76543210Average number of individuals directly reporting to CEO"
+    },
+    {
+      "questionNumber": 40,
+      "section": "rw",
+      "module": 2,
+      "uId": "ee6a5d4d-6c43-47c5-96bd-629d6b5f18c2",
+      "similarity": 0.6883,
+      "preview": "Reading and Writing: Question 13Given that stars and planets initially form from the same gas and du"
+    },
+    {
+      "questionNumber": 41,
+      "section": "rw",
+      "module": 2,
+      "uId": "0bfd56d3-fa6c-4d4f-8d70-490438373dd3",
+      "similarity": 1.0,
+      "preview": "Manually matched Q41",
+      "manual": true
+    },
+    {
+      "questionNumber": 42,
+      "section": "rw",
+      "module": 2,
+      "uId": "34465990-18ed-445b-b5f3-0faf6599ed0d",
+      "similarity": 0.6954,
+      "preview": "Reading and Writing: Question 15One challenge when researching whether holding elected office change"
+    },
+    {
+      "questionNumber": 43,
+      "section": "rw",
+      "module": 2,
+      "uId": "d09c2bc9-a25d-46d6-b52f-d86f82782ffd",
+      "similarity": 0.7119,
+      "preview": "Reading and Writing: Question 16Compiled in the late 1500s largely through the efforts of Indigenous"
+    },
+    {
+      "questionNumber": 44,
+      "section": "rw",
+      "module": 2,
+      "uId": "c8e12649-3d27-4fee-81a0-b81d03c39a35",
+      "similarity": 0.9435,
+      "preview": "Reading and Writing: Question 17To humans, it does not appear that the golden orb-weaver spider uses"
+    },
+    {
+      "questionNumber": 45,
+      "section": "rw",
+      "module": 2,
+      "uId": "0e49734f-57ab-48fd-9b74-11621bb6645c",
+      "similarity": 0.7753,
+      "preview": "Reading and Writing: Question 18Bonnie Buratti of NASA\u2019s Jet Propulsion Laboratory ______blank data "
+    },
+    {
+      "questionNumber": 46,
+      "section": "rw",
+      "module": 2,
+      "uId": "2ef17144-524e-40a2-b689-9e901115c1b5",
+      "similarity": 0.9427,
+      "preview": "Reading and Writing: Question 19On July 23, 1854, a clipper ship called the Flying Cloud entered San"
+    },
+    {
+      "questionNumber": 47,
+      "section": "rw",
+      "module": 2,
+      "uId": "c737018f-6632-4290-a99b-4daa0a90b138",
+      "similarity": 0.9264,
+      "preview": "Reading and Writing: Question 20Bengali author Toru Dutt\u2019s A Sheaf Gleaned in French Fields (1876), "
+    },
+    {
+      "questionNumber": 48,
+      "section": "rw",
+      "module": 2,
+      "uId": "a10a7e33-a5b1-421a-8c41-342da83e40ca",
+      "similarity": 0.9346,
+      "preview": "Reading and Writing: Question 21Hegra is an archaeological site in present-day Saudi Arabia and was "
+    },
+    {
+      "questionNumber": 49,
+      "section": "rw",
+      "module": 2,
+      "uId": "c985b544-14d7-40a4-b0d3-878c844ff306",
+      "similarity": 0.8258,
+      "preview": "Reading and Writing: Question 22In 1937, Chinese American screen actor Anna May Wong, who had portra"
+    },
+    {
+      "questionNumber": 50,
+      "section": "rw",
+      "module": 2,
+      "uId": "6ea0e409-a1e4-443a-acb8-ea2c648ca9b3",
+      "similarity": 0.8301,
+      "preview": "Reading and Writing: Question 23The Arctic-Alpine Botanic Garden in Norway and the Jardim Bot\u00e2nico o"
+    },
+    {
+      "questionNumber": 51,
+      "section": "rw",
+      "module": 2,
+      "uId": "0de17cbe-195d-4148-bc32-e06b3e10a24f",
+      "similarity": 0.9474,
+      "preview": "Reading and Writing: Question 24The Babylonian king Hammurabi achieved much during his forty-year re"
+    },
+    {
+      "questionNumber": 52,
+      "section": "rw",
+      "module": 2,
+      "uId": "05821d83-810a-4991-8594-eaddab4557bd",
+      "similarity": 0.9495,
+      "preview": "Reading and Writing: Question 25In her poetry collection Thomas and Beulah, Rita Dove interweaves th"
+    },
+    {
+      "questionNumber": 53,
+      "section": "rw",
+      "module": 2,
+      "uId": "e0752f42-bdef-4742-9a68-40fba4c833a6",
+      "similarity": 0.9586,
+      "preview": "Reading and Writing: Question 26When designing costumes for film, American artist Suttirat Larlarb t"
+    },
+    {
+      "questionNumber": 54,
+      "section": "rw",
+      "module": 2,
+      "uId": "82fd5c1d-343e-486a-9801-188e6be8b586",
+      "similarity": 0.6638,
+      "preview": "Reading and Writing: Question 27While researching a topic, a student has taken the following notes:\n"
+    },
+    {
+      "questionNumber": 77,
+      "section": "math",
+      "module": 2,
+      "uId": "03227496-d5ae-42f7-a86d-fc2f312edb51",
+      "similarity": 0.9888,
+      "preview": "Math: Question 1There are 55 students in Spanish club. A sample of the Spanish club students was sel"
+    },
+    {
+      "questionNumber": 78,
+      "section": "math",
+      "module": 2,
+      "uId": "371341f1-77aa-4849-b7c0-9dee64773d71",
+      "similarity": 0.931,
+      "preview": "Math: Question 2A machine makes large boxes or small boxes, one at a time, for a total of 700 minute"
+    },
+    {
+      "questionNumber": 79,
+      "section": "math",
+      "module": 2,
+      "uId": "171e5804-96b0-4e3f-95b9-2f4e04ce5eb6",
+      "similarity": 0.9652,
+      "preview": "Math: Question 3The scatterplot shows the relationship between two variables, x and y. A line of bes"
+    },
+    {
+      "questionNumber": 80,
+      "section": "math",
+      "module": 2,
+      "uId": "cf3f4008-84fa-4a2e-af97-8f8de7e9a966",
+      "similarity": 0.9647,
+      "preview": "Math: Question 4\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n   "
+    },
+    {
+      "questionNumber": 81,
+      "section": "math",
+      "module": 2,
+      "uId": "6f304113-85cd-4930-ac36-c777b4c1a583",
+      "similarity": 0.853,
+      "preview": "Math: Question 5\n\n\nx\nfx\n\n\n-1\n10\n\n\n0\n14\n\n\n1\n20\n\n\n\nFor the quadratic function f, the table shows three"
+    },
+    {
+      "questionNumber": 82,
+      "section": "math",
+      "module": 2,
+      "uId": "a6dd3223-7a74-4898-9ade-67dca60ea2a2",
+      "similarity": 0.91,
+      "preview": "Math: Question 6The function f is defined by fx=x+155, and fa=10, where a is a constant. What is the"
+    },
+    {
+      "questionNumber": 83,
+      "section": "math",
+      "module": 2,
+      "uId": "708d8bcd-7279-4914-9a0a-8d369136910a",
+      "similarity": 0.9778,
+      "preview": "Math: Question 7\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n   \n   \n"
+    },
+    {
+      "questionNumber": 84,
+      "section": "math",
+      "module": 2,
+      "uId": "13c27936-b67a-4f69-84ee-16cdc3fa934f",
+      "similarity": 0.9283,
+      "preview": "Math: Question 8Line p is defined by 2y+18x=9. Line r is perpendicular to line p in the xy-plane. Wh"
+    },
+    {
+      "questionNumber": 85,
+      "section": "math",
+      "module": 2,
+      "uId": "35add8a9-5ab0-4896-8836-e553f5ea3d9d",
+      "similarity": 0.9591,
+      "preview": "Math: Question 9A sample of oak has a density of 807\u00a0kilograms per cubic meter. The sample is in the"
+    },
+    {
+      "questionNumber": 86,
+      "section": "math",
+      "module": 2,
+      "uId": "8aa8d0f8-e2ba-4482-ab49-7c1a6c5f5fe6",
+      "similarity": 0.9443,
+      "preview": "Math: Question 10Pt=2901.0446t\nThe function P models the population, in thousands, of a certain city"
+    },
+    {
+      "questionNumber": 87,
+      "section": "math",
+      "module": 2,
+      "uId": "71cdf101-a40a-49b2-b6ae-70a8c433d340",
+      "similarity": 0.9111,
+      "preview": "Math: Question 112kx-n=-2815x-3619\nIn the given equation, k and n are constants and\u00a0n>1. The equatio"
+    },
+    {
+      "questionNumber": 88,
+      "section": "math",
+      "module": 2,
+      "uId": "d55aa43a-ebf0-42fb-a63e-55799194560d",
+      "similarity": 0.9955,
+      "preview": "Math: Question 12A gift shop buys souvenirs at a wholesale price of\u00a07.00 dollars each and resells th"
+    },
+    {
+      "questionNumber": 89,
+      "section": "math",
+      "module": 2,
+      "uId": "551a512c-9703-43b1-b8c0-fd0af4e89ba9",
+      "similarity": 0.9357,
+      "preview": "Math: Question 13x2-34x+c=0\nIn the given equation, c is a constant. The equation has no real solutio"
+    },
+    {
+      "questionNumber": 90,
+      "section": "math",
+      "module": 2,
+      "uId": "bb791f20-7072-4b03-a56d-34b083361e38",
+      "similarity": 1.0,
+      "preview": "Math: Question 14Data set A consists of the heights of 75 buildings and has a mean of 32 meters. Dat"
+    },
+    {
+      "questionNumber": 91,
+      "section": "math",
+      "module": 2,
+      "uId": "6043455d-f2c9-4035-924e-756790b2a91b",
+      "similarity": 0.9226,
+      "preview": "Math: Question 15The expression 4x2+bx-45, where b is a constant, can be rewritten as hx+kx+j, where"
+    },
+    {
+      "questionNumber": 92,
+      "section": "math",
+      "module": 2,
+      "uId": "d7e96295-34ee-4903-a32b-4abce70f60af",
+      "similarity": 0.9618,
+      "preview": "Math: Question 16y=-1.5\ny=x2+8x+a\nIn the given system of equations, a is a positive constant. The sy"
+    },
+    {
+      "questionNumber": 93,
+      "section": "math",
+      "module": 2,
+      "uId": "971ac238-5160-450a-8dbb-f7005873c331",
+      "similarity": 1.0,
+      "preview": "Manually matched Q93",
+      "manual": true
+    },
+    {
+      "questionNumber": 94,
+      "section": "math",
+      "module": 2,
+      "uId": "ef4c9cd0-eb20-40dc-915d-9b2e4fe459cf",
+      "similarity": 0.9448,
+      "preview": "Math: Question 18\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n  "
+    },
+    {
+      "questionNumber": 95,
+      "section": "math",
+      "module": 2,
+      "uId": "3cf63674-2d21-44e3-8f52-320185b9ecf4",
+      "similarity": 0.901,
+      "preview": "Math: Question 1957x2+(57b+a)x+ab=0\nIn the given equation, a and b are positive constants. The produ"
+    },
+    {
+      "questionNumber": 96,
+      "section": "math",
+      "module": 2,
+      "uId": "3254b028-4bc1-4a5d-a56e-32a25fd70df6",
+      "similarity": 0.9333,
+      "preview": "Math: Question 20The graph of x2+x+y2+y=1992 in the xy-plane is a circle. What is the length of the "
+    },
+    {
+      "questionNumber": 97,
+      "section": "math",
+      "module": 2,
+      "uId": "b8a3b472-476e-4b02-8ee3-147abc15ccea",
+      "similarity": 0.7265,
+      "preview": "Math: Question 21Two identical rectangular prisms each have a height of 90\u00a0centimeters\u00a0cm. The base "
+    },
+    {
+      "questionNumber": 98,
+      "section": "math",
+      "module": 2,
+      "uId": "74ba1cb8-d88c-4d44-9f89-6aae884d66e2",
+      "similarity": 0.835,
+      "preview": "Math: Question 22In the xy-plane, a parabola has vertex\u00a0(9,-14) and intersects the x-axis at two poi"
+    }
+  ]
+}
