@@ -26,7 +26,7 @@ import {
 } from '../../components/test';
 import { questionService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
-import { checkSprAnswer } from '../../utils';
+import { checkSprAnswer, splitRWPrompt } from '../../utils';
 
 // Subject icons (lowercase to match API response)
 const subjectIcons = {
@@ -68,41 +68,18 @@ const QuestionBankPage = () => {
   // Determine subject area from current question or domain
   const subjectArea = currentQuestion?.subject_area || selectedDomain?.subject_area || 'math';
 
-  // For R/W questions, College Board ships passage and question concatenated
-  // in prompt_html. Split the last block into the question pane and the rest
-  // into the passage pane so they render side-by-side like Bluebook.
-  const { passageHtml, questionHtml } = useMemo(() => {
-    // Explicit passage_html field (rarely populated) takes precedence
-    if (currentQuestion?.passage_html) {
-      return {
-        passageHtml: currentQuestion.passage_html,
-        questionHtml: currentQuestion.prompt_html || '',
-      };
-    }
-
-    // Only split for Reading & Writing — math prompts are single-statement
-    if (subjectArea !== 'reading_writing' || !currentQuestion?.prompt_html) {
-      return { passageHtml: null, questionHtml: currentQuestion?.prompt_html || '' };
-    }
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(`<div>${currentQuestion.prompt_html}</div>`, 'text/html');
-    const root = doc.body.firstChild;
-    const blocks = root ? Array.from(root.children) : [];
-
-    // Need at least 2 blocks to have something resembling passage + question
-    if (blocks.length < 2) {
-      return { passageHtml: null, questionHtml: currentQuestion.prompt_html };
-    }
-
-    // The last block is the question stem; everything before is the passage
-    const last = blocks[blocks.length - 1];
-    const passageBlocks = blocks.slice(0, -1);
-    return {
-      passageHtml: passageBlocks.map((el) => el.outerHTML).join(''),
-      questionHtml: last.outerHTML,
-    };
-  }, [currentQuestion, subjectArea]);
+  // R/W questions ship passage + question concatenated in prompt_html.
+  // splitRWPrompt extracts the passage so the SplitPane can render them
+  // side-by-side. Math returns null/the original prompt unchanged.
+  const { passageHtml, questionHtml } = useMemo(
+    () =>
+      splitRWPrompt({
+        promptHtml: currentQuestion?.prompt_html || '',
+        passageHtml: currentQuestion?.passage_html || null,
+        subjectArea,
+      }),
+    [currentQuestion, subjectArea]
+  );
 
   const hasPassage = !!passageHtml;
 
@@ -631,7 +608,7 @@ const QuestionBankPage = () => {
     );
 
     return (
-      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
+      <div className="h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
         {/* Custom Header with back button - sticky at top */}
         <header className="sticky top-0 z-30 h-14 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
           {/* Left: Back button and skill name */}

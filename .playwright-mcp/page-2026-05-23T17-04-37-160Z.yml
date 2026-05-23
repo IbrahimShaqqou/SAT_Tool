@@ -1,0 +1,112 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]: Z
+      - generic [ref=e9]: ZooPrep
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Dashboard" [ref=e12] [cursor=pointer]:
+          - /url: /student
+          - img [ref=e13]
+          - generic [ref=e18]: Dashboard
+        - link "Study Plan" [ref=e19] [cursor=pointer]:
+          - /url: /student/study-plan
+          - img [ref=e20]
+          - generic [ref=e23]: Study Plan
+        - link "Diagnostic" [ref=e24] [cursor=pointer]:
+          - /url: /student/diagnostic
+          - img [ref=e25]
+          - generic [ref=e29]: Diagnostic
+        - link "My Assignments" [ref=e30] [cursor=pointer]:
+          - /url: /student/assignments
+          - img [ref=e31]
+          - generic [ref=e34]: My Assignments
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: Practice
+        - link "Question Bank" [ref=e37] [cursor=pointer]:
+          - /url: /student/questions
+          - img [ref=e38]
+          - generic [ref=e41]: Question Bank
+        - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+          - /url: /student/lessons
+          - img [ref=e43]
+          - generic [ref=e46]: Skill Lessons
+        - link "Adaptive Practice" [ref=e47] [cursor=pointer]:
+          - /url: /student/adaptive
+          - img [ref=e48]
+          - generic [ref=e51]: Adaptive Practice
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Progress
+        - link "My Progress" [ref=e54] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e55]
+          - generic [ref=e58]: My Progress
+    - button "Collapse" [ref=e60] [cursor=pointer]:
+      - img [ref=e61]
+      - generic [ref=e63]: Collapse
+  - generic [ref=e64]:
+    - banner [ref=e65]:
+      - button "john student john student" [ref=e67] [cursor=pointer]:
+        - generic "john student" [ref=e68]: JS
+        - generic [ref=e69]: john student
+        - img [ref=e70]
+    - main [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e75]:
+          - img [ref=e77]
+          - heading "Know Where You Stand" [level=1] [ref=e80]
+          - paragraph [ref=e81]: Take a diagnostic to identify your strengths and pinpoint exactly what to study.
+        - generic [ref=e82]:
+          - heading "Choose your diagnostic" [level=3] [ref=e84]
+          - generic [ref=e86]:
+            - button "Full Diagnostic 58 questions — covers every skill across both sections 40–55 min" [ref=e87] [cursor=pointer]:
+              - img [ref=e89]
+              - generic [ref=e92]:
+                - paragraph [ref=e93]: Full Diagnostic
+                - paragraph [ref=e94]: 58 questions — covers every skill across both sections
+              - generic [ref=e95]: 40–55 min
+            - button "Math Only 38 questions — Algebra, Advanced Math, Problem Solving & Geometry 25–35 min" [ref=e96] [cursor=pointer]:
+              - img [ref=e98]
+              - generic [ref=e100]:
+                - paragraph [ref=e101]: Math Only
+                - paragraph [ref=e102]: 38 questions — Algebra, Advanced Math, Problem Solving & Geometry
+              - generic [ref=e103]: 25–35 min
+            - button "Reading & Writing Only 20 questions — Craft & Structure, Information & Ideas, Standard English & Expression 15–20 min" [ref=e104] [cursor=pointer]:
+              - img [ref=e106]
+              - generic [ref=e109]:
+                - paragraph [ref=e110]: Reading & Writing Only
+                - paragraph [ref=e111]: 20 questions — Craft & Structure, Information & Ideas, Standard English & Expression
+              - generic [ref=e112]: 15–20 min
+        - generic [ref=e113]:
+          - heading "What to expect" [level=3] [ref=e115]
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - img [ref=e120]
+              - generic [ref=e123]:
+                - paragraph [ref=e124]: 40–55 min
+                - paragraph [ref=e125]: Questions are adaptive — faster if you're confident, slower if mixed.
+            - generic [ref=e126]:
+              - img [ref=e128]
+              - generic [ref=e132]:
+                - paragraph [ref=e133]: 2 questions per skill
+                - paragraph [ref=e134]: Every skill is tested with an easy and a hard question for accurate results.
+            - generic [ref=e135]:
+              - img [ref=e137]
+              - generic [ref=e140]:
+                - paragraph [ref=e141]: Instant results
+                - paragraph [ref=e142]: See your accuracy, section breakdown, and which skills to focus on.
+        - generic [ref=e144]:
+          - paragraph [ref=e145]: Tips for best results
+          - list [ref=e146]:
+            - listitem [ref=e147]:
+              - generic [ref=e148]: •
+              - text: Find a quiet spot with 40–55 min of uninterrupted time
+            - listitem [ref=e149]:
+              - generic [ref=e150]: •
+              - text: Answer every question — guessing beats skipping
+            - listitem [ref=e151]:
+              - generic [ref=e152]: •
+              - text: Don't look anything up — honest answers give the best study plan
+        - button "Start Full Diagnostic" [ref=e153] [cursor=pointer]:
+          - text: Start Full Diagnostic
+          - img [ref=e154]

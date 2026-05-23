@@ -1,0 +1,68 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e175]:
+    - banner [ref=e176]:
+      - generic [ref=e178]: Reading & Writing
+      - generic [ref=e179]:
+        - generic [ref=e180]: Question
+        - generic [ref=e181]: 1 of 27
+      - generic [ref=e182]:
+        - button "Draw on question" [ref=e183] [cursor=pointer]:
+          - img [ref=e184]
+        - generic [ref=e187]:
+          - img [ref=e188]
+          - generic [ref=e191]: 31:59
+        - button "Pause" [ref=e192] [cursor=pointer]:
+          - img [ref=e193]
+    - generic [ref=e197]:
+      - paragraph [ref=e202]:
+        - text: Although critics believed that customers would never agree to pay to pick their own produce on farms, such concerns didn’t ______
+        - generic [ref=e203]: blank
+        - text: Booker T. Whatley’s efforts to promote the practice. Thanks in part to Whatley’s determined advocacy, farms that allow visitors to pick their own apples, pumpkins, and other produce can be found throughout the United States.
+      - generic [ref=e208]:
+        - generic [ref=e209]:
+          - generic [ref=e210]:
+            - generic [ref=e211]:
+              - generic [ref=e212]: "1"
+              - button "Mark for Review" [ref=e213] [cursor=pointer]:
+                - img [ref=e214]
+                - generic [ref=e216]: Mark for Review
+            - button "Report" [ref=e217] [cursor=pointer]:
+              - img [ref=e218]
+              - generic [ref=e220]: Report
+          - paragraph [ref=e224]: Which choice completes the text with the most logical and precise word or phrase?
+        - generic [ref=e226]:
+          - button "A enhance" [ref=e227] [cursor=pointer]:
+            - generic [ref=e228]: A
+            - paragraph [ref=e230]: enhance
+          - button "B hinder" [ref=e231] [cursor=pointer]:
+            - generic [ref=e232]: B
+            - paragraph [ref=e234]: hinder
+          - button "C misrepresent" [ref=e235] [cursor=pointer]:
+            - generic [ref=e236]: C
+            - paragraph [ref=e238]: misrepresent
+          - button "D aggravate" [ref=e239] [cursor=pointer]:
+            - generic [ref=e240]: D
+            - paragraph [ref=e242]: aggravate
+    - generic:
+      - generic:
+        - generic:
+          - img
+          - generic: Calculator
+        - generic:
+          - button:
+            - img
+      - generic:
+        - button "Graphing"
+        - button "Scientific"
+      - generic:
+        - img
+    - generic [ref=e243]:
+      - button "Previous" [disabled] [ref=e244]
+      - button "1 / 27" [ref=e245] [cursor=pointer]:
+        - generic [ref=e246]: "1"
+        - generic [ref=e247]: /
+        - generic [ref=e248]: "27"
+        - img [ref=e249]
+      - button "Next" [ref=e251] [cursor=pointer]
+  - paragraph [ref=e252]
+  - paragraph [ref=e253]

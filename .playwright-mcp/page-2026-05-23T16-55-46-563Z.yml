@@ -1,0 +1,106 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e9]:
+    - complementary [ref=e10]:
+      - generic [ref=e14]: Z
+      - navigation [ref=e15]:
+        - generic [ref=e16]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e18]
+          - link "Study Plan" [ref=e23] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e24]
+          - link "Diagnostic" [ref=e27] [cursor=pointer]:
+            - /url: /student/diagnostic
+            - img [ref=e28]
+          - link "My Assignments" [ref=e32] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e33]
+        - generic [ref=e36]:
+          - link "Question Bank" [ref=e38] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e39]
+          - link "Skill Lessons" [ref=e42] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e43]
+          - link "Adaptive Practice" [ref=e46] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e47]
+        - link "My Progress" [ref=e52] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=e53]
+    - generic [ref=e56]:
+      - banner [ref=e57]:
+        - button "john student john student" [ref=e59] [cursor=pointer]:
+          - generic "john student" [ref=e60]: JS
+          - generic [ref=e61]: john student
+          - img [ref=e62]
+      - main [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - button [ref=e169] [cursor=pointer]:
+                - img [ref=e170]
+              - generic [ref=e172]:
+                - text: Central Ideas and Details
+                - generic [ref=e173]: (Information and Ideas)
+            - generic [ref=e174]:
+              - generic [ref=e175]: Question
+              - generic [ref=e176]: 1 of 116
+            - button "Draw on question" [ref=e178] [cursor=pointer]:
+              - img [ref=e179]
+          - generic [ref=e183]:
+            - generic [ref=e187]:
+              - paragraph [ref=e188]:
+                - text: The following text is adapted from Charles W. Chesnutt’s 1901 novel
+                - emphasis [ref=e189]: The Marrow of Tradition
+                - text: .
+              - paragraph [ref=e190]: Mrs. Ochiltree was a woman of strong individuality, whose comments upon her acquaintance[s], present or absent, were marked by a frankness at times no less than startling. This characteristic caused her to be more or less avoided. Mrs. Ochiltree was aware of this sentiment on the part of her acquaintance[s], and rather exulted in it.
+            - generic [ref=e195]:
+              - generic [ref=e196]:
+                - generic [ref=e197]:
+                  - generic [ref=e198]:
+                    - generic [ref=e199]: "1"
+                    - button "Mark for Review" [ref=e200] [cursor=pointer]:
+                      - img [ref=e201]
+                      - generic [ref=e203]: Mark for Review
+                  - button "Report" [ref=e204] [cursor=pointer]:
+                    - img [ref=e205]
+                    - generic [ref=e207]: Report
+                - paragraph [ref=e211]: Based on the text, what is true about Mrs. Ochiltree’s acquaintances?
+              - generic [ref=e213]:
+                - button "A They try to refrain from discussing topics that would upset Mrs. Ochiltree." [ref=e214] [cursor=pointer]:
+                  - generic [ref=e215]: A
+                  - paragraph [ref=e217]: They try to refrain from discussing topics that would upset Mrs. Ochiltree.
+                - button "B They are unable to spend as much time with Mrs. Ochiltree as she would like." [ref=e218] [cursor=pointer]:
+                  - generic [ref=e219]: B
+                  - paragraph [ref=e221]: They are unable to spend as much time with Mrs. Ochiltree as she would like.
+                - button "C They are too preoccupied with their own concerns to speak with Mrs. Ochiltree." [ref=e222] [cursor=pointer]:
+                  - generic [ref=e223]: C
+                  - paragraph [ref=e225]: They are too preoccupied with their own concerns to speak with Mrs. Ochiltree.
+                - button "D They are likely offended by what Mrs. Ochiltree has said about them." [ref=e226] [cursor=pointer]:
+                  - generic [ref=e227]: D
+                  - paragraph [ref=e229]: They are likely offended by what Mrs. Ochiltree has said about them.
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Calculator
+              - generic:
+                - button:
+                  - img
+            - generic:
+              - button "Graphing"
+              - button "Scientific"
+            - generic:
+              - img
+          - generic [ref=e230]:
+            - button "Previous" [disabled] [ref=e231]
+            - button "1 / 116" [ref=e232] [cursor=pointer]:
+              - generic [ref=e233]: "1"
+              - generic [ref=e234]: /
+              - generic [ref=e235]: "116"
+              - img [ref=e236]
+            - button "Next" [ref=e239] [cursor=pointer]
+  - paragraph [ref=e240]
+  - paragraph [ref=e241]

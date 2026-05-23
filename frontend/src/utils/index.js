@@ -56,6 +56,8 @@ export function classNames(...classes) {
  * @param {string[]} correctAnswers - Array of accepted answers
  * @returns {boolean} Whether the answer is correct
  */
+export { splitRWPrompt } from './splitRWPrompt';
+
 export function checkSprAnswer(userAnswer, correctAnswers) {
   if (!correctAnswers || !correctAnswers.length) return false;
   const user = String(userAnswer).trim().toLowerCase();

@@ -84,15 +84,22 @@ class StartTestResponse(BaseModel):
 
 
 class ModuleQuestion(BaseModel):
-    """Question in a module (without answer)."""
-    question_id: UUID
+    """
+    A question in a module, shaped to match the question bank API response so
+    the same shared frontend components (QuestionDisplay, AnswerChoices, etc.)
+    can render it without per-page adaptation.
+    """
+    id: UUID
+    question_id: UUID  # alias of id, kept for legacy frontend code
     question_number: int
     domain: str
     skill_name: str
     difficulty: str
     answer_type: str
     prompt_html: str
-    choices: List[str]
+    choices_json: List[str]
+    passage_html: Optional[str] = None
+    subject_area: str
 
 
 class ModuleDetail(BaseModel):
@@ -392,6 +399,7 @@ def get_current_module(
             continue
 
         ordered_questions.append(ModuleQuestion(
+            id=q.id,
             question_id=q.id,
             question_number=i + 1,
             domain=q.domain.name if q.domain else "",
@@ -399,7 +407,9 @@ def get_current_module(
             difficulty=str(q.difficulty.value if hasattr(q.difficulty, "value") else q.difficulty),
             answer_type=str(q.answer_type.value if hasattr(q.answer_type, "value") else q.answer_type),
             prompt_html=q.prompt_html,
-            choices=q.choices_json or [],
+            choices_json=q.choices_json or [],
+            passage_html=None,
+            subject_area=subject,
         ))
 
     return ModuleDetail(

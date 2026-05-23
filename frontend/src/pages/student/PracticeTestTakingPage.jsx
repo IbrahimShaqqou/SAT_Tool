@@ -1,10 +1,35 @@
 /**
- * Practice Test Taking Page - Main test interface with timer and questions
+ * Practice Test Taking Page
+ *
+ * Bluebook-faithful test interface for official College Board practice tests.
+ * Reuses the same shared components (TestHeader, QuestionDisplay,
+ * AnswerChoices, QuestionNav, SplitPane, calculator, reference, drawing) as
+ * the question bank and assignment test pages so the format is consistent
+ * across all test surfaces.
  */
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { startPracticeTest, getCurrentModule, submitModule } from '../../services/practiceTestApi';
+import { Card, Button, LoadingSpinner } from '../../components/ui';
+import {
+  TestHeader,
+  QuestionNav,
+  QuestionDisplay,
+  AnswerChoices,
+  DesmosCalculator,
+  ReferenceSheet,
+  SplitPane,
+  DrawingCanvas,
+  HighlightableText,
+  SubmitConfirmation,
+} from '../../components/test';
+import ReportModal from '../../components/test/ReportModal';
+import { useTimer } from '../../hooks';
+import { splitRWPrompt } from '../../utils';
+import {
+  startPracticeTest,
+  getCurrentModule,
+  submitModule,
+} from '../../services/practiceTestApi';
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -16,385 +41,409 @@ const PracticeTestTakingPage = () => {
   const [error, setError] = useState(null);
   const [sessionId, setSessionId] = useState(null);
   const [moduleData, setModuleData] = useState(null);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [responses, setResponses] = useState({});
-  const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
-  const [timeRemaining, setTimeRemaining] = useState(null);
-  const [startTime, setStartTime] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState({}); // { questionId: index|string }
+  const [markedForReview, setMarkedForReview] = useState(new Set());
+  const [showCalculator, setShowCalculator] = useState(false);
+  const [showReferenceSheet, setShowReferenceSheet] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showExitModal, setShowExitModal] = useState(false);
 
-  // Initialize test session
+  const submitRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const submittedRef = useRef(false); // prevent double-submit / zombie auto-submit
+
+  const questions = useMemo(() => moduleData?.questions || [], [moduleData]);
+  const currentQuestion = questions[currentIndex] || null;
+  const subjectArea = moduleData?.subject_area || 'math';
+
+  // ── R/W passage split ────────────────────────────────────────────────────
+  const { passageHtml, questionHtml } = useMemo(
+    () =>
+      splitRWPrompt({
+        promptHtml: currentQuestion?.prompt_html || '',
+        passageHtml: currentQuestion?.passage_html || null,
+        subjectArea,
+      }),
+    [currentQuestion, subjectArea]
+  );
+  const hasPassage = !!passageHtml;
+
+  // ── Timer ────────────────────────────────────────────────────────────────
+  const timeLimitSeconds = (moduleData?.time_limit_minutes || 0) * 60;
+  const {
+    timeRemaining,
+    formattedTime,
+    isPaused,
+    start: startTimer,
+    pause: pauseTimer,
+    resume: resumeTimer,
+    reset: resetTimer,
+  } = useTimer(timeLimitSeconds, () => {
+    if (submitRef.current && !submittedRef.current) {
+      submitRef.current(true); // time-expired auto-submit
+    }
+  });
+
+  // ── Initialize: start session (or resume) and load current module ───────
   useEffect(() => {
-    initializeTest();
+    let cancelled = false;
+    const init = async () => {
+      try {
+        setLoading(true);
+
+        let activeSessionId;
+        if (UUID_REGEX.test(testNumber)) {
+          // Returning to take the next module after a break
+          activeSessionId = testNumber;
+        } else {
+          const startResp = await startPracticeTest(testNumber);
+          activeSessionId = startResp.session_id;
+        }
+        if (cancelled) return;
+        setSessionId(activeSessionId);
+
+        const mod = await getCurrentModule(activeSessionId);
+        if (cancelled) return;
+
+        setModuleData(mod);
+        setCurrentIndex(0);
+        setAnswers({});
+        setMarkedForReview(new Set());
+        submittedRef.current = false;
+        startTimeRef.current = Date.now();
+        // Reset timer with this module's time limit, then start.
+        resetTimer((mod.time_limit_minutes || 0) * 60);
+        startTimer();
+        setError(null);
+      } catch (err) {
+        if (!cancelled) {
+          console.error('Error initializing practice test module:', err);
+          setError('Failed to load test module');
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    init();
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testNumber]);
 
-  const initializeTest = async () => {
-    try {
-      setLoading(true);
+  // ── Handlers ─────────────────────────────────────────────────────────────
+  const handleSelectAnswer = useCallback(
+    (index) => {
+      if (!currentQuestion) return;
+      setAnswers((prev) => ({ ...prev, [currentQuestion.id]: index }));
+    },
+    [currentQuestion]
+  );
 
-      // The URL param is either a test number (initial start) or a session UUID
-      // (returning from a break to take the next module).
-      let activeSessionId;
-      if (UUID_REGEX.test(testNumber)) {
-        activeSessionId = testNumber;
-      } else {
-        const startResponse = await startPracticeTest(testNumber);
-        activeSessionId = startResponse.session_id;
-      }
-      setSessionId(activeSessionId);
+  const handleSPRAnswer = useCallback(
+    (value) => {
+      if (!currentQuestion) return;
+      setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }));
+    },
+    [currentQuestion]
+  );
 
-      // Load current module (first module on initial start, or next module after break)
-      const moduleResponse = await getCurrentModule(activeSessionId);
-      setModuleData(moduleResponse);
-      setTimeRemaining(moduleResponse.time_limit_minutes * 60); // Convert to seconds
-      setStartTime(Date.now());
-      // Reset per-module state when re-entering after a break
-      setResponses({});
-      setFlaggedQuestions(new Set());
-      setCurrentQuestionIndex(0);
-      setError(null);
-    } catch (err) {
-      console.error('Error initializing test:', err);
-      setError('Failed to load test module');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Timer countdown
-  useEffect(() => {
-    if (!timeRemaining || timeRemaining <= 0 || isSubmitting) return;
-
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          handleAutoSubmit();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeRemaining, isSubmitting]);
-
-  const handleAutoSubmit = async () => {
-    if (isSubmitting) return;
-    alert('Time is up! Your module will be submitted automatically.');
-    await handleSubmitModule();
-  };
-
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const handleSelectAnswer = (questionId, answer) => {
-    setResponses((prev) => ({
-      ...prev,
-      [questionId]: answer
-    }));
-  };
-
-  const toggleFlag = (questionId) => {
-    setFlaggedQuestions((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(questionId)) {
-        newSet.delete(questionId);
-      } else {
-        newSet.add(questionId);
-      }
-      return newSet;
+  const handleToggleMark = useCallback(() => {
+    if (!currentQuestion) return;
+    setMarkedForReview((prev) => {
+      const next = new Set(prev);
+      if (next.has(currentQuestion.id)) next.delete(currentQuestion.id);
+      else next.add(currentQuestion.id);
+      return next;
     });
-  };
+  }, [currentQuestion]);
 
-  const handleSubmitModule = async () => {
-    if (isSubmitting) return;
+  const handleNavigate = useCallback((index) => {
+    setCurrentIndex(index);
+    setShowNav(false);
+  }, []);
 
-    const unansweredCount = moduleData.questions.length - Object.keys(responses).length;
-    if (unansweredCount > 0) {
-      const confirmed = window.confirm(
-        `You have ${unansweredCount} unanswered question${unansweredCount > 1 ? 's' : ''}. ` +
-        'Are you sure you want to submit this module?'
-      );
-      if (!confirmed) return;
-    }
+  const handlePrevious = useCallback(() => {
+    setCurrentIndex((i) => Math.max(0, i - 1));
+  }, []);
 
-    try {
-      setIsSubmitting(true);
+  const handleNext = useCallback(() => {
+    setCurrentIndex((i) => Math.min(questions.length - 1, i + 1));
+  }, [questions.length]);
 
-      // Calculate time spent
-      const timeSpentSeconds = Math.floor((Date.now() - startTime) / 1000);
+  // ── Submit module ────────────────────────────────────────────────────────
+  const handleSubmit = useCallback(
+    async (timeExpired = false) => {
+      if (submittedRef.current || !sessionId) return;
+      submittedRef.current = true;
 
-      // Format responses
-      const formattedResponses = moduleData.questions.map((q) => ({
-        question_id: q.question_id,
-        selected_answer: responses[q.question_id] || null
-      }));
+      try {
+        setIsSubmitting(true);
+        const elapsed = startTimeRef.current
+          ? Math.floor((Date.now() - startTimeRef.current) / 1000)
+          : 0;
 
-      const result = await submitModule(sessionId, formattedResponses, timeSpentSeconds);
+        const responses = questions.map((q) => ({
+          question_id: q.id,
+          selected_answer: answers[q.id] ?? null,
+        }));
 
-      // Navigate based on result
-      if (result.is_complete) {
-        // Test complete - go to results
-        navigate(`/student/practice-tests/results/${sessionId}`);
-      } else {
-        // Go to break screen before next module
-        navigate(`/student/practice-tests/break/${sessionId}`, {
-          state: {
-            currentModule: result.module_submitted,
-            nextModule: result.next_module,
-            modulePath: result.module_2_path,
-            message: result.message
-          }
-        });
+        const result = await submitModule(sessionId, responses, elapsed);
+
+        if (result.is_complete) {
+          navigate(`/student/practice-tests/results/${sessionId}`);
+        } else {
+          navigate(`/student/practice-tests/break/${sessionId}`, {
+            state: {
+              currentModule: result.module_submitted,
+              nextModule: result.next_module,
+              modulePath: result.module_2_path,
+              message: result.message,
+              timeExpired,
+            },
+          });
+        }
+      } catch (err) {
+        console.error('Failed to submit module:', err);
+        submittedRef.current = false; // allow retry
+        setIsSubmitting(false);
+        // surface a non-blocking error in the page rather than alert()
+        setError('Failed to submit module. Please try again.');
       }
-    } catch (err) {
-      console.error('Error submitting module:', err);
-      alert('Failed to submit module. Please try again.');
-      setIsSubmitting(false);
-    }
-  };
+    },
+    [sessionId, questions, answers, navigate]
+  );
+  // Keep ref fresh so the timer's auto-submit calls the latest closure
+  submitRef.current = handleSubmit;
 
-  const handleExitTest = () => {
-    setShowExitModal(true);
-  };
+  // ── UI helpers ───────────────────────────────────────────────────────────
+  const questionId = currentQuestion?.id;
+  const currentAnswer = questionId !== undefined ? answers[questionId] : undefined;
+  const isCurrentMarked = questionId !== undefined && markedForReview.has(questionId);
+  const answeredCount = Object.keys(answers).filter(
+    (k) => answers[k] !== undefined && answers[k] !== null && answers[k] !== ''
+  ).length;
 
-  const confirmExit = () => {
-    navigate('/student/practice-tests');
-  };
-
+  // ── Loading / error states ──────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading test module...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+        <LoadingSpinner size="lg" text="Loading module..." />
       </div>
     );
   }
-
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700">{error}</p>
-          <button
+      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+        <Card className="max-w-md text-center p-6">
+          <p className="text-rose-600 dark:text-rose-400 mb-4">{error}</p>
+          <Button
+            variant="primary"
             onClick={() => navigate('/student/practice-tests')}
-            className="mt-2 text-red-600 hover:text-red-800 underline"
           >
             Back to Practice Tests
-          </button>
-        </div>
+          </Button>
+        </Card>
       </div>
     );
   }
+  if (!moduleData || !currentQuestion) return null;
 
-  if (!moduleData) return null;
+  // ── Panels ───────────────────────────────────────────────────────────────
+  const passagePanel = hasPassage ? (
+    <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-900">
+      <HighlightableText
+        key={`passage-${currentQuestion.id}`}
+        html={passageHtml}
+        questionId={`passage-${currentQuestion.id}`}
+      />
+    </div>
+  ) : null;
 
-  const currentQuestion = moduleData.questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / moduleData.questions.length) * 100;
-  const timeWarning = timeRemaining <= 300; // 5 minutes remaining
+  const questionPanel = (
+    <div className={`bg-white dark:bg-gray-900 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+      <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
+        <QuestionDisplay
+          questionNumber={currentIndex + 1}
+          questionHtml={questionHtml || currentQuestion.prompt_html || ''}
+          stimulusHtml={null}
+          questionId={currentQuestion.id}
+          isMarked={isCurrentMarked}
+          onToggleMark={handleToggleMark}
+          onReport={() => setShowReportModal(true)}
+        />
+
+        <div className="px-6 pb-4">
+          <AnswerChoices
+            choices={currentQuestion.choices_json || []}
+            answerType={currentQuestion.answer_type || 'MCQ'}
+            selectedIndex={typeof currentAnswer === 'number' ? currentAnswer : undefined}
+            selectedAnswer={typeof currentAnswer === 'string' ? currentAnswer : undefined}
+            onSelect={handleSelectAnswer}
+            onAnswerChange={handleSPRAnswer}
+            questionId={currentQuestion.id}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  // ── Bottom nav bar ───────────────────────────────────────────────────────
+  const isLast = currentIndex === questions.length - 1;
+  const bottomNavBar = (
+    <>
+      {showNav && (
+        <div
+          className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-gray-50 dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
+          style={{ width: 'min(500px, calc(100vw - 32px))' }}
+        >
+          <QuestionNav
+            totalQuestions={questions.length}
+            currentIndex={currentIndex}
+            answers={answers}
+            markedForReview={markedForReview}
+            questions={questions}
+            onNavigate={handleNavigate}
+          />
+        </div>
+      )}
+
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <Button
+          variant="secondary"
+          onClick={handlePrevious}
+          disabled={currentIndex === 0}
+          className="min-w-[100px]"
+        >
+          Previous
+        </Button>
+
+        <button
+          onClick={() => setShowNav(!showNav)}
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
+        >
+          <span className="font-semibold">{currentIndex + 1}</span>
+          <span className="text-gray-400 dark:text-gray-500">/</span>
+          <span>{questions.length}</span>
+          <svg
+            className={`w-4 h-4 transition-transform ${showNav ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+
+        {isLast ? (
+          <Button
+            variant="primary"
+            onClick={() => setShowSubmitModal(true)}
+            className="min-w-[100px]"
+            disabled={isSubmitting}
+          >
+            Submit Module
+          </Button>
+        ) : (
+          <Button variant="primary" onClick={handleNext} className="min-w-[100px]">
+            Next
+          </Button>
+        )}
+      </div>
+    </>
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-lg font-semibold text-gray-900">
-              {moduleData.subject_area === 'reading_writing' ? 'Reading and Writing' : 'Math'} Module {moduleData.module_number}
-            </h1>
-            <span className="text-sm text-gray-500">
-              Question {currentQuestionIndex + 1} of {moduleData.questions.length}
-            </span>
-          </div>
+    <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
+      <TestHeader
+        currentQuestion={currentIndex + 1}
+        totalQuestions={questions.length}
+        timeRemaining={timeRemaining}
+        formattedTime={formattedTime}
+        isPaused={isPaused}
+        onPause={pauseTimer}
+        onResume={resumeTimer}
+        onCalculatorToggle={() => setShowCalculator(!showCalculator)}
+        showCalculator={showCalculator}
+        onReferenceToggle={() => setShowReferenceSheet(!showReferenceSheet)}
+        showReference={showReferenceSheet}
+        subjectArea={subjectArea}
+        hasTimeLimit={true}
+        onDrawToggle={() => setIsDrawing((d) => !d)}
+        isDrawing={isDrawing}
+      />
 
-          <div className="flex items-center space-x-4">
-            {/* Timer */}
-            <div className={`font-mono text-lg font-semibold px-4 py-2 rounded ${
-              timeWarning ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
-            }`}>
-              {formatTime(timeRemaining)}
-            </div>
-
-            <button
-              onClick={handleExitTest}
-              className="text-gray-600 hover:text-gray-900 text-sm font-medium"
-            >
-              Exit Test
-            </button>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-200 h-1">
-          <div
-            className="bg-blue-600 h-1 transition-all duration-300"
-            style={{ width: `${progress}%` }}
+      <div
+        ref={scrollContainerRef}
+        className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
+      >
+        {hasPassage ? (
+          <SplitPane
+            left={passagePanel}
+            right={questionPanel}
+            defaultSplit={50}
+            minLeft={25}
+            minRight={35}
           />
-        </div>
+        ) : (
+          <div className="max-w-3xl mx-auto">{questionPanel}</div>
+        )}
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          {/* Question Header */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-2">
-              <span className="font-semibold text-gray-700">Question {currentQuestion.question_number}</span>
-              <span className="text-sm text-gray-500">({currentQuestion.skill_name})</span>
-            </div>
-            <button
-              onClick={() => toggleFlag(currentQuestion.question_id)}
-              className={`flex items-center space-x-1 text-sm font-medium ${
-                flaggedQuestions.has(currentQuestion.question_id)
-                  ? 'text-yellow-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              <svg className="w-5 h-5" fill={flaggedQuestions.has(currentQuestion.question_id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-              </svg>
-              <span>Flag</span>
-            </button>
-          </div>
+      <DesmosCalculator
+        isOpen={showCalculator}
+        onClose={() => setShowCalculator(false)}
+        initialPosition={{ x: window.innerWidth - 450, y: 116 }}
+      />
 
-          {/* Question Prompt (includes stimulus passage if any) */}
-          <div
-            className="prose max-w-none mb-6"
-            dangerouslySetInnerHTML={{ __html: currentQuestion.prompt_html }}
-          />
+      <ReferenceSheet
+        isOpen={showReferenceSheet}
+        onClose={() => setShowReferenceSheet(false)}
+        initialPosition={{ x: 100, y: 116 }}
+      />
 
-          {/* Answer Choices (MCQ) or Free Response (SPR) */}
-          {currentQuestion.answer_type === 'MCQ' ? (
-            <div className="space-y-3">
-              {(currentQuestion.choices || []).map((choiceHtml, idx) => {
-                const letter = String.fromCharCode(65 + idx); // A, B, C, D
-                const isSelected = responses[currentQuestion.question_id] === idx;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => handleSelectAnswer(currentQuestion.question_id, idx)}
-                    className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
-                      isSelected
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
-                    }`}
-                  >
-                    <div className="flex items-start">
-                      <span className="font-semibold mr-3 text-gray-700">{letter}.</span>
-                      <span
-                        className="text-gray-900 prose max-w-none"
-                        dangerouslySetInnerHTML={{ __html: choiceHtml }}
-                      />
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          ) : (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Your answer
-              </label>
-              <input
-                type="text"
-                value={responses[currentQuestion.question_id] || ''}
-                onChange={(e) => handleSelectAnswer(currentQuestion.question_id, e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
-                placeholder="Enter your answer"
-              />
-            </div>
-          )}
-        </div>
+      {showReportModal && (
+        <ReportModal
+          questionId={currentQuestion?.id}
+          onClose={() => setShowReportModal(false)}
+        />
+      )}
 
-        {/* Navigation */}
-        <div className="mt-6 flex items-center justify-between">
-          <button
-            onClick={() => setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))}
-            disabled={currentQuestionIndex === 0}
-            className="px-6 py-2 rounded-lg font-medium border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            ← Previous
-          </button>
+      <SubmitConfirmation
+        isOpen={showSubmitModal}
+        onClose={() => setShowSubmitModal(false)}
+        onConfirm={() => handleSubmit(false)}
+        totalQuestions={questions.length}
+        answeredCount={answeredCount}
+        markedCount={markedForReview.size}
+        isSubmitting={isSubmitting}
+      />
 
-          {currentQuestionIndex === moduleData.questions.length - 1 ? (
-            <button
-              onClick={handleSubmitModule}
-              disabled={isSubmitting}
-              className="px-8 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit Module'}
-            </button>
-          ) : (
-            <button
-              onClick={() => setCurrentQuestionIndex((prev) => Math.min(moduleData.questions.length - 1, prev + 1))}
-              className="px-6 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700"
-            >
-              Next →
-            </button>
-          )}
-        </div>
+      {bottomNavBar}
 
-        {/* Question Navigator */}
-        <div className="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Question Navigator</h3>
-          <div className="grid grid-cols-10 gap-2">
-            {moduleData.questions.map((q, idx) => (
-              <button
-                key={q.question_id}
-                onClick={() => setCurrentQuestionIndex(idx)}
-                className={`w-10 h-10 rounded text-sm font-medium transition-colors ${
-                  idx === currentQuestionIndex
-                    ? 'bg-blue-600 text-white'
-                    : responses[q.question_id] !== undefined && responses[q.question_id] !== null && responses[q.question_id] !== ''
-                    ? 'bg-green-100 text-green-800 border border-green-300'
-                    : flaggedQuestions.has(q.question_id)
-                    ? 'bg-yellow-100 text-yellow-800 border border-yellow-300'
-                    : 'bg-gray-100 text-gray-600 border border-gray-300 hover:bg-gray-200'
-                }`}
-              >
-                {idx + 1}
-              </button>
-            ))}
-          </div>
-          <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
-            <span>Answered: {Object.keys(responses).length}</span>
-            <span>Flagged: {flaggedQuestions.size}</span>
-            <span>Unanswered: {moduleData.questions.length - Object.keys(responses).length}</span>
-          </div>
-        </div>
-      </div>
+      <DrawingCanvas
+        isActive={isDrawing}
+        questionId={currentQuestion?.id ?? currentIndex}
+        scrollRef={scrollContainerRef}
+        showCalculator={showCalculator}
+      />
 
-      {/* Exit Confirmation Modal */}
-      {showExitModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Exit Practice Test?</h3>
-            <p className="text-gray-700 mb-4">
-              Your progress will be lost if you exit now. Are you sure you want to leave this test?
-            </p>
-            <div className="flex space-x-3">
-              <button
-                onClick={() => setShowExitModal(false)}
-                className="flex-1 px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmExit}
-                className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
-              >
-                Exit Test
-              </button>
-            </div>
-          </div>
+      {isPaused && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
+          <Card className="text-center p-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              Test Paused
+            </h2>
+            <p className="text-gray-500 mt-2">Click resume to continue</p>
+            <Button variant="primary" className="mt-4" onClick={resumeTimer}>
+              Resume
+            </Button>
+          </Card>
         </div>
       )}
     </div>
