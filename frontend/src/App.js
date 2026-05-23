@@ -42,6 +42,11 @@ import DiagnosticResultsPage from './pages/student/DiagnosticResultsPage';
 import StudyPlanPage from './pages/student/StudyPlanPage';
 import FullLengthTestPage from './pages/student/FullLengthTestPage';
 import FullLengthResultsPage from './pages/student/FullLengthResultsPage';
+import PracticeTestsPage from './pages/student/PracticeTestsPage';
+import PracticeTestStartPage from './pages/student/PracticeTestStartPage';
+import PracticeTestTakingPage from './pages/student/PracticeTestTakingPage';
+import PracticeTestBreakPage from './pages/student/PracticeTestBreakPage';
+import PracticeTestResultsPage from './pages/student/PracticeTestResultsPage';
 
 // Public Assessment
 import { AssessmentPage, IntakeResultsPage } from './pages/assess';
@@ -119,6 +124,11 @@ function App() {
         <Route path="/student/diagnostic/:sessionId/results" element={<DiagnosticResultsPage />} />
         <Route path="/student/full-length/:id" element={<FullLengthTestPage />} />
         <Route path="/student/full-length/:id/results" element={<FullLengthResultsPage />} />
+        <Route path="/student/practice-tests" element={<PracticeTestsPage />} />
+        <Route path="/student/practice-tests/:testNumber/start" element={<PracticeTestStartPage />} />
+        <Route path="/student/practice-tests/take/:testNumber" element={<PracticeTestTakingPage />} />
+        <Route path="/student/practice-tests/break/:sessionId" element={<PracticeTestBreakPage />} />
+        <Route path="/student/practice-tests/results/:sessionId" element={<PracticeTestResultsPage />} />
         <Route path="/student/progress" element={<ProgressPage />} />
         <Route path="/student/profile" element={<ProfilePage />} />
         <Route path="/student/settings" element={<SettingsPage />} />

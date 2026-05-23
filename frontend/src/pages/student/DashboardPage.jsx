@@ -249,9 +249,9 @@ const StudentDashboard = () => {
       {/* ── Quick actions ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
+          { to: '/student/practice-tests', icon: FileText, label: 'Practice Tests', color: 'text-green-600', bg: 'bg-green-50 dark:bg-green-900/20' },
           { to: '/student/adaptive', icon: Brain, label: 'Adaptive Practice', color: 'text-brand-600', bg: 'bg-brand-50 dark:bg-brand-900/20' },
           { to: '/student/questions', icon: BookOpen, label: 'Question Bank', color: 'text-violet-600', bg: 'bg-violet-50 dark:bg-violet-900/20' },
-          { to: '/student/lessons', icon: GraduationCap, label: 'Skill Lessons', color: 'text-accent-600', bg: 'bg-accent-50 dark:bg-accent-900/20' },
           { to: '/student/progress', icon: BarChart3, label: 'My Progress', color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-900/20' },
         ].map((action) => (
           <Link
