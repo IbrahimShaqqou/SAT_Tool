@@ -38,56 +38,70 @@ def should_get_harder_module_2(module_1_correct: int, module_1_total: int) -> bo
 
 
 def calculate_sat_section_score(
-    total_correct: int,
-    total_questions: int,
-    got_harder_module_2: bool
+    module_1_correct: int,
+    module_1_total: int,
+    module_2_correct: int,
+    module_2_total: int,
+    got_harder_module_2: bool,
 ) -> int:
     """
     Calculate SAT scaled score (200-800) for a section.
 
-    Uses different scoring curves based on which Module 2 path was taken.
+    Calibrated against a real Bluebook PT5 result (2026-05-23):
+        R/W: M1=27/27, M2=0/27 (harder)  -> 520
+        Math: M1=22/22, M2=2/22 (harder) -> 560
+
+    Key insights from that calibration:
+      * The harder path "floor" (perfect M1, zero M2) is ~520, not 550.
+      * Module 1 still matters: each M1 correct counts in the total, but the
+        floor for the harder path is achievable mostly from M1 alone.
+      * Each M2 correct on the harder path is worth roughly 15-20 scaled
+        points up to 800.
+      * Easier path has a lower ceiling (~660) since College Board caps it.
+
+    Model:
+      * Per-module raw fraction is converted to a per-module scaled
+        contribution; the section score is the sum of the two contributions
+        plus a base.
+      * Harder path: M1 contributes 200 - 480 (range 280), M2 contributes
+        0 - 320 (range 320). Floor (perfect M1, 0 M2) = 200 + 280 = 480 +
+        +40 calibration = 520. Ceiling = 200 + 280 + 320 = 800.
+      * Easier path: M1 contributes 200 - 380 (range 180), M2 contributes
+        0 - 80 (range 80). Floor = 200, ceiling = 660.
 
     Args:
-        total_correct: Total correct answers (Module 1 + Module 2)
-        total_questions: Total questions (Module 1 + Module 2)
-        got_harder_module_2: Whether student took harder Module 2 path
+        module_1_correct: Correct answers in Module 1
+        module_1_total: Total questions in Module 1 (typically 27 R/W, 22 math)
+        module_2_correct: Correct answers in Module 2
+        module_2_total: Total questions in Module 2
+        got_harder_module_2: Whether student took the harder Module 2 path
 
     Returns:
-        Scaled score from 200 to 800
-
-    Examples:
-        Math (44 questions total):
-        - 44/44 correct, harder path → 800
-        - 22/44 correct (50%), harder path → ~550
-        - 22/44 correct (50%), easier path → ~450
-        - 44/44 correct, easier path → ~680 (ceiling)
+        Scaled score from 200 to 800 (rounded to nearest 10)
     """
-    if total_questions == 0:
+    if module_1_total == 0:
         return 200
 
-    percentage = total_correct / total_questions
+    m1_pct = module_1_correct / module_1_total
+    m2_pct = module_2_correct / module_2_total if module_2_total > 0 else 0.0
 
     if got_harder_module_2:
-        # Harder Module 2: Better scaling curve, max score 800
-        if percentage < 0.5:
-            # Below 50%: 200-550 range
-            score = 200 + (percentage * 2 * 350)
-        else:
-            # Above 50%: 550-800 range
-            score = 550 + ((percentage - 0.5) * 2 * 250)
+        # Harder path: perfect M1 alone -> ~520, perfect both -> 800
+        m1_contribution = 280 * m1_pct      # 0 .. 280
+        m2_contribution = 320 * m2_pct      # 0 .. 320
+        score = 200 + m1_contribution + 40 + m2_contribution
+        # Math seems slightly steeper than R/W in real data, but we don't
+        # know the section-specific spread without more data points; the
+        # combined curve above gives R/W 27/27+0/27 -> 520 and
+        # Math 22/22+2/22 -> ~549 (real 560), within +/-15 of real.
     else:
-        # Easier Module 2: Lower ceiling, max score ~680
-        if percentage < 0.5:
-            # Below 50%: 200-450 range
-            score = 200 + (percentage * 2 * 250)
-        else:
-            # Above 50%: 450-680 range
-            score = 450 + ((percentage - 0.5) * 2 * 230)
+        # Easier path: ceiling ~660, M1 dominates contribution
+        m1_contribution = 380 * m1_pct      # 0 .. 380
+        m2_contribution = 80 * m2_pct       # 0 .. 80
+        score = 200 + m1_contribution + m2_contribution
 
     # Round to nearest 10 (SAT scores are in 10-point increments)
     score = round(score / 10) * 10
-
-    # Clamp to 200-800 range
     return max(200, min(800, int(score)))
 
 
@@ -187,21 +201,25 @@ def score_full_length_test(
         rw_module_1_total
     )
 
-    # Calculate section scores
+    # Calculate section scores using module-level data (calibrated curve)
     math_total_correct = math_module_1_correct + math_module_2_correct
     math_total_questions = math_module_1_total + math_module_2_total
     math_score = calculate_sat_section_score(
-        math_total_correct,
-        math_total_questions,
-        math_got_harder
+        math_module_1_correct,
+        math_module_1_total,
+        math_module_2_correct,
+        math_module_2_total,
+        math_got_harder,
     )
 
     rw_total_correct = rw_module_1_correct + rw_module_2_correct
     rw_total_questions = rw_module_1_total + rw_module_2_total
     rw_score = calculate_sat_section_score(
-        rw_total_correct,
-        rw_total_questions,
-        rw_got_harder
+        rw_module_1_correct,
+        rw_module_1_total,
+        rw_module_2_correct,
+        rw_module_2_total,
+        rw_got_harder,
     )
 
     # Calculate total score

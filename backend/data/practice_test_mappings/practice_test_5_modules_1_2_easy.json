@@ -1,0 +1,902 @@
+{
+  "test_number": 5,
+  "test_name": "SAT Practice 5",
+  "variant": "easy",
+  "rw_module_1": [
+    "0546becd-776c-4b51-b29f-e2337cc78a6c",
+    "d3122ea5-45be-4c04-ad47-dd3e6508f02c",
+    "d9d843b4-242f-4756-aee1-80c85922b55e",
+    "f495bc98-4c9a-4323-9af2-712cbb1d407b",
+    "d3a2c8db-64f1-4bb7-a5cd-d5e2e85cff00",
+    "a60a2428-46a8-48e8-a14d-997cb9b1d0c8",
+    "593d9904-c3c9-4099-8a9c-1a7e021464a9",
+    "7e7b2de7-8da0-4cc7-a518-461e7ce253c1",
+    "ab162a43-3f07-4538-9a71-afab6f69d3f7",
+    "e28c1671-3fd8-4dd9-89d8-b4742259e0b8",
+    "696a0fe6-b2be-4726-8612-7d477fb25265",
+    "78d2b5b1-0d1c-4368-8f35-9e183331ef14",
+    "d6119be3-2756-469f-a956-62987c80d02d",
+    "33899403-e470-49e3-bbd2-7deaa63b3d33",
+    "3d6cf5db-2bd3-47ce-90ea-ad9d40f9a24c",
+    "2b50620d-3025-4978-9e05-7b4f3d092cb2",
+    "66528aec-b866-42b8-b14d-28075fe503d2",
+    "0f12e7c0-7fc4-4fac-a808-1e00730eed14",
+    "5e6c3d9e-6914-47cc-92c4-62a26e2d74e0",
+    "cab47a73-871a-48b6-a2a4-0c442fe36d7b",
+    "0fa08ad7-874f-488d-a5ff-8ad52fcfb0ef",
+    "b6382887-4902-4349-b651-2999a28a53a3",
+    "0bd7351e-2886-46e2-b535-64cc4368444a",
+    "0e8fde1d-7e3b-45b1-8f10-9f3dc422ead4",
+    "deea55ac-d587-4198-9ea9-350ded68cd9b",
+    "3959103c-3ee9-4f6a-a1bf-1b53f30a1212",
+    "b828677b-da71-44cd-b234-a5581c01f098"
+  ],
+  "rw_module_2_easier": [
+    "89cdd193-0d49-45a0-8877-63ea54ac8e78",
+    "19ab0386-d449-418e-8dcf-a1484689e2c5",
+    "3e5d8632-19d4-4b8a-89f3-e5a2c46519f0",
+    "b790033c-731d-40f9-9aa0-a23ef00d4eca",
+    "95828aba-6d27-4afd-82d2-af3e5b02c8ea",
+    "70d5421e-f9db-4ec5-8547-47a13fba6de4",
+    "a5519521-ef02-40ab-a805-e6af602b98f1",
+    "f6982069-8e1a-404f-a45b-895943a22365",
+    "800644db-10c1-4fc1-848f-ed78aae052dd",
+    "0d402854-314c-4127-8917-7df649ff1f74",
+    "c4720056-f976-44fa-9b3e-4ff74b66fc8b",
+    "8dd37d5e-eae3-4d31-a8ba-e62e8698f21d",
+    "0a3470df-1090-4510-8cf5-9bea22f40044",
+    "0ac9886f-15f0-4e26-9cd7-ada9abf52343",
+    "efd04f10-27e8-4a7a-a895-e2d91e5e140f",
+    "8469b695-62fa-4cd4-99d0-1f1e1133e88e",
+    "cbeb9fc9-be4f-47cb-ab50-9619ed25aefb",
+    "06e8af75-cf37-43e7-b9e1-9221407e18ca",
+    "acada312-f8e6-447f-9913-04907b9a3985",
+    "89c5da51-d679-406c-b7a8-6403d1315ecc",
+    "9ffe3d77-1a85-4f9d-a458-62933cdc4d0c",
+    "5979bfe7-6644-43f4-a4e4-58fa1f365aa4",
+    "69dd585e-e810-47f6-8c09-b2aecef2eb01",
+    "1940c922-d9ac-4353-b4a1-b57356ed8a10",
+    "2d221a90-0763-4716-ab04-d4c435932dd7",
+    "pt5-easy-q37",
+    "4c9e08d1-0b33-4578-87ce-d400cbfa5b90"
+  ],
+  "math_module_1": [
+    "05cfb948-90af-4646-b5fa-e62999f0b92e",
+    "adfee42c-7cb1-4a73-8aa2-1b0f0a2f5947",
+    "acc63daf-9879-44c0-bd64-e9c11d1ce6f0",
+    "6441fcfb-0fca-49fc-b63b-d0d687bcadb2",
+    "08f47836-a6e6-47c9-95a1-ba43231a4707",
+    "a61d57c5-d37d-48c0-8b85-45d986703bcd",
+    "32a0cd80-47d1-4856-b9f7-2b18eb17c70d",
+    "8334917c-1635-4a92-9277-0886ebd1beb4",
+    "bcd12dc8-4b83-436c-9406-b5d6a7ebaf14",
+    "36b07abd-295e-4262-a20e-2bf819eb4e60",
+    "2d9d508e-879a-49a2-86ee-f9d2b40a3293",
+    "fdeadcdb-0d74-4151-8774-1df79449e869",
+    "5e49feee-7a97-45d3-8138-fd74891ebb33",
+    "b9228450-b89b-4427-8f43-bf3116c32d9d",
+    "03228106-76cd-4571-a4a9-46da38a37bc6",
+    "87b4c941-4a7d-4a56-8ee1-83e76a71b41c",
+    "99c167b3-f443-4d64-ad11-279a2ad1a609",
+    "5a93bb63-449b-426a-8492-392bf5a72075",
+    "36ead275-3e9f-4831-b0ad-e2198a44bf72",
+    "ffcacade-4401-4427-927a-b69eac55363b",
+    "3f16b7ed-bed9-48c8-98f6-cce56f9fdc28",
+    "dd42f2b3-ecef-48a2-8066-fd2f177a54ff"
+  ],
+  "math_module_2_easier": [
+    "c4d489bb-ec59-4312-81cb-cdd92ef9d232",
+    "7075be7c-d21d-498b-aa70-57f93e875304",
+    "648fd963-439e-4034-844d-1fae02613d35",
+    "da9b70b6-3634-4c8e-b810-1cd1cde362fe",
+    "ab28a2cb-0fc5-4bf4-82ea-385b415d6e91",
+    "a71fc87c-37eb-44e9-b125-9e40ad62c754",
+    "2493bc01-0c1d-48a7-87c9-a35446218fcc",
+    "5833ece4-5ea9-45a9-a9d5-8a37477c5f97",
+    "22b5afb6-65bd-486a-b679-b5420bb68390",
+    "7284fea0-625a-4390-9706-43ec6ef693ae",
+    "bd9c7235-0cb0-474a-9ba6-ee4f0ff8372e",
+    "9370d85e-9163-4742-b805-744b952bed63",
+    "801e8be4-22c3-4d80-9625-9b3ea660e350",
+    "2714c7ef-1d32-4de7-b696-d13fcf1683da",
+    "974b72dc-6c18-4656-9307-7bebfa0b70d9",
+    "2f4e7b33-cc92-46be-9f89-d2ecb2fb6469",
+    "58682656-e96c-4585-a681-297b0e9e8c4d",
+    "e8801076-227f-4b4b-b360-b691d1341a20",
+    "378d1ab4-15dd-462e-9b54-8ccb94218519",
+    "f80fbf37-009c-4d01-866d-a312edb5c9bf",
+    "23d11d57-905b-4710-a41a-152242fa72ca",
+    "5023d182-5f5b-47de-b915-483c6d0aef83"
+  ],
+  "matches": [
+    {
+      "questionNumber": 1,
+      "section": "rw",
+      "module": 1,
+      "uId": "0546becd-776c-4b51-b29f-e2337cc78a6c",
+      "similarity": 0.9599,
+      "preview": "Reading and Writing: Question 1\n\nAccording to a team of neuroeconomists from the University of Zuric"
+    },
+    {
+      "questionNumber": 2,
+      "section": "rw",
+      "module": 1,
+      "uId": "d3122ea5-45be-4c04-ad47-dd3e6508f02c",
+      "similarity": 0.9418,
+      "preview": "Reading and Writing: Question 2\n\nEcologist Exequiel Ezcurra and colleagues found that the inhabitant"
+    },
+    {
+      "questionNumber": 3,
+      "section": "rw",
+      "module": 1,
+      "uId": "d9d843b4-242f-4756-aee1-80c85922b55e",
+      "similarity": 0.9392,
+      "preview": "Reading and Writing: Question 3\n\nIn editor Lisa Yaszek\u2019s introduction to her anthology The Future Is"
+    },
+    {
+      "questionNumber": 4,
+      "section": "rw",
+      "module": 1,
+      "uId": "f495bc98-4c9a-4323-9af2-712cbb1d407b",
+      "similarity": 0.9512,
+      "preview": "Reading and Writing: Question 4\n\nK.D. Leka and colleagues found that the Sun\u2019s corona provides an ad"
+    },
+    {
+      "questionNumber": 5,
+      "section": "rw",
+      "module": 1,
+      "uId": "d3a2c8db-64f1-4bb7-a5cd-d5e2e85cff00",
+      "similarity": 0.8159,
+      "preview": "Reading and Writing: Question 5The following text is adapted from Jean Webster\u2019s 1912 novel Daddy-Lo"
+    },
+    {
+      "questionNumber": 6,
+      "section": "rw",
+      "module": 1,
+      "uId": "a60a2428-46a8-48e8-a14d-997cb9b1d0c8",
+      "similarity": 0.8014,
+      "preview": "Reading and Writing: Question 6Researchers have long hypothesized that woolly mammoths were hunted t"
+    },
+    {
+      "questionNumber": 7,
+      "section": "rw",
+      "module": 1,
+      "uId": "593d9904-c3c9-4099-8a9c-1a7e021464a9",
+      "similarity": 0.7926,
+      "preview": "Reading and Writing: Question 7The ancient writing system used in the Maya kingdoms of southern Mexi"
+    },
+    {
+      "questionNumber": 8,
+      "section": "rw",
+      "module": 1,
+      "uId": "7e7b2de7-8da0-4cc7-a518-461e7ce253c1",
+      "similarity": 0.646,
+      "preview": "Reading and Writing: Question 8A subject of much speculation, distinctive sets of parallel ridges ma"
+    },
+    {
+      "questionNumber": 9,
+      "section": "rw",
+      "module": 1,
+      "uId": "ab162a43-3f07-4538-9a71-afab6f69d3f7",
+      "similarity": 0.6567,
+      "preview": "Reading and Writing: Question 9To understand how Paleolithic artists navigated dark caves, archaeolo"
+    },
+    {
+      "questionNumber": 10,
+      "section": "rw",
+      "module": 1,
+      "uId": "e28c1671-3fd8-4dd9-89d8-b4742259e0b8",
+      "similarity": 0.8571,
+      "preview": "Reading and Writing: Question 10\n\n\n\n\n\n\n\n\n\n\n\n\n350300250200150100500Number of submissions2016201720182"
+    },
+    {
+      "questionNumber": 11,
+      "section": "rw",
+      "module": 1,
+      "uId": "3959103c-3ee9-4f6a-a1bf-1b53f30a1212",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 11\n\n\u201cLooking Back on Girlhood\u201d is an 1892 short story by Sarah Orne Je",
+      "manual": true
+    },
+    {
+      "questionNumber": 12,
+      "section": "rw",
+      "module": 1,
+      "uId": "696a0fe6-b2be-4726-8612-7d477fb25265",
+      "similarity": 0.6758,
+      "preview": "Reading and Writing: Question 12\n\nExternal shopping cues are a type of marketing that uses obvious m"
+    },
+    {
+      "questionNumber": 13,
+      "section": "rw",
+      "module": 1,
+      "uId": "78d2b5b1-0d1c-4368-8f35-9e183331ef14",
+      "similarity": 0.6619,
+      "preview": "Reading and Writing: Question 13\n\nEven with the widespread adoption of personal computers, many auth"
+    },
+    {
+      "questionNumber": 14,
+      "section": "rw",
+      "module": 1,
+      "uId": "b828677b-da71-44cd-b234-a5581c01f098",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 14\n\nBehavioral ecologists Will Wiggins, Sarah Bounds, and Shawn Wilder",
+      "manual": true
+    },
+    {
+      "questionNumber": 15,
+      "section": "rw",
+      "module": 1,
+      "uId": "d6119be3-2756-469f-a956-62987c80d02d",
+      "similarity": 0.8697,
+      "preview": "Reading and Writing: Question 15\n\nIn forecasting weather events, meteorologists sometimes discuss th"
+    },
+    {
+      "questionNumber": 16,
+      "section": "rw",
+      "module": 1,
+      "uId": "33899403-e470-49e3-bbd2-7deaa63b3d33",
+      "similarity": 0.9103,
+      "preview": "Reading and Writing: Question 16\n\nThe soundtrack to Mira Nair\u2019s 1991 film Mississippi Masala express"
+    },
+    {
+      "questionNumber": 17,
+      "section": "rw",
+      "module": 1,
+      "uId": "3d6cf5db-2bd3-47ce-90ea-ad9d40f9a24c",
+      "similarity": 0.9413,
+      "preview": "Reading and Writing: Question 17\n\nJulia Alvarez\u2019s 1994 novel In the Time of the Butterflies, a ficti"
+    },
+    {
+      "questionNumber": 18,
+      "section": "rw",
+      "module": 1,
+      "uId": "2b50620d-3025-4978-9e05-7b4f3d092cb2",
+      "similarity": 0.8254,
+      "preview": "Reading and Writing: Question 18\n\nOn March 23, 2021, a gust of wind wreaked havoc on global trade. E"
+    },
+    {
+      "questionNumber": 19,
+      "section": "rw",
+      "module": 1,
+      "uId": "66528aec-b866-42b8-b14d-28075fe503d2",
+      "similarity": 0.631,
+      "preview": "Reading and Writing: Question 19\n\nWoven from recycled yarn and hand tufted using a carpet weaving te"
+    },
+    {
+      "questionNumber": 20,
+      "section": "rw",
+      "module": 1,
+      "uId": "0f12e7c0-7fc4-4fac-a808-1e00730eed14",
+      "similarity": 0.847,
+      "preview": "Reading and Writing: Question 20\n\nJamaican British artist Willard Wigan is known for his remarkable "
+    },
+    {
+      "questionNumber": 21,
+      "section": "rw",
+      "module": 1,
+      "uId": "5e6c3d9e-6914-47cc-92c4-62a26e2d74e0",
+      "similarity": 0.9407,
+      "preview": "Reading and Writing: Question 21\n\nAfter appropriate permissions are granted, a typical archaeologica"
+    },
+    {
+      "questionNumber": 22,
+      "section": "rw",
+      "module": 1,
+      "uId": "cab47a73-871a-48b6-a2a4-0c442fe36d7b",
+      "similarity": 0.9358,
+      "preview": "Reading and Writing: Question 22\n\nIn 1949, Frank Zamboni developed an ice rink resurfacing machine. "
+    },
+    {
+      "questionNumber": 23,
+      "section": "rw",
+      "module": 1,
+      "uId": "0fa08ad7-874f-488d-a5ff-8ad52fcfb0ef",
+      "similarity": 0.9468,
+      "preview": "Reading and Writing: Question 23\n\nIn the 1880s, inventor Lewis Latimer improved upon Thomas Edison\u2019s"
+    },
+    {
+      "questionNumber": 24,
+      "section": "rw",
+      "module": 1,
+      "uId": "b6382887-4902-4349-b651-2999a28a53a3",
+      "similarity": 0.9369,
+      "preview": "Reading and Writing: Question 24\n\nJeffrey Gibson\u2019s sculptural object KNOW YOUR MAGIC, BABY, an Everl"
+    },
+    {
+      "questionNumber": 25,
+      "section": "rw",
+      "module": 1,
+      "uId": "0bd7351e-2886-46e2-b535-64cc4368444a",
+      "similarity": 0.7538,
+      "preview": "Reading and Writing: Question 25\n\nWhile researching a topic, a student has taken the following notes"
+    },
+    {
+      "questionNumber": 26,
+      "section": "rw",
+      "module": 1,
+      "uId": "0e8fde1d-7e3b-45b1-8f10-9f3dc422ead4",
+      "similarity": 0.7228,
+      "preview": "Reading and Writing: Question 26\n\nWhile researching a topic, a student has taken the following notes"
+    },
+    {
+      "questionNumber": 27,
+      "section": "rw",
+      "module": 1,
+      "uId": "deea55ac-d587-4198-9ea9-350ded68cd9b",
+      "similarity": 0.7154,
+      "preview": "Reading and Writing: Question 27\n\nWhile researching a topic, a student has taken the following notes"
+    },
+    {
+      "questionNumber": 28,
+      "section": "rw",
+      "module": 2,
+      "uId": "89cdd193-0d49-45a0-8877-63ea54ac8e78",
+      "similarity": 0.8871,
+      "preview": "Reading and Writing: Question 1\n\nThe following text is adapted from Elizabeth von Arnim\u2019s 1922 novel"
+    },
+    {
+      "questionNumber": 29,
+      "section": "rw",
+      "module": 2,
+      "uId": "19ab0386-d449-418e-8dcf-a1484689e2c5",
+      "similarity": 0.9356,
+      "preview": "Reading and Writing: Question 2\n\nMany ancient sculptures of people\u2019s heads are missing their noses. "
+    },
+    {
+      "questionNumber": 30,
+      "section": "rw",
+      "module": 2,
+      "uId": "3e5d8632-19d4-4b8a-89f3-e5a2c46519f0",
+      "similarity": 0.9639,
+      "preview": "Reading and Writing: Question 3\n\nA team of paleontologists has found a rich fossil deposit near Gulg"
+    },
+    {
+      "questionNumber": 31,
+      "section": "rw",
+      "module": 2,
+      "uId": "b790033c-731d-40f9-9aa0-a23ef00d4eca",
+      "similarity": 0.9622,
+      "preview": "Reading and Writing: Question 4\n\nUrban planning expert Francisco Lara-Valencia and colleagues have a"
+    },
+    {
+      "questionNumber": 32,
+      "section": "rw",
+      "module": 2,
+      "uId": "95828aba-6d27-4afd-82d2-af3e5b02c8ea",
+      "similarity": 0.9223,
+      "preview": "Reading and Writing: Question 5\n\nThough not closely related, the hedgehog tenrecs of Madagascar shar"
+    },
+    {
+      "questionNumber": 33,
+      "section": "rw",
+      "module": 2,
+      "uId": "70d5421e-f9db-4ec5-8547-47a13fba6de4",
+      "similarity": 0.7957,
+      "preview": "Reading and Writing: Question 6The following text is from Paul Laurence Dunbar\u2019s 1913 poem \u201cThe Poet"
+    },
+    {
+      "questionNumber": 34,
+      "section": "rw",
+      "module": 2,
+      "uId": "a5519521-ef02-40ab-a805-e6af602b98f1",
+      "similarity": 0.7022,
+      "preview": "Reading and Writing: Question 7In the late 1800s, Spanish-language newspapers flourished in cities a"
+    },
+    {
+      "questionNumber": 35,
+      "section": "rw",
+      "module": 2,
+      "uId": "f6982069-8e1a-404f-a45b-895943a22365",
+      "similarity": 0.7765,
+      "preview": "Reading and Writing: Question 8Text 1\nIn 1954 George Balanchine choreographed a production of The Nu"
+    },
+    {
+      "questionNumber": 36,
+      "section": "rw",
+      "module": 2,
+      "uId": "800644db-10c1-4fc1-848f-ed78aae052dd",
+      "similarity": 0.9557,
+      "preview": "Reading and Writing: Question 9\n\n\n\n\n\n\n\n\n\n\n\n\n1,1001,0009008007006005004003002001000Number of recreati"
+    },
+    {
+      "questionNumber": 37,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-easy-q37",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 10Average Clothing Prices, 2019\u20132022Clothing type2019202020212022butto",
+      "manual": true
+    },
+    {
+      "questionNumber": 38,
+      "section": "rw",
+      "module": 2,
+      "uId": "0d402854-314c-4127-8917-7df649ff1f74",
+      "similarity": 0.7176,
+      "preview": "Reading and Writing: Question 11Male t\u00fangara frogs make complex calls to attract mates, but their ca"
+    },
+    {
+      "questionNumber": 39,
+      "section": "rw",
+      "module": 2,
+      "uId": "c4720056-f976-44fa-9b3e-4ff74b66fc8b",
+      "similarity": 0.8246,
+      "preview": "Reading and Writing: Question 12\n\n\n\n\n\n\n\n\n\n\n\n\n4003002001000Number of condors2014201520162017201820192"
+    },
+    {
+      "questionNumber": 40,
+      "section": "rw",
+      "module": 2,
+      "uId": "8dd37d5e-eae3-4d31-a8ba-e62e8698f21d",
+      "similarity": 0.734,
+      "preview": "Reading and Writing: Question 13Annual Spending by International Tourists in Four Countries (in bill"
+    },
+    {
+      "questionNumber": 41,
+      "section": "rw",
+      "module": 2,
+      "uId": "0a3470df-1090-4510-8cf5-9bea22f40044",
+      "similarity": 0.6603,
+      "preview": "Reading and Writing: Question 14Fish whose DNA has been modified to include genetic material from ot"
+    },
+    {
+      "questionNumber": 42,
+      "section": "rw",
+      "module": 2,
+      "uId": "0ac9886f-15f0-4e26-9cd7-ada9abf52343",
+      "similarity": 0.7893,
+      "preview": "Reading and Writing: Question 15The practice of logging (cutting down trees for commercial and other"
+    },
+    {
+      "questionNumber": 43,
+      "section": "rw",
+      "module": 2,
+      "uId": "efd04f10-27e8-4a7a-a895-e2d91e5e140f",
+      "similarity": 0.8567,
+      "preview": "Reading and Writing: Question 16The Boston Saloon was one of the most popular African American\u2013owned"
+    },
+    {
+      "questionNumber": 44,
+      "section": "rw",
+      "module": 2,
+      "uId": "8469b695-62fa-4cd4-99d0-1f1e1133e88e",
+      "similarity": 0.9554,
+      "preview": "Reading and Writing: Question 17L\u00ea L\u01b0\u01a1ng Minh became the thirteenth secretary-general of the Associa"
+    },
+    {
+      "questionNumber": 45,
+      "section": "rw",
+      "module": 2,
+      "uId": "cbeb9fc9-be4f-47cb-ab50-9619ed25aefb",
+      "similarity": 0.9105,
+      "preview": "Reading and Writing: Question 18Louise Bennett (1919\u20132006), also known as \u201cMiss Lou,\u201d was an influen"
+    },
+    {
+      "questionNumber": 46,
+      "section": "rw",
+      "module": 2,
+      "uId": "06e8af75-cf37-43e7-b9e1-9221407e18ca",
+      "similarity": 0.8235,
+      "preview": "Reading and Writing: Question 19Researchers Amit Kumar and Nicholas Epley investigated how ______bla"
+    },
+    {
+      "questionNumber": 47,
+      "section": "rw",
+      "module": 2,
+      "uId": "4c9e08d1-0b33-4578-87ce-d400cbfa5b90",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 20One of the few African American global explorers during the turn of ",
+      "manual": true
+    },
+    {
+      "questionNumber": 48,
+      "section": "rw",
+      "module": 2,
+      "uId": "acada312-f8e6-447f-9913-04907b9a3985",
+      "similarity": 0.9679,
+      "preview": "Reading and Writing: Question 21Oyster mushrooms typically get their nutrients from the damp logs on"
+    },
+    {
+      "questionNumber": 49,
+      "section": "rw",
+      "module": 2,
+      "uId": "89c5da51-d679-406c-b7a8-6403d1315ecc",
+      "similarity": 0.9363,
+      "preview": "Reading and Writing: Question 22In the search for extraterrestrial life, astrobiologists Stuart Bart"
+    },
+    {
+      "questionNumber": 50,
+      "section": "rw",
+      "module": 2,
+      "uId": "9ffe3d77-1a85-4f9d-a458-62933cdc4d0c",
+      "similarity": 0.9383,
+      "preview": "Reading and Writing: Question 23To guarantee the validity of experimental results, scientists rely o"
+    },
+    {
+      "questionNumber": 51,
+      "section": "rw",
+      "module": 2,
+      "uId": "5979bfe7-6644-43f4-a4e4-58fa1f365aa4",
+      "similarity": 0.9367,
+      "preview": "Reading and Writing: Question 24My interest in old public libraries has led me to seek them out when"
+    },
+    {
+      "questionNumber": 52,
+      "section": "rw",
+      "module": 2,
+      "uId": "69dd585e-e810-47f6-8c09-b2aecef2eb01",
+      "similarity": 0.7051,
+      "preview": "Reading and Writing: Question 25\n\nWhile researching a topic, a student has taken the following notes"
+    },
+    {
+      "questionNumber": 53,
+      "section": "rw",
+      "module": 2,
+      "uId": "1940c922-d9ac-4353-b4a1-b57356ed8a10",
+      "similarity": 0.7137,
+      "preview": "Reading and Writing: Question 26\n\nWhile researching a topic, a student has taken the following notes"
+    },
+    {
+      "questionNumber": 54,
+      "section": "rw",
+      "module": 2,
+      "uId": "2d221a90-0763-4716-ab04-d4c435932dd7",
+      "similarity": 0.7534,
+      "preview": "Reading and Writing: Question 27\n\nWhile researching a topic, a student has taken the following notes"
+    },
+    {
+      "questionNumber": 55,
+      "section": "math",
+      "module": 1,
+      "uId": "05cfb948-90af-4646-b5fa-e62999f0b92e",
+      "similarity": 0.9496,
+      "preview": "Math: Question 1\n\nA veterinarian recommends that each day a certain rabbit should eat \n25\n calories "
+    },
+    {
+      "questionNumber": 56,
+      "section": "math",
+      "module": 1,
+      "uId": "adfee42c-7cb1-4a73-8aa2-1b0f0a2f5947",
+      "similarity": 0.9074,
+      "preview": "Math: Question 2\n\nA special camera is used for underwater ocean research. The camera is at a depth o"
+    },
+    {
+      "questionNumber": 57,
+      "section": "math",
+      "module": 1,
+      "uId": "acc63daf-9879-44c0-bd64-e9c11d1ce6f0",
+      "similarity": 0.8136,
+      "preview": "Math: Question 3\n\nClockwise from top left, the 3 lines are labeled k, m, and n.\nLine k intersects bo"
+    },
+    {
+      "questionNumber": 58,
+      "section": "math",
+      "module": 1,
+      "uId": "6441fcfb-0fca-49fc-b63b-d0d687bcadb2",
+      "similarity": 0.9738,
+      "preview": "Math: Question 4\n\nf(x)=14+4x\n\nThe function \nf\n represents the total cost, in dollars, of attending a"
+    },
+    {
+      "questionNumber": 59,
+      "section": "math",
+      "module": 1,
+      "uId": "08f47836-a6e6-47c9-95a1-ba43231a4707",
+      "similarity": 0.7885,
+      "preview": "Math: Question 5\n\nIf \n4x-28=-24\n, what is the value of \nx-7\n?\n\n-24\n\n-22\n\n-6\n\n-1"
+    },
+    {
+      "questionNumber": 60,
+      "section": "math",
+      "module": 1,
+      "uId": "a61d57c5-d37d-48c0-8b85-45d986703bcd",
+      "similarity": 0.9938,
+      "preview": "Math: Question 6\n\nThe amount of Hanna's bill for a food order was \n$50\n. Hanna gave a tip of \n20%\n o"
+    },
+    {
+      "questionNumber": 61,
+      "section": "math",
+      "module": 1,
+      "uId": "32a0cd80-47d1-4856-b9f7-2b18eb17c70d",
+      "similarity": 0.735,
+      "preview": "Math: Question 7\n\nFive Eretmochelys imbricata, a type of sea turtle, each have a nest. The table sho"
+    },
+    {
+      "questionNumber": 62,
+      "section": "math",
+      "module": 1,
+      "uId": "8334917c-1635-4a92-9277-0886ebd1beb4",
+      "similarity": 0.9101,
+      "preview": "Math: Question 8\n\nThe boundary of the inequality is a dashed line.\n\nThe line slants sharply down fro"
+    },
+    {
+      "questionNumber": 63,
+      "section": "math",
+      "module": 1,
+      "uId": "bcd12dc8-4b83-436c-9406-b5d6a7ebaf14",
+      "similarity": 0.7244,
+      "preview": "Math: Question 9\n\nWhich expression is equivalent to \n8x3+8-x3-2\n?\n\n8x3+6\n\n7x3+10\n\n8x3+10\n\n7x3+6"
+    },
+    {
+      "questionNumber": 64,
+      "section": "math",
+      "module": 1,
+      "uId": "36b07abd-295e-4262-a20e-2bf819eb4e60",
+      "similarity": 0.8533,
+      "preview": "Math: Question 10\n\nIn the xy-plane, line \nt\n passes through the points \n0,9\n and \n1,17\n. Which equat"
+    },
+    {
+      "questionNumber": 65,
+      "section": "math",
+      "module": 1,
+      "uId": "2d9d508e-879a-49a2-86ee-f9d2b40a3293",
+      "similarity": 0.9167,
+      "preview": "Math: Question 11\n\nd-30d+30-7=-7\n\nWhat is a solution to the given equation?"
+    },
+    {
+      "questionNumber": 66,
+      "section": "math",
+      "module": 1,
+      "uId": "fdeadcdb-0d74-4151-8774-1df79449e869",
+      "similarity": 0.9894,
+      "preview": "Math: Question 12\n\nA store sells two different-sized containers of blueberries. The store\u2019s sales of"
+    },
+    {
+      "questionNumber": 67,
+      "section": "math",
+      "module": 1,
+      "uId": "5e49feee-7a97-45d3-8138-fd74891ebb33",
+      "similarity": 0.9653,
+      "preview": "Math: Question 13\n\nft=5000.5t12\n\nThe function \nf\n models the intensity of an X-ray beam, in number o"
+    },
+    {
+      "questionNumber": 68,
+      "section": "math",
+      "module": 1,
+      "uId": "dd42f2b3-ecef-48a2-8066-fd2f177a54ff",
+      "similarity": 1.0,
+      "preview": "Math: Question 14\n\n\n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "manual": true
+    },
+    {
+      "questionNumber": 69,
+      "section": "math",
+      "module": 1,
+      "uId": "b9228450-b89b-4427-8f43-bf3116c32d9d",
+      "similarity": 0.872,
+      "preview": "Math: Question 15P=N19-C\nThe given equation relates the positive numbers P, N, and C. Which equation"
+    },
+    {
+      "questionNumber": 70,
+      "section": "math",
+      "module": 1,
+      "uId": "03228106-76cd-4571-a4a9-46da38a37bc6",
+      "similarity": 1.0,
+      "preview": "Math: Question 16The length of each edge of a box is 29 inches. Each side of the box is in the shape"
+    },
+    {
+      "questionNumber": 71,
+      "section": "math",
+      "module": 1,
+      "uId": "87b4c941-4a7d-4a56-8ee1-83e76a71b41c",
+      "similarity": 0.9559,
+      "preview": "Math: Question 17x-9+45=63\nWhat is the sum of the solutions to the given equation?"
+    },
+    {
+      "questionNumber": 72,
+      "section": "math",
+      "module": 1,
+      "uId": "99c167b3-f443-4d64-ad11-279a2ad1a609",
+      "similarity": 0.7368,
+      "preview": "Math: Question 18What is the value of\u00a0tan92\u03c03?-3-33333"
+    },
+    {
+      "questionNumber": 73,
+      "section": "math",
+      "module": 1,
+      "uId": "5a93bb63-449b-426a-8492-392bf5a72075",
+      "similarity": 0.7152,
+      "preview": "Math: Question 19Which expression is equivalent to\u00a042ak+42ak, where\u00a0k>0?84ak84ak2k42ak+1k42ak2+1k"
+    },
+    {
+      "questionNumber": 74,
+      "section": "math",
+      "module": 1,
+      "uId": "36ead275-3e9f-4831-b0ad-e2198a44bf72",
+      "similarity": 0.9271,
+      "preview": "Math: Question 20x+42+y-192=121\nThe graph of the given equation is a circle in the xy-plane. The poi"
+    },
+    {
+      "questionNumber": 75,
+      "section": "math",
+      "module": 1,
+      "uId": "ffcacade-4401-4427-927a-b69eac55363b",
+      "similarity": 0.9359,
+      "preview": "Math: Question 21A right rectangular prism has a height of 9 inches. The length of the prism's base "
+    },
+    {
+      "questionNumber": 76,
+      "section": "math",
+      "module": 1,
+      "uId": "3f16b7ed-bed9-48c8-98f6-cce56f9fdc28",
+      "similarity": 0.729,
+      "preview": "Math: Question 22The function f is defined by\u00a0fx=ax+b, where a and b are constants. In the xy-plane,"
+    },
+    {
+      "questionNumber": 77,
+      "section": "math",
+      "module": 2,
+      "uId": "c4d489bb-ec59-4312-81cb-cdd92ef9d232",
+      "similarity": 0.9726,
+      "preview": "Math: Question 1The graph shows the predicted value y, in dollars, of a certain sport utility vehicl"
+    },
+    {
+      "questionNumber": 78,
+      "section": "math",
+      "module": 2,
+      "uId": "7075be7c-d21d-498b-aa70-57f93e875304",
+      "similarity": 0.9896,
+      "preview": "Math: Question 2\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n   "
+    },
+    {
+      "questionNumber": 79,
+      "section": "math",
+      "module": 2,
+      "uId": "648fd963-439e-4034-844d-1fae02613d35",
+      "similarity": 0.9846,
+      "preview": "Math: Question 3\n\n\n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    },
+    {
+      "questionNumber": 80,
+      "section": "math",
+      "module": 2,
+      "uId": "da9b70b6-3634-4c8e-b810-1cd1cde362fe",
+      "similarity": 0.9748,
+      "preview": "Math: Question 4On a street with 7 houses, 2 houses are blue. If a house from this street is selecte"
+    },
+    {
+      "questionNumber": 81,
+      "section": "math",
+      "module": 2,
+      "uId": "ab28a2cb-0fc5-4bf4-82ea-385b415d6e91",
+      "similarity": 0.8923,
+      "preview": "Math: Question 5The graph of function f is shown, where y=fx.\n\n \n  \n*{stroke-linecap:butt;stroke-lin"
+    },
+    {
+      "questionNumber": 82,
+      "section": "math",
+      "module": 2,
+      "uId": "a71fc87c-37eb-44e9-b125-9e40ad62c754",
+      "similarity": 0.9091,
+      "preview": "Math: Question 6If 6n=12, what is the value of n+4?"
+    },
+    {
+      "questionNumber": 83,
+      "section": "math",
+      "module": 2,
+      "uId": "2493bc01-0c1d-48a7-87c9-a35446218fcc",
+      "similarity": 0.8481,
+      "preview": "Math: Question 7The function f is defined by\u00a0f(x)=4x-3. What is the value of\u00a0f(10)?-30374043"
+    },
+    {
+      "questionNumber": 84,
+      "section": "math",
+      "module": 2,
+      "uId": "5833ece4-5ea9-45a9-a9d5-8a37477c5f97",
+      "similarity": 0.9576,
+      "preview": "Math: Question 8\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n   "
+    },
+    {
+      "questionNumber": 85,
+      "section": "math",
+      "module": 2,
+      "uId": "22b5afb6-65bd-486a-b679-b5420bb68390",
+      "similarity": 0.8372,
+      "preview": "Math: Question 9y=12x-20\ny=28\nWhat is the solution\u00a0x,y to the given system of equations?4,2820,2828,"
+    },
+    {
+      "questionNumber": 86,
+      "section": "math",
+      "module": 2,
+      "uId": "7284fea0-625a-4390-9706-43ec6ef693ae",
+      "similarity": 0.942,
+      "preview": "Math: Question 1023, 27, 27, 32, 35, 36, 52\nWhat is the range of the 7 scores shown?"
+    },
+    {
+      "questionNumber": 87,
+      "section": "math",
+      "module": 2,
+      "uId": "bd9c7235-0cb0-474a-9ba6-ee4f0ff8372e",
+      "similarity": 0.9944,
+      "preview": "Math: Question 11\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n  "
+    },
+    {
+      "questionNumber": 88,
+      "section": "math",
+      "module": 2,
+      "uId": "9370d85e-9163-4742-b805-744b952bed63",
+      "similarity": 0.913,
+      "preview": "Math: Question 12The function h is defined by\u00a0hx=85x+6. What is the value of\u00a0h2?"
+    },
+    {
+      "questionNumber": 89,
+      "section": "math",
+      "module": 2,
+      "uId": "801e8be4-22c3-4d80-9625-9b3ea660e350",
+      "similarity": 0.8511,
+      "preview": "Math: Question 13For the linear function f, the graph of\u00a0y=f(x) in the\u00a0xy-plane has a slope of 39 an"
+    },
+    {
+      "questionNumber": 90,
+      "section": "math",
+      "module": 2,
+      "uId": "2714c7ef-1d32-4de7-b696-d13fcf1683da",
+      "similarity": 0.9567,
+      "preview": "Math: Question 14For a snowstorm in a certain town, the minimum rate of snowfall recorded was 0.6 in"
+    },
+    {
+      "questionNumber": 91,
+      "section": "math",
+      "module": 2,
+      "uId": "974b72dc-6c18-4656-9307-7bebfa0b70d9",
+      "similarity": 0.6028,
+      "preview": "Math: Question 15The function f defined by\u00a0f(t)=14t+9 gives the estimated length, in inches, of a vi"
+    },
+    {
+      "questionNumber": 92,
+      "section": "math",
+      "module": 2,
+      "uId": "2f4e7b33-cc92-46be-9f89-d2ecb2fb6469",
+      "similarity": 1.0,
+      "preview": "Math: Question 16\n  \n    \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n "
+    },
+    {
+      "questionNumber": 93,
+      "section": "math",
+      "module": 2,
+      "uId": "58682656-e96c-4585-a681-297b0e9e8c4d",
+      "similarity": 0.9176,
+      "preview": "Math: Question 17\n\n\nx\n1\n2\n3\n\n\ny\n11\n16\n21\n\n\n\nThe table shows three values of x and their correspondin"
+    },
+    {
+      "questionNumber": 94,
+      "section": "math",
+      "module": 2,
+      "uId": "e8801076-227f-4b4b-b360-b691d1341a20",
+      "similarity": 0.895,
+      "preview": "Math: Question 18y=4x\ny=x2-12\nA solution to the given system of equations is\u00a0x,y, where\u00a0x>0. What is"
+    },
+    {
+      "questionNumber": 95,
+      "section": "math",
+      "module": 2,
+      "uId": "378d1ab4-15dd-462e-9b54-8ccb94218519",
+      "similarity": 0.9665,
+      "preview": "Math: Question 19At a particular track meet, the ratio of coaches to athletes is 1 to 26. If there a"
+    },
+    {
+      "questionNumber": 96,
+      "section": "math",
+      "module": 2,
+      "uId": "f80fbf37-009c-4d01-866d-a312edb5c9bf",
+      "similarity": 0.9421,
+      "preview": "Math: Question 20fx=1.84x4\nThe function f is defined by the given equation. The equation can be rewr"
+    },
+    {
+      "questionNumber": 97,
+      "section": "math",
+      "module": 2,
+      "uId": "23d11d57-905b-4710-a41a-152242fa72ca",
+      "similarity": 0.8827,
+      "preview": "Math: Question 21\nThe 2 triangles share common vertex upper R.\n\nCommon vertex upper R lies on line s"
+    },
+    {
+      "questionNumber": 98,
+      "section": "math",
+      "module": 2,
+      "uId": "5023d182-5f5b-47de-b915-483c6d0aef83",
+      "similarity": 0.9109,
+      "preview": "Math: Question 22In triangle ABC, angle B is a right angle. The length of side AB is 1037 and the le"
+    }
+  ]
+}

@@ -1,0 +1,509 @@
+{
+  "test_number": 5,
+  "test_name": "SAT Practice 5",
+  "variant": "hard",
+  "rw_module_1": [
+    "0546becd-776c-4b51-b29f-e2337cc78a6c",
+    "d3122ea5-45be-4c04-ad47-dd3e6508f02c",
+    "d9d843b4-242f-4756-aee1-80c85922b55e",
+    "f495bc98-4c9a-4323-9af2-712cbb1d407b",
+    "d3a2c8db-64f1-4bb7-a5cd-d5e2e85cff00",
+    "a60a2428-46a8-48e8-a14d-997cb9b1d0c8",
+    "593d9904-c3c9-4099-8a9c-1a7e021464a9",
+    "7e7b2de7-8da0-4cc7-a518-461e7ce253c1",
+    "ab162a43-3f07-4538-9a71-afab6f69d3f7",
+    "e28c1671-3fd8-4dd9-89d8-b4742259e0b8",
+    "696a0fe6-b2be-4726-8612-7d477fb25265",
+    "78d2b5b1-0d1c-4368-8f35-9e183331ef14",
+    "d6119be3-2756-469f-a956-62987c80d02d",
+    "33899403-e470-49e3-bbd2-7deaa63b3d33",
+    "3d6cf5db-2bd3-47ce-90ea-ad9d40f9a24c",
+    "2b50620d-3025-4978-9e05-7b4f3d092cb2",
+    "66528aec-b866-42b8-b14d-28075fe503d2",
+    "0f12e7c0-7fc4-4fac-a808-1e00730eed14",
+    "5e6c3d9e-6914-47cc-92c4-62a26e2d74e0",
+    "cab47a73-871a-48b6-a2a4-0c442fe36d7b",
+    "0fa08ad7-874f-488d-a5ff-8ad52fcfb0ef",
+    "b6382887-4902-4349-b651-2999a28a53a3",
+    "0bd7351e-2886-46e2-b535-64cc4368444a",
+    "0e8fde1d-7e3b-45b1-8f10-9f3dc422ead4",
+    "deea55ac-d587-4198-9ea9-350ded68cd9b"
+  ],
+  "rw_module_2_harder": [
+    "f0377b5f-421b-4042-bf49-b88edefad19f",
+    "95828aba-6d27-4afd-82d2-af3e5b02c8ea",
+    "5cf1842f-b69d-4150-b162-0b02d7c5b5f0",
+    "2837f39a-6678-4d66-b907-310733820fcd",
+    "4e03d824-fe3e-4523-9cd5-e6c43ba07526",
+    "06b6c16c-32a2-4628-8dd6-6fa229b8684a",
+    "51ddb1a4-54be-4feb-a3bd-4691271e77a1",
+    "c60081c9-436f-4513-8402-4339fd8603f2",
+    "0a50df90-a7de-4787-8c71-fe936b72e62b",
+    "570eace2-b73e-4669-84f9-c3ece85dbdcf",
+    "8098ec14-9ed0-4da9-9171-6f3825007dcd",
+    "efd04f10-27e8-4a7a-a895-e2d91e5e140f",
+    "146a961a-4058-442d-a195-6e12235ce783",
+    "c27f7f4e-19bd-469e-8625-bf4a3686c95d",
+    "879e76b7-d2d1-4141-b86e-0dc2d041f6c7",
+    "bee27c55-146b-4b10-9d01-d15ee4a52de1",
+    "9e6d8774-1a02-4da6-aadf-4bb84a1fc530",
+    "2155a1a2-6d5d-424e-b8e0-4adec45e8746",
+    "7213a85e-f137-4845-bac7-9d407d50f1ab",
+    "6f9bef16-49a2-4e74-84b2-588b8b085209",
+    "pt5-hard-q28",
+    "pt5-hard-q30",
+    "pt5-hard-q35",
+    "c6cdbfe0-cf01-4760-b77d-51fcf96a6453",
+    "pt5-hard-q44",
+    "pt5-hard-q45",
+    "pt5-hard-q54"
+  ],
+  "math_module_1": [
+    "05cfb948-90af-4646-b5fa-e62999f0b92e",
+    "adfee42c-7cb1-4a73-8aa2-1b0f0a2f5947",
+    "acc63daf-9879-44c0-bd64-e9c11d1ce6f0",
+    "6441fcfb-0fca-49fc-b63b-d0d687bcadb2",
+    "08f47836-a6e6-47c9-95a1-ba43231a4707",
+    "a61d57c5-d37d-48c0-8b85-45d986703bcd",
+    "32a0cd80-47d1-4856-b9f7-2b18eb17c70d",
+    "8334917c-1635-4a92-9277-0886ebd1beb4",
+    "bcd12dc8-4b83-436c-9406-b5d6a7ebaf14",
+    "36b07abd-295e-4262-a20e-2bf819eb4e60",
+    "2d9d508e-879a-49a2-86ee-f9d2b40a3293",
+    "fdeadcdb-0d74-4151-8774-1df79449e869",
+    "5e49feee-7a97-45d3-8138-fd74891ebb33",
+    "b9228450-b89b-4427-8f43-bf3116c32d9d",
+    "03228106-76cd-4571-a4a9-46da38a37bc6",
+    "87b4c941-4a7d-4a56-8ee1-83e76a71b41c",
+    "99c167b3-f443-4d64-ad11-279a2ad1a609",
+    "5a93bb63-449b-426a-8492-392bf5a72075",
+    "36ead275-3e9f-4831-b0ad-e2198a44bf72",
+    "ffcacade-4401-4427-927a-b69eac55363b",
+    "3f16b7ed-bed9-48c8-98f6-cce56f9fdc28"
+  ],
+  "math_module_2_harder": [
+    "a9345f27-9f79-44bb-a60c-02e63589e882",
+    "5f20600b-c95d-4290-9bec-f49d11276435",
+    "534821ee-4e9d-4491-9bf1-bc9036034bea",
+    "440b5015-fdcd-4f5b-aaf5-f7b4094a3006",
+    "78656f04-9ec5-43eb-b0d4-04c395bde9f3",
+    "7284fea0-625a-4390-9706-43ec6ef693ae",
+    "2fb56731-aff0-45c8-8b7a-124904010a83",
+    "63a46ddc-722e-44d2-b5ec-ccbe652eaf9b",
+    "94d48cfd-af18-4b08-8645-806afe6b973a",
+    "4aa075c7-1443-4d3d-a2e8-51ef129a9ef9",
+    "7d1bfe27-8f73-44df-8760-a3d002e141af",
+    "c07e1877-8d0b-409c-a123-e6861db27b67",
+    "44026699-ff2d-400f-ac43-ee2b3699407e",
+    "f80fbf37-009c-4d01-866d-a312edb5c9bf",
+    "8ff8172b-b601-43c6-9db9-7e60ea5054b8",
+    "2edc95a0-0827-4fd3-88c0-5ce4c38b6079",
+    "46c3938d-310c-40f7-8421-83952760dc54",
+    "d3d1433f-32b3-44d9-a767-115056595dac",
+    "90cd509b-e9c2-4f7f-a63d-ec6e1c53dd13",
+    "b3664d46-d2bc-4bf6-8fe2-3df4be9b23ad",
+    "c1d41164-dd36-42e7-8ef2-8b8eca045fcb",
+    "2c51742f-5d65-4d23-8d76-e0a6ed34ff15"
+  ],
+  "matches": [
+    {
+      "questionNumber": 28,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-hard-q28",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 1Mary Engle Pennington, a chemist who helped advance home refrigeratio",
+      "manual": true
+    },
+    {
+      "questionNumber": 29,
+      "section": "rw",
+      "module": 2,
+      "uId": "f0377b5f-421b-4042-bf49-b88edefad19f",
+      "similarity": 0.952,
+      "preview": "Reading and Writing: Question 2To demonstrate that the integrity of underground metal pipes can be a"
+    },
+    {
+      "questionNumber": 30,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-hard-q30",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 3Despite the generalizations about human behavior they have produced, ",
+      "manual": true
+    },
+    {
+      "questionNumber": 31,
+      "section": "rw",
+      "module": 2,
+      "uId": "95828aba-6d27-4afd-82d2-af3e5b02c8ea",
+      "similarity": 0.9242,
+      "preview": "Reading and Writing: Question 4Though not closely related, the hedgehog tenrecs of Madagascar share "
+    },
+    {
+      "questionNumber": 32,
+      "section": "rw",
+      "module": 2,
+      "uId": "5cf1842f-b69d-4150-b162-0b02d7c5b5f0",
+      "similarity": 0.9263,
+      "preview": "Reading and Writing: Question 5While recent scholarship has undermined claims that the works of twel"
+    },
+    {
+      "questionNumber": 33,
+      "section": "rw",
+      "module": 2,
+      "uId": "2837f39a-6678-4d66-b907-310733820fcd",
+      "similarity": 0.7417,
+      "preview": "Reading and Writing: Question 6The following text is adapted from Herman Melville\u2019s 1855 novel Israe"
+    },
+    {
+      "questionNumber": 34,
+      "section": "rw",
+      "module": 2,
+      "uId": "4e03d824-fe3e-4523-9cd5-e6c43ba07526",
+      "similarity": 0.6139,
+      "preview": "Reading and Writing: Question 7Changes to vegetation cover and other human activities influence carb"
+    },
+    {
+      "questionNumber": 35,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-hard-q35",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 8Text 1\nEfforts to automate classification of paintings into different",
+      "manual": true
+    },
+    {
+      "questionNumber": 36,
+      "section": "rw",
+      "module": 2,
+      "uId": "06b6c16c-32a2-4628-8dd6-6fa229b8684a",
+      "similarity": 0.7302,
+      "preview": "Reading and Writing: Question 9To understand how temperature change affects microorganism-mediated c"
+    },
+    {
+      "questionNumber": 37,
+      "section": "rw",
+      "module": 2,
+      "uId": "51ddb1a4-54be-4feb-a3bd-4691271e77a1",
+      "similarity": 0.7581,
+      "preview": "Reading and Writing: Question 10Mean Ratings for Patients after 21 DaysMeasureMean rating for partic"
+    },
+    {
+      "questionNumber": 38,
+      "section": "rw",
+      "module": 2,
+      "uId": "c60081c9-436f-4513-8402-4339fd8603f2",
+      "similarity": 0.7531,
+      "preview": "Reading and Writing: Question 11\n\n\n\n\n600540480420360300240180120600Mean test score (higher scores in"
+    },
+    {
+      "questionNumber": 39,
+      "section": "rw",
+      "module": 2,
+      "uId": "0a50df90-a7de-4787-8c71-fe936b72e62b",
+      "similarity": 0.7897,
+      "preview": "Reading and Writing: Question 12\n      \n        \n        \n      \n    9876543210Number of lizard spec"
+    },
+    {
+      "questionNumber": 40,
+      "section": "rw",
+      "module": 2,
+      "uId": "c6cdbfe0-cf01-4760-b77d-51fcf96a6453",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 13\u201cPoetry\u201d is a 1919 poem by Marianne Moore. The poem highlights an am",
+      "manual": true
+    },
+    {
+      "questionNumber": 41,
+      "section": "rw",
+      "module": 2,
+      "uId": "570eace2-b73e-4669-84f9-c3ece85dbdcf",
+      "similarity": 0.7426,
+      "preview": "Reading and Writing: Question 14The Cretaceous pterosaur Tupandactylus navigans is known for having "
+    },
+    {
+      "questionNumber": 42,
+      "section": "rw",
+      "module": 2,
+      "uId": "8098ec14-9ed0-4da9-9171-6f3825007dcd",
+      "similarity": 0.632,
+      "preview": "Reading and Writing: Question 15Some ethicists hold that the moral goodness of an individual\u2019s actio"
+    },
+    {
+      "questionNumber": 43,
+      "section": "rw",
+      "module": 2,
+      "uId": "efd04f10-27e8-4a7a-a895-e2d91e5e140f",
+      "similarity": 0.8567,
+      "preview": "Reading and Writing: Question 16The Boston Saloon was one of the most popular African American\u2013owned"
+    },
+    {
+      "questionNumber": 44,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-hard-q44",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 17In a painting titled \u201cThe Milkmaid\u201d by Johannes Vermeer, the artist ",
+      "manual": true
+    },
+    {
+      "questionNumber": 45,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-hard-q45",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 18Physical materials can be classified by how much light passes throug",
+      "manual": true
+    },
+    {
+      "questionNumber": 46,
+      "section": "rw",
+      "module": 2,
+      "uId": "146a961a-4058-442d-a195-6e12235ce783",
+      "similarity": 0.9419,
+      "preview": "Reading and Writing: Question 19In her 1983 book The Managed Heart: Commercialization of Human Feeli"
+    },
+    {
+      "questionNumber": 47,
+      "section": "rw",
+      "module": 2,
+      "uId": "c27f7f4e-19bd-469e-8625-bf4a3686c95d",
+      "similarity": 0.8943,
+      "preview": "Reading and Writing: Question 20Latin America is known to have dozens, if not hundreds, of popular d"
+    },
+    {
+      "questionNumber": 48,
+      "section": "rw",
+      "module": 2,
+      "uId": "879e76b7-d2d1-4141-b86e-0dc2d041f6c7",
+      "similarity": 0.9173,
+      "preview": "Reading and Writing: Question 21For thousands of years, humans have used domesticated goats (Capra h"
+    },
+    {
+      "questionNumber": 49,
+      "section": "rw",
+      "module": 2,
+      "uId": "bee27c55-146b-4b10-9d01-d15ee4a52de1",
+      "similarity": 0.9316,
+      "preview": "Reading and Writing: Question 22Working together with the Navajo Nation Department of Water Resource"
+    },
+    {
+      "questionNumber": 50,
+      "section": "rw",
+      "module": 2,
+      "uId": "9e6d8774-1a02-4da6-aadf-4bb84a1fc530",
+      "similarity": 0.9427,
+      "preview": "Reading and Writing: Question 23According to Duverger\u2019s law, countries with single-ballot majoritari"
+    },
+    {
+      "questionNumber": 51,
+      "section": "rw",
+      "module": 2,
+      "uId": "2155a1a2-6d5d-424e-b8e0-4adec45e8746",
+      "similarity": 0.9445,
+      "preview": "Reading and Writing: Question 24A turtle shell appears external to the animal, protecting its body l"
+    },
+    {
+      "questionNumber": 52,
+      "section": "rw",
+      "module": 2,
+      "uId": "7213a85e-f137-4845-bac7-9d407d50f1ab",
+      "similarity": 0.9496,
+      "preview": "Reading and Writing: Question 25In retrospect, one of the lessons of the 2003 Human Genome Project i"
+    },
+    {
+      "questionNumber": 53,
+      "section": "rw",
+      "module": 2,
+      "uId": "6f9bef16-49a2-4e74-84b2-588b8b085209",
+      "similarity": 0.7782,
+      "preview": "Reading and Writing: Question 26While researching a topic, a student has taken the following notes:\n"
+    },
+    {
+      "questionNumber": 54,
+      "section": "rw",
+      "module": 2,
+      "uId": "pt5-hard-q54",
+      "similarity": 1.0,
+      "preview": "Reading and Writing: Question 27While researching a topic, a student has taken the following notes:\n",
+      "manual": true
+    },
+    {
+      "questionNumber": 77,
+      "section": "math",
+      "module": 2,
+      "uId": "a9345f27-9f79-44bb-a60c-02e63589e882",
+      "similarity": 0.9658,
+      "preview": "Math: Question 1A right triangle has legs with lengths of 11 centimeters and 9 centimeters. What is "
+    },
+    {
+      "questionNumber": 78,
+      "section": "math",
+      "module": 2,
+      "uId": "5f20600b-c95d-4290-9bec-f49d11276435",
+      "similarity": 0.8467,
+      "preview": "Math: Question 2For the linear function h, the graph of\u00a0y=hx in the xy-plane passes through the poin"
+    },
+    {
+      "questionNumber": 79,
+      "section": "math",
+      "module": 2,
+      "uId": "534821ee-4e9d-4491-9bf1-bc9036034bea",
+      "similarity": 0.8345,
+      "preview": "Math: Question 3A company that produces socks wants to estimate the percent of the socks produced in"
+    },
+    {
+      "questionNumber": 80,
+      "section": "math",
+      "module": 2,
+      "uId": "440b5015-fdcd-4f5b-aaf5-f7b4094a3006",
+      "similarity": 0.942,
+      "preview": "Math: Question 4A truck can haul a maximum weight of 5,630 pounds. During one trip, the truck will b"
+    },
+    {
+      "questionNumber": 81,
+      "section": "math",
+      "module": 2,
+      "uId": "78656f04-9ec5-43eb-b0d4-04c395bde9f3",
+      "similarity": 0.8229,
+      "preview": "Math: Question 5y-9x=13\n5x=2y\nWhat is the solution x,y\u00a0to the given system of equations?\u00a052,11,25-2,"
+    },
+    {
+      "questionNumber": 82,
+      "section": "math",
+      "module": 2,
+      "uId": "7284fea0-625a-4390-9706-43ec6ef693ae",
+      "similarity": 0.942,
+      "preview": "Math: Question 623, 27, 27, 32, 35, 36, 52\nWhat is the range of the 7 scores shown?"
+    },
+    {
+      "questionNumber": 83,
+      "section": "math",
+      "module": 2,
+      "uId": "2fb56731-aff0-45c8-8b7a-124904010a83",
+      "similarity": 0.9711,
+      "preview": "Math: Question 7Two customers purchased the same kind of bread and eggs at a store. The first custom"
+    },
+    {
+      "questionNumber": 84,
+      "section": "math",
+      "module": 2,
+      "uId": "63a46ddc-722e-44d2-b5ec-ccbe652eaf9b",
+      "similarity": 0.8307,
+      "preview": "Math: Question 8y=18\ny=-3x-182+15\nIf the given equations are graphed in the xy-plane, at how many po"
+    },
+    {
+      "questionNumber": 85,
+      "section": "math",
+      "module": 2,
+      "uId": "94d48cfd-af18-4b08-8645-806afe6b973a",
+      "similarity": 0.9098,
+      "preview": "Math: Question 9y=x+9\ny=x2+16x+63\nA solution to the given system of equations is x,y. What is the gr"
+    },
+    {
+      "questionNumber": 86,
+      "section": "math",
+      "module": 2,
+      "uId": "4aa075c7-1443-4d3d-a2e8-51ef129a9ef9",
+      "similarity": 0.9513,
+      "preview": "Math: Question 10In the xy-plane, line p has a slope of -53 and an x-intercept of (-6,0). What is th"
+    },
+    {
+      "questionNumber": 87,
+      "section": "math",
+      "module": 2,
+      "uId": "7d1bfe27-8f73-44df-8760-a3d002e141af",
+      "similarity": 0.6875,
+      "preview": "Math: Question 11How many solutions does the equation 12x-3=-3x+12 have?Exactly oneExactly twoInfini"
+    },
+    {
+      "questionNumber": 88,
+      "section": "math",
+      "module": 2,
+      "uId": "c07e1877-8d0b-409c-a123-e6861db27b67",
+      "similarity": 0.7488,
+      "preview": "Math: Question 12Kaylani used fabric measuring 5 yards in length to make each suit for a men's choir"
+    },
+    {
+      "questionNumber": 89,
+      "section": "math",
+      "module": 2,
+      "uId": "44026699-ff2d-400f-ac43-ee2b3699407e",
+      "similarity": 0.6714,
+      "preview": "Math: Question 13Which quadratic equation has no real solutions?x2+14x-49=0x2-14x+49=05x2-14x-49=05x"
+    },
+    {
+      "questionNumber": 90,
+      "section": "math",
+      "module": 2,
+      "uId": "f80fbf37-009c-4d01-866d-a312edb5c9bf",
+      "similarity": 0.9421,
+      "preview": "Math: Question 14fx=1.84x4\nThe function f is defined by the given equation. The equation can be rewr"
+    },
+    {
+      "questionNumber": 91,
+      "section": "math",
+      "module": 2,
+      "uId": "8ff8172b-b601-43c6-9db9-7e60ea5054b8",
+      "similarity": 0.9358,
+      "preview": "Math: Question 156+7r=pw\n7r-5w=5w+11\nIn the given system of equations, p is a constant. If the syste"
+    },
+    {
+      "questionNumber": 92,
+      "section": "math",
+      "module": 2,
+      "uId": "2edc95a0-0827-4fd3-88c0-5ce4c38b6079",
+      "similarity": 0.9772,
+      "preview": "Math: Question 16\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n  "
+    },
+    {
+      "questionNumber": 93,
+      "section": "math",
+      "module": 2,
+      "uId": "46c3938d-310c-40f7-8421-83952760dc54",
+      "similarity": 0.9366,
+      "preview": "Math: Question 17\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n  "
+    },
+    {
+      "questionNumber": 94,
+      "section": "math",
+      "module": 2,
+      "uId": "d3d1433f-32b3-44d9-a767-115056595dac",
+      "similarity": 0.9756,
+      "preview": "Math: Question 18\nAngle upper D upper E upper A is a right angle.\nPoint upper B lies on side upper A"
+    },
+    {
+      "questionNumber": 95,
+      "section": "math",
+      "module": 2,
+      "uId": "90cd509b-e9c2-4f7f-a63d-ec6e1c53dd13",
+      "similarity": 0.9231,
+      "preview": "Math: Question 19The result of increasing the quantity x by 400% is 60. What is the value of x?12152"
+    },
+    {
+      "questionNumber": 96,
+      "section": "math",
+      "module": 2,
+      "uId": "b3664d46-d2bc-4bf6-8fe2-3df4be9b23ad",
+      "similarity": 0.8293,
+      "preview": "Math: Question 20In the xy-plane, a circle has center C with coordinates h,k. Points A and B lie on "
+    },
+    {
+      "questionNumber": 97,
+      "section": "math",
+      "module": 2,
+      "uId": "c1d41164-dd36-42e7-8ef2-8b8eca045fcb",
+      "similarity": 0.9799,
+      "preview": "Math: Question 21For an electric field passing through a flat surface perpendicular to it, the elect"
+    },
+    {
+      "questionNumber": 98,
+      "section": "math",
+      "module": 2,
+      "uId": "2c51742f-5d65-4d23-8d76-e0a6ed34ff15",
+      "similarity": 0.968,
+      "preview": "Math: Question 22\n \n  \n*{stroke-linecap:butt;stroke-linejoin:round;}\n  \n \n \n  \n   \n  \n  \n   \n    \n  "
+    }
+  ]
+}
