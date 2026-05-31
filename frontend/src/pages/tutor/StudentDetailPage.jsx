@@ -7,11 +7,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
-  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap, ArrowRight,
+  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap,
 } from 'lucide-react';
 import {
   Button, Skeleton, ThetaBar,
-  PageHeader, Section, StatBlock, StatusPill, Avatar,
+  PageHeader, Section, StatBlock, StatusPill,
 } from '../../components/ui';
 import { MasterySummary } from '../../components/ui/MasteryBadge';
 import { AccuracyTrend, SkillBreakdown, DomainRadar } from '../../components/charts';

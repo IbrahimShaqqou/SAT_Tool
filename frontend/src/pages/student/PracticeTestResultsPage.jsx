@@ -11,7 +11,6 @@ import { getTestResults } from '../../services/practiceTestApi';
 import {
   Button, Skeleton, PageHeader, Section, StatBlock, StatusPill, AnimatedNumber, ProgressRing,
 } from '../../components/ui';
-import { toneForAccuracy } from '../../components/ui';
 
 const SectionScore = ({ label, data }) => {
   const pct = data.percentage;

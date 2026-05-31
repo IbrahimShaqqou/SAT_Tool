@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 import {
-  Button, Skeleton, PageHeader, Section, StatBlock, StatusPill, AnimatedNumber, ProgressRing,
+  Button, Skeleton, PageHeader, Section, StatusPill, AnimatedNumber, ProgressRing,
 } from '../../components/ui';
 import { assignmentService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';

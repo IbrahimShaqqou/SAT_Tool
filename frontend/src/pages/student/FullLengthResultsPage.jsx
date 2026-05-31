@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import {
-  Button, Skeleton, PageHeader, Section, StatBlock, StatusPill, AnimatedNumber, ProgressRing,
+  Button, Skeleton, PageHeader, Section, StatusPill, AnimatedNumber, ProgressRing,
 } from '../../components/ui';
 import { practiceService } from '../../services';
 

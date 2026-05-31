@@ -15,7 +15,7 @@ import {
   BookOpen, BarChart3, FileText, Target, Sparkles,
 } from 'lucide-react';
 import {
-  Button, EmptyState, ThetaBar,
+  Button, ThetaBar,
   Surface, AnimatedNumber, Skeleton, Reveal, Section,
 } from '../../components/ui';
 import { assignmentService, progressService, recommendationService } from '../../services';

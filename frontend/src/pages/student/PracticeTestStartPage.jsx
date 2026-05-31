@@ -5,7 +5,7 @@
  */
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Info, Clock, Ban, CheckCircle2, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Info, Clock, CheckCircle2, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button, Skeleton, PageHeader, Section } from '../../components/ui';
 import { getPracticeTest } from '../../services/practiceTestApi';
 
