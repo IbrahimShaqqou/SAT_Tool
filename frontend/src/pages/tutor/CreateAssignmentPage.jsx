@@ -1,11 +1,12 @@
 /**
- * Create Assignment Page
- * With beautiful skill selector for adaptive assignments
+ * Create Assignment Page — Study Hall.
+ * Borderless sections, tokens, dark mode, a11y. Beautiful skill selector for
+ * adaptive assignments. Restyle only — all form logic and data fetching preserved.
  */
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Zap, Check, ChevronDown, ChevronRight, Clock, Calendar } from 'lucide-react';
-import { Card, Button, Input, Select } from '../../components/ui';
+import { Button, Input, Select, PageHeader, Section, Skeleton } from '../../components/ui';
 import { assignmentService, tutorService, taxonomyService } from '../../services';
 
 /**
@@ -67,7 +68,7 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
 
   if (Object.keys(skillsByDomain).length === 0) {
     return (
-      <div className="text-center py-8 text-ink-subtle">
+      <div className="py-8 text-center text-ink-subtle">
         No skills available for this subject
       </div>
     );
@@ -81,49 +82,59 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
         const allSelected = selectedCount === domainSkills.length;
 
         return (
-          <div key={domainName} className="border border-edge rounded-lg overflow-hidden">
+          <div key={domainName} className="overflow-hidden rounded-lg border border-edge">
             {/* Domain Header */}
-            <div
-              className="flex items-center justify-between px-4 py-3 bg-surface-muted cursor-pointer hover:bg-edge-subtle transition-colors"
+            <button
+              type="button"
+              aria-expanded={isExpanded}
+              className="flex w-full items-center justify-between bg-surface-muted px-4 py-3 text-left transition-colors hover:bg-edge-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-500"
               onClick={() => toggleDomain(domainName)}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-mono px-2 py-1 bg-edge-subtle text-ink-muted rounded">
+              <span className="flex items-center gap-3">
+                <span className="rounded bg-edge-subtle px-2 py-1 font-mono text-xs text-ink-muted">
                   {code}
                 </span>
                 <span className="font-medium text-ink-body">{domainName}</span>
                 {selectedCount > 0 && (
-                  <span className="text-xs px-2 py-0.5 bg-brand-600 text-white rounded-full">
+                  <span className="rounded-full bg-brand-600 px-2 py-0.5 text-xs text-white">
                     {selectedCount} selected
                   </span>
                 )}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
+              </span>
+              <span className="flex items-center gap-2">
+                <span
+                  role="button"
+                  tabIndex={0}
                   onClick={(e) => {
                     e.stopPropagation();
                     selectAllInDomain(domainSkills);
                   }}
-                  className={`text-xs px-2 py-1 rounded transition-colors ${
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      selectAllInDomain(domainSkills);
+                    }
+                  }}
+                  className={`rounded px-2 py-1 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
                     allSelected
                       ? 'bg-brand-600 text-white'
-                      : 'bg-surface-card border border-edge text-ink-muted hover:bg-surface-muted'
+                      : 'border border-edge bg-surface-card text-ink-muted hover:bg-surface-muted'
                   }`}
                 >
                   {allSelected ? 'Deselect All' : 'Select All'}
-                </button>
+                </span>
                 {isExpanded ? (
                   <ChevronDown className="h-5 w-5 text-ink-faint" />
                 ) : (
                   <ChevronRight className="h-5 w-5 text-ink-faint" />
                 )}
-              </div>
-            </div>
+              </span>
+            </button>
 
             {/* Skills List */}
             {isExpanded && (
-              <div className="p-3 bg-surface-card border-t border-edge">
+              <div className="border-t border-edge bg-surface-card p-3">
                 <div className="grid grid-cols-1 gap-2">
                   {domainSkills.map(skill => {
                     const isSelected = selectedSkills.includes(skill.id);
@@ -132,23 +143,23 @@ const SkillSelector = ({ skills, selectedSkills, onToggleSkill, subject }) => {
                         key={skill.id}
                         type="button"
                         onClick={() => onToggleSkill(skill.id)}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all ${
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
                           isSelected
                             ? 'bg-brand-600 text-white'
                             : 'bg-surface-muted text-ink-muted hover:bg-edge-subtle'
                         }`}
                       >
-                        <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
+                        <div className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded ${
                           isSelected ? 'bg-white' : 'border-2 border-edge-strong'
                         }`}>
                           {isSelected && <Check className="h-3.5 w-3.5 text-brand-600" />}
                         </div>
-                        <div className="flex-1 min-w-0">
+                        <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
-                            <span className={`text-xs font-mono ${isSelected ? 'text-brand-100' : 'text-ink-subtle'}`}>
+                            <span className={`font-mono text-xs ${isSelected ? 'text-brand-100' : 'text-ink-subtle'}`}>
                               {skill.code}
                             </span>
-                            <span className="font-medium truncate">{skill.name}</span>
+                            <span className="truncate font-medium">{skill.name}</span>
                           </div>
                         </div>
                       </button>
@@ -172,6 +183,7 @@ const CreateAssignmentPage = () => {
   const [allSkills, setAllSkills] = useState([]);
   const [skillsLoading, setSkillsLoading] = useState(true);
   const [skillsError, setSkillsError] = useState(null);
+  const [retryNonce, setRetryNonce] = useState(0);
 
   // Get student ID from URL params (when coming from student detail page)
   const preselectedStudentId = searchParams.get('student') || '';
@@ -219,7 +231,7 @@ const CreateAssignmentPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [retryNonce]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -315,277 +327,276 @@ const CreateAssignmentPage = () => {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="flex items-center gap-4">
-        <Link to="/tutor/assignments">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <h1 className="text-2xl font-semibold text-ink-body">Create Assignment</h1>
-      </div>
+    <div className="mx-auto max-w-2xl pb-8">
+      <Link
+        to="/tutor/assignments"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-ink-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+      >
+        <ArrowLeft className="h-4 w-4" /> Back to assignments
+      </Link>
 
-      <Card>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {errors.submit && (
-            <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50">
-              {errors.submit}
-            </div>
-          )}
+      <PageHeader
+        eyebrow="Your studio"
+        title="Create Assignment"
+        subtitle="Build targeted practice. Pick a student, choose skills, and let adaptive mode tune difficulty in real time."
+      />
 
-          {/* Student & Title */}
-          <div className="grid grid-cols-2 gap-4">
-            <Select
-              label="Student"
-              name="student_id"
-              value={formData.student_id}
-              onChange={handleChange}
-              options={studentOptions}
-              error={errors.student_id}
-              placeholder="Select a student"
-              required
-            />
-
-            <Input
-              label="Title"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              error={errors.title}
-              placeholder="e.g., Algebra Practice"
-              required
-            />
+      <form onSubmit={handleSubmit} className="space-y-7">
+        {errors.submit && (
+          <div role="alert" className="rounded-lg bg-rose-50 p-3 text-sm text-rose-700 dark:bg-rose-900/20 dark:text-rose-300">
+            {errors.submit}
           </div>
+        )}
 
-          <Input
-            label="Instructions (optional)"
-            name="instructions"
-            value={formData.instructions}
+        {/* Student & Title */}
+        <div className="grid grid-cols-2 gap-4">
+          <Select
+            label="Student"
+            name="student_id"
+            value={formData.student_id}
             onChange={handleChange}
-            placeholder="Any special instructions for the student"
+            options={studentOptions}
+            error={errors.student_id}
+            placeholder="Select a student"
+            required
           />
 
-          {/* Subject & Question Count */}
-          <div className="grid grid-cols-2 gap-4">
-            <Select
-              label="Subject"
-              name="subject"
-              value={formData.subject}
-              onChange={(e) => {
-                handleChange(e);
-                // Clear selected skills when subject changes
-                setFormData(prev => ({ ...prev, selectedSkills: [] }));
-              }}
-              options={subjectOptions}
-            />
+          <Input
+            label="Title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            error={errors.title}
+            placeholder="e.g., Algebra Practice"
+            required
+          />
+        </div>
 
-            {(!formData.is_adaptive || !formData.unlimited_questions) && (
-              <Input
-                label="Number of Questions"
-                name="question_count"
-                type="number"
-                min="1"
-                max="100"
-                value={formData.question_count}
-                onChange={handleChange}
-                error={errors.question_count}
+        <Input
+          label="Instructions (optional)"
+          name="instructions"
+          value={formData.instructions}
+          onChange={handleChange}
+          placeholder="Any special instructions for the student"
+        />
+
+        {/* Subject & Question Count */}
+        <div className="grid grid-cols-2 gap-4">
+          <Select
+            label="Subject"
+            name="subject"
+            value={formData.subject}
+            onChange={(e) => {
+              handleChange(e);
+              // Clear selected skills when subject changes
+              setFormData(prev => ({ ...prev, selectedSkills: [] }));
+            }}
+            options={subjectOptions}
+          />
+
+          {(!formData.is_adaptive || !formData.unlimited_questions) && (
+            <Input
+              label="Number of Questions"
+              name="question_count"
+              type="number"
+              min="1"
+              max="100"
+              value={formData.question_count}
+              onChange={handleChange}
+              error={errors.question_count}
+            />
+          )}
+
+          {formData.is_adaptive && formData.unlimited_questions && (
+            <div className="flex flex-col">
+              <label className="mb-1 block text-sm font-medium text-ink-muted">
+                Number of Questions
+              </label>
+              <div className="flex h-10 items-center rounded-lg border border-edge bg-surface-muted px-3 text-sm text-ink-muted">
+                Unlimited - student ends when ready
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Skill Selection - Always visible */}
+        <Section
+          title={formData.is_adaptive ? 'Select skills to practice' : 'Focus areas (optional)'}
+          hint={formData.selectedSkills.length > 0
+            ? `${formData.selectedSkills.length} skill${formData.selectedSkills.length !== 1 ? 's' : ''} selected`
+            : undefined}
+        >
+          {formData.is_adaptive && (
+            <p className="mb-2 text-sm text-ink-subtle">
+              At least one skill is required for adaptive practice.
+            </p>
+          )}
+          {!formData.is_adaptive && (
+            <p className="mb-2 text-sm text-ink-subtle">
+              Choose specific domains and skills to focus the assignment on
+            </p>
+          )}
+          {errors.skills && (
+            <p role="alert" className="mb-2 text-sm text-rose-700 dark:text-rose-400">{errors.skills}</p>
+          )}
+          {skillsError && (
+            <div role="alert" className="mb-2 rounded-lg bg-rose-50 p-4 dark:bg-rose-900/20">
+              <p className="text-sm text-rose-700 dark:text-rose-300">Error loading skills: {skillsError}</p>
+              <button
+                type="button"
+                onClick={() => setRetryNonce((n) => n + 1)}
+                className="mt-2 text-sm text-rose-700 underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:text-rose-300"
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          <div className="max-h-64 overflow-y-auto rounded-lg border border-edge">
+            {skillsLoading ? (
+              <div className="space-y-2 p-3">
+                {[0, 1, 2].map((i) => <Skeleton key={i} className="h-11 w-full" rounded="rounded-lg" />)}
+              </div>
+            ) : (
+              <SkillSelector
+                skills={allSkills}
+                selectedSkills={formData.selectedSkills}
+                onToggleSkill={handleToggleSkill}
+                subject={formData.subject}
               />
             )}
-
-            {formData.is_adaptive && formData.unlimited_questions && (
-              <div className="flex flex-col">
-                <label className="block text-sm font-medium text-ink-muted mb-1">
-                  Number of Questions
-                </label>
-                <div className="h-10 flex items-center px-3 bg-surface-muted border border-edge rounded-lg text-ink-muted text-sm">
-                  Unlimited - student ends when ready
-                </div>
-              </div>
-            )}
           </div>
+        </Section>
 
-          {/* Skill Selection - Always visible */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="block text-sm font-medium text-ink-body">
-                {formData.is_adaptive ? (
-                  <>Select Skills to Practice <span className="text-red-500">*</span></>
-                ) : (
-                  'Focus Areas (optional)'
-                )}
-              </label>
-              {formData.selectedSkills.length > 0 && (
-                <span className="text-sm text-ink-subtle">
-                  {formData.selectedSkills.length} skill{formData.selectedSkills.length !== 1 ? 's' : ''} selected
+        {/* Adaptive Mode Toggle */}
+        <div
+          className={`rounded-xl p-4 transition-all ${
+            formData.is_adaptive
+              ? 'bg-brand-50 dark:bg-brand-900/20'
+              : 'bg-surface-muted'
+          }`}
+        >
+          <button
+            type="button"
+            aria-pressed={formData.is_adaptive}
+            className="flex w-full items-center justify-between text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            onClick={() => setFormData(prev => ({ ...prev, is_adaptive: !prev.is_adaptive }))}
+          >
+            <span className="flex items-center gap-3">
+              <span className={`rounded-lg p-2 ${formData.is_adaptive ? 'bg-brand-600' : 'bg-edge'}`}>
+                <Brain className={`h-5 w-5 ${formData.is_adaptive ? 'text-white' : 'text-ink-subtle'}`} />
+              </span>
+              <span>
+                <span className="block font-medium text-ink-body">Adaptive Mode (IRT)</span>
+                <span className="block text-sm text-ink-subtle">
+                  Questions adapt to student&apos;s ability level in real-time
                 </span>
-              )}
+              </span>
+            </span>
+            <span className={`h-6 w-12 rounded-full transition-colors ${
+              formData.is_adaptive ? 'bg-brand-600' : 'bg-edge-strong'
+            }`}>
+              <span className={`mt-0.5 block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
+                formData.is_adaptive ? 'translate-x-6' : 'translate-x-0.5'
+              }`} />
+            </span>
+          </button>
+
+          {formData.is_adaptive && (
+            <div className="mt-4 space-y-4 border-t border-edge pt-4">
+              <div className="flex items-center gap-2 text-sm text-ink-muted">
+                <Zap className="h-4 w-4 text-brand-600 dark:text-brand-400" />
+                <span>Each question optimally challenges the student based on their performance</span>
+              </div>
+
+              {/* Question mode toggle */}
+              <div className="flex items-center gap-4 rounded-lg border border-edge bg-surface-card p-3">
+                <label className="flex cursor-pointer items-center gap-2">
+                  <input
+                    type="radio"
+                    name="question_mode"
+                    checked={formData.unlimited_questions}
+                    onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: true }))}
+                    className="h-4 w-4 text-brand-600 focus:ring-brand-500"
+                  />
+                  <span className="text-sm text-ink-muted">Unlimited practice</span>
+                </label>
+                <label className="flex cursor-pointer items-center gap-2">
+                  <input
+                    type="radio"
+                    name="question_mode"
+                    checked={!formData.unlimited_questions}
+                    onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: false }))}
+                    className="h-4 w-4 text-brand-600 focus:ring-brand-500"
+                  />
+                  <span className="text-sm text-ink-muted">Fixed question count</span>
+                </label>
+              </div>
             </div>
-            {!formData.is_adaptive && (
-              <p className="text-sm text-ink-subtle mb-2">
-                Choose specific domains and skills to focus the assignment on
+          )}
+        </div>
+
+        {/* Time Limit & Due Date */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="mb-1 block text-sm font-medium text-ink-muted">
+              <span className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                Time Limit
+              </span>
+            </label>
+            <Input
+              name="time_limit_minutes"
+              type="number"
+              min="1"
+              value={formData.time_limit_minutes}
+              onChange={handleChange}
+              placeholder="No limit (minutes)"
+            />
+            {formData.time_limit_minutes && (
+              <p className="mt-1 text-xs text-ink-subtle">
+                Timer auto-submits when time expires
               </p>
             )}
-            {errors.skills && (
-              <p className="text-sm text-red-600 dark:text-red-400 mb-2">{errors.skills}</p>
-            )}
-            {skillsError && (
-              <div className="p-4 mb-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg">
-                <p className="text-sm text-red-600 dark:text-red-400">Error loading skills: {skillsError}</p>
-                <button
-                  type="button"
-                  onClick={() => window.location.reload()}
-                  className="mt-2 text-sm text-red-700 dark:text-red-300 underline hover:no-underline"
-                >
-                  Reload page
-                </button>
-              </div>
-            )}
-            <div className="max-h-64 overflow-y-auto border border-edge rounded-lg">
-              {skillsLoading ? (
-                <div className="flex items-center justify-center py-8 text-ink-subtle">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-brand-600 mr-2"></div>
-                  Loading skills...
-                </div>
-              ) : (
-                <SkillSelector
-                  skills={allSkills}
-                  selectedSkills={formData.selectedSkills}
-                  onToggleSkill={handleToggleSkill}
-                  subject={formData.subject}
-                />
-              )}
-            </div>
           </div>
 
-          {/* Adaptive Mode Toggle */}
-          <div
-            className={`p-4 rounded-xl border-2 transition-all ${
-              formData.is_adaptive
-                ? 'border-brand-500 bg-surface-muted'
-                : 'border-edge hover:border-edge-strong'
-            }`}
+          <div>
+            <label className="mb-1 block text-sm font-medium text-ink-muted">
+              <span className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                Due Date
+              </span>
+            </label>
+            <Input
+              name="due_date"
+              type="datetime-local"
+              value={formData.due_date}
+              onChange={handleChange}
+            />
+            {formData.due_date && (
+              <p className="mt-1 text-xs text-ink-subtle">
+                Student cannot start after this date
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Submit Buttons */}
+        <div className="flex gap-3 border-t border-edge pt-5">
+          <Button
+            type="submit"
+            variant="primary"
+            loading={isLoading}
+            disabled={isLoading}
           >
-            <div
-              className="flex items-center justify-between cursor-pointer"
-              onClick={() => setFormData(prev => ({ ...prev, is_adaptive: !prev.is_adaptive }))}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${formData.is_adaptive ? 'bg-brand-600' : 'bg-edge'}`}>
-                  <Brain className={`h-5 w-5 ${formData.is_adaptive ? 'text-white' : 'text-ink-subtle'}`} />
-                </div>
-                <div>
-                  <p className="font-medium text-ink-body">Adaptive Mode (IRT)</p>
-                  <p className="text-sm text-ink-subtle">
-                    Questions adapt to student's ability level in real-time
-                  </p>
-                </div>
-              </div>
-              <div className={`w-12 h-6 rounded-full transition-colors ${
-                formData.is_adaptive ? 'bg-brand-600' : 'bg-edge-strong'
-              }`}>
-                <div className={`w-5 h-5 rounded-full bg-white shadow transform transition-transform mt-0.5 ${
-                  formData.is_adaptive ? 'translate-x-6' : 'translate-x-0.5'
-                }`} />
-              </div>
-            </div>
-
-            {formData.is_adaptive && (
-              <div className="mt-4 pt-4 border-t border-edge space-y-4">
-                <div className="flex items-center gap-2 text-sm text-ink-muted">
-                  <Zap className="h-4 w-4" />
-                  <span>Each question optimally challenges the student based on their performance</span>
-                </div>
-
-                {/* Question mode toggle */}
-                <div className="flex items-center gap-4 p-3 bg-surface-card rounded-lg border border-edge">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="question_mode"
-                      checked={formData.unlimited_questions}
-                      onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: true }))}
-                      className="w-4 h-4 text-brand-600 focus:ring-brand-500"
-                    />
-                    <span className="text-sm text-ink-muted">Unlimited practice</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="question_mode"
-                      checked={!formData.unlimited_questions}
-                      onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: false }))}
-                      className="w-4 h-4 text-brand-600 focus:ring-brand-500"
-                    />
-                    <span className="text-sm text-ink-muted">Fixed question count</span>
-                  </label>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Time Limit & Due Date */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-ink-muted mb-1">
-                <span className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  Time Limit
-                </span>
-              </label>
-              <Input
-                name="time_limit_minutes"
-                type="number"
-                min="1"
-                value={formData.time_limit_minutes}
-                onChange={handleChange}
-                placeholder="No limit (minutes)"
-              />
-              {formData.time_limit_minutes && (
-                <p className="text-xs text-ink-subtle mt-1">
-                  Timer auto-submits when time expires
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-ink-muted mb-1">
-                <span className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
-                  Due Date
-                </span>
-              </label>
-              <Input
-                name="due_date"
-                type="datetime-local"
-                value={formData.due_date}
-                onChange={handleChange}
-              />
-              {formData.due_date && (
-                <p className="text-xs text-ink-subtle mt-1">
-                  Student cannot start after this date
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Submit Buttons */}
-          <div className="flex gap-3 pt-4 border-t border-edge">
-            <Button
-              type="submit"
-              variant="primary"
-              loading={isLoading}
-              disabled={isLoading}
-            >
-              Create Assignment
+            Create Assignment
+          </Button>
+          <Link to="/tutor/assignments">
+            <Button variant="secondary" disabled={isLoading}>
+              Cancel
             </Button>
-            <Link to="/tutor/assignments">
-              <Button variant="secondary" disabled={isLoading}>
-                Cancel
-              </Button>
-            </Link>
-          </div>
-        </form>
-      </Card>
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };

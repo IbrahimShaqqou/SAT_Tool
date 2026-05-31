@@ -1,15 +1,13 @@
 /**
- * Tutor-facing intake assessment results page.
- * Replaces the modal flow on InvitesPage. Subcomponents are kept inline
- * because they are not reused elsewhere.
+ * Tutor-facing intake assessment results page — Study Hall.
+ * Replaces the modal flow on InvitesPage. Borderless sections, tokens, dark
+ * mode, a11y. Subcomponents are kept inline because they are not reused elsewhere.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Printer, BookOpen, Zap, ChevronDown, ChevronRight, ClipboardCopy, User } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Printer, BookOpen, Zap, ChevronDown, ChevronRight, ClipboardCopy, User } from 'lucide-react';
 import {
-  Card,
-  Button,
-  LoadingSpinner,
+  Button, Section, PageHeader, StatBlock, StatusPill, Skeleton, Surface,
 } from '../../components/ui';
 import { inviteService } from '../../services';
 
@@ -72,15 +70,122 @@ const buildSummary = (data) => {
     ...weakest.map((s) => `- ${s.skill_name}: ${s.correct}/${s.total} (${s.accuracy}%)`),
   ].join('\n');
 };
-const ACCURACY_STRONG_THRESHOLD = 70;
-const ACCURACY_MEDIUM_THRESHOLD = 50;
 
-const accuracyToneClass = (accuracy) =>
-  accuracy >= ACCURACY_STRONG_THRESHOLD
-    ? 'text-emerald-600 dark:text-emerald-400'
-    : accuracy >= ACCURACY_MEDIUM_THRESHOLD
-    ? 'text-amber-600 dark:text-amber-400'
-    : 'text-red-600 dark:text-red-400';
+const SkillCtaButtons = ({ skill, studentId }) => (
+  <div className="flex flex-wrap gap-2">
+    {skill.lesson_id && (
+      <Link to={`/tutor/lessons/${skill.lesson_id}`} className="no-print">
+        <Button variant="secondary" size="sm">
+          <BookOpen className="h-4 w-4" />
+          Lesson
+        </Button>
+      </Link>
+    )}
+    {studentId && (
+      <Link
+        to={`/tutor/assignments/new?student=${studentId}&skills=${skill.skill_id}`}
+        className="no-print"
+      >
+        <Button variant="primary" size="sm">
+          <Zap className="h-4 w-4" />
+          Assign Practice
+        </Button>
+      </Link>
+    )}
+  </div>
+);
+
+const ScoreCard = ({ data }) => {
+  const section = data.section_abilities?.[0];
+  const overall = data.overall || { correct: 0, total: 0, accuracy: 0 };
+
+  if (!section) {
+    return <p className="text-sm text-ink-subtle">No score available.</p>;
+  }
+
+  const sectionLabel = getSectionLabel(section.section);
+
+  return (
+    <Surface elevation="sm" glow="brand" padded>
+      <p className="mb-2 text-xs uppercase tracking-wider text-ink-subtle">
+        Predicted {sectionLabel} Score
+      </p>
+      <StatBlock value={section.predicted_score_mid} label={`range ${section.predicted_score_low}–${section.predicted_score_high}`} size="lg" />
+      <p className="mt-3 text-sm text-ink-muted">
+        {overall.correct}/{overall.total} correct ({overall.accuracy}%)
+      </p>
+      {data.student_id && data.test_session_id && (
+        <Link
+          to={`/tutor/students/${data.student_id}/results/${data.test_session_id}`}
+          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:text-brand-400 no-print"
+        >
+          Review every question <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      )}
+    </Surface>
+  );
+};
+
+const TeachThisNext = ({ data }) => {
+  const breakdown = (data.skill_breakdown || []).filter((s) => s.total >= 1);
+  const allStrong =
+    breakdown.length > 0 &&
+    breakdown.every((s) => s.total >= 2 && s.accuracy >= ALL_STRONG_THRESHOLD);
+
+  if (allStrong) {
+    return (
+      <Section title="Teach this next">
+        <p className="text-ink-body">
+          No weak areas — consider advancing to harder material.
+        </p>
+      </Section>
+    );
+  }
+
+  const weakest = pickWeakestSkills(data.skill_breakdown);
+
+  if (weakest.length === 0) {
+    return (
+      <Section title="Teach this next">
+        <p className="text-ink-subtle">No skill data available.</p>
+      </Section>
+    );
+  }
+
+  const heading = weakest.length === 3 ? 'Top 3 weakest skills' : 'Teach this next';
+
+  return (
+    <Section title={heading}>
+      <ol className="space-y-4">
+        {weakest.map((skill, idx) => (
+          <li key={skill.skill_id} className="space-y-2">
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <span className="font-medium text-ink-body">
+                {idx + 1}. {skill.skill_name}
+              </span>
+              <StatusPill value={skill.accuracy} size="sm">
+                {skill.correct}/{skill.total} ({skill.accuracy}%)
+              </StatusPill>
+            </div>
+            <SkillCtaButtons skill={skill} studentId={data.student_id} />
+          </li>
+        ))}
+      </ol>
+    </Section>
+  );
+};
+
+const SkillRow = ({ skill, studentId }) => (
+  <div className="flex items-center justify-between gap-4 rounded-lg px-3 py-2 hover:bg-surface-muted">
+    <div className="min-w-0">
+      <p className="truncate text-sm font-medium text-ink-body">{skill.skill_name}</p>
+      <StatusPill value={skill.accuracy} size="sm">
+        {skill.correct}/{skill.total} ({skill.accuracy}%)
+      </StatusPill>
+    </div>
+    <SkillCtaButtons skill={skill} studentId={studentId} />
+  </div>
+);
 
 const groupSkillsByDomain = (skillBreakdown) => {
   const groups = new Map();
@@ -108,161 +213,7 @@ const groupSkillsByDomain = (skillBreakdown) => {
   return [...groups.values()].sort((a, b) => a.accuracy - b.accuracy);
 };
 
-const Header = ({ data, onPrint }) => (
-  <div className="flex items-start justify-between gap-4 flex-wrap">
-    <div>
-      <h1 className="text-2xl font-semibold text-ink-body">
-        {data.student_name || 'Guest Student'}
-        <span className="text-ink-subtle font-normal"> — Intake</span>
-      </h1>
-      <p className="text-sm text-ink-subtle mt-1">
-        {data.student_email && <span>{data.student_email} · </span>}
-        Completed {formatDateTime(data.completed_at)}
-        {data.time_spent_seconds ? ` · ${formatDuration(data.time_spent_seconds)}` : ''}
-      </p>
-    </div>
-    <Button variant="secondary" size="sm" onClick={onPrint} className="no-print">
-      <Printer className="h-4 w-4 mr-2" />
-      Print
-    </Button>
-  </div>
-);
-
-const ScoreCard = ({ data }) => {
-  const section = data.section_abilities?.[0];
-  const overall = data.overall || { correct: 0, total: 0, accuracy: 0 };
-
-  if (!section) {
-    return (
-      <Card>
-        <p className="text-sm text-ink-subtle">No score available.</p>
-      </Card>
-    );
-  }
-
-  const sectionLabel = getSectionLabel(section.section);
-
-  return (
-    <Card>
-      <p className="text-xs uppercase tracking-wider text-ink-subtle mb-2">
-        Predicted {sectionLabel} Score
-      </p>
-      <div className="flex items-baseline gap-3">
-        <span className="text-5xl font-bold text-brand-600 dark:text-brand-400">
-          {section.predicted_score_mid}
-        </span>
-        <span className="text-sm text-ink-subtle">
-          range {section.predicted_score_low}–{section.predicted_score_high}
-        </span>
-      </div>
-      <p className="text-sm text-ink-muted mt-3">
-        {overall.correct}/{overall.total} correct ({overall.accuracy}%)
-      </p>
-      {data.student_id && data.test_session_id && (
-        <Link
-          to={`/tutor/students/${data.student_id}/results/${data.test_session_id}`}
-          className="inline-flex items-center text-sm text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 hover:underline mt-4 no-print"
-        >
-          Review every question →
-        </Link>
-      )}
-    </Card>
-  );
-};
-
-const SkillCtaButtons = ({ skill, studentId }) => (
-  <div className="flex gap-2 flex-wrap">
-    {skill.lesson_id && (
-      <Link to={`/tutor/lessons/${skill.lesson_id}`} className="no-print">
-        <Button variant="secondary" size="sm">
-          <BookOpen className="h-4 w-4 mr-2" />
-          Lesson
-        </Button>
-      </Link>
-    )}
-    {studentId && (
-      <Link
-        to={`/tutor/assignments/new?student=${studentId}&skills=${skill.skill_id}`}
-        className="no-print"
-      >
-        <Button variant="primary" size="sm">
-          <Zap className="h-4 w-4 mr-2" />
-          Assign Practice
-        </Button>
-      </Link>
-    )}
-  </div>
-);
-
-const TeachThisNext = ({ data }) => {
-  const breakdown = (data.skill_breakdown || []).filter((s) => s.total >= 1);
-  const allStrong =
-    breakdown.length > 0 &&
-    breakdown.every((s) => s.total >= 2 && s.accuracy >= ALL_STRONG_THRESHOLD);
-
-  if (allStrong) {
-    return (
-      <Card>
-        <p className="text-xs uppercase tracking-wider text-ink-subtle mb-2">
-          Teach this next
-        </p>
-        <p className="text-ink-body">
-          No weak areas — consider advancing to harder material.
-        </p>
-      </Card>
-    );
-  }
-
-  const weakest = pickWeakestSkills(data.skill_breakdown);
-
-  if (weakest.length === 0) {
-    return (
-      <Card>
-        <p className="text-xs uppercase tracking-wider text-ink-subtle mb-2">
-          Teach this next
-        </p>
-        <p className="text-ink-subtle">No skill data available.</p>
-      </Card>
-    );
-  }
-
-  const heading = weakest.length === 3 ? 'Top 3 weakest skills' : 'Teach this next';
-
-  return (
-    <Card>
-      <p className="text-xs uppercase tracking-wider text-ink-subtle mb-3">
-        {heading}
-      </p>
-      <ol className="space-y-4">
-        {weakest.map((skill, idx) => (
-          <li key={skill.skill_id} className="space-y-2">
-            <div className="flex items-baseline justify-between gap-3 flex-wrap">
-              <span className="font-medium text-ink-body">
-                {idx + 1}. {skill.skill_name}
-              </span>
-              <span className={`text-sm font-semibold ${accuracyToneClass(skill.accuracy)}`}>
-                {skill.correct}/{skill.total} ({skill.accuracy}%)
-              </span>
-            </div>
-            <SkillCtaButtons skill={skill} studentId={data.student_id} />
-          </li>
-        ))}
-      </ol>
-    </Card>
-  );
-};
-
-const SkillRow = ({ skill, studentId }) => (
-  <div className="flex items-center justify-between gap-4 py-2 px-3 rounded-lg hover:bg-surface-muted">
-    <div className="min-w-0">
-      <p className="text-sm font-medium text-ink-body truncate">{skill.skill_name}</p>
-      <p className={`text-xs ${accuracyToneClass(skill.accuracy)}`}>
-        {skill.correct}/{skill.total} ({skill.accuracy}%)
-      </p>
-    </div>
-    <SkillCtaButtons skill={skill} studentId={studentId} />
-  </div>
-);
+const ACCURACY_MEDIUM_THRESHOLD = 50;
 
 const DomainBreakdown = ({ data }) => {
   const grouped = useMemo(() => groupSkillsByDomain(data.skill_breakdown), [data.skill_breakdown]);
@@ -284,10 +235,7 @@ const DomainBreakdown = ({ data }) => {
   }
 
   return (
-    <Card>
-      <p className="text-xs uppercase tracking-wider text-ink-subtle mb-3">
-        Per-domain performance
-      </p>
+    <Section title="Per-domain performance">
       <div className="divide-y divide-edge-subtle">
         {grouped.map((g) => {
           const isOpen = openDomains.has(g.domain_id);
@@ -296,19 +244,20 @@ const DomainBreakdown = ({ data }) => {
             <div key={g.domain_id} className="py-2">
               <button
                 type="button"
+                aria-expanded={isOpen}
                 onClick={() => toggle(g.domain_id)}
-                className="w-full flex items-center justify-between gap-3 px-1 py-2 rounded hover:bg-surface-muted"
+                className="flex w-full items-center justify-between gap-3 rounded px-1 py-2 hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
               >
-                <span className="flex items-center gap-2 min-w-0">
-                  <Icon className="h-4 w-4 text-ink-subtle flex-shrink-0" />
-                  <span className="font-medium text-ink-body truncate">{g.domain_name}</span>
+                <span className="flex min-w-0 items-center gap-2">
+                  <Icon className="h-4 w-4 flex-shrink-0 text-ink-subtle" />
+                  <span className="truncate font-medium text-ink-body">{g.domain_name}</span>
                 </span>
-                <span className={`text-sm font-semibold ${accuracyToneClass(g.accuracy)}`}>
+                <StatusPill value={g.accuracy} size="sm">
                   {g.correct}/{g.total} ({g.accuracy}%)
-                </span>
+                </StatusPill>
               </button>
               {isOpen && (
-                <div className="pl-6 pt-1 pb-2 space-y-1">
+                <div className="space-y-1 pb-2 pl-6 pt-1">
                   {g.skills.map((skill) => (
                     <SkillRow key={skill.skill_id} skill={skill} studentId={data.student_id} />
                   ))}
@@ -318,7 +267,7 @@ const DomainBreakdown = ({ data }) => {
           );
         })}
       </div>
-    </Card>
+    </Section>
   );
 };
 
@@ -344,30 +293,28 @@ const FooterActions = ({ data }) => {
   }, []);
 
   return (
-    <Card className="no-print">
-      <div className="flex flex-wrap gap-3">
-        {data.student_id && weakest.length > 0 && (
-          <Link to={`/tutor/assignments/new?student=${data.student_id}&skills=${top3SkillIds}`}>
-            <Button variant="primary">
-              <Zap className="h-4 w-4 mr-2" />
-              Create assignment for top {weakest.length} weak skill{weakest.length === 1 ? '' : 's'}
-            </Button>
-          </Link>
-        )}
-        <Button variant="secondary" onClick={handleCopy}>
-          <ClipboardCopy className="h-4 w-4 mr-2" />
-          {copied ? 'Copied!' : 'Copy summary'}
-        </Button>
-        {data.student_id && (
-          <Link to={`/tutor/students/${data.student_id}`}>
-            <Button variant="secondary">
-              <User className="h-4 w-4 mr-2" />
-              View full profile
-            </Button>
-          </Link>
-        )}
-      </div>
-    </Card>
+    <div className="flex flex-wrap gap-3 border-t border-edge pt-6 no-print">
+      {data.student_id && weakest.length > 0 && (
+        <Link to={`/tutor/assignments/new?student=${data.student_id}&skills=${top3SkillIds}`}>
+          <Button variant="primary">
+            <Zap className="h-4 w-4" />
+            Create assignment for top {weakest.length} weak skill{weakest.length === 1 ? '' : 's'}
+          </Button>
+        </Link>
+      )}
+      <Button variant="secondary" onClick={handleCopy}>
+        <ClipboardCopy className="h-4 w-4" />
+        {copied ? 'Copied!' : 'Copy summary'}
+      </Button>
+      {data.student_id && (
+        <Link to={`/tutor/students/${data.student_id}`}>
+          <Button variant="secondary">
+            <User className="h-4 w-4" />
+            View full profile
+          </Button>
+        </Link>
+      )}
+    </div>
   );
 };
 
@@ -409,59 +356,77 @@ const IntakeResultsPage = () => {
     return () => { cancelled = true; };
   }, [inviteId, retryNonce]);
 
+  const backLink = (
+    <Link
+      to="/tutor/invites"
+      className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-ink-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 no-print"
+    >
+      <ArrowLeft className="h-4 w-4" /> Back to Intake Assessments
+    </Link>
+  );
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
+      <div className="mx-auto max-w-4xl pb-8">
+        {backLink}
+        <Skeleton className="mb-6 h-9 w-64" />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Skeleton className="h-44 w-full" rounded="rounded-xl" />
+          <Skeleton className="h-44 w-full" rounded="rounded-xl" />
+        </div>
+        <Skeleton className="mt-6 h-56 w-full" rounded="rounded-xl" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="space-y-4">
-        <Link to="/tutor/invites">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Intake Assessments
-          </Button>
-        </Link>
-        <Card>
-          <div className="text-center py-8 space-y-4">
-            <p className="text-ink-body">{error.message}</p>
-            {error.kind === 'unknown' && (
-              <Button variant="primary" onClick={() => setRetryNonce((n) => n + 1)}>
-                Retry
-              </Button>
-            )}
-          </div>
-        </Card>
+      <div className="mx-auto max-w-4xl pb-8">
+        {backLink}
+        <div role="alert" className="space-y-4 rounded-xl bg-surface-muted py-12 text-center">
+          <p className="text-ink-body">{error.message}</p>
+          {error.kind === 'unknown' && (
+            <Button variant="primary" onClick={() => setRetryNonce((n) => n + 1)}>
+              Retry
+            </Button>
+          )}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <Link to="/tutor/invites" className="no-print">
-        <Button variant="ghost" size="sm">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Intake Assessments
-        </Button>
-      </Link>
+    <div className="mx-auto max-w-4xl pb-8">
+      {backLink}
       <style>{`@media print { .no-print { display: none !important; } }`}</style>
+
+      <PageHeader
+        eyebrow="Intake"
+        title={data.student_name || 'Guest Student'}
+        subtitle={`${data.student_email ? `${data.student_email} · ` : ''}Completed ${formatDateTime(data.completed_at)}${data.time_spent_seconds ? ` · ${formatDuration(data.time_spent_seconds)}` : ''}`}
+        actions={
+          <Button variant="secondary" size="sm" onClick={() => window.print()} className="no-print">
+            <Printer className="h-4 w-4" />
+            Print
+          </Button>
+        }
+      />
+
       {!data.student_id && (
-        <Card className="border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/20">
+        <div role="status" className="mb-6 rounded-xl bg-amber-50 p-4 dark:bg-amber-900/20">
           <p className="text-sm text-amber-800 dark:text-amber-200">
-            This student hasn't accepted the invite as a registered user yet — assignments and full-profile actions are unavailable until they sign up.
+            This student hasn&apos;t accepted the invite as a registered user yet — assignments and full-profile actions are unavailable until they sign up.
           </p>
-        </Card>
+        </div>
       )}
-      <Header data={data} onPrint={() => window.print()} />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <ScoreCard data={data} />
         <TeachThisNext data={data} />
       </div>
-      <DomainBreakdown data={data} />
+      <div className="mt-10">
+        <DomainBreakdown data={data} />
+      </div>
       <FooterActions data={data} />
     </div>
   );

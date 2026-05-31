@@ -1,11 +1,11 @@
 /**
- * Settings Page
- * Application settings and preferences
- * Supports dark mode
+ * Settings Page — Study Hall.
+ * Borderless preference groups under hairline-ruled Sections. Tokens only,
+ * full dark mode, accessible toggle + select. Logic/persistence preserved.
  */
 import { useState, useEffect } from 'react';
 import { Moon, Globe, Save, Sun, Check } from 'lucide-react';
-import { Card, Button } from '../../components/ui';
+import { Button, PageHeader, Section } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -37,84 +37,75 @@ const SettingsPage = () => {
     }, 300);
   };
 
-  const ToggleSwitch = ({ enabled, onChange }) => (
+  const ToggleSwitch = ({ enabled, onChange, label }) => (
     <button
+      type="button"
+      role="switch"
+      aria-checked={enabled}
+      aria-label={label}
       onClick={onChange}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-        enabled ? 'bg-gray-900 dark:bg-gray-100' : 'bg-gray-200 dark:bg-gray-600'
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+        enabled ? 'bg-brand-600' : 'bg-surface-muted'
       }`}
     >
       <span
-        className={`inline-block h-4 w-4 transform rounded-full transition-transform ${
-          enabled
-            ? 'translate-x-6 bg-white dark:bg-gray-900'
-            : 'translate-x-1 bg-white dark:bg-gray-300'
+        className={`inline-block h-4 w-4 transform rounded-full bg-surface-card shadow-sm transition-transform ${
+          enabled ? 'translate-x-6' : 'translate-x-1'
         }`}
       />
     </button>
   );
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Settings</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your preferences</p>
-      </div>
+    <div className="mx-auto max-w-2xl pb-8">
+      <PageHeader
+        eyebrow="Your account"
+        title="Settings"
+        subtitle="Manage your preferences and how Study Hall looks and feels."
+      />
 
       {success && (
-        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 flex items-center gap-2">
-          <Check className="h-4 w-4" />
+        <div
+          role="alert"
+          className="mb-6 flex items-center gap-2 rounded-xl bg-accent-50 px-4 py-3 text-sm font-medium text-accent-700 dark:bg-accent-500/10 dark:text-accent-300"
+        >
+          <Check className="h-4 w-4 shrink-0" />
           {success}
         </div>
       )}
 
-      {/* Display */}
-      <Card>
-        <Card.Header>
-          <Card.Title className="flex items-center gap-2">
-            {isDarkMode ? (
-              <Moon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-            ) : (
-              <Sun className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-            )}
-            Display
-          </Card.Title>
-          <Card.Description>Customize your viewing experience</Card.Description>
-        </Card.Header>
-        <Card.Content>
-          <div className="flex items-center justify-between py-3">
-            <div>
-              <p className="font-medium text-gray-900 dark:text-gray-100">Dark Mode</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="space-y-10">
+        {/* Display */}
+        <Section title="Display" icon={isDarkMode ? Moon : Sun} hint="Customize your viewing experience">
+          <div className="flex items-center justify-between gap-4 py-2">
+            <div className="min-w-0">
+              <p className="font-medium text-ink-body">Dark Mode</p>
+              <p className="mt-0.5 text-sm text-ink-subtle">
                 {isDarkMode ? 'Currently using dark theme' : 'Currently using light theme'}
               </p>
             </div>
             <ToggleSwitch
               enabled={isDarkMode}
               onChange={toggleDarkMode}
+              label="Toggle dark mode"
             />
           </div>
-        </Card.Content>
-      </Card>
+        </Section>
 
-      {/* Timezone */}
-      <Card>
-        <Card.Header>
-          <Card.Title className="flex items-center gap-2">
-            <Globe className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-            Regional
-          </Card.Title>
-          <Card.Description>Location and time settings</Card.Description>
-        </Card.Header>
-        <Card.Content>
-          <div className="py-3">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        {/* Regional */}
+        <Section title="Regional" icon={Globe} hint="Location and time settings">
+          <div className="py-2">
+            <label
+              htmlFor="timezone-select"
+              className="mb-1.5 block text-sm font-medium text-ink-muted"
+            >
               Timezone
             </label>
             <select
+              id="timezone-select"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-transparent"
+              className="w-full rounded-xl bg-surface-input px-3.5 py-2.5 text-sm text-ink-body transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               <option value="America/New_York">Eastern Time (ET)</option>
               <option value="America/Chicago">Central Time (CT)</option>
@@ -125,15 +116,15 @@ const SettingsPage = () => {
               <option value="UTC">UTC</option>
             </select>
           </div>
-        </Card.Content>
-      </Card>
+        </Section>
 
-      {/* Save Button */}
-      <div className="flex justify-end">
-        <Button variant="primary" onClick={handleSave} disabled={isSaving}>
-          <Save className="h-4 w-4 mr-2" />
-          {isSaving ? 'Saving...' : 'Save Settings'}
-        </Button>
+        {/* Save Button */}
+        <div className="flex justify-end">
+          <Button variant="primary" onClick={handleSave} disabled={isSaving}>
+            <Save className="h-4 w-4" />
+            {isSaving ? 'Saving...' : 'Save Settings'}
+          </Button>
+        </div>
       </div>
     </div>
   );

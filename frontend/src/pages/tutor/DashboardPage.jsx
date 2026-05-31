@@ -1,25 +1,17 @@
 /**
- * Tutor Dashboard Page
- * Overview with student count, recent activity, quick stats
+ * Tutor Dashboard — Study Hall.
+ * Big-number stats (no gray BI cards), an act-on-able roster, and "common
+ * struggles" that link straight to creating targeted practice. Borderless,
+ * tokens, dark mode, a11y.
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, ClipboardList, TrendingUp, Plus } from 'lucide-react';
-import { Card, Button, EmptyState, LoadingSpinner } from '../../components/ui';
+import { Users, Plus, ArrowRight, ArrowUpRight } from 'lucide-react';
+import {
+  Button, EmptyState, Skeleton, Avatar,
+  PageHeader, Section, StatBlock, StatusPill,
+} from '../../components/ui';
 import { tutorService } from '../../services';
-
-const StatCard = ({ icon: Icon, label, value, subtext }) => (
-  <Card className="flex items-center gap-4">
-    <div className="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
-      <Icon className="h-6 w-6 text-gray-600 dark:text-gray-300" />
-    </div>
-    <div>
-      <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{value}</p>
-      <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
-      {subtext && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{subtext}</p>}
-    </div>
-  </Card>
-);
 
 const TutorDashboard = () => {
   const [analytics, setAnalytics] = useState(null);
@@ -41,145 +33,128 @@ const TutorDashboard = () => {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
 
   const hasStudents = students.length > 0;
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Overview of your tutoring activity</p>
-        </div>
-        <Link to="/tutor/invites">
-          <Button variant="primary">
-            <Plus className="h-4 w-4 mr-2" />
-            Invite Student
-          </Button>
-        </Link>
-      </div>
+    <div className="mx-auto max-w-5xl pb-8">
+      <PageHeader
+        eyebrow="Your studio"
+        title="Tutor dashboard"
+        actions={
+          <Link to="/tutor/invites">
+            <Button variant="primary"><Plus className="h-4 w-4" /> Invite student</Button>
+          </Link>
+        }
+      />
 
-      {/* Stats */}
-      {analytics && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard
-            icon={Users}
-            label="Total Students"
-            value={analytics.total_students}
-          />
-          <StatCard
-            icon={Users}
-            label="Active This Week"
-            value={analytics.active_students_this_week}
-          />
-          <StatCard
-            icon={ClipboardList}
-            label="Assignments"
-            value={`${analytics.assignments_completed}/${analytics.total_assignments_created}`}
-            subtext="completed"
-          />
-          <StatCard
-            icon={TrendingUp}
-            label="Average Score"
-            value={`${analytics.average_score?.toFixed(1) || 0}%`}
-          />
+      {/* Big-number stats — borderless row */}
+      {isLoading ? (
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-edge py-6 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="space-y-2"><Skeleton className="h-9 w-16" /><Skeleton className="h-3 w-20" /></div>
+          ))}
         </div>
-      )}
+      ) : analytics ? (
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-edge py-6 lg:grid-cols-4">
+          <StatBlock value={analytics.total_students} label="Total students" />
+          <StatBlock value={analytics.active_students_this_week} label="Active this week" />
+          <StatBlock
+            value={analytics.assignments_completed}
+            label="Assignments completed"
+            hint={`of ${analytics.total_assignments_created} created`}
+            animate
+          />
+          <StatBlock value={analytics.average_score ?? 0} suffix="%" decimals={0} label="Average score" />
+        </div>
+      ) : null}
 
-      {/* Recent Students or Empty State */}
-      <Card>
-        <Card.Header>
-          <div className="flex items-center justify-between">
-            <Card.Title>Recent Students</Card.Title>
-            {hasStudents && (
-              <Link to="/tutor/students" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                View all
-              </Link>
+      <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-5">
+        {/* Roster */}
+        <div className="lg:col-span-3">
+          <Section
+            title="Recent students"
+            icon={Users}
+            action={hasStudents ? <Link to="/tutor/students" className="text-xs font-semibold text-brand-700 hover:text-brand-800 dark:text-brand-400">View all</Link> : null}
+          >
+            {isLoading ? (
+              <ul className="divide-y divide-edge-subtle">
+                {[0, 1, 2].map((i) => (
+                  <li key={i} className="flex items-center justify-between py-3.5">
+                    <div className="flex items-center gap-3"><Skeleton className="h-9 w-9" rounded="rounded-full" /><div className="space-y-1.5"><Skeleton className="h-3.5 w-32" /><Skeleton className="h-3 w-40" /></div></div>
+                    <Skeleton className="h-5 w-10" />
+                  </li>
+                ))}
+              </ul>
+            ) : hasStudents ? (
+              <ul className="divide-y divide-edge-subtle">
+                {students.map((s) => (
+                  <li key={s.id}>
+                    <Link
+                      to={`/tutor/students/${s.id}`}
+                      className="group flex items-center justify-between gap-3 rounded-xl py-3.5 transition-colors hover:bg-surface-muted -mx-2 px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                    >
+                      <div className="flex min-w-0 items-center gap-3">
+                        <Avatar name={`${s.first_name} ${s.last_name}`} size="sm" />
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-ink-body">{s.first_name} {s.last_name}</p>
+                          <p className="truncate text-xs text-ink-subtle">{s.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-3">
+                        <div className="text-right">
+                          <StatusPill value={s.overall_accuracy} size="sm" />
+                          <p className="mt-0.5 text-[11px] text-ink-faint">{s.total_questions_answered} questions</p>
+                        </div>
+                        <ArrowUpRight className="h-4 w-4 text-ink-faint opacity-0 transition-opacity group-hover:opacity-100" />
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyState
+                icon={Users}
+                title="No students yet"
+                description="Invite your first student to start tracking their progress."
+                action={<Link to="/tutor/invites"><Button variant="primary" size="sm"><Plus className="h-4 w-4" /> Invite student</Button></Link>}
+              />
             )}
-          </div>
-        </Card.Header>
-        <Card.Content>
-          {hasStudents ? (
-            <div className="divide-y divide-gray-100 dark:divide-gray-700">
-              {students.map((student) => (
-                <Link
-                  key={student.id}
-                  to={`/tutor/students/${student.id}`}
-                  className="flex items-center justify-between py-3 hover:bg-gray-50 dark:hover:bg-gray-800 -mx-2 px-2 rounded"
-                >
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">
-                      {student.first_name} {student.last_name}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{student.email}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                      {student.overall_accuracy?.toFixed(0) || 0}%
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {student.total_questions_answered} questions
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <EmptyState
-              icon={Users}
-              title="No students yet"
-              description="Invite your first student to get started"
-              action={
-                <Link to="/tutor/invites">
-                  <Button variant="primary" size="sm">
-                    <Plus className="h-4 w-4 mr-1" />
-                    Invite Student
-                  </Button>
-                </Link>
-              }
-            />
-          )}
-        </Card.Content>
-      </Card>
+          </Section>
+        </div>
 
-      {/* Common Struggles */}
-      {analytics?.common_struggles?.length > 0 && (
-        <Card>
-          <Card.Header>
-            <Card.Title>Common Struggles</Card.Title>
-            <Card.Description>Skills where students need more practice</Card.Description>
-          </Card.Header>
-          <Card.Content>
-            <div className="space-y-3">
-              {analytics.common_struggles.slice(0, 5).map((skill) => (
-                <div key={skill.skill_id} className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{skill.skill_name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {skill.students_struggling} students below 70%
-                    </p>
-                  </div>
-                  <span className="text-sm text-gray-600 dark:text-gray-300">
-                    {skill.avg_accuracy?.toFixed(0)}% avg
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Card.Content>
-        </Card>
-      )}
+        {/* Common struggles — now act-on-able */}
+        <div className="lg:col-span-2">
+          <Section title="Where students struggle" hint="Assign targeted practice">
+            {isLoading ? (
+              <ul className="space-y-4">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-12 w-full" />)}</ul>
+            ) : analytics?.common_struggles?.length > 0 ? (
+              <ul className="divide-y divide-edge-subtle">
+                {analytics.common_struggles.slice(0, 5).map((skill) => (
+                  <li key={skill.skill_id} className="flex items-center justify-between gap-3 py-3.5 first:pt-0">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-ink-body">{skill.skill_name}</p>
+                      <p className="text-xs text-ink-subtle">
+                        {skill.students_struggling} student{skill.students_struggling === 1 ? '' : 's'} below 70% · {skill.avg_accuracy?.toFixed(0)}% avg
+                      </p>
+                    </div>
+                    <Link
+                      to={`/tutor/assignments/create?skill=${skill.skill_id}`}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-900/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                    >
+                      Assign <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-ink-subtle">No clear struggle areas yet. As students practice, common weak skills will surface here with one-click assigning.</p>
+            )}
+          </Section>
+        </div>
+      </div>
     </div>
   );
 };

@@ -17,45 +17,50 @@
    modes are kept in sync from one place.
 */
 :root {
-  --surface-page: #f0fdff;
+  /* Study Hall — warm off-white surfaces, warm-graphite ink.
+     Faint warm tint toward amber; NOT a cream/sand body. */
+  --surface-page: #faf8f5;          /* warm near-white */
   --surface-card: #ffffff;
-  --surface-muted: #f8fafc;        /* slate-50 */
+  --surface-muted: #f4f1ec;         /* warm muted */
   --surface-input: #ffffff;
-  --surface-overlay: rgba(15, 23, 42, 0.40);
+  --surface-overlay: rgba(28, 25, 23, 0.42);
 
-  --ink-body: #0f172a;              /* slate-900 */
-  --ink-muted: #334155;             /* slate-700 */
-  --ink-subtle: #64748b;            /* slate-500 */
-  --ink-faint: #94a3b8;             /* slate-400 */
+  --ink-body: #1c1917;              /* warm graphite (stone-900-ish) */
+  --ink-muted: #44403c;             /* stone-700 */
+  --ink-subtle: #6b6560;            /* warm stone-500 */
+  --ink-faint: #a8a29e;             /* stone-400 */
   --ink-inverse: #ffffff;
 
-  --edge-default: #e2e8f0;          /* slate-200 */
-  --edge-subtle: #f1f5f9;           /* slate-100 */
-  --edge-strong: #cbd5e1;           /* slate-300 */
+  --edge-default: #e7e2da;          /* warm hairline */
+  --edge-subtle: #f0ece5;
+  --edge-strong: #d3ccc1;
 }
 
 .dark {
-  --surface-page: #0a1929;
-  --surface-card: #1e293b;          /* slate-800 */
-  --surface-muted: #1e293b80;       /* slate-800 / 50 */
-  --surface-input: #334155;         /* slate-700 */
-  --surface-overlay: rgba(0, 0, 0, 0.60);
+  /* Study Hall dark — warm espresso/charcoal, not cool slate, not pure black.
+     Lifted off true-black so full-bleed surfaces (the test workspace) read as a
+     warm dark panel rather than a void, with clear elevation steps. */
+  --surface-page: #1b1714;          /* warm charcoal base */
+  --surface-card: #272220;          /* elevated espresso panel */
+  --surface-muted: #332c28;         /* warm muted (opaque) */
+  --surface-input: #322c28;
+  --surface-overlay: rgba(0, 0, 0, 0.66);
 
-  --ink-body: #f1f5f9;              /* slate-100 */
-  --ink-muted: #cbd5e1;             /* slate-300 */
-  --ink-subtle: #94a3b8;            /* slate-400 */
-  --ink-faint: #64748b;             /* slate-500 */
-  --ink-inverse: #0f172a;
+  --ink-body: #f5f1ea;              /* warm white */
+  --ink-muted: #d6cfc4;             /* warm stone-300 */
+  --ink-subtle: #a8a097;            /* warm stone-400 */
+  --ink-faint: #756d64;             /* warm stone-500 */
+  --ink-inverse: #161311;
 
-  --edge-default: #334155;          /* slate-700 */
-  --edge-subtle: #1e293b;           /* slate-800 */
-  --edge-strong: #475569;           /* slate-600 */
+  --edge-default: #423a33;
+  --edge-subtle: #322c28;
+  --edge-strong: #4d453d;
 }
 
-/* Base layer for dark mode transitions */
+/* Base layer */
 @layer base {
   html {
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.25s var(--ease-out-quart, ease), color 0.25s var(--ease-out-quart, ease);
   }
 
   body {
@@ -66,13 +71,10 @@
     color: var(--ink-body);
   }
 
-  /* Ensure all text in dark mode defaults to light colors */
-  .dark * {
-    border-color: inherit;
-  }
-
-  .dark p, .dark span, .dark div, .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, .dark label {
-    color: inherit;
+  /* Display face for hero / section headings (opt-in via .font-display) */
+  .font-display {
+    font-family: 'Fraunces', ui-serif, Georgia, serif;
+    font-optical-sizing: auto;
   }
 }
 
@@ -89,64 +91,104 @@
   border: 0;
 }
 
-/* Custom component classes */
+/* Custom component classes — token-driven, theme-aware via CSS vars */
 @layer components {
   .btn-primary {
     @apply bg-brand-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-brand-700 active:bg-brand-800 transition-colors;
   }
 
   .btn-secondary {
-    @apply border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-medium hover:bg-slate-50 hover:border-slate-300 transition-colors;
-    @apply dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800;
+    @apply border border-edge bg-surface-card text-ink-muted px-4 py-2 rounded-xl font-medium hover:bg-surface-muted hover:border-edge-strong transition-colors;
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-card p-6;
-    @apply dark:bg-slate-800;
+    @apply bg-surface-card border border-edge-subtle rounded-2xl shadow-card p-6;
   }
 
   .input-field {
-    @apply w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-400 focus:border-brand-400 focus:outline-none transition-colors;
-    @apply dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100 dark:focus:ring-brand-500;
+    @apply w-full px-4 py-2.5 bg-surface-input border border-edge rounded-xl text-sm text-ink-body focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:border-brand-400 focus:outline-none transition-colors;
   }
 }
 
-/* ── Scroll-reveal animation ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* ─────────────────────────────────────────────────
+   Motion layer
+   ─────────────────────────────────────────────────
+   Reveals enhance an already-visible default: content is fully
+   visible without JS. The `.js` class (set on <html> at boot) opts
+   into the hidden-then-revealed behavior, so headless/no-JS renders
+   never ship blank. Everything degrades under reduced-motion.
+*/
+:root {
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Stagger children of a reveal container */
-.reveal-stagger > * {
+/* Single-element reveal.
+   No permanent will-change: keeping it on idle elements forces a GPU layer to
+   stay promoted for the life of the page, which makes scrolling janky. The
+   transition alone is enough; the compositor promotes only while animating. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+}
+.js .reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Staggered children */
+.js .reveal-stagger > * {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  transition: opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
 }
-.reveal-stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms; }
-.reveal-stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 80ms; }
-.reveal-stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 160ms; }
-.reveal-stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 240ms; }
+.js .reveal-stagger.visible > * {
+  opacity: 1;
+  transform: none;
+}
+.js .reveal-stagger.visible > *:nth-child(1)  { transition-delay: 0ms; }
+.js .reveal-stagger.visible > *:nth-child(2)  { transition-delay: 70ms; }
+.js .reveal-stagger.visible > *:nth-child(3)  { transition-delay: 140ms; }
+.js .reveal-stagger.visible > *:nth-child(4)  { transition-delay: 210ms; }
+.js .reveal-stagger.visible > *:nth-child(5)  { transition-delay: 280ms; }
+.js .reveal-stagger.visible > *:nth-child(6)  { transition-delay: 350ms; }
+.js .reveal-stagger.visible > *:nth-child(7)  { transition-delay: 420ms; }
+.js .reveal-stagger.visible > *:nth-child(8)  { transition-delay: 490ms; }
 
 /* Custom animations */
 @keyframes slide-in-right {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s var(--ease-out-quart);
 }
 
-.animate-slide-in-right {
-  animation: slide-in-right 0.3s ease-out;
+/* Hover lift for interactive surfaces */
+.hover-lift {
+  transition: transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+}
+
+/* ── Reduced motion: collapse all choreography to instant/visible ── */
+@media (prefers-reduced-motion: reduce) {
+  html { transition: none; }
+  .js .reveal,
+  .js .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hover-lift:hover { transform: none; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Prose styles for question content */
@@ -564,12 +606,6 @@ button svg ~ *:not(p):not(div):not(span):not(figure):not(math):not(mjx-container
 /* Remove extra spacing after figures */
 .question-content figure {
   margin-bottom: 0.5em;
-}
-
-/* Dark mode body background */
-.dark {
-  background-color: #111827;
-  color: #f3f4f6;
 }
 
 /* Desmos Calculator dark mode */

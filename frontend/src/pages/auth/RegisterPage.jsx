@@ -60,17 +60,17 @@ const RegisterPage = () => {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+        <h1 className="font-display text-3xl font-semibold text-ink-body tracking-tight">
           Create your account
         </h1>
-        <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1.5 text-sm text-ink-muted">
           Free to start. No credit card required.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {authError && (
-          <div className="p-3.5 text-sm text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 rounded-xl border border-rose-200 dark:border-rose-800">
+          <div role="alert" className="p-3.5 text-sm text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 rounded-xl border border-rose-200 dark:border-rose-800">
             {authError}
           </div>
         )}
@@ -154,9 +154,9 @@ const RegisterPage = () => {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+      <p className="mt-6 text-center text-sm text-ink-muted">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-brand-600 dark:text-brand-400 hover:underline">
+        <Link to="/login" className="font-semibold text-brand-700 dark:text-brand-400 hover:underline">
           Sign in
         </Link>
       </p>

@@ -33,34 +33,34 @@ const AnswerChoice = ({
   // Determine styling based on state
   const getButtonStyle = () => {
     if (isChecked && isCorrect === true) {
-      return 'bg-emerald-50 dark:bg-emerald-900/20';
+      return 'border-accent-500 bg-accent-50 dark:bg-accent-900/20';
     }
     if (isChecked && isCorrect === false) {
-      return 'bg-rose-50 dark:bg-rose-900/20';
+      return 'border-rose-500 bg-rose-50 dark:bg-rose-900/20';
     }
     if (showAsCorrect) {
-      return 'bg-emerald-50 dark:bg-emerald-900/20';
+      return 'border-accent-500 bg-accent-50 dark:bg-accent-900/20';
     }
     if (isSelected) {
-      return 'bg-gray-50 dark:bg-gray-700';
+      return 'border-brand-500 bg-brand-50 dark:bg-brand-900/25';
     }
-    return 'hover:bg-gray-50 dark:hover:bg-gray-700';
+    return 'border-edge hover:border-edge-strong hover:bg-surface-muted';
   };
 
   const getCircleStyle = () => {
     if (isChecked && isCorrect === true) {
-      return 'border-emerald-500 bg-emerald-500 text-white';
+      return 'border-accent-500 bg-accent-500 text-white';
     }
     if (isChecked && isCorrect === false) {
       return 'border-rose-500 bg-rose-500 text-white';
     }
     if (showAsCorrect) {
-      return 'border-emerald-500 bg-emerald-500 text-white';
+      return 'border-accent-500 bg-accent-500 text-white';
     }
     if (isSelected) {
-      return 'border-gray-900 dark:border-gray-100 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900';
+      return 'border-brand-600 bg-brand-600 text-white';
     }
-    return 'border-gray-400 dark:border-gray-500 text-gray-600 dark:text-gray-400';
+    return 'border-edge-strong text-ink-subtle';
   };
 
   return (
@@ -69,9 +69,9 @@ const AnswerChoice = ({
       disabled={disabled || isChecked}
       className={`
         w-full flex items-center gap-4 p-4
-        border border-gray-200 dark:border-gray-700 rounded-lg text-left
+        border rounded-lg text-left
         transition-all duration-150
-        focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:ring-offset-1 dark:focus:ring-offset-gray-800
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page
         ${disabled || isChecked ? 'cursor-not-allowed' : 'cursor-pointer'}
         ${getButtonStyle()}
       `}
@@ -92,19 +92,19 @@ const AnswerChoice = ({
       {/* Choice content - flex to align with letter circle */}
       <span
         ref={contentRef}
-        className="flex-1 text-gray-900 dark:text-gray-100 flex items-center min-h-[2rem]"
+        className="flex-1 text-ink-body flex items-center min-h-[2rem]"
         dangerouslySetInnerHTML={{ __html: content }}
       />
 
       {/* Status indicator */}
       {isChecked && isCorrect === true && (
-        <span className="text-emerald-600 dark:text-emerald-400 font-medium text-sm">Correct</span>
+        <span className="text-accent-700 dark:text-accent-400 font-medium text-sm">Correct</span>
       )}
       {isChecked && isCorrect === false && (
         <span className="text-rose-600 dark:text-rose-400 font-medium text-sm">Incorrect</span>
       )}
       {showAsCorrect && !isSelected && (
-        <span className="text-emerald-600 dark:text-emerald-400 font-medium text-sm">Correct Answer</span>
+        <span className="text-accent-700 dark:text-accent-400 font-medium text-sm">Correct Answer</span>
       )}
     </button>
   );
@@ -180,11 +180,11 @@ const SPRAnswerInput = ({
 
   // Determine border color based on state
   const getBorderClass = () => {
-    if (isChecked && isCorrect === true) return 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20';
+    if (isChecked && isCorrect === true) return 'border-accent-500 bg-accent-50 dark:bg-accent-900/20';
     if (isChecked && isCorrect === false) return 'border-rose-500 bg-rose-50 dark:bg-rose-900/20';
     if (error) return 'border-rose-400';
-    if (inputValue) return 'border-gray-900 dark:border-gray-100';
-    return 'border-gray-300 dark:border-gray-600';
+    if (inputValue) return 'border-brand-500';
+    return 'border-edge';
   };
 
   return (
@@ -199,24 +199,24 @@ const SPRAnswerInput = ({
           disabled={disabled || isChecked}
           placeholder="Your answer"
           className={`
-            w-48 px-3 py-2 text-base text-gray-900 dark:text-gray-100
+            w-48 px-3 py-2 text-base text-ink-body
             border rounded-lg
-            focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-gray-900 dark:focus:border-gray-400
-            ${disabled || isChecked ? 'bg-gray-100 dark:bg-gray-700 cursor-not-allowed' : 'bg-white dark:bg-gray-800'}
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus:border-brand-500
+            ${disabled || isChecked ? 'bg-surface-muted cursor-not-allowed' : 'bg-surface-input'}
             ${getBorderClass()}
           `}
         />
         {isChecked && isCorrect === true && (
-          <span className="text-emerald-600 dark:text-emerald-400 font-medium">Correct</span>
+          <span className="text-accent-700 dark:text-accent-400 font-medium">Correct</span>
         )}
         {isChecked && isCorrect === false && (
           <span className="text-rose-600 dark:text-rose-400 font-medium">Incorrect</span>
         )}
       </div>
       {error ? (
-        <p className="text-xs text-rose-500 dark:text-rose-400">{error}</p>
+        <p className="text-xs text-rose-600 dark:text-rose-400">{error}</p>
       ) : (
-        <p className="text-xs text-gray-400 dark:text-gray-500">
+        <p className="text-xs text-ink-faint">
           Enter a number, fraction (3/4), or decimal (0.75)
         </p>
       )}
@@ -254,7 +254,7 @@ const AnswerChoices = ({
   // MCQ questions - show choices
   if (!choices || choices.length === 0) {
     return (
-      <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg text-center text-gray-500 dark:text-gray-400">
+      <div className="p-4 bg-surface-muted rounded-lg text-center text-ink-subtle">
         No answer choices available for this question.
       </div>
     );

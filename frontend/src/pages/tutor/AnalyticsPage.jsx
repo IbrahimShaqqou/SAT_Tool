@@ -1,30 +1,33 @@
 /**
- * Tutor Analytics Page
- * Class-wide analytics with charts using real API data
+ * Tutor Analytics — Study Hall.
+ * Leads with "who needs what next" (act-on-able struggles), not a chart wall.
+ * Big-number stats, borderless sections, theme-aware warm charts as supporting
+ * detail. Tokens, dark mode, a11y.
  */
-import { useState, useEffect } from 'react';
-import { Card, LoadingSpinner, Tabs } from '../../components/ui';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, BarChart3, TrendingUp, Radar, Activity } from 'lucide-react';
 import {
-  AccuracyTrend,
-  SkillBreakdown,
-  DomainRadar,
-  ActivityHeatmap,
-  ScoreDistribution,
+  Skeleton, PageHeader, Section, StatBlock, StatusPill,
+} from '../../components/ui';
+import {
+  AccuracyTrend, SkillBreakdown, DomainRadar, ActivityHeatmap, ScoreDistribution,
 } from '../../components/charts';
 import { tutorService } from '../../services';
 
-const StatCard = ({ label, value, subtext }) => (
-  <Card>
-    <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
-    <p className="text-3xl font-semibold text-gray-900 dark:text-gray-100 mt-1">{value}</p>
-    {subtext && <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{subtext}</p>}
-  </Card>
-);
+const TABS = [
+  { value: 'overview', label: 'Overview', icon: TrendingUp },
+  { value: 'skills', label: 'Skills', icon: BarChart3 },
+  { value: 'domains', label: 'Domains', icon: Radar },
+  { value: 'activity', label: 'Activity', icon: Activity },
+];
 
 const AnalyticsPage = () => {
   const [analytics, setAnalytics] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [tab, setTab] = useState('overview');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,180 +44,118 @@ const AnalyticsPage = () => {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
-  // Transform chart data for components
   const accuracyData = chartData?.accuracy_trend || [];
-  const skillData = chartData?.skill_breakdown?.map(s => ({
-    name: s.name,
-    accuracy: s.accuracy,
-    questions: s.questions,
-  })) || [];
-  const domainData = chartData?.domain_performance?.map(d => ({
-    domain: d.domain,
-    accuracy: d.accuracy,
-    fullMark: 100,
-  })) || [];
+  const skillData = (chartData?.skill_breakdown || []).map((s) => ({ name: s.name, accuracy: s.accuracy, questions: s.questions }));
+  const domainData = (chartData?.domain_performance || []).map((d) => ({ domain: d.domain, accuracy: d.accuracy, fullMark: 100 }));
   const activityData = chartData?.activity_heatmap || [];
+  const struggles = analytics?.common_struggles || [];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Analytics</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Class-wide performance insights</p>
-      </div>
+    <div className="mx-auto max-w-5xl pb-8">
+      <PageHeader
+        eyebrow="Your studio"
+        title="Class analytics"
+        subtitle="Start with who needs help and what to assign. The trends are below when you want the bigger picture."
+      />
 
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard
-          label="Total Students"
-          value={analytics?.total_students || 0}
-        />
-        <StatCard
-          label="Active This Week"
-          value={analytics?.active_students_this_week || 0}
-        />
-        <StatCard
-          label="Assignments"
-          value={`${analytics?.assignments_completed || 0}/${analytics?.total_assignments_created || 0}`}
-          subtext="completed"
-        />
-        <StatCard
-          label="Average Score"
-          value={`${analytics?.average_score?.toFixed(1) || 0}%`}
-        />
-      </div>
+      {/* Big-number stats */}
+      {isLoading ? (
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-edge py-6 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => <div key={i} className="space-y-2"><Skeleton className="h-9 w-16" /><Skeleton className="h-3 w-20" /></div>)}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-edge py-6 lg:grid-cols-4">
+          <StatBlock value={analytics?.total_students || 0} label="Total students" />
+          <StatBlock value={analytics?.active_students_this_week || 0} label="Active this week" />
+          <StatBlock value={analytics?.assignments_completed || 0} label="Assignments completed" hint={`of ${analytics?.total_assignments_created || 0} created`} />
+          <StatBlock value={analytics?.average_score ?? 0} suffix="%" label="Average score" />
+        </div>
+      )}
 
-      {/* Charts Section */}
-      <Tabs defaultValue="overview">
-        <Tabs.List>
-          <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
-          <Tabs.Trigger value="skills">Skills</Tabs.Trigger>
-          <Tabs.Trigger value="activity">Activity</Tabs.Trigger>
-        </Tabs.List>
+      {/* Act-on-able: where students struggle */}
+      <Section className="mt-10" title="Where the class struggles" hint="Assign targeted practice in one click">
+        {isLoading ? (
+          <ul className="space-y-4">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full" />)}</ul>
+        ) : struggles.length > 0 ? (
+          <ul className="divide-y divide-edge-subtle">
+            {struggles.slice(0, 6).map((skill) => (
+              <li key={skill.skill_id} className="flex items-center justify-between gap-3 py-3.5 first:pt-0">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-ink-body">{skill.skill_name}</p>
+                  <p className="text-xs text-ink-subtle">{skill.students_struggling} student{skill.students_struggling === 1 ? '' : 's'} below 70%</p>
+                </div>
+                <div className="flex shrink-0 items-center gap-3">
+                  <StatusPill value={skill.avg_accuracy} size="sm" />
+                  <Link
+                    to={`/tutor/assignments/create?skill=${skill.skill_id}`}
+                    className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-900/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                  >
+                    Assign <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-ink-subtle">No clear struggle areas yet. As students practice, weak skills will surface here with one-click assigning.</p>
+        )}
+      </Section>
 
-        <Tabs.Content value="overview">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Accuracy Trend */}
-            <Card>
-              <Card.Header>
-                <Card.Title>Class Performance Trend</Card.Title>
-                <Card.Description>Average accuracy over time</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {accuracyData.length > 0 ? (
-                  <AccuracyTrend data={accuracyData} height={250} />
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-center py-16">No data yet</p>
-                )}
-              </Card.Content>
-            </Card>
+      {/* Trends — supporting detail behind a quiet tab strip */}
+      <div className="mt-12">
+        <div role="tablist" aria-label="Analytics charts" className="mb-5 flex flex-wrap gap-1.5 border-b border-edge pb-3">
+          {TABS.map((tb) => {
+            const active = tab === tb.value;
+            return (
+              <button
+                key={tb.value}
+                role="tab"
+                aria-selected={active}
+                onClick={() => setTab(tb.value)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                  active ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted hover:text-ink-body hover:bg-edge-subtle'
+                }`}
+              >
+                <tb.icon className="h-3.5 w-3.5" /> {tb.label}
+              </button>
+            );
+          })}
+        </div>
 
-            {/* Domain Performance */}
-            <Card>
-              <Card.Header>
-                <Card.Title>Domain Coverage</Card.Title>
-                <Card.Description>Performance across subject areas</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {domainData.length > 0 ? (
-                  <DomainRadar data={domainData} height={250} />
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-center py-16">No data yet</p>
-                )}
-              </Card.Content>
-            </Card>
-
-            {/* Score Distribution */}
-            <Card>
-              <Card.Header>
-                <Card.Title>Score Distribution</Card.Title>
-                <Card.Description>How students are performing</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                <ScoreDistribution height={200} />
-              </Card.Content>
-            </Card>
-
-            {/* Common Struggles */}
-            <Card>
-              <Card.Header>
-                <Card.Title>Common Struggles</Card.Title>
-                <Card.Description>Skills where students need help</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {analytics?.common_struggles?.length > 0 ? (
-                  <div className="space-y-3">
-                    {analytics.common_struggles.slice(0, 5).map((skill, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{skill.skill_name}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {skill.students_struggling} student{skill.students_struggling !== 1 ? 's' : ''} below 70%
-                          </p>
-                        </div>
-                        <span className={`text-sm font-medium ${
-                          skill.avg_accuracy < 50 ? 'text-rose-600 dark:text-rose-400' :
-                          skill.avg_accuracy < 70 ? 'text-amber-600 dark:text-amber-400' :
-                          'text-gray-600 dark:text-gray-300'
-                        }`}>
-                          {skill.avg_accuracy?.toFixed(0)}%
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">No data yet</p>
-                )}
-              </Card.Content>
-            </Card>
+        {isLoading ? (
+          <Skeleton className="h-72 w-full" rounded="rounded-xl" />
+        ) : tab === 'overview' ? (
+          <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">
+            <Section title="Class accuracy trend">
+              {accuracyData.length > 0 ? <AccuracyTrend data={accuracyData} height={260} /> : <ChartEmpty />}
+            </Section>
+            <Section title="Score distribution">
+              <ScoreDistribution height={260} />
+            </Section>
           </div>
-        </Tabs.Content>
-
-        <Tabs.Content value="skills">
-          <Card>
-            <Card.Header>
-              <Card.Title>Skill Performance</Card.Title>
-              <Card.Description>Class accuracy by skill (top 10 by practice volume)</Card.Description>
-            </Card.Header>
-            <Card.Content>
-              {skillData.length > 0 ? (
-                <SkillBreakdown data={skillData} height={400} />
-              ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-center py-16">No data yet</p>
-              )}
-            </Card.Content>
-          </Card>
-        </Tabs.Content>
-
-        <Tabs.Content value="activity">
-          <Card>
-            <Card.Header>
-              <Card.Title>Practice Activity</Card.Title>
-              <Card.Description>Questions answered per day across all students</Card.Description>
-            </Card.Header>
-            <Card.Content>
-              {activityData.length > 0 ? (
-                <ActivityHeatmap data={activityData} weeks={12} />
-              ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-center py-16">No activity data yet</p>
-              )}
-            </Card.Content>
-          </Card>
-        </Tabs.Content>
-      </Tabs>
+        ) : tab === 'skills' ? (
+          <Section title="Skill performance" hint="Weakest first, by practice volume">
+            {skillData.length > 0 ? <SkillBreakdown data={skillData} height={420} /> : <ChartEmpty />}
+          </Section>
+        ) : tab === 'domains' ? (
+          <Section title="Domain coverage">
+            {domainData.length > 0 ? <DomainRadar data={domainData} height={320} /> : <ChartEmpty />}
+          </Section>
+        ) : (
+          <Section title="Practice activity" hint="Questions answered per day">
+            {activityData.length > 0 ? <ActivityHeatmap data={activityData} weeks={12} /> : <ChartEmpty />}
+          </Section>
+        )}
+      </div>
     </div>
   );
 };
+
+const ChartEmpty = () => (
+  <p className="py-16 text-center text-sm text-ink-subtle">Not enough data yet for this view.</p>
+);
 
 export default AnalyticsPage;

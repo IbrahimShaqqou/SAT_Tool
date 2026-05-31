@@ -59,17 +59,17 @@ const LoginPage = () => {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+        <h1 className="font-display text-3xl font-semibold text-ink-body tracking-tight">
           Welcome back
         </h1>
-        <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1.5 text-sm text-ink-muted">
           Sign in to continue your SAT prep
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {authError && (
-          <div className="p-3.5 text-sm text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 rounded-xl border border-rose-200 dark:border-rose-800">
+          <div role="alert" className="p-3.5 text-sm text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 rounded-xl border border-rose-200 dark:border-rose-800">
             {authError}
           </div>
         )}
@@ -104,13 +104,13 @@ const LoginPage = () => {
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500"
+              className="w-4 h-4 rounded border-edge text-brand-600 focus-visible:ring-2 focus-visible:ring-brand-500"
             />
-            <span className="text-sm text-slate-600 dark:text-slate-400">Remember me</span>
+            <span className="text-sm text-ink-muted">Remember me</span>
           </label>
           <Link
             to="/forgot-password"
-            className="text-sm text-brand-600 dark:text-brand-400 hover:text-brand-700 hover:underline"
+            className="text-sm font-medium text-brand-700 dark:text-brand-400 hover:underline"
           >
             Forgot password?
           </Link>
@@ -128,9 +128,9 @@ const LoginPage = () => {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+      <p className="mt-6 text-center text-sm text-ink-muted">
         Don't have an account?{' '}
-        <Link to="/register" className="font-semibold text-brand-600 dark:text-brand-400 hover:underline">
+        <Link to="/register" className="font-semibold text-brand-700 dark:text-brand-400 hover:underline">
           Create one free
         </Link>
       </p>

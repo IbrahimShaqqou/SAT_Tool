@@ -1,10 +1,11 @@
 /**
- * Profile Page
- * Displays user profile information with edit capabilities
+ * Profile Page — Study Hall.
+ * Borderless account groups under hairline-ruled Sections, inline edit form,
+ * token-driven feedback. Logic, data fetching, and routes preserved.
  */
 import { useState } from 'react';
 import { User, Mail, Calendar, Shield, Save, X, Target } from 'lucide-react';
-import { Card, Button, LoadingSpinner } from '../../components/ui';
+import { Button, PageHeader, Section, Skeleton } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { authService } from '../../services';
 
@@ -60,8 +61,16 @@ const ProfilePage = () => {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
+      <div className="mx-auto max-w-2xl pb-8">
+        <div className="space-y-3 py-10">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-4 w-64" />
+          <div className="space-y-4 pt-6">
+            {[0, 1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-14 w-full" rounded="rounded-xl" />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -77,187 +86,191 @@ const ProfilePage = () => {
 
   const isStudent = user.role === 'student';
 
+  const fieldClasses =
+    'w-full rounded-xl bg-surface-input px-3.5 py-2.5 text-sm text-ink-body placeholder-ink-faint transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500';
+  const labelClasses = 'mb-1.5 block text-sm font-medium text-ink-muted';
+
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Profile</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your account information</p>
-      </div>
+    <div className="mx-auto max-w-2xl pb-8">
+      <PageHeader
+        eyebrow="Your account"
+        title="Profile"
+        subtitle="Manage your account information and study goals."
+      />
 
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400">
+        <div
+          role="alert"
+          className="mb-6 rounded-xl bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700 dark:bg-rose-500/10 dark:text-rose-300"
+        >
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400">
+        <div
+          role="alert"
+          className="mb-6 rounded-xl bg-accent-50 px-4 py-3 text-sm font-medium text-accent-700 dark:bg-accent-500/10 dark:text-accent-300"
+        >
           {success}
         </div>
       )}
 
-      {/* Profile Card */}
-      <Card>
-        <Card.Header>
-          <div className="flex items-center justify-between">
-            <Card.Title className="flex items-center gap-2">
-              <User className="h-5 w-5 text-gray-500" />
-              Personal Information
-            </Card.Title>
-            {!isEditing ? (
+      <div className="space-y-10">
+        {/* Personal Information */}
+        <Section
+          title="Personal Information"
+          icon={User}
+          action={
+            !isEditing ? (
               <Button variant="secondary" size="sm" onClick={() => setIsEditing(true)}>
                 Edit
               </Button>
             ) : (
               <div className="flex gap-2">
                 <Button variant="secondary" size="sm" onClick={handleCancel}>
-                  <X className="h-4 w-4 mr-1" />
+                  <X className="h-4 w-4" />
                   Cancel
                 </Button>
                 <Button variant="primary" size="sm" onClick={handleSave} disabled={isSaving}>
-                  <Save className="h-4 w-4 mr-1" />
+                  <Save className="h-4 w-4" />
                   {isSaving ? 'Saving...' : 'Save'}
                 </Button>
               </div>
-            )}
-          </div>
-        </Card.Header>
-        <Card.Content>
-          <div className="space-y-4">
-            {isEditing ? (
-              <>
-                <div className="grid grid-cols-2 gap-4">
+            )
+          }
+        >
+          {isEditing ? (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="first_name" className={labelClasses}>
+                    First Name
+                  </label>
+                  <input
+                    id="first_name"
+                    type="text"
+                    value={formData.first_name}
+                    onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+                    className={fieldClasses}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="last_name" className={labelClasses}>
+                    Last Name
+                  </label>
+                  <input
+                    id="last_name"
+                    type="text"
+                    value={formData.last_name}
+                    onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+                    className={fieldClasses}
+                  />
+                </div>
+              </div>
+              {isStudent && (
+                <div className="grid grid-cols-1 gap-4 border-t border-edge-subtle pt-4 sm:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      First Name
+                    <label htmlFor="target_score" className={labelClasses}>
+                      Target SAT Score
                     </label>
                     <input
-                      type="text"
-                      value={formData.first_name}
-                      onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      id="target_score"
+                      type="number"
+                      min="400"
+                      max="1600"
+                      step="10"
+                      placeholder="e.g. 1400"
+                      value={formData.target_score}
+                      onChange={(e) => setFormData({ ...formData, target_score: e.target.value })}
+                      className={fieldClasses}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Last Name
+                    <label htmlFor="test_date" className={labelClasses}>
+                      Test Date
                     </label>
                     <input
-                      type="text"
-                      value={formData.last_name}
-                      onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      id="test_date"
+                      type="date"
+                      value={formData.test_date}
+                      onChange={(e) => setFormData({ ...formData, test_date: e.target.value })}
+                      className={fieldClasses}
                     />
                   </div>
                 </div>
-                {isStudent && (
-                  <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-gray-700">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Target SAT Score
-                      </label>
-                      <input
-                        type="number"
-                        min="400"
-                        max="1600"
-                        step="10"
-                        placeholder="e.g. 1400"
-                        value={formData.target_score}
-                        onChange={(e) => setFormData({ ...formData, target_score: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Test Date
-                      </label>
-                      <input
-                        type="date"
-                        value={formData.test_date}
-                        onChange={(e) => setFormData({ ...formData, test_date: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
-                  <User className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Name</p>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {user.first_name} {user.last_name}
-                    </p>
-                  </div>
+              )}
+            </div>
+          ) : (
+            <dl className="divide-y divide-edge-subtle">
+              <div className="flex items-center gap-3 py-3">
+                <User className="h-5 w-5 shrink-0 text-ink-faint" />
+                <div>
+                  <dt className="text-sm text-ink-subtle">Name</dt>
+                  <dd className="font-medium text-ink-body">
+                    {user.first_name} {user.last_name}
+                  </dd>
                 </div>
+              </div>
 
-                <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
-                    <p className="font-medium text-gray-900 dark:text-white">{user.email}</p>
-                  </div>
+              <div className="flex items-center gap-3 py-3">
+                <Mail className="h-5 w-5 shrink-0 text-ink-faint" />
+                <div>
+                  <dt className="text-sm text-ink-subtle">Email</dt>
+                  <dd className="font-medium text-ink-body">{user.email}</dd>
                 </div>
+              </div>
 
-                <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
-                  <Shield className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Account Type</p>
-                    <p className="font-medium text-gray-900 dark:text-white capitalize">{user.role}</p>
-                  </div>
+              <div className="flex items-center gap-3 py-3">
+                <Shield className="h-5 w-5 shrink-0 text-ink-faint" />
+                <div>
+                  <dt className="text-sm text-ink-subtle">Account Type</dt>
+                  <dd className="font-medium capitalize text-ink-body">{user.role}</dd>
                 </div>
+              </div>
 
-                {isStudent && (
-                  <div className="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-gray-700">
-                    <Target className="h-5 w-5 text-gray-400" />
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">SAT Goal</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
-                        {user.target_score
-                          ? `${user.target_score}${user.test_date ? ` by ${formatDate(user.test_date)}` : ''}`
-                          : 'Not set'}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
+              {isStudent && (
                 <div className="flex items-center gap-3 py-3">
-                  <Calendar className="h-5 w-5 text-gray-400" />
+                  <Target className="h-5 w-5 shrink-0 text-ink-faint" />
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Member Since</p>
-                    <p className="font-medium text-gray-900 dark:text-white">{formatDate(user.created_at)}</p>
+                    <dt className="text-sm text-ink-subtle">SAT Goal</dt>
+                    <dd className="font-medium text-ink-body">
+                      {user.target_score
+                        ? `${user.target_score}${user.test_date ? ` by ${formatDate(user.test_date)}` : ''}`
+                        : 'Not set'}
+                    </dd>
                   </div>
                 </div>
-              </>
-            )}
-          </div>
-        </Card.Content>
-      </Card>
+              )}
 
-      {/* Change Password Card */}
-      <Card>
-        <Card.Header>
-          <Card.Title>Security</Card.Title>
-          <Card.Description>Manage your account security settings</Card.Description>
-        </Card.Header>
-        <Card.Content>
-          <div className="flex items-center justify-between py-3">
-            <div>
-              <p className="font-medium text-gray-900 dark:text-white">Password</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Last changed: Unknown</p>
+              <div className="flex items-center gap-3 py-3">
+                <Calendar className="h-5 w-5 shrink-0 text-ink-faint" />
+                <div>
+                  <dt className="text-sm text-ink-subtle">Member Since</dt>
+                  <dd className="font-medium text-ink-body">{formatDate(user.created_at)}</dd>
+                </div>
+              </div>
+            </dl>
+          )}
+        </Section>
+
+        {/* Security */}
+        <Section title="Security" hint="Manage your account security settings">
+          <div className="flex items-center justify-between gap-4 py-2">
+            <div className="min-w-0">
+              <p className="font-medium text-ink-body">Password</p>
+              <p className="mt-0.5 text-sm text-ink-subtle">Last changed: Unknown</p>
             </div>
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => window.location.href = '/forgot-password'}
+              onClick={() => (window.location.href = '/forgot-password')}
             >
               Change Password
             </Button>
           </div>
-        </Card.Content>
-      </Card>
+        </Section>
+      </div>
     </div>
   );
 };

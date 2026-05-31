@@ -11,8 +11,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import useChartTheme from './useChartTheme';
 
 const AccuracyTrend = ({ data = [], height = 300 }) => {
+  const t = useChartTheme();
+
   // Sample data if none provided
   const chartData = data.length > 0 ? data : [
     { date: 'Week 1', accuracy: 65 },
@@ -29,43 +32,28 @@ const AccuracyTrend = ({ data = [], height = 300 }) => {
         data={chartData}
         margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
       >
-        <CartesianGrid
-          strokeDasharray="none"
-          stroke="#e5e7eb"
-          strokeWidth={1}
-          vertical={true}
-          horizontal={true}
-        />
+        <CartesianGrid strokeDasharray="none" stroke={t.grid} strokeWidth={1} />
         <XAxis
           dataKey="date"
-          tick={{ fontSize: 12, fill: '#6b7280' }}
-          tickLine={{ stroke: '#d1d5db' }}
-          axisLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
+          tick={{ fontSize: 12, fill: t.axis }}
+          tickLine={{ stroke: t.grid }}
+          axisLine={{ stroke: t.grid, strokeWidth: 1 }}
         />
         <YAxis
           domain={[0, 100]}
-          tick={{ fontSize: 12, fill: '#6b7280' }}
-          tickLine={{ stroke: '#d1d5db' }}
-          axisLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
+          tick={{ fontSize: 12, fill: t.axis }}
+          tickLine={{ stroke: t.grid }}
+          axisLine={{ stroke: t.grid, strokeWidth: 1 }}
           tickFormatter={(value) => `${value}%`}
         />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: '#fff',
-            border: '1px solid #d1d5db',
-            borderRadius: '8px',
-            fontSize: '14px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          }}
-          formatter={(value) => [`${value}%`, 'Accuracy']}
-        />
+        <Tooltip contentStyle={t.tooltip} formatter={(value) => [`${value}%`, 'Accuracy']} />
         <Line
           type="monotone"
           dataKey="accuracy"
-          stroke="#374151"
-          strokeWidth={2}
-          dot={{ fill: '#374151', strokeWidth: 2, r: 4 }}
-          activeDot={{ r: 6, fill: '#374151' }}
+          stroke={t.brand}
+          strokeWidth={2.5}
+          dot={{ fill: t.brand, strokeWidth: 0, r: 3 }}
+          activeDot={{ r: 5, fill: t.brand }}
         />
       </LineChart>
     </ResponsiveContainer>

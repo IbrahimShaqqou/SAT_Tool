@@ -1,38 +1,43 @@
 /**
- * Student Assignments Page
+ * Student Assignments — Study Hall.
+ * Borderless list grouped under a hairline header, status via StatusPill,
+ * filter as a quiet segmented control. Tokens, dark mode, skeletons, a11y.
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ClipboardList, Clock, AlertTriangle } from 'lucide-react';
-import { Card, Button, Badge, Tabs, EmptyState, LoadingSpinner } from '../../components/ui';
+import { ClipboardList, Clock, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Button, EmptyState, Skeleton, PageHeader, Section, StatusPill } from '../../components/ui';
 import { assignmentService } from '../../services';
 
-/**
- * Check if assignment is overdue
- */
 const isOverdue = (dueDate, status) => {
   if (!dueDate || status === 'completed') return false;
   return new Date(dueDate) < new Date();
 };
 
-/**
- * Get time until due date as a human-readable string
- */
 const getTimeUntilDue = (dueDate) => {
   if (!dueDate) return null;
-  const now = new Date();
-  const due = new Date(dueDate);
-  const diff = due - now;
-
+  const diff = new Date(dueDate) - new Date();
   if (diff < 0) return 'Overdue';
-
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const days = Math.floor(hours / 24);
-
   if (days > 0) return `${days} day${days > 1 ? 's' : ''} left`;
   if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} left`;
   return 'Due soon';
 };
+
+const STATUS = {
+  pending:     { tone: 'neutral', label: 'Not started' },
+  in_progress: { tone: 'warn',    label: 'In progress' },
+  completed:   { tone: 'good',    label: 'Completed' },
+  overdue:     { tone: 'bad',     label: 'Overdue' },
+};
+
+const FILTERS = [
+  { value: 'all', label: 'All' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'in_progress', label: 'In progress' },
+  { value: 'completed', label: 'Completed' },
+];
 
 const AssignmentsPage = () => {
   const [assignments, setAssignments] = useState([]);
@@ -52,130 +57,127 @@ const AssignmentsPage = () => {
         setIsLoading(false);
       }
     };
-
     fetchAssignments();
   }, [filter]);
 
-  const getStatusBadge = (status) => {
-    const variants = {
-      pending: 'default',
-      in_progress: 'info',
-      completed: 'success',
-      overdue: 'danger',
-    };
-    const labels = {
-      pending: 'Not Started',
-      in_progress: 'In Progress',
-      completed: 'Completed',
-      overdue: 'Overdue',
-    };
-    return <Badge variant={variants[status] || 'default'}>{labels[status] || status}</Badge>;
-  };
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-ink-body">My Assignments</h1>
-        <p className="text-ink-subtle mt-1">View and complete your assigned practice</p>
+    <div className="mx-auto max-w-4xl pb-8">
+      <PageHeader
+        eyebrow="Your work"
+        title="Assignments"
+        subtitle="Practice your tutor assigned you. Finish what's due, then keep your streak going."
+      />
+
+      {/* Segmented filter */}
+      <div role="tablist" aria-label="Filter assignments" className="mb-6 flex flex-wrap gap-1.5">
+        {FILTERS.map((f) => {
+          const active = filter === f.value;
+          return (
+            <button
+              key={f.value}
+              role="tab"
+              aria-selected={active}
+              onClick={() => setFilter(f.value)}
+              className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                active
+                  ? 'bg-brand-600 text-white'
+                  : 'bg-surface-muted text-ink-muted hover:text-ink-body hover:bg-edge-subtle'
+              }`}
+            >
+              {f.label}
+            </button>
+          );
+        })}
       </div>
 
-      <Tabs value={filter} onValueChange={setFilter}>
-        <Tabs.List>
-          <Tabs.Trigger value="all">All</Tabs.Trigger>
-          <Tabs.Trigger value="pending">Pending</Tabs.Trigger>
-          <Tabs.Trigger value="in_progress">In Progress</Tabs.Trigger>
-          <Tabs.Trigger value="completed">Completed</Tabs.Trigger>
-        </Tabs.List>
-      </Tabs>
-
       {isLoading ? (
-        <div className="flex items-center justify-center h-64">
-          <LoadingSpinner size="lg" />
-        </div>
+        <ul className="divide-y divide-edge-subtle border-t border-edge">
+          {[0, 1, 2].map((i) => (
+            <li key={i} className="flex items-center justify-between gap-4 py-5">
+              <div className="min-w-0 flex-1 space-y-2">
+                <Skeleton className="h-4 w-48" />
+                <Skeleton className="h-3 w-32" />
+              </div>
+              <Skeleton className="h-9 w-20" rounded="rounded-xl" />
+            </li>
+          ))}
+        </ul>
       ) : assignments.length === 0 ? (
-        <Card>
+        <Section>
           <EmptyState
             icon={ClipboardList}
-            title="No assignments"
+            title={filter === 'all' ? 'No assignments yet' : `No ${filter.replace('_', ' ')} assignments`}
             description={
               filter === 'all'
-                ? "You don't have any assignments yet"
-                : `No ${filter.replace('_', ' ')} assignments`
+                ? "When your tutor assigns practice, it'll show up here."
+                : 'Try a different filter to see your other assignments.'
             }
           />
-        </Card>
+        </Section>
       ) : (
-        <div className="space-y-4">
-          {assignments.map((assignment) => {
-            const overdue = isOverdue(assignment.due_date, assignment.status);
-            const timeUntil = getTimeUntilDue(assignment.due_date);
+        <ul className="divide-y divide-edge-subtle border-t border-edge">
+          {assignments.map((a) => {
+            const overdue = isOverdue(a.due_date, a.status);
+            const status = overdue ? STATUS.overdue : (STATUS[a.status] || STATUS.pending);
+            const timeUntil = getTimeUntilDue(a.due_date);
+            const done = a.status === 'completed';
 
             return (
-              <Card key={assignment.id} className={overdue ? 'border-rose-200 dark:border-rose-800/50 bg-rose-50/50 dark:bg-rose-900/10' : ''}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-medium text-ink-body">{assignment.title}</h3>
-                      {overdue ? (
-                        <Badge variant="danger">Overdue</Badge>
-                      ) : (
-                        getStatusBadge(assignment.status)
-                      )}
-                      {assignment.is_adaptive && (
-                        <Badge variant="info" size="sm">Adaptive</Badge>
-                      )}
-                    </div>
-                    <p className="text-sm text-ink-subtle mt-1">
-                      {assignment.total_questions ? (
-                        <>{assignment.questions_answered}/{assignment.total_questions} questions</>
-                      ) : (
-                        <>{assignment.questions_answered} questions answered (unlimited)</>
-                      )}
-                      {assignment.score_percentage !== null && (
-                        <> - Score: {assignment.score_percentage.toFixed(0)}%</>
-                      )}
-                    </p>
-                    <div className="flex items-center gap-4 mt-1">
-                      {assignment.due_date && (
-                        <p className={`text-sm flex items-center gap-1 ${overdue ? 'text-rose-600 dark:text-rose-400' : 'text-ink-faint'}`}>
-                          {overdue ? <AlertTriangle className="h-3.5 w-3.5" /> : <Clock className="h-3.5 w-3.5" />}
-                          {overdue ? (
-                            <>Overdue - was due {new Date(assignment.due_date).toLocaleDateString()}</>
-                          ) : (
-                            <>Due: {new Date(assignment.due_date).toLocaleDateString()} ({timeUntil})</>
-                          )}
-                        </p>
-                      )}
-                      {assignment.time_limit_minutes && (
-                        <p className="text-sm text-ink-faint flex items-center gap-1">
-                          <Clock className="h-3.5 w-3.5" />
-                          {assignment.time_limit_minutes} min limit
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div>
-                    {assignment.status === 'completed' ? (
-                      <Link to={`/student/results/${assignment.id}`}>
-                        <Button variant="secondary" size="sm">View Results</Button>
-                      </Link>
-                    ) : overdue ? (
-                      <Button variant="secondary" size="sm" disabled>
-                        Overdue
-                      </Button>
-                    ) : (
-                      <Link to={`/student/test/${assignment.id}`}>
-                        <Button variant="primary" size="sm">
-                          {assignment.status === 'in_progress' ? 'Continue' : 'Start'}
-                        </Button>
-                      </Link>
+              <li key={a.id} className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-[15px] font-semibold text-ink-body">{a.title}</h3>
+                    <StatusPill tone={status.tone} size="sm">{status.label}</StatusPill>
+                    {a.is_adaptive && (
+                      <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-ink-subtle">Adaptive</span>
                     )}
                   </div>
+                  <p className="mt-1 text-sm text-ink-subtle">
+                    {a.total_questions
+                      ? <>{a.questions_answered}/{a.total_questions} questions</>
+                      : <>{a.questions_answered} questions answered</>}
+                    {a.score_percentage != null && <> · Score {a.score_percentage.toFixed(0)}%</>}
+                  </p>
+                  {(a.due_date || a.time_limit_minutes) && (
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1">
+                      {a.due_date && (
+                        <p className={`flex items-center gap-1 text-xs ${overdue ? 'text-rose-600 dark:text-rose-400' : 'text-ink-faint'}`}>
+                          {overdue ? <AlertTriangle className="h-3.5 w-3.5" /> : <Clock className="h-3.5 w-3.5" />}
+                          {overdue
+                            ? <>Was due {new Date(a.due_date).toLocaleDateString()}</>
+                            : <>Due {new Date(a.due_date).toLocaleDateString()} · {timeUntil}</>}
+                        </p>
+                      )}
+                      {a.time_limit_minutes && (
+                        <p className="flex items-center gap-1 text-xs text-ink-faint">
+                          <Clock className="h-3.5 w-3.5" />{a.time_limit_minutes} min limit
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </Card>
+
+                <div className="shrink-0">
+                  {done ? (
+                    <Link to={`/student/results/${a.id}`}>
+                      <Button variant="secondary" size="sm">View results <ArrowRight className="h-3.5 w-3.5" /></Button>
+                    </Link>
+                  ) : overdue ? (
+                    <Link to={`/student/test/${a.id}`}>
+                      <Button variant="secondary" size="sm">Catch up <ArrowRight className="h-3.5 w-3.5" /></Button>
+                    </Link>
+                  ) : (
+                    <Link to={`/student/test/${a.id}`}>
+                      <Button variant="primary" size="sm">
+                        {a.status === 'in_progress' ? 'Continue' : 'Start'} <ArrowRight className="h-3.5 w-3.5" />
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       )}
     </div>
   );

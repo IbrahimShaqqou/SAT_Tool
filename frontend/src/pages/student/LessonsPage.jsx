@@ -1,51 +1,22 @@
 /**
- * Lessons Page
- * Browse and learn skill lessons organized by domain
- * Beautiful visual design with progress tracking
+ * Lessons — Study Hall.
+ * Browsable lesson tiles (cards earn their place here) grouped by domain under
+ * hairline headers, warm single-accent treatment, difficulty pills. Tokens,
+ * dark mode, a11y, motion.
  */
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import {
-  BookOpen,
-  Clock,
-  CheckCircle2,
-  ChevronRight,
-  Calculator,
-  BookText,
-  Sparkles,
-  Lock,
-  PlayCircle,
-  GraduationCap,
+  BookOpen, Clock, CheckCircle2, ChevronRight, Calculator,
+  BookText, Lock, PlayCircle,
 } from 'lucide-react';
-import { Button, Badge, LoadingSpinner, EmptyState } from '../../components/ui';
+import { Button, EmptyState, Skeleton, PageHeader, Surface, Reveal } from '../../components/ui';
 import { lessonService } from '../../services';
 
-// Domain color mapping for visual appeal
-const domainColors = {
-  // Math domains
-  H: { bg: 'bg-blue-500', light: 'bg-blue-50 dark:bg-blue-900/20', text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800' },
-  Q: { bg: 'bg-purple-500', light: 'bg-purple-50 dark:bg-purple-900/20', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800' },
-  P: { bg: 'bg-green-500', light: 'bg-green-50 dark:bg-green-900/20', text: 'text-green-600 dark:text-green-400', border: 'border-green-200 dark:border-green-800' },
-  S: { bg: 'bg-orange-500', light: 'bg-orange-50 dark:bg-orange-900/20', text: 'text-orange-600 dark:text-orange-400', border: 'border-orange-200 dark:border-orange-800' },
-  // Reading domains
-  INI: { bg: 'bg-teal-500', light: 'bg-teal-50 dark:bg-teal-900/20', text: 'text-teal-600 dark:text-teal-400', border: 'border-teal-200 dark:border-teal-800' },
-  CAS: { bg: 'bg-indigo-500', light: 'bg-indigo-50 dark:bg-indigo-900/20', text: 'text-indigo-600 dark:text-indigo-400', border: 'border-indigo-200 dark:border-indigo-800' },
-  EOI: { bg: 'bg-pink-500', light: 'bg-pink-50 dark:bg-pink-900/20', text: 'text-pink-600 dark:text-pink-400', border: 'border-pink-200 dark:border-pink-800' },
-  SEC: { bg: 'bg-amber-500', light: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800' },
-};
-
-const getColorScheme = (code) => domainColors[code] || domainColors.H;
-
-// Domain icons
-const domainIcons = {
-  H: Calculator,
-  Q: Sparkles,
-  P: BookText,
-  S: GraduationCap,
-  INI: BookOpen,
-  CAS: BookText,
-  EOI: Sparkles,
-  SEC: GraduationCap,
+const difficultyPill = (level) => {
+  if (level === 'beginner') return 'bg-accent-50 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300';
+  if (level === 'advanced') return 'bg-rose-50 text-rose-700 dark:bg-rose-900/25 dark:text-rose-300';
+  return 'bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300';
 };
 
 const LessonsPage = ({ isPublic = false }) => {
@@ -59,7 +30,6 @@ const LessonsPage = ({ isPublic = false }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Determine the base path based on context (tutor, student, or public)
   const isTutorRoute = location.pathname.startsWith('/tutor');
   const basePath = isPublic ? '/lessons' : isTutorRoute ? '/tutor/lessons' : '/student/lessons';
 
@@ -67,7 +37,6 @@ const LessonsPage = ({ isPublic = false }) => {
     const fetchLessons = async () => {
       setIsLoading(true);
       try {
-        // Use public endpoints if isPublic, otherwise use authenticated endpoints
         const [mathRes, readingRes] = await Promise.all([
           isPublic ? lessonService.getPublicMathLessons() : lessonService.getMathLessons(),
           isPublic ? lessonService.getPublicReadingLessons() : lessonService.getReadingLessons(),
@@ -81,276 +50,148 @@ const LessonsPage = ({ isPublic = false }) => {
         setIsLoading(false);
       }
     };
-
     fetchLessons();
   }, [isPublic]);
 
-  const handleTabChange = (tab) => {
-    setSearchParams({ subject: tab });
-  };
-
-  const handleLessonClick = (lesson) => {
-    if (lesson.status === 'published') {
-      navigate(`${basePath}/${lesson.id}`);
-    }
-  };
-
   const currentLessons = activeTab === 'math' ? mathLessons : readingLessons;
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
+  const handleLessonClick = (lesson) => { if (lesson.status === 'published') navigate(`${basePath}/${lesson.id}`); };
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-500 dark:text-red-400">{error}</p>
-        <Button onClick={() => window.location.reload()} className="mt-4">
-          Retry
-        </Button>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <p className="text-rose-600 dark:text-rose-400">{error}</p>
+        <Button onClick={() => window.location.reload()} className="mt-4">Retry</Button>
       </div>
     );
   }
 
+  const TABS = [
+    { key: 'math', label: 'Math', icon: Calculator, count: mathLessons?.total_lessons },
+    { key: 'reading', label: 'Reading & Writing', icon: BookText, count: readingLessons?.total_lessons },
+  ];
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            Skill Lessons
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            Learn concepts before you practice
-          </p>
-        </div>
-
-        {/* Progress Summary */}
-        {currentLessons && (
-          <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <CheckCircle2 className="h-5 w-5 text-green-500" />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {currentLessons.completed_lessons} / {currentLessons.total_lessons} completed
+    <div className="mx-auto max-w-5xl pb-8">
+      <PageHeader
+        eyebrow="Learn the concepts"
+        title="Skill lessons"
+        subtitle="Short, worked lessons for every SAT skill. Learn the idea, then practice it."
+        actions={
+          currentLessons && (
+            <span className="inline-flex items-center gap-2 rounded-full bg-surface-muted px-3 py-1.5 text-sm font-medium text-ink-muted">
+              <CheckCircle2 className="h-4 w-4 text-accent-600 dark:text-accent-400" />
+              {currentLessons.completed_lessons}/{currentLessons.total_lessons} done
             </span>
-          </div>
-        )}
+          )
+        }
+      />
+
+      {/* Subject tabs */}
+      <div role="tablist" aria-label="Subject" className="mb-8 flex flex-wrap gap-1.5 border-b border-edge pb-3">
+        {TABS.map((t) => {
+          const active = activeTab === t.key;
+          return (
+            <button
+              key={t.key} role="tab" aria-selected={active} onClick={() => setSearchParams({ subject: t.key })}
+              className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${active ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted hover:text-ink-body hover:bg-edge-subtle'}`}
+            >
+              <t.icon className="h-4 w-4" /> {t.label}
+              {t.count != null && <span className={`text-xs ${active ? 'text-white/80' : 'text-ink-faint'}`}>{t.count}</span>}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Subject Tabs */}
-      <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700 pb-2">
-        <button
-          onClick={() => handleTabChange('math')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'math'
-              ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-          }`}
-        >
-          <Calculator className="h-4 w-4" />
-          Math
-          {mathLessons && (
-            <Badge variant={activeTab === 'math' ? 'default' : 'default'} size="sm">
-              {mathLessons.total_lessons}
-            </Badge>
-          )}
-        </button>
-        <button
-          onClick={() => handleTabChange('reading')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'reading'
-              ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-          }`}
-        >
-          <BookText className="h-4 w-4" />
-          Reading & Writing
-          {readingLessons && (
-            <Badge variant={activeTab === 'reading' ? 'default' : 'default'} size="sm">
-              {readingLessons.total_lessons}
-            </Badge>
-          )}
-        </button>
-      </div>
-
-      {/* Domains and Lessons */}
-      {currentLessons && currentLessons.domains.length > 0 ? (
-        <div className="space-y-8">
+      {isLoading ? (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[0, 1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-40 w-full" rounded="rounded-2xl" />)}
+        </div>
+      ) : currentLessons && currentLessons.domains.length > 0 ? (
+        <div className="space-y-10">
           {currentLessons.domains.map((domain) => {
-            const colors = getColorScheme(domain.domain_code);
-            const DomainIcon = domainIcons[domain.domain_code] || BookOpen;
-
+            const pct = domain.total_lessons > 0 ? Math.round((domain.completed_lessons / domain.total_lessons) * 100) : 0;
             return (
-              <div key={domain.domain_id} className="space-y-4">
-                {/* Domain Header */}
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${colors.bg}`}>
-                    <DomainIcon className="h-5 w-5 text-white" />
+              <Reveal key={domain.domain_id} as="section">
+                <div className="mb-4 flex items-end justify-between gap-3 border-b border-edge pb-2.5">
+                  <div>
+                    <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-body">{domain.domain_name}</h2>
+                    <p className="mt-0.5 text-xs text-ink-subtle">{domain.completed_lessons} of {domain.total_lessons} completed</p>
                   </div>
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                      {domain.domain_name}
-                    </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {domain.completed_lessons} of {domain.total_lessons} lessons completed
-                    </p>
-                  </div>
-                  {/* Domain Progress Bar */}
-                  <div className="hidden sm:flex items-center gap-2 w-32">
-                    <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${colors.bg} transition-all duration-300`}
-                        style={{
-                          width: `${domain.total_lessons > 0
-                            ? (domain.completed_lessons / domain.total_lessons) * 100
-                            : 0}%`
-                        }}
-                      />
+                  <div className="hidden w-32 items-center gap-2 sm:flex">
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-muted">
+                      <div className="h-full rounded-full bg-brand-500 transition-[width] duration-700 ease-out-expo" style={{ width: `${pct}%` }} />
                     </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
-                      {domain.total_lessons > 0
-                        ? Math.round((domain.completed_lessons / domain.total_lessons) * 100)
-                        : 0}%
-                    </span>
+                    <span className="w-9 text-right text-xs text-ink-faint">{pct}%</span>
                   </div>
                 </div>
 
-                {/* Lesson Cards */}
                 {domain.lessons.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {domain.lessons.map((lesson) => (
-                      <LessonCard
-                        key={lesson.id}
-                        lesson={lesson}
-                        colors={colors}
-                        onClick={() => handleLessonClick(lesson)}
-                      />
+                      <LessonCard key={lesson.id} lesson={lesson} onClick={() => handleLessonClick(lesson)} />
                     ))}
                   </div>
                 ) : (
-                  <div className={`p-6 rounded-lg border-2 border-dashed ${colors.border} ${colors.light}`}>
-                    <div className="text-center">
-                      <BookOpen className={`h-8 w-8 mx-auto mb-2 ${colors.text}`} />
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Lessons coming soon
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        We're working on lessons for this domain
-                      </p>
-                    </div>
-                  </div>
+                  <p className="rounded-xl border border-dashed border-edge-strong bg-surface-muted/50 py-6 text-center text-sm text-ink-subtle">
+                    Lessons for this domain are coming soon.
+                  </p>
                 )}
-              </div>
+              </Reveal>
             );
           })}
         </div>
       ) : (
-        <EmptyState
-          icon={BookOpen}
-          title="No lessons available"
-          description="Lessons are being created. Check back soon!"
-        />
+        <EmptyState icon={BookOpen} title="No lessons available" description="Lessons are being created. Check back soon." />
       )}
     </div>
   );
 };
 
-// Lesson Card Component
-const LessonCard = ({ lesson, colors, onClick }) => {
+const LessonCard = ({ lesson, onClick }) => {
   const isPublished = lesson.status === 'published';
   const isInProgress = lesson.status === 'in_progress';
   const isCompleted = lesson.is_completed;
 
   return (
-    <button
+    <Surface
+      as="button"
       onClick={onClick}
       disabled={!isPublished}
-      className={`
-        relative w-full text-left p-4 rounded-xl border transition-all duration-200
-        ${isPublished
-          ? `bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer`
-          : `bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 opacity-75 cursor-not-allowed`
-        }
-      `}
+      interactive={isPublished}
+      elevation="sm"
+      padded={false}
+      className={`w-full p-4 text-left ${!isPublished ? 'cursor-not-allowed opacity-70' : ''}`}
     >
-      {/* Completion indicator */}
-      {isCompleted && (
-        <div className="absolute top-3 right-3">
-          <CheckCircle2 className="h-5 w-5 text-green-500" />
-        </div>
-      )}
-
-      {/* Status badge for non-published */}
-      {!isPublished && (
-        <div className="absolute top-3 right-3">
-          {isInProgress ? (
-            <Badge variant="warning" size="sm">Coming Soon</Badge>
-          ) : (
-            <Lock className="h-4 w-4 text-gray-400 dark:text-gray-500" />
-          )}
-        </div>
-      )}
-
-      {/* Skill code badge */}
-      <div className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${colors.light} ${colors.text} mb-3`}>
-        {lesson.skill_code}
+      <div className="mb-3 flex items-start justify-between">
+        <span className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+          {lesson.skill_code}
+        </span>
+        {isCompleted ? (
+          <CheckCircle2 className="h-5 w-5 text-accent-600 dark:text-accent-400" />
+        ) : !isPublished ? (
+          isInProgress
+            ? <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-ink-subtle">Coming soon</span>
+            : <Lock className="h-4 w-4 text-ink-faint" />
+        ) : null}
       </div>
 
-      {/* Title */}
-      <h3 className={`font-semibold mb-1 pr-8 ${
-        isPublished
-          ? 'text-gray-900 dark:text-gray-100'
-          : 'text-gray-500 dark:text-gray-400'
-      }`}>
-        {lesson.title}
-      </h3>
+      <h3 className={`mb-1 font-semibold ${isPublished ? 'text-ink-body' : 'text-ink-subtle'}`}>{lesson.title}</h3>
+      {lesson.subtitle && <p className="mb-3 line-clamp-2 text-sm text-ink-subtle">{lesson.subtitle}</p>}
 
-      {/* Subtitle */}
-      {lesson.subtitle && (
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
-          {lesson.subtitle}
-        </p>
-      )}
-
-      {/* Meta info */}
-      <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-        <span className="flex items-center gap-1">
-          <Clock className="h-3.5 w-3.5" />
-          {lesson.estimated_minutes} min
-        </span>
-        <span className={`capitalize px-2 py-0.5 rounded ${
-          lesson.difficulty_level === 'beginner'
-            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
-            : lesson.difficulty_level === 'advanced'
-            ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
-            : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'
-        }`}>
-          {lesson.difficulty_level}
-        </span>
+      <div className="flex items-center gap-3 text-xs text-ink-faint">
+        <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{lesson.estimated_minutes} min</span>
+        <span className={`rounded-full px-2 py-0.5 font-semibold capitalize ${difficultyPill(lesson.difficulty_level)}`}>{lesson.difficulty_level}</span>
       </div>
 
-      {/* Action indicator */}
-      {isPublished && !isCompleted && (
-        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-            Start Learning
+      {isPublished && (
+        <div className="mt-3 flex items-center justify-between border-t border-edge-subtle pt-3">
+          <span className={`text-sm font-medium ${isCompleted ? 'text-accent-700 dark:text-accent-400' : 'text-ink-muted'}`}>
+            {isCompleted ? 'Review lesson' : 'Start learning'}
           </span>
-          <PlayCircle className={`h-5 w-5 ${colors.text}`} />
+          {isCompleted ? <ChevronRight className="h-5 w-5 text-ink-faint" /> : <PlayCircle className="h-5 w-5 text-brand-600 dark:text-brand-400" />}
         </div>
       )}
-
-      {isCompleted && (
-        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
-          <span className="text-sm font-medium text-green-600 dark:text-green-400">
-            Completed
-          </span>
-          <ChevronRight className="h-5 w-5 text-gray-400" />
-        </div>
-      )}
-    </button>
+    </Surface>
   );
 };
 

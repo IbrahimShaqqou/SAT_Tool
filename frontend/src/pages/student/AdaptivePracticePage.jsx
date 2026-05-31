@@ -20,6 +20,9 @@ import {
   Button,
   LoadingSpinner,
   ThetaBar,
+  Modal,
+  PageHeader,
+  Section,
 } from '../../components/ui';
 import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas, HighlightableText } from '../../components/test';
 import { adaptiveService, taxonomyService } from '../../services';
@@ -71,19 +74,19 @@ const SkillSelector = ({ skills, selectedSkills, onToggle, onSelectAll, onClearA
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+        <span className="text-sm text-ink-muted">
           {selectedSkills.length} skill{selectedSkills.length !== 1 ? 's' : ''} selected
         </span>
         <div className="flex gap-2">
           <button
             onClick={onSelectAll}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+            className="rounded text-sm text-brand-700 hover:text-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:text-brand-400 dark:hover:text-brand-300"
           >
             Select All
           </button>
           <button
             onClick={onClearAll}
-            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+            className="rounded text-sm text-ink-muted hover:text-ink-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             Clear
           </button>
@@ -92,20 +95,20 @@ const SkillSelector = ({ skills, selectedSkills, onToggle, onSelectAll, onClearA
 
       <div className="space-y-2 max-h-96 overflow-y-auto">
         {Object.entries(groupedSkills).map(([domain, domainSkills]) => (
-          <div key={domain} className="border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div key={domain} className="border border-edge rounded-lg">
             <button
               onClick={() => toggleDomain(domain)}
-              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="w-full flex items-center justify-between p-3 hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg"
             >
-              <span className="font-medium text-gray-900 dark:text-gray-100">{domain}</span>
+              <span className="font-medium text-ink-body">{domain}</span>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-ink-muted">
                   {domainSkills.filter(s => selectedSkills.includes(s.id)).length}/{domainSkills.length}
                 </span>
                 {expandedDomains.has(domain) ? (
-                  <ChevronUp className="h-4 w-4 text-gray-400" />
+                  <ChevronUp className="h-4 w-4 text-ink-faint" />
                 ) : (
-                  <ChevronDown className="h-4 w-4 text-gray-400" />
+                  <ChevronDown className="h-4 w-4 text-ink-faint" />
                 )}
               </div>
             </button>
@@ -114,15 +117,15 @@ const SkillSelector = ({ skills, selectedSkills, onToggle, onSelectAll, onClearA
                 {domainSkills.map(skill => (
                   <label
                     key={skill.id}
-                    className="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+                    className="flex items-center gap-2 p-2 rounded hover:bg-surface-muted cursor-pointer"
                   >
                     <input
                       type="checkbox"
                       checked={selectedSkills.includes(skill.id)}
                       onChange={() => onToggle(skill.id)}
-                      className="rounded border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 dark:bg-gray-800 focus:ring-gray-900 dark:focus:ring-gray-400"
+                      className="rounded border-edge-strong text-brand-600 bg-surface-input focus:ring-brand-500"
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{skill.name}</span>
+                    <span className="text-sm text-ink-muted">{skill.name}</span>
                   </label>
                 ))}
               </div>
@@ -140,19 +143,19 @@ const SessionResults = ({ results, onClose, onNewSession }) => {
     <div className="space-y-6">
       {/* Score */}
       <div className="text-center">
-        <p className="text-6xl font-bold text-gray-900 dark:text-gray-100">
+        <p className="font-display text-6xl font-bold text-ink-body">
           {results.score_percentage?.toFixed(0) || 0}%
         </p>
-        <p className="text-gray-500 dark:text-gray-400 mt-2">
+        <p className="text-ink-muted mt-2">
           {results.questions_correct} of {results.total_questions} correct
         </p>
       </div>
 
       {/* Performance summary - no theta shown */}
-      <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
+      <Card className="bg-brand-50 dark:bg-brand-950/30">
         <div className="text-center">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Great work!</p>
-          <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mt-1">
+          <p className="text-sm text-ink-muted">Great work!</p>
+          <p className="text-lg font-medium text-ink-body mt-1">
             {results.questions_correct >= results.total_questions * 0.8 ? 'Excellent performance!' :
              results.questions_correct >= results.total_questions * 0.6 ? 'Good progress!' :
              'Keep practicing to improve!'}
@@ -163,21 +166,21 @@ const SessionResults = ({ results, onClose, onNewSession }) => {
       {/* Skill Progress - ThetaBar with level-change delta */}
       {results.skill_progress?.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Skills Practiced</h3>
+          <h3 className="text-sm font-medium text-ink-muted mb-3">Skills Practiced</h3>
           <div className="space-y-4">
             {results.skill_progress.map(skill => {
               // Detect level-up: ability_after mastery_level_enum > ability_before
               const levelBefore = skill.ability?.before_level ?? null;
               const levelAfter = skill.ability?.after_level ?? (skill.mastery_level !== undefined ? Math.round(skill.mastery_level / 33.3) : null);
               const levelNames = ['Not Started', 'Familiar', 'Proficient', 'Mastered'];
-              const levelColors = ['text-gray-500', 'text-blue-600', 'text-emerald-600', 'text-yellow-600'];
+              const levelColors = ['text-ink-muted', 'text-brand-700 dark:text-brand-400', 'text-accent-600 dark:text-accent-400', 'text-amber-600 dark:text-amber-400'];
               const didLevelUp = levelBefore !== null && levelAfter !== null && levelAfter > levelBefore;
               return (
                 <div key={skill.skill_id}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.skill_name}</span>
+                    <span className="text-sm font-medium text-ink-muted">{skill.skill_name}</span>
                     {didLevelUp && (
-                      <span className={`text-xs font-semibold ${levelColors[levelAfter] || 'text-gray-500'}`}>
+                      <span className={`text-xs font-semibold ${levelColors[levelAfter] || 'text-ink-muted'}`}>
                         ↑ {levelNames[levelAfter] || 'Level Up'}
                       </span>
                     )}
@@ -247,6 +250,8 @@ const AdaptivePracticePage = () => {
   const [showReportModal, setShowReportModal] = useState(false);
   const [calculatorKey, setCalculatorKey] = useState(0); // Force remount when needed
   const [error, setError] = useState(null);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [showEndModal, setShowEndModal] = useState(false);
 
   // Time tracking
   const [questionStartTime, setQuestionStartTime] = useState(null);
@@ -438,6 +443,15 @@ const AdaptivePracticePage = () => {
     setQuestionStartTime(Date.now()); // Reset timer for new question
   };
 
+  // Exit practice (save progress) and return to dashboard
+  const handleConfirmExit = async () => {
+    setShowExitModal(false);
+    try {
+      if (session) await adaptiveService.completeSession(session.id);
+    } catch {}
+    navigate('/student');
+  };
+
   // End practice session manually (for infinite mode)
   const handleEndPractice = async () => {
     if (!session) return;
@@ -492,75 +506,68 @@ const AdaptivePracticePage = () => {
   // Setup Phase
   if (phase === 'setup') {
     return (
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/student')} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-            <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-          </button>
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Adaptive Practice</h1>
-            <p className="text-gray-500 dark:text-gray-400">Questions selected based on your ability level</p>
-          </div>
-        </div>
+      <div className="mx-auto max-w-2xl pb-8">
+        <PageHeader
+          eyebrow="Adaptive"
+          title="Adaptive Practice"
+          subtitle="Questions selected based on your ability level."
+          actions={(
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/student')}
+              aria-label="Back to dashboard"
+            >
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          )}
+        />
 
         {error && (
-          <div className="p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/30 rounded-lg text-rose-700 dark:text-rose-300">
+          <div role="alert" className="mb-6 p-4 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 rounded-lg text-rose-700 dark:text-rose-300">
             {error}
           </div>
         )}
 
-        <Card>
-          <Card.Header>
-            <Card.Title className="flex items-center gap-2">
-              <Brain className="h-5 w-5 text-purple-500" />
-              How Adaptive Practice Works
-            </Card.Title>
-          </Card.Header>
-          <Card.Content>
-            <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
-              <div className="flex items-start gap-3">
-                <div className="p-1 bg-blue-100 dark:bg-blue-900/30 rounded">
-                  <Zap className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                </div>
-                <p>Questions are selected based on your current skill level using IRT (Item Response Theory)</p>
+        <Section title="How adaptive practice works" icon={Brain}>
+          <div className="space-y-3 text-sm text-ink-muted">
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-brand-100 dark:bg-brand-950/40 rounded">
+                <Zap className="h-4 w-4 text-brand-700 dark:text-brand-400" />
               </div>
-              <div className="flex items-start gap-3">
-                <div className="p-1 bg-emerald-100 dark:bg-emerald-900/30 rounded">
-                  <Target className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                </div>
-                <p>Questions adapt to your skill level as you practice</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="p-1 bg-purple-100 dark:bg-purple-900/30 rounded">
-                  <Target className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-                </div>
-                <p>Questions target the "zone of proximal development" - challenging but achievable</p>
-              </div>
+              <p>Questions are selected based on your current skill level using IRT (Item Response Theory)</p>
             </div>
-          </Card.Content>
-        </Card>
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-accent-100 dark:bg-accent-950/40 rounded">
+                <Target className="h-4 w-4 text-accent-600 dark:text-accent-400" />
+              </div>
+              <p>Questions adapt to your skill level as you practice</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-brand-100 dark:bg-brand-950/40 rounded">
+                <Target className="h-4 w-4 text-brand-700 dark:text-brand-400" />
+              </div>
+              <p>Questions target the "zone of proximal development" - challenging but achievable</p>
+            </div>
+          </div>
+        </Section>
 
-        <Card>
-          <Card.Header>
-            <Card.Title>Select Skills to Practice</Card.Title>
-            <Card.Description>Choose one or more skills to focus on</Card.Description>
-          </Card.Header>
-          <Card.Content>
-            <SkillSelector
-              skills={skills}
-              selectedSkills={selectedSkills}
-              onToggle={handleToggleSkill}
-              onSelectAll={() => setSelectedSkills(skills.map(s => s.id))}
-              onClearAll={() => setSelectedSkills([])}
-            />
-          </Card.Content>
-        </Card>
+        <Section className="mt-10" title="Select skills to practice" hint="Choose one or more skills to focus on">
+          <SkillSelector
+            skills={skills}
+            selectedSkills={selectedSkills}
+            onToggle={handleToggleSkill}
+            onSelectAll={() => setSelectedSkills(skills.map(s => s.id))}
+            onClearAll={() => setSelectedSkills([])}
+          />
+        </Section>
 
         <Button
           variant="primary"
           onClick={handleStartSession}
           disabled={selectedSkills.length === 0}
-          className="w-full py-3 text-lg"
+          className="mt-8 w-full py-3 text-lg"
         >
           <Zap className="h-5 w-5 mr-2" />
           Start Adaptive Practice
@@ -591,29 +598,23 @@ const AdaptivePracticePage = () => {
 
   // Practice Phase - UI matching regular assignments
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
+    <div className="min-h-screen flex flex-col bg-surface-page -m-4 lg:-m-6">
       {/* Header - matching TestPage header style - sticky */}
-      <div className="sticky top-0 z-30 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
+      <div className="sticky top-0 z-30 bg-surface-card border-b border-edge px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
-            onClick={async () => {
-              if (window.confirm('Exit practice? Your progress will be saved.')) {
-                try {
-                  if (session) await adaptiveService.completeSession(session.id);
-                } catch {}
-                navigate('/student');
-              }
-            }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+            onClick={() => setShowExitModal(true)}
+            className="p-2 hover:bg-surface-muted rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            aria-label="Exit practice"
           >
-            <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+            <ArrowLeft className="h-5 w-5 text-ink-muted" />
           </button>
           <div>
-            <h1 className="font-semibold text-gray-900 dark:text-gray-100">Adaptive Practice</h1>
-            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+            <h1 className="font-semibold text-ink-body">Adaptive Practice</h1>
+            <div className="flex items-center gap-2 text-sm text-ink-muted">
               <span>Question {questionsAnswered + 1}</span>
-              <span className="text-gray-300 dark:text-gray-600">|</span>
-              <span className="text-emerald-600 dark:text-emerald-400">{correctCount} correct</span>
+              <span className="text-edge-strong">|</span>
+              <span className="text-accent-600 dark:text-accent-400">{correctCount} correct</span>
             </div>
           </div>
         </div>
@@ -621,11 +622,12 @@ const AdaptivePracticePage = () => {
           {/* Draw toggle */}
           <button
             onClick={() => setIsDrawing((d) => !d)}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
               isDrawing
-                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-brand-600 text-white'
+                : 'text-ink-muted hover:bg-surface-muted'
             }`}
+            aria-label={isDrawing ? 'Stop drawing' : 'Draw on question'}
             title={isDrawing ? 'Stop drawing' : 'Draw on question'}
           >
             <Pencil className="h-5 w-5" />
@@ -635,12 +637,8 @@ const AdaptivePracticePage = () => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => {
-              if (window.confirm('End practice and see your results?')) {
-                handleEndPractice();
-              }
-            }}
-            className="text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 hover:bg-rose-50 dark:hover:bg-rose-900/20"
+            onClick={() => setShowEndModal(true)}
+            className="text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50 hover:bg-rose-50 dark:hover:bg-rose-950/30"
           >
             End Practice
           </Button>
@@ -670,7 +668,7 @@ const AdaptivePracticePage = () => {
       </div>
 
       {/* Main Content - matching TestPage layout */}
-      <div ref={contentRef} className={`flex-1 overflow-y-auto ${lastResult ? 'pb-52' : 'pb-28'} bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''}`}>
+      <div ref={contentRef} className={`flex-1 overflow-y-auto ${lastResult ? 'pb-52' : 'pb-28'} bg-surface-page ${showCalculator ? 'mr-[440px]' : ''}`}>
         <div className="max-w-3xl mx-auto">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
@@ -679,17 +677,17 @@ const AdaptivePracticePage = () => {
           ) : currentQuestion ? (
             <>
               {/* Question header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-edge">
                 <div className="flex items-center gap-4">
                   {/* Question number */}
-                  <span className="flex items-center justify-center w-8 h-8 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium rounded">
+                  <span className="flex items-center justify-center w-8 h-8 bg-brand-600 text-white text-sm font-medium rounded">
                     {questionsAnswered + 1}
                   </span>
                 </div>
                 {/* Report button */}
                 <button
                   onClick={() => setShowReportModal(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-sm transition-colors"
+                  className="flex items-center gap-2 px-3 py-1.5 text-ink-muted hover:text-ink-body hover:bg-surface-muted rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                 >
                   <span>Report</span>
                 </button>
@@ -700,12 +698,12 @@ const AdaptivePracticePage = () => {
               {currentQuestion.passage_html &&
                !currentQuestion.prompt_html?.includes('<table') &&
                !isPassageInPrompt(currentQuestion.passage_html, currentQuestion.prompt_html) && (
-                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <div className="px-6 py-4 bg-surface-muted border-b border-edge">
                   <HighlightableText
                     key={`${currentQuestion.id}-passage`}
                     html={currentQuestion.passage_html}
                     questionId={`${currentQuestion.id}-passage`}
-                    className="prose-sm text-gray-600 dark:text-gray-300"
+                    className="prose-sm text-ink-muted"
                     onAfterSave={runMathJax}
                   />
                 </div>
@@ -740,7 +738,7 @@ const AdaptivePracticePage = () => {
                   <div className="mt-4">
                     {/* Show correct answer for SPR if wrong */}
                     {!lastResult.is_correct && lastResult.correct_answer && currentQuestion.answer_type !== 'MCQ' && (
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <div className="text-sm text-ink-muted mb-3">
                         {lastResult.correct_answer.answers?.length > 0 &&
                          !lastResult.correct_answer.answers.includes('*')
                           ? `Correct answer: ${lastResult.correct_answer.answers.join(' or ')}`
@@ -757,16 +755,16 @@ const AdaptivePracticePage = () => {
                         choices={currentQuestion.choices || []}
                       />
                     ) : lastResult.explanation_html ? (
-                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
-                        <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
+                      <div className="p-4 bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-900/40 rounded-lg">
+                        <h4 className="text-sm font-medium text-brand-900 dark:text-brand-200 mb-2">Explanation</h4>
                         <div
-                          className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
+                          className="prose prose-sm dark:prose-invert max-w-none text-ink-body"
                           dangerouslySetInnerHTML={{ __html: lastResult.explanation_html }}
                         />
                       </div>
                     ) : (
-                      <div className="p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <span className="text-sm text-gray-500 dark:text-gray-400 italic">
+                      <div className="p-4 bg-surface-muted border border-edge rounded-lg">
+                        <span className="text-sm text-ink-muted italic">
                           No explanation available for this question
                         </span>
                       </div>
@@ -777,7 +775,7 @@ const AdaptivePracticePage = () => {
             </>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500">No more questions available</p>
+              <p className="text-ink-muted">No more questions available</p>
               <Button
                 variant="secondary"
                 onClick={() => navigate('/student')}
@@ -791,26 +789,26 @@ const AdaptivePracticePage = () => {
       </div>
 
       {/* Fixed bottom navigation - matching TestPage adaptive style */}
-      <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+      <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 border-t border-edge bg-surface-card">
         {/* Progress indicator */}
-        <div className="flex items-center justify-center py-2 border-b border-gray-100 dark:border-gray-800">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="flex items-center justify-center py-2 border-b border-edge-subtle">
+          <span className="text-sm text-ink-muted">
             Question <span className="font-semibold">{questionsAnswered + 1}</span>
             {session?.total_questions ? (
               <> of <span className="font-semibold">{session.total_questions}</span></>
             ) : (
-              <span className="ml-1 text-gray-400 dark:text-gray-500">(unlimited)</span>
+              <span className="ml-1 text-ink-faint">(unlimited)</span>
             )}
             {lastResult?.session_complete && (
-              <span className="ml-2 text-green-600 dark:text-green-400 font-medium">• Practice Complete!</span>
+              <span className="ml-2 text-accent-600 dark:text-accent-400 font-medium">• Practice Complete!</span>
             )}
           </span>
         </div>
 
         {/* Result indicator for answered questions */}
         {lastResult && (
-          <div className={`flex items-center justify-center py-2 border-b border-gray-100 dark:border-gray-800 ${
-            lastResult.is_correct ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+          <div className={`flex items-center justify-center py-2 border-b border-edge-subtle ${
+            lastResult.is_correct ? 'bg-accent-50 dark:bg-accent-950/30 text-accent-700 dark:text-accent-400' : 'bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400'
           }`}>
             <span className="text-sm font-medium">
               {lastResult.is_correct ? '✓ Correct!' : '✗ Incorrect'}
@@ -887,6 +885,39 @@ const AdaptivePracticePage = () => {
           onClose={() => setShowReportModal(false)}
         />
       )}
+
+      {/* Exit confirmation */}
+      <Modal
+        isOpen={showExitModal}
+        onClose={() => setShowExitModal(false)}
+        title="Exit practice?"
+        size="sm"
+      >
+        <p className="text-sm text-ink-muted">Your progress will be saved.</p>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowExitModal(false)}>Stay</Button>
+          <Button variant="primary" onClick={handleConfirmExit}>Exit practice</Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* End practice confirmation */}
+      <Modal
+        isOpen={showEndModal}
+        onClose={() => setShowEndModal(false)}
+        title="End practice?"
+        size="sm"
+      >
+        <p className="text-sm text-ink-muted">End practice and see your results?</p>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEndModal(false)}>Keep going</Button>
+          <Button
+            variant="primary"
+            onClick={() => { setShowEndModal(false); handleEndPractice(); }}
+          >
+            See results
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

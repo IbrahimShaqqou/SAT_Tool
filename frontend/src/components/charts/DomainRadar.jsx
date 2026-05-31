@@ -11,8 +11,11 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
+import useChartTheme from './useChartTheme';
 
 const DomainRadar = ({ data = [], height = 300 }) => {
+  const t = useChartTheme();
+
   // Sample data if none provided
   const chartData = data.length > 0 ? data : [
     { domain: 'Algebra', accuracy: 78, fullMark: 100 },
@@ -25,39 +28,22 @@ const DomainRadar = ({ data = [], height = 300 }) => {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}>
-        <PolarGrid
-          stroke="#d1d5db"
-          strokeWidth={1}
-          gridType="polygon"
-        />
-        <PolarAngleAxis
-          dataKey="domain"
-          tick={{ fontSize: 12, fill: '#374151' }}
-          stroke="#9ca3af"
-        />
+        <PolarGrid stroke={t.grid} strokeWidth={1} gridType="polygon" />
+        <PolarAngleAxis dataKey="domain" tick={{ fontSize: 12, fill: t.label }} stroke={t.grid} />
         <PolarRadiusAxis
           angle={30}
           domain={[0, 100]}
-          tick={{ fontSize: 10, fill: '#6b7280' }}
+          tick={{ fontSize: 10, fill: t.axis }}
           tickFormatter={(value) => `${value}%`}
-          stroke="#d1d5db"
+          stroke={t.grid}
         />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: '#fff',
-            border: '1px solid #d1d5db',
-            borderRadius: '8px',
-            fontSize: '14px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          }}
-          formatter={(value) => [`${value}%`, 'Accuracy']}
-        />
+        <Tooltip contentStyle={t.tooltip} formatter={(value) => [`${value}%`, 'Accuracy']} />
         <Radar
           name="Accuracy"
           dataKey="accuracy"
-          stroke="#374151"
-          fill="#374151"
-          fillOpacity={0.3}
+          stroke={t.brand}
+          fill={t.brand}
+          fillOpacity={0.28}
           strokeWidth={2}
         />
       </RadarChart>

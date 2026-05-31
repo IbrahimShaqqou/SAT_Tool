@@ -17,3 +17,14 @@ export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { ToastProvider, useToast } from './Toast';
 export { default as ThetaBar } from './ThetaBar';
+// Study Hall primitives
+export { default as Surface } from './Surface';
+export { default as AnimatedNumber } from './AnimatedNumber';
+export { default as ProgressRing } from './ProgressRing';
+export { default as Skeleton } from './Skeleton';
+export { default as Reveal } from './Reveal';
+export { default as Sparkline } from './Sparkline';
+export { default as Section } from './Section';
+export { default as PageHeader, SignatureRule } from './PageHeader';
+export { default as StatBlock } from './StatBlock';
+export { default as StatusPill, toneForAccuracy } from './StatusPill';

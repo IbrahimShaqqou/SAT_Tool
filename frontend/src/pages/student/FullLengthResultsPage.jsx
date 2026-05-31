@@ -1,17 +1,40 @@
 /**
- * Full-Length SAT Results Page
- * Shows SAT-scaled scores (200-800 per section, 400-1600 total)
- * Detailed breakdown by module and skill
+ * Full-Length SAT Results — Study Hall.
+ * Big-number total score, borderless section scores + module breakdown,
+ * act-on-able next steps. Tokens, dark mode, a11y. Renders inside AppLayout.
  */
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { LoadingSpinner, Button, Card } from '../../components/ui';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+import {
+  Button, Skeleton, PageHeader, Section, StatBlock, StatusPill, AnimatedNumber, ProgressRing,
+} from '../../components/ui';
 import { practiceService } from '../../services';
+
+const SectionScore = ({ label, score, correct, total }) => {
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  return (
+    <Section title={label}>
+      <div className="flex items-end justify-between">
+        <div className="flex items-end gap-2">
+          <AnimatedNumber value={score} className="font-display text-4xl font-semibold tracking-tight text-ink-body sm:text-5xl" />
+          <span className="mb-1.5 text-sm text-ink-subtle">/ 800</span>
+        </div>
+        <div className="text-right">
+          <StatusPill value={pct} />
+          <p className="mt-1 text-xs text-ink-subtle">{correct}/{total} correct</p>
+        </div>
+      </div>
+      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-muted">
+        <div className="h-full rounded-full bg-brand-500 transition-[width] duration-700 ease-out-expo" style={{ width: `${pct}%` }} />
+      </div>
+    </Section>
+  );
+};
 
 const FullLengthResultsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,223 +44,118 @@ const FullLengthResultsPage = () => {
       try {
         const response = await practiceService.getFullLengthResults(id);
         setResults(response.data);
-        setIsLoading(false);
       } catch (err) {
         console.error('Error fetching results:', err);
         setError(err.response?.data?.error || 'Failed to load results');
+      } finally {
         setIsLoading(false);
       }
     };
-
     fetchResults();
   }, [id]);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <LoadingSpinner size="lg" />
+      <div className="mx-auto max-w-4xl">
+        <Skeleton className="h-10 w-64" />
+        <Skeleton className="mt-6 h-44 w-full" rounded="rounded-2xl" />
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <Skeleton className="h-32 w-full" rounded="rounded-xl" />
+          <Skeleton className="h-32 w-full" rounded="rounded-xl" />
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Results</h2>
-          <p className="text-gray-700 mb-4">{error}</p>
-          <Button onClick={() => navigate('/student')} variant="primary">
-            Back to Dashboard
-          </Button>
-        </div>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <h2 className="mb-2 font-display text-xl font-semibold text-ink-body">Couldn't load results</h2>
+        <p className="mb-4 text-ink-subtle">{error}</p>
+        <Button variant="secondary" onClick={() => navigate('/student')}><ArrowLeft className="h-4 w-4" /> Back to dashboard</Button>
       </div>
     );
   }
 
-  const {
-    math_score,
-    reading_writing_score,
-    total_score,
-    math_correct,
-    math_total,
-    rw_correct,
-    rw_total,
-    modules,
-  } = results;
-
-  const mathPercentage = math_total > 0 ? Math.round((math_correct / math_total) * 100) : 0;
-  const rwPercentage = rw_total > 0 ? Math.round((rw_correct / rw_total) * 100) : 0;
+  const { math_score, reading_writing_score, total_score, math_correct, math_total, rw_correct, rw_total, modules } = results;
+  const scorePct = Math.min(100, Math.max(0, ((total_score - 400) / 1200) * 100));
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Practice Test Results
-          </h1>
-          <p className="text-gray-600">
-            Your SAT Score Report
-          </p>
-        </div>
+    <div className="mx-auto max-w-4xl pb-8">
+      <PageHeader eyebrow="Score report" title="Full-length practice test" subtitle="Your SAT score, scored just like the real thing." />
 
-        {/* Total Score Card */}
-        <Card className="mb-8 bg-gradient-to-br from-[#0077C8] to-[#005fa3] text-white">
-          <div className="text-center py-8">
-            <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
-              Total SAT Score
-            </div>
-            <div className="text-7xl font-bold mb-2">
-              {total_score}
-            </div>
-            <div className="text-sm opacity-90">
-              out of 1600
-            </div>
+      {/* Total score hero */}
+      <div className="flex flex-col items-start gap-8 border-y border-edge py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-faint">Total SAT score</p>
+          <div className="mt-1 flex items-end gap-3">
+            <AnimatedNumber value={total_score} className="font-display text-[5rem] leading-[0.86] font-semibold tracking-tight text-ink-body sm:text-[6.5rem]" />
+            <span className="mb-3 text-lg text-ink-subtle">/ 1600</span>
           </div>
-        </Card>
-
-        {/* Section Scores */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Math Score */}
-          <Card>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Math
-            </h3>
-            <div className="flex items-end justify-between mb-4">
-              <div>
-                <div className="text-5xl font-bold text-[#0077C8]">
-                  {math_score}
-                </div>
-                <div className="text-sm text-gray-600">
-                  out of 800
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-gray-900">
-                  {mathPercentage}%
-                </div>
-                <div className="text-sm text-gray-600">
-                  {math_correct}/{math_total} correct
-                </div>
-              </div>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div
-                className="bg-[#0077C8] h-3 rounded-full transition-all"
-                style={{ width: `${mathPercentage}%` }}
-              />
-            </div>
-          </Card>
-
-          {/* Reading/Writing Score */}
-          <Card>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Reading and Writing
-            </h3>
-            <div className="flex items-end justify-between mb-4">
-              <div>
-                <div className="text-5xl font-bold text-[#0077C8]">
-                  {reading_writing_score}
-                </div>
-                <div className="text-sm text-gray-600">
-                  out of 800
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-gray-900">
-                  {rwPercentage}%
-                </div>
-                <div className="text-sm text-gray-600">
-                  {rw_correct}/{rw_total} correct
-                </div>
-              </div>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div
-                className="bg-[#0077C8] h-3 rounded-full transition-all"
-                style={{ width: `${rwPercentage}%` }}
-              />
-            </div>
-          </Card>
         </div>
+        <ProgressRing value={scorePct} size={128} stroke={10} label={`Total score ${total_score} out of 1600`}>
+          <div className="text-center">
+            <AnimatedNumber value={total_score} className="font-display text-2xl font-semibold text-ink-body" />
+            <p className="text-[10px] font-medium uppercase tracking-wide text-ink-faint">/ 1600</p>
+          </div>
+        </ProgressRing>
+      </div>
 
-        {/* Module Breakdown */}
-        <Card className="mb-8">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">
-            Module Breakdown
-          </h3>
-          <div className="space-y-4">
-            {modules?.map((module, idx) => {
-              const percentage = module.total_questions > 0
-                ? Math.round((module.questions_correct / module.total_questions) * 100)
-                : 0;
+      {/* Section scores */}
+      <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
+        <SectionScore label="Math" score={math_score} correct={math_correct} total={math_total} />
+        <SectionScore label="Reading & Writing" score={reading_writing_score} correct={rw_correct} total={rw_total} />
+      </div>
 
+      {/* Module breakdown */}
+      {modules?.length > 0 && (
+        <Section className="mt-10" title="Module breakdown">
+          <ul className="divide-y divide-edge-subtle">
+            {modules.map((m) => {
+              const pct = m.total_questions > 0 ? Math.round((m.questions_correct / m.total_questions) * 100) : 0;
               return (
-                <div key={module.id} className="border-b border-gray-200 pb-4 last:border-b-0">
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <div className="font-semibold text-gray-900">
-                        {module.title}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {module.questions_correct}/{module.total_questions} correct
-                        {module.time_spent_seconds && (
-                          <span className="ml-2">
-                            • {Math.round(module.time_spent_seconds / 60)} min
-                          </span>
-                        )}
-                      </div>
+                <li key={m.id} className="py-4 first:pt-0">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-ink-body">{m.title}</p>
+                      <p className="text-xs text-ink-subtle">
+                        {m.questions_correct}/{m.total_questions} correct
+                        {m.time_spent_seconds ? ` · ${Math.round(m.time_spent_seconds / 60)} min` : ''}
+                      </p>
                     </div>
-                    <div className="text-2xl font-bold text-[#0077C8]">
-                      {percentage}%
-                    </div>
+                    <StatusPill value={pct} size="sm" />
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-[#0077C8] h-2 rounded-full transition-all"
-                      style={{ width: `${percentage}%` }}
-                    />
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-muted">
+                    <div className="h-full rounded-full bg-brand-500 transition-[width] duration-700 ease-out-expo" style={{ width: `${pct}%` }} />
                   </div>
-                </div>
+                </li>
               );
             })}
-          </div>
-        </Card>
+          </ul>
+        </Section>
+      )}
 
-        {/* Next Steps */}
-        <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
-            Next Steps
-          </h3>
-          <div className="space-y-3 text-gray-700">
-            <p>
-              <strong>Great work completing this practice test!</strong> Review your performance and focus on areas that need improvement.
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Review questions you missed to understand your mistakes</li>
-              <li>Practice skills where you scored below 70%</li>
-              <li>Take another practice test in 1-2 weeks to track progress</li>
-              <li>Maintain consistent study habits leading up to test day</li>
-            </ul>
-          </div>
-        </Card>
-
-        {/* Action Buttons */}
-        <div className="flex justify-center space-x-4 mt-8">
-          <Button
-            onClick={() => navigate('/student')}
-            variant="secondary"
-          >
-            Back to Dashboard
+      {/* Next steps */}
+      <Section className="mt-10" title="What to do next">
+        <ul className="space-y-3 text-sm text-ink-muted">
+          {[
+            'Review the questions you missed to understand the mistakes.',
+            'Practice skills where you scored below 70%.',
+            'Take another full-length test in 1–2 weeks to track progress.',
+          ].map((t, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button variant="primary" onClick={() => navigate('/student/study-plan')}>
+            View study plan <ArrowRight className="h-4 w-4" />
           </Button>
-          <Button
-            onClick={() => navigate('/student/study-plan')}
-            variant="primary"
-          >
-            View Study Plan
-          </Button>
+          <Button variant="secondary" onClick={() => navigate('/student')}>Back to dashboard</Button>
         </div>
-      </div>
+      </Section>
     </div>
   );
 };

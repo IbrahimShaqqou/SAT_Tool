@@ -1,188 +1,124 @@
 /**
- * Student Results Page
- * View completed assignment results with detailed question breakdown
+ * Student Assignment Results — Study Hall.
+ * Big-number score, borderless per-question review with correct/incorrect
+ * paired with icon + label (never color-only), collapsible explanations.
+ * Tokens, dark mode, a11y. Renders inside AppLayout.
  */
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import { Card, Button, ProgressBar, LoadingSpinner } from '../../components/ui';
+import { ArrowLeft, CheckCircle, XCircle, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import {
+  Button, Skeleton, PageHeader, Section, StatBlock, StatusPill, AnimatedNumber, ProgressRing,
+} from '../../components/ui';
 import { assignmentService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
 import { checkSprAnswer } from '../../utils';
 
-// Helper to format answer for display
 const formatAnswer = (answer, choices, answerType) => {
   if (!answer) return 'Not answered';
-
   if (answerType === 'MCQ') {
-    // MCQ answer format: { index: N }
     const selectedIndex = answer.index;
-    if (selectedIndex !== undefined && selectedIndex !== null && choices && choices[selectedIndex]) {
-      const choice = choices[selectedIndex];
-      const letter = String.fromCharCode(65 + selectedIndex); // A, B, C, D
+    if (selectedIndex != null && choices && choices[selectedIndex]) {
+      const letter = String.fromCharCode(65 + selectedIndex);
       return (
         <span className="flex items-start gap-2">
-          <span className="font-medium">{letter}.</span>
-          <span
-            className="question-content"
-            dangerouslySetInnerHTML={{ __html: choice.content }}
-          />
+          <span className="font-semibold">{letter}.</span>
+          <span className="question-content" dangerouslySetInnerHTML={{ __html: choices[selectedIndex].content }} />
         </span>
       );
     }
-    return selectedIndex !== undefined ? `Choice ${String.fromCharCode(65 + selectedIndex)}` : 'Not answered';
-  } else {
-    // SPR answer format: { answer: "text" }
-    return answer.answer || 'No answer';
+    return selectedIndex != null ? `Choice ${String.fromCharCode(65 + selectedIndex)}` : 'Not answered';
   }
+  return answer.answer || 'No answer';
 };
 
-// Question result component with collapsible explanation
 const QuestionResult = ({ question, index }) => {
   const [showExplanation, setShowExplanation] = useState(false);
   const contentRef = useRef(null);
 
-  // Trigger MathJax typesetting when content changes
   useEffect(() => {
     if (contentRef.current && window.MathJax?.typesetPromise) {
-      window.MathJax.typesetPromise([contentRef.current]).catch(console.error);
+      window.MathJax.typesetPromise([contentRef.current]).catch(() => {});
     }
   }, [question, showExplanation]);
 
   const isCorrect = (() => {
     if (!question.selected_answer) return false;
-    const correctAnswer = question.correct_answer;
-    const selectedAnswer = question.selected_answer;
-
-    if (question.answer_type === 'MCQ') {
-      // MCQ: compare { index: N }
-      return selectedAnswer.index === correctAnswer.index;
-    } else {
-      // SPR - check if response matches any correct value
-      const userValue = selectedAnswer.answer;
-      const correctValues = correctAnswer.answers || [];
-      return checkSprAnswer(userValue, correctValues);
-    }
+    if (question.answer_type === 'MCQ') return question.selected_answer.index === question.correct_answer?.index;
+    return checkSprAnswer(question.selected_answer.answer, question.correct_answer?.answers || []);
   })();
 
   return (
-    <Card className={`border-l-4 ${isCorrect ? 'border-l-emerald-500' : 'border-l-rose-500'}`}>
-      <div ref={contentRef}>
-        {/* Question header */}
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-600 dark:text-gray-400">Question {index + 1}</span>
-            {isCorrect ? (
-              <CheckCircle className="h-5 w-5 text-emerald-500" />
-            ) : (
-              <XCircle className="h-5 w-5 text-rose-500" />
-            )}
-          </div>
-          <span className={`text-sm font-medium px-2 py-1 rounded ${
-            isCorrect ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300'
-          }`}>
-            {isCorrect ? 'Correct' : 'Incorrect'}
-          </span>
+    <li ref={contentRef} className="py-5 first:pt-0">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          {isCorrect
+            ? <CheckCircle className="h-5 w-5 text-accent-600 dark:text-accent-400" />
+            : <XCircle className="h-5 w-5 text-rose-600 dark:text-rose-400" />}
+          <span className="text-sm font-semibold text-ink-body">Question {index + 1}</span>
         </div>
-
-        {/* Question content */}
-        {question.passage_html && (
-          <div
-            className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300 mb-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600 question-content"
-            dangerouslySetInnerHTML={{ __html: question.passage_html }}
-          />
-        )}
-        <div
-          className="prose prose-gray max-w-none mb-4 question-content"
-          dangerouslySetInnerHTML={{ __html: question.prompt_html }}
-        />
-
-        {/* Your answer */}
-        <div className="mb-3">
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Your Answer:</p>
-          <div className={`p-3 rounded-lg ${
-            isCorrect ? 'bg-emerald-50 border border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800/30 dark:text-emerald-100' : 'bg-rose-50 border border-rose-200 dark:bg-rose-900/20 dark:border-rose-800/30 dark:text-rose-100'
-          }`}>
-            {formatAnswer(question.selected_answer, question.choices, question.answer_type)}
-          </div>
-        </div>
-
-        {/* Correct answer (if wrong) */}
-        {!isCorrect && (
-          <div className="mb-3">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Correct Answer:</p>
-            <div className="p-3 bg-emerald-50 border border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800/30 dark:text-emerald-100 rounded-lg">
-              {question.answer_type === 'MCQ' ? (
-                (() => {
-                  const correctIndex = question.correct_answer?.index;
-                  if (correctIndex === undefined || correctIndex === null) {
-                    return <span>See explanation</span>;
-                  }
-                  const choice = question.choices?.[correctIndex];
-                  const letter = String.fromCharCode(65 + correctIndex);
-                  return (
-                    <span className="flex items-start gap-2">
-                      <span className="font-medium">{letter}.</span>
-                      {choice && (
-                        <span
-                          className="question-content"
-                          dangerouslySetInnerHTML={{ __html: choice.content }}
-                        />
-                      )}
-                    </span>
-                  );
-                })()
-              ) : (
-                (() => {
-                  const answers = question.correct_answer?.answers || [];
-                  if (answers.length === 0 || answers[0] === '*') {
-                    return <span>See explanation</span>;
-                  }
-                  return <span>{answers.join(' or ')}</span>;
-                })()
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Explanation toggle */}
-        {(question.explanation_html || question.explanation_available) && (
-          <div className="mt-4 border-t dark:border-gray-700 pt-3">
-            <button
-              onClick={() => setShowExplanation(!showExplanation)}
-              className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
-            >
-              {showExplanation ? (
-                <>
-                  <ChevronUp className="h-4 w-4" />
-                  Hide Explanation
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="h-4 w-4" />
-                  {question.explanation_available ? 'Show Step-by-Step' : 'Show Explanation'}
-                </>
-              )}
-            </button>
-
-            {showExplanation && question.explanation_available && (
-              <StepByStepExplanation
-                questionId={String(question.question_id)}
-                passageHtml={question.passage_html || null}
-                promptHtml={question.prompt_html || ''}
-                choices={question.choices || []}
-              />
-            )}
-            {showExplanation && !question.explanation_available && question.explanation_html && (
-              <div
-                className="mt-3 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg prose prose-sm prose-blue dark:prose-invert max-w-none question-content"
-                dangerouslySetInnerHTML={{ __html: question.explanation_html }}
-              />
-            )}
-          </div>
-        )}
+        <StatusPill tone={isCorrect ? 'good' : 'bad'} size="sm">{isCorrect ? 'Correct' : 'Incorrect'}</StatusPill>
       </div>
-    </Card>
+
+      {question.passage_html && (
+        <div className="prose prose-sm mb-3 max-w-none rounded-lg border border-edge-subtle bg-surface-muted p-3 text-ink-muted question-content" dangerouslySetInnerHTML={{ __html: question.passage_html }} />
+      )}
+      <div className="prose mb-4 max-w-none text-ink-body question-content" dangerouslySetInnerHTML={{ __html: question.prompt_html }} />
+
+      <div className="mb-3">
+        <p className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-faint">Your answer</p>
+        <div className={`rounded-lg border p-3 text-sm ${isCorrect ? 'border-accent-200 bg-accent-50 text-accent-800 dark:border-accent-800/40 dark:bg-accent-900/20 dark:text-accent-200' : 'border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-800/40 dark:bg-rose-900/20 dark:text-rose-200'}`}>
+          {formatAnswer(question.selected_answer, question.choices, question.answer_type)}
+        </div>
+      </div>
+
+      {!isCorrect && (
+        <div className="mb-3">
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-faint">Correct answer</p>
+          <div className="rounded-lg border border-accent-200 bg-accent-50 p-3 text-sm text-accent-800 dark:border-accent-800/40 dark:bg-accent-900/20 dark:text-accent-200">
+            {question.answer_type === 'MCQ' ? (() => {
+              const ci = question.correct_answer?.index;
+              if (ci == null) return <span>See explanation</span>;
+              const choice = question.choices?.[ci];
+              return (
+                <span className="flex items-start gap-2">
+                  <span className="font-semibold">{String.fromCharCode(65 + ci)}.</span>
+                  {choice && <span className="question-content" dangerouslySetInnerHTML={{ __html: choice.content }} />}
+                </span>
+              );
+            })() : (() => {
+              const answers = question.correct_answer?.answers || [];
+              if (!answers.length || answers[0] === '*') return <span>See explanation</span>;
+              return <span>{answers.join(' or ')}</span>;
+            })()}
+          </div>
+        </div>
+      )}
+
+      {(question.explanation_html || question.explanation_available) && (
+        <div className="mt-3 border-t border-edge-subtle pt-3">
+          <button
+            onClick={() => setShowExplanation((v) => !v)}
+            className="flex items-center gap-1.5 rounded-lg text-sm font-semibold text-brand-700 transition-colors hover:text-brand-800 dark:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            aria-expanded={showExplanation}
+          >
+            {showExplanation ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            {showExplanation ? 'Hide explanation' : (question.explanation_available ? 'Show step-by-step' : 'Show explanation')}
+          </button>
+          {showExplanation && question.explanation_available && (
+            <StepByStepExplanation
+              questionId={String(question.question_id)}
+              passageHtml={question.passage_html || null}
+              promptHtml={question.prompt_html || ''}
+              choices={question.choices || []}
+            />
+          )}
+          {showExplanation && !question.explanation_available && question.explanation_html && (
+            <div className="prose prose-sm mt-3 max-w-none rounded-lg border border-edge-subtle bg-surface-muted p-4 text-ink-muted question-content" dangerouslySetInnerHTML={{ __html: question.explanation_html }} />
+          )}
+        </div>
+      )}
+    </li>
   );
 };
 
@@ -207,25 +143,24 @@ const ResultsPage = () => {
         setIsLoading(false);
       }
     };
-
     fetchResults();
   }, [id]);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
+      <div className="mx-auto max-w-3xl">
+        <Skeleton className="h-10 w-56" />
+        <Skeleton className="mt-6 h-32 w-full" rounded="rounded-2xl" />
+        <div className="mt-6 space-y-4">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-24 w-full" rounded="rounded-xl" />)}</div>
       </div>
     );
   }
 
   if (!assignment) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500 dark:text-gray-400">Results not found</p>
-        <Link to="/student/assignments">
-          <Button variant="secondary" className="mt-4">Back to Assignments</Button>
-        </Link>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <p className="text-ink-subtle">Results not found.</p>
+        <Link to="/student/assignments"><Button variant="secondary" className="mt-4"><ArrowLeft className="h-4 w-4" /> Back to assignments</Button></Link>
       </div>
     );
   }
@@ -235,78 +170,38 @@ const ResultsPage = () => {
   const total = assignment.total_questions || 0;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link to="/student/assignments">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
+    <div className="mx-auto max-w-3xl pb-8">
+      <Link to="/student/assignments" className="mb-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink-subtle transition-colors hover:text-ink-body">
+        <ArrowLeft className="h-4 w-4" /> Assignments
+      </Link>
+      <PageHeader eyebrow="Results" title={assignment.title} />
+
+      {/* Score hero */}
+      <div className="flex items-center justify-between gap-6 border-y border-edge py-7">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Results</h1>
-          <p className="text-gray-500 dark:text-gray-400">{assignment.title}</p>
-        </div>
-      </div>
-
-      {/* Score Card */}
-      <Card className="text-center">
-        <div className="py-6">
-          <p className="text-6xl font-bold text-gray-900 dark:text-gray-100">{score.toFixed(0)}%</p>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            {correct} out of {total} correct
-          </p>
-          <div className="mt-4 max-w-xs mx-auto">
-            <ProgressBar value={score} variant="auto" size="lg" />
+          <div className="flex items-end gap-2">
+            <AnimatedNumber value={Math.round(score)} suffix="%" className="font-display text-[4.5rem] leading-[0.86] font-semibold tracking-tight text-ink-body" />
+          </div>
+          <div className="mt-3 flex items-center gap-4 text-sm">
+            <span className="flex items-center gap-1.5 text-ink-muted"><CheckCircle className="h-4 w-4 text-accent-600 dark:text-accent-400" /> {correct} correct</span>
+            <span className="flex items-center gap-1.5 text-ink-muted"><XCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" /> {total - correct} incorrect</span>
           </div>
         </div>
-      </Card>
-
-      {/* Summary */}
-      <Card>
-        <Card.Header>
-          <Card.Title>Summary</Card.Title>
-        </Card.Header>
-        <Card.Content>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="h-5 w-5 text-emerald-500" />
-              <div>
-                <p className="font-medium text-gray-900 dark:text-gray-100">{correct}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Correct</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <XCircle className="h-5 w-5 text-rose-500" />
-              <div>
-                <p className="font-medium text-gray-900 dark:text-gray-100">{total - correct}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Incorrect</p>
-              </div>
-            </div>
-          </div>
-        </Card.Content>
-      </Card>
-
-      {/* Detailed Question Results */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Question Details</h2>
-        {questions.map((question, index) => (
-          <QuestionResult key={question.question_id} question={question} index={index} />
-        ))}
+        <ProgressRing value={score} size={104} stroke={9} label={`Score ${Math.round(score)} percent`}>
+          <StatusPill value={score} />
+        </ProgressRing>
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-3">
-        <Link to="/student/assignments" className="flex-1">
-          <Button variant="secondary" className="w-full">
-            Back to Assignments
-          </Button>
-        </Link>
-        <Link to="/student" className="flex-1">
-          <Button variant="primary" className="w-full">
-            Go to Dashboard
-          </Button>
-        </Link>
+      {/* Question review */}
+      <Section className="mt-10" title="Question review" hint={`${total} questions`}>
+        <ul className="divide-y divide-edge-subtle">
+          {questions.map((q, i) => <QuestionResult key={q.question_id} question={q} index={i} />)}
+        </ul>
+      </Section>
+
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Link to="/student/adaptive" className="flex-1"><Button variant="primary" className="w-full">Practice more <ArrowRight className="h-4 w-4" /></Button></Link>
+        <Link to="/student/assignments" className="flex-1"><Button variant="secondary" className="w-full">Back to assignments</Button></Link>
       </div>
     </div>
   );

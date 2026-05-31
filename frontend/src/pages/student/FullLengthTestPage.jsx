@@ -135,7 +135,7 @@ const FullLengthTestPage = () => {
   // Loading state
   if (flowState === 'loading') {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center min-h-screen bg-surface-page">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -144,13 +144,13 @@ const FullLengthTestPage = () => {
   // Error state
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Test</h2>
-          <p className="text-gray-700 mb-4">{error}</p>
+      <div className="flex items-center justify-center min-h-screen bg-surface-page">
+        <div className="text-center" role="alert">
+          <h2 className="text-2xl font-bold text-rose-600 dark:text-rose-400 mb-4">Error Loading Test</h2>
+          <p className="text-ink-body mb-4">{error}</p>
           <button
             onClick={() => navigate('/student')}
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-6 py-2 bg-brand-600 text-white rounded hover:bg-brand-700"
           >
             Back to Dashboard
           </button>
@@ -161,7 +161,7 @@ const FullLengthTestPage = () => {
 
   // Render appropriate screen based on flow state
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-page">
       {flowState === 'module_start' && (
         <ModuleStartScreen
           module={currentModule}

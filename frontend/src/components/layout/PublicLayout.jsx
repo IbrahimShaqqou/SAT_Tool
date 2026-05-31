@@ -7,12 +7,9 @@ import { Outlet } from 'react-router-dom';
 
 const PublicLayout = () => {
   return (
-    <div className="min-h-screen flex dark:bg-slate-950">
+    <div className="min-h-screen flex bg-surface-page">
       {/* Left brand panel — hidden on mobile */}
-      <div
-        className="hidden lg:flex lg:w-1/2 xl:w-2/5 flex-col justify-between p-10"
-        style={{ backgroundColor: '#0891b2' }}
-      >
+      <div className="hidden lg:flex lg:w-1/2 xl:w-2/5 flex-col justify-between p-10 bg-brand-600">
         {/* Logo */}
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
@@ -58,7 +55,7 @@ const PublicLayout = () => {
           <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
             <span className="text-white font-bold text-sm">Z</span>
           </div>
-          <span className="text-slate-800 dark:text-slate-100 font-semibold text-[15px] tracking-tight">ZooPrep</span>
+          <span className="text-ink-body font-semibold text-[15px] tracking-tight">ZooPrep</span>
         </div>
 
         <div className="w-full max-w-sm mx-auto">

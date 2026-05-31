@@ -441,7 +441,7 @@ const TestPage = () => {
   // Loading state
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-center h-screen bg-surface-page">
         <LoadingSpinner size="lg" text="Loading test..." />
       </div>
     );
@@ -450,9 +450,9 @@ const TestPage = () => {
   // Error state
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-center h-screen bg-surface-page">
         <Card className="max-w-md text-center">
-          <p className="text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-rose-600 dark:text-rose-400">{error}</p>
           <Button
             variant="secondary"
             className="mt-4"
@@ -468,9 +468,9 @@ const TestPage = () => {
   // Not found
   if (!assignment) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-center h-screen bg-surface-page">
         <Card className="max-w-md text-center">
-          <p className="text-gray-500 dark:text-gray-400">Assignment not found</p>
+          <p className="text-ink-muted">Assignment not found</p>
           <Button
             variant="secondary"
             className="mt-4"
@@ -489,13 +489,13 @@ const TestPage = () => {
   // Start screen
   if (assignment.status === 'pending') {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center p-4">
         <Card className="max-w-md w-full text-center">
-          <h1 className="text-xl font-semibold text-gray-900">{assignment.title}</h1>
+          <h1 className="text-xl font-semibold text-ink-body">{assignment.title}</h1>
           {assignment.instructions && (
-            <p className="text-gray-500 mt-2">{assignment.instructions}</p>
+            <p className="text-ink-muted mt-2">{assignment.instructions}</p>
           )}
-          <div className="mt-6 space-y-2 text-sm text-gray-600">
+          <div className="mt-6 space-y-2 text-sm text-ink-muted">
             <p>{assignment.total_questions ? `${assignment.total_questions} questions` : 'Unlimited questions'}</p>
             {assignment.time_limit_minutes && (
               <p className="flex items-center justify-center gap-1">
@@ -506,7 +506,7 @@ const TestPage = () => {
               </p>
             )}
             {assignment.due_date && (
-              <p className={`flex items-center justify-center gap-1 ${isOverdue ? 'text-red-600 font-medium' : ''}`}>
+              <p className={`flex items-center justify-center gap-1 ${isOverdue ? 'text-rose-600 dark:text-rose-400 font-medium' : ''}`}>
                 {isOverdue ? (
                   <>
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -523,8 +523,8 @@ const TestPage = () => {
 
           {isOverdue ? (
             <div className="mt-6 space-y-3">
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-700">
+              <div className="p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/30 rounded-lg" role="alert">
+                <p className="text-sm text-rose-700 dark:text-rose-300">
                   This assignment is past its due date and can no longer be started.
                 </p>
               </div>
@@ -562,7 +562,7 @@ const TestPage = () => {
   // For split pane (with passage), use scrollable container
   // For single column (no passage), let content flow naturally
   const questionPanel = (
-    <div className={`bg-white dark:bg-gray-900 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+    <div className={`bg-surface-card pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
       {/* Content area - scrollable only in split pane mode */}
       <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
         <QuestionDisplay
@@ -617,12 +617,12 @@ const TestPage = () => {
                 </Button>
               )}
               {currentChecked && !currentQuestion?.explanation_html && !currentQuestion?.explanation_available && (
-                <span className="text-sm text-gray-400 dark:text-gray-500 italic">
+                <span className="text-sm text-ink-faint italic">
                   No explanation available for this question
                 </span>
               )}
               {currentChecked && !currentChecked.isCorrect && currentQuestion?.answer_type === 'SPR' && (
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-ink-muted">
                   {currentChecked.correctAnswers?.length > 0 && currentChecked.correctAnswers[0] !== '*'
                     ? `Correct answer: ${currentChecked.correctAnswers.join(' or ')}`
                     : 'See explanation for correct answer'}
@@ -641,25 +641,25 @@ const TestPage = () => {
             />
           )}
           {showExplanation && !currentQuestion?.explanation_available && currentQuestion?.explanation_html && (
-            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
-              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
+            <div className="mt-4 p-4 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/30 rounded-lg">
+              <h4 className="text-sm font-medium text-brand-900 dark:text-brand-200 mb-2">Explanation</h4>
               <div
-                className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
+                className="prose prose-sm dark:prose-invert max-w-none text-brand-800 dark:text-brand-200"
                 dangerouslySetInnerHTML={{ __html: currentQuestion.explanation_html }}
               />
             </div>
           )}
           {/* Show "no explanation" message in adaptive mode */}
           {isAdaptive && adaptiveAnswerChecked && !currentQuestion?.explanation_html && (
-            <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
-              <span className="text-sm text-gray-500 dark:text-gray-400 italic">
+            <div className="mt-4 p-4 bg-surface-muted border border-edge-subtle rounded-lg">
+              <span className="text-sm text-ink-muted italic">
                 No explanation available for this question
               </span>
             </div>
           )}
           {/* Show correct answer for SPR in adaptive mode */}
           {isAdaptive && adaptiveAnswerChecked && !currentChecked?.isCorrect && currentQuestion?.answer_type === 'SPR' && (
-            <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="mt-2 text-sm text-ink-muted">
               {currentChecked?.correctAnswers?.length > 0 && currentChecked.correctAnswers[0] !== '*'
                 ? `Correct answer: ${currentChecked.correctAnswers.join(' or ')}`
                 : ''}
@@ -678,10 +678,10 @@ const TestPage = () => {
 
   const bottomNavBar = isAdaptive ? (
     // Adaptive mode: simpler navigation with Check/Next flow
-    <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+    <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 border-t border-edge bg-surface-card">
       {/* Progress indicator */}
-      <div className="flex items-center justify-center py-2 border-b border-gray-100 dark:border-gray-800">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
+      <div className="flex items-center justify-center py-2 border-b border-edge-subtle">
+        <span className="text-sm text-ink-muted">
           Question <span className="font-semibold">{questionsAnsweredCount + 1}</span> of{' '}
           <span className="font-semibold">{totalNeeded}</span>
         </span>
@@ -727,7 +727,7 @@ const TestPage = () => {
     <>
       {/* Collapsible Question Navigator */}
       {showNav && (
-        <div className="fixed bottom-16 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-40 bg-gray-50 dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
+        <div className="fixed bottom-16 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-40 bg-surface-card shadow-xl border border-edge rounded-t-xl max-h-[50vh] overflow-hidden"
              style={{ width: 'min(500px, calc(100vw - 32px))' }}>
           <QuestionNav
             totalQuestions={questions.length}
@@ -745,7 +745,7 @@ const TestPage = () => {
       )}
 
       {/* Fixed bottom controls */}
-      <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+      <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-edge bg-surface-card">
         {/* Previous */}
         <Button
           variant="secondary"
@@ -759,10 +759,10 @@ const TestPage = () => {
         {/* Center: question selector */}
         <button
           onClick={() => setShowNav(!showNav)}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-ink-body bg-surface-muted rounded-lg hover:bg-surface-page"
         >
           <span className="font-semibold">{currentIndex + 1}</span>
-          <span className="text-gray-400 dark:text-gray-500">/</span>
+          <span className="text-ink-faint">/</span>
           <span>{questions.length}</span>
           <svg className={`w-4 h-4 transition-transform ${showNav ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -804,20 +804,20 @@ const TestPage = () => {
 
   // Passage panel content
   const passagePanel = hasPassage ? (
-    <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-900">
+    <div className="h-full overflow-auto p-6 bg-surface-card">
       <div
         className="prose prose-gray dark:prose-invert max-w-none"
         dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
       />
     </div>
   ) : (
-    <div className="h-full flex items-center justify-center bg-gray-50 dark:bg-gray-800">
-      <p className="text-gray-400 dark:text-gray-500">No passage for this question</p>
+    <div className="h-full flex items-center justify-center bg-surface-muted">
+      <p className="text-ink-faint">No passage for this question</p>
     </div>
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
+    <div className="min-h-screen flex flex-col bg-surface-card -m-4 lg:-m-6">
       {/* Header */}
       <TestHeader
         currentQuestion={currentIndex + 1}
@@ -838,7 +838,7 @@ const TestPage = () => {
       />
 
       {/* Main content - shifts right when calculator is open */}
-      <div ref={scrollContainerRef} className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+      <div ref={scrollContainerRef} className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
         {hasPassage ? (
           <SplitPane
             left={passagePanel}
@@ -902,8 +902,8 @@ const TestPage = () => {
       {isPaused && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
           <Card className="text-center">
-            <h2 className="text-xl font-semibold text-gray-900">Test Paused</h2>
-            <p className="text-gray-500 mt-2">Click resume to continue</p>
+            <h2 className="text-xl font-semibold text-ink-body">Test Paused</h2>
+            <p className="text-ink-muted mt-2">Click resume to continue</p>
             <Button
               variant="primary"
               className="mt-4"

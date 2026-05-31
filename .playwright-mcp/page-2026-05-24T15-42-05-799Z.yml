@@ -1,0 +1,197 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e5]:
+      - link "Skip to Content" [ref=e6] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - link "The College Board Global Navigation" [ref=e11] [cursor=pointer]:
+            - /url: "#widget-menu-control"
+            - text:  
+            - generic [ref=e12]:
+              - generic [ref=e13]: 
+              - generic [ref=e14]: Open Global Navigation Panel
+          - generic [ref=e15]:
+            - link " The College Board" [ref=e16] [cursor=pointer]:
+              - /url: https://www.collegeboard.org
+              - text: 
+              - generic [ref=e17]: The College Board
+            - text: 
+            - link "sat-suite" [ref=e18] [cursor=pointer]:
+              - /url: https://satsuite.collegeboard.org/
+              - text: 
+              - generic [ref=e19]: sat-suite
+        - generic [ref=e20]:
+          - text:  
+          - link "Sign in" [ref=e23] [cursor=pointer]:
+            - /url: "#widget-login-control"
+            - strong [ref=e25]: Sign In
+            - generic [ref=e26]: 
+    - generic [ref=e29]:
+      - generic [ref=e30]: 
+      - heading "Sign In" [level=2] [ref=e31]
+      - button "Use a sign-in ticket from your school" [ref=e32] [cursor=pointer]:
+        - generic [ref=e33]:
+          - img [ref=e34]
+          - paragraph [ref=e36]: Use a sign-in ticket from your school
+      - generic [ref=e39]: OR
+      - button "Sign in with a student College Board account" [ref=e41] [cursor=pointer]:
+        - paragraph [ref=e43]: Sign in with a student College Board account
+      - link "Need help signing in?" [ref=e45] [cursor=pointer]:
+        - /url: https://support.collegeboard.org/help-center/account-help
+    - region "Footer" [ref=e47]:
+      - link "Back to top of page" [ref=e49] [cursor=pointer]:
+        - /url: "#cbw-header"
+        - text: Top
+      - generic [ref=e52]:
+        - generic [ref=e54]:
+          - heading "Programs" [level=2] [ref=e56]
+          - list [ref=e58]:
+            - listitem [ref=e59]:
+              - link "SAT®" [ref=e60] [cursor=pointer]:
+                - /url: https://satsuite.collegeboard.org/sat?navId=gf-sat
+                - text: SAT
+                - superscript [ref=e61]: ®
+            - listitem [ref=e62]:
+              - link "PSAT/NMSQT®" [ref=e63] [cursor=pointer]:
+                - /url: https://satsuite.collegeboard.org/psat-nmsqt?navId=gf-pn
+                - text: PSAT/NMSQT
+                - superscript [ref=e64]: ®
+            - listitem [ref=e65]:
+              - link "PSAT™ 10" [ref=e66] [cursor=pointer]:
+                - /url: https://satsuite.collegeboard.org/psat-10?navId=gf-p10
+                - text: PSAT
+                - superscript [ref=e67]: ™
+                - text: "10"
+            - listitem [ref=e68]:
+              - link "PSAT™ 8/9" [ref=e69] [cursor=pointer]:
+                - /url: https://satsuite.collegeboard.org/psat-8-9?navId=gf-p89
+                - text: PSAT
+                - superscript [ref=e70]: ™
+                - text: 8/9
+            - listitem [ref=e71]:
+              - link "SpringBoard®" [ref=e72] [cursor=pointer]:
+                - /url: https://springboard.collegeboard.org/?navId=gf-sb
+                - text: SpringBoard
+                - superscript [ref=e73]: ®
+            - listitem [ref=e74]:
+              - link "Pre-AP®" [ref=e75] [cursor=pointer]:
+                - /url: https://pre-ap.collegeboard.org/?navId=gf-preap
+                - text: Pre-AP
+                - superscript [ref=e76]: ®
+            - listitem [ref=e77]:
+              - link "AP®" [ref=e78] [cursor=pointer]:
+                - /url: https://ap.collegeboard.org/?navId=gf-ap
+                - text: AP
+                - superscript [ref=e79]: ®
+            - listitem [ref=e80]:
+              - link "BigFuture®" [ref=e81] [cursor=pointer]:
+                - /url: https://bigfuture.collegeboard.org/?navId=gf-cp
+                - text: BigFuture
+                - superscript [ref=e82]: ®
+            - listitem [ref=e83]:
+              - link "ACCUPLACER®" [ref=e84] [cursor=pointer]:
+                - /url: https://accuplacer.collegeboard.org/?navId=gf-accu
+                - text: ACCUPLACER
+                - superscript [ref=e85]: ®
+            - listitem [ref=e86]:
+              - link "CLEP®" [ref=e87] [cursor=pointer]:
+                - /url: https://clep.collegeboard.org/?navId=gf-clep
+                - text: CLEP
+                - superscript [ref=e88]: ®
+            - listitem [ref=e89]:
+              - link "CSS Profile®" [ref=e90] [cursor=pointer]:
+                - /url: https://cssprofile.collegeboard.org/?navId=gf-css
+                - text: CSS Profile
+                - superscript [ref=e91]: ®
+            - listitem [ref=e92]:
+              - link "Search" [ref=e93] [cursor=pointer]:
+                - /url: https://highered.collegeboard.org/recruitment-admissions/enrollment-solutions/college-board-search?navId=gf-cbsch
+            - listitem [ref=e94]:
+              - link "PowerFAIDS®" [ref=e95] [cursor=pointer]:
+                - /url: https://powerfaids.collegeboard.org/?navId=gf-pfaid
+                - text: PowerFAIDS
+                - superscript [ref=e96]: ®
+        - generic [ref=e98]:
+          - heading "College Board" [level=2] [ref=e100]
+          - list [ref=e102]:
+            - listitem [ref=e103]:
+              - link "About Us" [ref=e104] [cursor=pointer]:
+                - /url: https://about.collegeboard.org/?navId=gf-abt
+            - listitem [ref=e105]:
+              - link "Careers" [ref=e106] [cursor=pointer]:
+                - /url: https://careers.collegeboard.org/?navId=gf-car
+            - listitem [ref=e107]:
+              - link "Membership" [ref=e108] [cursor=pointer]:
+                - /url: https://membership.collegeboard.org/?navId=gf-mem
+            - listitem [ref=e109]:
+              - 'link "All Access: News for Members" [ref=e110] [cursor=pointer]':
+                - /url: https://allaccess.collegeboard.org/?navId=gf-allaccess
+            - listitem [ref=e111]:
+              - link "Newsroom" [ref=e112] [cursor=pointer]:
+                - /url: https://newsroom.collegeboard.org/?navId=gf-news
+            - listitem [ref=e113]:
+              - link "Research" [ref=e114] [cursor=pointer]:
+                - /url: https://research.collegeboard.org/?navId=gf-rsch
+            - listitem [ref=e115]:
+              - link "Services for Students with Disabilities" [ref=e116] [cursor=pointer]:
+                - /url: https://accommodations.collegeboard.org/?navId=gf-ssd
+            - listitem [ref=e117]:
+              - link "Bluebook™ Digital Testing" [ref=e118] [cursor=pointer]:
+                - /url: https://bluebook.collegeboard.org/?navId=gf-bb
+                - text: Bluebook
+                - superscript [ref=e119]: ™
+                - text: Digital Testing
+            - listitem [ref=e120]:
+              - link "Educational Opportunity Center" [ref=e121] [cursor=pointer]:
+                - /url: https://information.collegeboard.org/educational-opportunity-center/?navId=gf-eoc
+            - listitem [ref=e122]:
+              - link "College Board Blog" [ref=e123] [cursor=pointer]:
+                - /url: https://blog.collegeboard.org/?navId=gf-blog
+            - listitem [ref=e124]:
+              - link "Accessibility Services" [ref=e125] [cursor=pointer]:
+                - /url: https://information.collegeboard.org/accessibility-consulting-services?navId=gf-accessibility
+        - list [ref=e130]:
+          - listitem [ref=e131]:
+            - link "Help" [ref=e132] [cursor=pointer]:
+              - /url: https://support.collegeboard.org/?navId=gf-help
+          - listitem [ref=e133]:
+            - link "Contact Us" [ref=e134] [cursor=pointer]:
+              - /url: https://about.collegeboard.org/contact-us?navId=gf-contact
+          - listitem [ref=e135]:
+            - link "Doing Business" [ref=e136] [cursor=pointer]:
+              - /url: https://about.collegeboard.org/doing-business?navId=gf-bus
+          - listitem [ref=e137]:
+            - link "Compliance" [ref=e138] [cursor=pointer]:
+              - /url: https://secure.ethicspoint.com/domain/en/report_custom.asp?clientid=18136&navId=gf-comp
+          - listitem [ref=e139]:
+            - link "Legal Terms for Students" [ref=e140] [cursor=pointer]:
+              - /url: https://privacy.collegeboard.org/student-legal-terms?navId=gf-stterms
+          - listitem [ref=e141]:
+            - link "Legal Terms for Educators and Institutions" [ref=e142] [cursor=pointer]:
+              - /url: https://privacy.collegeboard.org/educator-legal-terms?navId=gf-edterms
+          - listitem [ref=e143]:
+            - link "Manage Cookies" [ref=e144] [cursor=pointer]:
+              - /url: javascript:void(0);
+          - listitem [ref=e145]:
+            - link "Privacy Center" [ref=e146] [cursor=pointer]:
+              - /url: https://privacy.collegeboard.org/?navId=gf-pp
+          - listitem [ref=e147]:
+            - link "Cookie and Web Technologies Notice" [ref=e148] [cursor=pointer]:
+              - /url: https://privacy.collegeboard.org/cookie-notice?navId=gf-cn
+          - listitem [ref=e149]:
+            - link "Privacy Settings" [ref=e150] [cursor=pointer]:
+              - /url: https://my.collegeboard.org/profile/privacy?navId=gf-ps
+          - listitem [ref=e151]:
+            - link "Your Privacy Choices" [ref=e152] [cursor=pointer]:
+              - /url: https://privacyportal.onetrust.com/webform/65a38c3f-4f1f-4acc-9e16-9a9cd7f86053/0778664e-3676-4fa8-846c-a4b9b1b504dd?navId=gf-pc
+          - listitem [ref=e153]:
+            - link "Copyright and Trademark Permissions" [ref=e154] [cursor=pointer]:
+              - /url: https://privacy.collegeboard.org/copyright-trademark?navId=gf-permissions
+          - listitem [ref=e155]:
+            - link "Report Cheating" [ref=e156] [cursor=pointer]:
+              - /url: https://forms.collegeboard.org/reportcheating/s/?navId=gf-rc
+      - paragraph [ref=e159]:
+        - text: © 2026 College Board |
+        - text: PSAT/NMSQT is a registered trademark of the College Board and National Merit Scholarship Corporation.
+  - generic: Manage Cookies

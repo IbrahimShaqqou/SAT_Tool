@@ -1,59 +1,72 @@
 /**
- * Practice Test Results Page - Detailed SAT score report
+ * Practice Test Results — Study Hall.
+ * Big-number SAT score hero with goal-style ring, borderless section scores
+ * and module breakdown, act-on-able next steps. Tokens, dark mode, a11y.
+ * Renders inside AppLayout (no full-screen wrapper).
  */
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { getTestResults } from '../../services/practiceTestApi';
+import {
+  Button, Skeleton, PageHeader, Section, StatBlock, StatusPill, AnimatedNumber, ProgressRing,
+} from '../../components/ui';
+import { toneForAccuracy } from '../../components/ui';
+
+const SectionScore = ({ label, data }) => {
+  const pct = data.percentage;
+  return (
+    <Section title={label}>
+      <div className="flex items-end justify-between">
+        <StatBlock value={data.score} label="section score" size="lg" />
+        <div className="text-right">
+          <StatusPill value={pct} />
+          <p className="mt-1 text-xs text-ink-subtle">{data.correct}/{data.total} correct</p>
+        </div>
+      </div>
+      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-muted">
+        <div className="h-full rounded-full bg-brand-500 transition-[width] duration-700 ease-out-expo" style={{ width: `${pct}%` }} />
+      </div>
+      <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-edge-subtle pt-3 text-sm">
+        <div className="flex justify-between"><dt className="text-ink-subtle">Module 1</dt><dd className="font-medium tabular-nums text-ink-body">{data.module_1_correct}/{data.module_1_total}</dd></div>
+        <div className="flex justify-between"><dt className="text-ink-subtle">Module 2 ({data.module_2_path})</dt><dd className="font-medium tabular-nums text-ink-body">{data.module_2_correct}/{data.module_2_total}</dd></div>
+      </dl>
+    </Section>
+  );
+};
 
 const PracticeTestResultsPage = () => {
   const { sessionId } = useParams();
   const navigate = useNavigate();
-
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    loadResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const load = async () => {
+      try {
+        setLoading(true);
+        const data = await getTestResults(sessionId);
+        setResults(data);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading results:', err);
+        setError('Failed to load test results');
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, [sessionId]);
-
-  const loadResults = async () => {
-    try {
-      setLoading(true);
-      const data = await getTestResults(sessionId);
-      setResults(data);
-      setError(null);
-    } catch (err) {
-      console.error('Error loading results:', err);
-      setError('Failed to load test results');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getScoreColor = (score) => {
-    if (score >= 700) return 'text-green-600';
-    if (score >= 600) return 'text-blue-600';
-    if (score >= 500) return 'text-yellow-600';
-    return 'text-orange-600';
-  };
-
-  const getPerformanceLevel = (percentage) => {
-    if (percentage >= 90) return { level: 'Excellent', color: 'text-green-600' };
-    if (percentage >= 80) return { level: 'Very Good', color: 'text-blue-600' };
-    if (percentage >= 70) return { level: 'Good', color: 'text-yellow-600' };
-    if (percentage >= 60) return { level: 'Fair', color: 'text-orange-600' };
-    return { level: 'Needs Improvement', color: 'text-red-600' };
-  };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your results...</p>
+      <div className="mx-auto max-w-4xl">
+        <Skeleton className="h-10 w-64" />
+        <Skeleton className="mt-6 h-48 w-full" rounded="rounded-2xl" />
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <Skeleton className="h-44 w-full" rounded="rounded-xl" />
+          <Skeleton className="h-44 w-full" rounded="rounded-xl" />
         </div>
       </div>
     );
@@ -61,251 +74,97 @@ const PracticeTestResultsPage = () => {
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700">{error}</p>
-          <button
-            onClick={() => navigate('/student/practice-tests')}
-            className="mt-2 text-red-600 hover:text-red-800 underline"
-          >
-            Back to Practice Tests
-          </button>
-        </div>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <p className="mb-4 text-rose-600 dark:text-rose-400">{error}</p>
+        <Button variant="secondary" onClick={() => navigate('/student/practice-tests')}>
+          <ArrowLeft className="h-4 w-4" /> Back to practice tests
+        </Button>
       </div>
     );
   }
 
   if (!results) return null;
 
-  const mathPerf = getPerformanceLevel(results.math.percentage);
-  const rwPerf = getPerformanceLevel(results.reading_writing.percentage);
+  // SAT 400–1600 → progress for the ring
+  const scorePct = Math.min(100, Math.max(0, ((results.total_score - 400) / 1200) * 100));
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-5xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {results.test_name} Results
-          </h1>
-          <p className="text-gray-600">
-            Completed on {new Date(results.completed_at).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
-          </p>
-        </div>
+    <div className="mx-auto max-w-4xl pb-8">
+      <PageHeader
+        eyebrow="Score report"
+        title={results.test_name}
+        subtitle={`Completed ${new Date(results.completed_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`}
+      />
 
-        {/* Total Score Card */}
-        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg shadow-lg p-8 mb-6 text-white">
+      {/* Big-number total score hero */}
+      <div className="flex flex-col items-start gap-8 border-y border-edge py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-faint">Total SAT score</p>
+          <div className="mt-1 flex items-end gap-3">
+            <AnimatedNumber value={results.total_score} className="font-display text-[5rem] leading-[0.86] font-semibold tracking-tight text-ink-body sm:text-[6.5rem]" />
+            <span className="mb-3 text-lg text-ink-subtle">/ 1600</span>
+          </div>
+          {results.percentile != null && (
+            <p className="mt-2 text-sm text-ink-muted">
+              <span className="font-semibold text-ink-body">{results.percentile}th percentile</span> — higher than {results.percentile}% of test-takers
+            </p>
+          )}
+        </div>
+        <ProgressRing value={scorePct} size={128} stroke={10} label={`Total score ${results.total_score} out of 1600`}>
           <div className="text-center">
-            <p className="text-blue-200 text-sm font-semibold uppercase tracking-wide mb-2">
-              Total SAT Score
-            </p>
-            <div className="text-7xl font-bold mb-2">
-              {results.total_score}
-            </div>
-            <p className="text-xl text-blue-100">
-              out of 1600
-            </p>
-            <div className="mt-4 pt-4 border-t border-blue-400">
-              <p className="text-blue-100">
-                <span className="font-semibold">{results.percentile}th percentile</span> —
-                You scored higher than {results.percentile}% of test takers
-              </p>
-            </div>
+            <AnimatedNumber value={results.total_score} className="font-display text-2xl font-semibold text-ink-body" />
+            <p className="text-[10px] font-medium uppercase tracking-wide text-ink-faint">/ 1600</p>
           </div>
-        </div>
+        </ProgressRing>
+      </div>
 
-        {/* Section Scores */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {/* Math Score */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">Math</h2>
-              <span className={`text-3xl font-bold ${getScoreColor(results.math.score)}`}>
-                {results.math.score}
-              </span>
-            </div>
+      {/* Section scores */}
+      <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
+        <SectionScore label="Math" data={results.math} />
+        <SectionScore label="Reading & Writing" data={results.reading_writing} />
+      </div>
 
-            <div className="space-y-3">
-              <div>
-                <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-gray-600">Accuracy</span>
-                  <span className="font-semibold text-gray-900">
-                    {results.math.correct}/{results.math.total} ({results.math.percentage.toFixed(1)}%)
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-blue-600 h-2 rounded-full transition-all"
-                    style={{ width: `${results.math.percentage}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-gray-200">
-                <p className="text-sm text-gray-600 mb-2">Performance by Module</p>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">Module 1:</span>
-                    <span className="font-medium">
-                      {results.math.module_1_correct}/{results.math.module_1_total}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">
-                      Module 2 ({results.math.module_2_path}):
-                    </span>
-                    <span className="font-medium">
-                      {results.math.module_2_correct}/{results.math.module_2_total}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-gray-200">
-                <span className={`text-sm font-semibold ${mathPerf.color}`}>
-                  {mathPerf.level}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Reading & Writing Score */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">Reading & Writing</h2>
-              <span className={`text-3xl font-bold ${getScoreColor(results.reading_writing.score)}`}>
-                {results.reading_writing.score}
-              </span>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-gray-600">Accuracy</span>
-                  <span className="font-semibold text-gray-900">
-                    {results.reading_writing.correct}/{results.reading_writing.total} ({results.reading_writing.percentage.toFixed(1)}%)
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-blue-600 h-2 rounded-full transition-all"
-                    style={{ width: `${results.reading_writing.percentage}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-gray-200">
-                <p className="text-sm text-gray-600 mb-2">Performance by Module</p>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">Module 1:</span>
-                    <span className="font-medium">
-                      {results.reading_writing.module_1_correct}/{results.reading_writing.module_1_total}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">
-                      Module 2 ({results.reading_writing.module_2_path}):
-                    </span>
-                    <span className="font-medium">
-                      {results.reading_writing.module_2_correct}/{results.reading_writing.module_2_total}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-gray-200">
-                <span className={`text-sm font-semibold ${rwPerf.color}`}>
-                  {rwPerf.level}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Score Distribution Info */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">Understanding Your Score</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-semibold text-gray-700 mb-2">SAT Score Range</h4>
-              <ul className="space-y-1 text-sm text-gray-600">
-                <li>• <span className="font-medium">1400-1600:</span> Excellent (Top 10%)</li>
-                <li>• <span className="font-medium">1200-1390:</span> Good (Top 25%)</li>
-                <li>• <span className="font-medium">1000-1190:</span> Average (50th percentile)</li>
-                <li>• <span className="font-medium">800-990:</span> Below Average</li>
-                <li>• <span className="font-medium">400-790:</span> Needs Significant Improvement</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-700 mb-2">Adaptive Testing</h4>
-              <p className="text-sm text-gray-600 mb-2">
-                This test used 2-stage adaptive testing, just like the real digital SAT:
-              </p>
-              <ul className="space-y-1 text-sm text-gray-600">
-                <li>• Module 1 determines your Module 2 difficulty</li>
-                <li>• <span className="font-medium">Harder Module 2:</span> Higher score potential (up to 800)</li>
-                <li>• <span className="font-medium">Easier Module 2:</span> Lower ceiling (~680)</li>
-                <li>• You took the <span className="font-medium">{results.math.module_2_path}</span> Math Module 2</li>
-                <li>• You took the <span className="font-medium">{results.reading_writing.module_2_path}</span> R&W Module 2</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Next Steps */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-          <h3 className="font-bold text-blue-900 mb-3">Recommended Next Steps</h3>
-          <ul className="space-y-2 text-sm text-blue-800">
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-              <span>Review your incorrect answers to identify patterns and weak areas</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-              <span>Practice targeted skills where you scored below 70%</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-              <span>Take another practice test in 1-2 weeks to track improvement</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-              <span>Work with your tutor on test-taking strategies and time management</span>
-            </li>
+      {/* How adaptive scoring worked */}
+      <Section className="mt-10" title="How your score was built" hint="2-stage adaptive, like the real Digital SAT">
+        <div className="grid grid-cols-1 gap-x-12 gap-y-4 text-sm text-ink-muted md:grid-cols-2">
+          <ul className="space-y-1.5">
+            <li><span className="font-semibold text-ink-body">1400–1600</span> · top 10%</li>
+            <li><span className="font-semibold text-ink-body">1200–1390</span> · top 25%</li>
+            <li><span className="font-semibold text-ink-body">1000–1190</span> · ~50th percentile</li>
+            <li><span className="font-semibold text-ink-body">800–990</span> · below average</li>
+          </ul>
+          <ul className="space-y-1.5">
+            <li>Module 1 sets your Module 2 difficulty.</li>
+            <li>You took the <span className="font-semibold text-ink-body">{results.math.module_2_path}</span> Math Module 2.</li>
+            <li>You took the <span className="font-semibold text-ink-body">{results.reading_writing.module_2_path}</span> R&W Module 2.</li>
+            <li>A harder Module 2 raises your score ceiling.</li>
           </ul>
         </div>
+      </Section>
 
-        {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={() => navigate('/student/practice-tests')}
-            className="flex-1 py-3 px-6 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-          >
-            Take Another Practice Test
-          </button>
-          <button
-            onClick={() => navigate('/student/dashboard')}
-            className="flex-1 py-3 px-6 rounded-lg font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            Return to Dashboard
-          </button>
+      {/* Next steps — act-on-able */}
+      <Section className="mt-10" title="What to do next">
+        <ul className="space-y-3 text-sm text-ink-muted">
+          {[
+            'Review the questions you missed to spot patterns.',
+            'Practice the skills you scored below 70% on.',
+            'Take another full-length test in 1–2 weeks to track improvement.',
+          ].map((t, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button variant="primary" onClick={() => navigate('/student/adaptive')}>
+            Practice weak skills <ArrowRight className="h-4 w-4" />
+          </Button>
+          <Button variant="secondary" onClick={() => navigate('/student/practice-tests')}>
+            Take another test
+          </Button>
         </div>
-      </div>
+      </Section>
     </div>
   );
 };

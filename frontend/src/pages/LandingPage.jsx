@@ -72,17 +72,16 @@ const LandingPage = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 pt-20 pb-24">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 bg-surface-card border border-brand-200 dark:border-brand-700/50 rounded-full px-3.5 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300 mb-6 shadow-sm">
-              <Sparkles className="h-3 w-3" />
-              3,271 questions · AI step-by-step explanations
-            </div>
-            <h1 className="text-5xl sm:text-6xl font-extrabold text-ink-body leading-[1.08] tracking-tight mb-5">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-surface-card border border-edge px-3.5 py-1 text-xs font-semibold text-ink-muted mb-6 shadow-sm">
+              3,271 questions · step-by-step explanations
+            </p>
+            <h1 className="font-display text-5xl sm:text-6xl font-semibold text-ink-body leading-[1.04] tracking-tight mb-5">
               Score higher on the{' '}
               <span className="text-brand-600 dark:text-brand-400">Digital SAT.</span>
             </h1>
-            <p className="text-lg text-ink-subtle leading-relaxed mb-8 max-w-xl">
-              Adaptive practice that adjusts to your level, AI explanations for every question,
-              and expert lessons for every skill — all in one place.
+            <p className="text-lg text-ink-muted leading-relaxed mb-8 max-w-xl">
+              Adaptive practice that meets you at your level, a worked explanation for every
+              question, and expert lessons for every skill. All in one place.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/register">
@@ -111,7 +110,7 @@ const LandingPage = () => {
               { n: 'Free', label: 'To get started' },
             ].map((s) => (
               <div key={s.label}>
-                <div className="text-2xl font-bold text-brand-600 dark:text-brand-400">{s.n}</div>
+                <div className="font-display text-3xl font-semibold text-ink-body">{s.n}</div>
                 <div className="text-sm text-ink-subtle mt-0.5">{s.label}</div>
               </div>
             ))}
@@ -124,11 +123,11 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
           <Reveal>
             <div className="mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold text-ink-body tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tracking-tight">
                 Built for how students actually prepare
               </h2>
-              <p className="mt-2 text-ink-subtle text-lg max-w-xl">
-                Not a question dump. A structured path from diagnosis to score improvement.
+              <p className="mt-2 text-ink-muted text-lg max-w-xl">
+                A structured path from diagnosis to score improvement, not just a pile of questions.
               </p>
             </div>
           </Reveal>
@@ -142,14 +141,14 @@ const LandingPage = () => {
               },
               {
                 icon: Sparkles, iconBg: 'bg-accent-100 dark:bg-accent-900/40', iconColor: 'text-accent-600 dark:text-accent-300',
-                title: 'AI Explanations',
+                title: 'Worked Explanations',
                 desc: 'Every question has a structured step-by-step breakdown: worked math, highlighted reading evidence, grammar rule naming, and why each wrong choice fails.',
                 link: '/questions', linkText: 'See an example',
               },
               {
-                icon: GraduationCap, iconBg: 'bg-violet-100 dark:bg-violet-900/40', iconColor: 'text-violet-600 dark:text-violet-300',
+                icon: GraduationCap, iconBg: 'bg-brand-100 dark:bg-brand-900/40', iconColor: 'text-brand-600 dark:text-brand-300',
                 title: 'Expert Skill Lessons',
-                desc: 'Interactive lessons with Desmos-powered graphs, worked examples, and embedded practice for every SAT skill — not just video walkthroughs.',
+                desc: 'Interactive lessons with Desmos-powered graphs, worked examples, and embedded practice for every SAT skill, not just video walkthroughs.',
                 link: '/lessons', linkText: 'Browse lessons',
               },
             ].map((f) => (
@@ -157,8 +156,8 @@ const LandingPage = () => {
                 <div className={`w-10 h-10 ${f.iconBg} rounded-xl flex items-center justify-center mb-4`}>
                   <f.icon className={`h-5 w-5 ${f.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-ink-body mb-2">{f.title}</h3>
-                <p className="text-sm text-ink-subtle leading-relaxed flex-1">{f.desc}</p>
+                <h3 className="font-display text-lg font-semibold text-ink-body mb-2">{f.title}</h3>
+                <p className="text-sm text-ink-muted leading-relaxed flex-1">{f.desc}</p>
                 <Link to={f.link} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
                   {f.linkText} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
@@ -172,7 +171,7 @@ const LandingPage = () => {
       <section className="py-20 bg-surface-card border-t border-edge-subtle">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
           <Reveal>
-            <h2 className="text-3xl font-bold text-ink-body tracking-tight mb-12">How it works</h2>
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tracking-tight mb-12">How it works</h2>
           </Reveal>
           <Reveal stagger className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -182,7 +181,7 @@ const LandingPage = () => {
               { n: '04', icon: TrendingUp, title: 'Score progress', desc: 'Track accuracy improvements and watch your estimated score climb.' },
             ].map((step) => (
               <div key={step.n}>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-400 dark:text-brand-500 mb-3 block">{step.n}</span>
+                <span className="font-display text-2xl font-semibold text-brand-500 dark:text-brand-400 mb-2 block">{step.n}</span>
                 <div className="w-9 h-9 bg-brand-50 dark:bg-brand-900/40 rounded-xl flex items-center justify-center mb-3">
                   <step.icon className="h-4.5 w-4.5 text-brand-600 dark:text-brand-300" style={{ width: 18, height: 18 }} />
                 </div>
@@ -200,7 +199,7 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10">
           <Reveal>
             <div className="max-w-2xl">
-              <h2 className="text-3xl font-bold text-ink-body tracking-tight mb-8">Everything you need</h2>
+              <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tracking-tight mb-8">Everything you need</h2>
               <div className="grid sm:grid-cols-2 gap-3">
                 {[
                   '3,271 real Digital SAT questions',
@@ -227,7 +226,7 @@ const LandingPage = () => {
       <section className="bg-brand-600 py-20">
         <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
           <Reveal>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-3">
               Start preparing smarter today
             </h2>
             <p className="text-brand-100 mb-8">Free to get started. No credit card required.</p>
@@ -241,20 +240,20 @@ const LandingPage = () => {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="bg-slate-900 dark:bg-slate-950 py-8">
+      <footer className="bg-[#161311] py-8">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-md bg-brand-500 flex items-center justify-center">
-              <span className="text-white font-bold text-[10px]">Z</span>
+              <span className="text-white font-display font-semibold text-[11px]">Z</span>
             </div>
-            <span className="text-sm font-semibold text-white">ZooPrep</span>
+            <span className="text-sm font-display font-semibold text-[#f5f1ea]">ZooPrep</span>
           </div>
-          <div className="flex gap-5 text-sm text-slate-400">
-            <Link to="/questions" className="hover:text-white transition-colors">Questions</Link>
-            <Link to="/lessons" className="hover:text-white transition-colors">Lessons</Link>
-            <Link to="/login" className="hover:text-white transition-colors">Log In</Link>
+          <div className="flex gap-5 text-sm text-[#a8a097]">
+            <Link to="/questions" className="hover:text-[#f5f1ea] transition-colors">Questions</Link>
+            <Link to="/lessons" className="hover:text-[#f5f1ea] transition-colors">Lessons</Link>
+            <Link to="/login" className="hover:text-[#f5f1ea] transition-colors">Log In</Link>
           </div>
-          <p className="text-xs text-slate-500">&copy; {new Date().getFullYear()} ZooPrep</p>
+          <p className="text-xs text-[#756d64]">&copy; {new Date().getFullYear()} ZooPrep</p>
         </div>
       </footer>
     </div>

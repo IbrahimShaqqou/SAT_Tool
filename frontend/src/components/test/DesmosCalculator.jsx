@@ -185,7 +185,7 @@ const DesmosCalculator = ({
   return (
     <div
       ref={containerRef}
-      className={`fixed z-50 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-opacity duration-150 ${
+      className={`fixed z-50 bg-surface-card rounded-lg shadow-card-xl border border-edge overflow-hidden transition-opacity duration-150 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
       style={{
@@ -197,15 +197,16 @@ const DesmosCalculator = ({
       onMouseDown={handleMouseDown}
     >
       {/* Header */}
-      <div className="calc-header flex items-center justify-between px-3 py-2 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 cursor-move select-none">
+      <div className="calc-header flex items-center justify-between px-3 py-2 bg-surface-muted border-b border-edge cursor-move select-none">
         <div className="flex items-center gap-2">
-          <GripHorizontal className="h-4 w-4 text-gray-400 dark:text-gray-500" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Calculator</span>
+          <GripHorizontal className="h-4 w-4 text-ink-faint" />
+          <span className="text-sm font-medium text-ink-body">Calculator</span>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={onClose}
-            className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+            aria-label="Close calculator"
+            className="p-1 text-ink-subtle hover:text-ink-body hover:bg-surface-muted rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             <X className="h-4 w-4" />
           </button>
@@ -215,13 +216,13 @@ const DesmosCalculator = ({
       {!isMinimized && (
         <>
           {/* Tabs */}
-          <div className="flex border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+          <div className="flex border-b border-edge bg-surface-card">
             <button
               onClick={() => setActiveTab('graphing')}
               className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
                 activeTab === 'graphing'
-                  ? 'text-gray-900 dark:text-gray-100 border-b-2 border-gray-900 dark:border-gray-100'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'text-ink-body border-b-2 border-brand-500'
+                  : 'text-ink-subtle hover:text-ink-body'
               }`}
             >
               Graphing
@@ -230,8 +231,8 @@ const DesmosCalculator = ({
               onClick={() => setActiveTab('scientific')}
               className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
                 activeTab === 'scientific'
-                  ? 'text-gray-900 dark:text-gray-100 border-b-2 border-gray-900 dark:border-gray-100'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'text-ink-body border-b-2 border-brand-500'
+                  : 'text-ink-subtle hover:text-ink-body'
               }`}
             >
               Scientific
@@ -255,14 +256,14 @@ const DesmosCalculator = ({
 
           {/* Resize handle - larger and more visible */}
           <div
-            className="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-tl transition-colors"
+            className="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize flex items-center justify-center bg-surface-muted hover:bg-edge-subtle rounded-tl transition-colors"
             onMouseDown={(e) => {
               e.stopPropagation();
               setIsResizing(true);
             }}
           >
             <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              className="w-4 h-4 text-ink-faint"
               viewBox="0 0 24 24"
               fill="currentColor"
             >

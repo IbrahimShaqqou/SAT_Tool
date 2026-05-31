@@ -103,7 +103,7 @@ const Sidebar = ({ role = 'student', isOpen, onClose, onExpandChange, forceColla
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/25 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-surface-overlay backdrop-blur-sm z-overlay lg:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -111,26 +111,27 @@ const Sidebar = ({ role = 'student', isOpen, onClose, onExpandChange, forceColla
 
       {/* Sidebar panel */}
       <aside
+        aria-label="Primary navigation"
         className={`
           fixed left-0 top-0 h-screen
           w-[220px] ${width}
-          bg-white dark:bg-slate-900
-          border-r border-slate-100 dark:border-slate-800
-          flex flex-col z-50
+          bg-surface-card
+          border-r border-edge
+          flex flex-col z-modal
           transition-[width] duration-200 ease-in-out
           overflow-hidden
-          lg:translate-x-0
+          lg:translate-x-0 lg:z-sticky
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
         {/* Logo row */}
-        <div className="h-14 flex items-center px-3.5 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
+        <div className="h-14 flex items-center px-3.5 flex-shrink-0 border-b border-edge">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-bold text-xs">Z</span>
+              <span className="text-white font-display font-semibold text-sm">Z</span>
             </div>
             {effectiveExpanded && (
-              <span className="text-[14px] font-semibold text-slate-800 dark:text-slate-100 tracking-tight whitespace-nowrap overflow-hidden">
+              <span className="text-[15px] font-display font-semibold text-ink-body tracking-tight whitespace-nowrap overflow-hidden">
                 ZooPrep
               </span>
             )}
@@ -138,7 +139,7 @@ const Sidebar = ({ role = 'student', isOpen, onClose, onExpandChange, forceColla
           {/* Mobile close */}
           <button
             onClick={onClose}
-            className="lg:hidden ml-auto p-1 text-slate-400 hover:text-slate-600 rounded-lg"
+            className="lg:hidden ml-auto p-1 text-ink-faint hover:text-ink-body rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             aria-label="Close menu"
           >
             <X className="h-5 w-5" />
@@ -151,12 +152,12 @@ const Sidebar = ({ role = 'student', isOpen, onClose, onExpandChange, forceColla
             <div key={gi} className={gi > 0 ? 'mt-1' : ''}>
               {/* Group label */}
               {group.label && effectiveExpanded && (
-                <p className="px-4 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 whitespace-nowrap">
+                <p className="px-4 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-widest text-ink-faint whitespace-nowrap">
                   {group.label}
                 </p>
               )}
               {group.label && !effectiveExpanded && (
-                <div className="mx-3 my-2 h-px bg-slate-100 dark:bg-slate-800" />
+                <div className="mx-3 my-2 h-px bg-edge-subtle" />
               )}
               {group.items.map((item) => (
                 <NavLink
@@ -170,9 +171,10 @@ const Sidebar = ({ role = 'student', isOpen, onClose, onExpandChange, forceColla
                     ${effectiveExpanded ? 'px-3 mx-2' : 'px-[18px] mx-0 justify-center'}
                     py-2.5 rounded-xl my-0.5
                     text-sm font-medium transition-colors
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500
                     ${isActive
                       ? 'bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300'
-                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-slate-200'
+                      : 'text-ink-subtle hover:bg-surface-muted hover:text-ink-body'
                     }
                   `}
                 >
@@ -192,10 +194,11 @@ const Sidebar = ({ role = 'student', isOpen, onClose, onExpandChange, forceColla
 
         {/* Collapse toggle (desktop only) — hidden when force-collapsed by route */}
         {!forceCollapsed && (
-          <div className="hidden lg:flex items-center border-t border-slate-100 dark:border-slate-800 p-3 flex-shrink-0">
+          <div className="hidden lg:flex items-center border-t border-edge p-3 flex-shrink-0">
             <button
               onClick={toggle}
-              className={`flex items-center gap-2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors rounded-lg px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 ${!effectiveExpanded ? 'mx-auto' : 'w-full'}`}
+              className={`flex items-center gap-2 text-xs text-ink-faint hover:text-ink-muted transition-colors rounded-lg px-2 py-1.5 hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${!effectiveExpanded ? 'mx-auto' : 'w-full'}`}
+              aria-label={effectiveExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
               title={effectiveExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
             >
               {effectiveExpanded ? (

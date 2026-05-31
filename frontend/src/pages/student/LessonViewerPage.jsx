@@ -112,7 +112,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
   const processedSections = processSectionsForGrid(sections);
 
   return (
-    <div className="max-w-4xl mx-auto pb-24 bg-white dark:bg-slate-900 rounded-2xl shadow-card px-8 py-7 -mt-2">
+    <div className="max-w-4xl mx-auto pb-24 bg-surface-card rounded-2xl shadow-card px-8 py-7 -mt-2">
       {/* Header */}
       <div className="mb-8">
         <button
@@ -171,11 +171,11 @@ const LessonViewerPage = ({ isPublic = false }) => {
 
       {/* SAT Tips - with normal bullet points */}
       {satTips.length > 0 && (
-        <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-200 dark:border-blue-800">
-          <h2 className="text-lg font-bold text-blue-800 dark:text-blue-300 mb-4">
+        <div className="mb-8 p-6 bg-brand-50 dark:bg-brand-900/20 rounded-2xl border border-brand-200 dark:border-brand-800/50">
+          <h2 className="text-lg font-bold text-brand-800 dark:text-brand-300 mb-4">
             SAT Tips
           </h2>
-          <ul className="space-y-2 list-disc list-inside text-blue-900 dark:text-blue-100">
+          <ul className="space-y-2 list-disc list-inside text-ink-body">
             {satTips.map((tip, index) => (
               <li key={index}>{tip}</li>
             ))}
@@ -203,7 +203,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
       )}
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 p-4 z-40">
+      <div className="fixed bottom-0 left-0 right-0 bg-surface-card border-t border-edge p-4 z-40">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
           <Button
             variant="secondary"
@@ -363,11 +363,11 @@ const LessonSection = ({ section }) => {
           {section.items.map((item, index) => (
             <div key={index} className="flex flex-col bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
               {/* Title */}
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 text-center">
+              <h4 className="font-semibold text-ink-body mb-2 text-center">
                 {item.title}
               </h4>
               {/* Image - 1.5x taller for better visibility */}
-              <div className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-900 mb-3">
+              <div className="rounded-lg border border-edge overflow-hidden bg-white mb-3">
                 <img
                   src={item.image.url}
                   alt={item.image.alt || item.title}
@@ -393,17 +393,17 @@ const LessonSection = ({ section }) => {
   // Tip - blue box with icon
   if (type === 'tip') {
     return (
-      <div className="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-l-4 border-blue-500">
+      <div className="p-5 bg-brand-50 dark:bg-brand-900/20 rounded-xl border border-brand-200 dark:border-brand-800/50">
         <div className="flex items-start gap-3">
-          <Lightbulb className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+          <Lightbulb className="h-5 w-5 text-brand-600 dark:text-brand-400 flex-shrink-0 mt-0.5" />
           <div>
             {section.title && (
-              <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
+              <h3 className="font-semibold text-brand-800 dark:text-brand-300 mb-1">
                 {section.title}
               </h3>
             )}
             <div
-              className="text-blue-900 dark:text-blue-100"
+              className="text-ink-body"
               dangerouslySetInnerHTML={{ __html: parseMarkdown(section.content) }}
             />
           </div>
@@ -415,9 +415,9 @@ const LessonSection = ({ section }) => {
   // Warning - red/orange box with icon
   if (type === 'warning') {
     return (
-      <div className="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl border-l-4 border-amber-500">
+      <div className="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800/50">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
           <div>
             {section.title && (
               <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-1">
@@ -679,18 +679,18 @@ const InteractiveExample = ({ section }) => {
                       : showIncorrect
                       ? 'border-red-500 bg-red-50 dark:bg-red-900/30'
                       : isSelected
-                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/30'
+                      : 'border-edge hover:border-edge-strong'
                   }`}
                 >
                   <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
                     showCorrect
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-accent-500 text-white'
                       : showIncorrect
-                      ? 'bg-red-500 text-white'
+                      ? 'bg-rose-500 text-white'
                       : isSelected
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      ? 'bg-brand-500 text-white'
+                      : 'bg-surface-muted text-ink-muted'
                   }`}>
                     {letter}
                   </span>
@@ -799,12 +799,12 @@ const InteractiveExample = ({ section }) => {
           {/* Embedded Desmos Calculator */}
           {showDesmos && (
             <div className="mb-4">
-              <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-3">Graphing Calculator:</h4>
+              <h4 className="font-semibold text-brand-800 dark:text-brand-300 mb-3">Graphing Calculator:</h4>
               <div
                 ref={desmosRef}
-                className="w-full h-80 rounded-lg border border-blue-200 dark:border-blue-700 bg-white"
+                className="w-full h-80 rounded-lg border border-edge bg-white"
               />
-              <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
+              <p className="text-xs text-ink-subtle mt-2">
                 The intersection point shows the solution. Click on it to see the coordinates!
               </p>
             </div>
@@ -823,10 +823,10 @@ const InteractiveExample = ({ section }) => {
 
           {/* Tip */}
           {section.tip && (
-            <div className="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg border-l-4 border-yellow-500">
+            <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800/50">
               <div className="flex items-start gap-2">
-                <Lightbulb className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
-                <p className="text-yellow-800 dark:text-yellow-200">{section.tip}</p>
+                <Lightbulb className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                <p className="text-ink-body">{section.tip}</p>
               </div>
             </div>
           )}
@@ -835,10 +835,10 @@ const InteractiveExample = ({ section }) => {
 
       {/* Show Solution toggle - always available when explanation is hidden */}
       {!showExplanation && !showResult && (
-        <div className="px-5 py-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div className="px-5 py-3 bg-surface-muted border-t border-edge">
           <button
             onClick={() => setShowExplanation(true)}
-            className="w-full flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:underline"
+            className="w-full flex items-center justify-center gap-2 text-brand-700 dark:text-brand-400 font-medium hover:underline"
           >
             Show Solution
             <ChevronDown className="h-4 w-4" />

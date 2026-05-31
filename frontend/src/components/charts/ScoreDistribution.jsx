@@ -11,8 +11,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import useChartTheme from './useChartTheme';
 
 const ScoreDistribution = ({ data = [], height = 200 }) => {
+  const t = useChartTheme();
   // Sample data if none provided (score ranges and counts)
   const chartData = data.length > 0 ? data : [
     { range: '0-20', count: 1 },
@@ -28,41 +30,25 @@ const ScoreDistribution = ({ data = [], height = 200 }) => {
         data={chartData}
         margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
       >
-        <CartesianGrid
-          strokeDasharray="none"
-          stroke="#e5e7eb"
-          strokeWidth={1}
-          horizontal={true}
-          vertical={true}
-        />
+        <CartesianGrid strokeDasharray="none" stroke={t.grid} strokeWidth={1} />
         <XAxis
           dataKey="range"
-          tick={{ fontSize: 12, fill: '#6b7280' }}
-          tickLine={{ stroke: '#d1d5db' }}
-          axisLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
+          tick={{ fontSize: 12, fill: t.axis }}
+          tickLine={{ stroke: t.grid }}
+          axisLine={{ stroke: t.grid, strokeWidth: 1 }}
         />
         <YAxis
-          tick={{ fontSize: 12, fill: '#6b7280' }}
-          tickLine={{ stroke: '#d1d5db' }}
-          axisLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
+          tick={{ fontSize: 12, fill: t.axis }}
+          tickLine={{ stroke: t.grid }}
+          axisLine={{ stroke: t.grid, strokeWidth: 1 }}
           allowDecimals={false}
         />
         <Tooltip
-          contentStyle={{
-            backgroundColor: '#fff',
-            border: '1px solid #d1d5db',
-            borderRadius: '8px',
-            fontSize: '14px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          }}
+          contentStyle={t.tooltip}
           formatter={(value) => [value, 'Students']}
           labelFormatter={(label) => `Score: ${label}%`}
         />
-        <Bar
-          dataKey="count"
-          fill="#374151"
-          radius={[4, 4, 0, 0]}
-        />
+        <Bar dataKey="count" fill={t.brand} radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -25,7 +25,7 @@ const sectionOptions = [
     desc: '38 questions — Algebra, Advanced Math, Problem Solving & Geometry',
     time: '25–35 min',
     icon: Calculator,
-    color: 'blue',
+    color: 'brand',
   },
   {
     key: 'reading_writing',
@@ -34,7 +34,7 @@ const sectionOptions = [
     desc: '20 questions — Craft & Structure, Information & Ideas, Standard English & Expression',
     time: '15–20 min',
     icon: BookOpenText,
-    color: 'purple',
+    color: 'accent',
   },
 ];
 
@@ -45,17 +45,11 @@ const colorMap = {
     iconBg: 'bg-brand-100 dark:bg-brand-900/30',
     icon: 'text-brand-600 dark:text-brand-400',
   },
-  blue: {
-    ring: 'ring-blue-600 dark:ring-blue-400 bg-blue-50 dark:bg-blue-900/20',
-    idle: 'hover:border-blue-300 dark:hover:border-blue-700',
-    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
-    icon: 'text-blue-600 dark:text-blue-400',
-  },
-  purple: {
-    ring: 'ring-purple-600 dark:ring-purple-400 bg-purple-50 dark:bg-purple-900/20',
-    idle: 'hover:border-purple-300 dark:hover:border-purple-700',
-    iconBg: 'bg-purple-100 dark:bg-purple-900/30',
-    icon: 'text-purple-600 dark:text-purple-400',
+  accent: {
+    ring: 'ring-accent-600 dark:ring-accent-400 bg-accent-50 dark:bg-accent-900/20',
+    idle: 'hover:border-accent-300 dark:hover:border-accent-700',
+    iconBg: 'bg-accent-100 dark:bg-accent-900/30',
+    icon: 'text-accent-600 dark:text-accent-400',
   },
 };
 
@@ -114,7 +108,7 @@ export default function DiagnosticLandingPage() {
                     w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all
                     ${isSelected
                       ? `${c.ring} ring-2 border-transparent`
-                      : `border-gray-200 dark:border-gray-700 ${c.idle}`
+                      : `border-edge ${c.idle}`
                     }
                   `}
                 >
@@ -122,10 +116,10 @@ export default function DiagnosticLandingPage() {
                     <Icon className={`h-5 w-5 ${c.icon}`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 dark:text-white">{opt.label}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{opt.desc}</p>
+                    <p className="font-semibold text-ink-body">{opt.label}</p>
+                    <p className="text-sm text-ink-subtle">{opt.desc}</p>
                   </div>
-                  <span className="text-xs font-medium text-gray-400 dark:text-gray-500 whitespace-nowrap">
+                  <span className="text-xs font-medium text-ink-faint whitespace-nowrap">
                     {opt.time}
                   </span>
                 </button>
@@ -152,8 +146,8 @@ export default function DiagnosticLandingPage() {
                   <Icon className="h-5 w-5 text-brand-600 dark:text-brand-400" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">{title}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{desc}</p>
+                  <p className="font-semibold text-ink-body">{title}</p>
+                  <p className="text-sm text-ink-subtle mt-0.5">{desc}</p>
                 </div>
               </div>
             ))}
@@ -164,8 +158,8 @@ export default function DiagnosticLandingPage() {
       {/* Tips */}
       <Card>
         <Card.Content className="pt-5">
-          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Tips for best results</p>
-          <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm font-semibold text-ink-body mb-3">Tips for best results</p>
+          <ul className="space-y-2 text-sm text-ink-muted">
             <li className="flex items-start gap-2">
               <span className="text-brand-500 font-bold mt-0.5">•</span>
               Find a quiet spot with {selectedOption.time} of uninterrupted time
@@ -183,7 +177,7 @@ export default function DiagnosticLandingPage() {
       </Card>
 
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400 text-sm">
+        <div role="alert" className="p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/50 rounded-lg text-rose-700 dark:text-rose-300 text-sm">
           {error}
         </div>
       )}

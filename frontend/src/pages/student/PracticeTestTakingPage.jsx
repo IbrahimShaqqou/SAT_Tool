@@ -232,14 +232,14 @@ const PracticeTestTakingPage = () => {
   // ── Loading / error states ──────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-center min-h-screen bg-surface-page">
         <LoadingSpinner size="lg" text="Loading module..." />
       </div>
     );
   }
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-center min-h-screen bg-surface-page">
         <Card className="max-w-md text-center p-6">
           <p className="text-rose-600 dark:text-rose-400 mb-4">{error}</p>
           <Button
@@ -256,7 +256,7 @@ const PracticeTestTakingPage = () => {
 
   // ── Panels ───────────────────────────────────────────────────────────────
   const passagePanel = hasPassage ? (
-    <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-900">
+    <div className="h-full overflow-auto p-6 bg-surface-card">
       <HighlightableText
         key={`passage-${currentQuestion.id}`}
         html={passageHtml}
@@ -266,7 +266,7 @@ const PracticeTestTakingPage = () => {
   ) : null;
 
   const questionPanel = (
-    <div className={`bg-white dark:bg-gray-900 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+    <div className={`bg-surface-card pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
       <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
         <QuestionDisplay
           questionNumber={currentIndex + 1}
@@ -299,7 +299,7 @@ const PracticeTestTakingPage = () => {
     <>
       {showNav && (
         <div
-          className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-gray-50 dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
+          className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-surface-card shadow-xl border border-edge rounded-t-xl max-h-[50vh] overflow-hidden"
           style={{ width: 'min(500px, calc(100vw - 32px))' }}
         >
           <QuestionNav
@@ -313,7 +313,7 @@ const PracticeTestTakingPage = () => {
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-t border-edge bg-surface-card">
         <Button
           variant="secondary"
           onClick={handlePrevious}
@@ -325,10 +325,10 @@ const PracticeTestTakingPage = () => {
 
         <button
           onClick={() => setShowNav(!showNav)}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-ink-body bg-surface-muted rounded-lg hover:bg-surface-page"
         >
           <span className="font-semibold">{currentIndex + 1}</span>
-          <span className="text-gray-400 dark:text-gray-500">/</span>
+          <span className="text-ink-faint">/</span>
           <span>{questions.length}</span>
           <svg
             className={`w-4 h-4 transition-transform ${showNav ? 'rotate-180' : ''}`}
@@ -359,7 +359,7 @@ const PracticeTestTakingPage = () => {
   );
 
   return (
-    <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-surface-card">
       <TestHeader
         currentQuestion={currentIndex + 1}
         totalQuestions={questions.length}
@@ -380,7 +380,7 @@ const PracticeTestTakingPage = () => {
 
       <div
         ref={scrollContainerRef}
-        className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
+        className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
       >
         {hasPassage ? (
           <SplitPane
@@ -436,10 +436,10 @@ const PracticeTestTakingPage = () => {
       {isPaused && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
           <Card className="text-center p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            <h2 className="text-xl font-semibold text-ink-body">
               Test Paused
             </h2>
-            <p className="text-gray-500 mt-2">Click resume to continue</p>
+            <p className="text-ink-muted mt-2">Click resume to continue</p>
             <Button variant="primary" className="mt-4" onClick={resumeTimer}>
               Resume
             </Button>

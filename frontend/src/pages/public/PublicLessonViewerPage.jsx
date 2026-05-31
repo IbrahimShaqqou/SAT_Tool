@@ -11,31 +11,31 @@ const PublicLessonViewerPage = () => {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-surface-page">
       {/* Header with login prompt */}
       {!user && (
-        <div className="bg-purple-600 dark:bg-purple-700 text-white px-4 py-3">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="bg-brand-600 text-white px-4 py-3">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <Link to="/" className="text-xl font-bold hover:opacity-90">
+              <Link to="/" className="font-display text-xl font-semibold hover:opacity-90">
                 ZooPrep
               </Link>
-              <span className="text-purple-200">|</span>
-              <span className="text-sm text-purple-100">
+              <span className="text-white/40">|</span>
+              <span className="text-sm text-white/90">
                 Log in to track your progress and mark lessons complete
               </span>
             </div>
             <div className="flex items-center gap-3">
               <Link
                 to="/login"
-                className="flex items-center gap-2 px-4 py-2 bg-white text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-white text-brand-700 rounded-lg font-medium hover:bg-brand-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <LogIn className="h-4 w-4" />
                 Log In
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-400 transition-colors"
+                className="px-4 py-2 bg-brand-500 text-white rounded-lg font-medium hover:bg-brand-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 Sign Up
               </Link>
@@ -46,14 +46,14 @@ const PublicLessonViewerPage = () => {
 
       {/* Navigation for logged-in users */}
       {user && (
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+        <div className="bg-surface-card border-b border-edge px-4 py-3">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <Link to="/" className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            <Link to="/" className="font-display text-xl font-semibold text-ink-body">
               ZooPrep
             </Link>
             <Link
               to={user.role?.toLowerCase() === 'tutor' ? '/tutor' : '/student'}
-              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              className="px-4 py-2 bg-surface-muted text-ink-body rounded-lg font-medium hover:bg-surface-input transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               Go to Dashboard
             </Link>

@@ -328,16 +328,16 @@ const QuestionBankPage = () => {
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Question Bank</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Browse questions by domain and skill</p>
+        <h1 className="font-display text-2xl font-semibold text-ink-body">Question Bank</h1>
+        <p className="text-ink-subtle mt-1">Browse questions by domain and skill</p>
       </div>
 
       {/* Loading overlay for question loading */}
       {isLoadingQuestions && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl flex items-center gap-4">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" role="alert" aria-busy="true">
+          <div className="bg-surface-card p-6 rounded-lg shadow-xl flex items-center gap-4">
             <LoadingSpinner />
-            <span className="text-gray-700 dark:text-gray-300">Loading questions...</span>
+            <span className="text-ink-muted">Loading questions...</span>
           </div>
         </div>
       )}
@@ -351,35 +351,36 @@ const QuestionBankPage = () => {
           <Card key={subject}>
             <Card.Header>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                  <SubjectIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                <div className="p-2 bg-surface-muted rounded-lg">
+                  <SubjectIcon className="h-5 w-5 text-ink-muted" />
                 </div>
                 <div>
                   <Card.Title>
                     {subject === 'math' ? 'Math' : 'Reading & Writing'}
                   </Card.Title>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-ink-subtle">
                     {subjectDomains.reduce((sum, d) => sum + (d.question_count || 0), 0)} questions
                   </p>
                 </div>
               </div>
             </Card.Header>
             <Card.Content className="p-0">
-              <div className="divide-y divide-gray-100 dark:divide-gray-700">
+              <div className="divide-y divide-edge-subtle">
                 {subjectDomains.map(domain => (
                   <div key={domain.id}>
                     {/* Domain header */}
                     <button
                       onClick={() => toggleDomain(domain.id)}
-                      className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                      aria-expanded={expandedDomains.has(domain.id)}
+                      className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                     >
                       <div className="flex items-center gap-3">
                         {expandedDomains.has(domain.id) ? (
-                          <ChevronDown className="h-4 w-4 text-gray-400" />
+                          <ChevronDown className="h-4 w-4 text-ink-faint" />
                         ) : (
-                          <ChevronRight className="h-4 w-4 text-gray-400" />
+                          <ChevronRight className="h-4 w-4 text-ink-faint" />
                         )}
-                        <span className="font-medium text-gray-900 dark:text-gray-100">{domain.name}</span>
+                        <span className="font-medium text-ink-body">{domain.name}</span>
                       </div>
                       <Badge variant="default" size="sm">
                         {domain.question_count || 0} questions
@@ -388,7 +389,7 @@ const QuestionBankPage = () => {
 
                     {/* Skills list */}
                     {expandedDomains.has(domain.id) && (
-                      <div className="bg-gray-50 dark:bg-gray-700/30 border-t border-gray-100 dark:border-gray-700">
+                      <div className="bg-surface-muted border-t border-edge-subtle">
                         {isLoadingSkills[domain.id] ? (
                           <div className="flex items-center justify-center py-4">
                             <LoadingSpinner size="sm" />
@@ -400,19 +401,19 @@ const QuestionBankPage = () => {
                                 key={skill.id}
                                 onClick={() => selectSkill(skill, domain)}
                                 disabled={isLoadingQuestions}
-                                className="w-full flex items-center justify-between px-8 py-2 hover:bg-gray-100 dark:hover:bg-gray-600/50 transition-colors text-left disabled:opacity-50"
+                                className="w-full flex items-center justify-between px-8 py-2 hover:bg-surface-card transition-colors text-left disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                               >
-                                <span className="text-sm text-gray-700 dark:text-gray-300">{skill.name}</span>
+                                <span className="text-sm text-ink-muted">{skill.name}</span>
                                 <div className="flex items-center gap-2">
                                   <Badge variant="info" size="sm">
                                     {skill.question_count || 0}
                                   </Badge>
-                                  <ChevronRight className="h-3 w-3 text-gray-400" />
+                                  <ChevronRight className="h-3 w-3 text-ink-faint" />
                                 </div>
                               </button>
                             ))}
                             {(skillsByDomain[domain.id] || []).length === 0 && (
-                              <p className="text-sm text-gray-400 dark:text-gray-500 px-8 py-2">No skills found</p>
+                              <p className="text-sm text-ink-faint px-8 py-2">No skills found</p>
                             )}
                           </div>
                         )}
@@ -440,7 +441,7 @@ const QuestionBankPage = () => {
 
     // Question panel content
     const questionPanel = (
-      <div className={`bg-white dark:bg-gray-900 pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+      <div className={`bg-surface-card pb-20 ${hasPassage ? 'h-full flex flex-col' : ''}`}>
         <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
           <QuestionDisplay
             questionNumber={currentIndex + 1}
@@ -492,12 +493,12 @@ const QuestionBankPage = () => {
                 </Button>
               )}
               {currentChecked && !currentQuestion.explanation_html && !currentQuestion.explanation_available && (
-                <span className="text-sm text-gray-400 dark:text-gray-500 italic">
+                <span className="text-sm text-ink-faint italic">
                   No explanation available for this question
                 </span>
               )}
               {currentChecked && !currentChecked.isCorrect && currentQuestion.answer_type === 'SPR' && (
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-ink-muted">
                   {currentChecked.correctAnswers?.length > 0 && currentChecked.correctAnswers[0] !== '*'
                     ? `Correct answer: ${currentChecked.correctAnswers.join(' or ')}`
                     : 'See explanation for correct answer'}
@@ -515,10 +516,10 @@ const QuestionBankPage = () => {
               />
             )}
             {showExplanation && !currentQuestion.explanation_available && currentQuestion.explanation_html && (
-              <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
-                <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
+              <div className="mt-4 p-4 bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-800/30 rounded-lg">
+                <h4 className="text-sm font-medium text-brand-900 dark:text-brand-200 mb-2">Explanation</h4>
                 <div
-                  className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
+                  className="prose prose-sm dark:prose-invert max-w-none text-brand-800 dark:text-brand-200"
                   dangerouslySetInnerHTML={{ __html: currentQuestion.explanation_html }}
                 />
               </div>
@@ -530,7 +531,7 @@ const QuestionBankPage = () => {
 
     // Passage panel content (highlightable, same UX as question prompt)
     const passagePanel = hasPassage ? (
-      <div className="h-full overflow-auto p-6 bg-white dark:bg-gray-900">
+      <div className="h-full overflow-auto p-6 bg-surface-card">
         <HighlightableText
           key={`passage-${currentQuestion.id}`}
           html={passageHtml}
@@ -544,7 +545,7 @@ const QuestionBankPage = () => {
       <>
         {/* Collapsible Question Navigator - positioned in center of content area */}
         {showNav && (
-          <div className="fixed bottom-16 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-40 bg-gray-50 dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700 rounded-t-xl max-h-[50vh] overflow-hidden"
+          <div className="fixed bottom-16 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-40 bg-surface-muted shadow-xl border border-edge rounded-t-xl max-h-[50vh] overflow-hidden"
                style={{ width: 'min(500px, calc(100vw - 32px))' }}>
             <QuestionNav
               totalQuestions={practiceQuestions.length}
@@ -559,7 +560,7 @@ const QuestionBankPage = () => {
         )}
 
         {/* Fixed bottom controls - offset for sidebar on desktop */}
-        <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 flex items-center justify-between px-6 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 flex items-center justify-between px-6 py-3 border-t border-edge bg-surface-muted">
           {/* Previous */}
           <Button
             variant="secondary"
@@ -573,10 +574,12 @@ const QuestionBankPage = () => {
           {/* Question selector */}
           <button
             onClick={() => setShowNav(!showNav)}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
+            aria-label="Open question navigator"
+            aria-expanded={showNav}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-ink-muted bg-surface-card rounded-lg hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             <span className="font-semibold">{currentIndex + 1}</span>
-            <span className="text-gray-400 dark:text-gray-500">/</span>
+            <span className="text-ink-faint">/</span>
             <span>{practiceQuestions.length}</span>
             <svg className={`w-4 h-4 transition-transform ${showNav ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -608,27 +611,28 @@ const QuestionBankPage = () => {
     );
 
     return (
-      <div className="h-screen flex flex-col bg-white dark:bg-gray-900 -m-4 lg:-m-6">
+      <div className="h-screen flex flex-col bg-surface-card -m-4 lg:-m-6">
         {/* Custom Header with back button - sticky at top */}
-        <header className="sticky top-0 z-30 h-14 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
+        <header className="sticky top-0 z-30 h-14 bg-surface-muted border-b border-edge flex items-center justify-between px-6">
           {/* Left: Back button and skill name */}
           <div className="flex items-center gap-4">
             <button
               onClick={goBack}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              aria-label="Back to question bank"
+              className="p-2 hover:bg-surface-card rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
-              <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              <ArrowLeft className="h-5 w-5 text-ink-muted" />
             </button>
             <div>
-              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{selectedSkill?.name}</span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">({selectedDomain?.name})</span>
+              <span className="text-sm font-medium text-ink-body">{selectedSkill?.name}</span>
+              <span className="text-xs text-ink-subtle ml-2">({selectedDomain?.name})</span>
             </div>
           </div>
 
           {/* Center: Question count */}
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500 dark:text-gray-400">Question</span>
-            <span className="font-semibold text-gray-900 dark:text-gray-100">
+            <span className="text-sm text-ink-subtle">Question</span>
+            <span className="font-semibold text-ink-body">
               {currentIndex + 1} of {practiceQuestions.length}
             </span>
           </div>
@@ -637,11 +641,13 @@ const QuestionBankPage = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsDrawing((d) => !d)}
-              className={`p-2 rounded-lg transition-colors ${
+              className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
                 isDrawing
-                  ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'bg-brand-600 text-white'
+                  : 'text-ink-muted hover:bg-surface-card'
               }`}
+              aria-pressed={isDrawing}
+              aria-label={isDrawing ? 'Stop drawing' : 'Draw on question'}
               title={isDrawing ? 'Stop drawing' : 'Draw on question'}
             >
               <Pencil className="h-5 w-5" />
@@ -650,22 +656,26 @@ const QuestionBankPage = () => {
               <>
                 <button
                   onClick={() => setShowReferenceSheet(!showReferenceSheet)}
-                  className={`p-2 rounded-lg transition-colors ${
+                  className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
                     showReferenceSheet
-                      ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'bg-brand-600 text-white'
+                      : 'text-ink-muted hover:bg-surface-card'
                   }`}
+                  aria-pressed={showReferenceSheet}
+                  aria-label="Reference Sheet"
                   title="Reference Sheet"
                 >
                   <FileText className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => setShowCalculator(!showCalculator)}
-                  className={`p-2 rounded-lg transition-colors ${
+                  className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
                     showCalculator
-                      ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'bg-brand-600 text-white'
+                      : 'text-ink-muted hover:bg-surface-card'
                   }`}
+                  aria-pressed={showCalculator}
+                  aria-label="Calculator"
                   title="Calculator"
                 >
                   <Calculator className="h-5 w-5" />
@@ -676,7 +686,7 @@ const QuestionBankPage = () => {
         </header>
 
         {/* Main content - shifts right when calculator is open */}
-        <div className={`flex-1 transition-all duration-300 bg-white dark:bg-gray-900 ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+        <div className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
           {hasPassage ? (
             <SplitPane
               left={passagePanel}

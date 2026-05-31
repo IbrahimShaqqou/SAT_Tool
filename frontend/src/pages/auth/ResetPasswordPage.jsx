@@ -85,14 +85,14 @@ const ResetPasswordPage = () => {
   if (!token) {
     return (
       <div className="text-center">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
-          <svg className="h-6 w-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-rose-100 dark:bg-rose-900/30 mb-4">
+          <svg className="h-6 w-6 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-ink-body mb-2">
+        <h1 className="font-display text-2xl font-semibold text-ink-body mb-2">
           Invalid reset link
-        </h2>
+        </h1>
         <p className="text-sm text-ink-muted mb-6">
           This password reset link is invalid or has expired.
         </p>
@@ -110,14 +110,14 @@ const ResetPasswordPage = () => {
   if (success) {
     return (
       <div className="text-center">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
-          <svg className="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-accent-100 dark:bg-accent-900/30 mb-4">
+          <svg className="h-6 w-6 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-ink-body mb-2">
+        <h1 className="font-display text-2xl font-semibold text-ink-body mb-2">
           Password reset successful
-        </h2>
+        </h1>
         <p className="text-sm text-ink-muted mb-6">
           Your password has been updated. You can now sign in with your new password.
         </p>
@@ -133,16 +133,16 @@ const ResetPasswordPage = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-ink-body text-center mb-2">
+      <h1 className="font-display text-2xl font-semibold text-ink-body text-center mb-2">
         Create new password
-      </h2>
+      </h1>
       <p className="text-sm text-ink-muted text-center mb-6">
         Enter a new password for your account.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {apiError && (
-          <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50">
+          <div role="alert" className="p-3 text-sm text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 rounded-lg border border-rose-200 dark:border-rose-800/50">
             {apiError}
           </div>
         )}

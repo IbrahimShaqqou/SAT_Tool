@@ -44,7 +44,7 @@ const AppLayout = () => {
   const contentPadding = effectivelyExpanded ? 'lg:pl-[220px]' : 'lg:pl-[60px]';
 
   return (
-    <div className="min-h-screen dark:bg-slate-950">
+    <div className="min-h-screen bg-surface-page">
       <Sidebar
         role={role}
         isOpen={isSidebarOpen}

@@ -1,0 +1,31 @@
+Practice Test 6 - Module 1 Answers (Partial - from visible table)
+=================================================================
+
+READING AND WRITING - MODULE 1 (Questions 1-27)
+------------------------------------------------
+Q1: D
+Q2: D
+Q3: D
+Q4: B
+Q5: C
+Q6: C
+Q7: B
+Q8: B
+Q9: A
+Q10: B
+Q11: C
+Q12: B
+Q13: B
+Q14: A
+Q15: B
+Q16: B
+Q17: D
+
+(Q18-27 to be extracted after completing second test run)
+
+MATH - MODULE 1 (Questions 55-76)
+----------------------------------
+(To be extracted after completing second test run)
+
+NOTE: After both test runs complete, will use mypractice_console_extractor.js
+to extract all 98 questions with full text for fuzzy matching.

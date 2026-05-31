@@ -1,39 +1,40 @@
 /**
- * Student Dashboard
- * Personalized greeting, action-forward, clean data display
+ * Student Dashboard — Study Hall.
+ *
+ * Big-number focus, borderless/hairline layout. The hero is a dominant
+ * Fraunces projected score with an amber signature rule; trend, goal, and
+ * stats orbit it quietly. Sections are separated by hairlines and whitespace,
+ * not cards. Elevation is reserved for the single next-action. "Show the path,
+ * not just the score": every metric carries a next action. Token-only, full
+ * dark mode, responsive, a11y, choreographed motion with reduced-motion fallback.
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  ClipboardList, Brain,
-  PlayCircle, AlertTriangle, Target, ArrowRight,
-  BookOpen, BarChart3, BarChart2, FileText,
+  ClipboardList, Brain, PlayCircle, ArrowRight, ArrowUpRight,
+  BookOpen, BarChart3, FileText, Target, Sparkles,
 } from 'lucide-react';
-import { Button, Badge, EmptyState, LoadingSpinner, ThetaBar } from '../../components/ui';
+import {
+  Button, EmptyState, ThetaBar,
+  Surface, AnimatedNumber, Skeleton, Reveal, Section,
+} from '../../components/ui';
 import { assignmentService, progressService, recommendationService } from '../../services';
 import { useAuth } from '../../hooks/useAuth';
-
-// Organic blob decoration — personality without gradients
-const Blob = ({ className }) => (
-  <svg
-    viewBox="0 0 200 200"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    aria-hidden="true"
-  >
-    <path
-      fill="currentColor"
-      d="M38.5,-65.2C50.2,-56.7,60.3,-47.1,68.1,-35C75.9,-22.9,81.3,-8.3,79.8,5.5C78.3,19.3,69.9,32.4,60.1,43.1C50.3,53.9,39.2,62.4,26.5,68.2C13.8,74.1,-0.5,77.3,-14.3,74.2C-28.1,71.1,-41.3,61.7,-52.1,50C-62.9,38.3,-71.2,24.3,-73.5,9C-75.8,-6.3,-72,-22.9,-63.7,-36.3C-55.4,-49.7,-42.6,-59.9,-29,-66.6C-15.5,-73.3,-1.1,-76.5,12.3,-75.5C25.7,-74.5,26.9,-73.8,38.5,-65.2Z"
-      transform="translate(100 100)"
-    />
-  </svg>
-);
 
 const getGreeting = () => {
   const h = new Date().getHours();
   if (h < 12) return 'Good morning';
   if (h < 17) return 'Good afternoon';
   return 'Good evening';
+};
+
+const TYPE_DOT = {
+  review: 'bg-brand-400',
+  level_up: 'bg-brand-500',
+  lesson_then_practice: 'bg-accent-500',
+  practice: 'bg-brand-500',
+  new_skill: 'bg-accent-500',
+  nudge: 'bg-ink-faint',
 };
 
 const StudentDashboard = () => {
@@ -47,29 +48,23 @@ const StudentDashboard = () => {
   const [skills, setSkills] = useState(null);
   const [studyPlan, setStudyPlan] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasDiagnostic, setHasDiagnostic] = useState(true); // assume true until loaded
-  const [diagnosticBannerDismissed, setDiagnosticBannerDismissed] = useState(
-    () => sessionStorage.getItem('diagnostic_banner_dismissed') === '1'
-  );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [assignmentsRes, progressRes, inProgressRes, skillsRes, studyPlanRes] = await Promise.all([
-          assignmentService.getAssignments({ status: 'pending', limit: 5 }),
-          progressService.getSummary(),
-          progressService.getInProgressAssessments(),
-          progressService.getSkills().catch(() => ({ data: { skills: [], weak_skills: [], strong_skills: [] } })),
-          recommendationService.getStudyPlan().catch(() => ({ data: { tasks: [] } })),
-        ]);
+        const [assignmentsRes, progressRes, inProgressRes, skillsRes, studyPlanRes] =
+          await Promise.all([
+            assignmentService.getAssignments({ status: 'pending', limit: 5 }),
+            progressService.getSummary(),
+            progressService.getInProgressAssessments(),
+            progressService.getSkills().catch(() => ({ data: { skills: [], weak_skills: [], strong_skills: [] } })),
+            recommendationService.getStudyPlan().catch(() => ({ data: { tasks: [] } })),
+          ]);
         setAssignments(assignmentsRes.data.items || []);
         setProgress(progressRes.data);
         setInProgressAssessments(inProgressRes.data.items || []);
         setSkills(skillsRes.data);
         setStudyPlan(studyPlanRes.data.tasks || []);
-
-        // Check if student has completed a diagnostic
-        setHasDiagnostic(progressRes.data?.has_diagnostic || false);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -79,350 +74,250 @@ const StudentDashboard = () => {
     fetchData();
   }, []);
 
-  const dismissDiagnosticBanner = () => {
-    sessionStorage.setItem('diagnostic_banner_dismissed', '1');
-    setDiagnosticBannerDismissed(true);
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
   const accuracy = Math.round(progress?.overall_accuracy || 0);
   const questionsAnswered = progress?.total_questions_answered || 0;
   const sessions = progress?.sessions_completed || 0;
+  const hasDiagnostic = progress?.has_diagnostic || false;
 
-  // Filter study plan tasks by checked-off state (syncs with StudyPlanPage)
-  let studyPlanCompleted = {};
-  try { studyPlanCompleted = JSON.parse(localStorage.getItem('study_plan_completed') || '{}'); } catch {}
-  const studyPlanVisible = studyPlan.filter(t => !studyPlanCompleted[t.skill_id]);
+  const studyPlanVisible = useMemo(() => {
+    let completed = {};
+    try { completed = JSON.parse(localStorage.getItem('study_plan_completed') || '{}'); } catch {}
+    return studyPlan.filter((t) => !completed[t.skill_id]);
+  }, [studyPlan]);
+
+  const nextAction = useMemo(() => {
+    if (inProgressAssessments.length > 0) {
+      const a = inProgressAssessments[0];
+      return { kind: 'resume-assessment', title: a.title || 'Intake Assessment', meta: `${a.questions_answered}/${a.total_questions} answered`, to: `/assess/${a.invite_token}`, cta: 'Resume' };
+    }
+    if (!hasDiagnostic) {
+      return { kind: 'diagnostic', title: 'Take your diagnostic', meta: '30 questions · ~25 min · pinpoints what to study', to: '/student/diagnostic', cta: 'Start diagnostic' };
+    }
+    const weak = skills?.weak_skills?.[0];
+    if (weak) {
+      return { kind: 'practice', title: `Practice ${weak.skill_name}`, meta: `${weak.domain_code} · your lowest mastery right now`, to: `/student/adaptive?skill=${weak.skill_id}&autostart=true`, cta: 'Start practice' };
+    }
+    return { kind: 'adaptive', title: 'Adaptive practice', meta: 'Questions that adjust to your level', to: '/student/adaptive', cta: 'Start practice' };
+  }, [inProgressAssessments, hasDiagnostic, skills]);
+
+  if (isLoading) return <DashboardSkeleton greeting={getGreeting()} name={firstName} />;
 
   return (
-    <div className="space-y-7">
+    <div className="mx-auto max-w-5xl pb-6">
 
-      {/* ── Greeting hero ── */}
-      <div className="relative overflow-hidden rounded-2xl bg-brand-600 px-7 py-8">
-        {/* Blob decorations */}
-        <Blob className="absolute -right-8 -top-10 w-48 h-48 text-brand-500/40 pointer-events-none" />
-        <Blob className="absolute right-24 -bottom-14 w-36 h-36 text-brand-700/30 pointer-events-none" />
+      {/* ── Hero: the next action leads, stats orbit quietly ── */}
+      <Reveal as="header" className="pt-2 pb-7 sm:pt-4 sm:pb-8">
+        <p className="text-sm font-medium text-ink-subtle">
+          {getGreeting()}, <span className="text-ink-body">{firstName}</span>
+        </p>
 
-        <div className="relative z-10">
-          <p className="text-brand-100 text-sm font-medium mb-1">{getGreeting()},</p>
-          <h1 className="text-3xl font-bold text-white tracking-tight mb-4">{firstName}</h1>
-
-          {/* Inline stats */}
-          <div className="flex flex-wrap gap-5">
-            <div>
-              <span className="text-2xl font-bold text-white">{accuracy}%</span>
-              <span className="text-brand-200 text-sm ml-1.5">accuracy</span>
-            </div>
-            <div className="w-px bg-brand-400/40 self-stretch" />
-            <div>
-              <span className="text-2xl font-bold text-white">{questionsAnswered}</span>
-              <span className="text-brand-200 text-sm ml-1.5">questions answered</span>
-            </div>
-            <div className="w-px bg-brand-400/40 self-stretch" />
-            <div>
-              <span className="text-2xl font-bold text-white">{sessions}</span>
-              <span className="text-brand-200 text-sm ml-1.5">sessions</span>
-            </div>
+        {/* The one thing to do right now — the focal element */}
+        <Surface
+          elevation="md" interactive padded={false} as={Link} to={nextAction.to}
+          className="group mt-5 flex items-center gap-5 px-5 py-5 sm:px-7 sm:py-6"
+        >
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-glow">
+            {nextAction.kind === 'resume-assessment' ? <PlayCircle className="h-7 w-7" /> : <Sparkles className="h-7 w-7" />}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600 dark:text-brand-400">
+              {nextAction.kind === 'diagnostic' ? 'Start here' : 'Pick up where you left off'}
+            </p>
+            <p className="truncate font-display text-xl font-semibold tracking-tight text-ink-body sm:text-2xl">
+              {nextAction.title}
+            </p>
+            <p className="truncate text-sm text-ink-subtle">{nextAction.meta}</p>
           </div>
-
-          {/* Score goal chip */}
-          {user?.target_score && (
-            <div className="mt-4 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 text-sm text-white">
-                <Target className="h-3.5 w-3.5 text-brand-200" />
-                Goal: <span className="font-bold">{user.target_score}</span>
-                {user.test_date && (
-                  <span className="text-brand-200">
-                    {' '}by{' '}
-                    {new Date(user.test_date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                  </span>
-                )}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── Diagnostic banner (shown when no sessions yet) ── */}
-      {!hasDiagnostic && !diagnosticBannerDismissed && (
-        <div className="relative overflow-hidden rounded-2xl bg-violet-600 px-6 py-5">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
-                <BarChart2 className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <p className="font-semibold text-white">Start with a diagnostic to find out what to study</p>
-                <p className="text-violet-200 text-sm mt-0.5">30 questions · 25 min · identify your strengths and weak spots</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <Link to="/student/diagnostic">
-                <Button size="sm" className="!bg-white !text-violet-700 hover:!bg-violet-50 border-0 font-semibold">
-                  Take Diagnostic
-                  <ArrowRight className="h-4 w-4 ml-1" />
-                </Button>
-              </Link>
-              <button
-                onClick={dismissDiagnosticBanner}
-                className="text-violet-300 hover:text-white p-1 rounded transition-colors"
-                aria-label="Dismiss"
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── Assessment in progress banner ── */}
-      {inProgressAssessments.length > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card overflow-hidden">
-          <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-amber-100 dark:border-amber-800/30 bg-amber-50 dark:bg-amber-900/10">
-            <PlayCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
-            <span className="text-sm font-semibold text-amber-800 dark:text-amber-300">Continue your assessment</span>
-          </div>
-          <div className="divide-y divide-slate-100 dark:divide-slate-700">
-            {inProgressAssessments.map((a) => (
-              <div key={a.session_id} className="flex items-center justify-between px-5 py-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {a.title || 'Intake Assessment'}
-                    </p>
-                    <Badge variant="warning" size="sm">In Progress</Badge>
-                  </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    {a.questions_answered}/{a.total_questions} answered
-                    {a.subject_area && <>{' · '}{a.subject_area === 'math' ? 'Math' : 'Reading & Writing'}</>}
-                    {a.tutor_name !== 'Self-Assessment' && <>{' · '}From {a.tutor_name}</>}
-                  </p>
-                </div>
-                <Link to={`/assess/${a.invite_token}`}>
-                  <Button size="sm">Resume</Button>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── Full-Length SAT Practice Test Banner ── */}
-      <div className="relative overflow-hidden rounded-2xl bg-[#0077C8] px-6 py-5">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
-              <FileText className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <p className="font-semibold text-white">Take a Full-Length SAT Practice Test</p>
-              <p className="text-blue-100 text-sm mt-0.5">98 questions · 2 hrs 14 min · realistic Bluebook format</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <Button
-              size="sm"
-              className="!bg-white !text-[#0077C8] hover:!bg-blue-50 border-0 font-semibold"
-              onClick={() => navigate('/student/practice-tests')}
-            >
-              Start Test
-              <ArrowRight className="h-4 w-4 ml-1" />
+          <span className="hidden shrink-0 sm:block">
+            <Button size="lg" tabIndex={-1} className="pointer-events-none">
+              {nextAction.cta}
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out-quart group-hover:translate-x-0.5" />
             </Button>
-          </div>
-        </div>
-      </div>
+          </span>
+          <ArrowRight className="h-6 w-6 shrink-0 text-ink-faint transition-transform duration-200 ease-out-quart group-hover:translate-x-0.5 sm:hidden" />
+        </Surface>
 
-      {/* ── Quick actions ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* Supporting micro-stats — quiet orbit */}
+        <dl className="mt-7 flex flex-wrap gap-x-10 gap-y-3 border-t border-edge pt-6">
+          <Stat label="accuracy" value={accuracy} suffix="%" />
+          <Stat label="questions answered" value={questionsAnswered} />
+          <Stat label="sessions" value={sessions} />
+          {user?.target_score && (
+            <Stat label="goal score" value={user.target_score} />
+          )}
+        </dl>
+      </Reveal>
+
+      {/* ── Quick actions — borderless tiles on a hairline row ── */}
+      <Reveal stagger className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-edge pt-6 sm:grid-cols-4">
         {[
-          { to: '/student/practice-tests', icon: FileText, label: 'Practice Tests', color: 'text-green-600', bg: 'bg-green-50 dark:bg-green-900/20' },
-          { to: '/student/adaptive', icon: Brain, label: 'Adaptive Practice', color: 'text-brand-600', bg: 'bg-brand-50 dark:bg-brand-900/20' },
-          { to: '/student/questions', icon: BookOpen, label: 'Question Bank', color: 'text-violet-600', bg: 'bg-violet-50 dark:bg-violet-900/20' },
-          { to: '/student/progress', icon: BarChart3, label: 'My Progress', color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-900/20' },
-        ].map((action) => (
-          <Link
-            key={action.to}
-            to={action.to}
-            className="group bg-white dark:bg-slate-800 rounded-2xl shadow-card p-4 flex flex-col items-start gap-3 hover:shadow-card-md transition-shadow"
-          >
-            <div className={`w-9 h-9 rounded-xl ${action.bg} flex items-center justify-center`}>
-              <action.icon className={`h-5 w-5 ${action.color}`} />
-            </div>
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200 leading-tight">{action.label}</span>
+          { to: '/student/practice-tests', icon: FileText, label: 'Practice Tests' },
+          { to: '/student/adaptive', icon: Brain, label: 'Adaptive Practice' },
+          { to: '/student/questions', icon: BookOpen, label: 'Question Bank' },
+          { to: '/student/progress', icon: BarChart3, label: 'My Progress' },
+        ].map((a) => (
+          <Link key={a.to} to={a.to} className="group flex items-center gap-3 rounded-xl py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-muted text-ink-muted transition-colors group-hover:bg-brand-50 group-hover:text-brand-700 dark:group-hover:bg-brand-900/30 dark:group-hover:text-brand-300">
+              <a.icon className="h-5 w-5" />
+            </span>
+            <span className="flex items-center gap-0.5 text-sm font-semibold leading-tight text-ink-body">
+              {a.label}
+              <ArrowUpRight className="h-3.5 w-3.5 text-ink-faint opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+            </span>
           </Link>
         ))}
-      </div>
+      </Reveal>
 
-      {/* ── Study Plan preview ── */}
-      {studyPlanVisible.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-brand-500" />
-              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Study Plan</h2>
-            </div>
-            <Link to="/student/study-plan" className="text-xs font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors">
-              View full plan
-            </Link>
-          </div>
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-            {studyPlanVisible.slice(0, 4).map((task, i) => {
-              const typeColor = {
-                review: 'bg-amber-400',
-                level_up: 'bg-blue-500',
-                lesson_then_practice: 'bg-violet-500',
-                practice: 'bg-brand-500',
-                new_skill: 'bg-emerald-500',
-                nudge: 'bg-slate-400',
-              };
-              const primaryAction = task.actions?.[0] || task;
-              const href = primaryAction.href || primaryAction.cta_href;
-              const label = primaryAction.label || primaryAction.cta_label || 'Start';
-              return (
-                <div key={i} className="flex items-center justify-between px-5 py-4">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className={`w-2 h-2 rounded-full flex-shrink-0 ${typeColor[task.type] || 'bg-slate-400'}`} />
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{task.title}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
-                        {task.domain_code && <span className="font-medium">{task.domain_code}</span>}
-                        {task.domain_code && ' · '}
-                        ~{task.estimated_minutes} min
-                      </p>
-                    </div>
-                  </div>
-                  {href && (
-                    <Link to={href} className="flex-shrink-0 ml-4">
-                      <Button size="sm" variant="secondary">
-                        {label}
-                        <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
+      {/* ── Two-column body, borderless ── */}
+      <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-5">
+        {/* Left */}
+        <div className="space-y-10 lg:col-span-3">
+          {skills?.weak_skills?.length > 0 && (
+            <Reveal>
+              <Section title="Focus areas" hint="Lowest mastery from your practice" icon={Target}>
+                <ul className="divide-y divide-edge-subtle">
+                  {skills.weak_skills.map((skill) => (
+                    <li key={skill.skill_id} className="flex items-center gap-4 py-4 first:pt-0">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface-muted text-xs font-bold text-ink-subtle">
+                        {skill.domain_code}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="mb-1.5 truncate text-sm font-semibold text-ink-body">{skill.skill_name}</p>
+                        <ThetaBar theta={skill.theta} masteryLevel={skill.mastery_level} isStale={skill.is_stale} size="full" />
+                      </div>
+                      <Link to={`/student/adaptive?skill=${skill.skill_id}&autostart=true`} className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-900/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">
+                        Practice <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Section>
+            </Reveal>
+          )}
 
-      {/* ── Areas to improve ── */}
-      {skills?.weak_skills?.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-amber-500" />
-              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Areas to improve</h2>
-            </div>
-            <span className="text-xs text-slate-400 dark:text-slate-500">From your practice</span>
-          </div>
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-            {skills.weak_skills.map((skill) => (
-              <div key={skill.skill_id} className="flex items-center gap-4 px-5 py-4">
-                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-300">{skill.domain_code}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate mb-1.5">{skill.skill_name}</p>
-                  <ThetaBar
-                    theta={skill.theta}
-                    masteryLevel={skill.mastery_level}
-                    isStale={skill.is_stale}
-                    size="full"
-                  />
-                </div>
-                <button
-                  onClick={() => navigate(`/student/adaptive?skill=${skill.skill_id}&autostart=true`)}
-                  className="flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors flex-shrink-0"
-                >
-                  Practice <ArrowRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ── Strengths ── */}
-      {skills?.strong_skills?.length > 0 && (
-        <section>
-          <div className="flex items-center gap-2 mb-3">
-            <Target className="h-4 w-4 text-accent-500" />
-            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Your strengths</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {skills.strong_skills.slice(0, 3).map((skill) => (
-              <div
-                key={skill.skill_id}
-                className="bg-white dark:bg-slate-800 rounded-2xl shadow-card px-4 py-3.5"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-9 h-9 rounded-xl bg-accent-50 dark:bg-accent-900/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-bold text-accent-600 dark:text-accent-400">{skill.domain_code}</span>
-                  </div>
-                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{skill.skill_name}</p>
-                </div>
-                <ThetaBar
-                  theta={skill.theta}
-                  masteryLevel={skill.mastery_level}
-                  isStale={skill.is_stale}
-                  size="full"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ── Pending assignments ── */}
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <ClipboardList className="h-4 w-4 text-slate-400" />
-            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Pending assignments</h2>
-          </div>
-          <Link to="/student/assignments" className="text-xs font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors">
-            View all
-          </Link>
+          {studyPlanVisible.length > 0 && (
+            <Reveal>
+              <Section title="Study plan" icon={ClipboardList} action={<Link to="/student/study-plan" className="text-xs font-semibold text-brand-700 hover:text-brand-800 dark:text-brand-400">View full plan</Link>}>
+                <ul className="divide-y divide-edge-subtle">
+                  {studyPlanVisible.slice(0, 4).map((task) => {
+                    const primary = task.actions?.[0] || task;
+                    const href = primary.href || primary.cta_href;
+                    const label = primary.label || primary.cta_label || 'Start';
+                    return (
+                      <li key={task.skill_id || task.title} className="flex items-center justify-between gap-4 py-3.5 first:pt-0">
+                        <div className="flex min-w-0 items-center gap-3">
+                          <span className={`h-2 w-2 shrink-0 rounded-full ${TYPE_DOT[task.type] || 'bg-ink-faint'}`} />
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold text-ink-body">{task.title}</p>
+                            <p className="truncate text-xs text-ink-subtle">
+                              {task.domain_code && <span className="font-medium">{task.domain_code} · </span>}
+                              ~{task.estimated_minutes} min
+                            </p>
+                          </div>
+                        </div>
+                        {href && (
+                          <Link to={href} className="shrink-0">
+                            <Button size="sm" variant="secondary">{label}<ArrowRight className="h-3.5 w-3.5" /></Button>
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Section>
+            </Reveal>
+          )}
         </div>
 
-        {assignments.length > 0 ? (
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-            {assignments.map((a) => (
-              <div key={a.id} className="flex items-center justify-between px-5 py-4">
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{a.title}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    {a.total_questions} questions
-                    {a.due_date && ` · Due ${new Date(a.due_date).toLocaleDateString()}`}
-                  </p>
-                </div>
-                <Link to={`/student/test/${a.id}`}>
-                  <Button size="sm">Start</Button>
-                </Link>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-card">
-            <EmptyState
-              icon={ClipboardList}
-              title="No pending assignments"
-              description="Check back later for new assignments from your tutor"
-            />
-          </div>
-        )}
-      </section>
+        {/* Right */}
+        <div className="space-y-10 lg:col-span-2">
+          {skills?.strong_skills?.length > 0 && (
+            <Reveal>
+              <Section title="Your strengths" icon={Sparkles}>
+                <ul className="space-y-4">
+                  {skills.strong_skills.slice(0, 3).map((skill) => (
+                    <li key={skill.skill_id}>
+                      <div className="mb-1.5 flex items-center gap-2.5">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-50 text-[11px] font-bold text-accent-700 dark:bg-accent-900/30 dark:text-accent-300">
+                          {skill.domain_code}
+                        </span>
+                        <p className="truncate text-sm font-semibold text-ink-body">{skill.skill_name}</p>
+                      </div>
+                      <ThetaBar theta={skill.theta} masteryLevel={skill.mastery_level} isStale={skill.is_stale} size="full" />
+                    </li>
+                  ))}
+                </ul>
+              </Section>
+            </Reveal>
+          )}
 
+          {/* Full-length test — borderless callout */}
+          <Reveal>
+            <Section title="Go full length" icon={FileText}>
+              <p className="text-sm text-ink-muted">A complete SAT under real conditions.</p>
+              <p className="mt-1 text-xs text-ink-subtle">98 questions · 2 hr 14 min · realistic Bluebook format</p>
+              <Button variant="primary" className="mt-3" onClick={() => navigate('/student/practice-tests')}>
+                Start test <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Section>
+          </Reveal>
+
+          <Reveal>
+            <Section title="Assignments" icon={ClipboardList} action={assignments.length > 0 ? <Link to="/student/assignments" className="text-xs font-semibold text-brand-700 hover:text-brand-800 dark:text-brand-400">View all</Link> : null}>
+              {assignments.length > 0 ? (
+                <ul className="divide-y divide-edge-subtle">
+                  {assignments.map((a) => (
+                    <li key={a.id} className="flex items-center justify-between gap-3 py-3.5 first:pt-0">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-ink-body">{a.title}</p>
+                        <p className="text-xs text-ink-subtle">
+                          {a.total_questions} questions{a.due_date && ` · Due ${new Date(a.due_date).toLocaleDateString()}`}
+                        </p>
+                      </div>
+                      <Link to={`/student/test/${a.id}`} className="shrink-0"><Button size="sm">Start</Button></Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-ink-subtle">You're all caught up. New assignments from your tutor will show up here.</p>
+              )}
+            </Section>
+          </Reveal>
+        </div>
+      </div>
     </div>
   );
 };
+
+/* ── Local presentational helpers ── */
+
+const Stat = ({ label, value, suffix = '' }) => (
+  <div>
+    <dd className="font-display text-2xl font-semibold tracking-tight text-ink-body">
+      <AnimatedNumber value={value} suffix={suffix} />
+    </dd>
+    <dt className="text-xs text-ink-subtle">{label}</dt>
+  </div>
+);
+
+const DashboardSkeleton = ({ greeting, name }) => (
+  <div className="mx-auto max-w-5xl">
+    <header className="pt-2 pb-7 sm:pt-4 sm:pb-8">
+      <p className="text-sm font-medium text-ink-subtle">{greeting}, <span className="text-ink-body">{name}</span></p>
+      {/* Next-action hero */}
+      <Skeleton className="mt-5 h-24 w-full" rounded="rounded-2xl" />
+      <div className="mt-7 flex gap-10 border-t border-edge pt-6">
+        <Skeleton className="h-10 w-16" /><Skeleton className="h-10 w-24" /><Skeleton className="h-10 w-16" />
+      </div>
+    </header>
+    <div className="mt-2 grid grid-cols-2 gap-5 border-t border-edge pt-6 sm:grid-cols-4">
+      {[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-10 w-full" />)}
+    </div>
+    <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-5">
+      <Skeleton className="h-56 w-full lg:col-span-3" rounded="rounded-xl" />
+      <Skeleton className="h-56 w-full lg:col-span-2" rounded="rounded-xl" />
+    </div>
+  </div>
+);
 
 export default StudentDashboard;

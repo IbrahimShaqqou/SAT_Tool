@@ -1,70 +1,90 @@
 /**
- * Practice Test Start Page - Instructions and start button
+ * Practice Test Start — Study Hall.
+ * Test instructions + acknowledgement before launching. Warm tokens, dark mode,
+ * borderless sections. Renders inside AppLayout.
  */
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Info, Clock, Ban, CheckCircle2, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Button, Skeleton, PageHeader, Section } from '../../components/ui';
 import { getPracticeTest } from '../../services/practiceTestApi';
+
+const MODULES = [
+  {
+    label: 'Reading & Writing',
+    rows: [
+      ['Module 1 (standard)', '27 questions · 32 min'],
+      ['10-minute break', 'skippable'],
+      ['Module 2 (adaptive)', '27 questions · 32 min'],
+    ],
+  },
+  {
+    label: 'Math',
+    rows: [
+      ['10-minute break', 'skippable'],
+      ['Module 1 (standard)', '22 questions · 35 min'],
+      ['10-minute break', 'skippable'],
+      ['Module 2 (adaptive)', '22 questions · 35 min'],
+    ],
+  },
+];
+
+const INFO = [
+  ['Adaptive testing', 'Your Module 1 performance sets the difficulty of Module 2 in each section.'],
+  ['Timed modules', 'Each module has a strict limit. When time expires, it submits automatically.'],
+  ['No going back', 'Once you submit a module, you cannot return to it.'],
+  ['Breaks', '10-minute breaks between sections are skippable if you want to continue.'],
+  ['Scoring', "You'll get scaled scores (200–800 per section) just like the real SAT."],
+];
 
 const PracticeTestStartPage = () => {
   const { testNumber } = useParams();
   const navigate = useNavigate();
-
   const [test, setTest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [acknowledged, setAcknowledged] = useState(false);
+  const [showAckError, setShowAckError] = useState(false);
 
   useEffect(() => {
+    const loadTest = async () => {
+      try {
+        setLoading(true);
+        const data = await getPracticeTest(testNumber);
+        setTest(data);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading test:', err);
+        setError('Failed to load practice test');
+      } finally {
+        setLoading(false);
+      }
+    };
     loadTest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testNumber]);
 
-  const loadTest = async () => {
-    try {
-      setLoading(true);
-      const data = await getPracticeTest(testNumber);
-      setTest(data);
-      setError(null);
-    } catch (err) {
-      console.error('Error loading test:', err);
-      setError('Failed to load practice test');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleStart = () => {
-    if (!acknowledged) {
-      alert('Please read and acknowledge the testing conditions before starting.');
-      return;
-    }
+    if (!acknowledged) { setShowAckError(true); return; }
     navigate(`/student/practice-tests/take/${testNumber}`);
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading practice test...</p>
-        </div>
+      <div className="mx-auto max-w-3xl">
+        <Skeleton className="h-10 w-64" />
+        <Skeleton className="mt-6 h-40 w-full" rounded="rounded-2xl" />
+        <Skeleton className="mt-6 h-40 w-full" rounded="rounded-2xl" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700">{error}</p>
-          <button
-            onClick={() => navigate('/student/practice-tests')}
-            className="mt-2 text-red-600 hover:text-red-800 underline"
-          >
-            Back to Practice Tests
-          </button>
-        </div>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <p className="mb-4 text-rose-600 dark:text-rose-400">{error}</p>
+        <Button variant="secondary" onClick={() => navigate('/student/practice-tests')}>
+          <ArrowLeft className="h-4 w-4" /> Back to practice tests
+        </Button>
       </div>
     );
   }
@@ -72,169 +92,88 @@ const PracticeTestStartPage = () => {
   if (!test) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {test.test_name}
-          </h1>
-          {test.description && (
-            <p className="text-gray-600 mb-4">{test.description}</p>
-          )}
-          <div className="flex items-center space-x-6 text-sm text-gray-600">
-            <span>98 Questions</span>
-            <span>•</span>
-            <span>2 hours 14 minutes</span>
-            <span>•</span>
-            <span>Adaptive Testing</span>
-          </div>
-        </div>
+    <div className="mx-auto max-w-3xl pb-8">
+      <PageHeader
+        eyebrow="Full length"
+        title={test.test_name}
+        subtitle={test.description || '98 questions · 2 hr 14 min · adaptive, just like the digital SAT.'}
+      />
 
-        {/* Test Structure */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Test Structure</h2>
-          <div className="space-y-4">
-            {/* Reading & Writing */}
-            <div className="border-l-4 border-blue-500 pl-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Reading and Writing Section</h3>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div className="flex items-center justify-between">
-                  <span>Module 1 (Standard)</span>
-                  <span className="font-medium">27 questions • 32 minutes</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>10-Minute Break</span>
-                  <span className="text-gray-500">(Skippable)</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Module 2 (Adaptive)</span>
-                  <span className="font-medium">27 questions • 32 minutes</span>
-                </div>
-              </div>
+      {/* Structure */}
+      <Section title="Test structure">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+          {MODULES.map((m) => (
+            <div key={m.label}>
+              <h3 className="mb-2 text-sm font-semibold text-ink-body">{m.label}</h3>
+              <dl className="divide-y divide-edge-subtle">
+                {m.rows.map(([k, v], i) => (
+                  <div key={i} className="flex items-center justify-between py-2 text-sm">
+                    <dt className="text-ink-muted">{k}</dt>
+                    <dd className="font-medium text-ink-body">{v}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-
-            {/* Math */}
-            <div className="border-l-4 border-green-500 pl-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Math Section</h3>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div className="flex items-center justify-between">
-                  <span>10-Minute Break</span>
-                  <span className="text-gray-500">(Skippable)</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Module 1 (Standard)</span>
-                  <span className="font-medium">22 questions • 35 minutes</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>10-Minute Break</span>
-                  <span className="text-gray-500">(Skippable)</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Module 2 (Adaptive)</span>
-                  <span className="font-medium">22 questions • 35 minutes</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
+      </Section>
 
-        {/* Important Information */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-          <h2 className="text-lg font-bold text-blue-900 mb-3">Important Information</h2>
-          <ul className="space-y-2 text-sm text-blue-800">
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span><strong>Adaptive Testing:</strong> Your performance on Module 1 determines the difficulty of Module 2 in each section</span>
+      {/* Important info */}
+      <Section className="mt-10" title="Good to know" icon={Info}>
+        <ul className="space-y-3">
+          {INFO.map(([title, body]) => (
+            <li key={title} className="flex items-start gap-2.5 text-sm">
+              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" />
+              <span className="text-ink-muted"><span className="font-semibold text-ink-body">{title}:</span> {body}</span>
             </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span><strong>Timed Modules:</strong> Each module has a strict time limit. When time expires, the module submits automatically</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span><strong>No Going Back:</strong> Once you submit a module, you cannot return to it</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-              <span><strong>Breaks:</strong> 10-minute breaks between sections are skippable if you want to continue</span>
-            </li>
-            <li className="flex items-start">
-              <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              <span><strong>Scoring:</strong> You'll receive scaled scores (200-800 per section) just like the real SAT</span>
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>
+      </Section>
 
-        {/* Testing Conditions */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Testing Conditions</h2>
-          <ul className="space-y-2 text-sm text-gray-700 mb-4">
-            <li className="flex items-start">
-              <span className="font-semibold mr-2">✓</span>
-              <span>Find a quiet, distraction-free environment</span>
+      {/* Testing conditions + acknowledge */}
+      <Section className="mt-10" title="Testing conditions">
+        <ul className="mb-5 space-y-2 text-sm">
+          {[
+            [true, 'Find a quiet, distraction-free environment'],
+            [true, 'Have scratch paper and a calculator ready (Math section)'],
+            [true, 'Ensure you have 2+ hours of uninterrupted time'],
+            [true, 'Close other applications and browser tabs'],
+            [false, 'No phones, notes, or outside help during the test'],
+            [false, 'No looking up answers or using AI tools'],
+          ].map(([ok, text], i) => (
+            <li key={i} className="flex items-start gap-2.5 text-ink-muted">
+              {ok
+                ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-600 dark:text-accent-400" />
+                : <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400" />}
+              <span>{text}</span>
             </li>
-            <li className="flex items-start">
-              <span className="font-semibold mr-2">✓</span>
-              <span>Have scratch paper and a calculator ready (for Math section)</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-semibold mr-2">✓</span>
-              <span>Ensure you have 2+ hours of uninterrupted time</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-semibold mr-2">✓</span>
-              <span>Close all other applications and browser tabs</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-semibold mr-2">✗</span>
-              <span>No phones, notes, or outside help during the test</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-semibold mr-2">✗</span>
-              <span>No looking up answers or using AI tools</span>
-            </li>
-          </ul>
+          ))}
+        </ul>
 
-          <label className="flex items-start space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={acknowledged}
-              onChange={(e) => setAcknowledged(e.target.checked)}
-              className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <span className="text-sm text-gray-700">
-              I acknowledge that I will take this test under proper testing conditions and treat it like the real SAT.
-            </span>
-          </label>
-        </div>
+        <label className="flex cursor-pointer items-start gap-3">
+          <input
+            type="checkbox"
+            checked={acknowledged}
+            onChange={(e) => { setAcknowledged(e.target.checked); if (e.target.checked) setShowAckError(false); }}
+            className="mt-0.5 h-5 w-5 rounded border-edge text-brand-600 focus-visible:ring-2 focus-visible:ring-brand-500"
+          />
+          <span className="text-sm text-ink-muted">
+            I'll take this test under proper conditions and treat it like the real SAT.
+          </span>
+        </label>
+        {showAckError && (
+          <p role="alert" className="mt-2 text-sm text-rose-600 dark:text-rose-400">
+            Please acknowledge the testing conditions before starting.
+          </p>
+        )}
+      </Section>
 
-        {/* Start Button */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={handleStart}
-            disabled={!acknowledged}
-            className="flex-1 py-4 px-6 rounded-lg font-bold text-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Start Practice Test
-          </button>
-          <button
-            onClick={() => navigate('/student/practice-tests')}
-            className="py-4 px-6 rounded-lg font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            Cancel
-          </button>
-        </div>
+      {/* Actions */}
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Button variant="primary" size="lg" className="flex-1" onClick={handleStart} disabled={!acknowledged}>
+          Start practice test <ArrowRight className="h-4 w-4" />
+        </Button>
+        <Button variant="secondary" size="lg" onClick={() => navigate('/student/practice-tests')}>Cancel</Button>
       </div>
     </div>
   );

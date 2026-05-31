@@ -1,120 +1,50 @@
 /**
- * Student Detail Page - Comprehensive student analytics with domain/skill mastery
- * Uses Khan Academy-style 4-level mastery system
+ * Tutor Student Detail — Study Hall.
+ * Big-number stat row, borderless mastery sections, act-on-able focus areas
+ * (no side-stripes, no dynamic Tailwind class bug), warm theme-aware charts.
+ * Tokens, dark mode, a11y.
  */
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
-  ArrowLeft,
-  TrendingUp,
-  Target,
-  Clock,
-  AlertTriangle,
-  BookOpen,
-  Brain,
-  CheckCircle,
-  XCircle,
-  BarChart3,
-  Zap,
+  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap, ArrowRight,
 } from 'lucide-react';
-import { Card, Button, Badge, ProgressBar, Tabs, LoadingSpinner, ThetaBar } from '../../components/ui';
 import {
-  MasterySummary,
-} from '../../components/ui/MasteryBadge';
+  Button, Skeleton, ThetaBar,
+  PageHeader, Section, StatBlock, StatusPill, Avatar,
+} from '../../components/ui';
+import { MasterySummary } from '../../components/ui/MasteryBadge';
 import { AccuracyTrend, SkillBreakdown, DomainRadar } from '../../components/charts';
 import { tutorService } from '../../services';
 
-// Legacy mastery level helper (for backwards compatibility with old data)
-const getMasteryLevel = (accuracy, questionsAttempted) => {
-  if (questionsAttempted < 3) return { level: 'Not enough data', color: 'gray', icon: null };
-  if (accuracy >= 90) return { level: 'Mastered', color: 'green', icon: CheckCircle };
-  if (accuracy >= 70) return { level: 'Proficient', color: 'blue', icon: TrendingUp };
-  if (accuracy >= 50) return { level: 'Developing', color: 'amber', icon: Target };
-  return { level: 'Needs Practice', color: 'red', icon: AlertTriangle };
-};
+const TABS = [
+  { value: 'skills', label: 'Skills', icon: Brain },
+  { value: 'focus', label: 'Focus areas', icon: AlertTriangle },
+  { value: 'trends', label: 'Trends', icon: BarChart3 },
+];
 
-
-// Domain Card Component
-const DomainMasteryCard = ({ domain, skills }) => {
-  const domainSkills = skills?.filter(s => s.domain_name === domain.domain_name) || [];
-  const mastery = getMasteryLevel(domain.accuracy, domain.questions_attempted);
-  const MasteryIcon = mastery.icon;
-
+const SkillRow = ({ skill }) => {
+  const masteryLevel = typeof skill.mastery_level === 'number' && skill.mastery_level <= 3 ? skill.mastery_level : 0;
   return (
-    <Card className="overflow-hidden">
-      <div className={`h-2 bg-${mastery.color}-500`} />
-      <Card.Content className="pt-4">
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h3 className="font-semibold text-ink-body">{domain.domain_name}</h3>
-            <p className="text-sm text-ink-subtle">{domain.questions_attempted} questions</p>
-          </div>
-          <div className="text-right">
-            <span className={`text-2xl font-bold text-${mastery.color}-600`}>
-              {domain.accuracy.toFixed(0)}%
-            </span>
-            <div className="flex items-center gap-1 mt-1">
-              {MasteryIcon && <MasteryIcon className={`h-3 w-3 text-${mastery.color}-500`} />}
-              <span className={`text-xs text-${mastery.color}-600`}>{mastery.level}</span>
-            </div>
-          </div>
-        </div>
-
-        <ProgressBar value={domain.accuracy} variant="auto" size="sm" />
-
-        {domainSkills.length > 0 && (
-          <div className="mt-4 space-y-2">
-            <p className="text-xs font-medium text-ink-subtle uppercase tracking-wide">Skills in this domain</p>
-            {domainSkills.slice(0, 4).map(skill => (
-              <div key={skill.skill_id} className="flex items-center justify-between text-sm">
-                <span className="text-ink-muted truncate flex-1 mr-2">{skill.skill_name}</span>
-                <span className={`font-medium ${
-                  skill.accuracy >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
-                  skill.accuracy >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
-                }`}>
-                  {skill.accuracy.toFixed(0)}%
-                </span>
-              </div>
-            ))}
-            {domainSkills.length > 4 && (
-              <p className="text-xs text-ink-faint">+{domainSkills.length - 4} more skills</p>
-            )}
-          </div>
-        )}
-      </Card.Content>
-    </Card>
-  );
-};
-
-// Skill Mastery Row Component — uses ThetaBar with SE for tutor view
-const SkillMasteryRow = ({ skill }) => {
-  const masteryLevel = typeof skill.mastery_level === 'number' && skill.mastery_level <= 3
-    ? skill.mastery_level
-    : 0;
-
-  return (
-    <div className="p-4 bg-surface-card border border-edge rounded-lg hover:shadow-sm transition-shadow">
-      <div className="flex items-center justify-between mb-2">
-        <div className="min-w-0 flex-1">
-          <h4 className="font-medium text-ink-body truncate">{skill.skill_name}</h4>
-          <p className="text-xs text-ink-subtle mt-0.5">{skill.domain_name}</p>
-        </div>
-        <div className="text-right flex-shrink-0 ml-3">
-          <p className="text-xs text-ink-subtle">
+    <li className="flex items-center gap-4 py-4 first:pt-0">
+      <div className="min-w-0 flex-1">
+        <div className="mb-1.5 flex items-baseline justify-between gap-3">
+          <p className="truncate text-sm font-semibold text-ink-body">{skill.skill_name}</p>
+          <span className="shrink-0 text-xs text-ink-faint">
             {skill.responses_count || skill.questions_attempted || 0}q
             {skill.days_since_practice > 0 && ` · ${skill.days_since_practice}d ago`}
-          </p>
+          </span>
         </div>
+        <ThetaBar
+          theta={skill.theta ?? skill.ability_theta ?? null}
+          masteryLevel={masteryLevel}
+          se={skill.ability_se ?? null}
+          isStale={skill.is_stale}
+          size="full"
+          showSE
+        />
       </div>
-      <ThetaBar
-        theta={skill.theta ?? skill.ability_theta ?? null}
-        masteryLevel={masteryLevel}
-        se={skill.ability_se ?? null}
-        isStale={skill.is_stale}
-        size="full"
-        showSE={true}
-      />
-    </div>
+    </li>
   );
 };
 
@@ -126,450 +56,184 @@ const StudentDetailPage = () => {
   const [chartData, setChartData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [, setPartialErrors] = useState({});
+  const [tab, setTab] = useState('skills');
 
   useEffect(() => {
     const fetchData = async () => {
       setError(null);
-      setPartialErrors({});
-
       try {
-        // First fetch the student to verify they exist
         const studentRes = await tutorService.getStudent(id);
         setStudent(studentRes.data);
       } catch (err) {
-        console.error('Failed to fetch student:', err);
-        const message = err.response?.data?.detail || 'Failed to load student data';
-        setError(message);
+        setError(err.response?.data?.detail || 'Failed to load student data');
         setIsLoading(false);
         return;
       }
-
-      // Fetch additional data with individual error handling
-      const fetchProgress = async () => {
-        try {
-          const res = await tutorService.getStudentProgress(id);
-          setProgress(res.data);
-        } catch (err) {
-          console.error('Failed to fetch progress:', err);
-          setPartialErrors(prev => ({ ...prev, progress: true }));
-        }
-      };
-
-      const fetchWeaknesses = async () => {
-        try {
-          const res = await tutorService.getStudentWeaknesses(id);
-          setWeaknesses(res.data);
-        } catch (err) {
-          console.error('Failed to fetch weaknesses:', err);
-          setPartialErrors(prev => ({ ...prev, weaknesses: true }));
-        }
-      };
-
-      const fetchCharts = async () => {
-        try {
-          const res = await tutorService.getStudentChartData(id, { days: 30 });
-          setChartData(res.data);
-        } catch (err) {
-          console.error('Failed to fetch charts:', err);
-          setPartialErrors(prev => ({ ...prev, charts: true }));
-        }
-      };
-
-      await Promise.all([fetchProgress(), fetchWeaknesses(), fetchCharts()]);
+      const safe = async (fn, set) => { try { const r = await fn(); set(r.data); } catch (e) { /* partial */ } };
+      await Promise.all([
+        safe(() => tutorService.getStudentProgress(id), setProgress),
+        safe(() => tutorService.getStudentWeaknesses(id), setWeaknesses),
+        safe(() => tutorService.getStudentChartData(id, { days: 30 }), setChartData),
+      ]);
       setIsLoading(false);
     };
-
     fetchData();
   }, [id]);
 
-  if (isLoading) {
+  if (error || (!isLoading && !student)) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
-  if (error || !student) {
-    return (
-      <div className="max-w-md mx-auto text-center py-16">
-        <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <AlertTriangle className="h-8 w-8 text-amber-500" />
+      <div className="mx-auto max-w-md py-16 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 dark:bg-brand-900/30">
+          <AlertTriangle className="h-8 w-8 text-brand-600 dark:text-brand-400" />
         </div>
-        <h2 className="text-xl font-semibold text-ink-body mb-2">Unable to load student</h2>
-        <p className="text-ink-subtle mb-6">
-          {error || 'The student may not be in your roster or the student ID is invalid.'}
-        </p>
-        <Link to="/tutor/students">
-          <Button variant="secondary">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Students
-          </Button>
-        </Link>
+        <h2 className="mb-2 font-display text-xl font-semibold text-ink-body">Unable to load student</h2>
+        <p className="mb-6 text-ink-subtle">{error || 'The student may not be in your roster.'}</p>
+        <Link to="/tutor/students"><Button variant="secondary"><ArrowLeft className="h-4 w-4" /> Back to students</Button></Link>
       </div>
     );
   }
 
-  // Transform chart data
   const accuracyData = chartData?.accuracy_trend || [];
-  const skillData = chartData?.skill_breakdown?.map(s => ({
-    name: s.name,
-    accuracy: s.accuracy,
-    questions: s.questions,
-  })) || [];
-  const domainData = chartData?.domain_performance?.map(d => ({
-    domain: d.domain,
-    accuracy: d.accuracy,
-    fullMark: 100,
-  })) || [];
+  const skillData = (chartData?.skill_breakdown || []).map((s) => ({ name: s.name, accuracy: s.accuracy, questions: s.questions }));
+  const domainData = (chartData?.domain_performance || []).map((d) => ({ domain: d.domain, accuracy: d.accuracy, fullMark: 100 }));
 
-  // Calculate summary stats
   const totalQuestions = progress?.total_questions_answered || 0;
   const overallAccuracy = progress?.overall_accuracy || 0;
   const weakAreasCount = weaknesses?.weak_skills?.length || 0;
-  // Use new mastery_level if available (3 = Mastered), otherwise fall back to accuracy
-  const masteredCount = progress?.skills?.filter(s =>
-    s.mastery_level === 3 || (s.mastery_level === undefined && s.accuracy >= 90 && s.questions_attempted >= 3)
-  ).length || 0;
+  const masteredCount = progress?.skills?.filter((s) => s.mastery_level === 3 || (s.mastery_level === undefined && s.accuracy >= 90 && s.questions_attempted >= 3)).length || 0;
+  const name = student ? `${student.first_name} ${student.last_name}` : '';
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/tutor/students">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
+    <div className="mx-auto max-w-5xl pb-8">
+      {/* Back link */}
+      <Link to="/tutor/students" className="mb-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink-subtle transition-colors hover:text-ink-body">
+        <ArrowLeft className="h-4 w-4" /> Students
+      </Link>
+
+      <PageHeader
+        title={isLoading ? 'Loading…' : name}
+        subtitle={student?.email}
+        actions={
+          <Link to={`/tutor/assignments/new?student=${id}`}>
+            <Button variant="primary"><Zap className="h-4 w-4" /> Create assignment</Button>
           </Link>
-          <div>
-            <h1 className="text-2xl font-semibold text-ink-body">
-              {student.first_name} {student.last_name}
-            </h1>
-            <p className="text-ink-subtle">{student.email}</p>
-          </div>
+        }
+      />
+
+      {/* Big-number stat row */}
+      {isLoading ? (
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-edge py-6 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => <div key={i} className="space-y-2"><Skeleton className="h-9 w-16" /><Skeleton className="h-3 w-20" /></div>)}
         </div>
-        <Link to={`/tutor/assignments/new?student=${id}`}>
-          <Button variant="primary">
-            <Zap className="h-4 w-4 mr-2" />
-            Create Assignment
-          </Button>
-        </Link>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <Card className="bg-gradient-to-br from-brand-500 to-brand-600 text-white">
-          <div className="flex items-center gap-3">
-            <TrendingUp className="h-8 w-8 opacity-80" />
-            <div>
-              <p className="text-3xl font-bold">{overallAccuracy.toFixed(0)}%</p>
-              <p className="text-sm opacity-80">Overall Accuracy</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <Target className="h-5 w-5 text-green-600 dark:text-green-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-ink-body">{totalQuestions}</p>
-              <p className="text-sm text-ink-subtle">Questions</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
-              <CheckCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-ink-body">{masteredCount}</p>
-              <p className="text-sm text-ink-subtle">Skills Mastered</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
-              <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-ink-body">{weakAreasCount}</p>
-              <p className="text-sm text-ink-subtle">Weak Areas</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-              <Clock className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-            </div>
-            <div>
-              <p className="text-2xl font-semibold text-ink-body">{progress?.sessions_completed || 0}</p>
-              <p className="text-sm text-ink-subtle">Sessions</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      {/* Mastery Overview */}
-      {progress?.skills?.length > 0 && (
-        <Card>
-          <Card.Header>
-            <Card.Title className="flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-amber-500" />
-              Mastery Overview
-            </Card.Title>
-            <Card.Description>Skill progression across all levels</Card.Description>
-          </Card.Header>
-          <Card.Content>
-            <MasterySummary
-              mastered={progress.skills?.filter(s => s.mastery_level === 3).length || 0}
-              proficient={progress.skills?.filter(s => s.mastery_level === 2).length || 0}
-              familiar={progress.skills?.filter(s => s.mastery_level === 1).length || 0}
-              notStarted={progress.skills?.filter(s => s.mastery_level === 0 || s.mastery_level === undefined).length || 0}
-            />
-          </Card.Content>
-        </Card>
+      ) : (
+        <div className="flex flex-wrap items-end gap-x-10 gap-y-6 border-y border-edge py-6">
+          <StatBlock value={overallAccuracy} suffix="%" decimals={0} label="Overall accuracy" size="lg" />
+          <StatBlock value={totalQuestions} label="Questions answered" />
+          <StatBlock value={masteredCount} label="Skills mastered" />
+          <StatBlock value={weakAreasCount} label="Focus areas" />
+          <StatBlock value={progress?.sessions_completed || 0} label="Sessions" />
+        </div>
       )}
 
-      {/* Main Content Tabs */}
-      <Tabs defaultValue="domains">
-        <Tabs.List>
-          <Tabs.Trigger value="domains">
-            <BookOpen className="h-4 w-4 mr-2" />
-            Domain Mastery
-          </Tabs.Trigger>
-          <Tabs.Trigger value="skills">
-            <Brain className="h-4 w-4 mr-2" />
-            Skill Details
-          </Tabs.Trigger>
-          <Tabs.Trigger value="weaknesses">
-            <AlertTriangle className="h-4 w-4 mr-2" />
-            Focus Areas
-          </Tabs.Trigger>
-          <Tabs.Trigger value="trends">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Trends
-          </Tabs.Trigger>
-        </Tabs.List>
+      {/* Mastery overview */}
+      {progress?.skills?.length > 0 && (
+        <Section className="mt-10" title="Mastery overview" icon={BookOpen} hint="Skill progression across all levels">
+          <MasterySummary
+            mastered={progress.skills.filter((s) => s.mastery_level === 3).length}
+            proficient={progress.skills.filter((s) => s.mastery_level === 2).length}
+            familiar={progress.skills.filter((s) => s.mastery_level === 1).length}
+            notStarted={progress.skills.filter((s) => s.mastery_level === 0 || s.mastery_level === undefined).length}
+          />
+        </Section>
+      )}
 
-        {/* Domain Mastery Tab */}
-        <Tabs.Content value="domains">
-          <div className="space-y-6">
-            {progress?.domains?.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {progress.domains.map(domain => (
-                  <DomainMasteryCard
-                    key={domain.domain_id}
-                    domain={domain}
-                    skills={progress.skills}
-                  />
-                ))}
-              </div>
-            ) : (
-              <Card>
-                <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 text-ink-faint mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-ink-body mb-2">No Domain Data Yet</h3>
-                  <p className="text-ink-subtle max-w-md mx-auto">
-                    As {student.first_name} completes practice sessions, their domain mastery will appear here.
-                  </p>
-                </div>
-              </Card>
-            )}
+      {/* Tabbed detail */}
+      <div className="mt-12">
+        <div role="tablist" aria-label="Student detail" className="mb-5 flex flex-wrap gap-1.5 border-b border-edge pb-3">
+          {TABS.map((tb) => {
+            const active = tab === tb.value;
+            return (
+              <button
+                key={tb.value} role="tab" aria-selected={active} onClick={() => setTab(tb.value)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${active ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted hover:text-ink-body hover:bg-edge-subtle'}`}
+              >
+                <tb.icon className="h-3.5 w-3.5" /> {tb.label}
+              </button>
+            );
+          })}
+        </div>
 
-            {/* Domain Performance Chart */}
-            {domainData.length > 0 && (
-              <Card>
-                <Card.Header>
-                  <Card.Title>Domain Performance Overview</Card.Title>
-                  <Card.Description>Visual comparison across all domains</Card.Description>
-                </Card.Header>
-                <Card.Content>
-                  <DomainRadar data={domainData} height={300} />
-                </Card.Content>
-              </Card>
-            )}
-          </div>
-        </Tabs.Content>
-
-        {/* Skill Details Tab */}
-        <Tabs.Content value="skills">
-          <Card>
-            <Card.Header>
-              <Card.Title>All Skills Progress</Card.Title>
-              <Card.Description>
-                Detailed breakdown of each skill with IRT ability estimates
-              </Card.Description>
-            </Card.Header>
-            <Card.Content>
-              {progress?.skills?.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {progress.skills
-                    .sort((a, b) => b.questions_attempted - a.questions_attempted)
-                    .map(skill => (
-                      <SkillMasteryRow key={skill.skill_id} skill={skill} />
-                    ))}
-                </div>
+        {isLoading ? (
+          <Skeleton className="h-64 w-full" rounded="rounded-xl" />
+        ) : tab === 'skills' ? (
+          progress?.skills?.length > 0 ? (
+            <ul className="grid grid-cols-1 gap-x-10 divide-y divide-edge-subtle md:grid-cols-2 md:divide-y-0 md:[&>li]:border-b md:[&>li]:border-edge-subtle">
+              {[...progress.skills].sort((a, b) => (b.questions_attempted || 0) - (a.questions_attempted || 0)).map((skill) => (
+                <SkillRow key={skill.skill_id} skill={skill} />
+              ))}
+            </ul>
+          ) : <EmptyHint icon={Brain} text={`Skills appear once ${student.first_name} answers some practice questions.`} />
+        ) : tab === 'focus' ? (
+          <div className="grid grid-cols-1 gap-x-12 gap-y-8 lg:grid-cols-2">
+            <Section title="Skills needing practice" hint="Below 70% with 3+ attempts">
+              {weaknesses?.weak_skills?.length > 0 ? (
+                <ul className="divide-y divide-edge-subtle">
+                  {weaknesses.weak_skills.map((skill) => (
+                    <li key={skill.skill_id} className="flex items-center justify-between gap-3 py-3.5 first:pt-0">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-ink-body">{skill.skill_name}</p>
+                        <p className="text-xs text-ink-subtle">{skill.questions_attempted} attempted · {skill.priority} priority</p>
+                      </div>
+                      <StatusPill value={skill.accuracy} size="sm" />
+                    </li>
+                  ))}
+                </ul>
               ) : (
-                <div className="text-center py-12">
-                  <Brain className="h-12 w-12 text-ink-faint mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-ink-body mb-2">No Skill Data Yet</h3>
-                  <p className="text-ink-subtle">
-                    Skills will appear here once {student.first_name} answers some practice questions.
-                  </p>
+                <div className="py-8 text-center">
+                  <CheckCircle className="mx-auto mb-3 h-10 w-10 text-accent-500" />
+                  <p className="text-sm text-ink-muted">No significant weak areas. {student.first_name} is on track.</p>
                 </div>
               )}
-            </Card.Content>
-          </Card>
-        </Tabs.Content>
+            </Section>
 
-        {/* Focus Areas Tab */}
-        <Tabs.Content value="weaknesses">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <Card.Header>
-                <Card.Title className="flex items-center gap-2">
-                  <XCircle className="h-5 w-5 text-red-500" />
-                  Skills Needing Practice
-                </Card.Title>
-                <Card.Description>Below 70% accuracy with at least 3 attempts</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {weaknesses?.weak_skills?.length > 0 ? (
-                  <div className="space-y-3">
-                    {weaknesses.weak_skills.map(skill => (
-                      <div
-                        key={skill.skill_id}
-                        className={`p-4 rounded-lg border-l-4 ${
-                          skill.priority === 'high'
-                            ? 'bg-red-50 dark:bg-red-900/20 border-red-500'
-                            : skill.priority === 'medium'
-                            ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-500'
-                            : 'bg-surface-muted border-edge-strong'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h4 className="font-medium text-ink-body">{skill.skill_name}</h4>
-                            <p className="text-sm text-ink-subtle mt-1">
-                              {skill.questions_attempted} questions attempted
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <span className={`text-xl font-bold ${
-                              skill.accuracy < 50 ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'
-                            }`}>
-                              {skill.accuracy.toFixed(0)}%
-                            </span>
-                            <Badge
-                              variant={skill.priority === 'high' ? 'danger' : 'warning'}
-                              className="block mt-1"
-                            >
-                              {skill.priority} priority
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <CheckCircle className="h-12 w-12 text-emerald-500 dark:text-emerald-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-ink-body mb-2">Great Progress!</h3>
-                    <p className="text-ink-subtle">
-                      No significant weak areas detected. Keep up the good work!
-                    </p>
-                  </div>
-                )}
-              </Card.Content>
-            </Card>
-
-            <Card>
-              <Card.Header>
-                <Card.Title>Recommended Actions</Card.Title>
-                <Card.Description>Suggested next steps for improvement</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {weaknesses?.weak_skills?.length > 0 ? (
-                  <div className="space-y-4">
-                    <div className="p-4 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/50 rounded-lg">
-                      <h4 className="font-medium text-brand-900 dark:text-brand-200 mb-2">Create Targeted Practice</h4>
-                      <p className="text-sm text-brand-700 dark:text-brand-300 mb-3">
-                        Focus on the {weaknesses.weak_skills.filter(s => s.priority === 'high').length || 1} high-priority skill(s) listed.
-                      </p>
-                      <Link to={`/tutor/assignments/new?student=${id}&skills=${weaknesses.weak_skills.slice(0, 3).map(s => s.skill_id).join(',')}`}>
-                        <Button variant="primary" size="sm">
-                          <Zap className="h-4 w-4 mr-2" />
-                          Create Practice Assignment
-                        </Button>
-                      </Link>
-                    </div>
-                    <div className="p-4 bg-surface-muted rounded-lg">
-                      <h4 className="font-medium text-ink-body mb-2">Review Mistakes</h4>
-                      <p className="text-sm text-ink-muted">
-                        Look at the specific questions {student.first_name} got wrong in these skill areas to identify patterns.
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-lg">
-                    <h4 className="font-medium text-emerald-900 dark:text-emerald-200 mb-2">Keep Challenging!</h4>
-                    <p className="text-sm text-emerald-700 dark:text-emerald-300">
-                      {student.first_name} is doing well. Consider introducing more advanced questions or new topics to continue growth.
-                    </p>
-                  </div>
-                )}
-              </Card.Content>
-            </Card>
+            <Section title="Recommended next step">
+              {weaknesses?.weak_skills?.length > 0 ? (
+                <div className="space-y-3">
+                  <p className="text-sm text-ink-muted">
+                    Assign targeted practice on {student.first_name}'s {weaknesses.weak_skills.filter((s) => s.priority === 'high').length || 1} highest-priority skill(s).
+                  </p>
+                  <Link to={`/tutor/assignments/new?student=${id}&skills=${weaknesses.weak_skills.slice(0, 3).map((s) => s.skill_id).join(',')}`}>
+                    <Button variant="primary" size="sm"><Zap className="h-4 w-4" /> Create practice assignment</Button>
+                  </Link>
+                </div>
+              ) : (
+                <p className="text-sm text-ink-muted">{student.first_name} is doing well. Consider introducing more advanced topics to keep growth going.</p>
+              )}
+            </Section>
           </div>
-        </Tabs.Content>
-
-        {/* Trends Tab */}
-        <Tabs.Content value="trends">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <Card.Header>
-                <Card.Title>Accuracy Over Time</Card.Title>
-                <Card.Description>Performance trend over the past 30 days</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {accuracyData.length > 0 ? (
-                  <AccuracyTrend data={accuracyData} height={250} />
-                ) : (
-                  <div className="text-center py-12">
-                    <BarChart3 className="h-12 w-12 text-ink-faint mx-auto mb-4" />
-                    <p className="text-ink-subtle">Not enough data points for trend analysis</p>
-                  </div>
-                )}
-              </Card.Content>
-            </Card>
-
-            <Card>
-              <Card.Header>
-                <Card.Title>Top Practiced Skills</Card.Title>
-                <Card.Description>Skills with most practice activity</Card.Description>
-              </Card.Header>
-              <Card.Content>
-                {skillData.length > 0 ? (
-                  <SkillBreakdown data={skillData.slice(0, 8)} height={250} />
-                ) : (
-                  <div className="text-center py-12">
-                    <BarChart3 className="h-12 w-12 text-ink-faint mx-auto mb-4" />
-                    <p className="text-ink-subtle">No skill data available yet</p>
-                  </div>
-                )}
-              </Card.Content>
-            </Card>
+        ) : (
+          <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">
+            <Section title="Accuracy over time" hint="Past 30 days">
+              {accuracyData.length > 0 ? <AccuracyTrend data={accuracyData} height={250} /> : <EmptyHint icon={BarChart3} text="Not enough data points yet." />}
+            </Section>
+            <Section title="Domain coverage">
+              {domainData.length > 0 ? <DomainRadar data={domainData} height={250} /> : <EmptyHint icon={BarChart3} text="No domain data yet." />}
+            </Section>
+            <Section title="Top practiced skills" className="lg:col-span-2">
+              {skillData.length > 0 ? <SkillBreakdown data={skillData.slice(0, 8)} height={300} /> : <EmptyHint icon={BarChart3} text="No skill data yet." />}
+            </Section>
           </div>
-        </Tabs.Content>
-      </Tabs>
+        )}
+      </div>
     </div>
   );
 };
+
+const EmptyHint = ({ icon: Icon, text }) => (
+  <div className="py-12 text-center">
+    <Icon className="mx-auto mb-3 h-10 w-10 text-ink-faint" />
+    <p className="text-sm text-ink-subtle">{text}</p>
+  </div>
+);
 
 export default StudentDetailPage;

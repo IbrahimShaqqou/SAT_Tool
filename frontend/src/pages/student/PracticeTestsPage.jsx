@@ -1,9 +1,14 @@
 /**
- * Practice Tests Page - List of available official SAT practice tests
+ * Practice Tests — Study Hall.
+ * List of official full-length SAT practice tests. Warm tokens, dark mode,
+ * borderless tiles. Renders inside AppLayout.
  */
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FileText, BookText, Calculator, Clock, ArrowRight } from 'lucide-react';
+import {
+  Button, Skeleton, PageHeader, Section, Surface, StatusPill,
+} from '../../components/ui';
 import { listPracticeTests } from '../../services/practiceTestApi';
 
 const PracticeTestsPage = () => {
@@ -11,10 +16,6 @@ const PracticeTestsPage = () => {
   const [practiceTests, setPracticeTests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    loadPracticeTests();
-  }, []);
 
   const loadPracticeTests = async () => {
     try {
@@ -30,158 +31,94 @@ const PracticeTestsPage = () => {
     }
   };
 
-  const handleStartTest = (testNumber) => {
-    navigate(`/student/practice-tests/${testNumber}/start`);
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading practice tests...</p>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => { loadPracticeTests(); }, []);
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700">{error}</p>
-          <button
-            onClick={loadPracticeTests}
-            className="mt-2 text-red-600 hover:text-red-800 underline"
-          >
-            Try again
-          </button>
-        </div>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <p className="mb-4 text-rose-600 dark:text-rose-400">{error}</p>
+        <Button variant="secondary" onClick={loadPracticeTests}>Try again</Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Official SAT Practice Tests
-        </h1>
-        <p className="text-gray-600">
-          Take full-length official College Board practice tests with adaptive Module 2 sections.
-          Each test takes approximately 2 hours and 14 minutes.
-        </p>
-      </div>
+    <div className="mx-auto max-w-4xl pb-8">
+      <PageHeader
+        eyebrow="Full length"
+        title="Practice tests"
+        subtitle="Official-style, full-length SAT tests with adaptive Module 2 sections. Each takes about 2 hr 14 min."
+      />
 
-      {/* Test Information */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <h3 className="font-semibold text-blue-900 mb-2">About These Tests</h3>
-        <ul className="text-sm text-blue-800 space-y-1">
-          <li>• Complete SAT simulation with 98 questions (54 Reading/Writing, 44 Math)</li>
-          <li>• Adaptive testing: Module 2 difficulty adjusts based on Module 1 performance</li>
-          <li>• Timed modules matching the real digital SAT</li>
-          <li>• Instant scoring with section scores (200-800) and total score (400-1600)</li>
+      {/* What to expect */}
+      <Section title="What to expect">
+        <ul className="grid grid-cols-1 gap-2 text-sm text-ink-muted sm:grid-cols-2">
+          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" /> 98 questions (54 Reading/Writing, 44 Math)</li>
+          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" /> Module 2 adapts to your Module 1 performance</li>
+          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" /> Timed modules, just like the digital SAT</li>
+          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" /> Instant section (200–800) and total (400–1600) scores</li>
         </ul>
-      </div>
+      </Section>
 
-      {/* Practice Tests Grid */}
-      {practiceTests.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">No practice tests available yet.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {practiceTests.map((test) => (
-            <div
-              key={test.id}
-              className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
-                    {test.test_name}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {test.total_questions} questions · {test.estimated_time_minutes} minutes
-                  </p>
+      {/* Test grid */}
+      <Section className="mt-10" title="Available tests">
+        {loading ? (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {[0, 1].map((i) => <Skeleton key={i} className="h-52 w-full" rounded="rounded-2xl" />)}
+          </div>
+        ) : practiceTests.length === 0 ? (
+          <p className="py-8 text-center text-sm text-ink-subtle">No practice tests available yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {practiceTests.map((test) => (
+              <Surface key={test.id} elevation="sm" padded={false} className="flex flex-col p-5">
+                <div className="mb-3 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className="font-display text-lg font-semibold tracking-tight text-ink-body">{test.test_name}</h3>
+                    <p className="text-sm text-ink-subtle">{test.total_questions} questions · {test.estimated_time_minutes} min</p>
+                  </div>
+                  {test.is_active && <StatusPill tone="good" size="sm">Available</StatusPill>}
                 </div>
-                {test.is_active && (
-                  <span className="px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">
-                    Available
-                  </span>
-                )}
-              </div>
 
-              {test.description && (
-                <p className="text-gray-700 text-sm mb-4">
-                  {test.description}
-                </p>
-              )}
+                {test.description && <p className="mb-4 text-sm text-ink-muted">{test.description}</p>}
 
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  Reading & Writing: 54 questions (2 modules)
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                  </svg>
-                  Math: 44 questions (2 modules)
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  2 hours 14 minutes (timed)
-                </div>
-              </div>
+                <ul className="mb-5 space-y-1.5 text-sm text-ink-subtle">
+                  <li className="flex items-center gap-2"><BookText className="h-4 w-4 text-ink-faint" /> Reading & Writing · 54 questions</li>
+                  <li className="flex items-center gap-2"><Calculator className="h-4 w-4 text-ink-faint" /> Math · 44 questions</li>
+                  <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-ink-faint" /> 2 hr 14 min (timed)</li>
+                </ul>
 
-              <button
-                onClick={() => handleStartTest(test.test_number)}
-                disabled={!test.is_active}
-                className={`w-full py-2 px-4 rounded-lg font-semibold transition-colors ${
-                  test.is_active
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {test.is_active ? 'Start Practice Test' : 'Coming Soon'}
-              </button>
-            </div>
+                <Button
+                  variant={test.is_active ? 'primary' : 'secondary'}
+                  disabled={!test.is_active}
+                  className="mt-auto w-full"
+                  onClick={() => navigate(`/student/practice-tests/${test.test_number}/start`)}
+                >
+                  {test.is_active ? <>Start test <ArrowRight className="h-4 w-4" /></> : 'Coming soon'}
+                </Button>
+              </Surface>
+            ))}
+          </div>
+        )}
+      </Section>
+
+      {/* Before you start */}
+      <Section className="mt-10" title="Before you start" icon={FileText}>
+        <ol className="space-y-2 text-sm text-ink-muted">
+          {[
+            'Find a quiet place with no distractions.',
+            'Have scratch paper and a calculator ready for Math.',
+            'Plan for 2+ hours of uninterrupted time.',
+            'Take the breaks between sections (10 min each, skippable).',
+            'Treat it like the real SAT — no phones, no looking up answers.',
+          ].map((tip, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-surface-muted text-[11px] font-bold text-ink-subtle">{i + 1}</span>
+              <span>{tip}</span>
+            </li>
           ))}
-        </div>
-      )}
-
-      {/* Tips Section */}
-      <div className="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-6">
-        <h3 className="font-semibold text-gray-900 mb-3">Before You Start</h3>
-        <ul className="space-y-2 text-sm text-gray-700">
-          <li className="flex items-start">
-            <span className="font-semibold mr-2">1.</span>
-            <span>Find a quiet place with no distractions</span>
-          </li>
-          <li className="flex items-start">
-            <span className="font-semibold mr-2">2.</span>
-            <span>Have scratch paper and a calculator ready for the Math section</span>
-          </li>
-          <li className="flex items-start">
-            <span className="font-semibold mr-2">3.</span>
-            <span>Plan for 2+ hours of uninterrupted time</span>
-          </li>
-          <li className="flex items-start">
-            <span className="font-semibold mr-2">4.</span>
-            <span>Take breaks between sections (10 minutes each, skippable)</span>
-          </li>
-          <li className="flex items-start">
-            <span className="font-semibold mr-2">5.</span>
-            <span>Treat this like the real SAT - no phones, no looking up answers</span>
-          </li>
-        </ul>
-      </div>
+        </ol>
+      </Section>
     </div>
   );
 };
