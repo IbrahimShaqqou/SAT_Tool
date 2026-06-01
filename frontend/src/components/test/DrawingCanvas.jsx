@@ -286,6 +286,64 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
     currentStroke.current = null;
   }, []);
 
+  // ── Wheel passthrough ────────────────────────────────────────────────────
+  // While drawing is active the canvas is a fixed full-page overlay capturing
+  // pointer events, but it isn't a DOM ancestor of the scroll container — so
+  // wheel events have nowhere to go and the page feels scroll-locked until draw
+  // mode is turned off. Forward the wheel delta to whatever scrollable element
+  // is actually under the cursor (the split-pane passage/question panels each
+  // scroll independently, so a single ref isn't enough). The scroll listener
+  // then redraws strokes at the new offset. Native non-passive listener so we
+  // can preventDefault and avoid double-scroll.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !isActive) return;
+
+    // Can this element scroll further in the wheel's direction? (enables
+    // native-style scroll chaining: skip a maxed-out inner panel and let an
+    // ancestor take the delta.)
+    const canScroll = (el, dy) => {
+      if (!el || el === canvas) return false;
+      const cs = getComputedStyle(el);
+      const oy = cs.overflowY;
+      if (oy !== 'auto' && oy !== 'scroll') return false;
+      if (el.scrollHeight <= el.clientHeight + 1) return false;
+      const max = el.scrollHeight - el.clientHeight;
+      if (dy > 0) return el.scrollTop < max - 1;   // scrolling down
+      if (dy < 0) return el.scrollTop > 1;          // scrolling up
+      return true;
+    };
+
+    const findScroller = (x, y, dy) => {
+      // Hit-test the point with the canvas temporarily click-through.
+      const prev = canvas.style.pointerEvents;
+      canvas.style.pointerEvents = 'none';
+      const under = document.elementFromPoint(x, y);
+      canvas.style.pointerEvents = prev;
+      let el = under;
+      while (el && el !== document.body) {
+        if (canScroll(el, dy)) return el;
+        el = el.parentElement;
+      }
+      if (scrollRef?.current && canScroll(scrollRef.current, dy)) return scrollRef.current;
+      return null;
+    };
+
+    const onWheel = (e) => {
+      e.preventDefault();
+      const scroller = findScroller(e.clientX, e.clientY, e.deltaY);
+      if (scroller) {
+        scroller.scrollTop += e.deltaY;
+        scroller.scrollLeft += e.deltaX;
+      } else {
+        window.scrollBy(e.deltaX, e.deltaY);
+      }
+    };
+
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    return () => canvas.removeEventListener('wheel', onWheel);
+  }, [isActive, scrollRef]);
+
   // ── Undo ─────────────────────────────────────────────────────────────────
 
   const handleUndo = useCallback(() => {

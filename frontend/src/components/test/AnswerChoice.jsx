@@ -18,9 +18,25 @@ const AnswerChoice = ({
   isChecked = false,
   isCorrect = null, // true if this is the correct answer, false if wrong
   showAsCorrect = false, // Show this choice as the correct one (after checking wrong answer)
+  // a11y: radio semantics
+  roving = false,        // is this the tabbable choice in the group?
+  onKeyDown,
+  buttonRef,
 }) => {
   const letter = letters[index] || String.fromCharCode(65 + index);
   const contentRef = useRef(null);
+
+  // Plain-text version of the choice for the accessible name (strip HTML/MathML).
+  const accessibleText = (() => {
+    if (typeof content !== 'string') return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = content;
+    return (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+  })();
+  const statusSuffix = isChecked && isCorrect === true ? ', correct'
+    : isChecked && isCorrect === false ? ', incorrect'
+    : showAsCorrect ? ', correct answer'
+    : '';
 
   // Trigger MathJax rendering when content changes
   useEffect(() => {
@@ -65,7 +81,14 @@ const AnswerChoice = ({
 
   return (
     <button
+      ref={buttonRef}
+      type="button"
+      role="radio"
+      aria-checked={isSelected}
+      aria-label={`${letter}. ${accessibleText}${statusSuffix}`}
+      tabIndex={roving ? 0 : -1}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       disabled={disabled || isChecked}
       className={`
         w-full flex items-center gap-4 p-4
@@ -252,6 +275,32 @@ const AnswerChoices = ({
   }
 
   // MCQ questions - show choices
+  return (
+    <MCQRadioGroup
+      choices={choices}
+      selectedIndex={selectedIndex}
+      onSelect={onSelect}
+      disabled={disabled}
+      isChecked={isChecked}
+      correctIndex={correctIndex}
+      isCorrect={isCorrect}
+    />
+  );
+};
+
+// Keyboard-accessible radio group for MCQ choices.
+// Roving tabindex + arrow keys, matching the WAI-ARIA radiogroup pattern.
+const MCQRadioGroup = ({ choices, selectedIndex, onSelect, disabled, isChecked, correctIndex, isCorrect }) => {
+  const btnRefs = useRef([]);
+  // The tabbable choice: the selected one, else the first.
+  const [focusIndex, setFocusIndex] = useState(
+    typeof selectedIndex === 'number' ? selectedIndex : 0
+  );
+
+  useEffect(() => {
+    if (typeof selectedIndex === 'number') setFocusIndex(selectedIndex);
+  }, [selectedIndex]);
+
   if (!choices || choices.length === 0) {
     return (
       <div className="p-4 bg-surface-muted rounded-lg text-center text-ink-subtle">
@@ -260,12 +309,36 @@ const AnswerChoices = ({
     );
   }
 
+  const moveTo = (next) => {
+    const clamped = (next + choices.length) % choices.length;
+    setFocusIndex(clamped);
+    const el = btnRefs.current[clamped];
+    if (el) el.focus();
+    if (!disabled && !isChecked) onSelect(clamped); // arrow keys also select (radio convention)
+  };
+
+  const handleKeyDown = (e, index) => {
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+        e.preventDefault();
+        moveTo(index + 1);
+        break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        e.preventDefault();
+        moveTo(index - 1);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <div className="space-y-3">
+    <div role="radiogroup" aria-label="Answer choices" className="space-y-3">
       {choices.map((choice, index) => {
         const isSelected = selectedIndex === index;
         const isThisCorrect = correctIndex === index;
-
         return (
           <AnswerChoice
             key={index}
@@ -277,6 +350,9 @@ const AnswerChoices = ({
             isChecked={isChecked && isSelected}
             isCorrect={isChecked && isSelected ? isThisCorrect : null}
             showAsCorrect={isChecked && !isCorrect && isThisCorrect && !isSelected}
+            roving={index === focusIndex}
+            onKeyDown={(e) => handleKeyDown(e, index)}
+            buttonRef={(el) => { btnRefs.current[index] = el; }}
           />
         );
       })}

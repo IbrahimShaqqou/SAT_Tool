@@ -2,6 +2,7 @@
  * Test Header Component
  * Timer, question count, subject indicator, reference sheet, calculator
  */
+import { useRef, useState, useEffect } from 'react';
 import { Clock, Calculator, Pause, Play, FileText, Pencil } from 'lucide-react';
 
 const TestHeader = ({
@@ -21,19 +22,43 @@ const TestHeader = ({
   onDrawToggle,
   isDrawing = false,
 }) => {
+  // Screen-reader timer announcements: the visible counter changes every second
+  // (so it can't carry aria-live), so we announce only at meaningful thresholds.
+  const [announcement, setAnnouncement] = useState('');
+  const lastThreshold = useRef(null);
+  useEffect(() => {
+    if (!hasTimeLimit || timeRemaining == null) return;
+    let label = null;
+    if (timeRemaining <= 0) label = "Time's up";
+    else if (timeRemaining <= 60) label = '1 minute remaining';
+    else if (timeRemaining <= 300) label = '5 minutes remaining';
+    if (label && label !== lastThreshold.current) {
+      lastThreshold.current = label;
+      setAnnouncement(label);
+    }
+  }, [timeRemaining, hasTimeLimit]);
+
   return (
-    <header className="sticky top-0 z-30 h-14 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
+    <header className="sticky top-0 z-30 h-14 bg-surface-muted border-b border-edge flex items-center justify-between px-6">
+      {/* Screen-reader-only timer announcements (assertive at the final minute) */}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live={timeRemaining != null && timeRemaining <= 60 ? 'assertive' : 'polite'}
+      >
+        {announcement}
+      </div>
       {/* Left: Subject */}
       <div className="flex items-center gap-4">
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+        <span className="text-sm font-medium text-ink-muted uppercase tracking-wide">
           {subjectArea === 'math' ? 'Math' : 'Reading & Writing'}
         </span>
       </div>
 
       {/* Center: Question count */}
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-500 dark:text-gray-400">Question</span>
-        <span className="font-semibold text-gray-900 dark:text-gray-100">
+        <span className="text-sm text-ink-subtle">Question</span>
+        <span className="font-semibold text-ink-body">
           {currentQuestion} of {totalQuestions}
         </span>
       </div>
@@ -44,10 +69,12 @@ const TestHeader = ({
         {onDrawToggle && (
           <button
             onClick={onDrawToggle}
-            className={`p-2 rounded-lg transition-colors ${
+            aria-label={isDrawing ? 'Stop drawing' : 'Draw on question'}
+            aria-pressed={isDrawing}
+            className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
               isDrawing
-                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-brand-600 text-white'
+                : 'text-ink-muted hover:bg-surface-card'
             }`}
             title={isDrawing ? 'Stop drawing' : 'Draw on question'}
           >
@@ -59,10 +86,12 @@ const TestHeader = ({
         {subjectArea === 'math' && onReferenceToggle && (
           <button
             onClick={onReferenceToggle}
-            className={`p-2 rounded-lg transition-colors ${
+            aria-label="Reference sheet"
+            aria-pressed={showReference}
+            className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
               showReference
-                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-brand-600 text-white'
+                : 'text-ink-muted hover:bg-surface-card'
             }`}
             title="Reference Sheet"
           >
@@ -74,10 +103,12 @@ const TestHeader = ({
         {subjectArea === 'math' && (
           <button
             onClick={onCalculatorToggle}
-            className={`p-2 rounded-lg transition-colors ${
+            aria-label="Calculator"
+            aria-pressed={showCalculator}
+            className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
               showCalculator
-                ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-brand-600 text-white'
+                : 'text-ink-muted hover:bg-surface-card'
             }`}
             title="Calculator"
           >
@@ -88,7 +119,10 @@ const TestHeader = ({
         {/* Timer - only shown when tutor sets a time limit */}
         {hasTimeLimit && (
           <>
-            <div className={`flex items-center gap-2 ml-2 px-3 py-1 rounded-lg transition-all ${
+            <div
+              role="timer"
+              aria-hidden="true"
+              className={`flex items-center gap-2 ml-2 px-3 py-1 rounded-lg transition-all ${
               timeRemaining <= 0
                 ? 'bg-rose-600 text-white animate-pulse'
                 : timeRemaining < 60
@@ -99,7 +133,7 @@ const TestHeader = ({
             }`}>
               <Clock className={`h-4 w-4 ${
                 timeRemaining <= 0 ? 'text-white' :
-                timeRemaining < 300 ? 'text-current' : 'text-gray-400 dark:text-gray-500'
+                timeRemaining < 300 ? 'text-current' : 'text-ink-faint'
               }`} />
               <span className={`font-mono text-lg font-medium ${
                 timeRemaining <= 0
@@ -108,7 +142,7 @@ const TestHeader = ({
                   ? 'text-rose-700 dark:text-rose-300'
                   : timeRemaining < 300
                   ? 'text-amber-700 dark:text-amber-300'
-                  : 'text-gray-900 dark:text-gray-100'
+                  : 'text-ink-body'
               }`}>
                 {timeRemaining <= 0 ? "Time's Up!" : formattedTime}
               </span>
@@ -117,7 +151,8 @@ const TestHeader = ({
             {/* Pause/Resume */}
             <button
               onClick={isPaused ? onResume : onPause}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              aria-label={isPaused ? 'Resume timer' : 'Pause timer'}
+              className="p-2 text-ink-muted hover:bg-surface-card rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
               title={isPaused ? 'Resume' : 'Pause'}
             >
               {isPaused ? (

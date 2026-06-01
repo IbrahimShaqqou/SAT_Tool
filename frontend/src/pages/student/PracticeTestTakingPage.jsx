@@ -55,6 +55,7 @@ const PracticeTestTakingPage = () => {
   const submitRef = useRef(null);
   const startTimeRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const questionHeadingRef = useRef(null);
   const submittedRef = useRef(false); // prevent double-submit / zombie auto-submit
 
   const questions = useMemo(() => moduleData?.questions || [], [moduleData]);
@@ -163,6 +164,12 @@ const PracticeTestTakingPage = () => {
     });
   }, [currentQuestion]);
 
+  // a11y: focus the question heading on navigation.
+  useEffect(() => {
+    const el = questionHeadingRef.current;
+    if (el) el.focus({ preventScroll: false });
+  }, [currentIndex]);
+
   const handleNavigate = useCallback((index) => {
     setCurrentIndex(index);
     setShowNav(false);
@@ -270,12 +277,14 @@ const PracticeTestTakingPage = () => {
       <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
         <QuestionDisplay
           questionNumber={currentIndex + 1}
+          totalQuestions={questions.length}
           questionHtml={questionHtml || currentQuestion.prompt_html || ''}
           stimulusHtml={null}
           questionId={currentQuestion.id}
           isMarked={isCurrentMarked}
           onToggleMark={handleToggleMark}
           onReport={() => setShowReportModal(true)}
+          headingRef={questionHeadingRef}
         />
 
         <div className="px-6 pb-4">

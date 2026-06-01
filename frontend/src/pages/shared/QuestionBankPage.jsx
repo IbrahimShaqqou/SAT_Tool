@@ -3,7 +3,7 @@
  * Hierarchical browser: Domains → Skills → Practice Mode (same UI as assignments)
  * Used by both tutors and students
  */
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
   ChevronDown,
   ChevronRight,
@@ -50,6 +50,7 @@ const QuestionBankPage = () => {
   // Practice state
   const [practiceQuestions, setPracticeQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const questionHeadingRef = useRef(null);
   const [answers, setAnswers] = useState({});
   const [checkedAnswers, setCheckedAnswers] = useState({});
   const [showExplanation, setShowExplanation] = useState(false);
@@ -273,6 +274,12 @@ const QuestionBankPage = () => {
     setShowExplanation(false);
   }, [practiceQuestions.length]);
 
+  // a11y: focus the question heading when navigating between questions.
+  useEffect(() => {
+    const el = questionHeadingRef.current;
+    if (el) el.focus({ preventScroll: false });
+  }, [currentIndex]);
+
   // Check answer for current question (via backend API)
   const handleCheckAnswer = useCallback(async () => {
     const question = currentQuestion;
@@ -445,12 +452,14 @@ const QuestionBankPage = () => {
         <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
           <QuestionDisplay
             questionNumber={currentIndex + 1}
+            totalQuestions={practiceQuestions.length}
             questionHtml={questionHtml || currentQuestion.prompt_html || ''}
             stimulusHtml={null}
             questionId={currentQuestion.id}
             isMarked={isCurrentMarked}
             onToggleMark={handleToggleMark}
-            onReport={() => console.log('Report question')}
+            onReport={() => {}}
+            headingRef={questionHeadingRef}
           />
 
           {/* Answer choices */}

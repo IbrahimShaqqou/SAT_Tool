@@ -57,6 +57,8 @@ const TestPage = () => {
   // Ref to hold submit function (to avoid circular dependency with timer)
   const submitRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  // a11y: focus the question heading when navigating between questions
+  const questionHeadingRef = useRef(null);
 
   // Timer - only used when tutor sets a time limit
   const hasTimeLimit = !!assignment?.time_limit_minutes;
@@ -267,6 +269,15 @@ const TestPage = () => {
       }).catch(console.error);
     }
   }, [currentQuestion, currentIndex, id, isAdaptive]);
+
+  // a11y: move focus to the question heading when the question changes, so
+  // keyboard/screen-reader users land on the new question rather than the
+  // (now-stale) nav control they clicked.
+  useEffect(() => {
+    if (isLoading) return;
+    const el = questionHeadingRef.current;
+    if (el) el.focus({ preventScroll: false });
+  }, [currentIndex, isLoading]);
 
   const handleToggleMark = useCallback(() => {
     const questionId = currentQuestion?.id || currentIndex;
@@ -567,6 +578,7 @@ const TestPage = () => {
       <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
         <QuestionDisplay
           questionNumber={currentIndex + 1}
+          totalQuestions={questions.length}
           questionHtml={currentQuestion?.prompt_html || ''}
           stimulusHtml={null}
           questionId={questionId}
@@ -574,6 +586,7 @@ const TestPage = () => {
           onToggleMark={handleToggleMark}
           onReport={() => setShowReportModal(true)}
           hideMarkForReview={isAdaptive}
+          headingRef={questionHeadingRef}
         />
 
         {/* Answer choices or SPR input */}
