@@ -39,6 +39,14 @@ const DesmosCalculator = ({
     }
   }, [isOpen, hasBeenOpened]);
 
+  // Close on Escape while open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose?.(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   // Load Desmos API
   useEffect(() => {
     if (window.Desmos) {
@@ -185,6 +193,9 @@ const DesmosCalculator = ({
   return (
     <div
       ref={containerRef}
+      role="dialog"
+      aria-label="Calculator"
+      aria-hidden={!isOpen}
       className={`fixed z-50 bg-surface-card rounded-lg shadow-card-xl border border-edge overflow-hidden transition-opacity duration-150 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}

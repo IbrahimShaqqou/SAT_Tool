@@ -51,6 +51,14 @@ const ReferenceSheet = ({
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
+  // Close on Escape while open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose?.(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   // Math formula component for consistent styling
@@ -60,7 +68,10 @@ const ReferenceSheet = ({
 
   return (
     <div
-      className="fixed z-50 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+      role="dialog"
+      aria-modal="false"
+      aria-label="Math reference sheet"
+      className="fixed z-50 bg-surface-card rounded-lg shadow-card-xl border border-edge overflow-hidden"
       style={{
         left: position.x,
         top: position.y,
@@ -70,15 +81,16 @@ const ReferenceSheet = ({
       onMouseDown={handleMouseDown}
     >
       {/* Header */}
-      <div className="ref-header flex items-center justify-between px-3 py-2 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 cursor-move select-none">
+      <div className="ref-header flex items-center justify-between px-3 py-2 bg-surface-muted border-b border-edge cursor-move select-none">
         <div className="flex items-center gap-2">
-          <GripHorizontal className="h-4 w-4 text-gray-400 dark:text-gray-500" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Reference Sheet</span>
+          <GripHorizontal className="h-4 w-4 text-ink-faint" />
+          <span className="text-sm font-medium text-ink-body">Reference Sheet</span>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={onClose}
-            className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+            aria-label="Close reference sheet"
+            className="p-1 text-ink-subtle hover:text-ink-body hover:bg-surface-muted rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             <X className="h-4 w-4" />
           </button>
@@ -181,31 +193,31 @@ const ReferenceSheet = ({
         <div className="mb-4">
           <h3 className="text-sm font-semibold text-center mb-3 text-gray-700 dark:text-gray-300 uppercase tracking-wide">Volume Formulas</h3>
           <div className="space-y-2">
-            <div className="flex justify-between items-center px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <span className="text-gray-600 dark:text-gray-400">Rectangular Prism</span>
+            <div className="flex justify-between items-center px-4 py-2.5 bg-surface-muted rounded-lg">
+              <span className="text-ink-muted">Rectangular Prism</span>
               <Formula><em>V</em> = <em>ℓwh</em></Formula>
             </div>
-            <div className="flex justify-between items-center px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <span className="text-gray-600 dark:text-gray-400">Cylinder</span>
+            <div className="flex justify-between items-center px-4 py-2.5 bg-surface-muted rounded-lg">
+              <span className="text-ink-muted">Cylinder</span>
               <Formula><em>V</em> = <em>πr</em><sup>2</sup><em>h</em></Formula>
             </div>
-            <div className="flex justify-between items-center px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <span className="text-gray-600 dark:text-gray-400">Sphere</span>
+            <div className="flex justify-between items-center px-4 py-2.5 bg-surface-muted rounded-lg">
+              <span className="text-ink-muted">Sphere</span>
               <Formula><em>V</em> = <sup>4</sup>⁄<sub>3</sub><em>πr</em><sup>3</sup></Formula>
             </div>
-            <div className="flex justify-between items-center px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <span className="text-gray-600 dark:text-gray-400">Cone</span>
+            <div className="flex justify-between items-center px-4 py-2.5 bg-surface-muted rounded-lg">
+              <span className="text-ink-muted">Cone</span>
               <Formula><em>V</em> = <sup>1</sup>⁄<sub>3</sub><em>πr</em><sup>2</sup><em>h</em></Formula>
             </div>
-            <div className="flex justify-between items-center px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <span className="text-gray-600 dark:text-gray-400">Pyramid</span>
+            <div className="flex justify-between items-center px-4 py-2.5 bg-surface-muted rounded-lg">
+              <span className="text-ink-muted">Pyramid</span>
               <Formula><em>V</em> = <sup>1</sup>⁄<sub>3</sub><em>Bh</em></Formula>
             </div>
           </div>
         </div>
 
         {/* Additional Info */}
-        <div className="text-sm text-gray-600 dark:text-gray-400 text-center border-t border-gray-200 dark:border-gray-700 pt-4 space-y-1">
+        <div className="text-sm text-ink-muted text-center border-t border-gray-200 dark:border-gray-700 pt-4 space-y-1">
           <p>The number of degrees in a circle is <strong className="text-gray-800 dark:text-gray-200">360</strong>.</p>
           <p>The number of radians in a circle is <strong className="text-gray-800 dark:text-gray-200">2π</strong>.</p>
           <p>The sum of angles in a triangle is <strong className="text-gray-800 dark:text-gray-200">180°</strong>.</p>

@@ -52,6 +52,21 @@ const SplitPane = ({
     setIsDragging(false);
   }, []);
 
+  // Keyboard resize: arrow keys nudge, Home/End jump to bounds.
+  const handleDividerKeyDown = useCallback((e) => {
+    const STEP = 2;
+    let next = null;
+    switch (e.key) {
+      case 'ArrowLeft': next = splitPercent - STEP; break;
+      case 'ArrowRight': next = splitPercent + STEP; break;
+      case 'Home': next = minLeft; break;
+      case 'End': next = 100 - minRight; break;
+      default: return;
+    }
+    e.preventDefault();
+    setSplitPercent(Math.max(minLeft, Math.min(100 - minRight, next)));
+  }, [splitPercent, minLeft, minRight]);
+
   useEffect(() => {
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
@@ -74,23 +89,27 @@ const SplitPane = ({
     return (
       <div className={`flex flex-col h-full ${className}`}>
         {/* Toggle tabs */}
-        <div className="flex border-b border-gray-200 bg-gray-50 flex-shrink-0">
+        <div role="tablist" aria-label="View" className="flex border-b border-edge bg-surface-muted flex-shrink-0">
           <button
+            role="tab"
+            aria-selected={mobileView === 'passage'}
             onClick={() => setMobileView('passage')}
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${
+            className={`flex-1 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
               mobileView === 'passage'
-                ? 'text-gray-900 border-b-2 border-gray-900 bg-white'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-ink-body border-b-2 border-brand-500 bg-surface-card'
+                : 'text-ink-subtle hover:text-ink-body'
             }`}
           >
             Passage
           </button>
           <button
+            role="tab"
+            aria-selected={mobileView === 'question'}
             onClick={() => setMobileView('question')}
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${
+            className={`flex-1 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
               mobileView === 'question'
-                ? 'text-gray-900 border-b-2 border-gray-900 bg-white'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-ink-body border-b-2 border-brand-500 bg-surface-card'
+                : 'text-ink-subtle hover:text-ink-body'
             }`}
           >
             Question
@@ -119,18 +138,27 @@ const SplitPane = ({
         {left}
       </div>
 
-      {/* Divider */}
+      {/* Divider — keyboard-operable separator */}
       <div
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Resize passage and question panels"
+        aria-valuenow={Math.round(splitPercent)}
+        aria-valuemin={minLeft}
+        aria-valuemax={100 - minRight}
+        tabIndex={0}
         className={`
-          w-1 bg-gray-200 cursor-col-resize
-          hover:bg-gray-300 active:bg-gray-400
+          w-1 bg-edge cursor-col-resize
+          hover:bg-edge-strong active:bg-brand-500
           transition-colors flex-shrink-0
           relative group
+          focus-visible:outline-none focus-visible:bg-brand-500 focus-visible:w-1.5
         `}
         onMouseDown={handleMouseDown}
+        onKeyDown={handleDividerKeyDown}
       >
         {/* Visual indicator */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-8 bg-gray-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-8 bg-ink-faint rounded-full opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity" />
       </div>
 
       {/* Right panel - overflow-hidden so content handles its own scroll */}
