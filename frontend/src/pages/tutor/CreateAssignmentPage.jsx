@@ -518,7 +518,7 @@ const CreateAssignmentPage = () => {
                     onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: true }))}
                     className="h-4 w-4 text-brand-600 focus:ring-brand-500"
                   />
-                  <span className="text-sm text-ink-muted">Unlimited practice</span>
+                  <span className="text-sm text-ink-muted">Unlimited — student ends when ready</span>
                 </label>
                 <label className="flex cursor-pointer items-center gap-2">
                   <input
@@ -528,7 +528,7 @@ const CreateAssignmentPage = () => {
                     onChange={() => setFormData(prev => ({ ...prev, unlimited_questions: false }))}
                     className="h-4 w-4 text-brand-600 focus:ring-brand-500"
                   />
-                  <span className="text-sm text-ink-muted">Fixed question count</span>
+                  <span className="text-sm text-ink-muted">Fixed number of questions</span>
                 </label>
               </div>
             </div>
