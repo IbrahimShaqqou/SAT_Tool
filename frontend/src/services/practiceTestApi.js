@@ -64,7 +64,10 @@ export const getTestResults = async (sessionId) => {
 export const importBundle = async (bundle, { dryRun = false } = {}) => {
   const response = await api.post(
     `/practice-tests/import${dryRun ? '?dry_run=true' : ''}`,
-    bundle
+    bundle,
+    // A full bundle can be a few hundred questions of HTML written to a remote
+    // DB; allow well past the default 30s client timeout.
+    { timeout: 120000 },
   );
   return response.data;
 };

@@ -79,8 +79,16 @@ def _resolve_skill_id(metadata: dict, skill_by_code: dict) -> Optional[int]:
     return None
 
 
-def _upsert_question(db, item, section, domain_by_code, skill_by_code, stats) -> Optional[str]:
-    """Upsert a question from an API item. Returns external_id, or None if unusable."""
+def _upsert_question(db, item, section, domain_by_code, skill_by_code, stats, cache) -> Optional[str]:
+    """
+    Upsert a question from an API item. Returns external_id, or None if unusable.
+
+    `cache` maps external_id -> Question for rows already seen this run (whether
+    fetched from the DB or just-added). This is essential: Module 1 is identical
+    across the easier/harder attempts, so the same external_id arrives twice in
+    one transaction. Without the cache the second occurrence would queue a second
+    INSERT of the same key and trip the unique constraint on flush.
+    """
     ext = item.get("externalId")
     if not ext:
         # Old-format capture (questionId only) — can't join to the bank reliably.
@@ -93,13 +101,16 @@ def _upsert_question(db, item, section, domain_by_code, skill_by_code, stats) ->
     meta = item.get("metadata") or {}
     subject = SubjectArea.MATH if section == "math" else SubjectArea.READING_WRITING
 
-    q = db.query(Question).filter(Question.external_id == ext).first()
+    q = cache.get(ext)
+    if q is None:
+        q = db.query(Question).filter(Question.external_id == ext).first()
     if q is None:
         q = Question(external_id=ext)
         db.add(q)
         stats["inserted"] += 1
     else:
         stats["updated"] += 1
+    cache[ext] = q
 
     q.subject_area = subject
     q.answer_type = answer_type
@@ -236,6 +247,22 @@ def import_attempts(
     stats = {"inserted": 0, "updated": 0, "no_domain": 0, "no_skill": 0,
              "skipped_no_extid": 0}
 
+    # Prefetch every external_id referenced across the bundle in one query, so we
+    # never N+1 (the per-row lookup was timing out large imports) and never queue
+    # a duplicate INSERT for an id repeated across attempts (Module 1 overlap).
+    all_ext = {
+        it.get("externalId")
+        for att in attempts
+        for grp in (att.get("questions") or [])
+        if isinstance(grp, dict)
+        for it in grp.get("items", [])
+        if it.get("externalId")
+    }
+    q_cache = {}
+    if all_ext:
+        for q in db.query(Question).filter(Question.external_id.in_(list(all_ext))).all():
+            q_cache[q.external_id] = q
+
     # Group attempts by test number.
     by_test: dict[int, list] = {}
     for att in attempts:
@@ -260,7 +287,7 @@ def import_attempts(
             # Upsert all questions first.
             for section, items in sections.items():
                 for it in items:
-                    _upsert_question(db, it, section, domain_by_code, skill_by_code, stats)
+                    _upsert_question(db, it, section, domain_by_code, skill_by_code, stats, q_cache)
             # Classify + record module sets.
             classed = _classify_attempt(sections)
             for section, info in classed.items():

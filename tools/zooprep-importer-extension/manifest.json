@@ -9,7 +9,9 @@
     "https://digitalpractice-api.collegeboard.org/*",
     "http://localhost/*",
     "http://127.0.0.1/*",
-    "https://*.zooprep.com/*"
+    "https://zooprep.com/*",
+    "https://*.zooprep.com/*",
+    "https://*.up.railway.app/*"
   ],
   "icons": {
     "16": "icons/icon16.png",
@@ -46,6 +48,7 @@
       "matches": [
         "http://localhost/*",
         "http://127.0.0.1/*",
+        "https://zooprep.com/*",
         "https://*.zooprep.com/*"
       ],
       "js": ["zooprep-connect.js"],

@@ -103,3 +103,30 @@ def test_dry_run_creates_nothing(db, test_user):
     db.commit()
     assert db.query(TestSession).filter(
         TestSession.student_id == test_user.id).count() == 0
+
+
+def test_both_paths_one_bundle_no_duplicate_key(db, test_user):
+    """
+    Easier + harder attempts of the same test share an identical Module 1, so the
+    same external_id appears twice in one bundle. The import must dedupe and not
+    trip the questions.external_id unique constraint on flush.
+    """
+    bundle = {
+        "schemaVersion": 1,
+        "attempts": [
+            _load_attempt("pt7_easier_questions.json", "fp_dup_easier", "SAT Practice 7"),
+            _load_attempt("pt7_harder_questions.json", "fp_dup_harder", "SAT Practice 7"),
+        ],
+    }
+    res = import_bundle(db, bundle, student_id=test_user.id)
+    db.commit()  # would raise UniqueViolation here if dedup were broken
+    # Two attempts -> two sessions, one practice test seeded with all 6 modules.
+    sessions = (
+        db.query(TestSession)
+        .filter(TestSession.student_id == test_user.id,
+                TestSession.test_type == TestType.OFFICIAL_PRACTICE)
+        .all()
+    )
+    assert len(sessions) == 2
+    pt7 = [t for t in res["tests"] if t["test_number"] == 7]
+    assert pt7 and pt7[0]["modules_seeded"] == 6
