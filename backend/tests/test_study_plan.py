@@ -115,6 +115,33 @@ def test_second_import_populates_deltas(db, test_user):
     assert "skills" in pt7.deltas
 
 
+def test_reimport_backfills_missing_plan(db, test_user):
+    """
+    A re-import dedupes the session (no new row), but must still ensure the plan
+    exists — covers the case where the session predates the plan feature.
+    """
+    bundle = {"schemaVersion": 1, "attempts": [
+        _attempt("pt7_harder_questions.json", "fp_reimport", score=1050)]}
+    import_bundle(db, bundle, student_id=test_user.id)
+    db.commit()
+
+    # Simulate a pre-feature import: drop the plan, keep the session/responses.
+    session = (db.query(TestSession)
+               .filter(TestSession.student_id == test_user.id).first())
+    db.query(StudyPlan).filter(StudyPlan.test_session_id == session.id).delete()
+    db.commit()
+    assert db.query(StudyPlan).filter(StudyPlan.test_session_id == session.id).count() == 0
+
+    # Re-import the same attempt -> session deduped, but plan is regenerated.
+    res = import_bundle(db, bundle, student_id=test_user.id)
+    db.commit()
+    assert db.query(StudyPlan).filter(StudyPlan.test_session_id == session.id).count() == 1
+    # No duplicate session created.
+    assert (db.query(TestSession)
+            .filter(TestSession.student_id == test_user.id).count()) == 1
+    assert any(t.get("plans_created", 0) >= 1 for t in res["tests"])
+
+
 def test_plan_endpoint_owner_and_tutor(client, db, test_user, test_tutor):
     from app.core.security import create_access_token
     # import for the student

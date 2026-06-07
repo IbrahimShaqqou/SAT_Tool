@@ -90,6 +90,7 @@ const PracticeTestResultsPage = ({
     return ['overview', 'plan', 'review'].includes(t) ? t : 'overview';
   });
   const [filter, setFilter] = useState('all'); // all | incorrect | correct
+  const [planError, setPlanError] = useState(null);
 
   useEffect(() => {
     const load = async () => {
@@ -100,7 +101,10 @@ const PracticeTestResultsPage = ({
         const [res, rev, pln] = await Promise.all([
           getRes(sessionId),
           Promise.resolve(getRev(sessionId)).catch(() => null),
-          getStudyPlan(sessionId).catch(() => null),
+          getStudyPlan(sessionId).catch((e) => {
+            setPlanError(e?.response?.data?.detail || null);
+            return null;
+          }),
         ]);
         setResults(res);
         setReview(rev);
@@ -252,7 +256,7 @@ const PracticeTestResultsPage = ({
           </Section>
         </>
       ) : tab === 'plan' ? (
-        <StudyPlanView plan={plan} isTutorView={isTutorView} navigate={navigate} />
+        <StudyPlanView plan={plan} planError={planError} isTutorView={isTutorView} navigate={navigate} />
       ) : (
         /* ── Question-by-question review ─────────────────────────── */
         <div>
@@ -340,12 +344,20 @@ const DeltaStrip = ({ deltas }) => {
 };
 
 // The coaching plan: focus skills (learn → practice), also-review, next test.
-const StudyPlanView = ({ plan, isTutorView, navigate }) => {
+const StudyPlanView = ({ plan, planError, isTutorView, navigate }) => {
   if (!plan) {
     return (
-      <p className="rounded-xl border border-dashed border-edge px-4 py-10 text-center text-sm text-ink-subtle">
-        No plan for this test yet. Re-import it to generate one.
-      </p>
+      <div className="rounded-xl border border-dashed border-edge px-4 py-10 text-center">
+        <p className="text-sm text-ink-subtle">
+          {planError || 'No plan for this test yet. Re-import it to generate one.'}
+        </p>
+        {!isTutorView && (
+          <Button variant="secondary" size="sm" className="mt-4"
+            onClick={() => navigate('/student/practice-tests')}>
+            <Upload className="mr-1.5 h-4 w-4" /> Go to import
+          </Button>
+        )}
+      </div>
     );
   }
   const focus = plan.focus_skills || [];

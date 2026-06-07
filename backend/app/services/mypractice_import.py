@@ -374,21 +374,26 @@ def import_attempts(
             test_result["modules_seeded"] = len(module_configs)
 
         # Create per-student result records (sessions + responses) for each attempt,
-        # then generate the import-driven study plan for each (best-effort).
+        # then ensure/refresh the import-driven study plan for each (best-effort).
+        # Re-imports reuse the existing session, so we (re)generate plans for both
+        # newly-created AND already-existing sessions — that's how a re-import
+        # backfills a missing plan or refreshes deltas.
         results_created = 0
         plans_created = 0
         if student_id is not None and not dry_run:
-            new_sessions = []
+            plan_sessions = []
             for att in atts:
-                sess = _create_result_session(db, student_id, test_number, att)
-                if sess is not None:
+                sess, created = _create_result_session(db, student_id, test_number, att)
+                if sess is None:
+                    continue
+                if created:
                     results_created += 1
-                    new_sessions.append(sess)
-            if new_sessions:
+                plan_sessions.append(sess)
+            if plan_sessions:
                 db.flush()  # responses must be persisted before the plan reads them
-                for sess in new_sessions:
+                from app.services.study_plan_service import generate_plan_for_session
+                for sess in plan_sessions:
                     try:
-                        from app.services.study_plan_service import generate_plan_for_session
                         if generate_plan_for_session(db, sess) is not None:
                             plans_created += 1
                     except Exception as e:  # never fail the import on plan generation
@@ -412,13 +417,16 @@ def _create_result_session(db: Session, student_id, test_number: int, att: dict)
     """
     Turn one attempt into a completed OFFICIAL_PRACTICE TestSession + per-question
     StudentResponse rows, owned by `student_id`. Idempotent per (student, roster).
-    Returns the created TestSession, or None if it already existed / was skipped.
+
+    Returns (session, created): `created` is True for a new row, False when the
+    attempt already existed (we still return the existing session so the caller
+    can ensure/refresh its study plan). Returns (None, False) if unusable.
     """
     so = att.get("scoreObject") or {}
     roster = att.get("rosterEntryId") or so.get("rosterEntryId")
     sections = _questions_to_sections(att.get("questions"))
     if not sections:
-        return None
+        return None, False
 
     # Dedup: same student + same Bluebook attempt id.
     if roster:
@@ -432,7 +440,7 @@ def _create_result_session(db: Session, student_id, test_number: int, att: dict)
             .first()
         )
         if existing:
-            return None
+            return existing, False
 
     official = _extract_official_scores(so)
     total_score = official.get("total")
@@ -519,7 +527,7 @@ def _create_result_session(db: Session, student_id, test_number: int, att: dict)
                 is_correct=bool(ans.get("correct")),
                 submitted_at=completed_at or datetime.now(timezone.utc),
             ))
-    return session
+    return session, True
 
 
 def _parse_iso(value):

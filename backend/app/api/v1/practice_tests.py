@@ -909,10 +909,22 @@ def get_study_plan(
         .first()
     )
     if plan is None:
-        raise HTTPException(
-            status_code=404,
-            detail="No study plan for this test yet. Re-import it to generate one.",
+        # Distinguish "old import with no per-question data" (can't plan; needs a
+        # fresh extension export) from a generic miss.
+        has_responses = (
+            db.query(StudentResponse)
+            .filter(StudentResponse.test_session_id == session.id)
+            .first()
+            is not None
         )
+        detail = (
+            "This test was imported before per-question data was captured, so we "
+            "can't build a plan from it. Re-export it with the Bluebook importer "
+            "extension to get a full plan."
+            if not has_responses
+            else "No study plan for this test yet. Re-import it to generate one."
+        )
+        raise HTTPException(status_code=404, detail=detail)
 
     return StudyPlanResponse(
         session_id=session.id,
