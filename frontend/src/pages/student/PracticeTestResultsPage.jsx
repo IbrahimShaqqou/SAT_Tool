@@ -9,8 +9,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowRight, ArrowLeft, CheckCircle2, XCircle, Target, ListChecks,
+  Map as MapIcon, BookOpen, Dumbbell, TrendingUp, TrendingDown, Minus, Upload,
 } from 'lucide-react';
-import { getTestResults, getTestReview } from '../../services/practiceTestApi';
+import { getTestResults, getTestReview, getStudyPlan } from '../../services/practiceTestApi';
 import {
   Button, Skeleton, PageHeader, Section, StatBlock, StatusPill,
   AnimatedNumber, ProgressRing, Surface, MathHtml,
@@ -62,6 +63,7 @@ const SectionScore = ({ label, data }) => {
 
 const TABS = [
   { value: 'overview', label: 'Overview', icon: Target },
+  { value: 'plan', label: 'Study plan', icon: MapIcon },
   { value: 'review', label: 'Question review', icon: ListChecks },
 ];
 
@@ -80,9 +82,13 @@ const PracticeTestResultsPage = ({
   const navigate = useNavigate();
   const [results, setResults] = useState(null);
   const [review, setReview] = useState(null);
+  const [plan, setPlan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tab, setTab] = useState('overview');
+  const [tab, setTab] = useState(() => {
+    const t = new URLSearchParams(window.location.search).get('tab');
+    return ['overview', 'plan', 'review'].includes(t) ? t : 'overview';
+  });
   const [filter, setFilter] = useState('all'); // all | incorrect | correct
 
   useEffect(() => {
@@ -91,12 +97,14 @@ const PracticeTestResultsPage = ({
         setLoading(true);
         const getRes = fetchResults || getTestResults;
         const getRev = fetchReview || getTestReview;
-        const [res, rev] = await Promise.all([
+        const [res, rev, pln] = await Promise.all([
           getRes(sessionId),
           Promise.resolve(getRev(sessionId)).catch(() => null),
+          getStudyPlan(sessionId).catch(() => null),
         ]);
         setResults(res);
         setReview(rev);
+        setPlan(pln);
         setError(null);
       } catch (err) {
         console.error('Error loading results:', err);
@@ -206,6 +214,18 @@ const PracticeTestResultsPage = ({
             </ProgressRing>
           </div>
 
+          {/* Since your last test — delta strip */}
+          {plan?.deltas && (
+            <DeltaStrip deltas={plan.deltas} />
+          )}
+
+          {/* What to do next — funnels to the plan */}
+          <div className="mt-8">
+            <Button variant="primary" onClick={() => setTab('plan')}>
+              {isTutorView ? "See this student's plan" : 'What to do next'} <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+
           {/* Section scores */}
           <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
             <SectionScore label="Math" data={results.math} />
@@ -225,12 +245,14 @@ const PracticeTestResultsPage = ({
                 navigate(`/student/adaptive?skill=${s.skill_id}&autostart=true`)}
             />
             <div className="mt-8">
-              <Button variant={isTutorView ? 'secondary' : 'primary'} onClick={() => setTab('review')}>
+              <Button variant="secondary" onClick={() => setTab('review')}>
                 {isTutorView ? 'See question-by-question' : 'Review your answers'} <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
           </Section>
         </>
+      ) : tab === 'plan' ? (
+        <StudyPlanView plan={plan} isTutorView={isTutorView} navigate={navigate} />
       ) : (
         /* ── Question-by-question review ─────────────────────────── */
         <div>
@@ -269,6 +291,163 @@ const PracticeTestResultsPage = ({
           )}
         </div>
       )}
+    </div>
+  );
+};
+
+// "Since your last test" — score change + a few notable skill movements.
+const DeltaStrip = ({ deltas }) => {
+  const sc = deltas.score_change;
+  const movers = (deltas.skills || [])
+    .filter((s) => s.direction !== 'flat')
+    .sort((a, b) => (b.accuracy - b.prev_accuracy) - (a.accuracy - a.prev_accuracy));
+  const ups = movers.filter((s) => s.direction === 'up').slice(0, 2);
+  const downs = movers.filter((s) => s.direction === 'down').slice(-2);
+  const ScoreIcon = sc > 0 ? TrendingUp : sc < 0 ? TrendingDown : Minus;
+  const scoreTone = sc > 0 ? 'text-accent-700 dark:text-accent-300'
+    : sc < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-ink-muted';
+  return (
+    <div className="mt-8 rounded-2xl bg-surface-muted/60 p-5">
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-faint">
+        Since your last test{deltas.prev_test_number ? ` (PT${deltas.prev_test_number})` : ''}
+      </p>
+      <div className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3">
+        {sc != null && (
+          <div className="flex items-center gap-2">
+            <ScoreIcon className={`h-5 w-5 ${scoreTone}`} />
+            <span className={`font-display text-2xl font-semibold tabular-nums ${scoreTone}`}>
+              {sc > 0 ? '+' : ''}{sc}
+            </span>
+            <span className="text-sm text-ink-subtle">total score</span>
+          </div>
+        )}
+        {[...ups, ...downs].map((s) => {
+          const up = s.direction === 'up';
+          return (
+            <span key={s.skill_id} className="inline-flex items-center gap-1.5 text-sm">
+              {up ? <TrendingUp className="h-4 w-4 text-accent-600 dark:text-accent-400" />
+                  : <TrendingDown className="h-4 w-4 text-rose-500" />}
+              <span className="text-ink-body">{s.name}</span>
+              <span className="text-ink-subtle tabular-nums">
+                {Math.round(s.prev_accuracy)}→{Math.round(s.accuracy)}%
+              </span>
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// The coaching plan: focus skills (learn → practice), also-review, next test.
+const StudyPlanView = ({ plan, isTutorView, navigate }) => {
+  if (!plan) {
+    return (
+      <p className="rounded-xl border border-dashed border-edge px-4 py-10 text-center text-sm text-ink-subtle">
+        No plan for this test yet. Re-import it to generate one.
+      </p>
+    );
+  }
+  const focus = plan.focus_skills || [];
+  const also = plan.also_review || [];
+
+  return (
+    <div className="space-y-10">
+      {/* Focus skills */}
+      <Section title="Focus areas" hint="Your weakest skills on this test — start here" icon={Target}>
+        {focus.length === 0 ? (
+          <div className="flex items-center gap-3 rounded-xl border border-edge px-4 py-6 text-sm text-ink-muted">
+            <CheckCircle2 className="h-5 w-5 text-accent-500" />
+            Nothing fell below 70% — strong work. Keep practicing to stay sharp.
+          </div>
+        ) : (
+          <ol className="space-y-3">
+            {focus.map((s, i) => (
+              <li key={s.skill_id ?? i}>
+                <Surface className="rounded-2xl p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-500/15 text-xs font-bold text-brand-700 dark:text-brand-300">
+                          {i + 1}
+                        </span>
+                        <span className="truncate font-medium text-ink-body">{s.name}</span>
+                      </div>
+                      <p className="mt-1 pl-8 text-xs text-ink-subtle">
+                        {s.domain} · {s.correct}/{s.total} correct
+                      </p>
+                    </div>
+                    <StatusPill value={s.accuracy} size="sm" />
+                  </div>
+                  {!isTutorView && (
+                    <div className="mt-3 flex flex-wrap gap-2 pl-8">
+                      {s.lesson_id && (
+                        <Button variant="secondary" size="sm"
+                          onClick={() => navigate(`/student/lessons/${s.lesson_id}`)}>
+                          <BookOpen className="mr-1.5 h-4 w-4" /> Learn
+                        </Button>
+                      )}
+                      {s.skill_id && (
+                        <Button variant="primary" size="sm"
+                          onClick={() => navigate(`/student/adaptive?skill=${s.skill_id}&autostart=true`)}>
+                          <Dumbbell className="mr-1.5 h-4 w-4" /> Practice
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                  {isTutorView && (
+                    <p className="mt-2 pl-8 text-xs text-ink-faint">
+                      {s.lesson_id ? 'Lesson available · ' : 'No lesson yet · '}adaptive practice ready
+                    </p>
+                  )}
+                </Surface>
+              </li>
+            ))}
+          </ol>
+        )}
+      </Section>
+
+      {/* Also worth reviewing */}
+      {also.length > 0 && (
+        <Section title="Also worth reviewing" hint={`${also.length} more skills under 70%`}>
+          <ul className="flex flex-wrap gap-2">
+            {also.map((s, i) => (
+              <li key={s.skill_id ?? i}
+                className="inline-flex items-center gap-1.5 rounded-full bg-surface-muted px-3 py-1.5 text-xs text-ink-muted">
+                <span className="text-ink-body">{s.name}</span>
+                <span className="tabular-nums text-ink-faint">{Math.round(s.accuracy)}%</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {/* Next test */}
+      <Section title="Then take your next test" icon={Upload}>
+        <Surface glow="brand" className="rounded-2xl p-5">
+          {plan.recommended_next_test ? (
+            <>
+              <p className="font-display text-xl font-semibold text-ink-body">
+                Practice Test {plan.recommended_next_test}
+              </p>
+              <p className="mt-1.5 max-w-prose text-sm text-ink-muted">{plan.next_test_reason}</p>
+              {!isTutorView && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button variant="primary"
+                    onClick={() => window.open('https://mypractice.collegeboard.org', '_blank')}>
+                    Open Bluebook <ArrowRight className="h-4 w-4" />
+                  </Button>
+                  <Button variant="secondary" onClick={() => navigate('/student/practice-tests')}>
+                    Import when done
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-sm text-ink-muted">{plan.next_test_reason}</p>
+          )}
+        </Surface>
+      </Section>
     </div>
   );
 };

@@ -373,13 +373,28 @@ def import_attempts(
                 ))
             test_result["modules_seeded"] = len(module_configs)
 
-        # Create per-student result records (sessions + responses) for each attempt.
+        # Create per-student result records (sessions + responses) for each attempt,
+        # then generate the import-driven study plan for each (best-effort).
         results_created = 0
+        plans_created = 0
         if student_id is not None and not dry_run:
+            new_sessions = []
             for att in atts:
-                if _create_result_session(db, student_id, test_number, att):
+                sess = _create_result_session(db, student_id, test_number, att)
+                if sess is not None:
                     results_created += 1
+                    new_sessions.append(sess)
+            if new_sessions:
+                db.flush()  # responses must be persisted before the plan reads them
+                for sess in new_sessions:
+                    try:
+                        from app.services.study_plan_service import generate_plan_for_session
+                        if generate_plan_for_session(db, sess) is not None:
+                            plans_created += 1
+                    except Exception as e:  # never fail the import on plan generation
+                        print(f"[import] study plan generation failed for {sess.id}: {e}")
         test_result["results_created"] = results_created
+        test_result["plans_created"] = plans_created
 
         tests_summary.append(test_result)
 
@@ -393,17 +408,17 @@ def import_attempts(
 # --------------------------------------------------------------------------- #
 # Per-student result records
 # --------------------------------------------------------------------------- #
-def _create_result_session(db: Session, student_id, test_number: int, att: dict) -> bool:
+def _create_result_session(db: Session, student_id, test_number: int, att: dict):
     """
     Turn one attempt into a completed OFFICIAL_PRACTICE TestSession + per-question
     StudentResponse rows, owned by `student_id`. Idempotent per (student, roster).
-    Returns True if a new session was created, False if it already existed/skipped.
+    Returns the created TestSession, or None if it already existed / was skipped.
     """
     so = att.get("scoreObject") or {}
     roster = att.get("rosterEntryId") or so.get("rosterEntryId")
     sections = _questions_to_sections(att.get("questions"))
     if not sections:
-        return False
+        return None
 
     # Dedup: same student + same Bluebook attempt id.
     if roster:
@@ -417,7 +432,7 @@ def _create_result_session(db: Session, student_id, test_number: int, att: dict)
             .first()
         )
         if existing:
-            return False
+            return None
 
     official = _extract_official_scores(so)
     total_score = official.get("total")
@@ -504,7 +519,7 @@ def _create_result_session(db: Session, student_id, test_number: int, att: dict)
                 is_correct=bool(ans.get("correct")),
                 submitted_at=completed_at or datetime.now(timezone.utc),
             ))
-    return True
+    return session
 
 
 def _parse_iso(value):

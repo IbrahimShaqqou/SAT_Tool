@@ -68,6 +68,9 @@ from app.models.lesson import Lesson, LessonCompletion, LessonStatus
 # Explanations
 from app.models.question_explanation import QuestionExplanation
 
+# Study plans (import-driven)
+from app.models.study_plan import StudyPlan
+
 
 __all__ = [
     # Enums
@@ -109,4 +112,5 @@ __all__ = [
     "LessonCompletion",
     "LessonStatus",
     "QuestionExplanation",
+    "StudyPlan",
 ]

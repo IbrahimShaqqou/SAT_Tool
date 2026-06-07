@@ -872,3 +872,56 @@ def get_test_review(
     skill_items.sort(key=lambda s: (s.accuracy, -s.total))
 
     return ReviewResponse(questions=review, skills=skill_items)
+
+
+# ===== Import-driven study plan =====
+
+class StudyPlanResponse(BaseModel):
+    """The coaching plan generated from an imported attempt."""
+    session_id: UUID
+    test_number: Optional[int] = None
+    test_name: Optional[str] = None
+    focus_skills: List[dict] = Field(default_factory=list)
+    also_review: List[dict] = Field(default_factory=list)
+    recommended_next_test: Optional[int] = None
+    next_test_reason: Optional[str] = None
+    deltas: Optional[dict] = None
+    created_at: Optional[datetime] = None
+
+
+@router.get("/sessions/{session_id}/plan", response_model=StudyPlanResponse)
+def get_study_plan(
+    session_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    The import-driven study plan for a completed practice test. Viewable by the
+    student or their tutor. 404 if no plan exists (e.g. an import predating this
+    feature, or one with no per-question data).
+    """
+    session = _get_session_for_viewer(session_id, current_user, db)
+
+    from app.models.study_plan import StudyPlan
+    plan = (
+        db.query(StudyPlan)
+        .filter(StudyPlan.test_session_id == session.id)
+        .first()
+    )
+    if plan is None:
+        raise HTTPException(
+            status_code=404,
+            detail="No study plan for this test yet. Re-import it to generate one.",
+        )
+
+    return StudyPlanResponse(
+        session_id=session.id,
+        test_number=plan.test_number,
+        test_name=session.title,
+        focus_skills=plan.focus_skills or [],
+        also_review=plan.also_review or [],
+        recommended_next_test=plan.recommended_next_test,
+        next_test_reason=plan.next_test_reason,
+        deltas=plan.deltas,
+        created_at=plan.created_at,
+    )

@@ -89,6 +89,15 @@ export const getTestReview = async (sessionId) => {
   return response.data;
 };
 
+/**
+ * The import-driven study plan for a completed session (focus skills, next test,
+ * deltas). Viewable by the student or their tutor.
+ */
+export const getStudyPlan = async (sessionId) => {
+  const response = await api.get(`/practice-tests/sessions/${sessionId}/plan`);
+  return response.data;
+};
+
 const practiceTestApi = {
   listPracticeTests,
   getPracticeTest,
@@ -98,7 +107,8 @@ const practiceTestApi = {
   getTestResults,
   importBundle,
   listMyResults,
-  getTestReview
+  getTestReview,
+  getStudyPlan
 };
 
 export default practiceTestApi;

@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
-  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap, ChevronRight,
+  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap,
 } from 'lucide-react';
 import {
   Button, Skeleton, ThetaBar,
@@ -189,11 +189,11 @@ const StudentDetailPage = () => {
             return fullLength.length > 0 ? (
               <ul className="divide-y divide-edge-subtle">
                 {fullLength.map((s) => (
-                  <li key={s.id}>
+                  <li key={s.id} className="flex items-center gap-3 rounded-lg px-2 py-3.5 transition-colors hover:bg-surface-muted">
                     <button
                       type="button"
                       onClick={() => navigate(`/tutor/students/${id}/practice-tests/${s.id}`)}
-                      className="flex w-full items-center justify-between gap-3 rounded-lg px-2 py-3.5 text-left transition-colors hover:bg-surface-muted"
+                      className="flex min-w-0 flex-1 items-center justify-between gap-3 text-left"
                     >
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
@@ -206,13 +206,17 @@ const StudentDetailPage = () => {
                         </div>
                         <p className="text-xs text-ink-subtle">{fmtDate(s.completed_at)}</p>
                       </div>
-                      <span className="flex items-center gap-3">
-                        {s.scaled_score != null && (
-                          <span className="font-display text-2xl font-semibold tabular-nums text-ink-body">{s.scaled_score}</span>
-                        )}
-                        <ChevronRight className="h-4 w-4 shrink-0 text-ink-faint" />
-                      </span>
+                      {s.scaled_score != null && (
+                        <span className="font-display text-2xl font-semibold tabular-nums text-ink-body">{s.scaled_score}</span>
+                      )}
                     </button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => navigate(`/tutor/students/${id}/practice-tests/${s.id}?tab=plan`)}
+                    >
+                      View plan
+                    </Button>
                   </li>
                 ))}
               </ul>
