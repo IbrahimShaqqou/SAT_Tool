@@ -25,6 +25,35 @@ if settings.sentry_dsn and settings.environment == "production":
         profiles_sample_rate=0.1,  # 10% of sampled transactions for profiling
     )
 
+def _ensure_enum_values() -> None:
+    """
+    Idempotent safety net for enum labels the app relies on.
+
+    Postgres enum values are added by migrations, but if a deploy's DB is behind
+    on a specific `ALTER TYPE ... ADD VALUE` migration (these can't run in a
+    transaction and are easy to miss), inserts fail at runtime. Adding the value
+    here with IF NOT EXISTS is safe to run on every boot and self-heals such DBs.
+    """
+    from sqlalchemy import text
+    from app.database import engine
+
+    # Values are hardcoded constants (never user input), so inlining them as SQL
+    # literals is safe — DDL doesn't accept bound parameters anyway.
+    required = {
+        "testtype": ["OFFICIAL_PRACTICE"],
+    }
+    try:
+        # AUTOCOMMIT: ALTER TYPE ... ADD VALUE cannot run inside a transaction.
+        with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
+            for enum_name, values in required.items():
+                for value in values:
+                    conn.execute(
+                        text(f"ALTER TYPE {enum_name} ADD VALUE IF NOT EXISTS '{value}'")
+                    )
+    except Exception as exc:  # never block startup on this guard
+        print(f"[startup] enum guard skipped: {exc}")
+
+
 # Create FastAPI application
 app = FastAPI(
     title="ZooPrep API",
@@ -34,6 +63,11 @@ app = FastAPI(
     redoc_url="/api/redoc",
     openapi_url="/api/openapi.json",
 )
+
+
+@app.on_event("startup")
+def _startup_enum_guard() -> None:
+    _ensure_enum_values()
 
 # Configure rate limiting
 app.state.limiter = limiter
