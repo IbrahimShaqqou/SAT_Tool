@@ -167,7 +167,11 @@ const ResultsPage = () => {
 
   const score = assignment.score_percentage || 0;
   const correct = assignment.questions_correct || 0;
-  const total = assignment.total_questions || 0;
+  // Unlimited adaptive assignments have no fixed length — score over what was
+  // answered, and show "X correct of Y answered" instead of a headline percent.
+  const isUnlimited = assignment.is_adaptive && !assignment.total_questions;
+  const answered = assignment.questions_answered || 0;
+  const total = isUnlimited ? answered : (assignment.total_questions || 0);
 
   return (
     <div className="mx-auto max-w-3xl pb-8">
@@ -176,24 +180,34 @@ const ResultsPage = () => {
       </Link>
       <PageHeader eyebrow="Results" title={assignment.title} />
 
-      {/* Score hero */}
-      <div className="flex items-center justify-between gap-6 border-y border-edge py-7">
-        <div>
+      {/* Score hero — fixed-length shows a %, unlimited shows correct/answered */}
+      {isUnlimited ? (
+        <div className="border-y border-edge py-7">
           <div className="flex items-end gap-2">
-            <AnimatedNumber value={Math.round(score)} suffix="%" className="font-display text-[4.5rem] leading-[0.86] font-semibold tracking-tight text-ink-body" />
+            <AnimatedNumber value={correct} className="font-display text-[4.5rem] leading-[0.86] font-semibold tracking-tight text-ink-body" />
+            <span className="mb-2 text-2xl font-medium text-ink-subtle">/ {answered}</span>
           </div>
-          <div className="mt-3 flex items-center gap-4 text-sm">
-            <span className="flex items-center gap-1.5 text-ink-muted"><CheckCircle className="h-4 w-4 text-accent-600 dark:text-accent-400" /> {correct} correct</span>
-            <span className="flex items-center gap-1.5 text-ink-muted"><XCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" /> {total - correct} incorrect</span>
-          </div>
+          <p className="mt-3 text-sm text-ink-muted">correct out of {answered} answered</p>
         </div>
-        <ProgressRing value={score} size={104} stroke={9} label={`Score ${Math.round(score)} percent`}>
-          <StatusPill value={score} />
-        </ProgressRing>
-      </div>
+      ) : (
+        <div className="flex items-center justify-between gap-6 border-y border-edge py-7">
+          <div>
+            <div className="flex items-end gap-2">
+              <AnimatedNumber value={Math.round(score)} suffix="%" className="font-display text-[4.5rem] leading-[0.86] font-semibold tracking-tight text-ink-body" />
+            </div>
+            <div className="mt-3 flex items-center gap-4 text-sm">
+              <span className="flex items-center gap-1.5 text-ink-muted"><CheckCircle className="h-4 w-4 text-accent-600 dark:text-accent-400" /> {correct} correct</span>
+              <span className="flex items-center gap-1.5 text-ink-muted"><XCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" /> {total - correct} incorrect</span>
+            </div>
+          </div>
+          <ProgressRing value={score} size={104} stroke={9} label={`Score ${Math.round(score)} percent`}>
+            <StatusPill value={score} />
+          </ProgressRing>
+        </div>
+      )}
 
       {/* Question review */}
-      <Section className="mt-10" title="Question review" hint={`${total} questions`}>
+      <Section className="mt-10" title="Question review" hint={`${total} question${total === 1 ? '' : 's'}`}>
         <ul className="divide-y divide-edge-subtle">
           {questions.map((q, i) => <QuestionResult key={q.question_id} question={q} index={i} />)}
         </ul>

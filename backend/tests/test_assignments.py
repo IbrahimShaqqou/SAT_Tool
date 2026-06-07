@@ -459,6 +459,64 @@ class TestStartAssignment:
         assert data["status"] == "in_progress"
         assert data["started_at"] is not None
 
+    def test_answer_unlimited_adaptive_assignment(
+        self,
+        client: TestClient,
+        auth_headers: dict,
+        tutor_headers: dict,
+        test_user: User,
+        sample_questions: list[Question],
+    ):
+        """
+        Regression: an adaptive assignment created WITHOUT a question_count
+        (unlimited) leaves session.total_questions = None. Submitting an answer
+        must not crash on `questions_so_far < session.total_questions`.
+        """
+        create_resp = client.post(
+            "/api/v1/assignments",
+            json={
+                "student_id": str(test_user.id),
+                "title": "Unlimited Adaptive",
+                "subject": "math",
+                "is_adaptive": True,
+                "question_count": None,  # explicit unlimited (what the tutor UI sends)
+            },
+            headers=tutor_headers,
+        )
+        assert create_resp.status_code == 201, create_resp.text
+        assignment_id = create_resp.json()["id"]
+
+        client.post(f"/api/v1/assignments/{assignment_id}/start", headers=auth_headers)
+
+        answer_resp = client.post(
+            f"/api/v1/assignments/{assignment_id}/answer",
+            json={"answer": {"index": 1}, "time_spent_seconds": 5},
+            headers=auth_headers,
+        )
+        assert answer_resp.status_code == 200, answer_resp.text
+        body = answer_resp.json()
+        # Unlimited: there should be a next question (more candidates remain).
+        assert body["assignment_complete"] is False
+        assert body["next_question_index"] is not None
+
+        # Answer a couple more, then the student ends it manually — submit must
+        # not 500 and must score over the questions actually answered.
+        client.post(
+            f"/api/v1/assignments/{assignment_id}/answer",
+            json={"answer": {"index": 1}, "time_spent_seconds": 5},
+            headers=auth_headers,
+        )
+        submit_resp = client.post(
+            f"/api/v1/assignments/{assignment_id}/submit",
+            json={}, headers=auth_headers,
+        )
+        assert submit_resp.status_code == 200, submit_resp.text
+        result = submit_resp.json()
+        # Two questions answered, both correct (index 1) -> 100%, total = 2.
+        assert result["total_questions"] == 2
+        assert result["questions_correct"] == 2
+        assert result["score_percentage"] == 100.0
+
     def test_start_assignment_already_started(
         self,
         client: TestClient,

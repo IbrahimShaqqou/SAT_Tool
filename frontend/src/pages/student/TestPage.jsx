@@ -399,8 +399,16 @@ const TestPage = () => {
       setAdaptiveAnswerChecked(true);
       setShowExplanation(true); // Auto-show explanation in adaptive mode
     } catch (err) {
-      console.error('Failed to check answer:', err);
-      setError('Failed to check answer. Please try again.');
+      // Surface the real backend status + detail (the bare error object is
+      // minified to something like "Lt" in production builds and tells us nothing).
+      const status = err?.response?.status;
+      const detail = err?.response?.data?.detail;
+      console.error('Failed to check answer:', { status, detail, err });
+      setError(
+        detail
+          ? `Couldn't check your answer: ${detail}`
+          : 'Failed to check answer. Please try again.'
+      );
     } finally {
       setIsCheckingAnswer(false);
     }
@@ -408,12 +416,14 @@ const TestPage = () => {
 
   // Adaptive mode: Load next question
   const handleAdaptiveNext = useCallback(async () => {
-    const totalNeeded = assignment?.total_questions || 10;
+    // Unlimited assignments (no total_questions) keep going until the student
+    // chooses to finish — never auto-submit on a count.
+    const unlimited = !assignment?.total_questions;
+    const totalNeeded = assignment?.total_questions || 0;
     const questionsAnswered = Object.keys(checkedAnswers).length;
 
-    // Check if this was the last question
-    if (questionsAnswered >= totalNeeded) {
-      // Submit/complete the assignment
+    // Fixed-length assignment: auto-complete after the last question.
+    if (!unlimited && questionsAnswered >= totalNeeded) {
       handleSubmit(false);
       return;
     }
@@ -685,9 +695,12 @@ const TestPage = () => {
 
   // Bottom navigation bar (fixed to viewport bottom)
   // Different layout for adaptive vs regular mode
-  const totalNeeded = assignment?.total_questions || 10;
+  const isUnlimited = !assignment?.total_questions;
+  const totalNeeded = assignment?.total_questions || 0;
   const questionsAnsweredCount = Object.keys(checkedAnswers).length;
-  const isLastAdaptiveQuestion = questionsAnsweredCount >= totalNeeded - 1 && adaptiveAnswerChecked;
+  // Fixed-length: the last question shows Finish. Unlimited: never "last".
+  const isLastAdaptiveQuestion =
+    !isUnlimited && questionsAnsweredCount >= totalNeeded - 1 && adaptiveAnswerChecked;
 
   const bottomNavBar = isAdaptive ? (
     // Adaptive mode: simpler navigation with Check/Next flow
@@ -695,13 +708,13 @@ const TestPage = () => {
       {/* Progress indicator */}
       <div className="flex items-center justify-center py-2 border-b border-edge-subtle">
         <span className="text-sm text-ink-muted">
-          Question <span className="font-semibold">{questionsAnsweredCount + 1}</span> of{' '}
-          <span className="font-semibold">{totalNeeded}</span>
+          Question <span className="font-semibold">{questionsAnsweredCount + 1}</span>
+          {!isUnlimited && <> of <span className="font-semibold">{totalNeeded}</span></>}
         </span>
       </div>
 
-      {/* Single action button */}
-      <div className="flex items-center justify-center px-4 py-3">
+      {/* Action buttons */}
+      <div className="flex items-center justify-center gap-3 px-4 py-3">
         {!adaptiveAnswerChecked ? (
           // Show Check Answer button
           <Button
@@ -713,7 +726,7 @@ const TestPage = () => {
             {isCheckingAnswer ? 'Checking...' : 'Check Answer'}
           </Button>
         ) : isLastAdaptiveQuestion ? (
-          // Last question - show Finish button
+          // Last question (fixed-length) - show Finish button
           <Button
             variant="primary"
             onClick={() => handleSubmit(false)}
@@ -723,15 +736,26 @@ const TestPage = () => {
             {isSubmitting ? 'Submitting...' : 'Finish'}
           </Button>
         ) : (
-          // Show Next Question button
-          <Button
-            variant="primary"
-            onClick={handleAdaptiveNext}
-            disabled={isLoadingNextQuestion}
-            className="min-w-[200px]"
-          >
-            {isLoadingNextQuestion ? 'Loading...' : 'Next Question'}
-          </Button>
+          // Next Question — plus, for unlimited assignments, a way to end now.
+          <>
+            <Button
+              variant="primary"
+              onClick={handleAdaptiveNext}
+              disabled={isLoadingNextQuestion}
+              className="min-w-[200px]"
+            >
+              {isLoadingNextQuestion ? 'Loading...' : 'Next Question'}
+            </Button>
+            {isUnlimited && (
+              <Button
+                variant="secondary"
+                onClick={() => handleSubmit(false)}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Finishing...' : 'Finish'}
+              </Button>
+            )}
+          </>
         )}
       </div>
     </div>

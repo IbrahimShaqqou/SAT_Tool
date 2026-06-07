@@ -823,9 +823,11 @@ def submit_assignment_answer(
                 db, current_user.id, question.skill_id, question, is_correct
             )
 
-        # Check if we need more questions
+        # Check if we need more questions. total_questions is None for an
+        # unlimited adaptive assignment — in that case always select another
+        # (the student decides when to stop).
         questions_so_far = session.questions_answered or 0
-        if questions_so_far < session.total_questions:
+        if session.total_questions is None or questions_so_far < session.total_questions:
             # Get all used question IDs
             used_question_ids = [
                 tq.question_id for tq in db.query(TestQuestion).filter(
@@ -865,8 +867,10 @@ def submit_assignment_answer(
         else:
             assignment_complete = True
     elif not answer_data.question_id:
-        # Non-adaptive sequential mode - advance current_question_index
-        if session.current_question_index + 1 < session.total_questions:
+        # Non-adaptive sequential mode - advance current_question_index.
+        # (total_questions is always set for non-adaptive; guard None defensively.)
+        total = session.total_questions or 0
+        if session.current_question_index + 1 < total:
             session.current_question_index += 1
             next_question_index = session.current_question_index
         else:
@@ -920,8 +924,17 @@ def submit_assignment(
             detail="No active session found",
         )
 
-    # Calculate score based on total questions (unanswered = wrong)
-    total = session.total_questions or assignment.question_count or 1
+    # Score denominator: for a fixed-length assignment, unanswered questions
+    # count as wrong (use total_questions). For an unlimited adaptive assignment
+    # (no fixed total), score over the questions actually answered.
+    answered = session.questions_answered or 0
+    if session.total_questions:
+        total = session.total_questions
+    elif assignment.question_count:
+        total = assignment.question_count
+    else:
+        total = answered  # unlimited
+    total = total or 1  # guard divide-by-zero (no questions answered at all)
     score_percentage = ((session.questions_correct or 0) / total) * 100
 
     # Update session
@@ -950,8 +963,10 @@ def submit_assignment(
         id=assignment.id,
         status=assignment.status,
         score_percentage=score_percentage,
-        questions_correct=session.questions_correct,
-        total_questions=session.total_questions,
+        questions_correct=session.questions_correct or 0,
+        # For unlimited assignments total_questions is None; report the number
+        # actually answered (the schema requires an int and that's the real total).
+        total_questions=session.total_questions or answered,
         target_score=assignment.target_score,
         passed=passed,
         time_expired=time_expired,
