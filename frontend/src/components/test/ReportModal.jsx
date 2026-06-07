@@ -38,16 +38,17 @@ const ReportModal = ({ questionId, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-md">
+      <div className="bg-surface-card rounded-xl shadow-xl w-full max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2 text-gray-800 dark:text-gray-100 font-semibold">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-edge">
+          <div className="flex items-center gap-2 text-ink-body font-semibold">
             <AlertTriangle className="h-5 w-5 text-amber-500" />
             Report a Problem
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500"
+            aria-label="Close"
+            className="p-1 rounded hover:bg-surface-muted text-ink-subtle"
           >
             <X className="h-5 w-5" />
           </button>
@@ -57,19 +58,19 @@ const ReportModal = ({ questionId, onClose }) => {
         <div className="px-5 py-5">
           {submitted ? (
             <div className="flex flex-col items-center gap-3 py-4 text-center">
-              <CheckCircle2 className="h-10 w-10 text-green-500" />
-              <p className="text-gray-800 dark:text-gray-100 font-medium">Report submitted — thanks!</p>
-              <p className="text-sm text-gray-500">We'll review this question and fix any issues.</p>
+              <CheckCircle2 className="h-10 w-10 text-emerald-500" />
+              <p className="text-ink-body font-medium">Report submitted — thanks!</p>
+              <p className="text-sm text-ink-subtle">We'll review this question and fix any issues.</p>
               <button
                 onClick={onClose}
-                className="mt-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="mt-2 px-4 py-2 bg-surface-muted rounded-lg text-sm hover:bg-surface-page"
               >
                 Close
               </button>
             </div>
           ) : (
             <>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <p className="text-sm text-ink-subtle mb-4">
                 What's wrong with question #{questionId}?
               </p>
 
@@ -80,8 +81,8 @@ const ReportModal = ({ questionId, onClose }) => {
                     key={r.value}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border cursor-pointer transition-colors ${
                       reason === r.value
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200'
-                        : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20 text-brand-800 dark:text-brand-200'
+                        : 'border-edge hover:bg-surface-muted text-ink-muted'
                     }`}
                   >
                     <input
@@ -90,7 +91,7 @@ const ReportModal = ({ questionId, onClose }) => {
                       value={r.value}
                       checked={reason === r.value}
                       onChange={() => { setReason(r.value); setError(''); }}
-                      className="accent-blue-500"
+                      className="accent-brand-500"
                     />
                     <span className="text-sm">{r.label}</span>
                   </label>
@@ -104,23 +105,23 @@ const ReportModal = ({ questionId, onClose }) => {
                 onChange={(e) => setNotes(e.target.value)}
                 maxLength={500}
                 rows={3}
-                className="w-full text-sm px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full text-sm px-3 py-2 border border-edge rounded-lg bg-surface-input text-ink-body placeholder-ink-faint focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 resize-none"
               />
 
-              {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+              {error && <p className="mt-2 text-sm text-rose-600">{error}</p>}
 
               {/* Actions */}
               <div className="flex justify-end gap-3 mt-4">
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 text-sm rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="px-4 py-2 text-sm rounded-lg text-ink-muted hover:bg-surface-muted"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 text-sm rounded-lg bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-50"
                 >
                   {submitting ? 'Submitting…' : 'Submit Report'}
                 </button>

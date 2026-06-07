@@ -20,6 +20,7 @@ import { PublicQuestionBankPage, PublicLessonsPage, PublicLessonViewerPage } fro
 import TutorDashboard from './pages/tutor/DashboardPage';
 import TutorStudents from './pages/tutor/StudentsPage';
 import StudentDetail from './pages/tutor/StudentDetailPage';
+import StudentPracticeTestResultPage from './pages/tutor/StudentPracticeTestResultPage';
 import TutorAssignments from './pages/tutor/AssignmentsPage';
 import CreateAssignment from './pages/tutor/CreateAssignmentPage';
 import TutorAnalytics from './pages/tutor/AnalyticsPage';
@@ -90,6 +91,7 @@ function App() {
         <Route path="/tutor" element={<TutorDashboard />} />
         <Route path="/tutor/students" element={<TutorStudents />} />
         <Route path="/tutor/students/:id" element={<StudentDetail />} />
+        <Route path="/tutor/students/:id/practice-tests/:sessionId" element={<StudentPracticeTestResultPage />} />
         <Route path="/tutor/students/:studentId/results/:sessionId" element={<StudentResultsPage />} />
         <Route path="/tutor/assignments" element={<TutorAssignments />} />
         <Route path="/tutor/assignments/new" element={<CreateAssignment />} />
@@ -125,6 +127,7 @@ function App() {
         <Route path="/student/full-length/:id" element={<FullLengthTestPage />} />
         <Route path="/student/full-length/:id/results" element={<FullLengthResultsPage />} />
         <Route path="/student/practice-tests" element={<PracticeTestsPage />} />
+        <Route path="/student/practice-tests/import" element={<Navigate to="/student/practice-tests" replace />} />
         <Route path="/student/practice-tests/:testNumber/start" element={<PracticeTestStartPage />} />
         <Route path="/student/practice-tests/results/:sessionId" element={<PracticeTestResultsPage />} />
         <Route path="/student/progress" element={<ProgressPage />} />

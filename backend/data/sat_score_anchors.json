@@ -1,0 +1,259 @@
+{
+  "_comment": "Real CB (raw_section_correct -> scaled) anchors per test/section/path. Ground-truth path from captured attempts; path-blind /scores points assigned via upper-envelope (inferred). Sparse \u2014 engine interpolates between anchors and falls back to the calibrated linear model where <2 bracketing anchors exist. Generated 2026-06-05.",
+  "tests": {
+    "4": {
+      "math": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            4,
+            200
+          ],
+          [
+            22,
+            550
+          ],
+          [
+            28,
+            630
+          ],
+          [
+            36,
+            700
+          ],
+          [
+            39,
+            750
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ],
+          [
+            1,
+            200
+          ],
+          [
+            29,
+            590
+          ],
+          [
+            31,
+            600
+          ]
+        ]
+      },
+      "reading_writing": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            25,
+            510
+          ],
+          [
+            27,
+            530
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      }
+    },
+    "5": {
+      "math": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            22,
+            530
+          ],
+          [
+            24,
+            560
+          ],
+          [
+            36,
+            700
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      },
+      "reading_writing": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            27,
+            520
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      }
+    },
+    "6": {
+      "math": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            22,
+            540
+          ],
+          [
+            25,
+            540
+          ],
+          [
+            28,
+            600
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      },
+      "reading_writing": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            6,
+            200
+          ],
+          [
+            27,
+            520
+          ],
+          [
+            37,
+            600
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      }
+    },
+    "7": {
+      "math": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            22,
+            540
+          ],
+          [
+            39,
+            710
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      },
+      "reading_writing": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            14,
+            200
+          ],
+          [
+            27,
+            510
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      }
+    },
+    "10": {
+      "math": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            23,
+            570
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      },
+      "reading_writing": {
+        "harder": [
+          [
+            0,
+            200
+          ],
+          [
+            9,
+            200
+          ]
+        ],
+        "easier": [
+          [
+            0,
+            200
+          ]
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "ZooPrep Bluebook Importer",
+  "version": "0.1.0",
+  "description": "Export your official College Board MyPractice results (scores + questions) and import them into ZooPrep.",
+  "permissions": ["storage", "downloads"],
+  "host_permissions": [
+    "https://mypractice.collegeboard.org/*",
+    "https://digitalpractice-api.collegeboard.org/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "https://*.zooprep.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "ZooPrep Importer",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mypractice.collegeboard.org/*"],
+      "js": ["content-bridge.js"],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    },
+    {
+      "matches": ["https://mypractice.collegeboard.org/*"],
+      "js": ["page-hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "http://localhost/*",
+        "http://127.0.0.1/*",
+        "https://*.zooprep.com/*"
+      ],
+      "js": ["zooprep-connect.js"],
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    }
+  ]
+}

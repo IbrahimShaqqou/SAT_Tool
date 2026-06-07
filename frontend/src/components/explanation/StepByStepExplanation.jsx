@@ -41,17 +41,17 @@ function injectHighlights(html, highlights) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TYPE_META = {
-  math:    { label: 'Math',    bg: 'bg-blue-600',    gradient: 'from-blue-600 to-indigo-600' },
-  reading: { label: 'Reading', bg: 'bg-emerald-600', gradient: 'from-emerald-500 to-teal-600' },
-  grammar: { label: 'Grammar', bg: 'bg-violet-600',  gradient: 'from-violet-600 to-purple-600' },
+  math:    { label: 'Math',    bg: 'bg-brand-600',   gradient: 'from-brand-500 to-brand-700' },
+  reading: { label: 'Reading', bg: 'bg-emerald-600', gradient: 'from-emerald-500 to-emerald-700' },
+  grammar: { label: 'Grammar', bg: 'bg-accent-600',  gradient: 'from-accent-500 to-accent-700' },
 };
 
 const STEP_COLORS = [
-  'bg-blue-500',
-  'bg-indigo-500',
-  'bg-violet-500',
-  'bg-purple-500',
-  'bg-pink-500',
+  'bg-brand-500',
+  'bg-brand-600',
+  'bg-brand-700',
+  'bg-accent-600',
+  'bg-accent-700',
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -111,14 +111,14 @@ const StepByStepExplanation = ({
     return (
       <div className="flex items-center justify-center py-8">
         <LoadingSpinner size="sm" />
-        <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">Loading explanation…</span>
+        <span className="ml-2 text-sm text-ink-subtle">Loading explanation…</span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-500 dark:text-gray-400 italic">
+      <div className="mt-4 p-4 bg-surface-muted border border-edge rounded-lg text-sm text-ink-subtle italic">
         {error}
       </div>
     );
@@ -157,7 +157,7 @@ const StepByStepExplanation = ({
     : null;
 
   return (
-    <div className="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+    <div className="mt-4 rounded-xl border border-edge overflow-hidden shadow-sm">
 
       {/* ── Header ── */}
       <div className={`bg-gradient-to-r ${meta.gradient} px-5 py-4 flex items-start justify-between`}>
@@ -185,7 +185,7 @@ const StepByStepExplanation = ({
 
       {/* ── Step tabs (mobile: horizontal scroll; lg: subtle numbered list) ── */}
       {total > 1 && (
-        <div ref={tabsRef} className="flex gap-1 px-4 pt-3 overflow-x-auto bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 scrollbar-hide">
+        <div ref={tabsRef} className="flex gap-1 px-4 pt-3 overflow-x-auto bg-surface-card border-b border-edge-subtle scrollbar-hide">
           {steps.map((s, i) => (
             <button
               key={i}
@@ -197,12 +197,12 @@ const StepByStepExplanation = ({
                 transition-colors border-b-2
                 ${i === activeStep
                   ? `${STEP_COLORS[i % STEP_COLORS.length]} text-white border-transparent`
-                  : 'text-gray-500 dark:text-gray-400 bg-transparent border-transparent hover:text-gray-700 dark:hover:text-gray-200'}
+                  : 'text-ink-subtle bg-transparent border-transparent hover:text-ink-muted'}
               `}
             >
               <span className={`
                 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0
-                ${i === activeStep ? 'bg-white/30' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}
+                ${i === activeStep ? 'bg-white/30' : 'bg-surface-muted text-ink-muted'}
               `}>
                 {i + 1}
               </span>
@@ -213,12 +213,12 @@ const StepByStepExplanation = ({
       )}
 
       {/* ── Active step body ── */}
-      <div className="bg-white dark:bg-gray-900 px-5 py-4">
+      <div className="bg-surface-card px-5 py-4">
 
         {/* Step title (shown on mobile where tab label is hidden) */}
         <h3 className={`font-semibold text-base mb-3 ${
-          type === 'math' ? 'text-blue-700 dark:text-blue-400'
-          : type === 'grammar' ? 'text-violet-700 dark:text-violet-400'
+          type === 'math' ? 'text-brand-700 dark:text-brand-400'
+          : type === 'grammar' ? 'text-accent-700 dark:text-accent-400'
           : 'text-emerald-700 dark:text-emerald-400'
         }`}>
           Step {activeStep + 1}: {step?.title}
@@ -227,7 +227,7 @@ const StepByStepExplanation = ({
         {/* Step content (markdown rendered) */}
         {step?.content && (
           <div
-            className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed mb-3"
+            className="prose prose-sm dark:prose-invert max-w-none text-ink-body leading-relaxed mb-3"
             dangerouslySetInnerHTML={{ __html: parseMarkdown(step.content) }}
           />
         )}
@@ -249,7 +249,7 @@ const StepByStepExplanation = ({
           <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/30 rounded-lg text-sm">
             <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 mb-1 uppercase tracking-wide">Passage</p>
             <div
-              className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200"
+              className="prose prose-sm dark:prose-invert max-w-none text-ink-body"
               dangerouslySetInnerHTML={{ __html: renderedPassage }}
             />
           </div>
@@ -257,10 +257,10 @@ const StepByStepExplanation = ({
 
         {/* Question highlight snippet */}
         {renderedQuestion && (
-          <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg text-sm">
-            <p className="text-xs font-semibold text-blue-700 dark:text-blue-400 mb-1 uppercase tracking-wide">Question</p>
+          <div className="mt-3 p-3 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/30 rounded-lg text-sm">
+            <p className="text-xs font-semibold text-brand-700 dark:text-brand-400 mb-1 uppercase tracking-wide">Question</p>
             <div
-              className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200"
+              className="prose prose-sm dark:prose-invert max-w-none text-ink-body"
               dangerouslySetInnerHTML={{ __html: renderedQuestion }}
             />
           </div>
@@ -276,11 +276,11 @@ const StepByStepExplanation = ({
               const rendered = injectHighlights(choiceContent, [h]);
               return (
                 <div key={idx} className="flex items-start gap-2 text-sm">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-surface-muted flex items-center justify-center text-xs font-bold text-ink-muted">
                     {locLabel}
                   </span>
                   <div
-                    className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200"
+                    className="prose prose-sm dark:prose-invert max-w-none text-ink-body"
                     dangerouslySetInnerHTML={{ __html: rendered }}
                   />
                 </div>
@@ -292,22 +292,22 @@ const StepByStepExplanation = ({
 
       {/* ── Prev / Next navigation ── */}
       {total > 1 && (
-        <div className="flex items-center justify-between px-5 py-3 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-800">
+        <div className="flex items-center justify-between px-5 py-3 bg-surface-muted border-t border-edge-subtle">
           <button
             onClick={() => goTo(activeStep - 1)}
             disabled={activeStep === 0}
-            className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 text-sm text-ink-subtle hover:text-ink-muted disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="h-4 w-4" />
             Prev
           </button>
-          <span className="text-xs text-gray-400 dark:text-gray-500">
+          <span className="text-xs text-ink-faint">
             {activeStep + 1} / {total}
           </span>
           <button
             onClick={() => goTo(activeStep + 1)}
             disabled={activeStep === total - 1}
-            className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 text-sm text-ink-subtle hover:text-ink-muted disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Next
             <ChevronRight className="h-4 w-4" />
@@ -317,10 +317,10 @@ const StepByStepExplanation = ({
 
       {/* ── Why were the other choices wrong? accordion ── */}
       {why_wrong && why_wrong.length > 0 && (
-        <div className="border-t border-gray-100 dark:border-gray-800">
+        <div className="border-t border-edge-subtle">
           <button
             onClick={() => setWhyWrongOpen(v => !v)}
-            className="w-full flex items-center justify-between px-5 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+            className="w-full flex items-center justify-between px-5 py-3 text-sm font-medium text-ink-muted hover:bg-surface-muted transition-colors"
           >
             <span className="uppercase tracking-wide text-xs">Why were the other choices wrong?</span>
             {whyWrongOpen
@@ -330,14 +330,14 @@ const StepByStepExplanation = ({
           </button>
 
           {whyWrongOpen && (
-            <div className="px-5 pb-4 bg-white dark:bg-gray-900 space-y-2">
+            <div className="px-5 pb-4 bg-surface-card space-y-2">
               {why_wrong.map((w, i) => (
                 <div key={i} className="flex gap-3 text-sm">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-xs font-bold text-red-600 dark:text-red-400">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-xs font-bold text-rose-600 dark:text-rose-400">
                     {w.label}
                   </span>
                   <div
-                    className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed"
+                    className="prose prose-sm dark:prose-invert max-w-none text-ink-muted leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: parseMarkdown(w.reason) }}
                   />
                 </div>

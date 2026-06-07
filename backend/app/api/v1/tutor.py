@@ -350,10 +350,13 @@ def get_student_sessions(
             id=s.id,
             test_type=s.test_type.value,
             status=s.status.value,
+            title=s.title,
             subject_area=s.subject_area.value if s.subject_area else None,
             total_questions=s.total_questions,
             questions_answered=s.questions_answered,
             score_percentage=s.score_percentage,
+            scaled_score=s.scaled_score,
+            is_official=bool((s.session_state or {}).get("source") == "mypractice_import"),
             started_at=s.started_at,
             completed_at=s.completed_at,
         )

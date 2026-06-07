@@ -90,10 +90,13 @@ class SessionBrief(BaseModel):
     id: UUID
     test_type: str
     status: str
+    title: Optional[str] = None
     subject_area: Optional[str] = None
     total_questions: int
     questions_answered: int
     score_percentage: Optional[float] = None
+    scaled_score: Optional[int] = None          # official 400-1600 (full-length)
+    is_official: bool = False                    # imported from Bluebook
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
 

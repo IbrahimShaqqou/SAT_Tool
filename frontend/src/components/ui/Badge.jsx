@@ -4,7 +4,7 @@
  */
 
 const variants = {
-  default: 'bg-slate-100 text-slate-600 dark:bg-slate-700/60 dark:text-slate-300',
+  default: 'bg-surface-muted text-ink-muted',
   success: 'bg-accent-50 text-accent-700 dark:bg-accent-900/25 dark:text-accent-300',
   warning: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-200',
   danger:  'bg-rose-50 text-rose-600 dark:bg-rose-900/25 dark:text-rose-300',

@@ -145,14 +145,14 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
   // Get timer color based on remaining time
   const getTimerColor = () => {
     const minutes = Math.floor(timeRemaining / 60);
-    if (minutes <= 1) return 'text-red-600';
-    if (minutes <= 5) return 'text-orange-500';
-    return 'text-gray-900';
+    if (minutes <= 1) return 'text-rose-600';
+    if (minutes <= 5) return 'text-amber-500';
+    return 'text-ink-body';
   };
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center min-h-screen bg-surface-page">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -163,17 +163,17 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
   const isMath = module.subject_area === 'MATH';
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-surface-card">
       {/* Top Header */}
-      <div className="border-b border-gray-200 bg-white px-6 py-4 flex items-center justify-between">
+      <div className="border-b border-edge bg-surface-card px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Module info */}
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-ink-muted">
             Module {moduleNumber}: {module.title}
           </div>
 
           {/* Question counter */}
-          <div className="text-sm font-medium text-gray-900">
+          <div className="text-sm font-medium text-ink-body">
             Question {currentIndex + 1} of {questions.length}
           </div>
         </div>
@@ -184,13 +184,13 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
             <>
               <button
                 onClick={() => setShowCalculator(!showCalculator)}
-                className="text-sm font-medium text-[#0077C8] hover:text-[#005fa3]"
+                className="text-sm font-medium text-brand-600 hover:text-brand-700"
               >
                 Calculator
               </button>
               <button
                 onClick={() => setShowReferenceSheet(!showReferenceSheet)}
-                className="text-sm font-medium text-[#0077C8] hover:text-[#005fa3]"
+                className="text-sm font-medium text-brand-600 hover:text-brand-700"
               >
                 Reference
               </button>
@@ -205,7 +205,8 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
           {/* Question Nav Toggle */}
           <button
             onClick={() => setShowNav(!showNav)}
-            className="p-2 hover:bg-gray-100 rounded"
+            aria-label="Toggle question navigation"
+            className="p-2 hover:bg-surface-muted rounded"
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -275,19 +276,19 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
 
         {/* Calculator Panel */}
         {showCalculator && isMath && (
-          <div className="w-96 border-l border-gray-200 bg-white">
+          <div className="w-96 border-l border-edge bg-surface-card">
             <DesmosCalculator onClose={() => setShowCalculator(false)} />
           </div>
         )}
       </div>
 
       {/* Bottom Navigation */}
-      <div className="border-t border-gray-200 bg-white px-6 py-4 flex items-center justify-between">
+      <div className="border-t border-edge bg-surface-card px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button
             onClick={handlePrev}
             disabled={currentIndex === 0}
-            className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 border border-edge rounded hover:bg-surface-muted disabled:opacity-50 disabled:cursor-not-allowed"
           >
             ← Back
           </button>
@@ -296,8 +297,8 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
             onClick={toggleMarkForReview}
             className={`px-4 py-2 border rounded flex items-center space-x-2 ${
               markedForReview.has(currentIndex)
-                ? 'bg-amber-50 border-amber-400 text-amber-700'
-                : 'border-gray-300 hover:bg-gray-50'
+                ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-400 text-amber-700 dark:text-amber-300'
+                : 'border-edge hover:bg-surface-muted'
             }`}
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -311,14 +312,14 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
           {currentIndex === questions.length - 1 ? (
             <button
               onClick={onReadyToSubmit}
-              className="px-6 py-2 bg-[#0077C8] text-white font-semibold rounded hover:bg-[#005fa3]"
+              className="px-6 py-2 bg-brand-600 text-white font-semibold rounded hover:bg-brand-700"
             >
               Review & Submit
             </button>
           ) : (
             <button
               onClick={handleNext}
-              className="px-6 py-2 bg-[#0077C8] text-white rounded hover:bg-[#005fa3]"
+              className="px-6 py-2 bg-brand-600 text-white rounded hover:bg-brand-700"
             >
               Next →
             </button>

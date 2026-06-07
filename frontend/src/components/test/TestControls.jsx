@@ -17,7 +17,7 @@ const TestControls = ({
   const isLast = currentIndex === totalQuestions - 1;
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-white">
+    <div className="flex items-center justify-between px-6 py-4 border-t border-edge bg-surface-card">
       {/* Previous */}
       <Button
         variant="secondary"

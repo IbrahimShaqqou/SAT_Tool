@@ -2,10 +2,10 @@
  * MasteryBadge component for displaying Khan Academy-style mastery levels
  *
  * Levels:
- * - 0: Not Started (gray)
- * - 1: Familiar (blue)
- * - 2: Proficient (green)
- * - 3: Mastered (gold)
+ * - 0: Not Started (neutral)
+ * - 1: Familiar (amber/brand)
+ * - 2: Proficient (pine/accent)
+ * - 3: Mastered (deep brand/bronze)
  */
 
 import {
@@ -21,42 +21,42 @@ import { ThetaBar } from './ThetaBar';
 export const MASTERY_LEVELS = {
   0: {
     name: 'Not Started',
-    color: 'gray',
-    bgClass: 'bg-gray-100 dark:bg-gray-700/50',
-    textClass: 'text-gray-600 dark:text-gray-300',
-    borderClass: 'border-gray-200 dark:border-gray-600',
-    iconBgClass: 'bg-gray-200 dark:bg-gray-600',
-    progressBgClass: 'bg-gray-300 dark:bg-gray-500',
+    color: 'neutral',
+    bgClass: 'bg-surface-muted',
+    textClass: 'text-ink-subtle',
+    borderClass: 'border-edge',
+    iconBgClass: 'bg-surface-muted',
+    progressBgClass: 'bg-ink-faint',
     Icon: CircleDot,
   },
   1: {
     name: 'Familiar',
-    color: 'blue',
-    bgClass: 'bg-blue-50 dark:bg-blue-900/20',
-    textClass: 'text-blue-600 dark:text-blue-300',
-    borderClass: 'border-blue-200 dark:border-blue-700',
-    iconBgClass: 'bg-blue-100 dark:bg-blue-800/40',
-    progressBgClass: 'bg-blue-400 dark:bg-blue-500',
+    color: 'amber',
+    bgClass: 'bg-amber-50 dark:bg-amber-900/20',
+    textClass: 'text-amber-700 dark:text-amber-300',
+    borderClass: 'border-amber-200 dark:border-amber-700',
+    iconBgClass: 'bg-amber-100 dark:bg-amber-800/40',
+    progressBgClass: 'bg-amber-400 dark:bg-amber-500',
     Icon: BookOpen,
   },
   2: {
     name: 'Proficient',
-    color: 'green',
-    bgClass: 'bg-emerald-50 dark:bg-emerald-900/20',
-    textClass: 'text-emerald-600 dark:text-emerald-300',
-    borderClass: 'border-emerald-200 dark:border-emerald-700',
-    iconBgClass: 'bg-emerald-100 dark:bg-emerald-800/40',
-    progressBgClass: 'bg-emerald-400 dark:bg-emerald-500',
+    color: 'pine',
+    bgClass: 'bg-accent-50 dark:bg-accent-900/20',
+    textClass: 'text-accent-600 dark:text-accent-300',
+    borderClass: 'border-accent-200 dark:border-accent-700',
+    iconBgClass: 'bg-accent-100 dark:bg-accent-800/40',
+    progressBgClass: 'bg-accent-400 dark:bg-accent-500',
     Icon: CheckCircle2,
   },
   3: {
     name: 'Mastered',
-    color: 'gold',
-    bgClass: 'bg-yellow-50 dark:bg-yellow-900/15',
-    textClass: 'text-yellow-700 dark:text-yellow-200',
-    borderClass: 'border-yellow-200 dark:border-yellow-700',
-    iconBgClass: 'bg-yellow-100 dark:bg-yellow-800/30',
-    progressBgClass: 'bg-yellow-400 dark:bg-yellow-500',
+    color: 'bronze',
+    bgClass: 'bg-brand-50 dark:bg-brand-900/20',
+    textClass: 'text-brand-700 dark:text-brand-300',
+    borderClass: 'border-brand-200 dark:border-brand-700',
+    iconBgClass: 'bg-brand-100 dark:bg-brand-800/40',
+    progressBgClass: 'bg-brand-600 dark:bg-brand-500',
     Icon: Trophy,
   },
 };
@@ -145,7 +145,7 @@ export const MasteryProgressCard = ({
       {/* Requirements checklist */}
       {nextConfig && Object.keys(requirementsMet).length > 0 && (
         <div className="mt-3 space-y-1">
-          <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+          <div className="text-xs text-ink-subtle mb-1">
             To reach {nextConfig.name}:
           </div>
           {Object.entries(requirementsMet).map(([key, met]) => (
@@ -153,8 +153,8 @@ export const MasteryProgressCard = ({
               key={key}
               className={`text-xs flex items-center gap-1.5 ${
                 met
-                  ? 'text-green-600 dark:text-green-400'
-                  : 'text-gray-500 dark:text-gray-400'
+                  ? 'text-accent-600 dark:text-accent-400'
+                  : 'text-ink-subtle'
               }`}
             >
               {met ? (
@@ -190,9 +190,9 @@ export const SkillMasteryRow = ({
     <div
       className={`
         p-3 rounded-lg
-        bg-white dark:bg-gray-800
-        border border-gray-200 dark:border-gray-700
-        hover:border-gray-300 dark:hover:border-gray-600
+        bg-surface-card
+        border border-edge
+        hover:border-edge-strong
         transition-colors
         ${onClick ? 'cursor-pointer' : ''}
         ${className}
@@ -201,10 +201,10 @@ export const SkillMasteryRow = ({
     >
       {/* Skill name + meta */}
       <div className="flex items-center justify-between mb-2">
-        <span className="font-medium text-gray-900 dark:text-gray-100 truncate mr-2">
+        <span className="font-medium text-ink-body truncate mr-2">
           {skillName}
         </span>
-        <div className="flex items-center gap-2 flex-shrink-0 text-xs text-gray-400 dark:text-gray-500">
+        <div className="flex items-center gap-2 flex-shrink-0 text-xs text-ink-faint">
           {responsesCount > 0 && <span>{responsesCount}q</span>}
           {daysAgo > 0 && <span>{daysAgo}d ago</span>}
         </div>
@@ -252,13 +252,13 @@ export const MasterySummary = ({
               <Icon size={14} className={textClass} />
               <span className={`text-sm ${textClass}`}>{name}</span>
             </div>
-            <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div className="flex-1 h-2 bg-surface-muted rounded-full overflow-hidden">
               <div
                 className={`h-full ${progressBgClass} transition-all duration-300`}
                 style={{ width: `${percent}%` }}
               />
             </div>
-            <div className="w-8 text-right text-sm text-gray-600 dark:text-gray-400">
+            <div className="w-8 text-right text-sm text-ink-muted">
               {count}
             </div>
           </div>

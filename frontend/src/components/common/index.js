@@ -14,6 +14,8 @@
  * - Sidebar: Side navigation menu
  */
 
+export { default as SkillMap } from './SkillMap';
+
 // Components will be exported here as they are implemented
 // export { default as Button } from './Button';
 // export { default as Card } from './Card';

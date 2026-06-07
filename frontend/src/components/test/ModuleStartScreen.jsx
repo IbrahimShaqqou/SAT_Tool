@@ -6,34 +6,34 @@
 
 const ModuleStartScreen = ({ module, moduleNumber, totalModules, onStart }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white">
+    <div className="flex items-center justify-center min-h-screen bg-surface-page">
       <div className="max-w-2xl w-full px-8 text-center">
         {/* College Board style header */}
         <div className="mb-8">
-          <div className="text-sm text-gray-500 uppercase tracking-wide mb-2">
+          <div className="text-sm text-ink-subtle uppercase tracking-wide mb-2">
             Module {moduleNumber} of {totalModules}
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-ink-body mb-4">
             {module.title}
           </h1>
         </div>
 
         {/* Module details */}
-        <div className="bg-gray-50 rounded-lg p-8 mb-8">
+        <div className="bg-surface-muted rounded-lg p-8 mb-8">
           <div className="grid grid-cols-2 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-[#0077C8] mb-2">
+              <div className="text-3xl font-bold text-brand-600 mb-2">
                 {module.total_questions}
               </div>
-              <div className="text-sm text-gray-600 uppercase tracking-wide">
+              <div className="text-sm text-ink-muted uppercase tracking-wide">
                 Questions
               </div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-[#0077C8] mb-2">
+              <div className="text-3xl font-bold text-brand-600 mb-2">
                 {module.time_limit_minutes}
               </div>
-              <div className="text-sm text-gray-600 uppercase tracking-wide">
+              <div className="text-sm text-ink-muted uppercase tracking-wide">
                 Minutes
               </div>
             </div>
@@ -41,7 +41,7 @@ const ModuleStartScreen = ({ module, moduleNumber, totalModules, onStart }) => {
         </div>
 
         {/* Instructions */}
-        <div className="text-left mb-8 space-y-4 text-gray-700">
+        <div className="text-left mb-8 space-y-4 text-ink-muted">
           <p>
             <strong>Before you begin:</strong>
           </p>
@@ -62,14 +62,14 @@ const ModuleStartScreen = ({ module, moduleNumber, totalModules, onStart }) => {
         <div className="flex justify-center">
           <button
             onClick={onStart}
-            className="px-12 py-4 bg-[#0077C8] text-white text-lg font-semibold rounded-lg hover:bg-[#005fa3] transition-colors shadow-md"
+            className="px-12 py-4 bg-brand-600 text-white text-lg font-semibold rounded-lg hover:bg-brand-700 transition-colors shadow-md"
           >
             Start Module
           </button>
         </div>
 
         {/* Footer note */}
-        <p className="mt-8 text-sm text-gray-500">
+        <p className="mt-8 text-sm text-ink-subtle">
           The timer will start when you click "Start Module"
         </p>
       </div>

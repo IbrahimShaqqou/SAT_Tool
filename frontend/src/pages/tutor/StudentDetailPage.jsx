@@ -5,9 +5,9 @@
  * Tokens, dark mode, a11y.
  */
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
-  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap,
+  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap, ChevronRight,
 } from 'lucide-react';
 import {
   Button, Skeleton, ThetaBar,
@@ -19,9 +19,13 @@ import { tutorService } from '../../services';
 
 const TABS = [
   { value: 'skills', label: 'Skills', icon: Brain },
+  { value: 'tests', label: 'Practice tests', icon: CheckCircle },
   { value: 'focus', label: 'Focus areas', icon: AlertTriangle },
   { value: 'trends', label: 'Trends', icon: BarChart3 },
 ];
+
+const fmtDate = (iso) =>
+  iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
 const SkillRow = ({ skill }) => {
   const masteryLevel = typeof skill.mastery_level === 'number' && skill.mastery_level <= 3 ? skill.mastery_level : 0;
@@ -50,10 +54,12 @@ const SkillRow = ({ skill }) => {
 
 const StudentDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [progress, setProgress] = useState(null);
   const [weaknesses, setWeaknesses] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [sessions, setSessions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tab, setTab] = useState('skills');
@@ -74,6 +80,8 @@ const StudentDetailPage = () => {
         safe(() => tutorService.getStudentProgress(id), setProgress),
         safe(() => tutorService.getStudentWeaknesses(id), setWeaknesses),
         safe(() => tutorService.getStudentChartData(id, { days: 30 }), setChartData),
+        safe(() => tutorService.getStudentSessions(id, { limit: 50 }),
+             (d) => setSessions(d.items || [])),
       ]);
       setIsLoading(false);
     };
@@ -173,6 +181,45 @@ const StudentDetailPage = () => {
               ))}
             </ul>
           ) : <EmptyHint icon={Brain} text={`Skills appear once ${student.first_name} answers some practice questions.`} />
+        ) : tab === 'tests' ? (
+          (() => {
+            const fullLength = sessions.filter(
+              (s) => s.test_type === 'official_practice' && s.status === 'completed'
+            );
+            return fullLength.length > 0 ? (
+              <ul className="divide-y divide-edge-subtle">
+                {fullLength.map((s) => (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/tutor/students/${id}/practice-tests/${s.id}`)}
+                      className="flex w-full items-center justify-between gap-3 rounded-lg px-2 py-3.5 text-left transition-colors hover:bg-surface-muted"
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="truncate text-sm font-semibold text-ink-body">{s.title || 'Practice test'}</span>
+                          {s.is_official && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-accent-500/15 px-2 py-0.5 text-[11px] font-semibold text-accent-700 dark:text-accent-300">
+                              <CheckCircle className="h-3 w-3" /> Official
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-ink-subtle">{fmtDate(s.completed_at)}</p>
+                      </div>
+                      <span className="flex items-center gap-3">
+                        {s.scaled_score != null && (
+                          <span className="font-display text-2xl font-semibold tabular-nums text-ink-body">{s.scaled_score}</span>
+                        )}
+                        <ChevronRight className="h-4 w-4 shrink-0 text-ink-faint" />
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyHint icon={CheckCircle} text={`${student.first_name} hasn't imported any Bluebook practice tests yet.`} />
+            );
+          })()
         ) : tab === 'focus' ? (
           <div className="grid grid-cols-1 gap-x-12 gap-y-8 lg:grid-cols-2">
             <Section title="Skills needing practice" hint="Below 70% with 3+ attempts">

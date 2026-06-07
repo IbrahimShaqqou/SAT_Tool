@@ -59,6 +59,7 @@ const studentGroups = [
   {
     label: 'Practice',
     items: [
+      { to: '/student/practice-tests', icon: FileText, label: 'Practice Tests' },
       { to: '/student/questions', icon: BookOpen, label: 'Question Bank' },
       { to: '/student/lessons', icon: GraduationCap, label: 'Skill Lessons' },
       { to: '/student/adaptive', icon: Brain, label: 'Adaptive Practice' },

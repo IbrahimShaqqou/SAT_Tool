@@ -799,11 +799,11 @@ const AssessmentPage = () => {
                   choices={currentQuestion.choices_json || []}
                 />
               ) : currentChecked.explanation ? (
-                <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg">
-                  <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Explanation</h4>
+                <div className="mt-4 p-4 bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/30 rounded-lg">
+                  <h4 className="text-sm font-medium text-brand-800 dark:text-brand-200 mb-2">Explanation</h4>
                   <MathContent
                     html={currentChecked.explanation}
-                    className="prose prose-sm prose-blue dark:prose-invert max-w-none text-blue-800 dark:text-blue-200"
+                    className="prose prose-sm dark:prose-invert max-w-none text-brand-800 dark:text-brand-200"
                   />
                 </div>
               ) : null

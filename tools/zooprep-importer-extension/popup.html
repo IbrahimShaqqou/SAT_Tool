@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZooPrep Importer</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <h1>ZooPrep Importer</h1>
+  </header>
+
+  <main>
+    <div id="status" class="status status--checking" role="status">Checking page…</div>
+
+    <p class="hint" id="hint">
+      Open this on <strong>mypractice.collegeboard.org</strong>, view any score
+      report once so we can read your session, then export.
+    </p>
+
+    <button id="export" class="btn btn--primary" disabled>Export my results</button>
+
+    <div id="progress" class="progress" hidden>
+      <div class="progress__bar"><div id="progressFill" class="progress__fill"></div></div>
+      <div id="progressText" class="progress__text"></div>
+    </div>
+
+    <div id="result" class="result" hidden></div>
+
+    <a href="#" id="openOptions" class="link">Settings</a>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

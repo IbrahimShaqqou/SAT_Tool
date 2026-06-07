@@ -28,14 +28,14 @@ const Avatar = ({
 
   // Generate consistent color from name
   const getColor = (name) => {
-    if (!name) return 'bg-gray-400';
+    if (!name) return 'bg-brand-400';
     const colors = [
-      'bg-gray-600',
-      'bg-gray-700',
-      'bg-gray-800',
-      'bg-slate-600',
-      'bg-zinc-600',
-      'bg-neutral-600',
+      'bg-brand-600',
+      'bg-brand-700',
+      'bg-brand-800',
+      'bg-accent-600',
+      'bg-accent-700',
+      'bg-accent-800',
     ];
     let hash = 0;
     for (let i = 0; i < name.length; i++) {

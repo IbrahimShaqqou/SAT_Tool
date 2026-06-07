@@ -17,7 +17,7 @@ const LoadingSpinner = ({
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <svg
-        className={`animate-spin text-gray-400 ${sizes[size]}`}
+        className={`animate-spin text-ink-faint ${sizes[size]}`}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ const LoadingSpinner = ({
         />
       </svg>
       {text && (
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{text}</p>
+        <p className="mt-2 text-sm text-ink-subtle">{text}</p>
       )}
     </div>
   );

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ZooPrep Importer — Settings</title>
+  <link rel="stylesheet" href="popup.css" />
+  <style>
+    body { width: 420px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 4px; }
+    input, select {
+      width: 100%; padding: 9px 10px; font-size: 13px;
+      border: 1px solid var(--edge); border-radius: 8px;
+    }
+    .desc { font-size: 12px; color: var(--muted); margin: 4px 0 0; line-height: 1.4; }
+    #saved { font-size: 12px; color: var(--ok); margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <header><h1>ZooPrep Importer — Settings</h1></header>
+  <main>
+    <p class="desc" style="margin-bottom:8px">
+      <strong style="color:var(--ink)">Easiest setup:</strong> open ZooPrep → Practice Tests and
+      click <em>Connect extension</em>. That links your account automatically — you don’t need to
+      fill anything in here.
+    </p>
+
+    <div id="connected" class="desc" style="color:var(--ok); font-weight:600" hidden>✓ Connected to ZooPrep — auto-upload is on.</div>
+
+    <label for="deliveryMode">Delivery</label>
+    <select id="deliveryMode">
+      <option value="auto">Auto (upload if connected, else download file)</option>
+      <option value="upload">Always upload to ZooPrep</option>
+      <option value="download">Always download a file</option>
+    </select>
+    <p class="desc">Auto is recommended: it uploads when ZooPrep is connected and otherwise saves a file you can import manually.</p>
+
+    <details style="margin-top:14px">
+      <summary style="font-size:13px; font-weight:600; cursor:pointer">Manual setup (advanced)</summary>
+      <label for="zooprepBaseUrl">ZooPrep URL</label>
+      <input id="zooprepBaseUrl" type="url" placeholder="https://app.zooprep.com" />
+      <p class="desc">Your ZooPrep site address (no trailing slash needed).</p>
+
+      <label for="zooprepToken">ZooPrep access token</label>
+      <input id="zooprepToken" type="password" placeholder="paste your ZooPrep token" />
+      <p class="desc">Only needed if you’re not using the one-click Connect button. Stored only in your browser.</p>
+    </details>
+
+    <p style="margin-top:18px">
+      <button id="save" class="btn btn--primary" style="width:auto;padding:10px 18px">Save</button>
+      <span id="saved" hidden>Saved ✓</span>
+    </p>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

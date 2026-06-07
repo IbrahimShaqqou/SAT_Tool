@@ -90,10 +90,10 @@ const DesmosGraph = ({ equations = [], x_min, x_max, y_min, y_max, hint }) => {
       <div
         ref={containerRef}
         style={{ width: '100%', height: '280px', borderRadius: '8px', overflow: 'hidden' }}
-        className="border border-gray-200 dark:border-gray-600"
+        className="border border-edge"
       />
       {hint && (
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic flex items-center gap-1">
+        <p className="mt-2 text-sm text-ink-subtle italic flex items-center gap-1">
           <span>👆</span> {hint}
         </p>
       )}

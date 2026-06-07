@@ -165,6 +165,50 @@ def estimate_percentile(total_score: int) -> int:
     return 1
 
 
+def _score_section(
+    test_number,
+    section,            # "math" | "reading_writing"
+    m1_correct,
+    m1_total,
+    m2_correct,
+    m2_total,
+    got_harder,
+):
+    """
+    Score one section: prefer real captured anchors for this test/section/path,
+    fall back to the calibrated linear model when anchors can't bracket the raw.
+
+    Returns (score, detail) where detail carries method + range for the UI.
+    """
+    path = "harder" if got_harder else "easier"
+    raw_correct = m1_correct + m2_correct
+
+    anchor = None
+    if test_number is not None:
+        # Import here to avoid a hard dependency / import cycle at module load.
+        from app.services.anchor_scoring import score_section_from_anchors
+        anchor = score_section_from_anchors(test_number, section, raw_correct, path)
+
+    if anchor is not None:
+        return anchor["score"], {
+            "method": anchor["method"],          # "official" | "estimate"
+            "score_low": anchor["low"],
+            "score_high": anchor["high"],
+            "anchors_used": anchor["anchors_used"],
+        }
+
+    # Fallback: calibrated linear model (no per-test anchor coverage here).
+    score = calculate_sat_section_score(
+        m1_correct, m1_total, m2_correct, m2_total, got_harder
+    )
+    return score, {
+        "method": "model",                       # heuristic estimate
+        "score_low": max(200, score - 40),
+        "score_high": min(800, score + 40),
+        "anchors_used": [],
+    }
+
+
 def score_full_length_test(
     math_module_1_correct: int,
     math_module_1_total: int,
@@ -173,23 +217,17 @@ def score_full_length_test(
     rw_module_1_correct: int,
     rw_module_1_total: int,
     rw_module_2_correct: int,
-    rw_module_2_total: int
+    rw_module_2_total: int,
+    test_number: int = None,
 ) -> dict:
     """
     Score a complete full-length SAT test.
 
-    Args:
-        math_module_1_correct: Correct answers in Math Module 1
-        math_module_1_total: Total questions in Math Module 1
-        math_module_2_correct: Correct answers in Math Module 2
-        math_module_2_total: Total questions in Math Module 2
-        rw_module_1_correct: Correct answers in R/W Module 1
-        rw_module_1_total: Total questions in R/W Module 1
-        rw_module_2_correct: Correct answers in R/W Module 2
-        rw_module_2_total: Total questions in R/W Module 2
-
-    Returns:
-        Dictionary with detailed scoring breakdown
+    When `test_number` is given and we have real captured anchors for that test,
+    sections are scored from those anchors (exact = official, between = estimate
+    with a range). Otherwise the calibrated linear model is used. Each section in
+    the result carries `score_method` ("official" | "estimate" | "model") and a
+    `score_low`/`score_high` range so the UI can be honest about precision.
     """
     # Determine which Module 2 paths were taken
     math_got_harder = should_get_harder_module_2(
@@ -201,36 +239,48 @@ def score_full_length_test(
         rw_module_1_total
     )
 
-    # Calculate section scores using module-level data (calibrated curve)
     math_total_correct = math_module_1_correct + math_module_2_correct
     math_total_questions = math_module_1_total + math_module_2_total
-    math_score = calculate_sat_section_score(
-        math_module_1_correct,
-        math_module_1_total,
-        math_module_2_correct,
-        math_module_2_total,
+    math_score, math_detail = _score_section(
+        test_number, "math",
+        math_module_1_correct, math_module_1_total,
+        math_module_2_correct, math_module_2_total,
         math_got_harder,
     )
 
     rw_total_correct = rw_module_1_correct + rw_module_2_correct
     rw_total_questions = rw_module_1_total + rw_module_2_total
-    rw_score = calculate_sat_section_score(
-        rw_module_1_correct,
-        rw_module_1_total,
-        rw_module_2_correct,
-        rw_module_2_total,
+    rw_score, rw_detail = _score_section(
+        test_number, "reading_writing",
+        rw_module_1_correct, rw_module_1_total,
+        rw_module_2_correct, rw_module_2_total,
         rw_got_harder,
     )
 
-    # Calculate total score
+    # Total score + range. Total is "official" only if BOTH sections are.
     total_score = calculate_total_sat_score(math_score, rw_score)
+    total_low = max(400, math_detail["score_low"] + rw_detail["score_low"])
+    total_high = min(1600, math_detail["score_high"] + rw_detail["score_high"])
+    methods = {math_detail["method"], rw_detail["method"]}
+    if methods == {"official"}:
+        total_method = "official"
+    elif "model" in methods:
+        total_method = "model"
+    else:
+        total_method = "estimate"
     percentile = estimate_percentile(total_score)
 
     return {
         "total_score": total_score,
+        "total_score_low": total_low,
+        "total_score_high": total_high,
+        "score_method": total_method,
         "percentile": percentile,
         "math": {
             "score": math_score,
+            "score_low": math_detail["score_low"],
+            "score_high": math_detail["score_high"],
+            "score_method": math_detail["method"],
             "correct": math_total_correct,
             "total": math_total_questions,
             "percentage": (math_total_correct / math_total_questions * 100) if math_total_questions > 0 else 0,
@@ -242,6 +292,9 @@ def score_full_length_test(
         },
         "reading_writing": {
             "score": rw_score,
+            "score_low": rw_detail["score_low"],
+            "score_high": rw_detail["score_high"],
+            "score_method": rw_detail["method"],
             "correct": rw_total_correct,
             "total": rw_total_questions,
             "percentage": (rw_total_correct / rw_total_questions * 100) if rw_total_questions > 0 else 0,

@@ -1,11 +1,11 @@
 /**
  * Question Navigator Component
  * Compact, scrollable grid of numbered buttons with color-coded status
- * - Gray: Not answered
- * - Green: Correct
- * - Red: Incorrect
- * - Yellow: Answered (not checked)
- * - Orange: Marked for review
+ * - Neutral: Not answered
+ * - Emerald: Correct
+ * - Rose: Incorrect
+ * - Accent: Answered (not checked)
+ * - Amber: Marked for review
  */
 import { Check, X, Flag } from 'lucide-react';
 
@@ -26,13 +26,13 @@ const QuestionNav = ({
     const isCurrent = currentIndex === index;
     const checked = checkedAnswers[questionId];
 
-    // Current question - dark outline
+    // Current question - brand ring
     if (isCurrent) {
-      if (checked?.isCorrect === true) return 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
-      if (checked?.isCorrect === false) return 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
-      if (isMarked) return 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
-      if (isAnswered) return 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
-      return 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 ring-2 ring-gray-900 dark:ring-gray-100 shadow-sm';
+      if (checked?.isCorrect === true) return 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 ring-2 ring-brand-500 shadow-sm';
+      if (checked?.isCorrect === false) return 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 ring-2 ring-brand-500 shadow-sm';
+      if (isMarked) return 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 ring-2 ring-brand-500 shadow-sm';
+      if (isAnswered) return 'bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 ring-2 ring-brand-500 shadow-sm';
+      return 'bg-surface-card text-ink-muted ring-2 ring-brand-500 shadow-sm';
     }
 
     // Checked answers
@@ -45,16 +45,16 @@ const QuestionNav = ({
 
     // Marked for review
     if (isMarked) {
-      return 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-300 dark:border-orange-700 hover:bg-orange-200 dark:hover:bg-orange-900/50';
+      return 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-900/50';
     }
 
     // Answered but not checked
     if (isAnswered) {
-      return 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-900/50';
+      return 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 border-accent-300 dark:border-accent-700 hover:bg-accent-200 dark:hover:bg-accent-900/50';
     }
 
     // Not answered
-    return 'bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600';
+    return 'bg-surface-muted text-ink-muted border-edge hover:bg-surface-card';
   };
 
   const getStatusIcon = (index) => {
@@ -62,20 +62,20 @@ const QuestionNav = ({
     const checked = checkedAnswers[questionId];
 
     if (checked?.isCorrect === true) {
-      return <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute -top-1 -right-1 bg-white dark:bg-gray-800 rounded-full" />;
+      return <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute -top-1 -right-1 bg-surface-card rounded-full" />;
     }
     if (checked?.isCorrect === false) {
-      return <X className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 absolute -top-1 -right-1 bg-white dark:bg-gray-800 rounded-full" />;
+      return <X className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 absolute -top-1 -right-1 bg-surface-card rounded-full" />;
     }
     return null;
   };
 
   return (
-    <div className="p-4 bg-white dark:bg-gray-800">
+    <div className="p-4 bg-surface-card">
       {/* Legend - compact row */}
-      <div className="flex flex-wrap items-center justify-center gap-4 mb-3 text-xs text-gray-600 dark:text-gray-400">
+      <div className="flex flex-wrap items-center justify-center gap-4 mb-3 text-xs text-ink-muted">
         <div className="flex items-center gap-1.5">
-          <Flag className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
+          <Flag className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
           <span>Review</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -87,7 +87,7 @@ const QuestionNav = ({
           <span>Incorrect</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700" />
+          <span className="w-3.5 h-3.5 rounded bg-accent-100 dark:bg-accent-900/30 border border-accent-300 dark:border-accent-700" />
           <span>Answered</span>
         </div>
       </div>
@@ -101,7 +101,7 @@ const QuestionNav = ({
               onClick={() => onNavigate(i)}
               className={`
                 relative w-10 h-10 rounded-lg border text-sm font-semibold
-                transition-all duration-150 focus:outline-none
+                transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500
                 ${getButtonStyle(i)}
               `}
             >

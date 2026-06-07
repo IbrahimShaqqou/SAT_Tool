@@ -96,7 +96,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
   if (error || !lesson) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500 dark:text-red-400">{error || 'Lesson not found'}</p>
+        <p className="text-rose-600 dark:text-rose-400">{error || 'Lesson not found'}</p>
         <Button onClick={() => navigate(-1)} className="mt-4">
           Go Back
         </Button>
@@ -117,7 +117,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
       <div className="mb-8">
         <button
           onClick={() => navigate(lessonsPath)}
-          className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 mb-4"
+          className="flex items-center gap-2 text-ink-subtle hover:text-ink-body mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Lessons
@@ -126,20 +126,20 @@ const LessonViewerPage = ({ isPublic = false }) => {
         <div className="flex items-start justify-between gap-4">
           <div>
             <Badge variant="info" className="mb-2">{lesson.skill_code}</Badge>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+            <h1 className="text-3xl font-bold text-ink-body mb-2">
               {lesson.title}
             </h1>
             {lesson.subtitle && (
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              <p className="text-lg text-ink-muted">
                 {lesson.subtitle}
               </p>
             )}
           </div>
 
           {lesson.is_completed && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
-              <span className="text-sm font-medium text-green-700 dark:text-green-400">
+            <div className="flex items-center gap-2 px-3 py-2 bg-accent-100 dark:bg-accent-900/30 rounded-lg">
+              <CheckCircle2 className="h-5 w-5 text-accent-600 dark:text-accent-400" />
+              <span className="text-sm font-medium text-accent-700 dark:text-accent-400">
                 Completed
               </span>
             </div>
@@ -147,7 +147,7 @@ const LessonViewerPage = ({ isPublic = false }) => {
         </div>
 
         {/* Meta info */}
-        <div className="flex items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-4 mt-4 text-sm text-ink-subtle">
           <span className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
             {lesson.estimated_minutes} min read
@@ -361,7 +361,7 @@ const LessonSection = ({ section }) => {
       <div className="my-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {section.items.map((item, index) => (
-            <div key={index} className="flex flex-col bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+            <div key={index} className="flex flex-col bg-surface-muted rounded-xl p-4">
               {/* Title */}
               <h4 className="font-semibold text-ink-body mb-2 text-center">
                 {item.title}
@@ -375,12 +375,12 @@ const LessonSection = ({ section }) => {
                 />
               </div>
               {/* Caption */}
-              <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-2">
+              <p className="text-xs text-ink-subtle text-center mb-2">
                 {item.image.caption}
               </p>
               {/* Text */}
               <div
-                className="text-gray-700 dark:text-gray-300 text-sm"
+                className="text-ink-muted text-sm"
                 dangerouslySetInnerHTML={{ __html: parseMarkdown(item.text.content) }}
               />
             </div>
@@ -439,19 +439,19 @@ const LessonSection = ({ section }) => {
     return (
       <div className="my-6">
         {section.title && (
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+          <h3 className="text-lg font-semibold text-ink-body mb-3">
             {section.title}
           </h3>
         )}
         <div className="flex justify-center">
-          <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800 inline-block max-w-xs">
+          <div className="rounded-xl border border-edge overflow-hidden bg-surface-card inline-block max-w-xs">
             <img
               src={section.url}
               alt={section.alt || section.title || 'Lesson illustration'}
               className="max-w-full h-auto"
             />
             {section.caption && (
-              <p className="text-center text-sm text-gray-600 dark:text-gray-400 py-2 px-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+              <p className="text-center text-sm text-ink-muted py-2 px-3 bg-surface-muted border-t border-edge">
                 {section.caption}
               </p>
             )}
@@ -469,8 +469,8 @@ const LessonSection = ({ section }) => {
   // Divider/section header
   if (type === 'divider') {
     return (
-      <div className="my-8 pt-6 border-t-2 border-gray-200 dark:border-gray-700">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+      <div className="my-8 pt-6 border-t-2 border-edge">
+        <h2 className="text-2xl font-bold text-ink-body">
           {section.title}
         </h2>
       </div>
@@ -480,16 +480,16 @@ const LessonSection = ({ section }) => {
   // Summary section
   if (type === 'summary') {
     return (
-      <div className="my-6 p-6 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
-        <h3 className="text-lg font-semibold text-green-800 dark:text-green-300 mb-4">
+      <div className="my-6 p-6 bg-accent-50 dark:bg-accent-900/20 rounded-xl border border-accent-200 dark:border-accent-800">
+        <h3 className="text-lg font-semibold text-accent-800 dark:text-accent-300 mb-4">
           {section.title}
         </h3>
         <ul className="space-y-2">
           {section.items?.map((item, i) => (
             <li key={i} className="flex items-start gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <CheckCircle2 className="h-5 w-5 text-accent-600 dark:text-accent-400 flex-shrink-0 mt-0.5" />
               <span
-                className="text-green-900 dark:text-green-100"
+                className="text-accent-900 dark:text-accent-100"
                 dangerouslySetInnerHTML={{ __html: parseMarkdown(item) }}
               />
             </li>
@@ -503,12 +503,12 @@ const LessonSection = ({ section }) => {
   return (
     <div className="my-4">
       {section.title && (
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
+        <h3 className="text-xl font-semibold text-ink-body mb-3">
           {section.title}
         </h3>
       )}
       <div
-        className="text-gray-700 dark:text-gray-300 leading-relaxed"
+        className="text-ink-muted leading-relaxed"
         dangerouslySetInnerHTML={{ __html: parseMarkdown(section.content) }}
       />
     </div>
@@ -641,7 +641,7 @@ const InteractiveExample = ({ section }) => {
   };
 
   return (
-    <div className="my-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="my-6 bg-surface-card rounded-xl border border-edge overflow-hidden">
       {/* Header */}
       <div className="px-5 py-3 bg-brand-600">
         <h3 className="text-white font-semibold">
@@ -655,7 +655,7 @@ const InteractiveExample = ({ section }) => {
       {/* Problem */}
       <div className="p-5">
         <div
-          className="text-gray-800 dark:text-gray-200 mb-6"
+          className="text-ink-body mb-6"
           dangerouslySetInnerHTML={{ __html: parseMarkdown(section.problem) }}
         />
 
@@ -675,9 +675,9 @@ const InteractiveExample = ({ section }) => {
                   disabled={showResult}
                   className={`w-full text-left p-4 rounded-lg border-2 transition-all flex items-center gap-3 ${
                     showCorrect
-                      ? 'border-green-500 bg-green-50 dark:bg-green-900/30'
+                      ? 'border-accent-500 bg-accent-50 dark:bg-accent-900/30'
                       : showIncorrect
-                      ? 'border-red-500 bg-red-50 dark:bg-red-900/30'
+                      ? 'border-rose-500 bg-rose-50 dark:bg-rose-900/30'
                       : isSelected
                       ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/30'
                       : 'border-edge hover:border-edge-strong'
@@ -697,15 +697,15 @@ const InteractiveExample = ({ section }) => {
                   <span
                     className={`flex-1 ${
                       showCorrect
-                        ? 'text-green-800 dark:text-green-200'
+                        ? 'text-accent-800 dark:text-accent-200'
                         : showIncorrect
-                        ? 'text-red-800 dark:text-red-200'
-                        : 'text-gray-700 dark:text-gray-300'
+                        ? 'text-rose-800 dark:text-rose-200'
+                        : 'text-ink-muted'
                     }`}
                     dangerouslySetInnerHTML={{ __html: parseMarkdown(opt.text) }}
                   />
                   {showCorrect && (
-                    <CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" />
+                    <CheckCircle2 className="h-6 w-6 text-accent-600 dark:text-accent-400 flex-shrink-0" />
                   )}
                 </button>
               );
@@ -744,8 +744,8 @@ const InteractiveExample = ({ section }) => {
         {showResult && (
           <div className={`mt-4 p-4 rounded-lg ${
             isCorrect
-              ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-              : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
+              ? 'bg-accent-100 dark:bg-accent-900/30 text-accent-800 dark:text-accent-200'
+              : 'bg-rose-100 dark:bg-rose-900/30 text-rose-800 dark:text-rose-200'
           }`}>
             {isCorrect ? (
               <div className="flex items-center gap-2">
@@ -768,7 +768,7 @@ const InteractiveExample = ({ section }) => {
 
       {/* Explanation Section - only show when explicitly requested */}
       {showExplanation && (
-        <div className="p-5 bg-brand-50 dark:bg-brand-900/20 border-t border-slate-100 dark:border-slate-700">
+        <div className="p-5 bg-brand-50 dark:bg-brand-900/20 border-t border-edge-subtle">
           {/* Steps */}
           {section.steps && section.steps.length > 0 && (
             <div className="mb-4">
@@ -812,10 +812,10 @@ const InteractiveExample = ({ section }) => {
 
           {/* Answer */}
           {section.answer && (
-            <div className="mt-4 p-4 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <span className="font-semibold text-green-800 dark:text-green-300">Answer: </span>
+            <div className="mt-4 p-4 bg-accent-100 dark:bg-accent-900/30 rounded-lg">
+              <span className="font-semibold text-accent-800 dark:text-accent-300">Answer: </span>
               <span
-                className="text-green-900 dark:text-green-100"
+                className="text-accent-900 dark:text-accent-100"
                 dangerouslySetInnerHTML={{ __html: parseMarkdown(section.answer) }}
               />
             </div>

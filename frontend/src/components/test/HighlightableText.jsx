@@ -38,7 +38,7 @@ const HighlightToolbar = forwardRef(function HighlightToolbar(
     <div
       ref={ref}
       onMouseDown={handleMouseDown}
-      className="fixed z-[60] flex items-center gap-1 px-2.5 py-2 bg-white rounded-full shadow-xl border border-slate-100"
+      className="fixed z-[60] flex items-center gap-1 px-2.5 py-2 bg-surface-card rounded-full shadow-xl border border-edge-subtle"
       style={{
         left: x,
         top: y - 8,
@@ -58,14 +58,14 @@ const HighlightToolbar = forwardRef(function HighlightToolbar(
       ))}
 
       {/* Divider */}
-      <div className="w-px h-5 bg-slate-200 mx-0.5" />
+      <div className="w-px h-5 bg-edge mx-0.5" />
 
       {/* Underline — only for new selections */}
       {!isExistingMark && (
         <button
           title="Underline"
           onClick={onUnderline}
-          className="p-1.5 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-1.5 text-ink-muted hover:bg-surface-muted rounded-lg transition-colors"
         >
           <Underline className="h-4 w-4" />
         </button>

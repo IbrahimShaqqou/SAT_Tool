@@ -19,6 +19,7 @@ export { ToastProvider, useToast } from './Toast';
 export { default as ThetaBar } from './ThetaBar';
 // Study Hall primitives
 export { default as Surface } from './Surface';
+export { default as MathHtml } from './MathHtml';
 export { default as AnimatedNumber } from './AnimatedNumber';
 export { default as ProgressRing } from './ProgressRing';
 export { default as Skeleton } from './Skeleton';

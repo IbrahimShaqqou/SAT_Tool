@@ -63,7 +63,7 @@ const ReferenceSheet = ({
 
   // Math formula component for consistent styling
   const Formula = ({ children }) => (
-    <span className="font-serif text-lg tracking-wide text-gray-800 dark:text-gray-200">{children}</span>
+    <span className="font-serif text-lg tracking-wide text-ink-body">{children}</span>
   );
 
   return (
