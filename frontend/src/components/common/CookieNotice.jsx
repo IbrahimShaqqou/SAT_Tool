@@ -33,7 +33,7 @@ const CookieNotice = () => {
     <div
       role="region"
       aria-label="Cookie notice"
-      className="fixed bottom-3 left-3 right-3 z-[60] mx-auto max-w-md rounded-xl border border-edge bg-surface-card/95 px-4 py-3 shadow-card-md backdrop-blur sm:left-4 sm:right-auto"
+      className="fixed bottom-3 left-3 right-3 z-[60] rounded-xl border border-edge bg-surface-card/95 px-4 py-3 shadow-card-md backdrop-blur sm:left-auto sm:right-4 sm:max-w-md"
     >
       <div className="flex items-start gap-3">
         <p className="flex-1 text-xs leading-relaxed text-ink-muted">
