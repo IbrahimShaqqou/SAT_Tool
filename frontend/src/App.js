@@ -19,6 +19,9 @@ import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '
 // Landing Page
 import LandingPage from './pages/LandingPage';
 
+// Roster join link (public)
+import JoinPage from './pages/JoinPage';
+
 // Public Pages (no auth required)
 import { PublicQuestionBankPage, PublicLessonsPage, PublicLessonViewerPage } from './pages/public';
 
@@ -30,10 +33,7 @@ import StudentPracticeTestResultPage from './pages/tutor/StudentPracticeTestResu
 import TutorAssignments from './pages/tutor/AssignmentsPage';
 import CreateAssignment from './pages/tutor/CreateAssignmentPage';
 import TutorAnalytics from './pages/tutor/AnalyticsPage';
-import TutorInvites from './pages/tutor/InvitesPage';
 import QuestionBankPage from './pages/tutor/QuestionBankPage';
-import StudentResultsPage from './pages/tutor/StudentResultsPage';
-import TutorIntakeResultsPage from './pages/tutor/IntakeResultsPage';
 
 // Student Pages
 import StudentDashboard from './pages/student/DashboardPage';
@@ -44,8 +44,6 @@ import AdaptivePracticePage from './pages/student/AdaptivePracticePage';
 import StudentQuestionBankPage from './pages/student/QuestionBankPage';
 import LessonsPage from './pages/student/LessonsPage';
 import LessonViewerPage from './pages/student/LessonViewerPage';
-import DiagnosticLandingPage from './pages/student/DiagnosticLandingPage';
-import DiagnosticResultsPage from './pages/student/DiagnosticResultsPage';
 import StudyPlanPage from './pages/student/StudyPlanPage';
 import FullLengthTestPage from './pages/student/FullLengthTestPage';
 import FullLengthResultsPage from './pages/student/FullLengthResultsPage';
@@ -54,9 +52,6 @@ import PracticeTestStartPage from './pages/student/PracticeTestStartPage';
 import PracticeTestTakingPage from './pages/student/PracticeTestTakingPage';
 import PracticeTestBreakPage from './pages/student/PracticeTestBreakPage';
 import PracticeTestResultsPage from './pages/student/PracticeTestResultsPage';
-
-// Public Assessment
-import { AssessmentPage, IntakeResultsPage } from './pages/assess';
 
 // Shared Pages
 import ProfilePage from './pages/shared/ProfilePage';
@@ -69,6 +64,9 @@ function App() {
     <Routes>
       {/* Landing page */}
       <Route path="/" element={<LandingPage />} />
+
+      {/* Roster join link (public, no auth) */}
+      <Route path="/join/:code" element={<JoinPage />} />
 
       {/* Legal (public, no auth) */}
       <Route path="/privacy" element={<PrivacyPolicyPage />} />
@@ -88,10 +86,6 @@ function App() {
       <Route path="/lessons" element={<PublicLessonsPage />} />
       <Route path="/lessons/:lessonId" element={<PublicLessonViewerPage />} />
 
-      {/* Public assessment (no auth required) */}
-      <Route path="/assess/:token" element={<AssessmentPage />} />
-      <Route path="/assess/:token/results" element={<IntakeResultsPage />} />
-
       {/* Tutor routes */}
       <Route
         element={
@@ -104,12 +98,9 @@ function App() {
         <Route path="/tutor/students" element={<TutorStudents />} />
         <Route path="/tutor/students/:id" element={<StudentDetail />} />
         <Route path="/tutor/students/:id/practice-tests/:sessionId" element={<StudentPracticeTestResultPage />} />
-        <Route path="/tutor/students/:studentId/results/:sessionId" element={<StudentResultsPage />} />
         <Route path="/tutor/assignments" element={<TutorAssignments />} />
         <Route path="/tutor/assignments/new" element={<CreateAssignment />} />
         <Route path="/tutor/analytics" element={<TutorAnalytics />} />
-        <Route path="/tutor/invites" element={<TutorInvites />} />
-        <Route path="/tutor/invites/:inviteId/results" element={<TutorIntakeResultsPage />} />
         <Route path="/tutor/questions" element={<QuestionBankPage />} />
         <Route path="/tutor/lessons" element={<LessonsPage />} />
         <Route path="/tutor/lessons/:lessonId" element={<LessonViewerPage />} />
@@ -134,8 +125,6 @@ function App() {
         <Route path="/student/lessons" element={<LessonsPage />} />
         <Route path="/student/lessons/:lessonId" element={<LessonViewerPage />} />
         <Route path="/student/study-plan" element={<StudyPlanPage />} />
-        <Route path="/student/diagnostic" element={<DiagnosticLandingPage />} />
-        <Route path="/student/diagnostic/:sessionId/results" element={<DiagnosticResultsPage />} />
         <Route path="/student/full-length/:id" element={<FullLengthTestPage />} />
         <Route path="/student/full-length/:id/results" element={<FullLengthResultsPage />} />
         <Route path="/student/practice-tests" element={<PracticeTestsPage />} />

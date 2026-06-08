@@ -44,7 +44,7 @@ const TutorDashboard = () => {
         eyebrow="Your studio"
         title="Tutor dashboard"
         actions={
-          <Link to="/tutor/invites">
+          <Link to="/tutor/students">
             <Button variant="primary"><Plus className="h-4 w-4" /> Invite student</Button>
           </Link>
         }
@@ -119,7 +119,7 @@ const TutorDashboard = () => {
                 icon={Users}
                 title="No students yet"
                 description="Invite your first student to start tracking their progress."
-                action={<Link to="/tutor/invites"><Button variant="primary" size="sm"><Plus className="h-4 w-4" /> Invite student</Button></Link>}
+                action={<Link to="/tutor/students"><Button variant="primary" size="sm"><Plus className="h-4 w-4" /> Invite student</Button></Link>}
               />
             )}
           </Section>

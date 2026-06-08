@@ -14,7 +14,6 @@ const TEST_ROUTES = [
   '/student/adaptive',
   '/student/questions',
   '/tutor/questions',
-  '/assess/',
 ];
 
 const isTestRoute = (pathname) =>

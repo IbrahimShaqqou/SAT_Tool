@@ -11,7 +11,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  ClipboardList, Brain, PlayCircle, ArrowRight, ArrowUpRight,
+  ClipboardList, Brain, ArrowRight, ArrowUpRight,
   BookOpen, BarChart3, FileText, Target, Sparkles,
 } from 'lucide-react';
 import {
@@ -43,7 +43,6 @@ const StudentDashboard = () => {
   const firstName = user?.first_name || user?.email?.split('@')[0] || 'there';
 
   const [assignments, setAssignments] = useState([]);
-  const [inProgressAssessments, setInProgressAssessments] = useState([]);
   const [progress, setProgress] = useState(null);
   const [skills, setSkills] = useState(null);
   const [studyPlan, setStudyPlan] = useState([]);
@@ -52,17 +51,15 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [assignmentsRes, progressRes, inProgressRes, skillsRes, studyPlanRes] =
+        const [assignmentsRes, progressRes, skillsRes, studyPlanRes] =
           await Promise.all([
             assignmentService.getAssignments({ status: 'pending', limit: 5 }),
             progressService.getSummary(),
-            progressService.getInProgressAssessments(),
             progressService.getSkills().catch(() => ({ data: { skills: [], weak_skills: [], strong_skills: [] } })),
             recommendationService.getStudyPlan().catch(() => ({ data: { tasks: [] } })),
           ]);
         setAssignments(assignmentsRes.data.items || []);
         setProgress(progressRes.data);
-        setInProgressAssessments(inProgressRes.data.items || []);
         setSkills(skillsRes.data);
         setStudyPlan(studyPlanRes.data.tasks || []);
       } catch (error) {
@@ -77,7 +74,6 @@ const StudentDashboard = () => {
   const accuracy = Math.round(progress?.overall_accuracy || 0);
   const questionsAnswered = progress?.total_questions_answered || 0;
   const sessions = progress?.sessions_completed || 0;
-  const hasDiagnostic = progress?.has_diagnostic || false;
 
   const studyPlanVisible = useMemo(() => {
     let completed = {};
@@ -86,19 +82,16 @@ const StudentDashboard = () => {
   }, [studyPlan]);
 
   const nextAction = useMemo(() => {
-    if (inProgressAssessments.length > 0) {
-      const a = inProgressAssessments[0];
-      return { kind: 'resume-assessment', title: a.title || 'Intake Assessment', meta: `${a.questions_answered}/${a.total_questions} answered`, to: `/assess/${a.invite_token}`, cta: 'Resume' };
-    }
-    if (!hasDiagnostic) {
-      return { kind: 'diagnostic', title: 'Take your diagnostic', meta: '30 questions · ~25 min · pinpoints what to study', to: '/student/diagnostic', cta: 'Start diagnostic' };
+    // No prior practice yet -> point to importing a Bluebook practice test.
+    if (questionsAnswered === 0) {
+      return { kind: 'import', title: 'Import a practice test', meta: 'Bring your official Bluebook results in for a real score and a study plan', to: '/student/practice-tests', cta: 'Get started' };
     }
     const weak = skills?.weak_skills?.[0];
     if (weak) {
       return { kind: 'practice', title: `Practice ${weak.skill_name}`, meta: `${weak.domain_code} · your lowest mastery right now`, to: `/student/adaptive?skill=${weak.skill_id}&autostart=true`, cta: 'Start practice' };
     }
     return { kind: 'adaptive', title: 'Adaptive practice', meta: 'Questions that adjust to your level', to: '/student/adaptive', cta: 'Start practice' };
-  }, [inProgressAssessments, hasDiagnostic, skills]);
+  }, [questionsAnswered, skills]);
 
   if (isLoading) return <DashboardSkeleton greeting={getGreeting()} name={firstName} />;
 
@@ -117,11 +110,11 @@ const StudentDashboard = () => {
           className="group mt-5 flex items-center gap-5 px-5 py-5 sm:px-7 sm:py-6"
         >
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-glow">
-            {nextAction.kind === 'resume-assessment' ? <PlayCircle className="h-7 w-7" /> : <Sparkles className="h-7 w-7" />}
+            <Sparkles className="h-7 w-7" />
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600 dark:text-brand-400">
-              {nextAction.kind === 'diagnostic' ? 'Start here' : 'Pick up where you left off'}
+              {nextAction.kind === 'import' ? 'Start here' : 'Pick up where you left off'}
             </p>
             <p className="truncate font-display text-xl font-semibold tracking-tight text-ink-body sm:text-2xl">
               {nextAction.title}

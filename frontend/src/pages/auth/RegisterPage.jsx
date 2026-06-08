@@ -3,13 +3,18 @@
  * Supports dark mode
  */
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Button, Input, Select } from '../../components/ui';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { register, error: authError } = useAuth();
+
+  // When arriving from a tutor's join link, return there after signup so the
+  // student gets attached, and default the role to student.
+  const from = location.state?.from?.pathname || null;
 
   const [formData, setFormData] = useState({
     email: '',
@@ -17,7 +22,7 @@ const RegisterPage = () => {
     confirmPassword: '',
     first_name: '',
     last_name: '',
-    role: 'student',
+    role: location.state?.role || 'student',
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +59,7 @@ const RegisterPage = () => {
     const { confirmPassword, ...registerData } = formData;
     const result = await register(registerData);
     setIsLoading(false);
-    if (result.success) navigate('/', { replace: true });
+    if (result.success) navigate(from || '/', { replace: true });
   };
 
   return (

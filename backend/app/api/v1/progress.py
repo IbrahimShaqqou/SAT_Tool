@@ -17,7 +17,6 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.response import StudentResponse, StudentSkill
 from app.models.test import TestSession
-from app.models.invite import Invite
 from app.models.taxonomy import Skill, Domain
 from app.models.lesson import Lesson, LessonCompletion
 from app.models.enums import TestStatus, SubjectArea, TestType
@@ -36,26 +35,6 @@ from app.services.irt_service import (
     STALE_SKILL_THRESHOLD_DAYS,
 )
 
-
-class InProgressAssessment(BaseModel):
-    """An in-progress assessment that can be resumed."""
-    session_id: UUID
-    invite_token: str
-    title: Optional[str]
-    subject_area: Optional[SubjectArea]
-    total_questions: int
-    questions_answered: int
-    current_question_index: int
-    time_limit_minutes: Optional[int]
-    started_at: datetime
-    tutor_name: str
-
-    model_config = {"from_attributes": True}
-
-
-class InProgressAssessmentsResponse(BaseModel):
-    """Response containing in-progress assessments."""
-    items: List[InProgressAssessment]
 
 router = APIRouter()
 
@@ -152,59 +131,6 @@ def get_response_history(
         offset=offset,
     )
 
-
-@router.get("/in-progress", response_model=InProgressAssessmentsResponse)
-def get_in_progress_assessments(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-) -> InProgressAssessmentsResponse:
-    """
-    Get student's in-progress assessments (from invite links).
-
-    Returns assessments that were started but not completed,
-    allowing the student to resume them from the dashboard.
-    """
-    # Find all invites linked to the current student with in-progress sessions
-    invites = db.query(Invite).filter(
-        Invite.student_id == current_user.id,
-        Invite.test_session_id != None,
-    ).all()
-
-    items = []
-    for invite in invites:
-        # Get the test session
-        session = db.query(TestSession).filter(
-            TestSession.id == invite.test_session_id
-        ).first()
-
-        if not session or session.status != TestStatus.IN_PROGRESS:
-            continue
-
-        # Get tutor name (self-serve diagnostics have tutor_id == student_id)
-        is_self_serve = invite.tutor_id and str(invite.tutor_id) == str(invite.student_id)
-        if is_self_serve:
-            tutor_name = "Self-Assessment"
-        else:
-            tutor = db.query(User).filter(User.id == invite.tutor_id).first()
-            tutor_name = f"{tutor.first_name} {tutor.last_name}" if tutor else "Your Tutor"
-
-        items.append(InProgressAssessment(
-            session_id=session.id,
-            invite_token=invite.token,
-            title=invite.title or session.title,
-            subject_area=invite.subject_area,
-            total_questions=session.total_questions or invite.question_count,
-            questions_answered=session.questions_answered or 0,
-            current_question_index=session.current_question_index or 0,
-            time_limit_minutes=session.time_limit_minutes,
-            started_at=session.started_at,
-            tutor_name=tutor_name,
-        ))
-
-    # Sort by most recently started
-    items.sort(key=lambda x: x.started_at, reverse=True)
-
-    return InProgressAssessmentsResponse(items=items)
 
 
 def _build_skill_mastery_info(
@@ -422,15 +348,10 @@ def get_score_history(
         .all()
     )
 
-    # For each session, look up the invite to get the predicted composite score
+    # Compute a predicted composite score for each session directly.
+    from app.services.intake_service import calculate_intake_results
     history = []
     for session in sessions:
-        invite = db.query(Invite).filter(Invite.test_session_id == session.id).first()
-        if not invite:
-            continue
-
-        # Try to compute a predicted score from the session
-        from app.services.intake_service import calculate_intake_results
         results = calculate_intake_results(db, session.id)
         composite = results.get("predicted_composite")
         if not composite:

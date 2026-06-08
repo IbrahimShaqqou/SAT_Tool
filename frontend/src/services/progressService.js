@@ -12,10 +12,6 @@ export const progressService = {
   getHistory: (params = {}) =>
     api.get('/progress/history', { params }),
 
-  // Get in-progress assessments (from invite links)
-  getInProgressAssessments: () =>
-    api.get('/progress/in-progress'),
-
   // Get student's skill abilities
   getSkills: () =>
     api.get('/progress/skills'),

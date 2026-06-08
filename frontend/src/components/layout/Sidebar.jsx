@@ -12,12 +12,10 @@ import {
   Users,
   ClipboardList,
   BarChart3,
-  Link as LinkIcon,
   Brain,
   FileText,
   BookOpen,
   GraduationCap,
-  ClipboardCheck,
   ListChecks,
 } from 'lucide-react';
 
@@ -41,7 +39,6 @@ const tutorGroups = [
     label: 'Insights',
     items: [
       { to: '/tutor/analytics', icon: BarChart3, label: 'Analytics' },
-      { to: '/tutor/invites', icon: LinkIcon, label: 'Invite Links' },
     ],
   },
 ];
@@ -52,7 +49,6 @@ const studentGroups = [
     items: [
       { to: '/student', icon: LayoutDashboard, label: 'Dashboard', end: true },
       { to: '/student/study-plan', icon: ListChecks, label: 'Study Plan' },
-      { to: '/student/diagnostic', icon: ClipboardCheck, label: 'Diagnostic' },
       { to: '/student/assignments', icon: ClipboardList, label: 'My Assignments' },
     ],
   },

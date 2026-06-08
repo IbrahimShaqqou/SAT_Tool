@@ -5,12 +5,13 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Users, UserPlus, ArrowUpRight } from 'lucide-react';
+import { Search, Users, UserPlus, ArrowUpRight, Link2, Copy, Check } from 'lucide-react';
 import {
   Button, Avatar, EmptyState, Modal, Input, Skeleton,
   PageHeader, Section, StatusPill,
 } from '../../components/ui';
 import { tutorService } from '../../services';
+import { joinService } from '../../services/joinService';
 import { useDebounce } from '../../hooks';
 import { useToast } from '../../components/ui/Toast';
 
@@ -25,6 +26,30 @@ const StudentsPage = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [addError, setAddError] = useState('');
   const toast = useToast();
+
+  // Reusable roster join link.
+  const [joinLink, setJoinLink] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    joinService.getJoinLink()
+      .then((res) => { if (active) setJoinLink(res.data.link); })
+      .catch(() => { /* non-blocking: link area just won't show */ });
+    return () => { active = false; };
+  }, []);
+
+  const copyJoinLink = async () => {
+    if (!joinLink) return;
+    try {
+      await navigator.clipboard.writeText(joinLink);
+      setCopied(true);
+      toast.success('Invite link copied. Drop it in your meeting chat.');
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error('Could not copy. Select and copy the link manually.');
+    }
+  };
 
   const fetchStudents = useCallback(async () => {
     setIsLoading(true);
@@ -72,6 +97,32 @@ const StudentsPage = () => {
           </Button>
         }
       />
+
+      {/* Invite link — share once, students join your roster */}
+      {joinLink && (
+        <div className="mb-5 rounded-xl border border-edge bg-surface-muted/50 p-4">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-500/15">
+              <Link2 className="h-4 w-4 text-brand-600 dark:text-brand-300" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-ink-body">Your invite link</p>
+              <p className="mt-0.5 text-xs text-ink-muted">
+                Share this once (e.g. drop it in your meeting chat). Students who open it and sign up join your roster automatically.
+              </p>
+              <div className="mt-2.5 flex items-center gap-2">
+                <code className="min-w-0 flex-1 truncate rounded-lg bg-surface-input px-3 py-2 text-xs text-ink-body">
+                  {joinLink}
+                </code>
+                <Button variant="secondary" size="sm" onClick={copyJoinLink} className="shrink-0">
+                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied ? 'Copied' : 'Copy'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Search */}
       <div className="relative mb-5">

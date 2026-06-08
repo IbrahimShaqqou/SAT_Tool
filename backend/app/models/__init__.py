@@ -59,9 +59,6 @@ from app.models.test_module import TestModule, ModuleBreak
 # Assignments
 from app.models.assignment import Assignment, AssignmentQuestion
 
-# Invites
-from app.models.invite import Invite
-
 # Lessons
 from app.models.lesson import Lesson, LessonCompletion, LessonStatus
 
@@ -107,7 +104,6 @@ __all__ = [
     "Assignment",
     "AssignmentQuestion",
     "InviteStatus",
-    "Invite",
     "Lesson",
     "LessonCompletion",
     "LessonStatus",
