@@ -7,6 +7,12 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Layouts
 import { AppLayout, PublicLayout, AuthGuard } from './components/layout';
 
+// Legal pages + cookie notice
+import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
+import TermsPage from './pages/legal/TermsPage';
+import CookiePolicyPage from './pages/legal/CookiePolicyPage';
+import { CookieNotice } from './components/common';
+
 // Auth Pages
 import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from './pages/auth';
 
@@ -59,9 +65,15 @@ import ProgressPage from './pages/shared/ProgressPage';
 
 function App() {
   return (
+    <>
     <Routes>
       {/* Landing page */}
       <Route path="/" element={<LandingPage />} />
+
+      {/* Legal (public, no auth) */}
+      <Route path="/privacy" element={<PrivacyPolicyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/cookies" element={<CookiePolicyPage />} />
 
       {/* Auth routes */}
       <Route element={<PublicLayout />}>
@@ -150,6 +162,8 @@ function App() {
       {/* 404 */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    <CookieNotice />
+    </>
   );
 }
 

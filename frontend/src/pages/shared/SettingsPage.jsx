@@ -4,6 +4,7 @@
  * full dark mode, accessible toggle + select. Logic/persistence preserved.
  */
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Moon, Globe, Save, Sun, Check } from 'lucide-react';
 import { Button, PageHeader, Section } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
@@ -124,6 +125,13 @@ const SettingsPage = () => {
             <Save className="h-4 w-4" />
             {isSaving ? 'Saving...' : 'Save Settings'}
           </Button>
+        </div>
+
+        {/* Legal — quiet footer links */}
+        <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-edge-subtle pt-4 text-xs text-ink-faint">
+          <Link to="/privacy" className="hover:text-ink-muted">Privacy Policy</Link>
+          <Link to="/terms" className="hover:text-ink-muted">Terms of Service</Link>
+          <Link to="/cookies" className="hover:text-ink-muted">Cookie Policy</Link>
         </div>
       </div>
     </div>

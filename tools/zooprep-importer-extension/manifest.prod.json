@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "ZooPrep Bluebook Importer",
+  "version": "1.0.0",
+  "description": "Bring your official College Board Bluebook practice-test results into ZooPrep — real scores, every question, and what to study next.",
+  "permissions": ["storage", "downloads"],
+  "host_permissions": [
+    "https://mypractice.collegeboard.org/*",
+    "https://digitalpractice-api.collegeboard.org/*",
+    "https://zooprep.com/*",
+    "https://*.zooprep.com/*",
+    "https://sattool-production.up.railway.app/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "ZooPrep Importer",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mypractice.collegeboard.org/*"],
+      "js": ["content-bridge.js"],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    },
+    {
+      "matches": ["https://mypractice.collegeboard.org/*"],
+      "js": ["page-hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://zooprep.com/*",
+        "https://*.zooprep.com/*"
+      ],
+      "js": ["zooprep-connect.js"],
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    }
+  ]
+}

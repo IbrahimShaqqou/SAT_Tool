@@ -1,6 +1,7 @@
 :root {
-  --teal: #0e7490;
-  --teal-dark: #155e6b;
+  /* Brand: bronze-amber, matching the ZooPrep app + extension icon. */
+  --teal: #bf7724;
+  --teal-dark: #a25f1c;
   --ink: #0f172a;
   --muted: #64748b;
   --bg: #f8fafc;
@@ -54,6 +55,22 @@ main { padding: 16px; }
 }
 .progress__fill {
   height: 100%; width: 0; background: var(--teal); transition: width 0.2s;
+}
+/* Indeterminate sweep for phases without a known total (e.g. uploading). */
+.progress__bar--indeterminate .progress__fill {
+  width: 40% !important;
+  border-radius: 99px;
+  animation: indeterminate 1.1s ease-in-out infinite;
+  transition: none;
+}
+@keyframes indeterminate {
+  0%   { margin-left: -40%; }
+  100% { margin-left: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress__bar--indeterminate .progress__fill {
+    animation: none; width: 100% !important; margin-left: 0; opacity: 0.5;
+  }
 }
 .progress__text { font-size: 12px; color: var(--muted); margin-top: 6px; }
 .result {

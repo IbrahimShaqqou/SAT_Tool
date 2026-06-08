@@ -7,11 +7,23 @@ const els = {
   hint: document.getElementById("hint"),
   export: document.getElementById("export"),
   progress: document.getElementById("progress"),
+  progressBar: document.getElementById("progressBar"),
   progressFill: document.getElementById("progressFill"),
   progressText: document.getElementById("progressText"),
   result: document.getElementById("result"),
   openOptions: document.getElementById("openOptions"),
 };
+
+// Show an indeterminate (sweeping) bar with a label — for phases with no total.
+function showIndeterminate(text) {
+  els.progress.hidden = false;
+  els.progressBar.classList.add("progress__bar--indeterminate");
+  els.progressFill.style.width = "";
+  els.progressText.textContent = text || "";
+}
+function clearIndeterminate() {
+  els.progressBar.classList.remove("progress__bar--indeterminate");
+}
 
 function setStatus(kind, text) {
   els.status.className = `status status--${kind}`;
@@ -55,6 +67,7 @@ async function refreshStatus() {
 
 function onProgress(p) {
   els.progress.hidden = false;
+  clearIndeterminate();
   const pct = p.total ? Math.round((p.done / p.total) * 100) : 0;
   els.progressFill.style.width = `${pct}%`;
   els.progressText.textContent = p.text || "";
@@ -86,13 +99,18 @@ async function deliver(bundle) {
   const wantUpload = cfg.deliveryMode === "upload" || (cfg.deliveryMode === "auto" && canUpload);
 
   if (wantUpload && canUpload) {
+    setStatus("checking", "Uploading…");
+    showIndeterminate(`Uploading ${bundle.attemptCount} attempts to ZooPrep…`);
     try {
       const res = await chrome.runtime.sendMessage({
         type: "IMPORTER_UPLOAD",
         baseUrl: cfg.zooprepBaseUrl,
         bundle,
       });
+      clearIndeterminate();
+      els.progress.hidden = true;
       if (res && res.ok) {
+        setStatus("ready", "Uploaded");
         showResult(
           `Uploaded ${bundle.attemptCount} attempts to ZooPrep. ` +
             `${res.summary ? res.summary : ""}`
@@ -101,6 +119,8 @@ async function deliver(bundle) {
       }
       throw new Error(res && res.error ? res.error : "upload failed");
     } catch (e) {
+      clearIndeterminate();
+      els.progress.hidden = true;
       // Fall back to download so the data is never lost.
       await downloadBundle(bundle);
       showResult(
@@ -111,6 +131,7 @@ async function deliver(bundle) {
       return;
     }
   }
+  els.progress.hidden = true;
   await downloadBundle(bundle);
   showResult(
     `Saved <strong>zooprep-bluebook.json</strong> with ${bundle.attemptCount} attempts. ` +

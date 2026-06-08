@@ -15,6 +15,7 @@
  */
 
 export { default as SkillMap } from './SkillMap';
+export { default as CookieNotice } from './CookieNotice';
 
 // Components will be exported here as they are implemented
 // export { default as Button } from './Button';

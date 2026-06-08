@@ -16,6 +16,12 @@ import {
 import { listPracticeTests, listMyResults, importBundle } from '../../services/practiceTestApi';
 import api from '../../services/api';
 
+// Where "Get the importer extension" sends students. Once the extension is
+// published, set REACT_APP_EXTENSION_URL to the Chrome Web Store listing URL;
+// until then it falls back to the locally-served dev zip.
+const EXTENSION_URL =
+  process.env.REACT_APP_EXTENSION_URL || '/extension/zooprep-importer.zip';
+
 const fmtDate = (iso) =>
   iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
@@ -194,7 +200,7 @@ const PracticeTestsPage = () => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => window.open('/extension/zooprep-importer.zip', '_blank')}
+            onClick={() => window.open(EXTENSION_URL, '_blank')}
           >
             <Chrome className="mr-1.5 h-4 w-4" /> Get the importer extension
           </Button>

@@ -248,10 +248,13 @@ const LandingPage = () => {
             </div>
             <span className="text-sm font-display font-semibold text-[#f5f1ea]">ZooPrep</span>
           </div>
-          <div className="flex gap-5 text-sm text-[#a8a097]">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-[#a8a097]">
             <Link to="/questions" className="hover:text-[#f5f1ea] transition-colors">Questions</Link>
             <Link to="/lessons" className="hover:text-[#f5f1ea] transition-colors">Lessons</Link>
             <Link to="/login" className="hover:text-[#f5f1ea] transition-colors">Log In</Link>
+            <Link to="/privacy" className="hover:text-[#f5f1ea] transition-colors">Privacy</Link>
+            <Link to="/terms" className="hover:text-[#f5f1ea] transition-colors">Terms</Link>
+            <Link to="/cookies" className="hover:text-[#f5f1ea] transition-colors">Cookies</Link>
           </div>
           <p className="text-xs text-[#756d64]">&copy; {new Date().getFullYear()} ZooPrep</p>
         </div>
