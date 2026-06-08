@@ -24,7 +24,7 @@ const PublicLayout = () => {
             The smarter way to prepare for the Digital SAT
           </h2>
           <p className="text-brand-100/80 text-[15px] leading-relaxed mb-8">
-            Adaptive practice, AI explanations, and expert lessons — all in one place.
+            Adaptive practice, AI explanations, and expert lessons, all in one place.
           </p>
           <div className="space-y-3">
             {[

@@ -205,7 +205,7 @@ const PracticeTestResultsPage = ({
               </div>
               {results.percentile != null && (
                 <p className="mt-2 text-sm text-ink-muted">
-                  <span className="font-semibold text-ink-body">{results.percentile}th percentile</span> — higher than {results.percentile}% of test-takers
+                  <span className="font-semibold text-ink-body">{results.percentile}th percentile</span>, higher than {results.percentile}% of test-takers
                 </p>
               )}
               <MethodNote method={results.score_method} low={results.total_score_low} high={results.total_score_high} />
@@ -240,7 +240,7 @@ const PracticeTestResultsPage = ({
           <Section
             className="mt-12"
             title="Skill map"
-            hint="Accuracy by skill — weakest first"
+            hint="Accuracy by skill, weakest first"
             icon={Target}
           >
             <SkillMap
@@ -366,11 +366,11 @@ const StudyPlanView = ({ plan, planError, isTutorView, navigate }) => {
   return (
     <div className="space-y-10">
       {/* Focus skills */}
-      <Section title="Focus areas" hint="Your weakest skills on this test — start here" icon={Target}>
+      <Section title="Focus areas" hint="Your weakest skills on this test, start here" icon={Target}>
         {focus.length === 0 ? (
           <div className="flex items-center gap-3 rounded-xl border border-edge px-4 py-6 text-sm text-ink-muted">
             <CheckCircle2 className="h-5 w-5 text-accent-500" />
-            Nothing fell below 70% — strong work. Keep practicing to stay sharp.
+            Nothing fell below 70%. Strong work. Keep practicing to stay sharp.
           </div>
         ) : (
           <ol className="space-y-3">
@@ -528,12 +528,12 @@ const ReviewCard = ({ q }) => {
           <div>
             <p className="text-xs text-ink-faint">Your answer</p>
             <p className={`font-medium ${q.is_correct ? 'text-accent-600 dark:text-accent-300' : 'text-rose-600 dark:text-rose-400'}`}>
-              {q.your_answer ?? '—'}
+              {q.your_answer ?? 'None'}
             </p>
           </div>
           <div>
             <p className="text-xs text-ink-faint">Correct answer</p>
-            <p className="font-medium text-ink-body">{q.correct_answers.join(', ') || '—'}</p>
+            <p className="font-medium text-ink-body">{q.correct_answers.join(', ') || 'None'}</p>
           </div>
         </div>
       )}

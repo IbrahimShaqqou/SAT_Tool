@@ -128,7 +128,7 @@ export const MasteryProgressCard = ({
       {isStale && (
         <div className="flex items-center gap-1 text-xs text-orange-600 dark:text-orange-400 mb-2">
           <AlertCircle size={10} />
-          Mastery is fading — practice to keep it fresh
+          Mastery is fading, practice to keep it fresh
         </div>
       )}
 

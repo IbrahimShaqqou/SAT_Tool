@@ -23,7 +23,7 @@ const PrivacyPolicyPage = () => (
     <LegalSection heading="Information we collect">
       <p><strong className="text-ink-body">Account information.</strong> When you sign up we collect your name, email, role (student or tutor), and any profile details you provide, such as a target score or test date.</p>
       <p><strong className="text-ink-body">Practice data.</strong> Your answers to practice questions, scores, per-skill mastery, study plans, and the assignments a tutor gives you.</p>
-      <p><strong className="text-ink-body">Imported College Board results.</strong> If you use the Bluebook Importer, we receive your official Bluebook practice-test results — your scores and your answer to each question — from College Board, and store them in your ZooPrep account.</p>
+      <p><strong className="text-ink-body">Imported College Board results.</strong> If you use the Bluebook Importer, we receive your official Bluebook practice-test results (your scores and your answer to each question) from College Board, and store them in your ZooPrep account.</p>
       <p><strong className="text-ink-body">Basic technical data.</strong> Standard server logs (e.g. request times and error reports) used to operate and secure the service.</p>
     </LegalSection>
 

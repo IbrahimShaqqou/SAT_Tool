@@ -59,7 +59,7 @@ const ReportModal = ({ questionId, onClose }) => {
           {submitted ? (
             <div className="flex flex-col items-center gap-3 py-4 text-center">
               <CheckCircle2 className="h-10 w-10 text-emerald-500" />
-              <p className="text-ink-body font-medium">Report submitted — thanks!</p>
+              <p className="text-ink-body font-medium">Report submitted, thanks!</p>
               <p className="text-sm text-ink-subtle">We'll review this question and fix any issues.</p>
               <button
                 onClick={onClose}

@@ -812,7 +812,7 @@ const AdaptivePracticePage = () => {
           }`}>
             <span className="text-sm font-medium">
               {lastResult.is_correct ? '✓ Correct!' : '✗ Incorrect'}
-              {lastResult.session_complete && ' — Review the explanation above, then click Finish'}
+              {lastResult.session_complete && '. Review the explanation above, then click Finish'}
             </span>
           </div>
         )}

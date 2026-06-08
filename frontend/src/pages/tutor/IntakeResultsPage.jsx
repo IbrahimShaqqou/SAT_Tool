@@ -48,7 +48,7 @@ const buildSummary = (data) => {
   const weakest = pickWeakestSkills(data.skill_breakdown);
 
   const headerLines = [
-    `${data.student_name || 'Student'} — ${sectionLabel} Intake (${date})`,
+    `${data.student_name || 'Student'}: ${sectionLabel} Intake (${date})`,
     section
       ? `Predicted: ${section.predicted_score_mid} (range ${section.predicted_score_low}–${section.predicted_score_high}) · ${overall.correct}/${overall.total} correct`
       : `${overall.correct}/${overall.total} correct`,
@@ -58,7 +58,7 @@ const buildSummary = (data) => {
   if (allStrong || weakest.length === 0) {
     headerLines.push(
       allStrong
-        ? 'No weak areas — consider advancing to harder material.'
+        ? 'No weak areas, consider advancing to harder material.'
         : 'No skill data available.'
     );
     return headerLines.join('\n');
@@ -136,7 +136,7 @@ const TeachThisNext = ({ data }) => {
     return (
       <Section title="Teach this next">
         <p className="text-ink-body">
-          No weak areas — consider advancing to harder material.
+          No weak areas, consider advancing to harder material.
         </p>
       </Section>
     );
@@ -344,7 +344,7 @@ const IntakeResultsPage = () => {
         } else if (status === 400 && detail === 'Assessment not started') {
           setError({ kind: 'not_started', message: "The student hasn't started this intake yet." });
         } else if (status === 400 && detail === 'Assessment not completed') {
-          setError({ kind: 'in_progress', message: "The student is still working on this intake — results will appear when it's submitted." });
+          setError({ kind: 'in_progress', message: "The student is still working on this intake; results will appear when it's submitted." });
         } else {
           setError({ kind: 'unknown', message: "Couldn't load results." });
         }
@@ -415,7 +415,7 @@ const IntakeResultsPage = () => {
       {!data.student_id && (
         <div role="status" className="mb-6 rounded-xl bg-amber-50 p-4 dark:bg-amber-900/20">
           <p className="text-sm text-amber-800 dark:text-amber-200">
-            This student hasn&apos;t accepted the invite as a registered user yet — assignments and full-profile actions are unavailable until they sign up.
+            This student hasn&apos;t accepted the invite as a registered user yet, so assignments and full-profile actions are unavailable until they sign up.
           </p>
         </div>
       )}

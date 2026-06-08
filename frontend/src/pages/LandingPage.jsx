@@ -136,7 +136,7 @@ const LandingPage = () => {
               {
                 icon: Brain, iconBg: 'bg-brand-100 dark:bg-brand-900/40', iconColor: 'text-brand-600 dark:text-brand-300',
                 title: 'Adaptive Practice',
-                desc: 'The algorithm tracks your exact ability level per skill and serves questions at the right difficulty — so no time is wasted on questions too easy or impossible.',
+                desc: 'The algorithm tracks your exact ability level per skill and serves questions at the right difficulty, so no time is wasted on questions too easy or impossible.',
                 link: '/register', linkText: 'Try it',
               },
               {

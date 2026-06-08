@@ -25,7 +25,7 @@ export const toneForAccuracy = (pct) => {
 const StatusPill = ({ value, tone, children, size = 'md', className = '' }) => {
   const resolved = tone || toneForAccuracy(value);
   const sizes = { sm: 'px-2 py-0.5 text-[11px]', md: 'px-2.5 py-1 text-xs' };
-  const content = children != null ? children : (value != null ? `${Math.round(value)}%` : '—');
+  const content = children != null ? children : (value != null ? `${Math.round(value)}%` : 'N/A');
   return (
     <span className={`inline-flex items-center gap-1 rounded-full font-semibold ${TONES[resolved]} ${sizes[size]} ${className}`}>
       {content}

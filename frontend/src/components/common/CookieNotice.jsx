@@ -38,7 +38,7 @@ const CookieNotice = () => {
       <div className="flex items-start gap-3">
         <p className="flex-1 text-xs leading-relaxed text-ink-muted">
           ZooPrep uses only essential storage to keep you signed in and remember
-          your preferences — no ad or tracking cookies.{' '}
+          your preferences, with no ad or tracking cookies.{' '}
           <Link to="/cookies" className="font-medium text-brand-700 underline dark:text-brand-300">
             Learn more
           </Link>

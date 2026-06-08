@@ -53,7 +53,7 @@ const StudyPlanPage = () => {
       <PageHeader
         eyebrow="Your plan"
         title="Build your plan from a real test"
-        subtitle="Your study plan comes straight from an official Bluebook practice test — your real score, the skills to fix, and what to take next."
+        subtitle="Your study plan comes straight from an official Bluebook practice test: your real score, the skills to fix, and what to take next."
       />
       <div className="mt-6 rounded-2xl border border-dashed border-edge px-6 py-12 text-center">
         <Upload className="mx-auto mb-3 h-8 w-8 text-brand-500" />

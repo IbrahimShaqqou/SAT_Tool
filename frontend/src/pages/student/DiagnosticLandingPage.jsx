@@ -13,7 +13,7 @@ const sectionOptions = [
     key: 'both',
     sections: ['math', 'reading_writing'],
     label: 'Full Diagnostic',
-    desc: '58 questions — covers every skill across both sections',
+    desc: '58 questions, covers every skill across both sections',
     time: '40–55 min',
     icon: Brain,
     color: 'brand',
@@ -22,7 +22,7 @@ const sectionOptions = [
     key: 'math',
     sections: ['math'],
     label: 'Math Only',
-    desc: '38 questions — Algebra, Advanced Math, Problem Solving & Geometry',
+    desc: '38 questions: Algebra, Advanced Math, Problem Solving & Geometry',
     time: '25–35 min',
     icon: Calculator,
     color: 'brand',
@@ -31,7 +31,7 @@ const sectionOptions = [
     key: 'reading_writing',
     sections: ['reading_writing'],
     label: 'Reading & Writing Only',
-    desc: '20 questions — Craft & Structure, Information & Ideas, Standard English & Expression',
+    desc: '20 questions: Craft & Structure, Information & Ideas, Standard English & Expression',
     time: '15–20 min',
     icon: BookOpenText,
     color: 'accent',
@@ -137,7 +137,7 @@ export default function DiagnosticLandingPage() {
         <Card.Content>
           <div className="space-y-4">
             {[
-              { icon: Clock, title: selectedOption.time, desc: 'Questions are adaptive — faster if you\'re confident, slower if mixed.' },
+              { icon: Clock, title: selectedOption.time, desc: 'Questions are adaptive: faster if you\'re confident, slower if mixed.' },
               { icon: Target, title: '2 questions per skill', desc: 'Every skill is tested with an easy and a hard question for accurate results.' },
               { icon: CheckCircle, title: 'Instant results', desc: 'See your accuracy, section breakdown, and which skills to focus on.' },
             ].map(({ icon: Icon, title, desc }) => (
@@ -166,11 +166,11 @@ export default function DiagnosticLandingPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-brand-500 font-bold mt-0.5">•</span>
-              Answer every question — guessing beats skipping
+              Answer every question; guessing beats skipping
             </li>
             <li className="flex items-start gap-2">
               <span className="text-brand-500 font-bold mt-0.5">•</span>
-              Don't look anything up — honest answers give the best study plan
+              Don't look anything up; honest answers give the best study plan
             </li>
           </ul>
         </Card.Content>

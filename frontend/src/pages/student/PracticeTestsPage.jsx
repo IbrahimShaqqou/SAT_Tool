@@ -63,7 +63,7 @@ const PracticeTestsPage = () => {
       } else if (m.type === 'CONNECTED') {
         if (m.ok) {
           setConnectState('connected');
-          toast?.success?.('Extension connected — your imports will upload automatically.');
+          toast?.success?.('Extension connected. Your imports will upload automatically.');
         } else {
           toast?.error?.(`Couldn’t connect: ${m.error || 'unknown error'}`);
         }
@@ -161,7 +161,7 @@ const PracticeTestsPage = () => {
       }
       await ingest(bundle);
     } catch {
-      setImportError('Could not read that file — is it valid JSON?');
+      setImportError('Could not read that file. Is it valid JSON?');
     }
   }, [ingest]);
 
@@ -187,7 +187,7 @@ const PracticeTestsPage = () => {
       <PageHeader
         eyebrow="Official results"
         title="Practice tests"
-        subtitle="Take full-length tests in the College Board Bluebook app, then bring your official results here — real scores, every question, and what to work on next."
+        subtitle="Take full-length tests in the College Board Bluebook app, then bring your official results here: real scores, every question, and what to work on next."
       />
 
       {/* ── Import (default action) ───────────────────────────────── */}
@@ -229,9 +229,17 @@ const PracticeTestsPage = () => {
             <Chrome className="mr-1.5 h-4 w-4" /> Get the importer extension
           </Button>
 
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => window.open('https://mypractice.collegeboard.org', '_blank')}
+          >
+            <ArrowRight className="mr-1.5 h-4 w-4" /> View my scores on College Board
+          </Button>
+
           {connectState === 'connected' ? (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-500/15 px-3 py-1.5 text-xs font-semibold text-accent-700 dark:text-accent-300">
-              <CheckCircle2 className="h-3.5 w-3.5" /> Extension connected — auto-upload on
+              <CheckCircle2 className="h-3.5 w-3.5" /> Extension connected, auto-upload on
             </span>
           ) : connectState === 'installed' ? (
             <Button variant="primary" size="sm" onClick={connectExtension}>
@@ -265,7 +273,7 @@ const PracticeTestsPage = () => {
                       <FileJson className="h-4 w-4 text-brand-500" />
                       <span className="font-medium text-ink-body">Practice Test {t.test_number}</span>
                       <span>
-                        — {t.attempts} attempt{t.attempts === 1 ? '' : 's'},{' '}
+                        {t.attempts} attempt{t.attempts === 1 ? '' : 's'},{' '}
                         {t.official_anchors} official score{t.official_anchors === 1 ? '' : 's'}
                       </span>
                     </li>

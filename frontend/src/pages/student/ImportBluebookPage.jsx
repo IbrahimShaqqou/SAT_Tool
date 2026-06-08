@@ -18,7 +18,7 @@ const STEPS = [
   'Install the ZooPrep Bluebook Importer browser extension.',
   'Sign in at mypractice.collegeboard.org and open any Score Details page once.',
   'Click the extension → Export my results.',
-  'It uploads automatically — or drop the downloaded file below.',
+  'It uploads automatically, or drop the downloaded file below.',
 ];
 
 const ImportBluebookPage = () => {
@@ -74,7 +74,7 @@ const ImportBluebookPage = () => {
       }
       await ingest(bundle);
     } catch (e) {
-      setError('Could not read that file — is it valid JSON?');
+      setError('Could not read that file. Is it valid JSON?');
     }
   }, [ingest]);
 
@@ -90,7 +90,7 @@ const ImportBluebookPage = () => {
       <PageHeader
         eyebrow="Official results"
         title="Import from Bluebook"
-        subtitle="Bring your official College Board practice-test results into ZooPrep — real scores, every question, and what to work on next."
+        subtitle="Bring your official College Board practice-test results into ZooPrep: real scores, every question, and what to work on next."
       />
 
       <Section title="How it works">
@@ -140,7 +140,7 @@ const ImportBluebookPage = () => {
               </div>
             </div>
             <p className="mt-2 text-xs text-ink-faint">
-              Your token is personal — don’t share it. It refreshes periodically; re-copy if upload stops working.
+              Your token is personal, so don’t share it. It refreshes periodically; re-copy if upload stops working.
             </p>
           </Surface>
         )}
@@ -195,7 +195,7 @@ const ImportBluebookPage = () => {
                     <FileJson className="h-4 w-4 text-brand-500" />
                     <span className="font-medium text-ink">Practice Test {t.test_number}</span>
                     <span>
-                      — {t.attempts} attempt{t.attempts === 1 ? '' : 's'},{' '}
+                      {t.attempts} attempt{t.attempts === 1 ? '' : 's'},{' '}
                       {t.official_anchors} official score{t.official_anchors === 1 ? '' : 's'},{' '}
                       {t.usable
                         ? `${t.modules_seeded} modules set up`
