@@ -972,6 +972,7 @@ def delete_practice_test_session(
             detail="Only official practice-test attempts can be removed here.",
         )
 
+    from sqlalchemy import inspect as sa_inspect
     from app.models.study_plan import StudyPlan
     from app.models.test import TestQuestion
     from app.models.test_module import TestModule, ModuleBreak
@@ -981,15 +982,20 @@ def delete_practice_test_session(
 
     # Delete every child row by query, then the session itself — never via
     # db.delete(session). The ORM would otherwise try to NULL children's
-    # test_session_id before the DB-level CASCADE fires, and TestQuestion's FK
-    # is NOT NULL (that's what produced the 500). Bulk deletes bypass that.
+    # test_session_id before the DB-level CASCADE fires, and several children
+    # have NOT NULL FKs. Bulk deletes bypass that.
     #   - StudentResponse: FK is SET NULL, so it must be cleared explicitly or a
     #     re-import would stack on orphaned response rows.
-    #   - TestQuestion / TestModule / ModuleBreak: NOT NULL children of the session.
+    #   - TestQuestion / TestModule / ModuleBreak: NOT NULL children, but they
+    #     only exist for the native "take in ZooPrep" flow and aren't present in
+    #     every deployment's schema — skip any whose table isn't there.
     #   - StudyPlan: the import-driven plan for this attempt.
     # Shared catalog rows (PracticeTest / its module defs / the question bank)
     # are intentionally left intact — other students share them.
+    existing_tables = set(sa_inspect(db.get_bind()).get_table_names())
     for model in (StudentResponse, TestQuestion, TestModule, ModuleBreak, StudyPlan):
+        if model.__tablename__ not in existing_tables:
+            continue
         db.query(model).filter(
             model.test_session_id == sid
         ).delete(synchronize_session=False)
