@@ -16,9 +16,9 @@ import {
 import { listPracticeTests, listMyResults, importBundle } from '../../services/practiceTestApi';
 import api from '../../services/api';
 
-// Where "Get the importer extension" sends students. Once the extension is
-// published, set REACT_APP_EXTENSION_URL to the Chrome Web Store listing URL;
-// until then it falls back to the locally-served dev zip.
+// Where "Get the importer extension" sends students. Production builds read
+// REACT_APP_EXTENSION_URL (set in .env.production to the Chrome Web Store
+// listing URL); dev/local falls back to the locally-served zip.
 const EXTENSION_URL =
   process.env.REACT_APP_EXTENSION_URL || '/extension/zooprep-importer.zip';
 

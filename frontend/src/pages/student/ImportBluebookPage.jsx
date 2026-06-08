@@ -9,6 +9,11 @@ import { UploadCloud, FileJson, CheckCircle2, AlertTriangle, Chrome, ArrowRight,
 import { Button, PageHeader, Section, Surface, useToast } from '../../components/ui';
 import { importBundle } from '../../services/practiceTestApi';
 
+// Keep in sync with PracticeTestsPage: production reads the Web Store URL from
+// REACT_APP_EXTENSION_URL, dev/local falls back to the served zip.
+const EXTENSION_URL =
+  process.env.REACT_APP_EXTENSION_URL || '/extension/zooprep-importer.zip';
+
 const STEPS = [
   'Install the ZooPrep Bluebook Importer browser extension.',
   'Sign in at mypractice.collegeboard.org and open any Score Details page once.',
@@ -103,7 +108,7 @@ const ImportBluebookPage = () => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => window.open('/extension/zooprep-importer.zip', '_blank')}
+            onClick={() => window.open(EXTENSION_URL, '_blank')}
           >
             <Chrome className="mr-1.5 h-4 w-4" /> Get the extension
           </Button>
