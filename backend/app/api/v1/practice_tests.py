@@ -973,21 +973,30 @@ def delete_practice_test_session(
         )
 
     from app.models.study_plan import StudyPlan
+    from app.models.test import TestQuestion
+    from app.models.test_module import TestModule, ModuleBreak
 
     test_number = (session.session_state or {}).get("test_number")
+    sid = session.id
 
-    # Responses are SET NULL on session delete (not cascade-removed), so clear
-    # them explicitly — otherwise a re-import would leave orphaned response rows.
-    db.query(StudentResponse).filter(
-        StudentResponse.test_session_id == session.id
-    ).delete(synchronize_session=False)
+    # Delete every child row by query, then the session itself — never via
+    # db.delete(session). The ORM would otherwise try to NULL children's
+    # test_session_id before the DB-level CASCADE fires, and TestQuestion's FK
+    # is NOT NULL (that's what produced the 500). Bulk deletes bypass that.
+    #   - StudentResponse: FK is SET NULL, so it must be cleared explicitly or a
+    #     re-import would stack on orphaned response rows.
+    #   - TestQuestion / TestModule / ModuleBreak: NOT NULL children of the session.
+    #   - StudyPlan: the import-driven plan for this attempt.
+    # Shared catalog rows (PracticeTest / its module defs / the question bank)
+    # are intentionally left intact — other students share them.
+    for model in (StudentResponse, TestQuestion, TestModule, ModuleBreak, StudyPlan):
+        db.query(model).filter(
+            model.test_session_id == sid
+        ).delete(synchronize_session=False)
 
-    # StudyPlan cascades on the FK, but delete explicitly to stay DB-agnostic.
-    db.query(StudyPlan).filter(
-        StudyPlan.test_session_id == session.id
-    ).delete(synchronize_session=False)
-
-    db.delete(session)
+    db.query(TestSession).filter(TestSession.id == sid).delete(
+        synchronize_session=False
+    )
     db.commit()
 
     return {
