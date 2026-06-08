@@ -11,7 +11,7 @@ Endpoints:
 
 from typing import List, Optional
 from uuid import UUID
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -271,7 +271,7 @@ def list_my_results(
 @router.get("/", response_model=List[PracticeTestListItem])
 def list_practice_tests(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    _: User = Depends(get_current_user),  # auth required; user value unused here
 ):
     """List all available practice tests."""
     tests = db.query(PracticeTest).filter(PracticeTest.is_active == True).order_by(PracticeTest.test_number).all()
@@ -294,7 +294,7 @@ def list_practice_tests(
 def get_practice_test(
     test_number: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    _: User = Depends(get_current_user),  # auth required; user value unused here
 ):
     """Get detailed information about a practice test."""
     test = db.query(PracticeTest).filter(PracticeTest.test_number == test_number).first()
@@ -625,7 +625,7 @@ def submit_module(
 
     if is_complete:
         session.status = TestStatus.COMPLETED
-        session.completed_at = datetime.utcnow()
+        session.completed_at = datetime.now(timezone.utc)
 
     db.commit()
 
