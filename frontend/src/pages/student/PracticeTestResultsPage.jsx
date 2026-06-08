@@ -446,8 +446,8 @@ const StudyPlanView = ({ plan, planError, isTutorView, navigate }) => {
               {!isTutorView && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Button variant="primary"
-                    onClick={() => window.open('https://mypractice.collegeboard.org', '_blank')}>
-                    Open Bluebook <ArrowRight className="h-4 w-4" />
+                    onClick={() => window.open('https://bluebook.collegeboard.org', '_blank')}>
+                    Get Bluebook <ArrowRight className="h-4 w-4" />
                   </Button>
                   <Button variant="secondary" onClick={() => navigate('/student/practice-tests')}>
                     Import when done
