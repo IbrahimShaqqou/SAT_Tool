@@ -98,6 +98,16 @@ export const getStudyPlan = async (sessionId) => {
   return response.data;
 };
 
+/**
+ * Remove one of the student's practice-test attempts (session + responses +
+ * study plan). It stops counting toward the next-test recommendation and can
+ * then be re-imported cleanly. Allowed for the owning student or their tutor.
+ */
+export const deleteResult = async (sessionId) => {
+  const response = await api.delete(`/practice-tests/sessions/${sessionId}`);
+  return response.data;
+};
+
 const practiceTestApi = {
   listPracticeTests,
   getPracticeTest,
@@ -108,7 +118,8 @@ const practiceTestApi = {
   importBundle,
   listMyResults,
   getTestReview,
-  getStudyPlan
+  getStudyPlan,
+  deleteResult
 };
 
 export default practiceTestApi;

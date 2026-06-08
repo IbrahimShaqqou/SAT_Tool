@@ -8,12 +8,14 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   UploadCloud, FileJson, CheckCircle2, AlertTriangle, Chrome, ArrowRight,
-  Link as LinkIcon, BadgeCheck, ChevronRight,
+  Link as LinkIcon, BadgeCheck, ChevronRight, Trash2, Loader2,
 } from 'lucide-react';
 import {
   Button, Skeleton, PageHeader, Section, Surface, useToast,
 } from '../../components/ui';
-import { listPracticeTests, listMyResults, importBundle } from '../../services/practiceTestApi';
+import {
+  listPracticeTests, listMyResults, importBundle, deleteResult,
+} from '../../services/practiceTestApi';
 import api from '../../services/api';
 
 // Where "Get the importer extension" sends students. Production builds read
@@ -41,6 +43,8 @@ const PracticeTestsPage = () => {
   const [result, setResult] = useState(null);
   const [importError, setImportError] = useState(null);
   const [showTakeHere, setShowTakeHere] = useState(false);
+  // Session id currently being deleted (disables its row), or null.
+  const [deletingId, setDeletingId] = useState(null);
   // Extension connect handshake: 'unknown' | 'installed' | 'missing' | 'connected'
   const [connectState, setConnectState] = useState('unknown');
 
@@ -122,6 +126,26 @@ const PracticeTestsPage = () => {
       setBusy(false);
     }
   }, [toast, loadData]);
+
+  const handleDelete = useCallback(async (r, e) => {
+    e?.stopPropagation?.();
+    const label = r.test_name || 'this test';
+    if (!window.confirm(
+      `Remove ${label}? This deletes the attempt and its study plan, and it will ` +
+      `no longer count toward your recommended next test. You can re-import it from Bluebook.`
+    )) return;
+    setDeletingId(r.session_id);
+    try {
+      await deleteResult(r.session_id);
+      setMyResults((prev) => prev.filter((x) => x.session_id !== r.session_id));
+      toast?.success?.(`Removed ${label}.`);
+    } catch (err) {
+      const detail = err?.response?.data?.detail || err.message || 'Could not remove that test';
+      toast?.error?.(detail);
+    } finally {
+      setDeletingId(null);
+    }
+  }, [toast]);
 
   const handleFile = useCallback(async (file) => {
     if (!file) return;
@@ -268,27 +292,46 @@ const PracticeTestsPage = () => {
             {myResults.map((r) => (
               <Surface
                 key={r.session_id}
-                as="button"
-                onClick={() => navigate(`/student/practice-tests/results/${r.session_id}`)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition-colors hover:bg-surface-muted"
+                className={[
+                  'flex w-full items-center gap-2 rounded-xl pl-4 pr-2 py-3 transition-colors',
+                  deletingId === r.session_id ? 'opacity-50 pointer-events-none' : '',
+                ].join(' ')}
               >
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-ink-body">{r.test_name}</span>
-                    {r.is_official && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-accent-500/15 px-2 py-0.5 text-[11px] font-semibold text-accent-700 dark:text-accent-300">
-                        <BadgeCheck className="h-3 w-3" /> Official
-                      </span>
-                    )}
+                <button
+                  type="button"
+                  onClick={() => navigate(`/student/practice-tests/results/${r.session_id}`)}
+                  className="flex min-w-0 flex-1 items-center justify-between text-left"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-ink-body">{r.test_name}</span>
+                      {r.is_official && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-accent-500/15 px-2 py-0.5 text-[11px] font-semibold text-accent-700 dark:text-accent-300">
+                          <BadgeCheck className="h-3 w-3" /> Official
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-ink-subtle">{fmtDate(r.completed_at)}</p>
                   </div>
-                  <p className="text-xs text-ink-subtle">{fmtDate(r.completed_at)}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  {r.total_score != null && (
-                    <span className="font-display text-xl font-semibold tabular-nums text-ink-body">{r.total_score}</span>
-                  )}
-                  <ArrowRight className="h-4 w-4 text-ink-faint" />
-                </div>
+                  <div className="flex items-center gap-3 pl-3">
+                    {r.total_score != null && (
+                      <span className="font-display text-xl font-semibold tabular-nums text-ink-body">{r.total_score}</span>
+                    )}
+                    <ArrowRight className="h-4 w-4 text-ink-faint" />
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => handleDelete(r, e)}
+                  disabled={deletingId === r.session_id}
+                  aria-label={`Remove ${r.test_name}`}
+                  title="Remove this test"
+                  className="shrink-0 rounded-lg p-2 text-ink-faint transition-colors hover:bg-rose-500/10 hover:text-rose-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 dark:hover:text-rose-400"
+                >
+                  {deletingId === r.session_id
+                    ? <Loader2 className="h-4 w-4 animate-spin" />
+                    : <Trash2 className="h-4 w-4" />}
+                </button>
               </Surface>
             ))}
           </div>

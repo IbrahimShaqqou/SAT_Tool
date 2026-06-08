@@ -926,14 +926,72 @@ def get_study_plan(
         )
         raise HTTPException(status_code=404, detail=detail)
 
+    # "What to take next" is forward-looking: it depends on the student's CURRENT
+    # set of taken tests and the current recommendation logic, not on whatever was
+    # true at import time. Recompute it live so it never goes stale (e.g. after the
+    # student takes another test, or after we tune the ladder). The per-attempt
+    # snapshot fields (focus_skills/also_review/deltas) are correctly frozen.
+    from app.services.study_plan_service import recommend_next_test
+    student = db.query(User).filter(User.id == session.student_id).first()
+    next_test, next_reason = recommend_next_test(db, session.student_id, student)
+
     return StudyPlanResponse(
         session_id=session.id,
         test_number=plan.test_number,
         test_name=session.title,
         focus_skills=plan.focus_skills or [],
         also_review=plan.also_review or [],
-        recommended_next_test=plan.recommended_next_test,
-        next_test_reason=plan.next_test_reason,
+        recommended_next_test=next_test,
+        next_test_reason=next_reason,
         deltas=plan.deltas,
         created_at=plan.created_at,
     )
+
+
+@router.delete("/sessions/{session_id}", status_code=status.HTTP_200_OK)
+def delete_practice_test_session(
+    session_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Remove one of the student's practice-test attempts: the session, its
+    per-question responses, and its study plan. After this the test no longer
+    counts toward the next-test recommendation, and the student can re-import it
+    cleanly from Bluebook.
+
+    Allowed for the owning student or their tutor. Shared catalog rows (the
+    PracticeTest / module definitions / question bank) are left intact — other
+    students share them and a re-import re-populates them.
+    """
+    session = _get_session_for_viewer(session_id, current_user, db)
+
+    if session.test_type != TestType.OFFICIAL_PRACTICE:
+        raise HTTPException(
+            status_code=400,
+            detail="Only official practice-test attempts can be removed here.",
+        )
+
+    from app.models.study_plan import StudyPlan
+
+    test_number = (session.session_state or {}).get("test_number")
+
+    # Responses are SET NULL on session delete (not cascade-removed), so clear
+    # them explicitly — otherwise a re-import would leave orphaned response rows.
+    db.query(StudentResponse).filter(
+        StudentResponse.test_session_id == session.id
+    ).delete(synchronize_session=False)
+
+    # StudyPlan cascades on the FK, but delete explicitly to stay DB-agnostic.
+    db.query(StudyPlan).filter(
+        StudyPlan.test_session_id == session.id
+    ).delete(synchronize_session=False)
+
+    db.delete(session)
+    db.commit()
+
+    return {
+        "deleted": True,
+        "session_id": str(session_id),
+        "test_number": test_number,
+    }
