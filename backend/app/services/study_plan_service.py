@@ -32,9 +32,33 @@ from app.models.user import User
 WEAK_THRESHOLD = 70.0          # accuracy % below which a skill is "weak"
 FOCUS_CAP = 6                  # max skills in the active plan
 FLAT_BAND = 1.0               # ± accuracy points treated as "flat" in deltas
-URGENCY_DAYS = 21             # within this many days of test_date -> hardest-first
-TEST_LADDER = [4, 6, 5, 7]    # balanced order when not urgent
-HARD_TESTS = [6, 7]           # most predictive; recommended first when urgent
+URGENCY_DAYS = 21             # within this many days of test_date -> truest read first
+SPACED_DAYS = 60              # at/beyond this many days (or no date) -> use the longer ladder
+
+# Recommended progression. Ordered so the score tends to RISE test-to-test —
+# each step is easier than the last, building confidence — until the finale.
+# Difficulty of the official Bluebook tests, hardest->easiest, is roughly
+# 11, 6, 5, 7, 10, 8, 9, 4 (community/prep-company consensus; CB publishes none).
+#   - PT6 is hard and tends to read a little LOW (good honest baseline).
+#   - PT7 is easier and one of the most accurate -> a natural score bump after 6.
+#   - PT5 sits between 6 and 7, so it slots in as an extra rung when time allows.
+#   - PT11 is the single most representative of today's real SAT, so it's saved
+#     for LAST as a dress rehearsal (even though it's also the hardest test).
+LADDER_CORE = [6, 7, 11]      # normal timeframe
+LADDER_LONG = [6, 5, 7, 11]   # plenty of time -> extra mid step between 6 and 7
+MOST_REPRESENTATIVE = [11, 7]  # truest predictors; recommend first when test is close
+
+# Per-test encouragement, framed around the rising-score narrative.
+_TEST_REASON = {
+    6: ("Practice Test 6 runs on the harder side and tends to read a little low — "
+        "treat it as our honest baseline. We climb from here."),
+    5: ("A small step down in difficulty from Test 6 — a good place to see your "
+        "work start paying off."),
+    7: ("Test 7 is one of the most accurate practice tests and a bit easier than 6, "
+        "so this is where you should see your score climbing."),
+    11: ("Test 11 is the closest match to today's real SAT — we've saved it as your "
+         "final dress rehearsal. Don't chase the number; it's the truest read you'll get."),
+}
 
 
 # --------------------------------------------------------------------------- #
@@ -125,34 +149,39 @@ def _days_until_test(user: Optional[User]) -> Optional[int]:
 
 
 def recommend_next_test(db: Session, student_id, user: Optional[User]) -> tuple[Optional[int], str]:
-    """Return (next_test_number, reason)."""
+    """
+    Return (next_test_number, reason).
+
+    The sequence is built so the predicted score tends to rise test-to-test
+    (each step a little easier than the last), ending on PT11 as the most
+    representative dress rehearsal. Three time bands:
+      - Urgent (<= URGENCY_DAYS): jump to the truest predictors (11, then 7).
+      - Plenty of time (>= SPACED_DAYS or no date): the longer ladder w/ PT5.
+      - In between: the core 6 -> 7 -> 11 progression.
+    """
     taken = _imported_test_numbers(db, student_id)
     days = _days_until_test(user)
 
-    # Urgency: real test is close -> go straight to the most predictive (hard) tests.
+    # Urgency: real test is close -> go straight to the most representative tests.
     if days is not None and days <= URGENCY_DAYS:
-        for n in HARD_TESTS:
+        for n in MOST_REPRESENTATIVE:
             if n not in taken:
                 return n, (
                     f"Your SAT is {days} day{'s' if days != 1 else ''} away, so we're going "
-                    f"straight to Practice Test {n} — the harder tests are the most accurate "
-                    f"predictor of your real score."
+                    f"straight to Practice Test {n} — it's the closest match to the real "
+                    f"test and the truest read of where you stand."
                 )
         return None, (
-            "Your test is close and you've taken the most predictive practice tests. "
+            "Your test is close and you've taken the most representative practice tests. "
             "Retake your weakest one for a final read."
         )
 
-    # Balanced ladder.
-    for n in TEST_LADDER:
+    # Otherwise walk the confidence-building ladder. Use the longer one (with the
+    # extra PT5 rung) only when there's clearly time for it.
+    ladder = LADDER_LONG if (days is None or days >= SPACED_DAYS) else LADDER_CORE
+    for n in ladder:
         if n not in taken:
-            reason = "A balanced next step on your way up."
-            if n in HARD_TESTS:
-                reason = (
-                    f"Practice Test {n} runs harder than average — don't sweat the score, "
-                    f"we'll compare skill by skill, not just the number."
-                )
-            return n, reason
+            return n, _TEST_REASON.get(n, "A balanced next step on your way up.")
 
     return None, (
         "You've taken the core set of practice tests. Retake your weakest one for a fresh read."

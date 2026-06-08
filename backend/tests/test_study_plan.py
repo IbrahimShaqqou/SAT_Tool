@@ -43,27 +43,39 @@ def _reco(monkeypatch, taken, days):
     return sp.recommend_next_test(None, "sid", user)
 
 
-def test_ladder_progression(monkeypatch):
-    assert _reco(monkeypatch, [], None)[0] == 4
-    assert _reco(monkeypatch, [4], None)[0] == 6
-    assert _reco(monkeypatch, [4, 6], None)[0] == 5
-    assert _reco(monkeypatch, [4, 6, 5], None)[0] == 7
-    assert _reco(monkeypatch, [4, 6, 5, 7], None)[0] is None
+def test_long_ladder_progression(monkeypatch):
+    # No test date -> longest ladder (6 -> 5 -> 7 -> 11), score rising each step.
+    assert _reco(monkeypatch, [], None)[0] == 6
+    assert _reco(monkeypatch, [6], None)[0] == 5
+    assert _reco(monkeypatch, [6, 5], None)[0] == 7
+    assert _reco(monkeypatch, [6, 5, 7], None)[0] == 11
+    assert _reco(monkeypatch, [6, 5, 7, 11], None)[0] is None
 
 
-def test_urgency_recommends_hard_tests_first(monkeypatch):
-    assert _reco(monkeypatch, [4], 10)[0] == 6
-    assert _reco(monkeypatch, [4, 6], 5)[0] == 7
-    assert _reco(monkeypatch, [4, 6, 7], 5)[0] is None
+def test_core_ladder_skips_filler(monkeypatch):
+    # Mid timeframe (between urgency and spaced) -> core 6 -> 7 -> 11, no PT5 rung.
+    mid = 30  # comfortably inside (URGENCY_DAYS=21, SPACED_DAYS=60)
+    assert _reco(monkeypatch, [], mid)[0] == 6
+    assert _reco(monkeypatch, [6], mid)[0] == 7
+    assert _reco(monkeypatch, [6, 7], mid)[0] == 11
+    assert _reco(monkeypatch, [6, 7, 11], mid)[0] is None
 
 
-def test_far_out_date_uses_ladder(monkeypatch):
-    # Date set but beyond the urgency window -> behaves like no urgency.
-    assert _reco(monkeypatch, [4], 60)[0] == 6
+def test_urgency_recommends_most_representative_first(monkeypatch):
+    # Test close -> truest predictors first (11, then 7).
+    assert _reco(monkeypatch, [], 10)[0] == 11
+    assert _reco(monkeypatch, [11], 5)[0] == 7
+    assert _reco(monkeypatch, [11, 7], 5)[0] is None
 
 
-def test_no_date_uses_ladder(monkeypatch):
-    assert _reco(monkeypatch, [4, 6], None)[0] == 5
+def test_far_out_date_uses_long_ladder(monkeypatch):
+    # Date set but well beyond urgency -> longest ladder.
+    assert _reco(monkeypatch, [], 90)[0] == 6
+    assert _reco(monkeypatch, [6], 90)[0] == 5
+
+
+def test_no_date_uses_long_ladder(monkeypatch):
+    assert _reco(monkeypatch, [6], None)[0] == 5
 
 
 # --------------------------------------------------------------------------- #
