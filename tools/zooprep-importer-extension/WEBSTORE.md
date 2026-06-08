@@ -85,11 +85,13 @@ Reviewers ask why each permission is needed. Paste these:
 Privacy Policy page covers both the website and the importer extension). Required
 because the listing handles user data.
 
-## Listing assets to prepare
-- **Icon:** 128×128 (already in `icons/icon128.png`).
-- **Screenshots:** 1280×800 (or 640×400), at least one. Suggested: the popup
-  mid-export, and the ZooPrep results/plan page showing imported scores.
-- **Small promo tile (optional):** 440×280.
+## Listing assets (ready in `screenshots/`)
+- **Icon:** 128×128 (`icons/icon128.png`).
+- **Screenshots (1280×800, upload all three):**
+  - `screenshots/1-results-overview.png` — imported official score + "since last test".
+  - `screenshots/2-study-plan.png` — the generated study plan (focus skills + Learn/Practice).
+  - `screenshots/3-popup-promo.png` — the importer popup with a one-line pitch.
+- **Small promo tile (optional):** 440×280 — not yet made; optional for submission.
 
 ## Submit
 1. Dev console → **New item** → upload `zooprep-importer-prod.zip`.
