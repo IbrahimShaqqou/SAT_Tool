@@ -28,13 +28,19 @@ WORKLIST_SOURCE = ('auto', 'tutor')
 
 
 def upgrade():
-    worklist_status = postgresql.ENUM(*WORKLIST_STATUS, name='workliststatus')
-    check_kind = postgresql.ENUM(*CHECK_KIND, name='masterycheckkind')
-    worklist_source = postgresql.ENUM(*WORKLIST_SOURCE, name='worklistsource')
+    # create_type=False: we create the enum types explicitly below (idempotently),
+    # so op.create_table must NOT try to auto-create them again — that double
+    # creation is what raised DuplicateObject.
+    worklist_status = postgresql.ENUM(*WORKLIST_STATUS, name='workliststatus', create_type=False)
+    check_kind = postgresql.ENUM(*CHECK_KIND, name='masterycheckkind', create_type=False)
+    worklist_source = postgresql.ENUM(*WORKLIST_SOURCE, name='worklistsource', create_type=False)
+
     bind = op.get_bind()
-    worklist_status.create(bind, checkfirst=True)
-    check_kind.create(bind, checkfirst=True)
-    worklist_source.create(bind, checkfirst=True)
+    # checkfirst=True -> safe to re-run; no-ops if a prior failed attempt already
+    # created the types.
+    postgresql.ENUM(*WORKLIST_STATUS, name='workliststatus').create(bind, checkfirst=True)
+    postgresql.ENUM(*CHECK_KIND, name='masterycheckkind').create(bind, checkfirst=True)
+    postgresql.ENUM(*WORKLIST_SOURCE, name='worklistsource').create(bind, checkfirst=True)
 
     op.create_table(
         'worklist_items',
