@@ -10,10 +10,10 @@ import {
   ChevronDown,
   ChevronUp,
   Zap,
-  BarChart3,
   ArrowLeft,
-  BookOpen,
   Pencil,
+  Calculator,
+  FileText,
 } from 'lucide-react';
 import {
   Card,
@@ -24,7 +24,8 @@ import {
   PageHeader,
   Section,
 } from '../../components/ui';
-import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas, HighlightableText } from '../../components/test';
+import { AnswerChoices, DesmosCalculator, ReferenceSheet, DrawingCanvas, HighlightableText, SplitPane } from '../../components/test';
+import { splitRWPrompt } from '../../utils';
 import { adaptiveService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
 import ReportModal from '../../components/test/ReportModal';
@@ -596,6 +597,29 @@ const AdaptivePracticePage = () => {
     );
   }
 
+  // Is the current question a math question? (drives Calculator/Reference tools)
+  const isMathQuestion = Boolean(
+    currentQuestion?.subject_area === 'math' ||
+    currentQuestion?.domain?.name?.toLowerCase().includes('math') ||
+    currentQuestion?.skill?.domain?.name?.toLowerCase().includes('math') ||
+    skills.find((s) => selectedSkills.includes(s.id))?.domain_name?.toLowerCase().includes('math')
+  );
+
+  // Split a Reading & Writing prompt into passage + question so it renders
+  // side-by-side (same as the Question Bank / assignments). Only split when the
+  // passage isn't already embedded in the prompt (the page's existing guard).
+  const hasSeparatePassage = Boolean(
+    currentQuestion?.passage_html &&
+    !currentQuestion.prompt_html?.includes('<table') &&
+    !isPassageInPrompt(currentQuestion.passage_html, currentQuestion.prompt_html)
+  );
+  const { passageHtml: rwPassage, questionHtml: rwQuestion } = splitRWPrompt({
+    promptHtml: currentQuestion?.prompt_html || '',
+    passageHtml: hasSeparatePassage ? currentQuestion?.passage_html : null,
+    subjectArea: isMathQuestion ? 'math' : 'reading_writing',
+  });
+  const hasPassage = Boolean(rwPassage);
+
   // Practice Phase - UI matching regular assignments
   return (
     <div className="min-h-screen flex flex-col bg-surface-page -m-4 lg:-m-6">
@@ -633,6 +657,33 @@ const AdaptivePracticePage = () => {
             <Pencil className="h-5 w-5" />
           </button>
 
+          {/* Reference Sheet + Calculator — standard icon toolbar (math only) */}
+          {isMathQuestion && (
+            <>
+              <button
+                onClick={() => setShowReferenceSheet(!showReferenceSheet)}
+                aria-pressed={showReferenceSheet}
+                aria-label="Reference Sheet"
+                title="Reference Sheet"
+                className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                  showReferenceSheet ? 'bg-brand-600 text-white' : 'text-ink-muted hover:bg-surface-muted'
+                }`}
+              >
+                <FileText className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => setShowCalculator(!showCalculator)}
+                aria-pressed={showCalculator}
+                aria-label="Calculator"
+                title="Calculator"
+                className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                  showCalculator ? 'bg-brand-600 text-white' : 'text-ink-muted hover:bg-surface-muted'
+                }`}
+              >
+                <Calculator className="h-5 w-5" />
+              </button>
+            </>
+          )}
           {/* End Practice button */}
           <Button
             variant="secondary"
@@ -642,49 +693,42 @@ const AdaptivePracticePage = () => {
           >
             End Practice
           </Button>
-          {/* Reference Sheet Toggle - only for math questions */}
-          {currentQuestion?.domain?.name?.toLowerCase().includes('math') ||
-           currentQuestion?.skill?.domain?.name?.toLowerCase().includes('math') ||
-           skills.find(s => selectedSkills.includes(s.id))?.domain_name?.toLowerCase().includes('math') ? (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setShowReferenceSheet(!showReferenceSheet)}
-            >
-              <BookOpen className="h-4 w-4 mr-1" />
-              Reference
-            </Button>
-          ) : null}
-          {/* Calculator Toggle */}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setShowCalculator(!showCalculator)}
-          >
-            <BarChart3 className="h-4 w-4 mr-1" />
-            Calculator
-          </Button>
         </div>
       </div>
 
-      {/* Main Content - matching TestPage layout */}
-      <div ref={contentRef} className={`flex-1 overflow-y-auto ${lastResult ? 'pb-52' : 'pb-28'} bg-surface-page ${showCalculator ? 'mr-[440px]' : ''}`}>
-        <div className="max-w-3xl mx-auto">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-64">
-              <LoadingSpinner size="lg" text="Loading question..." />
+      {/* Main Content - split layout for reading passages, matching Question Bank */}
+      {(() => {
+        if (isLoading) {
+          return (
+            <div className={`flex-1 overflow-y-auto bg-surface-page ${showCalculator ? 'mr-[440px]' : ''}`}>
+              <div className="flex items-center justify-center h-64">
+                <LoadingSpinner size="lg" text="Loading question..." />
+              </div>
             </div>
-          ) : currentQuestion ? (
-            <>
+          );
+        }
+        if (!currentQuestion) {
+          return (
+            <div className={`flex-1 overflow-y-auto bg-surface-page ${showCalculator ? 'mr-[440px]' : ''}`}>
+              <div className="text-center py-12">
+                <p className="text-ink-muted">No more questions available</p>
+                <Button variant="secondary" onClick={() => navigate('/student')} className="mt-4">
+                  Back to Dashboard
+                </Button>
+              </div>
+            </div>
+          );
+        }
+
+        // Right (question) panel: header + prompt + choices + feedback.
+        const questionPanel = (
+          <div className={`bg-surface-page ${hasPassage ? 'h-full flex flex-col' : ''}`}>
+            <div className={hasPassage ? 'flex-1 overflow-y-auto' : ''}>
               {/* Question header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-edge">
-                <div className="flex items-center gap-4">
-                  {/* Question number */}
-                  <span className="flex items-center justify-center w-8 h-8 bg-brand-600 text-white text-sm font-medium rounded">
-                    {questionsAnswered + 1}
-                  </span>
-                </div>
-                {/* Report button */}
+                <span className="flex items-center justify-center w-8 h-8 bg-brand-600 text-white text-sm font-medium rounded">
+                  {questionsAnswered + 1}
+                </span>
                 <button
                   onClick={() => setShowReportModal(true)}
                   className="flex items-center gap-2 px-3 py-1.5 text-ink-muted hover:text-ink-body hover:bg-surface-muted rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
@@ -693,33 +737,15 @@ const AdaptivePracticePage = () => {
                 </button>
               </div>
 
-              {/* Passage (if any) - only show if prompt doesn't already contain the same content */}
-              {/* Skip if: prompt has table, or passage text is already in prompt (reading questions) */}
-              {currentQuestion.passage_html &&
-               !currentQuestion.prompt_html?.includes('<table') &&
-               !isPassageInPrompt(currentQuestion.passage_html, currentQuestion.prompt_html) && (
-                <div className="px-6 py-4 bg-surface-muted border-b border-edge">
-                  <HighlightableText
-                    key={`${currentQuestion.id}-passage`}
-                    html={currentQuestion.passage_html}
-                    questionId={`${currentQuestion.id}-passage`}
-                    className="prose-sm text-ink-muted"
-                    onAfterSave={runMathJax}
-                  />
-                </div>
-              )}
-
-              {/* Question content */}
               <div className="p-6">
                 <HighlightableText
                   key={currentQuestion.id}
-                  html={currentQuestion.prompt_html}
+                  html={hasPassage ? rwQuestion : currentQuestion.prompt_html}
                   questionId={currentQuestion.id}
                   className="mb-6"
                   onAfterSave={runMathJax}
                 />
 
-                {/* Answer Choices */}
                 <AnswerChoices
                   choices={currentQuestion.choices?.map(c => c.content) || []}
                   answerType={currentQuestion.choices ? 'MCQ' : 'SPR'}
@@ -733,10 +759,8 @@ const AdaptivePracticePage = () => {
                   isCorrect={lastResult?.is_correct}
                 />
 
-                {/* Feedback and Explanation after answer - matching TestPage style */}
                 {lastResult && (
                   <div className="mt-4">
-                    {/* Show correct answer for SPR if wrong */}
                     {!lastResult.is_correct && lastResult.correct_answer && currentQuestion.answer_type !== 'MCQ' && (
                       <div className="text-sm text-ink-muted mb-3">
                         {lastResult.correct_answer.answers?.length > 0 &&
@@ -745,8 +769,6 @@ const AdaptivePracticePage = () => {
                           : 'See explanation for the correct answer'}
                       </div>
                     )}
-
-                    {/* Explanation - step-by-step if available, otherwise plain HTML */}
                     {lastResult.explanation_available ? (
                       <StepByStepExplanation
                         questionId={String(currentQuestion.id)}
@@ -764,29 +786,41 @@ const AdaptivePracticePage = () => {
                       </div>
                     ) : (
                       <div className="p-4 bg-surface-muted border border-edge rounded-lg">
-                        <span className="text-sm text-ink-muted italic">
-                          No explanation available for this question
-                        </span>
+                        <span className="text-sm text-ink-muted italic">No explanation available for this question</span>
                       </div>
                     )}
                   </div>
                 )}
               </div>
-            </>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-ink-muted">No more questions available</p>
-              <Button
-                variant="secondary"
-                onClick={() => navigate('/student')}
-                className="mt-4"
-              >
-                Back to Dashboard
-              </Button>
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        );
+
+        const passagePanel = hasPassage ? (
+          <div className="h-full overflow-auto p-6 bg-surface-card">
+            <HighlightableText
+              key={`${currentQuestion.id}-passage`}
+              html={rwPassage}
+              questionId={`${currentQuestion.id}-passage`}
+              className="prose-sm text-ink-body"
+              onAfterSave={runMathJax}
+            />
+          </div>
+        ) : null;
+
+        return (
+          <div
+            ref={contentRef}
+            className={`flex-1 transition-all duration-300 bg-surface-page ${lastResult ? 'pb-52' : 'pb-28'} ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
+          >
+            {hasPassage ? (
+              <SplitPane left={passagePanel} right={questionPanel} defaultSplit={50} minLeft={25} minRight={35} />
+            ) : (
+              <div className="max-w-3xl mx-auto">{questionPanel}</div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Fixed bottom navigation - matching TestPage adaptive style */}
       <div className="fixed bottom-0 left-0 lg:left-[60px] right-0 z-50 border-t border-edge bg-surface-card">
