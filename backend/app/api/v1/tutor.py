@@ -9,7 +9,7 @@ from typing import Optional
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import func, and_, Float, Integer
+from sqlalchemy import func, and_, or_, Float, Integer
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db, get_current_tutor
@@ -68,39 +68,65 @@ def _calculate_accuracy(correct: int, total: int) -> float:
 def list_students(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_tutor),
+    search: Optional[str] = Query(None),
 ) -> StudentListResponse:
     """
     List tutor's students with summary stats.
+
+    Stats are computed with a few grouped aggregate queries keyed by student_id
+    (not per-student loops), so this stays fast as a roster grows. An optional
+    `search` filters by name or email server-side.
     """
-    students = db.query(User).filter(
+    student_q = db.query(User).filter(
         User.tutor_id == current_user.id,
         User.role == UserRole.STUDENT,
         User.is_active == True,
-    ).all()
+    )
+    if search:
+        like = f"%{search.strip()}%"
+        student_q = student_q.filter(or_(
+            User.first_name.ilike(like),
+            User.last_name.ilike(like),
+            User.email.ilike(like),
+            (User.first_name + " " + User.last_name).ilike(like),
+        ))
+
+    students = student_q.order_by(User.first_name, User.last_name).all()
+    student_ids = [s.id for s in students]
+
+    # Pre-aggregate stats for the whole roster in three grouped queries.
+    response_stats = {}   # student_id -> (total, correct, last_submitted_at)
+    pending_counts = {}   # student_id -> pending assignment count
+    if student_ids:
+        rows = (
+            db.query(
+                StudentResponse.student_id,
+                func.count(StudentResponse.id),
+                func.count(func.nullif(StudentResponse.is_correct, False)),
+                func.max(StudentResponse.submitted_at),
+            )
+            .filter(StudentResponse.student_id.in_(student_ids))
+            .group_by(StudentResponse.student_id)
+            .all()
+        )
+        for sid, total, correct, last_at in rows:
+            response_stats[sid] = (total or 0, correct or 0, last_at)
+
+        prows = (
+            db.query(Assignment.student_id, func.count(Assignment.id))
+            .filter(
+                Assignment.student_id.in_(student_ids),
+                Assignment.status == AssignmentStatus.PENDING,
+            )
+            .group_by(Assignment.student_id)
+            .all()
+        )
+        for sid, cnt in prows:
+            pending_counts[sid] = cnt or 0
 
     items = []
     for student in students:
-        # Get response stats
-        total = db.query(func.count(StudentResponse.id)).filter(
-            StudentResponse.student_id == student.id
-        ).scalar() or 0
-
-        correct = db.query(func.count(StudentResponse.id)).filter(
-            StudentResponse.student_id == student.id,
-            StudentResponse.is_correct == True,
-        ).scalar() or 0
-
-        # Get pending assignments
-        pending = db.query(func.count(Assignment.id)).filter(
-            Assignment.student_id == student.id,
-            Assignment.status == AssignmentStatus.PENDING,
-        ).scalar() or 0
-
-        # Get last activity
-        last_response = db.query(StudentResponse.submitted_at).filter(
-            StudentResponse.student_id == student.id
-        ).order_by(StudentResponse.submitted_at.desc()).first()
-
+        total, correct, last_at = response_stats.get(student.id, (0, 0, None))
         items.append(StudentBrief(
             id=student.id,
             email=student.email,
@@ -108,8 +134,8 @@ def list_students(
             last_name=student.last_name,
             overall_accuracy=_calculate_accuracy(correct, total) if total > 0 else None,
             total_questions_answered=total,
-            assignments_pending=pending,
-            last_active_at=last_response[0] if last_response else None,
+            assignments_pending=pending_counts.get(student.id, 0),
+            last_active_at=last_at,
         ))
 
     return StudentListResponse(items=items, total=len(items))
