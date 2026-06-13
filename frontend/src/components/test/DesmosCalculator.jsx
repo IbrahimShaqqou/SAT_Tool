@@ -7,6 +7,7 @@
  */
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { X, GripHorizontal } from 'lucide-react';
+import { desmosScriptSrc } from '../../utils/desmos';
 
 const DesmosCalculator = ({
   isOpen,
@@ -55,8 +56,7 @@ const DesmosCalculator = ({
     }
 
     const script = document.createElement('script');
-    const desmosKey = process.env.REACT_APP_DESMOS_API_KEY || 'dcb31709b452b1cf9dc26972add0fda6';
-    script.src = `https://www.desmos.com/api/v1.11/calculator.js?apiKey=${desmosKey}`;
+    script.src = desmosScriptSrc();
     script.async = true;
     script.onload = () => setDesmosLoaded(true);
     document.head.appendChild(script);

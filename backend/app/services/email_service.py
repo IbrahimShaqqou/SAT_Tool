@@ -1,7 +1,7 @@
 """
 ZooPrep - Email Service
 
-Handles sending transactional emails using SendGrid.
+Handles sending transactional emails using Resend.
 """
 
 import logging
@@ -19,7 +19,7 @@ def send_email(
     plain_content: Optional[str] = None,
 ) -> bool:
     """
-    Send an email using SendGrid.
+    Send an email using Resend.
 
     Args:
         to_email: Recipient email address
@@ -28,38 +28,40 @@ def send_email(
         plain_content: Plain text fallback (optional)
 
     Returns:
-        True if email was sent successfully, False otherwise
+        True if the email was accepted by Resend, False otherwise.
+
+    Note: this performs a blocking network call. Trigger it from a FastAPI
+    BackgroundTask (not inline) so the request returns immediately.
     """
-    if not settings.sendgrid_api_key:
-        logger.warning("SendGrid API key not configured. Email not sent.")
+    if not settings.resend_api_key:
+        logger.warning("Resend API key not configured. Email not sent.")
         return False
 
     try:
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail, Email, To, Content
+        import resend
 
-        message = Mail(
-            from_email=Email(settings.from_email, settings.from_name),
-            to_emails=To(to_email),
-            subject=subject,
-            html_content=Content("text/html", html_content),
-        )
+        resend.api_key = settings.resend_api_key
 
+        params = {
+            "from": f"{settings.from_name} <{settings.from_email}>",
+            "to": [to_email],
+            "subject": subject,
+            "html": html_content,
+        }
         if plain_content:
-            message.add_content(Content("text/plain", plain_content))
+            params["text"] = plain_content
 
-        sg = SendGridAPIClient(settings.sendgrid_api_key)
-        response = sg.send(message)
+        result = resend.Emails.send(params)
 
-        if response.status_code >= 200 and response.status_code < 300:
-            logger.info(f"Email sent successfully to {to_email}")
+        # A successful send returns a dict with an "id".
+        if isinstance(result, dict) and result.get("id"):
+            logger.info(f"Email sent successfully to {to_email} (id={result['id']})")
             return True
-        else:
-            logger.error(f"Failed to send email: {response.status_code}")
-            return False
+        logger.error(f"Resend returned no id for email to {to_email}: {result}")
+        return False
 
     except ImportError:
-        logger.error("SendGrid package not installed. Run: pip install sendgrid")
+        logger.error("Resend package not installed. Run: pip install resend")
         return False
     except Exception as e:
         logger.error(f"Failed to send email to {to_email}: {str(e)}")

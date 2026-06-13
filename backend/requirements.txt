@@ -41,7 +41,7 @@ slowapi==0.1.9
 sentry-sdk[fastapi]==1.39.1
 
 # Email
-sendgrid==6.11.0
+resend==2.30.1
 
 # IRT/Scientific computing
 numpy>=1.24.0

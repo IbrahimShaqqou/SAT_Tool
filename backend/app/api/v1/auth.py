@@ -7,7 +7,7 @@ Endpoints for user registration, login, and token management.
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Request, BackgroundTasks
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -259,6 +259,7 @@ def update_current_user_profile(
 def forgot_password(
     request: Request,
     body: ForgotPasswordRequest,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ) -> dict:
     """
@@ -288,13 +289,15 @@ def forgot_password(
         if settings.debug or settings.environment == "development":
             response["reset_url"] = reset_url
 
-        # Send password reset email (in production, or if SendGrid is configured)
-        if settings.sendgrid_api_key:
+        # Send the reset email in the background so the request returns
+        # immediately (the network call to Resend doesn't block the response).
+        if settings.resend_api_key:
             from app.services.email_service import send_password_reset_email
-            send_password_reset_email(
+            background_tasks.add_task(
+                send_password_reset_email,
                 to_email=user.email,
                 reset_url=reset_url,
-                user_name=user.first_name or "there"
+                user_name=user.first_name or "there",
             )
 
     return response

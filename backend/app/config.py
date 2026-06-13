@@ -40,9 +40,9 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
 
-    # Email (SendGrid)
-    sendgrid_api_key: str = ""  # Set in production environment
-    from_email: str = "noreply@zooprep.com"
+    # Email (Resend)
+    resend_api_key: str = ""  # Set in production environment (RESEND_API_KEY)
+    from_email: str = "noreply@zooprep.com"  # must be on a verified Resend domain
     from_name: str = "ZooPrep"
 
     # Error Monitoring

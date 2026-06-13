@@ -9,8 +9,7 @@
 
 import { useEffect, useRef } from 'react';
 import computeBoundsFromEquations from '../../utils/computeBounds';
-
-const DESMOS_KEY = process.env.REACT_APP_DESMOS_API_KEY || 'dcb31709b452b1cf9dc26972add0fda6';
+import { desmosScriptSrc } from '../../utils/desmos';
 
 const DesmosGraph = ({ equations = [], x_min, x_max, y_min, y_max, hint }) => {
   const containerRef = useRef(null);
@@ -67,7 +66,7 @@ const DesmosGraph = ({ equations = [], x_min, x_max, y_min, y_max, hint }) => {
       const existing = document.querySelector('script[data-desmos]');
       if (!existing) {
         const script = document.createElement('script');
-        script.src = `https://www.desmos.com/api/v1.11/calculator.js?apiKey=${DESMOS_KEY}`;
+        script.src = desmosScriptSrc();
         script.async = true;
         script.dataset.desmos = 'true';
         script.onload = init;
