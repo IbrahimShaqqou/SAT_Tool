@@ -97,3 +97,20 @@ class ModuleType(str, enum.Enum):
     MODULE_1_STANDARD = "module_1_standard"      # Fixed difficulty Module 1
     MODULE_2_EASIER = "module_2_easier"          # Easier adaptive branch
     MODULE_2_HARDER = "module_2_harder"          # Harder adaptive branch
+
+
+class WorklistStatus(str, enum.Enum):
+    """Lifecycle of a worklist item (a skill a student is working on)."""
+    OPEN = "open"                 # not started
+    IN_PROGRESS = "in_progress"   # learning/practicing
+    PASSED = "passed"             # cleared the mastery check
+    NEEDS_TUTOR = "needs_tutor"   # failed the check twice; needs tutor attention
+    DONE = "done"                 # complete (check-passed and/or tutor-confirmed)
+    REFRESH = "refresh"           # FUTURE forgetting loop: mastered skill gone stale
+
+
+class MasteryCheckKind(str, enum.Enum):
+    """Why a mastery check was taken."""
+    BASELINE = "baseline"   # measures the "before" on the same instrument
+    MASTERY = "mastery"     # the pass/fail gate
+    REFRESH = "refresh"     # FUTURE forgetting loop re-check

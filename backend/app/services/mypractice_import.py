@@ -392,12 +392,17 @@ def import_attempts(
             if plan_sessions:
                 db.flush()  # responses must be persisted before the plan reads them
                 from app.services.study_plan_service import generate_plan_for_session
+                from app.services.worklist_service import generate_from_session
                 for sess in plan_sessions:
                     try:
                         if generate_plan_for_session(db, sess) is not None:
                             plans_created += 1
                     except Exception as e:  # never fail the import on plan generation
                         print(f"[import] study plan generation failed for {sess.id}: {e}")
+                    try:
+                        generate_from_session(db, sess)
+                    except Exception as e:  # never fail the import on worklist gen
+                        print(f"[import] worklist generation failed for {sess.id}: {e}")
         test_result["results_created"] = results_created
         test_result["plans_created"] = plans_created
 

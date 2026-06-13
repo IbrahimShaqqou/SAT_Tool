@@ -68,6 +68,9 @@ from app.models.question_explanation import QuestionExplanation
 # Study plans (import-driven)
 from app.models.study_plan import StudyPlan
 
+# Worklist (score-raising loop)
+from app.models.worklist import WorklistItem, MasteryCheck
+
 
 __all__ = [
     # Enums
@@ -109,4 +112,6 @@ __all__ = [
     "LessonStatus",
     "QuestionExplanation",
     "StudyPlan",
+    "WorklistItem",
+    "MasteryCheck",
 ]

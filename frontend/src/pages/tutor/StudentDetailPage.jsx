@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
-  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap,
+  ArrowLeft, AlertTriangle, BookOpen, Brain, CheckCircle, BarChart3, Zap, ListChecks,
 } from 'lucide-react';
 import {
   Button, Skeleton, ThetaBar,
@@ -16,9 +16,11 @@ import {
 import { MasterySummary } from '../../components/ui/MasteryBadge';
 import { AccuracyTrend, SkillBreakdown, DomainRadar } from '../../components/charts';
 import { tutorService } from '../../services';
+import TutorWorklist from '../../components/tutor/TutorWorklist';
 
 const TABS = [
   { value: 'skills', label: 'Skills', icon: Brain },
+  { value: 'worklist', label: 'Worklist', icon: ListChecks },
   { value: 'tests', label: 'Practice tests', icon: CheckCircle },
   { value: 'focus', label: 'Focus areas', icon: AlertTriangle },
   { value: 'trends', label: 'Trends', icon: BarChart3 },
@@ -181,6 +183,8 @@ const StudentDetailPage = () => {
               ))}
             </ul>
           ) : <EmptyHint icon={Brain} text={`Skills appear once ${student.first_name} answers some practice questions.`} />
+        ) : tab === 'worklist' ? (
+          <TutorWorklist studentId={id} />
         ) : tab === 'tests' ? (
           (() => {
             const fullLength = sessions.filter(

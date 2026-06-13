@@ -18,7 +18,8 @@ import {
   Button, ThetaBar,
   Surface, AnimatedNumber, Skeleton, Reveal, Section,
 } from '../../components/ui';
-import { assignmentService, progressService, recommendationService } from '../../services';
+import { assignmentService, progressService } from '../../services';
+import { worklistService } from '../../services/worklistService';
 import { useAuth } from '../../hooks/useAuth';
 
 const getGreeting = () => {
@@ -26,15 +27,6 @@ const getGreeting = () => {
   if (h < 12) return 'Good morning';
   if (h < 17) return 'Good afternoon';
   return 'Good evening';
-};
-
-const TYPE_DOT = {
-  review: 'bg-brand-400',
-  level_up: 'bg-brand-500',
-  lesson_then_practice: 'bg-accent-500',
-  practice: 'bg-brand-500',
-  new_skill: 'bg-accent-500',
-  nudge: 'bg-ink-faint',
 };
 
 const StudentDashboard = () => {
@@ -45,23 +37,23 @@ const StudentDashboard = () => {
   const [assignments, setAssignments] = useState([]);
   const [progress, setProgress] = useState(null);
   const [skills, setSkills] = useState(null);
-  const [studyPlan, setStudyPlan] = useState([]);
+  const [worklist, setWorklist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [assignmentsRes, progressRes, skillsRes, studyPlanRes] =
+        const [assignmentsRes, progressRes, skillsRes, worklistRes] =
           await Promise.all([
             assignmentService.getAssignments({ status: 'pending', limit: 5 }),
             progressService.getSummary(),
             progressService.getSkills().catch(() => ({ data: { skills: [], weak_skills: [], strong_skills: [] } })),
-            recommendationService.getStudyPlan().catch(() => ({ data: { tasks: [] } })),
+            worklistService.getMyWorklist().catch(() => ({ data: [] })),
           ]);
         setAssignments(assignmentsRes.data.items || []);
         setProgress(progressRes.data);
         setSkills(skillsRes.data);
-        setStudyPlan(studyPlanRes.data.tasks || []);
+        setWorklist(worklistRes.data || []);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -71,15 +63,17 @@ const StudentDashboard = () => {
     fetchData();
   }, []);
 
+  // Worklist progress: skills cleared vs. still to work.
+  const worklistSummary = useMemo(() => {
+    if (!worklist.length) return null;
+    const cleared = worklist.filter((i) => ['done', 'passed'].includes(i.status)).length;
+    const open = worklist.length - cleared;
+    return { cleared, open, total: worklist.length };
+  }, [worklist]);
+
   const accuracy = Math.round(progress?.overall_accuracy || 0);
   const questionsAnswered = progress?.total_questions_answered || 0;
   const sessions = progress?.sessions_completed || 0;
-
-  const studyPlanVisible = useMemo(() => {
-    let completed = {};
-    try { completed = JSON.parse(localStorage.getItem('study_plan_completed') || '{}'); } catch {}
-    return studyPlan.filter((t) => !completed[t.skill_id]);
-  }, [studyPlan]);
 
   const nextAction = useMemo(() => {
     // No prior practice yet -> point to importing a Bluebook practice test.
@@ -188,34 +182,37 @@ const StudentDashboard = () => {
             </Reveal>
           )}
 
-          {studyPlanVisible.length > 0 && (
+          {worklistSummary && (
             <Reveal>
-              <Section title="Study plan" icon={ClipboardList} action={<Link to="/student/study-plan" className="text-xs font-semibold text-brand-700 hover:text-brand-800 dark:text-brand-400">View full plan</Link>}>
+              <Section
+                title="Your worklist"
+                icon={ClipboardList}
+                hint={`${worklistSummary.cleared} of ${worklistSummary.total} skills cleared`}
+                action={<Link to="/student/study-plan" className="text-xs font-semibold text-brand-700 hover:text-brand-800 dark:text-brand-400">Open worklist</Link>}
+              >
                 <ul className="divide-y divide-edge-subtle">
-                  {studyPlanVisible.slice(0, 4).map((task) => {
-                    const primary = task.actions?.[0] || task;
-                    const href = primary.href || primary.cta_href;
-                    const label = primary.label || primary.cta_label || 'Start';
-                    return (
-                      <li key={task.skill_id || task.title} className="flex items-center justify-between gap-4 py-3.5 first:pt-0">
-                        <div className="flex min-w-0 items-center gap-3">
-                          <span className={`h-2 w-2 shrink-0 rounded-full ${TYPE_DOT[task.type] || 'bg-ink-faint'}`} />
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-ink-body">{task.title}</p>
-                            <p className="truncate text-xs text-ink-subtle">
-                              {task.domain_code && <span className="font-medium">{task.domain_code} · </span>}
-                              ~{task.estimated_minutes} min
-                            </p>
-                          </div>
+                  {worklist
+                    .filter((i) => !['done', 'passed'].includes(i.status))
+                    .slice(0, 4)
+                    .map((item) => (
+                      <li key={item.id} className="flex items-center justify-between gap-4 py-3.5 first:pt-0">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-ink-body">{item.skill_name}</p>
+                          <p className="truncate text-xs text-ink-subtle">
+                            {item.domain && <span className="font-medium">{item.domain} · </span>}
+                            {item.status === 'needs_tutor' ? 'needs your tutor' : 'to work'}
+                          </p>
                         </div>
-                        {href && (
-                          <Link to={href} className="shrink-0">
-                            <Button size="sm" variant="secondary">{label}<ArrowRight className="h-3.5 w-3.5" /></Button>
-                          </Link>
-                        )}
+                        <Link to="/student/study-plan" className="shrink-0">
+                          <Button size="sm" variant="secondary">Work it<ArrowRight className="h-3.5 w-3.5" /></Button>
+                        </Link>
                       </li>
-                    );
-                  })}
+                    ))}
+                  {worklist.filter((i) => !['done', 'passed'].includes(i.status)).length === 0 && (
+                    <li className="py-3.5 text-sm text-ink-muted first:pt-0">
+                      All skills cleared — take your next practice test.
+                    </li>
+                  )}
                 </ul>
               </Section>
             </Reveal>

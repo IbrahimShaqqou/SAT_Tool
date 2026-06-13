@@ -45,6 +45,7 @@ import StudentQuestionBankPage from './pages/student/QuestionBankPage';
 import LessonsPage from './pages/student/LessonsPage';
 import LessonViewerPage from './pages/student/LessonViewerPage';
 import StudyPlanPage from './pages/student/StudyPlanPage';
+import MasteryCheckPage from './pages/student/MasteryCheckPage';
 import FullLengthTestPage from './pages/student/FullLengthTestPage';
 import FullLengthResultsPage from './pages/student/FullLengthResultsPage';
 import PracticeTestsPage from './pages/student/PracticeTestsPage';
@@ -125,6 +126,7 @@ function App() {
         <Route path="/student/lessons" element={<LessonsPage />} />
         <Route path="/student/lessons/:lessonId" element={<LessonViewerPage />} />
         <Route path="/student/study-plan" element={<StudyPlanPage />} />
+        <Route path="/student/mastery-check/:checkId" element={<MasteryCheckPage />} />
         <Route path="/student/full-length/:id" element={<FullLengthTestPage />} />
         <Route path="/student/full-length/:id/results" element={<FullLengthResultsPage />} />
         <Route path="/student/practice-tests" element={<PracticeTestsPage />} />

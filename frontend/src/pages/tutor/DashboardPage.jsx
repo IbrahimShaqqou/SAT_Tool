@@ -12,21 +12,25 @@ import {
   PageHeader, Section, StatBlock, StatusPill,
 } from '../../components/ui';
 import { tutorService } from '../../services';
+import { worklistService } from '../../services/worklistService';
 
 const TutorDashboard = () => {
   const [analytics, setAnalytics] = useState(null);
   const [students, setStudents] = useState([]);
+  const [worklistOverview, setWorklistOverview] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [analyticsRes, studentsRes] = await Promise.all([
+        const [analyticsRes, studentsRes, overviewRes] = await Promise.all([
           tutorService.getAnalytics(),
           tutorService.getStudents({ limit: 5 }),
+          worklistService.overview().catch(() => ({ data: [] })),
         ]);
         setAnalytics(analyticsRes.data);
         setStudents(studentsRes.data.items || []);
+        setWorklistOverview(overviewRes.data || []);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {
@@ -35,6 +39,9 @@ const TutorDashboard = () => {
     };
     fetchData();
   }, []);
+
+  // Students who need attention: stuck items first, then in-progress.
+  const needAttention = worklistOverview.filter((r) => r.stuck > 0 || r.in_progress > 0);
 
   const hasStudents = students.length > 0;
 
@@ -70,6 +77,33 @@ const TutorDashboard = () => {
           <StatBlock value={analytics.average_score ?? 0} suffix="%" decimals={0} label="Average score" />
         </div>
       ) : null}
+
+      {/* Worklist: who needs attention this week */}
+      {!isLoading && needAttention.length > 0 && (
+        <Section className="mt-10" title="Needs your attention" hint="Stuck or mid-progress on their worklist">
+          <ul className="divide-y divide-edge-subtle">
+            {needAttention.slice(0, 6).map((r) => (
+              <li key={r.student_id} className="flex items-center justify-between gap-3 py-3.5 first:pt-0">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-ink-body">{r.first_name} {r.last_name}</p>
+                  <p className="text-xs text-ink-subtle">
+                    {r.stuck > 0 && <span className="font-medium text-amber-700 dark:text-amber-400">{r.stuck} stuck</span>}
+                    {r.stuck > 0 && (r.in_progress > 0 || r.cleared > 0) && ' · '}
+                    {r.in_progress > 0 && `${r.in_progress} in progress`}
+                    {r.cleared > 0 && ` · ${r.cleared} cleared`}
+                  </p>
+                </div>
+                <Link
+                  to={`/tutor/students/${r.student_id}`}
+                  className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-900/30"
+                >
+                  View worklist <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-5">
         {/* Roster */}
