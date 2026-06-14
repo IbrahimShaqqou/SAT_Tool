@@ -104,6 +104,12 @@ const StudyPlanPage = () => {
   const remaining = items.filter((i) => !['done', 'passed'].includes(i.status));
   const allDone = remaining.length === 0;
 
+  // Gentle elevation: backend tags top items tier='hero'. Heroes shown prominently,
+  // the rest stay visible but quiet. Cleared/done items fall to the quiet group.
+  const heroItems = items.filter((i) => i.tier === 'hero');
+  const heroIds = new Set(heroItems.map((i) => i.id));
+  const quietItems = items.filter((i) => !heroIds.has(i.id));
+
   return (
     <div className="mx-auto max-w-2xl pb-10">
       <PageHeader
@@ -123,59 +129,87 @@ const StudyPlanPage = () => {
         </Surface>
       )}
 
-      <Section className="mt-6" title="Skills to work">
-        <ul className="space-y-2">
-          {items.map((item) => {
-            const meta = STATUS_META[item.status] || STATUS_META.open;
-            const Icon = meta.icon;
-            const cleared = ['done', 'passed'].includes(item.status);
-            return (
-              <Surface key={item.id} as="li" className="rounded-xl p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Icon className={`h-4 w-4 shrink-0 ${meta.cls} ${item.status === 'in_progress' ? 'animate-spin-slow' : ''}`} />
-                      <span className="font-medium text-ink-body">{item.skill_name}</span>
-                    </div>
-                    <div className="mt-1 flex items-center gap-2 pl-6">
-                      <span className={`text-xs ${meta.cls}`}>{meta.label}</span>
-                      <ProgressBefore item={item} />
-                      {item.domain && <span className="text-xs text-ink-faint">· {item.domain}</span>}
-                    </div>
-                    {item.status === 'needs_tutor' && (
-                      <p className="mt-1.5 pl-6 text-xs text-amber-700 dark:text-amber-400">
-                        Two checks didn't pass — your tutor will help with this one.
-                      </p>
-                    )}
+      {/* Hero skills — gently elevated "start here" */}
+      {heroItems.length > 0 && (
+        <Section className="mt-6" title="Start here" hint="your highest-impact skills right now">
+          <ul className="space-y-3">
+            {heroItems.map((item) => {
+              const meta = STATUS_META[item.status] || STATUS_META.open;
+              const Icon = meta.icon;
+              return (
+                <Surface key={item.id} as="li" glow="brand" className="rounded-2xl p-5">
+                  <div className="flex items-center gap-2">
+                    <Icon className={`h-4 w-4 shrink-0 ${meta.cls} ${item.status === 'in_progress' ? 'animate-spin-slow' : ''}`} />
+                    <span className="font-display text-lg font-semibold text-ink-body">{item.skill_name}</span>
                   </div>
-                </div>
-
-                {!cleared && item.status !== 'needs_tutor' && (
-                  <div className="mt-3 flex flex-wrap gap-2 pl-6">
-                    {item.has_lesson && (
-                      <Button variant="ghost" size="sm"
-                        onClick={() => navigate(`/student/lessons/${item.lesson_id}`)}>
-                        <BookOpen className="mr-1.5 h-4 w-4" /> Learn
+                  <div className="mt-1 flex items-center gap-2 pl-6">
+                    <span className={`text-xs ${meta.cls}`}>{meta.label}</span>
+                    <ProgressBefore item={item} />
+                    {item.domain && <span className="text-xs text-ink-faint">· {item.domain}</span>}
+                  </div>
+                  {item.status === 'needs_tutor' ? (
+                    <p className="mt-1.5 pl-6 text-xs text-amber-700 dark:text-amber-400">
+                      Two checks didn't pass — your tutor will help with this one.
+                    </p>
+                  ) : (
+                    <div className="mt-3 flex flex-wrap gap-2 pl-6">
+                      {item.has_lesson && (
+                        <Button variant="ghost" size="sm" onClick={() => navigate(`/student/lessons/${item.lesson_id}`)}>
+                          <BookOpen className="mr-1.5 h-4 w-4" /> Learn
+                        </Button>
+                      )}
+                      <Button variant="secondary" size="sm" onClick={() => navigate(`/student/adaptive?skill=${item.skill_id}&autostart=true`)}>
+                        <Dumbbell className="mr-1.5 h-4 w-4" /> Practice
                       </Button>
-                    )}
-                    <Button variant="secondary" size="sm"
-                      onClick={() => navigate(`/student/adaptive?skill=${item.skill_id}&autostart=true`)}>
-                      <Dumbbell className="mr-1.5 h-4 w-4" /> Practice
-                    </Button>
-                    <Button variant="ghost" size="sm"
-                      onClick={() => navigate(`/student/questions?skill=${item.skill_id}`)}>
-                      <Library className="mr-1.5 h-4 w-4" /> Question bank
-                    </Button>
-                    <Button variant="primary" size="sm" onClick={() => startCheck(item)}>
-                      <ClipboardCheck className="mr-1.5 h-4 w-4" /> Take mastery check
-                    </Button>
+                      <Button variant="ghost" size="sm" onClick={() => navigate(`/student/questions?skill=${item.skill_id}`)}>
+                        <Library className="mr-1.5 h-4 w-4" /> Question bank
+                      </Button>
+                      <Button variant="primary" size="sm" onClick={() => startCheck(item)}>
+                        <ClipboardCheck className="mr-1.5 h-4 w-4" /> Take mastery check
+                      </Button>
+                    </div>
+                  )}
+                </Surface>
+              );
+            })}
+          </ul>
+        </Section>
+      )}
+
+      {/* Quieter "also work on these" — visible but de-emphasized */}
+      {quietItems.length > 0 && (
+        <Section className="mt-8" title="Also work on these">
+          <ul className="divide-y divide-edge-subtle">
+            {quietItems.map((item) => {
+              const meta = STATUS_META[item.status] || STATUS_META.open;
+              const Icon = meta.icon;
+              const cleared = ['done', 'passed'].includes(item.status);
+              return (
+                <li key={item.id} className="flex items-center justify-between gap-3 py-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <Icon className={`h-3.5 w-3.5 shrink-0 ${meta.cls}`} />
+                    <span className="truncate text-sm text-ink-body">{item.skill_name}</span>
+                    <span className="hidden shrink-0 sm:inline"><ProgressBefore item={item} /></span>
                   </div>
-                )}
-              </Surface>
-            );
-          })}
-        </ul>
-      </Section>
+                  {!cleared && item.status !== 'needs_tutor' && (
+                    <div className="flex shrink-0 items-center gap-1.5">
+                      <Button variant="ghost" size="sm" onClick={() => navigate(`/student/adaptive?skill=${item.skill_id}&autostart=true`)}>
+                        Practice
+                      </Button>
+                      <Button variant="secondary" size="sm" onClick={() => startCheck(item)}>
+                        Check
+                      </Button>
+                    </div>
+                  )}
+                  {item.status === 'needs_tutor' && (
+                    <span className="shrink-0 text-xs text-amber-700 dark:text-amber-400">Needs your tutor</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </Section>
+      )}
     </div>
   );
 };

@@ -15,9 +15,25 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from app.models.lesson import Lesson
+from app.models.taxonomy import Skill, Domain
+from app.models.user import User
 from app.models.worklist import WorklistItem
 from app.models.enums import WorklistStatus
-from app.services.study_plan_service import _skill_rollup, WEAK_THRESHOLD
+from app.services.study_plan_service import _skill_rollup, WEAK_THRESHOLD, _days_until_test
+from app.services import study_priority
+
+
+def _domain_code_by_skill(db: Session, skill_ids: list) -> dict:
+    """Map skill_id -> its domain's CB code (for frequency/learnability weights)."""
+    if not skill_ids:
+        return {}
+    rows = (
+        db.query(Skill.id, Domain.code)
+        .join(Domain, Domain.id == Skill.domain_id)
+        .filter(Skill.id.in_(skill_ids))
+        .all()
+    )
+    return {sid: code for sid, code in rows}
 
 # Cap how many auto-generated items we add per import, so the list stays focused.
 AUTO_ITEM_CAP = 6
@@ -47,7 +63,17 @@ def generate_from_session(db: Session, session) -> list[WorklistItem]:
         s for s in rollup
         if s.get("skill_id") is not None and s["accuracy"] < WEAK_THRESHOLD
     ]
-    weak.sort(key=lambda s: s["accuracy"])  # weakest first
+
+    # Rank by impact: weakness × domain frequency × learnability × test proximity
+    # (not raw accuracy). Closer test date sharpens toward the highest-impact few.
+    student = db.query(User).filter(User.id == session.student_id).first()
+    days = _days_until_test(student)
+    code_by_skill = _domain_code_by_skill(db, [s["skill_id"] for s in weak])
+    for s in weak:
+        s["_priority"] = study_priority.priority_score(
+            s["accuracy"], code_by_skill.get(s["skill_id"]), days
+        )
+    weak.sort(key=lambda s: (-s["_priority"], s["accuracy"]))  # highest impact first
     weak = weak[:AUTO_ITEM_CAP]
 
     existing = {

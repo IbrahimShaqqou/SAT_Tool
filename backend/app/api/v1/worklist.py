@@ -24,6 +24,8 @@ from app.models.worklist import WorklistItem, MasteryCheck
 from app.api.deps import get_current_user, get_current_tutor
 from app.services import worklist_service as wl
 from app.services import mastery_check_service as mc
+from app.services import study_priority
+from app.services.study_plan_service import _days_until_test
 
 router = APIRouter()
 
@@ -43,6 +45,7 @@ class WorklistItemOut(BaseModel):
     source: str
     tutor_locked: bool
     mastery_attempts: int  # mastery-kind attempts so far (cap context for UI)
+    tier: str = "quiet"    # "hero" = elevate (start here) | "quiet" = de-emphasized
 
 
 class CheckQuestionOut(BaseModel):
@@ -160,9 +163,21 @@ def get_my_worklist(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """The current student's live, ordered worklist."""
+    """The current student's live, ordered worklist (top items elevated)."""
     items = wl.list_for_student(db, current_user.id)
-    return [_serialize(db, i) for i in items]
+    out = [_serialize(db, i) for i in items]
+
+    # Gently elevate the top N un-cleared items as "hero"; the rest stay visible
+    # but quiet. N shrinks as the test nears (focus), never to zero.
+    days = _days_until_test(current_user)
+    hero_n = study_priority.how_many_hero_skills(days)
+    promoted = 0
+    active_statuses = {"open", "in_progress", "needs_tutor", "refresh"}
+    for o in out:
+        if promoted < hero_n and o.status in active_statuses:
+            o.tier = "hero"
+            promoted += 1
+    return out
 
 
 @router.post("/worklist/items/{item_id}/check", response_model=StartCheckOut, tags=["Worklist"])
