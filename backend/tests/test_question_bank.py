@@ -101,6 +101,17 @@ def test_status_filters_correct_incorrect_unattempted(db):
     assert qc.id not in [q.id for q in unattempted["items"]]
 
 
+def test_attempted_status_returns_only_seen(db):
+    dom = _domain(db); sk = _skill(db, dom)
+    seen = _q(db, sk, dom); fresh = _q(db, sk, dom)
+    student = _student(db)
+    qbank.record_attempt(db, student.id, seen, {"index": 1}, True)
+    db.commit()
+    res = qbank.list_questions(db, student_id=student.id, status="attempted")
+    ids = [q.id for q in res["items"]]
+    assert seen.id in ids and fresh.id not in ids
+
+
 def test_latest_attempt_wins_in_status_map(db):
     dom = _domain(db); sk = _skill(db, dom); q = _q(db, sk, dom)
     student = _student(db)

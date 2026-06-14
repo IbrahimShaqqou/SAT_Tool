@@ -110,11 +110,14 @@ def list_questions(
             ).subquery()
             query = query.filter(Question.id.in_(bm_subq.select()))
 
-        if status == "unattempted":
+        if status in ("unattempted", "attempted"):
             attempted_subq = db.query(StudentResponse.question_id).filter(
                 StudentResponse.student_id == student_id
             ).subquery()
-            query = query.filter(~Question.id.in_(attempted_subq.select()))
+            if status == "unattempted":
+                query = query.filter(~Question.id.in_(attempted_subq.select()))
+            else:  # attempted = "old" questions the student has already seen
+                query = query.filter(Question.id.in_(attempted_subq.select()))
         elif status in ("correct", "incorrect"):
             want_correct = status == "correct"
             # Questions whose MOST RECENT attempt matches the wanted correctness.
