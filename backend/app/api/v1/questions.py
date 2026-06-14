@@ -4,14 +4,16 @@ SAT Tutoring Platform - Questions API
 Endpoints for browsing and retrieving SAT questions.
 """
 
-from typing import Optional, Union
+from typing import List, Optional, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.orm import Session, selectinload
 
-from app.api.deps import get_db
+from app.api.deps import get_db, get_current_user
+from app.models.user import User
 from app.models.question import Question
 from app.models.question_explanation import QuestionExplanation
 from app.models.enums import AnswerType, DifficultyLevel, SubjectArea
@@ -23,6 +25,8 @@ from app.schemas.question import (
     QuestionRandomResponse,
 )
 from app.schemas.explanation import ExplanationResponse, StepByStepExplanation
+from app.services import question_bank_service as qbank
+from app.services.answer_checker import check_answer
 
 router = APIRouter()
 
@@ -187,6 +191,156 @@ def check_question_answer(
         "explanation_html": explanation,
         "explanation_available": question.explanation is not None,
     }
+
+
+# ===== Question Bank (authenticated, study-oriented) =====
+# Static "/bank/..." paths are declared with a prefix so they never collide with
+# the "/{question_id}" routes above.
+
+class BankBrowseItem(BaseModel):
+    id: str
+    external_id: Optional[str] = None
+    subject_area: str
+    domain: Optional[str] = None
+    skill: Optional[str] = None
+    skill_id: Optional[int] = None
+    difficulty: Optional[str] = None
+    answer_type: str
+    prompt_snippet: str
+    status: str          # untried | correct | incorrect
+    bookmarked: bool
+
+
+class BankBrowseResponse(BaseModel):
+    items: List[BankBrowseItem]
+    total: int
+    limit: int
+    offset: int
+
+
+def _snippet(html: Optional[str], n: int = 160) -> str:
+    import re
+    text = re.sub(r"<[^>]+>", " ", html or "")
+    text = re.sub(r"\s+", " ", text).strip()
+    return text[:n] + ("…" if len(text) > n else "")
+
+
+@router.get("/bank/browse", response_model=BankBrowseResponse, tags=["Question Bank"])
+def bank_browse(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+    subject: Optional[SubjectArea] = Query(None),
+    domain_id: Optional[int] = Query(None),
+    skill_id: Optional[int] = Query(None),
+    difficulty: Optional[DifficultyLevel] = Query(None),
+    answer_type: Optional[AnswerType] = Query(None),
+    status_filter: Optional[str] = Query(None, alias="status"),
+    bookmarked: bool = Query(False),
+    q: Optional[str] = Query(None),
+    limit: int = Query(30, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+):
+    """Filterable, per-student Question Bank browse (cards)."""
+    result = qbank.list_questions(
+        db,
+        student_id=current_user.id,
+        subject=subject, domain_id=domain_id, skill_id=skill_id,
+        difficulty=difficulty, answer_type=answer_type,
+        status=status_filter, bookmarked=bookmarked, search=q,
+        limit=limit, offset=offset,
+    )
+    correctness = result["correctness"]
+    bm = result["bookmarked"]
+    items = []
+    for question in result["items"]:
+        if question.id in correctness:
+            st = "correct" if correctness[question.id] else "incorrect"
+        else:
+            st = "untried"
+        items.append(BankBrowseItem(
+            id=str(question.id),
+            external_id=question.external_id,
+            subject_area=question.subject_area.value,
+            domain=question.domain.name if getattr(question, "domain", None) else None,
+            skill=question.skill.name if getattr(question, "skill", None) else None,
+            skill_id=question.skill_id,
+            difficulty=question.difficulty.value if question.difficulty else None,
+            answer_type=question.answer_type.value,
+            prompt_snippet=_snippet(question.prompt_html),
+            status=st,
+            bookmarked=question.id in bm,
+        ))
+    return BankBrowseResponse(items=items, total=result["total"], limit=limit, offset=offset)
+
+
+@router.post("/{question_id}/attempt", tags=["Question Bank"])
+def bank_attempt(
+    question_id: UUID,
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Record a logged-in student's Question Bank attempt + return result."""
+    question = db.query(Question).filter(
+        Question.id == question_id, Question.is_active == True,  # noqa: E712
+    ).first()
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+
+    submitted = payload.get("answer", {}) or {}
+    is_correct = check_answer(question.correct_answer_json, submitted, question.answer_type.value)
+    qbank.record_attempt(db, current_user.id, question, submitted, is_correct)
+    db.commit()
+
+    explanation = question.explanation_html
+    if not explanation and question.raw_import_json:
+        explanation = question.raw_import_json.get("rationale_html")
+    return {
+        "is_correct": is_correct,
+        "correct_answer": question.correct_answer_json,
+        "explanation_html": explanation,
+        "explanation_available": question.explanation is not None,
+    }
+
+
+@router.get("/bank/bookmarks", tags=["Question Bank"])
+def bank_list_bookmarks(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return {"question_ids": qbank.list_bookmark_ids(db, current_user.id)}
+
+
+@router.post("/{question_id}/bookmark", tags=["Question Bank"])
+def bank_add_bookmark(
+    question_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not db.query(Question).filter(Question.id == question_id).first():
+        raise HTTPException(status_code=404, detail="Question not found")
+    qbank.add_bookmark(db, current_user.id, question_id)
+    db.commit()
+    return {"bookmarked": True}
+
+
+@router.delete("/{question_id}/bookmark", tags=["Question Bank"])
+def bank_remove_bookmark(
+    question_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    qbank.remove_bookmark(db, current_user.id, question_id)
+    db.commit()
+    return {"bookmarked": False}
+
+
+@router.get("/bank/my-stats", tags=["Question Bank"])
+def bank_my_stats(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return qbank.my_stats(db, current_user.id)
 
 
 @router.get("/{question_id}/explanation", response_model=ExplanationResponse)

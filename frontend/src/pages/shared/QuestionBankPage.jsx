@@ -4,6 +4,7 @@
  * Used by both tutors and students
  */
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ChevronDown,
   ChevronRight,
@@ -12,6 +13,13 @@ import {
   ArrowLeft,
   FileText,
   Pencil,
+  Search,
+  Star,
+  Maximize2,
+  Minimize2,
+  CheckCircle2,
+  XCircle,
+  Circle,
 } from 'lucide-react';
 import { Card, Button, Badge, LoadingSpinner } from '../../components/ui';
 import {
@@ -34,12 +42,45 @@ const subjectIcons = {
   reading_writing: Book,
 };
 
-const QuestionBankPage = () => {
-  // Navigation state
-  const [view, setView] = useState('domains'); // 'domains' or 'practice'
+const QuestionBankPage = ({ userRole = 'student', isPublic = false }) => {
+  const navigate = useNavigate();
+  // Authenticated users (non-public) get the filterable browser + persistent
+  // progress + bookmarks. Public/logged-out keeps the simple domains tree.
+  const isAuthed = !isPublic && (() => {
+    try { return !!localStorage.getItem('accessToken'); } catch { return false; }
+  })();
+  const isTutor = isAuthed && userRole === 'tutor';
+
+  // Navigation state. 'browse' = new filterable browser (authed),
+  // 'domains' = legacy tree (public), 'practice' = answering.
+  const [view, setView] = useState(isAuthed ? 'browse' : 'domains');
   const [selectedDomain, setSelectedDomain] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [expandedDomains, setExpandedDomains] = useState(new Set());
+
+  // Filterable browser state (authed). Pre-fill skill from ?skill= so the
+  // worklist's "drill this skill" link deep-links here.
+  const initialSkill = (() => {
+    try { return new URLSearchParams(window.location.search).get('skill') || ''; }
+    catch { return ''; }
+  })();
+  const [filters, setFilters] = useState({
+    difficulty: '', skill_id: initialSkill, domain_id: '', status: '', bookmarked: false, q: '',
+  });
+  const [browseItems, setBrowseItems] = useState([]);
+  const [browseTotal, setBrowseTotal] = useState(0);
+  const [browseOffset, setBrowseOffset] = useState(0);
+  const [browseLoading, setBrowseLoading] = useState(false);
+  const [bankStats, setBankStats] = useState(null);
+  const [allSkills, setAllSkills] = useState([]);
+  const [bookmarkSet, setBookmarkSet] = useState(new Set());
+  const BROWSE_LIMIT = 30;
+
+  // Tutor multi-select for assigning
+  const [selectedForAssign, setSelectedForAssign] = useState(new Set());
+
+  // Focus / screen-share mode (hides chrome + personal status, larger type)
+  const [focusMode, setFocusMode] = useState(false);
 
   // Data state
   const [domains, setDomains] = useState([]);
@@ -294,7 +335,11 @@ const QuestionBankPage = () => {
         ? { index: userAnswer }
         : { answer: userAnswer };
 
-      const res = await questionService.checkAnswer(questionId, answerPayload);
+      // Authenticated → record the attempt (persists for progress + review);
+      // public/logged-out → stateless check.
+      const res = isAuthed
+        ? await questionService.recordAttempt(questionId, answerPayload)
+        : await questionService.checkAnswer(questionId, answerPayload);
       const { is_correct, correct_answer, explanation_html, explanation_available } = res.data;
 
       setCheckedAnswers(prev => ({
@@ -328,7 +373,114 @@ const QuestionBankPage = () => {
       }));
       setShowExplanation(true);
     }
-  }, [currentQuestion, answers]);
+  }, [currentQuestion, answers, isAuthed]);
+
+  // ----- Filterable browser (authenticated) -----
+  const loadBrowse = useCallback(async (offset = 0) => {
+    if (!isAuthed) return;
+    setBrowseLoading(true);
+    try {
+      const params = { limit: BROWSE_LIMIT, offset };
+      if (filters.difficulty) params.difficulty = filters.difficulty;
+      if (filters.skill_id) params.skill_id = filters.skill_id;
+      if (filters.domain_id) params.domain_id = filters.domain_id;
+      if (filters.status && !isTutor) params.status = filters.status;
+      if (filters.bookmarked && !isTutor) params.bookmarked = true;
+      if (filters.q) params.q = filters.q;
+      const res = await questionService.bankBrowse(params);
+      setBrowseItems(res.data.items || []);
+      setBrowseTotal(res.data.total || 0);
+      setBrowseOffset(offset);
+      setBookmarkSet(new Set((res.data.items || []).filter(i => i.bookmarked).map(i => i.id)));
+    } catch (err) {
+      console.error('Browse failed:', err);
+      setBrowseItems([]);
+    } finally {
+      setBrowseLoading(false);
+    }
+  }, [isAuthed, isTutor, filters]);
+
+  // Load skills (for the filter dropdown) + stats on mount (authed only)
+  useEffect(() => {
+    if (!isAuthed) return;
+    taxonomyService.getSkills?.({ limit: 200 })?.then?.(
+      (r) => setAllSkills(r.data.items || r.data || [])
+    ).catch(() => {});
+    questionService.myBankStats().then((r) => setBankStats(r.data)).catch(() => {});
+  }, [isAuthed]);
+
+  // Re-run browse when filters change (authed + on browse view)
+  useEffect(() => {
+    if (isAuthed && view === 'browse') loadBrowse(0);
+  }, [isAuthed, view, loadBrowse]);
+
+  // Practice a filtered set: fetch full details for the current page of results.
+  const practiceFromBrowse = async (startId = null) => {
+    setIsLoadingQuestions(true);
+    try {
+      const params = { limit: 100 };
+      if (filters.difficulty) params.difficulty = filters.difficulty;
+      if (filters.skill_id) params.skill_id = filters.skill_id;
+      if (filters.domain_id) params.domain_id = filters.domain_id;
+      const res = await questionService.getQuestionsWithDetails(params);
+      let questions = res.data.items || [];
+      // If launched from a specific card, start there.
+      if (startId) {
+        const i = questions.findIndex((q) => q.id === startId);
+        if (i > 0) questions = [...questions.slice(i), ...questions.slice(0, i)];
+      }
+      if (questions.length === 0) { setIsLoadingQuestions(false); return; }
+      setPracticeQuestions(questions.map((q, idx) => ({
+        id: q.id, order: idx + 1, prompt_html: q.prompt_html, passage_html: q.passage_html,
+        answer_type: q.answer_type || 'MCQ',
+        choices_json: q.choices ? q.choices.map(c => c.content) : [],
+        choices: q.choices || [], correct_answer: q.correct_answer,
+        explanation_html: q.explanation_html, explanation_available: q.explanation_available || false,
+        difficulty: q.difficulty, subject_area: q.subject_area || 'math',
+      })));
+      setAnswers({}); setCheckedAnswers({}); setCurrentIndex(0); setShowExplanation(false);
+      setView('practice');
+    } catch (err) {
+      console.error('Failed to load practice set:', err);
+    } finally {
+      setIsLoadingQuestions(false);
+    }
+  };
+
+  const toggleBookmark = useCallback(async (questionId) => {
+    const has = bookmarkSet.has(questionId);
+    // optimistic
+    setBookmarkSet((prev) => {
+      const next = new Set(prev);
+      if (has) next.delete(questionId); else next.add(questionId);
+      return next;
+    });
+    try {
+      if (has) await questionService.removeBookmark(questionId);
+      else await questionService.addBookmark(questionId);
+    } catch {
+      // revert on failure
+      setBookmarkSet((prev) => {
+        const next = new Set(prev);
+        if (has) next.add(questionId); else next.delete(questionId);
+        return next;
+      });
+    }
+  }, [bookmarkSet]);
+
+  const toggleAssignSelect = (id) => {
+    setSelectedForAssign((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const assignSelected = () => {
+    const ids = Array.from(selectedForAssign);
+    if (!ids.length) return;
+    navigate(`/tutor/assignments/new?question_ids=${ids.join(',')}`);
+  };
 
   // Render domains view
   const renderDomainsView = () => (
@@ -626,16 +778,18 @@ const QuestionBankPage = () => {
           {/* Left: Back button and skill name */}
           <div className="flex items-center gap-4">
             <button
-              onClick={goBack}
+              onClick={() => { if (isAuthed) { setView('browse'); } else { goBack(); } }}
               aria-label="Back to question bank"
               className="p-2 hover:bg-surface-card rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               <ArrowLeft className="h-5 w-5 text-ink-muted" />
             </button>
-            <div>
-              <span className="text-sm font-medium text-ink-body">{selectedSkill?.name}</span>
-              <span className="text-xs text-ink-subtle ml-2">({selectedDomain?.name})</span>
-            </div>
+            {!focusMode && (
+              <div>
+                <span className="text-sm font-medium text-ink-body">{selectedSkill?.name || 'Practice'}</span>
+                {selectedDomain?.name && <span className="text-xs text-ink-subtle ml-2">({selectedDomain.name})</span>}
+              </div>
+            )}
           </div>
 
           {/* Center: Question count */}
@@ -646,8 +800,29 @@ const QuestionBankPage = () => {
             </span>
           </div>
 
-          {/* Right: Draw, Reference Sheet (math), Calculator (math) */}
+          {/* Right: Bookmark, Focus, Draw, Reference Sheet (math), Calculator (math) */}
           <div className="flex items-center gap-2">
+            {isAuthed && !isTutor && currentQuestion && (
+              <button
+                onClick={() => toggleBookmark(currentQuestion.id)}
+                className="p-2 rounded-lg text-ink-muted transition-colors hover:bg-surface-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                aria-label={bookmarkSet.has(currentQuestion.id) ? 'Remove bookmark' : 'Save question'}
+                title={bookmarkSet.has(currentQuestion.id) ? 'Saved' : 'Save'}
+              >
+                <Star className={`h-5 w-5 ${bookmarkSet.has(currentQuestion.id) ? 'fill-amber-400 text-amber-400' : ''}`} />
+              </button>
+            )}
+            <button
+              onClick={() => setFocusMode((f) => !f)}
+              className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                focusMode ? 'bg-brand-600 text-white' : 'text-ink-muted hover:bg-surface-card'
+              }`}
+              aria-pressed={focusMode}
+              aria-label={focusMode ? 'Exit focus mode' : 'Focus mode (for screen sharing)'}
+              title={focusMode ? 'Exit focus mode' : 'Focus mode (for screen sharing)'}
+            >
+              {focusMode ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
+            </button>
             <button
               onClick={() => setIsDrawing((d) => !d)}
               className={`p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
@@ -694,8 +869,8 @@ const QuestionBankPage = () => {
           </div>
         </header>
 
-        {/* Main content - shifts right when calculator is open */}
-        <div className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+        {/* Main content - shifts right when calculator is open; larger type in focus mode */}
+        <div className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'} ${focusMode ? 'text-lg [&_.prose]:prose-lg' : ''}`}>
           {hasPassage ? (
             <SplitPane
               left={passagePanel}
@@ -737,8 +912,174 @@ const QuestionBankPage = () => {
     );
   };
 
+  // ----- Filterable browser view (authenticated) -----
+  const STATUS_ICON = { correct: CheckCircle2, incorrect: XCircle, untried: Circle };
+  const DIFF_LABEL = { E: 'Easy', M: 'Medium', H: 'Hard' };
+
+  const renderBrowseView = () => {
+    const skillOptions = allSkills.filter(
+      (s) => !filters.domain_id || String(s.domain_id) === String(filters.domain_id)
+    );
+    return (
+      <div className="max-w-5xl mx-auto p-6">
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <h1 className="font-display text-2xl font-semibold text-ink-body">Question Bank</h1>
+          {!isTutor && (
+            <Button variant="secondary" size="sm" onClick={() => practiceFromBrowse()}>
+              Practice these
+            </Button>
+          )}
+        </div>
+
+        {/* Progress strip + quick chips (students only) */}
+        {!isTutor && bankStats && (
+          <div className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-xl border border-edge bg-surface-muted/40 px-4 py-3 text-sm">
+            <span className="text-ink-muted">
+              <span className="font-semibold text-ink-body">{bankStats.distinct_questions_attempted}</span> attempted
+            </span>
+            {bankStats.accuracy != null && (
+              <span className="text-ink-muted">
+                <span className="font-semibold text-ink-body">{bankStats.accuracy}%</span> accuracy
+              </span>
+            )}
+            <button onClick={() => setFilters((f) => ({ ...f, status: 'incorrect', bookmarked: false }))}
+              className="font-medium text-brand-700 hover:underline dark:text-brand-300">Review what I got wrong</button>
+            <button onClick={() => setFilters((f) => ({ ...f, bookmarked: true, status: '' }))}
+              className="font-medium text-brand-700 hover:underline dark:text-brand-300">Saved ({bankStats.bookmarks})</button>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-[220px_1fr]">
+          {/* Filters rail */}
+          <aside className="space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint" />
+              <input
+                type="search" placeholder="Search questions"
+                value={filters.q}
+                onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))}
+                className="w-full rounded-lg border border-edge bg-surface-input py-2 pl-9 pr-3 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              />
+            </div>
+            <div>
+              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-faint">Difficulty</p>
+              <div className="flex gap-1.5">
+                {['E', 'M', 'H'].map((d) => (
+                  <button key={d}
+                    onClick={() => setFilters((f) => ({ ...f, difficulty: f.difficulty === d ? '' : d }))}
+                    className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                      filters.difficulty === d ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted hover:bg-edge-subtle'
+                    }`}>{DIFF_LABEL[d]}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-faint">Skill</p>
+              <select
+                value={filters.skill_id}
+                onChange={(e) => setFilters((f) => ({ ...f, skill_id: e.target.value }))}
+                className="w-full rounded-lg border border-edge bg-surface-input px-2 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              >
+                <option value="">All skills</option>
+                {skillOptions.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+              </select>
+            </div>
+            {!isTutor && (
+              <div>
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-faint">Status</p>
+                <div className="flex flex-col gap-1">
+                  {[['', 'All'], ['unattempted', 'Unattempted'], ['incorrect', 'Got wrong'], ['correct', 'Got right']].map(([v, label]) => (
+                    <button key={v}
+                      onClick={() => setFilters((f) => ({ ...f, status: v }))}
+                      className={`rounded-lg px-3 py-1.5 text-left text-xs font-medium transition-colors ${
+                        filters.status === v ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted hover:bg-edge-subtle'
+                      }`}>{label}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {(filters.difficulty || filters.skill_id || filters.status || filters.bookmarked || filters.q) && (
+              <button
+                onClick={() => setFilters({ difficulty: '', skill_id: '', domain_id: '', status: '', bookmarked: false, q: '' })}
+                className="text-xs text-ink-muted hover:text-ink-body underline">Clear filters</button>
+            )}
+          </aside>
+
+          {/* Results */}
+          <div>
+            {/* Tutor assign bar */}
+            {isTutor && selectedForAssign.size > 0 && (
+              <div className="mb-3 flex items-center justify-between rounded-lg border border-brand-300 bg-brand-50 px-4 py-2.5 text-sm dark:border-brand-800/50 dark:bg-brand-900/20">
+                <span className="font-medium text-ink-body">{selectedForAssign.size} selected</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => setSelectedForAssign(new Set())} className="text-ink-muted hover:text-ink-body">Clear</button>
+                  <Button variant="primary" size="sm" onClick={assignSelected}>Assign to student</Button>
+                </div>
+              </div>
+            )}
+
+            {browseLoading ? (
+              <div className="flex items-center justify-center py-16"><LoadingSpinner size="lg" /></div>
+            ) : browseItems.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-edge px-4 py-12 text-center text-sm text-ink-subtle">
+                {filters.status === 'incorrect' ? "You haven't missed any questions matching this filter."
+                  : filters.bookmarked ? "No saved questions yet."
+                  : "Nothing matches these filters."}
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {browseItems.map((item) => {
+                  const StatusI = STATUS_ICON[item.status] || Circle;
+                  const statusCls = item.status === 'correct' ? 'text-accent-600 dark:text-accent-300'
+                    : item.status === 'incorrect' ? 'text-rose-500' : 'text-ink-faint';
+                  const isBm = bookmarkSet.has(item.id);
+                  return (
+                    <Card key={item.id} className="flex items-start gap-3 p-4 transition-colors hover:bg-surface-muted">
+                      {isTutor && (
+                        <input type="checkbox" checked={selectedForAssign.has(item.id)}
+                          onChange={() => toggleAssignSelect(item.id)}
+                          className="mt-1 h-4 w-4 rounded border-edge text-brand-600 focus:ring-brand-500" />
+                      )}
+                      {!isTutor && <StatusI className={`mt-0.5 h-4 w-4 shrink-0 ${statusCls}`} />}
+                      <button onClick={() => practiceFromBrowse(item.id)} className="min-w-0 flex-1 text-left">
+                        <p className="truncate text-sm text-ink-body">{item.prompt_snippet}</p>
+                        <p className="mt-1 flex items-center gap-2 text-xs text-ink-subtle">
+                          {item.skill && <span>{item.skill}</span>}
+                          {item.difficulty && <Badge size="sm">{DIFF_LABEL[item.difficulty] || item.difficulty}</Badge>}
+                        </p>
+                      </button>
+                      {!isTutor && (
+                        <button onClick={() => toggleBookmark(item.id)} aria-label={isBm ? 'Remove bookmark' : 'Save question'}
+                          className="shrink-0 rounded-md p-1.5 hover:bg-surface-input">
+                          <Star className={`h-4 w-4 ${isBm ? 'fill-amber-400 text-amber-400' : 'text-ink-faint'}`} />
+                        </button>
+                      )}
+                    </Card>
+                  );
+                })}
+              </ul>
+            )}
+
+            {/* Pagination */}
+            {browseTotal > BROWSE_LIMIT && (
+              <div className="mt-4 flex items-center justify-between text-sm">
+                <Button variant="secondary" size="sm" disabled={browseOffset === 0}
+                  onClick={() => loadBrowse(Math.max(0, browseOffset - BROWSE_LIMIT))}>Previous</Button>
+                <span className="text-ink-subtle">
+                  {browseOffset + 1}–{Math.min(browseOffset + BROWSE_LIMIT, browseTotal)} of {browseTotal}
+                </span>
+                <Button variant="secondary" size="sm" disabled={browseOffset + BROWSE_LIMIT >= browseTotal}
+                  onClick={() => loadBrowse(browseOffset + BROWSE_LIMIT)}>Next</Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Loading state
-  if (isLoading) {
+  if (isLoading && !isAuthed) {
     return (
       <div className="flex items-center justify-center h-64">
         <LoadingSpinner size="lg" />
@@ -750,7 +1091,9 @@ const QuestionBankPage = () => {
   if (view === 'practice') {
     return renderPracticeView();
   }
-
+  if (isAuthed) {
+    return renderBrowseView();
+  }
   return renderDomainsView();
 };
 

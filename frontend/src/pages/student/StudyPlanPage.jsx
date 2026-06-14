@@ -8,7 +8,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Upload, ArrowRight, BookOpen, Dumbbell, ClipboardCheck,
+  Upload, ArrowRight, BookOpen, Dumbbell, ClipboardCheck, Library,
   CheckCircle2, AlertTriangle, Circle, Loader2,
 } from 'lucide-react';
 import { Button, PageHeader, Skeleton, Surface, Section, useToast } from '../../components/ui';
@@ -161,6 +161,10 @@ const StudyPlanPage = () => {
                     <Button variant="secondary" size="sm"
                       onClick={() => navigate(`/student/adaptive?skill=${item.skill_id}&autostart=true`)}>
                       <Dumbbell className="mr-1.5 h-4 w-4" /> Practice
+                    </Button>
+                    <Button variant="ghost" size="sm"
+                      onClick={() => navigate(`/student/questions?skill=${item.skill_id}`)}>
+                      <Library className="mr-1.5 h-4 w-4" /> Question bank
                     </Button>
                     <Button variant="primary" size="sm" onClick={() => startCheck(item)}>
                       <ClipboardCheck className="mr-1.5 h-4 w-4" /> Take mastery check

@@ -27,6 +27,23 @@ export const questionService = {
   // Get step-by-step explanation for a question
   getExplanation: (id) =>
     api.get(`/questions/${id}/explanation`),
+
+  // ----- Question Bank (authenticated, study-oriented) -----
+  // Filterable browse with per-student status + bookmark flags.
+  bankBrowse: (params = {}) =>
+    api.get('/questions/bank/browse', { params }),
+
+  // Record a logged-in attempt (persists) + return result + explanation.
+  recordAttempt: (id, answer) =>
+    api.post(`/questions/${id}/attempt`, { answer }),
+
+  // Bookmarks
+  listBookmarks: () => api.get('/questions/bank/bookmarks'),
+  addBookmark: (id) => api.post(`/questions/${id}/bookmark`),
+  removeBookmark: (id) => api.delete(`/questions/${id}/bookmark`),
+
+  // Progress strip stats
+  myBankStats: () => api.get('/questions/bank/my-stats'),
 };
 
 export default questionService;

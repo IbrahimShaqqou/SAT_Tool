@@ -1,25 +1,15 @@
 /**
  * Desmos API key resolution.
  *
- * The key comes from REACT_APP_DESMOS_API_KEY (set at build time in the Vercel
- * dashboard). There is intentionally NO hardcoded fallback — get your own key
- * at https://www.desmos.com/api/v1.11/docs/index.html and set the env var.
- *
- * If it's missing we warn loudly and return '' (the Desmos script then loads
- * unauthenticated, which Desmos rejects on non-allowlisted domains — so a blank
- * calculator is your signal the env var wasn't set).
+ * Prefers REACT_APP_DESMOS_API_KEY (set it in the Vercel dashboard to use your
+ * own Desmos partner key). Falls back to Desmos's public demo key, which Desmos
+ * publishes in their own getting-started docs and domain-restricts on their end
+ * — it's not a secret, and it keeps the calculator working out of the box.
  */
+const DESMOS_DEMO_KEY = 'dcb31709b452b1cf9dc26972add0fda6';
+
 export function getDesmosApiKey() {
-  const key = process.env.REACT_APP_DESMOS_API_KEY;
-  if (!key) {
-    // eslint-disable-next-line no-console
-    console.error(
-      '[ZooPrep] REACT_APP_DESMOS_API_KEY is not set — the Desmos calculator/graphs ' +
-      'will not load. Set it in your Vercel build environment.'
-    );
-    return '';
-  }
-  return key;
+  return process.env.REACT_APP_DESMOS_API_KEY || DESMOS_DEMO_KEY;
 }
 
 export const DESMOS_SCRIPT_BASE = 'https://www.desmos.com/api/v1.11/calculator.js';

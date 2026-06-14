@@ -71,6 +71,9 @@ from app.models.study_plan import StudyPlan
 # Worklist (score-raising loop)
 from app.models.worklist import WorklistItem, MasteryCheck
 
+# Question bank bookmarks
+from app.models.question_bookmark import QuestionBookmark
+
 
 __all__ = [
     # Enums
@@ -114,4 +117,5 @@ __all__ = [
     "StudyPlan",
     "WorklistItem",
     "MasteryCheck",
+    "QuestionBookmark",
 ]
