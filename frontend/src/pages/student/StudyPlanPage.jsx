@@ -59,8 +59,10 @@ const StudyPlanPage = () => {
   useEffect(() => { load(); }, [load]);
 
   const startCheck = async (item) => {
+    // A resurfaced (stale) skill takes a refresh check; everything else mastery.
+    const kind = item.status === 'refresh' ? 'refresh' : 'mastery';
     try {
-      const res = await worklistService.startCheck(item.id, 'mastery');
+      const res = await worklistService.startCheck(item.id, kind);
       navigate(`/student/mastery-check/${res.data.check_id}`, {
         state: { check: res.data, skillName: item.skill_name },
       });
@@ -152,22 +154,29 @@ const StudyPlanPage = () => {
                       Two checks didn't pass — your tutor will help with this one.
                     </p>
                   ) : (
-                    <div className="mt-3 flex flex-wrap gap-2 pl-6">
-                      {item.has_lesson && (
-                        <Button variant="ghost" size="sm" onClick={() => navigate(`/student/lessons/${item.lesson_id}`)}>
-                          <BookOpen className="mr-1.5 h-4 w-4" /> Learn
-                        </Button>
+                    <>
+                      {item.status === 'refresh' && (
+                        <p className="mt-1.5 pl-6 text-xs text-ink-muted">
+                          You mastered this a while ago — a quick refresh keeps it sharp for test day.
+                        </p>
                       )}
-                      <Button variant="secondary" size="sm" onClick={() => navigate(`/student/adaptive?skill=${item.skill_id}&autostart=true`)}>
-                        <Dumbbell className="mr-1.5 h-4 w-4" /> Practice
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => navigate(`/student/questions?skill=${item.skill_id}`)}>
-                        <Library className="mr-1.5 h-4 w-4" /> Question bank
-                      </Button>
-                      <Button variant="primary" size="sm" onClick={() => startCheck(item)}>
-                        <ClipboardCheck className="mr-1.5 h-4 w-4" /> Take mastery check
-                      </Button>
-                    </div>
+                      <div className="mt-3 flex flex-wrap gap-2 pl-6">
+                        {item.has_lesson && (
+                          <Button variant="ghost" size="sm" onClick={() => navigate(`/student/lessons/${item.lesson_id}`)}>
+                            <BookOpen className="mr-1.5 h-4 w-4" /> Learn
+                          </Button>
+                        )}
+                        <Button variant="secondary" size="sm" onClick={() => navigate(`/student/adaptive?skill=${item.skill_id}&autostart=true`)}>
+                          <Dumbbell className="mr-1.5 h-4 w-4" /> Practice
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => navigate(`/student/questions?skill=${item.skill_id}`)}>
+                          <Library className="mr-1.5 h-4 w-4" /> Question bank
+                        </Button>
+                        <Button variant="primary" size="sm" onClick={() => startCheck(item)}>
+                          <ClipboardCheck className="mr-1.5 h-4 w-4" /> {item.status === 'refresh' ? 'Refresh check' : 'Take mastery check'}
+                        </Button>
+                      </div>
+                    </>
                   )}
                 </Surface>
               );

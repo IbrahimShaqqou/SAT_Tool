@@ -25,6 +25,7 @@ from app.api.deps import get_current_user, get_current_tutor
 from app.services import worklist_service as wl
 from app.services import mastery_check_service as mc
 from app.services import study_priority
+from app.services import forgetting_service as fl
 from app.services.study_plan_service import _days_until_test
 
 router = APIRouter()
@@ -164,6 +165,9 @@ def get_my_worklist(
     current_user: User = Depends(get_current_user),
 ):
     """The current student's live, ordered worklist (top items elevated)."""
+    # Forgetting loop: surface any mastered skills whose review interval elapsed.
+    if fl.resurface_due(db, current_user.id):
+        db.commit()
     items = wl.list_for_student(db, current_user.id)
     out = [_serialize(db, i) for i in items]
 
@@ -187,15 +191,13 @@ def start_mastery_check(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Start a check (kind=mastery|baseline). Returns 5 questions, no answers."""
+    """Start a check (kind=mastery|baseline|refresh). Returns 5 questions, no answers."""
     item = _item_for_student(db, item_id, current_user.id)
 
     try:
         check_kind = MasteryCheckKind(kind)
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid check kind")
-    if check_kind == MasteryCheckKind.REFRESH:
-        raise HTTPException(status_code=400, detail="Refresh checks are not available yet")
 
     # Enforce the mastery retry cap up front.
     if check_kind == MasteryCheckKind.MASTERY and item.status == WorklistStatus.NEEDS_TUTOR:

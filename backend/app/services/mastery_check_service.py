@@ -188,22 +188,33 @@ def grade_check(db: Session, check: MasteryCheck, answers: dict) -> dict:
         db.flush()
         return _result(check, accuracy, item, band_missed, next_item=None)
 
-    # Mastery (and refresh) gate.
+    # Mastery / refresh gate (same pass rule).
+    from app.services import forgetting_service as fl
     passed = score >= PASS_SCORE and hard_correct >= PASS_MIN_HARD
     check.passed = passed
     item.current_accuracy = accuracy
+    is_refresh = check.kind == MasteryCheckKind.REFRESH
+    next_item = None
 
     if passed:
         item.status = WorklistStatus.PASSED
         item.completed_at = datetime.now(timezone.utc)
-        next_item = _next_open_item(db, item)
+        # Forgetting loop: a passed refresh PROMOTES the Leitner box (longer
+        # interval); a first mastery pass enters review at box 1.
+        fl.schedule_review(db, item, promote=is_refresh)
+        if not is_refresh:
+            next_item = _next_open_item(db, item)
     else:
-        # Failed: stay in progress unless we've hit the attempt cap.
-        if check.attempt_number >= MAX_MASTERY_ATTEMPTS:
+        if is_refresh:
+            # A failed refresh means the skill faded — reopen it and reset the
+            # Leitner box so it's re-learned from scratch.
+            item.status = WorklistStatus.IN_PROGRESS
+            item.box = 0
+            item.review_due_at = None
+        elif check.attempt_number >= MAX_MASTERY_ATTEMPTS:
             item.status = WorklistStatus.NEEDS_TUTOR
         else:
             item.status = WorklistStatus.IN_PROGRESS
-        next_item = None
 
     db.flush()
     return _result(check, accuracy, item, band_missed, next_item=next_item)

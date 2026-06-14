@@ -84,6 +84,7 @@ const MasteryCheckPage = () => {
   if (result) {
     const passed = result.passed;
     const isBaseline = result.kind === 'baseline';
+    const isRefresh = result.kind === 'refresh';
     const bandsMissed = result.bands_missed || {};
     const missedLabel = Object.keys(bandsMissed).length
       ? Object.entries(bandsMissed).map(([b, n]) =>
@@ -101,7 +102,9 @@ const MasteryCheckPage = () => {
             <XCircle className="mx-auto mb-3 h-10 w-10 text-amber-500" />
           )}
           <h1 className="font-display text-2xl font-semibold text-ink-body">
-            {isBaseline ? 'Baseline recorded' : passed ? 'Mastered!' : 'Not quite yet'}
+            {isBaseline ? 'Baseline recorded'
+              : passed ? (isRefresh ? 'Still sharp!' : 'Mastered!')
+              : isRefresh ? 'Worth another look' : 'Not quite yet'}
           </h1>
           <p className="mt-2 text-sm text-ink-muted">
             You scored <span className="font-semibold text-ink-body">{result.score}/{result.total}</span>
@@ -199,7 +202,7 @@ const MasteryCheckPage = () => {
           </button>
           <div>
             <span className="text-sm font-medium text-ink-body">
-              {check.kind === 'baseline' ? 'Baseline check' : 'Mastery check'}
+              {check.kind === 'baseline' ? 'Baseline check' : check.kind === 'refresh' ? 'Refresh check' : 'Mastery check'}
             </span>
             <span className="text-xs text-ink-subtle ml-2">{skillName}</span>
           </div>

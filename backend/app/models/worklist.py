@@ -111,6 +111,19 @@ class WorklistItem(Base, TimestampMixin):
         comment="When the item reached done (TimestampMixin gives created/updated)",
     )
 
+    # --- Forgetting loop (Leitner spaced repetition) ---
+    box = Column(
+        Integer,
+        nullable=False,
+        default=0,
+        comment="Leitner box (0=not in review; 1..N = review stage, larger = longer interval)",
+    )
+    review_due_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        comment="When a mastered skill should resurface as a refresh check",
+    )
+
     __table_args__ = (
         UniqueConstraint("student_id", "skill_id", name="uq_worklist_student_skill"),
         Index("ix_worklist_student_status", "student_id", "status"),
