@@ -5,18 +5,22 @@
  */
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
-  ChevronDown,
   ChevronRight,
   Book,
   Calculator,
   ArrowLeft,
+  ArrowRight,
   FileText,
   Pencil,
   Star,
   Maximize2,
   Minimize2,
+  Sparkles,
+  History,
+  XCircle,
+  Layers,
 } from 'lucide-react';
-import { Card, Button, Badge, LoadingSpinner } from '../../components/ui';
+import { Button, LoadingSpinner, PageHeader, Section, Surface } from '../../components/ui';
 import {
   QuestionNav,
   QuestionDisplay,
@@ -373,117 +377,102 @@ const QuestionBankPage = ({ userRole = 'student', isPublic = false }) => {
     }
   }, [bookmarkSet]);
 
-  // Render domains view
+  // Render domains view — Study Hall design language.
   const renderDomainsView = () => (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="font-display text-2xl font-semibold text-ink-body">Question Bank</h1>
-        <p className="text-ink-subtle mt-1">Browse questions by domain and skill</p>
-      </div>
+    <div className="mx-auto max-w-3xl pb-10">
+      <PageHeader
+        eyebrow="Practice library"
+        title="Question Bank"
+        subtitle="Pick a domain, choose a skill, then practice exactly the questions you want."
+      />
 
       {/* Loading overlay for question loading */}
       {isLoadingQuestions && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" role="alert" aria-busy="true">
-          <div className="bg-surface-card p-6 rounded-lg shadow-xl flex items-center gap-4">
+          <div className="bg-surface-card p-6 rounded-2xl shadow-card-md flex items-center gap-4">
             <LoadingSpinner />
-            <span className="text-ink-muted">Loading questions...</span>
+            <span className="text-ink-muted">Loading questions…</span>
           </div>
         </div>
       )}
 
-      {/* Subject sections */}
-      {['math', 'reading_writing'].map(subject => {
-        const SubjectIcon = subjectIcons[subject];
-        const subjectDomains = domainsBySubject[subject] || [];
+      <div className="space-y-10">
+        {['math', 'reading_writing'].map((subject) => {
+          const SubjectIcon = subjectIcons[subject];
+          const subjectDomains = domainsBySubject[subject] || [];
+          if (subjectDomains.length === 0) return null;
+          const totalQs = subjectDomains.reduce((sum, d) => sum + (d.question_count || 0), 0);
 
-        return (
-          <Card key={subject}>
-            <Card.Header>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-surface-muted rounded-lg">
-                  <SubjectIcon className="h-5 w-5 text-ink-muted" />
-                </div>
-                <div>
-                  <Card.Title>
-                    {subject === 'math' ? 'Math' : 'Reading & Writing'}
-                  </Card.Title>
-                  <p className="text-sm text-ink-subtle">
-                    {subjectDomains.reduce((sum, d) => sum + (d.question_count || 0), 0)} questions
-                  </p>
-                </div>
-              </div>
-            </Card.Header>
-            <Card.Content className="p-0">
-              <div className="divide-y divide-edge-subtle">
-                {subjectDomains.map(domain => (
-                  <div key={domain.id}>
-                    {/* Domain header */}
-                    <button
-                      onClick={() => toggleDomain(domain.id)}
-                      aria-expanded={expandedDomains.has(domain.id)}
-                      className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-                    >
-                      <div className="flex items-center gap-3">
-                        {expandedDomains.has(domain.id) ? (
-                          <ChevronDown className="h-4 w-4 text-ink-faint" />
-                        ) : (
-                          <ChevronRight className="h-4 w-4 text-ink-faint" />
-                        )}
-                        <span className="font-medium text-ink-body">{domain.name}</span>
-                      </div>
-                      <Badge variant="default" size="sm">
-                        {domain.question_count || 0} questions
-                      </Badge>
-                    </button>
+          return (
+            <Section
+              key={subject}
+              title={subject === 'math' ? 'Math' : 'Reading & Writing'}
+              icon={SubjectIcon}
+              hint={`${totalQs.toLocaleString()} questions`}
+            >
+              <div className="space-y-2">
+                {subjectDomains.map((domain) => {
+                  const open = expandedDomains.has(domain.id);
+                  const skills = skillsByDomain[domain.id] || [];
+                  return (
+                    <Surface key={domain.id} padded={false} className="overflow-hidden rounded-xl">
+                      {/* Domain header */}
+                      <button
+                        onClick={() => toggleDomain(domain.id)}
+                        aria-expanded={open}
+                        className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                      >
+                        <div className="flex min-w-0 items-center gap-2.5">
+                          <ChevronRight className={`h-4 w-4 shrink-0 text-ink-faint transition-transform ${open ? 'rotate-90' : ''}`} />
+                          <span className="truncate font-medium text-ink-body">{domain.name}</span>
+                        </div>
+                        <span className="shrink-0 text-xs tabular-nums text-ink-faint">
+                          {domain.question_count || 0}
+                        </span>
+                      </button>
 
-                    {/* Skills list */}
-                    {expandedDomains.has(domain.id) && (
-                      <div className="bg-surface-muted border-t border-edge-subtle">
-                        {isLoadingSkills[domain.id] ? (
-                          <div className="flex items-center justify-center py-4">
-                            <LoadingSpinner size="sm" />
-                          </div>
-                        ) : (
-                          <div className="py-2">
-                            {(skillsByDomain[domain.id] || []).map(skill => (
-                              <button
-                                key={skill.id}
-                                onClick={() => {
-                                  setSelectedSkill(skill);
-                                  setSelectedDomain(domain);
-                                  if (isAuthed) {
-                                    setView('options');
-                                  } else {
-                                    startPractice(skill, domain, { mode: 'all' });
-                                  }
-                                }}
-                                disabled={isLoadingQuestions}
-                                className="w-full flex items-center justify-between px-8 py-2 hover:bg-surface-card transition-colors text-left disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-                              >
-                                <span className="text-sm text-ink-muted">{skill.name}</span>
-                                <div className="flex items-center gap-2">
-                                  <Badge variant="info" size="sm">
-                                    {skill.question_count || 0}
-                                  </Badge>
-                                  <ChevronRight className="h-3 w-3 text-ink-faint" />
-                                </div>
-                              </button>
-                            ))}
-                            {(skillsByDomain[domain.id] || []).length === 0 && (
-                              <p className="text-sm text-ink-faint px-8 py-2">No skills found</p>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      {/* Skills as chips */}
+                      {open && (
+                        <div className="border-t border-edge-subtle bg-surface-muted/40 px-4 py-3">
+                          {isLoadingSkills[domain.id] ? (
+                            <div className="flex items-center justify-center py-3">
+                              <LoadingSpinner size="sm" />
+                            </div>
+                          ) : skills.length === 0 ? (
+                            <p className="py-1 text-sm text-ink-faint">No skills found</p>
+                          ) : (
+                            <div className="flex flex-wrap gap-2">
+                              {skills.map((skill) => (
+                                <button
+                                  key={skill.id}
+                                  onClick={() => {
+                                    setSelectedSkill(skill);
+                                    setSelectedDomain(domain);
+                                    if (isAuthed) setView('options');
+                                    else startPractice(skill, domain, { mode: 'all' });
+                                  }}
+                                  disabled={isLoadingQuestions}
+                                  className="group inline-flex items-center gap-1.5 rounded-full border border-edge bg-surface-card px-3 py-1.5 text-sm text-ink-body transition-colors hover:border-brand-400 hover:bg-brand-50 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:hover:bg-brand-900/20"
+                                >
+                                  <span>{skill.name}</span>
+                                  {skill.question_count != null && (
+                                    <span className="text-xs tabular-nums text-ink-faint">{skill.question_count}</span>
+                                  )}
+                                  <ChevronRight className="h-3 w-3 text-ink-faint transition-transform group-hover:translate-x-0.5" />
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </Surface>
+                  );
+                })}
               </div>
-            </Card.Content>
-          </Card>
-        );
-      })}
+            </Section>
+          );
+        })}
+      </div>
     </div>
   );
 
@@ -814,53 +803,66 @@ const QuestionBankPage = ({ userRole = 'student', isPublic = false }) => {
   // ----- Options step: how to practice this skill (authed) -----
   const renderOptionsView = () => {
     const go = (mode) => startPractice(selectedSkill, selectedDomain, { mode, difficulty: optDifficulty });
-    const Tile = ({ title, desc, mode, primary }) => (
-      <button
+    const Tile = ({ icon: Icon, title, desc, mode, primary }) => (
+      <Surface
+        as="button"
         onClick={() => go(mode)}
         disabled={isLoadingQuestions}
-        className={`w-full rounded-xl border p-4 text-left transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
-          primary ? 'border-brand-300 bg-brand-50 hover:bg-brand-100 dark:border-brand-800/50 dark:bg-brand-900/20'
-                  : 'border-edge bg-surface-card hover:bg-surface-muted'
+        glow={primary ? 'brand' : false}
+        className={`flex w-full items-center gap-3.5 rounded-xl p-4 text-left transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+          primary ? '' : 'hover:bg-surface-muted'
         }`}
       >
-        <p className="font-semibold text-ink-body">{title}</p>
-        <p className="mt-0.5 text-sm text-ink-subtle">{desc}</p>
-      </button>
+        <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+          primary ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted'
+        }`}>
+          <Icon className="h-4.5 w-4.5" style={{ width: 18, height: 18 }} />
+        </span>
+        <span className="min-w-0">
+          <span className="block font-semibold text-ink-body">{title}</span>
+          <span className="block text-sm text-ink-subtle">{desc}</span>
+        </span>
+        <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-ink-faint" />
+      </Surface>
     );
     return (
-      <div className="mx-auto max-w-xl p-6">
+      <div className="mx-auto max-w-xl pb-10">
         <button
           onClick={() => setView('domains')}
-          className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-subtle transition-colors hover:text-ink-body"
+          className="mb-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink-subtle transition-colors hover:text-ink-body"
         >
           <ArrowLeft className="h-4 w-4" /> Skills
         </button>
 
-        <h1 className="font-display text-2xl font-semibold text-ink-body">{selectedSkill?.name}</h1>
-        {selectedDomain?.name && <p className="mt-0.5 text-sm text-ink-subtle">{selectedDomain.name}</p>}
+        <PageHeader
+          eyebrow={selectedDomain?.name || 'Practice'}
+          title={selectedSkill?.name || 'Practice'}
+          subtitle="How would you like to practice this skill?"
+        />
 
         {/* Difficulty (optional, applies to all modes) */}
-        <div className="mt-5">
-          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-faint">Difficulty (optional)</p>
-          <div className="flex gap-1.5">
+        <Section title="Difficulty" hint="optional">
+          <div className="flex gap-2">
             {['E', 'M', 'H'].map((d) => (
               <button key={d}
                 onClick={() => setOptDifficulty((cur) => (cur === d ? '' : d))}
-                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
                   optDifficulty === d ? 'bg-brand-600 text-white' : 'bg-surface-muted text-ink-muted hover:bg-edge-subtle'
                 }`}>{DIFF_LABEL[d]}</button>
             ))}
           </div>
-        </div>
+        </Section>
 
         {/* How to practice */}
-        <div className="mt-5 space-y-2.5">
-          <Tile title="New questions" desc="Questions you haven't tried yet, shuffled." mode="new" primary />
-          <Tile title="Review old questions" desc="Questions you've answered before." mode="old" />
-          <Tile title="Questions I got wrong" desc="Just the ones you missed in this skill." mode="wrong" />
-          <Tile title="Saved questions" desc="Your bookmarked questions in this skill." mode="saved" />
-          <Tile title="All questions" desc="Everything in this skill, shuffled." mode="all" />
-        </div>
+        <Section className="mt-8" title="Practice mode">
+          <div className="space-y-2.5">
+            <Tile icon={Sparkles} title="New questions" desc="Questions you haven't tried yet, shuffled." mode="new" primary />
+            <Tile icon={History} title="Review old questions" desc="Questions you've answered before." mode="old" />
+            <Tile icon={XCircle} title="Questions I got wrong" desc="Just the ones you missed in this skill." mode="wrong" />
+            <Tile icon={Star} title="Saved questions" desc="Your bookmarked questions in this skill." mode="saved" />
+            <Tile icon={Layers} title="All questions" desc="Everything in this skill, shuffled." mode="all" />
+          </div>
+        </Section>
       </div>
     );
   };
