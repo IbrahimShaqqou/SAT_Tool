@@ -240,19 +240,34 @@
   margin: 1em 0;
 }
 
-/* Diagram/figure images in questions — standalone triangles, graphs, tables */
-.question-content > p > img,
-.question-content figure img,
-.question-content .image img,
-.question-content > img {
+/* Inline math rendered as an image (College Board's math-img) must flow WITH the
+   surrounding text — not break onto its own line. This overrides the block-image
+   rules below for math. Keep this first so the :not() selectors below also skip it. */
+.question-content img.math-img,
+.prose img.math-img,
+button img.math-img,
+.answer-choice img.math-img {
+  display: inline-block !important;
+  vertical-align: middle;
+  margin: 0 0.15em !important;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Diagram/figure images in questions — standalone triangles, graphs, tables.
+   Exclude inline math images so they don't get forced to block. */
+.question-content > p > img:not(.math-img),
+.question-content figure img:not(.math-img),
+.question-content .image img:not(.math-img),
+.question-content > img:not(.math-img) {
   max-width: min(520px, 100%);
   height: auto;
   display: block;
   margin: 1em auto;
 }
 
-/* Block-level solo images */
-.question-content p > img:only-child {
+/* Block-level solo images (a paragraph whose only child is a diagram image) */
+.question-content p > img:only-child:not(.math-img) {
   max-width: min(520px, 100%);
   height: auto;
   display: block;
@@ -279,21 +294,35 @@ button .math-inline {
   margin: 0.5em 0;
 }
 
-/* Dark mode: invert diagram/graph images */
-.dark .question-content > p > img,
-.dark .question-content figure img,
-.dark .question-content .image img,
-.dark .question-content > img,
-.dark .question-content p > img:only-child {
+/* Dark mode: invert diagram/graph images — but NOT inline math images
+   (math-img already reads fine and inverting tiny inline glyphs looks wrong). */
+.dark .question-content > p > img:not(.math-img),
+.dark .question-content figure img:not(.math-img),
+.dark .question-content .image img:not(.math-img),
+.dark .question-content > img:not(.math-img),
+.dark .question-content p > img:only-child:not(.math-img) {
   filter: invert(0.9);
   background: #1f2937;
   border-radius: 8px;
   padding: 8px;
 }
 
-/* Math containers should be inline */
+/* Inline math images in dark mode: invert the (black-on-transparent) glyph so
+   it shows on dark backgrounds, without a box. */
+.dark .question-content img.math-img,
+.dark .answer-choice img.math-img,
+.dark button img.math-img {
+  filter: invert(0.92);
+}
+
+/* Math containers/expressions should be inline (covers both the math-container
+   and math_expression wrappers the College Board markup uses). */
 .question-content .math-container,
+.question-content .math_expression,
+.answer-choice .math-container,
+.answer-choice .math_expression,
 button .math-container,
+button .math_expression,
 .question-content span.math-container,
 button span.math-container {
   display: inline !important;
