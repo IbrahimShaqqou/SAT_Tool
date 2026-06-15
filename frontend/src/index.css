@@ -75,6 +75,10 @@
   .font-display {
     font-family: 'Fraunces', ui-serif, Georgia, serif;
     font-optical-sizing: auto;
+    /* Fraunces ships playful discretionary ligatures + contextual alternates that
+       make the lowercase f/g/y read as "off". Turn them off for a cleaner f. */
+    font-feature-settings: "dlig" 0, "clig" 0, "calt" 0, "swsh" 0, "ss01" 0;
+    font-variant-ligatures: no-discretionary-ligatures no-contextual;
   }
 }
 

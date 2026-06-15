@@ -22,6 +22,9 @@ import LandingPage from './pages/LandingPage';
 // Roster join link (public)
 import JoinPage from './pages/JoinPage';
 
+// Bright Futures marketing landing (private — share-by-link only, not in any nav)
+import BrightFuturesLanding from './pages/BrightFuturesLanding';
+
 // Public Pages (no auth required)
 import { PublicQuestionBankPage, PublicLessonsPage, PublicLessonViewerPage } from './pages/public';
 
@@ -68,6 +71,9 @@ function App() {
 
       {/* Roster join link (public, no auth) */}
       <Route path="/join/:code" element={<JoinPage />} />
+
+      {/* Bright Futures landing — share-by-link only; not linked anywhere, noindex'd */}
+      <Route path="/fl" element={<BrightFuturesLanding />} />
 
       {/* Legal (public, no auth) */}
       <Route path="/privacy" element={<PrivacyPolicyPage />} />
