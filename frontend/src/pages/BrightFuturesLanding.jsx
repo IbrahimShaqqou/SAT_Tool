@@ -74,7 +74,7 @@ const BrightFuturesLanding = () => {
         <div className="max-w-4xl mx-auto px-5 sm:px-6 pt-20 pb-16 text-center">
           <h1 className="font-display text-4xl sm:text-[3.4rem] font-semibold text-ink-body leading-[1.05] tracking-tight mb-6 text-balance">
             A higher SAT score is worth{' '}
-            <span className="text-brand-600 dark:text-brand-400">$17,000 to $30,000</span> in
+            <span className="text-brand-600 dark:text-brand-400">$17,000 to $26,000</span> in
             Florida tuition.
           </h1>
           <p className="text-lg text-ink-muted leading-relaxed mb-9 max-w-2xl mx-auto text-pretty">
@@ -109,9 +109,9 @@ const BrightFuturesLanding = () => {
           </Reveal>
           <Reveal stagger className="grid sm:grid-cols-3 gap-px bg-edge rounded-2xl overflow-hidden border border-edge">
             {[
-              { tier: 'Below 1190', award: '$0', desc: 'No award. You pay full tuition.', accent: false },
-              { tier: 'SAT 1190', award: '75% of tuition', desc: 'Medallion Scholars. Roughly $4,200 a year, about $17,000 across a degree.', accent: false },
-              { tier: 'SAT 1330', award: '100% of tuition', desc: 'Academic Scholars. A full ride, plus the Top Scholars bonus.', accent: true },
+              { tier: 'Below 1190', award: '$0', desc: 'No award. You pay full tuition, around $6,000 to $6,400 a year at a Florida public university.', accent: false },
+              { tier: 'SAT 1190', award: '75% of tuition', desc: 'Medallion Scholars. Roughly $4,500 a year, about $17,000 across a degree at a more affordable school.', accent: false },
+              { tier: 'SAT 1330', award: '100% of tuition', desc: 'Academic Scholars. A full ride worth up to about $26,000 over a degree, plus the Top Scholars bonus.', accent: true },
             ].map((c) => (
               <div key={c.tier} className={`p-6 sm:p-7 ${c.accent ? 'bg-brand-600' : 'bg-surface-card'}`}>
                 <p className={`text-sm font-medium ${c.accent ? 'text-brand-100' : 'text-ink-subtle'}`}>{c.tier}</p>
@@ -281,7 +281,9 @@ const BrightFuturesLanding = () => {
             SAT is a trademark registered and owned by the College Board, which is not affiliated
             with and does not endorse this program. Bright Futures award amounts and eligibility are
             set by the State of Florida and can change; figures shown reflect the 2025-26 and 2026-27
-            award years. Not affiliated with the Florida Department of Education.
+            award years. Tuition figures are approximate, based on published in-state undergraduate
+            rates at Florida public universities, and vary by school, course load, and year. Not
+            affiliated with the Florida Department of Education.
           </p>
           <p className="text-xs text-[#756d64]">&copy; {new Date().getFullYear()} ZooPrep</p>
         </div>
