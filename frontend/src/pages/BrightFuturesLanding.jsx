@@ -282,13 +282,15 @@ const BrightFuturesLanding = () => {
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tracking-tight mb-5 text-balance">
               Who you'll work with
             </h2>
-            <div className="rounded-2xl border border-dashed border-edge p-6 sm:p-7 text-ink-muted">
-              {/* TODO: replace this placeholder with your real name, photo, score, and background.
-                   A parent who doesn't know you yet trusts a real person far more than a logo. */}
-              <p className="leading-relaxed text-pretty">
-                [Your name], [your SAT score and background]. A few honest sentences on who you are,
-                why you tutor toward Bright Futures, and the results you stand behind. Add a photo of
-                yourself here.
+            <div className="rounded-2xl border border-edge bg-surface-page p-6 sm:p-8">
+              {/* TODO: add a photo of yourself here — a real face builds more trust than any logo. */}
+              <p className="font-display text-xl font-semibold text-ink-body mb-2">Ibrahim Shaqqou</p>
+              <p className="text-ink-muted leading-relaxed text-pretty">
+                I scored a 1450 on the SAT in high school, and for the past two years I've tutored
+                the Digital SAT full time. I know the current format inside out, and my own practice
+                tests now sit in the 1600 range. I built ZooPrep to give my students the same
+                focused, score-first method I use myself, aimed squarely at the Bright Futures
+                cutoffs.
               </p>
             </div>
           </Reveal>
@@ -303,8 +305,8 @@ const BrightFuturesLanding = () => {
               Book a free strategy call
             </h2>
             <p className="text-ink-muted mb-9 max-w-xl mx-auto text-pretty">
-              Fifteen minutes. We'll look at where your student stands, the distance to their Bright
-              Futures target, and whether we're a good fit. No pressure either way.
+              A free 15-minute call. We'll map your student's distance to their Bright Futures
+              target and lay out a plan to close it. No cost, no commitment.
             </p>
             {CAL_LINK ? (
               <div className="rounded-2xl border border-edge bg-surface-card overflow-hidden p-2 sm:p-4 text-left">
