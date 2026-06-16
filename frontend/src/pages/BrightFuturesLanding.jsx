@@ -20,9 +20,67 @@ import { useEffect } from 'react';
 import { Button } from '../components/ui';
 import useScrollReveal from '../hooks/useScrollReveal';
 
-// TODO: paste your free Cal.com booking link here (e.g. https://cal.com/your-name/strategy-call)
-const CALCOM_URL = '';
+// Cal.com booking. CAL_LINK is the slug (used by the inline embed); CALCOM_URL is
+// the full page (used by the header/hero buttons that open a new tab).
+const CAL_LINK = 'ibraheem-shaqqou-4nfkww/booking';
+const CALCOM_URL = `https://cal.com/${CAL_LINK}`;
 const CONTACT_EMAIL = 'hello@zooprep.com'; // TODO: your real contact email
+
+// Brand bronze-amber, matched to the page so the calendar reads as part of it.
+const CAL_BRAND = '#bf7724';
+
+/**
+ * Cal.com inline embed, themed to the light page instead of Cal's default dark
+ * iframe. Loads Cal's embed script once on mount and renders the booker inside
+ * #cal-inline. Auto-sizes (no scrollbars) and respects light theme + brand color.
+ */
+const CalEmbed = () => {
+  useEffect(() => {
+    // Cal's official embed loader (vendored inline so we add no npm dependency).
+    (function (C, A, L) {
+      const p = (a, ar) => { a.q.push(ar); };
+      const d = C.document;
+      C.Cal = C.Cal || function () {
+        const cal = C.Cal;
+        const ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          d.head.appendChild(d.createElement('script')).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === 'string') {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ['initNamespace', namespace]);
+          } else { p(cal, ar); }
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+    const Cal = window.Cal;
+    Cal('init', 'booking', { origin: 'https://cal.com' });
+    Cal.ns.booking('inline', {
+      elementOrSelector: '#cal-inline',
+      config: { layout: 'month_view' },
+      calLink: CAL_LINK,
+    });
+    Cal.ns.booking('ui', {
+      theme: 'light',
+      cssVarsPerTheme: { light: { 'cal-brand': CAL_BRAND } },
+      hideEventTypeDetails: false,
+      layout: 'month_view',
+    });
+  }, []);
+
+  return <div id="cal-inline" style={{ width: '100%', minHeight: 560 }} />;
+};
 
 const Reveal = ({ children, className = '', stagger = false }) => {
   const ref = useScrollReveal();
@@ -248,18 +306,12 @@ const BrightFuturesLanding = () => {
               Fifteen minutes. We'll look at where your student stands, the distance to their Bright
               Futures target, and whether we're a good fit. No pressure either way.
             </p>
-            {CALCOM_URL ? (
-              <div className="rounded-2xl border border-edge bg-surface-card overflow-hidden">
-                <iframe
-                  title="Book a strategy call"
-                  src={CALCOM_URL}
-                  className="w-full"
-                  style={{ height: 680, border: 0 }}
-                />
+            {CAL_LINK ? (
+              <div className="rounded-2xl border border-edge bg-surface-card overflow-hidden p-2 sm:p-4 text-left">
+                <CalEmbed />
               </div>
             ) : (
               <div className="rounded-2xl border border-dashed border-edge p-8">
-                {/* TODO: set CALCOM_URL above to your free Cal.com link to enable inline booking. */}
                 <p className="text-ink-muted leading-relaxed">
                   Booking opens once the calendar is connected. For now, email{' '}
                   <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-brand-700 dark:text-brand-300 underline">
