@@ -17,7 +17,9 @@ import {
   DrawingCanvas,
 } from '../../components/test';
 import ReportModal from '../../components/test/ReportModal';
-import { useTimer } from '../../hooks';
+import QuestionFrame from '../../components/test/QuestionFrame';
+import { useTimer, useStudentLiveEmit } from '../../hooks';
+import { LiveIndicator, SharedDrawingSurface } from '../../components/live';
 import { assignmentService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
 import { checkSprAnswer } from '../../utils';
@@ -47,6 +49,11 @@ const TestPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [showNav, setShowNav] = useState(false);
+
+  // Live tutoring: the TestSession id returned by the assignment /start call
+  // (Task 23). Only available after starting in this page; on a reload/resume
+  // it stays null so the live hook remains inert (enabled:false).
+  const [liveSessionId, setLiveSessionId] = useState(null);
 
   // Adaptive mode state
   const [isCheckingAnswer, setIsCheckingAnswer] = useState(false);
@@ -97,6 +104,11 @@ const TestPage = () => {
         const response = await assignmentService.getAssignment(id);
         const assignmentData = response.data;
         setAssignment(assignmentData);
+
+        // Resume path: if the assignment is already in progress the detail
+        // endpoint returns the linked TestSession id. Capture it so live
+        // tutoring re-activates on reload/back-navigation (not just fresh start).
+        if (assignmentData.test_session_id) setLiveSessionId(assignmentData.test_session_id);
 
         // If assignment is in progress or completed, load questions
         if (assignmentData.status === 'in_progress' || assignmentData.status === 'completed') {
@@ -187,6 +199,35 @@ const TestPage = () => {
   const passageHtml = currentQuestion?.passage_html;
   const hasPassage = !!passageHtml;
 
+  // Live tutoring: mirror deltas to a watching tutor (inert without a session id).
+  const {
+    indicator: liveIndicator,
+    emitAnswer: liveEmitAnswer,
+    emitStrokeBatch: liveEmitStroke,
+    shared: liveShared,
+  } = useStudentLiveEmit({
+    enabled: !!liveSessionId,
+    sessionId: liveSessionId,
+    currentQuestionId: currentQuestion?.id,
+    currentQuestionIndex: currentIndex,
+  });
+
+  // Per-question shared drawing wiring (live path). The frame content height is
+  // measured so the drawing surface covers the full logical content area.
+  const [contentHeight, setContentHeight] = useState(1160);
+  const contentInnerRef = useRef(null);
+  useEffect(() => {
+    const el = contentInnerRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(() => setContentHeight(el.offsetHeight > 0 ? el.offsetHeight : 1160));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  useEffect(() => {
+    if (currentQuestion?.id) liveShared.setQuestionId(currentQuestion.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestion?.id]);
+
   // Sync adaptiveAnswerChecked state when current question changes (for resume)
   const currentQuestionId = currentQuestion?.id;
   const currentQuestionHasExplanation = !!currentQuestion?.explanation_html;
@@ -204,7 +245,9 @@ const TestPage = () => {
   // Handlers
   const handleStartAssignment = async () => {
     try {
-      await assignmentService.startAssignment(id);
+      const startResponse = await assignmentService.startAssignment(id);
+      // Capture the TestSession id so a watching tutor can follow along (Task 23).
+      setLiveSessionId(startResponse.data?.test_session_id || null);
 
       // Reload assignment and questions
       const response = await assignmentService.getAssignment(id);
@@ -242,6 +285,9 @@ const TestPage = () => {
       [questionId]: index,
     }));
 
+    // Mirror to a watching tutor (no-ops when no live session).
+    liveEmitAnswer(currentQuestion?.id, index);
+
     // For non-adaptive, submit answer immediately
     // For adaptive, wait for explicit "Check Answer" click
     if (!isAdaptive) {
@@ -250,7 +296,7 @@ const TestPage = () => {
         answer: { index },
       }).catch(console.error);
     }
-  }, [currentQuestion, currentIndex, id, isAdaptive]);
+  }, [currentQuestion, currentIndex, id, isAdaptive, liveEmitAnswer]);
 
   // Handler for SPR (free text) answers
   const handleSPRAnswer = useCallback((answerText) => {
@@ -260,6 +306,9 @@ const TestPage = () => {
       [questionId]: answerText,
     }));
 
+    // Mirror to a watching tutor (no-ops when no live session).
+    liveEmitAnswer(currentQuestion?.id, answerText);
+
     // For non-adaptive, submit answer immediately
     // For adaptive, wait for explicit "Check Answer" click
     if (!isAdaptive) {
@@ -268,7 +317,7 @@ const TestPage = () => {
         answer: { answer: answerText },
       }).catch(console.error);
     }
-  }, [currentQuestion, currentIndex, id, isAdaptive]);
+  }, [currentQuestion, currentIndex, id, isAdaptive, liveEmitAnswer]);
 
   // a11y: move focus to the question heading when the question changes, so
   // keyboard/screen-reader users land on the new question rather than the
@@ -874,9 +923,45 @@ const TestPage = () => {
         isDrawing={isDrawing}
       />
 
-      {/* Main content - shifts right when calculator is open */}
-      <div ref={scrollContainerRef} className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
-        {hasPassage ? (
+      {liveIndicator.present && (
+        <div className="px-4 py-2 border-b border-edge bg-surface-card">
+          <LiveIndicator present={liveIndicator.present} tutorName={liveIndicator.tutorName} />
+        </div>
+      )}
+
+      {/* Main content */}
+      <div ref={scrollContainerRef} className={`relative flex-1 transition-all duration-300 bg-surface-card ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+        {liveSessionId ? (
+          // Live path: fixed QuestionFrame + per-question shared drawing. The
+          // student's ink streams to the tutor and the tutor's ink appears here,
+          // in normalized (logical) frame coordinates that scale with content.
+          <QuestionFrame>
+            {({ scale }) => (
+              <>
+                <div ref={contentInnerRef}>
+                  {hasPassage ? (
+                    <SplitPane left={passagePanel} right={questionPanel} defaultSplit={50} minLeft={25} minRight={35} />
+                  ) : (
+                    <div className="max-w-3xl mx-auto">{questionPanel}</div>
+                  )}
+                </div>
+                <SharedDrawingSurface
+                  active={isDrawing}
+                  showGrid={isDrawing}
+                  author="student"
+                  penColor="#111827"
+                  eraser={false}
+                  scale={scale}
+                  heightPx={contentHeight}
+                  strokes={liveShared.strokes}
+                  onStrokeStart={(opts) => liveShared.startStroke(opts)}
+                  onStrokePoints={(id, pts) => liveShared.extendStroke(id, pts)}
+                  onStrokeEnd={(id) => liveShared.endStroke(id)}
+                />
+              </>
+            )}
+          </QuestionFrame>
+        ) : hasPassage ? (
           <SplitPane
             left={passagePanel}
             right={questionPanel}
@@ -927,13 +1012,17 @@ const TestPage = () => {
       {/* Fixed bottom navigation bar */}
       {bottomNavBar}
 
-      {/* Drawing canvas overlay */}
-      <DrawingCanvas
-        isActive={isDrawing}
-        questionId={currentQuestion?.id ?? currentIndex}
-        scrollRef={scrollContainerRef}
-        showCalculator={showCalculator}
-      />
+      {/* Drawing canvas overlay — NON-live path only. The SharedDrawingSurface
+          handles capture when a live TestSession is active. */}
+      {!liveSessionId && (
+        <DrawingCanvas
+          isActive={isDrawing}
+          questionId={currentQuestion?.id ?? currentIndex}
+          scrollRef={scrollContainerRef}
+          showCalculator={showCalculator}
+          onStrokeBatch={liveEmitStroke}
+        />
+      )}
 
       {/* Paused overlay */}
       {isPaused && (

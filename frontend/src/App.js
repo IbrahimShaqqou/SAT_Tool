@@ -37,6 +37,7 @@ import TutorAssignments from './pages/tutor/AssignmentsPage';
 import CreateAssignment from './pages/tutor/CreateAssignmentPage';
 import TutorAnalytics from './pages/tutor/AnalyticsPage';
 import QuestionBankPage from './pages/tutor/QuestionBankPage';
+import LiveSessionsPage from './pages/tutor/LiveSessionsPage';
 
 // Student Pages
 import StudentDashboard from './pages/student/DashboardPage';
@@ -103,6 +104,8 @@ function App() {
       >
         <Route path="/tutor" element={<TutorDashboard />} />
         <Route path="/tutor/students" element={<TutorStudents />} />
+        <Route path="/tutor/live" element={<LiveSessionsPage />} />
+        <Route path="/tutor/live/:sessionId" element={<LiveSessionsPage />} />
         <Route path="/tutor/students/:id" element={<StudentDetail />} />
         <Route path="/tutor/students/:id/practice-tests/:sessionId" element={<StudentPracticeTestResultPage />} />
         <Route path="/tutor/assignments" element={<TutorAssignments />} />

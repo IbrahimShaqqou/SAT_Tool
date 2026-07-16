@@ -16,6 +16,7 @@
  */
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Eraser, Trash2, Undo2 } from 'lucide-react';
+import { renderStrokes } from '../../utils/strokeRenderer';
 
 const COLORS = [
   { value: '#111827', label: 'Black' },
@@ -43,26 +44,23 @@ const applyStroke = (ctx, stroke, scrollY = 0, xOffset = 0) => {
   const { points, color, size, eraser } = stroke;
   if (!points.length) return;
 
-  ctx.save();
-  ctx.globalCompositeOperation = eraser ? 'destination-out' : 'source-over';
-  ctx.strokeStyle = color;
-  ctx.lineWidth = size;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-
+  // Single-point strokes render as a filled dot (a tap). This is DrawingCanvas
+  // specific and not part of the shared line renderer, so handle it locally.
   if (points.length === 1) {
+    ctx.save();
+    ctx.globalCompositeOperation = eraser ? 'destination-out' : 'source-over';
     ctx.beginPath();
     ctx.arc(points[0].x + xOffset, points[0].y - scrollY, size / 2, 0, Math.PI * 2);
     ctx.fillStyle = eraser ? 'rgba(0,0,0,1)' : color;
     ctx.fill();
-  } else {
-    ctx.beginPath();
-    ctx.moveTo(points[0].x + xOffset, points[0].y - scrollY);
-    for (let i = 1; i < points.length; i++) {
-      ctx.lineTo(points[i].x + xOffset, points[i].y - scrollY);
-    }
-    ctx.stroke();
+    ctx.restore();
+    return;
   }
+
+  // Multi-point strokes share the pure line renderer. Y is document-space, so
+  // map to canvas space with a negative scroll offset.
+  ctx.save();
+  renderStrokes(ctx, [stroke], { offsetX: xOffset, offsetY: -scrollY });
   ctx.restore();
 };
 
@@ -75,7 +73,7 @@ const redrawAll = (ctx, canvas, strokes, scrollY = 0, xOffset = 0) => {
 
 // ── Component ──────────────────────────────────────────────────────────────
 
-const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false }) => {
+const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false, onStrokeBatch }) => {
   const canvasRef = useRef(null);
   const isPointerDown = useRef(false);
   const currentStroke = useRef(null);
@@ -284,7 +282,12 @@ const DrawingCanvas = ({ isActive, questionId, scrollRef, showCalculator = false
     if (!strokesMap.current.has(qId)) strokesMap.current.set(qId, []);
     strokesMap.current.get(qId).push(stroke);
     currentStroke.current = null;
-  }, []);
+    if (typeof onStrokeBatch === 'function') {
+      const canvas = canvasRef.current;
+      const dims = canvas ? { width: canvas.width, height: canvas.height } : undefined;
+      onStrokeBatch(qId, strokesMap.current.get(qId) || [], dims);
+    }
+  }, [onStrokeBatch]);
 
   // ── Wheel passthrough ────────────────────────────────────────────────────
   // While drawing is active the canvas is a fixed full-page overlay capturing

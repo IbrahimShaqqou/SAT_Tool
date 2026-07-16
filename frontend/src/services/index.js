@@ -14,3 +14,4 @@ export { default as adaptiveService } from './adaptiveService';
 export { default as lessonService } from './lessonService';
 export { default as recommendationService } from './recommendationService';
 export { default as responseService } from './responseService';
+export { default as liveService } from './liveService';

@@ -1,0 +1,214 @@
+- generic [ref=e2]:
+  - generic [ref=e54]:
+    - complementary "Primary navigation" [ref=e55]:
+      - generic [ref=e57]:
+        - generic [ref=e59]: Z
+        - generic [ref=e60]: ZooPrep
+      - navigation [ref=e61]:
+        - generic [ref=e62]:
+          - link "Dashboard" [ref=e63] [cursor=pointer]:
+            - /url: /student
+            - img [ref=e64]
+            - generic [ref=e69]: Dashboard
+          - link "Study Plan" [ref=e70] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=e71]
+            - generic [ref=e74]: Study Plan
+          - link "My Assignments" [ref=e75] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=e76]
+            - generic [ref=e79]: My Assignments
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: Practice
+          - link "Practice Tests" [ref=e82] [cursor=pointer]:
+            - /url: /student/practice-tests
+            - img [ref=e83]
+            - generic [ref=e86]: Practice Tests
+          - link "Question Bank" [ref=e87] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=e88]
+            - generic [ref=e91]: Question Bank
+          - link "Skill Lessons" [ref=e92] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=e93]
+            - generic [ref=e96]: Skill Lessons
+          - link "Adaptive Practice" [ref=e97] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=e98]
+            - generic [ref=e101]: Adaptive Practice
+        - generic [ref=e102]:
+          - paragraph [ref=e103]: Progress
+          - link "My Progress" [ref=e104] [cursor=pointer]:
+            - /url: /student/progress
+            - img [ref=e105]
+            - generic [ref=e108]: My Progress
+      - button "Collapse sidebar" [ref=e110] [cursor=pointer]:
+        - img [ref=e111]
+        - generic [ref=e113]: Collapse
+    - generic [ref=e114]:
+      - banner [ref=e115]:
+        - button "example student example student" [ref=e117] [cursor=pointer]:
+          - generic "example student" [ref=e118]: ES
+          - generic [ref=e119]: example student
+          - img [ref=e120]
+      - main [ref=e122]:
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - paragraph [ref=e125]: Good afternoon, example
+            - 'link "Pick up where you left off Practice Evaluating statistical claims: Observational studies and experiments Q · your lowest mastery right now Start practice" [ref=e126] [cursor=pointer]':
+              - /url: /student/adaptive?skill=44&autostart=true
+              - img [ref=e128]
+              - generic [ref=e130]:
+                - paragraph [ref=e131]: Pick up where you left off
+                - paragraph [ref=e132]: "Practice Evaluating statistical claims: Observational studies and experiments"
+                - paragraph [ref=e133]: Q · your lowest mastery right now
+              - generic [ref=e134]:
+                - button "Start practice":
+                  - text: Start practice
+                  - img
+            - generic [ref=e135]:
+              - generic [ref=e136]:
+                - definition [ref=e137]:
+                  - generic [ref=e138]: 54%
+                - term [ref=e139]: accuracy
+              - generic [ref=e140]:
+                - definition [ref=e141]: "82"
+                - term [ref=e142]: questions answered
+              - generic [ref=e143]:
+                - definition [ref=e144]: "9"
+                - term [ref=e145]: sessions
+          - generic [ref=e146]:
+            - link "Practice Tests" [ref=e147] [cursor=pointer]:
+              - /url: /student/practice-tests
+              - img [ref=e149]
+              - generic [ref=e152]:
+                - text: Practice Tests
+                - img [ref=e153]
+            - link "Adaptive Practice" [ref=e156] [cursor=pointer]:
+              - /url: /student/adaptive
+              - img [ref=e158]
+              - generic [ref=e161]:
+                - text: Adaptive Practice
+                - img [ref=e162]
+            - link "Question Bank" [ref=e165] [cursor=pointer]:
+              - /url: /student/questions
+              - img [ref=e167]
+              - generic [ref=e170]:
+                - text: Question Bank
+                - img [ref=e171]
+            - link "My Progress" [ref=e174] [cursor=pointer]:
+              - /url: /student/progress
+              - img [ref=e176]
+              - generic [ref=e178]:
+                - text: My Progress
+                - img [ref=e179]
+          - generic [ref=e182]:
+            - generic [ref=e185]:
+              - generic [ref=e187]:
+                - img [ref=e188]
+                - heading "Focus areas" [level=2] [ref=e192]
+                - generic [ref=e193]: · Lowest mastery from your practice
+              - list [ref=e194]:
+                - listitem [ref=e195]:
+                  - generic [ref=e196]: Q
+                  - generic [ref=e197]:
+                    - paragraph [ref=e198]: "Evaluating statistical claims: Observational studies and experiments"
+                    - 'img "Mastery: Not Started, ability -0.56" [ref=e199]':
+                      - generic [ref=e200]: Not Started
+                      - generic [ref=e210]: θ -0.56
+                  - link "Practice" [ref=e211] [cursor=pointer]:
+                    - /url: /student/adaptive?skill=44&autostart=true
+                    - text: Practice
+                    - img [ref=e212]
+                - listitem [ref=e214]:
+                  - generic [ref=e215]: Q
+                  - generic [ref=e216]:
+                    - paragraph [ref=e217]: Probability and conditional probability
+                    - 'img "Mastery: Not Started, ability -0.88" [ref=e218]':
+                      - generic [ref=e219]: Not Started
+                      - generic [ref=e229]: θ -0.88
+                  - link "Practice" [ref=e230] [cursor=pointer]:
+                    - /url: /student/adaptive?skill=41&autostart=true
+                    - text: Practice
+                    - img [ref=e231]
+                - listitem [ref=e233]:
+                  - generic [ref=e234]: H
+                  - generic [ref=e235]:
+                    - paragraph [ref=e236]: Linear inequalities in one or two variables
+                    - 'img "Mastery: Not Started, ability -1.04" [ref=e237]':
+                      - generic [ref=e238]: Not Started
+                      - generic [ref=e248]: θ -1.04
+                  - link "Practice" [ref=e249] [cursor=pointer]:
+                    - /url: /student/adaptive?skill=34&autostart=true
+                    - text: Practice
+                    - img [ref=e250]
+                - listitem [ref=e252]:
+                  - generic [ref=e253]: P
+                  - generic [ref=e254]:
+                    - paragraph [ref=e255]: Equivalent expressions
+                    - 'img "Mastery: Not Started, ability -0.75" [ref=e256]':
+                      - generic [ref=e257]: Not Started
+                      - generic [ref=e267]: θ -0.75
+                  - link "Practice" [ref=e268] [cursor=pointer]:
+                    - /url: /student/adaptive?skill=37&autostart=true
+                    - text: Practice
+                    - img [ref=e269]
+                - listitem [ref=e271]:
+                  - generic [ref=e272]: P
+                  - generic [ref=e273]:
+                    - paragraph [ref=e274]: Nonlinear functions
+                    - 'img "Mastery: Not Started, ability -0.98" [ref=e275]':
+                      - generic [ref=e276]: Not Started
+                      - generic [ref=e286]: θ -0.98
+                  - link "Practice" [ref=e287] [cursor=pointer]:
+                    - /url: /student/adaptive?skill=35&autostart=true
+                    - text: Practice
+                    - img [ref=e288]
+            - generic [ref=e290]:
+              - generic [ref=e292]:
+                - generic [ref=e294]:
+                  - img [ref=e295]
+                  - heading "Your strengths" [level=2] [ref=e297]
+                - list [ref=e298]:
+                  - listitem [ref=e299]:
+                    - generic [ref=e300]:
+                      - generic [ref=e301]: SEC
+                      - paragraph [ref=e302]: Boundaries
+                    - 'img "Mastery: Familiar, ability +0.68" [ref=e303]':
+                      - generic [ref=e304]: Familiar
+                      - generic [ref=e314]: θ +0.68
+                  - listitem [ref=e315]:
+                    - generic [ref=e316]:
+                      - generic [ref=e317]: P
+                      - paragraph [ref=e318]: Nonlinear equations in one variable and systems of equations in two variables
+                    - 'img "Mastery: Familiar, ability +0.14" [ref=e319]':
+                      - generic [ref=e320]: Familiar
+                      - generic [ref=e330]: θ +0.14
+                  - listitem [ref=e331]:
+                    - generic [ref=e332]:
+                      - generic [ref=e333]: Q
+                      - paragraph [ref=e334]: Ratios, rates, proportional relationships, and units
+                    - 'img "Mastery: Familiar, ability +0.50" [ref=e335]':
+                      - generic [ref=e336]: Familiar
+                      - generic [ref=e346]: θ +0.50
+              - generic [ref=e348]:
+                - generic [ref=e350]:
+                  - img [ref=e351]
+                  - heading "Go full length" [level=2] [ref=e354]
+                - paragraph [ref=e355]: A complete SAT under real conditions.
+                - paragraph [ref=e356]: 98 questions · 2 hr 14 min · realistic Bluebook format
+                - button "Start test" [ref=e357] [cursor=pointer]:
+                  - text: Start test
+                  - img [ref=e358]
+              - generic [ref=e361]:
+                - generic [ref=e363]:
+                  - img [ref=e364]
+                  - heading "Assignments" [level=2] [ref=e367]
+                - paragraph [ref=e368]: You're all caught up. New assignments from your tutor will show up here.
+  - region "Cookie notice" [ref=e49]:
+    - generic [ref=e50]:
+      - paragraph [ref=e51]:
+        - text: ZooPrep uses only essential storage to keep you signed in and remember your preferences, with no ad or tracking cookies.
+        - link "Learn more" [ref=e52] [cursor=pointer]:
+          - /url: /cookies
+      - button "Got it" [ref=e53] [cursor=pointer]

@@ -1,0 +1,209 @@
+- generic [ref=f3e9]:
+  - complementary "Primary navigation" [ref=f3e10]:
+    - generic [ref=f3e12]:
+      - generic [ref=f3e14]: Z
+      - generic [ref=f3e15]: ZooPrep
+    - navigation [ref=f3e16]:
+      - generic [ref=f3e17]:
+        - link "Dashboard" [ref=f3e18] [cursor=pointer]:
+          - /url: /tutor
+          - img [ref=f3e19]
+          - generic [ref=f3e24]: Dashboard
+        - link "Students" [ref=f3e25] [cursor=pointer]:
+          - /url: /tutor/students
+          - img [ref=f3e26]
+          - generic [ref=f3e31]: Students
+        - link "Live Now" [ref=f3e32] [cursor=pointer]:
+          - /url: /tutor/live
+          - img [ref=f3e33]
+          - generic [ref=f3e39]: Live Now
+      - generic [ref=f3e40]:
+        - paragraph [ref=f3e41]: Practice
+        - link "Assignments" [ref=f3e42] [cursor=pointer]:
+          - /url: /tutor/assignments
+          - img [ref=f3e43]
+          - generic [ref=f3e46]: Assignments
+        - link "Question Bank" [ref=f3e47] [cursor=pointer]:
+          - /url: /tutor/questions
+          - img [ref=f3e48]
+          - generic [ref=f3e51]: Question Bank
+        - link "Skill Lessons" [ref=f3e52] [cursor=pointer]:
+          - /url: /tutor/lessons
+          - img [ref=f3e53]
+          - generic [ref=f3e56]: Skill Lessons
+      - generic [ref=f3e57]:
+        - paragraph [ref=f3e58]: Insights
+        - link "Analytics" [ref=f3e59] [cursor=pointer]:
+          - /url: /tutor/analytics
+          - img [ref=f3e60]
+          - generic [ref=f3e62]: Analytics
+    - button "Collapse sidebar" [ref=f3e64] [cursor=pointer]:
+      - img [ref=f3e65]
+      - generic [ref=f3e67]: Collapse
+  - generic [ref=f3e68]:
+    - banner [ref=f3e69]:
+      - button "tutor man tutor man" [ref=f3e71] [cursor=pointer]:
+        - generic "tutor man" [ref=f3e72]: TM
+        - generic [ref=f3e73]: tutor man
+        - img [ref=f3e74]
+    - main [ref=f3e76]:
+      - generic [ref=f3e77]:
+        - generic [ref=f3e78]:
+          - link "← Back to live" [ref=f3e79] [cursor=pointer]:
+            - /url: /tutor/live
+          - generic [ref=f3e80]: Live
+          - generic [ref=f3e94]:
+            - generic [ref=f3e95]:
+              - heading "1 Question 1" [level=2] [ref=f3e97]:
+                - generic [ref=f3e98]: "1"
+                - generic [ref=f3e99]: Question 1
+              - button "Report" [ref=f3e100] [cursor=pointer]:
+                - img [ref=f3e101]
+                - generic [ref=f3e103]: Report
+            - paragraph [ref=f3e107]:
+              - text: If
+              - generic [ref=f3e108]:
+                - generic [ref=f3e109]:
+                  - generic [ref=f3e112]: "2"
+                  - generic [ref=f3e114]: (
+                  - generic [ref=f3e117]: "3"
+                  - generic [ref=f3e119]: t
+                  - generic [ref=f3e121]: −
+                  - generic [ref=f3e123]:
+                    - generic [ref=f3e124]: "1"
+                    - generic [ref=f3e125]: "0"
+                  - generic [ref=f3e127]: )
+                  - generic [ref=f3e129]: +
+                  - generic [ref=f3e131]: t
+                  - generic [ref=f3e133]: =
+                  - generic [ref=f3e135]:
+                    - generic [ref=f3e136]: "4"
+                    - generic [ref=f3e137]: "0"
+                  - generic [ref=f3e139]: +
+                  - generic [ref=f3e142]: "4"
+                  - generic [ref=f3e144]: t
+                - generic [ref=f3e146]:
+                  - generic [ref=f3e147]:
+                    - generic [ref=f3e150]: "2"
+                    - generic [ref=f3e152]: (
+                    - generic [ref=f3e155]: "3"
+                    - generic [ref=f3e157]: t
+                    - generic [ref=f3e159]: −
+                    - generic [ref=f3e161]:
+                      - generic [ref=f3e162]: "1"
+                      - generic [ref=f3e163]: "0"
+                    - generic [ref=f3e165]: )
+                    - generic [ref=f3e167]: +
+                    - generic [ref=f3e169]: t
+                    - generic [ref=f3e171]: =
+                    - generic [ref=f3e173]:
+                      - generic [ref=f3e174]: "4"
+                      - generic [ref=f3e175]: "0"
+                    - generic [ref=f3e177]: +
+                    - generic [ref=f3e180]: "4"
+                    - generic [ref=f3e182]: t
+                  - math [ref=f3e184]:
+                    - generic [ref=f3e186]: "2"
+                    - generic [ref=f3e187]: (
+                    - generic [ref=f3e189]: "3"
+                    - generic [ref=f3e190]: t
+                    - generic [ref=f3e191]: "-"
+                    - generic [ref=f3e193]: "10"
+                    - generic [ref=f3e194]: )
+                    - generic [ref=f3e195]: +
+                    - generic [ref=f3e196]: t
+                    - generic [ref=f3e197]: =
+                    - generic [ref=f3e199]: "40"
+                    - generic [ref=f3e200]: +
+                    - generic [ref=f3e202]: "4"
+                    - generic [ref=f3e203]: t
+              - text: ", what is the value of"
+              - generic [ref=f3e204]:
+                - generic [ref=f3e205]:
+                  - generic [ref=f3e208]: "3"
+                  - generic [ref=f3e210]: t
+                - generic [ref=f3e212]:
+                  - generic [ref=f3e213]:
+                    - generic [ref=f3e216]: "3"
+                    - generic [ref=f3e218]: t
+                  - math [ref=f3e220]:
+                    - generic [ref=f3e222]: "3"
+                    - generic [ref=f3e223]: t
+              - text: "?"
+        - complementary [ref=f3e82]:
+          - generic [ref=f3e83]:
+            - generic [ref=f3e84]: Correct answer
+            - button "Collapse coach panel" [ref=f3e85] [cursor=pointer]: Collapse ▶
+          - generic [ref=f3e86]: "60"
+          - generic [ref=f3e225]: ✕ Student answered 60 (incorrect)
+          - generic [ref=f3e87]:
+            - generic [ref=f3e88]: Explanation
+            - paragraph [ref=f3e227]:
+              - text: The correct answer is
+              - math [ref=f3e228]:
+                - generic [ref=f3e229]: "60"
+              - text: . Subtracting
+              - math [ref=f3e230]:
+                - generic [ref=f3e231]: t
+              - text: from both sides of the given equation yields
+              - math [ref=f3e232]:
+                - generic [ref=f3e233]: "2"
+                - generic [ref=f3e234]: (
+                - generic [ref=f3e235]: "3"
+                - generic [ref=f3e236]: t
+                - generic [ref=f3e237]: "-"
+                - generic [ref=f3e238]: "10"
+                - generic [ref=f3e239]: )
+                - generic [ref=f3e240]: =
+                - generic [ref=f3e241]: "40"
+                - generic [ref=f3e242]: +
+                - generic [ref=f3e243]: "3"
+                - generic [ref=f3e244]: t
+              - text: . Applying the distributive property to the left-hand side of this equation yields
+              - math [ref=f3e245]:
+                - generic [ref=f3e246]: "6"
+                - generic [ref=f3e247]: t
+                - generic [ref=f3e248]: "-"
+                - generic [ref=f3e249]: "20"
+                - generic [ref=f3e250]: =
+                - generic [ref=f3e251]: "40"
+                - generic [ref=f3e252]: +
+                - generic [ref=f3e253]: "3"
+                - generic [ref=f3e254]: t
+              - text: . Adding
+              - math [ref=f3e255]:
+                - generic [ref=f3e256]: "20"
+              - text: to both sides of this equation yields
+              - math [ref=f3e257]:
+                - generic [ref=f3e258]: "6"
+                - generic [ref=f3e259]: t
+                - generic [ref=f3e260]: =
+                - generic [ref=f3e261]: "60"
+                - generic [ref=f3e262]: +
+                - generic [ref=f3e263]: "3"
+                - generic [ref=f3e264]: t
+              - text: . Subtracting
+              - math [ref=f3e265]:
+                - generic [ref=f3e266]:
+                  - generic [ref=f3e267]: "3"
+                  - generic [ref=f3e268]: t
+              - text: from both sides of this equation yields
+              - math [ref=f3e269]:
+                - generic [ref=f3e270]: "3"
+                - generic [ref=f3e271]: t
+                - generic [ref=f3e272]: =
+                - generic [ref=f3e273]: "60"
+              - text: . Therefore, the value of
+              - math [ref=f3e274]:
+                - generic [ref=f3e275]:
+                  - generic [ref=f3e276]: "3"
+                  - generic [ref=f3e277]: t
+              - text: is
+              - math [ref=f3e278]:
+                - generic [ref=f3e279]: "60"
+              - text: .
+          - generic "Available in Phase 2" [ref=f3e89]:
+            - generic [ref=f3e90]: Draw
+            - generic [ref=f3e91]: Highlight
+            - generic [ref=f3e92]: Go to Q…
+            - generic [ref=f3e93]: Reveal to student

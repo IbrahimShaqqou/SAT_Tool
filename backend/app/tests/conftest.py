@@ -7,11 +7,55 @@ Shared fixtures and configuration for all tests.
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app.main import app
 from app.database import Base, get_db
+
+
+# SQLite (used for the in-memory test DB) has no native UUID or JSONB types.
+# Register test-only compilation rules so PostgreSQL column types can be
+# emitted against SQLite when creating tables. Production still uses the real
+# PostgreSQL types; this only affects the test engine.
+@compiles(UUID, "sqlite")
+def _compile_uuid_sqlite(element, compiler, **kw):  # noqa: ANN001
+    return "CHAR(32)"
+
+
+@compiles(JSONB, "sqlite")
+def _compile_jsonb_sqlite(element, compiler, **kw):  # noqa: ANN001
+    return "JSON"
+
+
+# The PostgreSQL UUID type's bind/result processors assume `uuid.UUID`
+# objects and PG's native UUID column. Under SQLite (test engine) UUIDs are
+# stored/read as strings, so disable the processors for the sqlite dialect
+# and let values pass through untouched (str <-> str).
+_orig_uuid_bind_processor = UUID.bind_processor
+_orig_uuid_result_processor = UUID.result_processor
+
+
+def _uuid_bind_processor(self, dialect):  # noqa: ANN001
+    if dialect.name == "sqlite":
+        def process(value):
+            return str(value) if value is not None else None
+        return process
+    return _orig_uuid_bind_processor(self, dialect)
+
+
+def _uuid_result_processor(self, dialect, coltype):  # noqa: ANN001
+    if dialect.name == "sqlite":
+        def process(value):
+            return value  # keep as string; app compares str(user.id)
+        return process
+    return _orig_uuid_result_processor(self, dialect, coltype)
+
+
+UUID.bind_processor = _uuid_bind_processor
+UUID.result_processor = _uuid_result_processor
 
 
 # Use SQLite in-memory database for testing

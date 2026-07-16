@@ -1,0 +1,46 @@
+- generic [ref=f1e2]:
+  - generic [ref=f1e3]:
+    - complementary "Primary navigation" [ref=f1e4]:
+      - generic [ref=f1e8]: Z
+      - navigation [ref=f1e9]:
+        - generic [ref=f1e10]:
+          - link "Dashboard" [ref=f1e11] [cursor=pointer]:
+            - /url: /student
+            - img [ref=f1e12]
+          - link "Study Plan" [ref=f1e17] [cursor=pointer]:
+            - /url: /student/study-plan
+            - img [ref=f1e18]
+          - link "My Assignments" [ref=f1e21] [cursor=pointer]:
+            - /url: /student/assignments
+            - img [ref=f1e22]
+        - generic [ref=f1e25]:
+          - link "Practice Tests" [ref=f1e27] [cursor=pointer]:
+            - /url: /student/practice-tests
+            - img [ref=f1e28]
+          - link "Question Bank" [ref=f1e31] [cursor=pointer]:
+            - /url: /student/questions
+            - img [ref=f1e32]
+          - link "Skill Lessons" [ref=f1e35] [cursor=pointer]:
+            - /url: /student/lessons
+            - img [ref=f1e36]
+          - link "Adaptive Practice" [ref=f1e39] [cursor=pointer]:
+            - /url: /student/adaptive
+            - img [ref=f1e40]
+        - link "My Progress" [ref=f1e45] [cursor=pointer]:
+          - /url: /student/progress
+          - img [ref=f1e46]
+    - generic [ref=f1e49]:
+      - banner [ref=f1e50]:
+        - button "example student example student" [ref=f1e52] [cursor=pointer]:
+          - generic "example student" [ref=f1e53]: ES
+          - generic [ref=f1e54]: example student
+          - img [ref=f1e55]
+      - main [ref=f1e57]:
+        - img [ref=f1e60]
+  - region "Cookie notice" [ref=f1e63]:
+    - generic [ref=f1e64]:
+      - paragraph [ref=f1e65]:
+        - text: ZooPrep uses only essential storage to keep you signed in and remember your preferences, with no ad or tracking cookies.
+        - link "Learn more" [ref=f1e66] [cursor=pointer]:
+          - /url: /cookies
+      - button "Got it" [ref=f1e67] [cursor=pointer]

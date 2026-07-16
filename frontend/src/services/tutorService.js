@@ -39,6 +39,10 @@ export const tutorService = {
 
   getStudentChartData: (studentId, params = {}) =>
     api.get(`/tutor/students/${studentId}/charts`, { params }),
+
+  // Live Sessions
+  getActiveSessions: () =>
+    api.get('/live/active'),
 };
 
 export default tutorService;

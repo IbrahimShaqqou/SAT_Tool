@@ -13,10 +13,15 @@ import {
   DesmosCalculator,
   ReferenceSheet,
   SplitPane,
+  DrawingCanvas,
 } from './';
-import { useTimer } from '../../hooks';
+import { useTimer, useLiveSession } from '../../hooks';
+import useSharedDrawing from '../../hooks/useSharedDrawing';
+import { LiveIndicator, SharedDrawingSurface } from '../live';
+import { computeLiveIndicatorState, buildStrokeBatchMessage } from './liveHelpers';
+import QuestionFrame from './QuestionFrame';
 
-const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubmit }) => {
+const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubmit, live = { enabled: false } }) => {
   // Question state
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -31,9 +36,77 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
   // eslint-disable-next-line no-unused-vars
   const [isDrawing, setIsDrawing] = useState(false);
 
+  // Bidirectional shared drawing (student ink <-> tutor ink), in normalized
+  // content coordinates. Read via a ref inside onMessage so applying inbound
+  // strokes never re-triggers the socket effect.
+  const sharedRef = useRef(null);
+  const shared = useSharedDrawing({
+    sessionId: live?.sessionId,
+    author: 'student',
+    send: (m) => liveSendRef.current && liveSendRef.current(m),
+  });
+  sharedRef.current = shared;
+
+  // Live tutor session (optional; no-op when live.enabled is false)
+  const { lastByType, send: liveSend } = useLiveSession({
+    sessionId: live?.sessionId,
+    role: 'student',
+    enabled: !!live?.enabled,
+    onMessage: (m) => sharedRef.current && sharedRef.current.applyMessage(m),
+  });
+  const liveSendRef = useRef(null);
+  liveSendRef.current = liveSend;
+  const [liveIndicator, setLiveIndicator] = useState({ present: false, tutorName: null });
+
+  // Remember the last stroke batch so a tutor joining mid-session gets the current ink.
+  const lastStrokeBatchRef = useRef({ questionId: null, strokes: [], dims: null });
+  // Current question/index read synchronously in the tutor_joined handler.
+  const questionsRef = useRef(questions);
+  questionsRef.current = questions;
+  const currentIndexRef = useRef(currentIndex);
+  currentIndexRef.current = currentIndex;
+
+  useEffect(() => {
+    const joined = lastByType?.tutor_joined;
+    const left = lastByType?.tutor_left;
+    // Pick whichever arrived most recently using the hook's _rx stamp.
+    const latest = [joined, left].filter(Boolean).sort((a, b) => (b?._rx || 0) - (a?._rx || 0))[0];
+    if (latest) setLiveIndicator((prev) => computeLiveIndicatorState(prev, latest));
+    // Re-send current strokes when a tutor joins so they see existing ink.
+    if (latest && latest.type === 'tutor_joined' && live?.enabled) {
+      // Tell the just-joined tutor which question we're on right now.
+      const q = questionsRef.current[currentIndexRef.current];
+      if (q) liveSend({ type: 'question_changed', session_id: live.sessionId,
+        sender_role: 'student', seq: 0,
+        payload: { question_index: currentIndexRef.current, question_id: q.id } });
+      // Legacy completed-stroke batch (kept for backward compat).
+      const { questionId, strokes, dims } = lastStrokeBatchRef.current;
+      if (questionId) liveSend(buildStrokeBatchMessage(live.sessionId, questionId, strokes, dims));
+      // Shared-drawing resync: send our own normalized strokes to the joiner.
+      liveSend({ type: 'strokes_sync', session_id: live.sessionId, sender_role: 'student', seq: 0, payload: shared.syncPayload() });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastByType, live, liveSend]);
+
   // Refs
   const scrollContainerRef = useRef(null);
   const submitRef = useRef(null);
+
+  // Per-question shared drawing wiring (live path). The frame content height is
+  // measured so the drawing surface covers the full logical content area.
+  const [contentHeight, setContentHeight] = useState(1160);
+  const contentInnerRef = useRef(null);
+  useEffect(() => {
+    const el = contentInnerRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(() => setContentHeight(el.offsetHeight > 0 ? el.offsetHeight : 1160));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  useEffect(() => {
+    if (questions[currentIndex]?.id) shared.setQuestionId(questions[currentIndex].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questions, currentIndex]);
 
   // Timer
   const timeLimitSeconds = module.time_limit_minutes * 60;
@@ -91,6 +164,12 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
   const handleAnswerSelect = useCallback(async (questionId, answer) => {
     setAnswers(prev => ({ ...prev, [questionId]: answer }));
 
+    if (live?.enabled) {
+      liveSend({ type: 'answer_selected', session_id: live.sessionId,
+        sender_role: 'student', seq: 0,
+        payload: { question_id: questionId, selected_answer: answer } });
+    }
+
     // Submit answer to backend
     try {
       await responseService.submitResponse({
@@ -101,7 +180,20 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
     } catch (err) {
       console.error('Error saving answer:', err);
     }
-  }, [module.test_session_id]);
+  }, [module.test_session_id, live, liveSend]);
+
+  // Emit question_changed to a watching tutor when the current question changes
+  useEffect(() => {
+    if (!live?.enabled) return;
+    const q = questions[currentIndex];
+    if (!q) return;
+    // Keep the shared surface scoped to the current question for resync payloads.
+    shared.setQuestionId(q.id);
+    liveSend({ type: 'question_changed', session_id: live.sessionId,
+      sender_role: 'student', seq: 0,
+      payload: { question_index: currentIndex, question_id: q.id } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, live, questions, liveSend]);
 
   // Navigation
   const handleNext = () => {
@@ -176,6 +268,11 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
           <div className="text-sm font-medium text-ink-body">
             Question {currentIndex + 1} of {questions.length}
           </div>
+
+          {/* Live tutor indicator */}
+          {live?.enabled && (
+            <LiveIndicator present={liveIndicator.present} tutorName={liveIndicator.tutorName} />
+          )}
         </div>
 
         <div className="flex items-center space-x-6">
@@ -233,45 +330,75 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
         {/* Question Area */}
         <div
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto p-8"
+          className="relative flex-1 overflow-y-auto p-8"
         >
-          {hasPassage ? (
-            <SplitPane
-              left={
-                <div
-                  className="prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
+          {(() => {
+            const questionContent = hasPassage ? (
+              <SplitPane
+                left={
+                  <div
+                    className="prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: currentQuestion.passage_html }}
+                  />
+                }
+                right={
+                  <>
+                    <QuestionDisplay
+                      question={currentQuestion}
+                      questionNumber={currentIndex + 1}
+                    />
+                    <AnswerChoices
+                      choices={currentQuestion.choices_json}
+                      selectedIndex={answers[currentQuestion.id]}
+                      onSelect={(index) => handleAnswerSelect(currentQuestion.id, index)}
+                      questionType={currentQuestion.answer_type}
+                    />
+                  </>
+                }
+              />
+            ) : (
+              <div className="max-w-4xl mx-auto">
+                <QuestionDisplay
+                  question={currentQuestion}
+                  questionNumber={currentIndex + 1}
                 />
-              }
-              right={
-                <>
-                  <QuestionDisplay
-                    question={currentQuestion}
-                    questionNumber={currentIndex + 1}
-                  />
-                  <AnswerChoices
-                    choices={currentQuestion.choices_json}
-                    selectedIndex={answers[currentQuestion.id]}
-                    onSelect={(index) => handleAnswerSelect(currentQuestion.id, index)}
-                    questionType={currentQuestion.answer_type}
-                  />
-                </>
-              }
-            />
-          ) : (
-            <div className="max-w-4xl mx-auto">
-              <QuestionDisplay
-                question={currentQuestion}
-                questionNumber={currentIndex + 1}
-              />
-              <AnswerChoices
-                choices={currentQuestion.choices_json}
-                selectedIndex={answers[currentQuestion.id]}
-                onSelect={(index) => handleAnswerSelect(currentQuestion.id, index)}
-                questionType={currentQuestion.answer_type}
-              />
-            </div>
-          )}
+                <AnswerChoices
+                  choices={currentQuestion.choices_json}
+                  selectedIndex={answers[currentQuestion.id]}
+                  onSelect={(index) => handleAnswerSelect(currentQuestion.id, index)}
+                  questionType={currentQuestion.answer_type}
+                />
+              </div>
+            );
+
+            // Live path: fixed QuestionFrame + per-question shared drawing. The
+            // student's ink streams to the tutor and the tutor's ink appears here,
+            // in normalized (logical) frame coordinates that scale with content.
+            return live?.enabled ? (
+              <QuestionFrame>
+                {({ scale }) => (
+                  <>
+                    <div ref={contentInnerRef}>{questionContent}</div>
+                    <SharedDrawingSurface
+                      active={isDrawing}
+                      showGrid={isDrawing}
+                      author="student"
+                      penColor="#111827"
+                      eraser={false}
+                      scale={scale}
+                      heightPx={contentHeight}
+                      strokes={shared.strokes}
+                      onStrokeStart={(opts) => shared.startStroke(opts)}
+                      onStrokePoints={(id, pts) => shared.extendStroke(id, pts)}
+                      onStrokeEnd={(id) => shared.endStroke(id)}
+                    />
+                  </>
+                )}
+              </QuestionFrame>
+            ) : (
+              questionContent
+            );
+          })()}
         </div>
 
         {/* Calculator Panel */}
@@ -326,6 +453,17 @@ const ModuleTestInterface = ({ module, moduleNumber, totalModules, onReadyToSubm
           )}
         </div>
       </div>
+
+      {/* Legacy full-page drawing overlay — NON-live path only. The
+          SharedDrawingSurface above handles capture when live is enabled. */}
+      {!live?.enabled && (
+        <DrawingCanvas
+          isActive={isDrawing}
+          questionId={currentQuestion?.id}
+          scrollRef={scrollContainerRef}
+          showCalculator={showCalculator}
+        />
+      )}
 
       {/* Modals */}
       {showReferenceSheet && (

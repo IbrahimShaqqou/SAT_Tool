@@ -469,10 +469,18 @@ def get_assignment(
     student = db.query(User).filter(User.id == assignment.student_id).first()
     tutor = db.query(User).filter(User.id == assignment.tutor_id).first()
 
-    # Get linked test session if exists
-    session = db.query(TestSession).filter(
-        TestSession.assignment_id == assignment.id
-    ).first()
+    # Get linked test session if exists. Scope by student and order by
+    # created_at desc so we deterministically pick the latest session even if
+    # multiple exist (its id is surfaced for live-tutoring resume).
+    session = (
+        db.query(TestSession)
+        .filter(
+            TestSession.assignment_id == assignment.id,
+            TestSession.student_id == assignment.student_id,
+        )
+        .order_by(TestSession.created_at.desc())
+        .first()
+    )
 
     current_question = None
     questions_answered = 0
@@ -540,6 +548,7 @@ def get_assignment(
         created_at=assignment.created_at,
         current_question=current_question,
         is_adaptive=assignment.is_adaptive,
+        test_session_id=session.id if session else None,
     )
 
 
@@ -710,6 +719,7 @@ def start_assignment(
         status=assignment.status,
         current_question_index=0,
         started_at=assignment.started_at,
+        test_session_id=session.id,
     )
 
 

@@ -262,7 +262,7 @@ const BrightFuturesLanding = () => {
               </h2>
               <p className="text-ink-muted leading-relaxed text-pretty">
                 Hit your Bright Futures goal of 1190 or 1330 on an official SAT, or you get your
-                tuition back. No fine-print runaround.
+                money back. No fine-print runaround.
               </p>
               <p className="mt-5 text-xs text-ink-faint leading-relaxed max-w-md mx-auto">
                 {/* TODO: replace with your attorney-reviewed terms before taking money. */}

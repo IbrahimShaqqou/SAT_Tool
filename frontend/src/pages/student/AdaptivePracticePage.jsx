@@ -29,6 +29,9 @@ import { splitRWPrompt } from '../../utils';
 import { adaptiveService, taxonomyService } from '../../services';
 import { StepByStepExplanation } from '../../components/explanation';
 import ReportModal from '../../components/test/ReportModal';
+import { useStudentLiveEmit } from '../../hooks';
+import { LiveIndicator, SharedDrawingSurface } from '../../components/live';
+import QuestionFrame from '../../components/test/QuestionFrame';
 
 /**
  * Check if passage content is already contained in the prompt (to avoid duplicates)
@@ -260,6 +263,36 @@ const AdaptivePracticePage = () => {
   // Track if auto-start has been attempted
   const [autoStartAttempted, setAutoStartAttempted] = useState(false);
 
+  // Live tutoring: emit deltas so a watching tutor can follow along. No numeric
+  // index here (question held directly), so pass 0; the tutor keys off question_id.
+  const {
+    indicator: liveIndicator,
+    emitAnswer: liveEmitAnswer,
+    emitStrokeBatch: liveEmitStroke,
+    shared: liveShared,
+  } = useStudentLiveEmit({
+    enabled: !!session?.id,
+    sessionId: session?.id,
+    currentQuestionId: currentQuestion?.id,
+    currentQuestionIndex: 0,
+  });
+
+  // Per-question shared drawing wiring (live path). The frame content height is
+  // measured so the drawing surface covers the full logical content area.
+  const [contentHeight, setContentHeight] = useState(1160);
+  const contentInnerRef = useRef(null);
+  useEffect(() => {
+    const el = contentInnerRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(() => setContentHeight(el.offsetHeight > 0 ? el.offsetHeight : 1160));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  useEffect(() => {
+    if (currentQuestion?.id) liveShared.setQuestionId(currentQuestion.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestion?.id]);
+
   // Load skills on mount
   useEffect(() => {
     const fetchSkills = async () => {
@@ -407,6 +440,9 @@ const AdaptivePracticePage = () => {
       const timeSpent = questionStartTime
         ? Math.round((Date.now() - questionStartTime) / 1000)
         : 60;
+
+      // Mirror the student's answer to any watching tutor (no-ops when no live session).
+      liveEmitAnswer(currentQuestion?.id, answer);
 
       const res = await adaptiveService.submitAnswer(session.id, {
         answer: answerData,
@@ -643,6 +679,9 @@ const AdaptivePracticePage = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {/* Tutor-present indicator (renders null when no tutor watching) */}
+          <LiveIndicator present={liveIndicator.present} tutorName={liveIndicator.tutorName} />
+
           {/* Draw toggle */}
           <button
             onClick={() => setIsDrawing((d) => !d)}
@@ -811,9 +850,39 @@ const AdaptivePracticePage = () => {
         return (
           <div
             ref={contentRef}
-            className={`flex-1 transition-all duration-300 bg-surface-page ${lastResult ? 'pb-52' : 'pb-28'} ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
+            className={`relative flex-1 transition-all duration-300 bg-surface-page ${lastResult ? 'pb-52' : 'pb-28'} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
           >
-            {hasPassage ? (
+            {session?.id ? (
+              // Live path: fixed QuestionFrame + per-question shared drawing. The
+              // student's ink streams to the tutor and the tutor's ink appears here,
+              // in normalized (logical) frame coordinates that scale with content.
+              <QuestionFrame>
+                {({ scale }) => (
+                  <>
+                    <div ref={contentInnerRef}>
+                      {hasPassage ? (
+                        <SplitPane left={passagePanel} right={questionPanel} defaultSplit={50} minLeft={25} minRight={35} />
+                      ) : (
+                        <div className="max-w-3xl mx-auto">{questionPanel}</div>
+                      )}
+                    </div>
+                    <SharedDrawingSurface
+                      active={isDrawing}
+                      showGrid={isDrawing}
+                      author="student"
+                      penColor="#111827"
+                      eraser={false}
+                      scale={scale}
+                      heightPx={contentHeight}
+                      strokes={liveShared.strokes}
+                      onStrokeStart={(opts) => liveShared.startStroke(opts)}
+                      onStrokePoints={(id, pts) => liveShared.extendStroke(id, pts)}
+                      onStrokeEnd={(id) => liveShared.endStroke(id)}
+                    />
+                  </>
+                )}
+              </QuestionFrame>
+            ) : hasPassage ? (
               <SplitPane left={passagePanel} right={questionPanel} defaultSplit={50} minLeft={25} minRight={35} />
             ) : (
               <div className="max-w-3xl mx-auto">{questionPanel}</div>
@@ -905,12 +974,16 @@ const AdaptivePracticePage = () => {
         initialPosition={{ x: 100, y: 80 }}
       />
 
-      {/* Drawing canvas overlay */}
-      <DrawingCanvas
-        isActive={isDrawing}
-        questionId={currentQuestion?.id ?? 0}
-        scrollRef={contentRef}
-      />
+      {/* Drawing canvas overlay — NON-live path only. When a live session is
+          active the SharedDrawingSurface above handles capture instead. */}
+      {!session?.id && (
+        <DrawingCanvas
+          isActive={isDrawing}
+          questionId={currentQuestion?.id ?? 0}
+          scrollRef={contentRef}
+          onStrokeBatch={liveEmitStroke}
+        />
+      )}
 
       {/* Report Modal */}
       {showReportModal && (

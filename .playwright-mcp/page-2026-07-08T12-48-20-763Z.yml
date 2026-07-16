@@ -1,0 +1,132 @@
+- generic [ref=e49]:
+  - complementary "Primary navigation" [ref=e50]:
+    - generic [ref=e52]:
+      - generic [ref=e54]: Z
+      - generic [ref=e55]: ZooPrep
+    - navigation [ref=e56]:
+      - generic [ref=e57]:
+        - link "Dashboard" [ref=e58] [cursor=pointer]:
+          - /url: /tutor
+          - img [ref=e59]
+          - generic [ref=e64]: Dashboard
+        - link "Students" [ref=e65] [cursor=pointer]:
+          - /url: /tutor/students
+          - img [ref=e66]
+          - generic [ref=e71]: Students
+        - link "Live Now" [ref=e72] [cursor=pointer]:
+          - /url: /tutor/live
+          - img [ref=e73]
+          - generic [ref=e79]: Live Now
+      - generic [ref=e80]:
+        - paragraph [ref=e81]: Practice
+        - link "Assignments" [ref=e82] [cursor=pointer]:
+          - /url: /tutor/assignments
+          - img [ref=e83]
+          - generic [ref=e86]: Assignments
+        - link "Question Bank" [ref=e87] [cursor=pointer]:
+          - /url: /tutor/questions
+          - img [ref=e88]
+          - generic [ref=e91]: Question Bank
+        - link "Skill Lessons" [ref=e92] [cursor=pointer]:
+          - /url: /tutor/lessons
+          - img [ref=e93]
+          - generic [ref=e96]: Skill Lessons
+      - generic [ref=e97]:
+        - paragraph [ref=e98]: Insights
+        - link "Analytics" [ref=e99] [cursor=pointer]:
+          - /url: /tutor/analytics
+          - img [ref=e100]
+          - generic [ref=e102]: Analytics
+    - button "Collapse sidebar" [ref=e104] [cursor=pointer]:
+      - img [ref=e105]
+      - generic [ref=e107]: Collapse
+  - generic [ref=e108]:
+    - banner [ref=e109]:
+      - button "tutor man tutor man" [ref=e111] [cursor=pointer]:
+        - generic "tutor man" [ref=e112]: TM
+        - generic [ref=e113]: tutor man
+        - img [ref=e114]
+    - main [ref=e116]:
+      - generic [ref=e117]:
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - paragraph [ref=e121]: Your studio
+            - heading "Tutor dashboard" [level=1] [ref=e122]
+          - link "Invite student" [ref=e125] [cursor=pointer]:
+            - /url: /tutor/students
+            - button "Invite student" [ref=e126]:
+              - img [ref=e127]
+              - text: Invite student
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - generic [ref=e131]: "1"
+            - paragraph [ref=e132]: Total students
+          - generic [ref=e133]:
+            - generic [ref=e135]: "1"
+            - paragraph [ref=e136]: Active this week
+          - generic [ref=e137]:
+            - generic [ref=e139]: "0"
+            - paragraph [ref=e140]: Assignments completed
+            - paragraph [ref=e141]: of 1 created
+          - generic [ref=e142]:
+            - generic [ref=e145]: 0%
+            - paragraph [ref=e146]: Average score
+        - generic [ref=e147]:
+          - generic [ref=e149]:
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - img [ref=e152]
+                - heading "Recent students" [level=2] [ref=e157]
+              - link "View all" [ref=e159] [cursor=pointer]:
+                - /url: /tutor/students
+            - list [ref=e160]:
+              - listitem [ref=e161]:
+                - link "example student example student e@g.c 55% 84 questions" [ref=e162] [cursor=pointer]:
+                  - /url: /tutor/students/05e73452-cf19-401c-9b5c-e2bd4918c8e8
+                  - generic [ref=e163]:
+                    - generic "example student" [ref=e164]: ES
+                    - generic [ref=e165]:
+                      - paragraph [ref=e166]: example student
+                      - paragraph [ref=e167]: e@g.c
+                  - generic [ref=e168]:
+                    - generic [ref=e169]:
+                      - generic [ref=e170]: 55%
+                      - paragraph [ref=e171]: 84 questions
+                    - img [ref=e172]
+          - generic [ref=e176]:
+            - generic [ref=e178]:
+              - heading "Where students struggle" [level=2] [ref=e179]
+              - generic [ref=e180]: · Assign targeted practice
+            - list [ref=e181]:
+              - listitem [ref=e182]:
+                - generic [ref=e183]:
+                  - paragraph [ref=e184]: Linear inequalities in one or two variables
+                  - paragraph [ref=e185]: 1 student below 70% · 0% avg
+                - link "Assign" [ref=e186] [cursor=pointer]:
+                  - /url: /tutor/assignments/create?skill=34
+                  - text: Assign
+                  - img [ref=e187]
+              - listitem [ref=e189]:
+                - generic [ref=e190]:
+                  - paragraph [ref=e191]: Nonlinear functions
+                  - paragraph [ref=e192]: 1 student below 70% · 20% avg
+                - link "Assign" [ref=e193] [cursor=pointer]:
+                  - /url: /tutor/assignments/create?skill=35
+                  - text: Assign
+                  - img [ref=e194]
+              - listitem [ref=e196]:
+                - generic [ref=e197]:
+                  - paragraph [ref=e198]: Ratios, rates, proportional relationships, and units
+                  - paragraph [ref=e199]: 1 student below 70% · 63% avg
+                - link "Assign" [ref=e200] [cursor=pointer]:
+                  - /url: /tutor/assignments/create?skill=38
+                  - text: Assign
+                  - img [ref=e201]
+              - listitem [ref=e203]:
+                - generic [ref=e204]:
+                  - paragraph [ref=e205]: Nonlinear equations in one variable and systems of equations in two variables
+                  - paragraph [ref=e206]: 1 student below 70% · 67% avg
+                - link "Assign" [ref=e207] [cursor=pointer]:
+                  - /url: /tutor/assignments/create?skill=36
+                  - text: Assign
+                  - img [ref=e208]

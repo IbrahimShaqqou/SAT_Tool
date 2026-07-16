@@ -17,6 +17,7 @@ import {
   BookOpen,
   GraduationCap,
   ListChecks,
+  Radio,
 } from 'lucide-react';
 
 const tutorGroups = [
@@ -25,6 +26,7 @@ const tutorGroups = [
     items: [
       { to: '/tutor', icon: LayoutDashboard, label: 'Dashboard', end: true },
       { to: '/tutor/students', icon: Users, label: 'Students' },
+      { to: '/tutor/live', icon: Radio, label: 'Live Now' },
     ],
   },
   {

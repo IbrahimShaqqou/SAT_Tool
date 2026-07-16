@@ -174,6 +174,7 @@ const FullLengthTestPage = () => {
       {flowState === 'module_test' && (
         <ModuleTestInterface
           module={currentModule}
+          live={{ enabled: true, sessionId: currentModule?.test_session_id }}
           moduleNumber={currentModuleIndex + 1}
           totalModules={modules.length}
           onReadyToSubmit={handleReadyToSubmit}

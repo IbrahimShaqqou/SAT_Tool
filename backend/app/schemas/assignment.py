@@ -101,6 +101,7 @@ class AssignmentDetail(BaseModel):
     created_at: datetime
     current_question: Optional[CurrentAssignmentQuestion] = None
     is_adaptive: bool = False
+    test_session_id: Optional[UUID] = None
 
     model_config = {"from_attributes": True}
 
@@ -127,6 +128,7 @@ class AssignmentStatusUpdate(BaseModel):
     status: AssignmentStatus
     current_question_index: int = 0
     started_at: Optional[datetime] = None
+    test_session_id: Optional[UUID] = None
 
 
 class AssignmentSubmit(BaseModel):

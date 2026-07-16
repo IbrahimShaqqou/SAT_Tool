@@ -8,11 +8,19 @@ SAT_Tool/
 │   ├── app/
 │   │   ├── api/               # API routes
 │   │   │   └── v1/            # API v1 endpoints
+│   │   │       ├── live.py           # ✨ NEW: Live session endpoints
+│   │   │       └── ...
+│   │   ├── core/              # Core utilities
+│   │   │   ├── live_ticket.py        # ✨ NEW: WebSocket auth tickets
+│   │   │   └── ...
 │   │   ├── models/            # SQLAlchemy models
 │   │   │   ├── practice_test.py      # ✨ NEW: Practice test definitions
 │   │   │   ├── question.py           # Question bank
 │   │   │   ├── test.py               # Test sessions
 │   │   │   ├── user.py               # Users
+│   │   │   └── ...
+│   │   ├── schemas/           # Pydantic schemas
+│   │   │   ├── live.py               # ✨ NEW: Live message + token schemas
 │   │   │   └── ...
 │   │   ├── services/          # Business logic
 │   │   │   ├── sat_scoring.py        # ✨ NEW: SAT scoring algorithm
@@ -41,9 +49,32 @@ SAT_Tool/
 │   ├── src/
 │   │   ├── pages/
 │   │   │   ├── student/       # Student views
-│   │   │   └── tutor/         # Tutor views
+│   │   │   ├── tutor/         # Tutor views
+│   │   │   │   ├── LiveSessionsPage.jsx  # ✨ NEW: Live sessions list + watch view
+│   │   │   │   └── ...
+│   │   │   └── ...
 │   │   ├── components/        # Reusable components
-│   │   └── services/          # API client
+│   │   │   ├── live/                 # ✨ NEW: Live session UI
+│   │   │   │   ├── LiveIndicator.jsx
+│   │   │   │   ├── LiveStrokeLayer.jsx
+│   │   │   │   ├── SharedDrawingSurface.jsx  # ✨ NEW: Symmetric bidirectional drawing canvas
+│   │   │   │   ├── TutorLivePanel.jsx
+│   │   │   │   ├── liveFormat.js
+│   │   │   │   └── ...
+│   │   │   └── ...
+│   │   ├── services/          # API client
+│   │   │   ├── liveService.js        # ✨ NEW: WebSocket wrapper + ticket fetch
+│   │   │   └── ...
+│   │   ├── hooks/             # Custom hooks
+│   │   │   ├── useLiveSession.js     # ✨ NEW: WebSocket lifecycle
+│   │   │   ├── useStudentLiveEmit.js # ✨ NEW: Student emit hook
+│   │   │   ├── useSharedDrawing.js   # ✨ NEW: Shared whiteboard state (merged strokes, undo/clear, sync)
+│   │   │   └── ...
+│   │   ├── utils/             # Utilities
+│   │   │   ├── strokeRenderer.js     # ✨ NEW: Shared canvas stroke renderer
+│   │   │   ├── liveCoords.js         # ✨ NEW: Normalized content-anchored stroke coordinates
+│   │   │   └── ...
+│   │   └── ...
 │   └── ...
 │
 ├── docs/                      # 📚 Documentation (ORGANIZED)
@@ -92,6 +123,7 @@ SQLAlchemy ORM models representing database tables.
 - `practice_test.py` - Official College Board practice test definitions
   - `PracticeTest` - Test metadata
   - `PracticeTestModule` - Module-level question mappings
+- ✨ NEW: Live session models (schemas defined in `app/schemas/live.py`)
 
 ### `/backend/app/services/`
 Business logic separated from API routes.
@@ -101,6 +133,7 @@ Business logic separated from API routes.
   - `should_get_harder_module_2()` - Adaptive threshold (55%)
   - `calculate_sat_section_score()` - Raw → scaled (200-800)
   - `score_full_length_test()` - Complete test scoring
+- `live_room_manager.py` - ✨ NEW: In-memory live room registry (relay/broadcast)
 
 ### `/backend/data/practice_test_mappings/`
 **✨ NEW**: Official SAT practice test question mappings.

@@ -51,6 +51,7 @@ The platform includes a complete SAT question bank sourced from College Board:
 - **Assignments**: Tutors can create and assign practice sets to students
 - **Progress Tracking**: Per-skill mastery tracking with detailed analytics
 - **Tutor Dashboard**: View student progress, common struggles, and analytics
+- **Live Tutor Sessions**: Tutors watch a student's in-progress session (full-length test, adaptive practice, official practice tests, and assignments) in real time — current question, selected answer, and a **shared color-coded whiteboard** where tutor and student draw together with strokes streamed live and aligned to the same question content on both screens. A coaching sidebar shows the correct answer and explanation; students see a clear indicator when a tutor is watching.
 
 ### Security & Production
 - Rate limiting on authentication endpoints
@@ -272,6 +273,12 @@ See `backend/docs/DATABASE.md` for complete schema documentation.
 - `GET /api/v1/progress/responses` - Response history
 - `GET /api/v1/tutor/analytics` - Tutor analytics dashboard
 - `GET /api/v1/tutor/students` - List tutor's students
+
+### Live Session
+- `POST /api/v1/live/token` - Mint a short-lived single-use WebSocket ticket for a session
+- `GET  /api/v1/live/active` - List the tutor's students who are live right now
+- `GET  /api/v1/live/question/{question_id}` - Tutor-only question detail (correct answer + explanation) for the coach panel
+- `WS   /api/v1/live/ws/{session_id}` - Live room WebSocket connection (student mirrors state to watching tutors)
 
 ## Data Import
 

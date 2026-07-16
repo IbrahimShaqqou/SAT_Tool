@@ -23,7 +23,9 @@ import {
   SubmitConfirmation,
 } from '../../components/test';
 import ReportModal from '../../components/test/ReportModal';
-import { useTimer } from '../../hooks';
+import { useTimer, useStudentLiveEmit } from '../../hooks';
+import { LiveIndicator, SharedDrawingSurface } from '../../components/live';
+import QuestionFrame from '../../components/test/QuestionFrame';
 import { splitRWPrompt } from '../../utils';
 import {
   startPracticeTest,
@@ -73,6 +75,35 @@ const PracticeTestTakingPage = () => {
     [currentQuestion, subjectArea]
   );
   const hasPassage = !!passageHtml;
+
+  // ── Live tutoring: mirror deltas to a watching tutor (inert without session) ─
+  const {
+    indicator: liveIndicator,
+    emitAnswer: liveEmitAnswer,
+    emitStrokeBatch: liveEmitStroke,
+    shared: liveShared,
+  } = useStudentLiveEmit({
+    enabled: !!sessionId,
+    sessionId,
+    currentQuestionId: currentQuestion?.id,
+    currentQuestionIndex: currentIndex,
+  });
+
+  // Per-question shared drawing wiring (live path). The frame content height is
+  // measured so the drawing surface covers the full logical content area.
+  const [contentHeight, setContentHeight] = useState(1160);
+  const contentInnerRef = useRef(null);
+  useEffect(() => {
+    const el = contentInnerRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(() => setContentHeight(el.offsetHeight > 0 ? el.offsetHeight : 1160));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  useEffect(() => {
+    if (currentQuestion?.id) liveShared.setQuestionId(currentQuestion.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestion?.id]);
 
   // ── Timer ────────────────────────────────────────────────────────────────
   const timeLimitSeconds = (moduleData?.time_limit_minutes || 0) * 60;
@@ -142,16 +173,18 @@ const PracticeTestTakingPage = () => {
     (index) => {
       if (!currentQuestion) return;
       setAnswers((prev) => ({ ...prev, [currentQuestion.id]: index }));
+      liveEmitAnswer(currentQuestion.id, index);
     },
-    [currentQuestion]
+    [currentQuestion, liveEmitAnswer]
   );
 
   const handleSPRAnswer = useCallback(
     (value) => {
       if (!currentQuestion) return;
       setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }));
+      liveEmitAnswer(currentQuestion.id, value);
     },
-    [currentQuestion]
+    [currentQuestion, liveEmitAnswer]
   );
 
   const handleToggleMark = useCallback(() => {
@@ -387,11 +420,53 @@ const PracticeTestTakingPage = () => {
         isDrawing={isDrawing}
       />
 
+      {liveIndicator.present && (
+        <div className="px-4 py-2 border-b border-edge bg-surface-card">
+          <LiveIndicator present={liveIndicator.present} tutorName={liveIndicator.tutorName} />
+        </div>
+      )}
+
       <div
         ref={scrollContainerRef}
-        className={`flex-1 transition-all duration-300 bg-surface-card ${showCalculator ? 'mr-[440px]' : ''} ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
+        className={`relative flex-1 transition-all duration-300 bg-surface-card ${hasPassage ? 'overflow-hidden' : 'overflow-y-auto'}`}
       >
-        {hasPassage ? (
+        {sessionId ? (
+          // Live path: fixed QuestionFrame + per-question shared drawing. The
+          // student's ink streams to the tutor and the tutor's ink appears here,
+          // in normalized (logical) frame coordinates that scale with content.
+          <QuestionFrame>
+            {({ scale }) => (
+              <>
+                <div ref={contentInnerRef}>
+                  {hasPassage ? (
+                    <SplitPane
+                      left={passagePanel}
+                      right={questionPanel}
+                      defaultSplit={50}
+                      minLeft={25}
+                      minRight={35}
+                    />
+                  ) : (
+                    <div className="max-w-3xl mx-auto">{questionPanel}</div>
+                  )}
+                </div>
+                <SharedDrawingSurface
+                  active={isDrawing}
+                  showGrid={isDrawing}
+                  author="student"
+                  penColor="#111827"
+                  eraser={false}
+                  scale={scale}
+                  heightPx={contentHeight}
+                  strokes={liveShared.strokes}
+                  onStrokeStart={(opts) => liveShared.startStroke(opts)}
+                  onStrokePoints={(id, pts) => liveShared.extendStroke(id, pts)}
+                  onStrokeEnd={(id) => liveShared.endStroke(id)}
+                />
+              </>
+            )}
+          </QuestionFrame>
+        ) : hasPassage ? (
           <SplitPane
             left={passagePanel}
             right={questionPanel}
@@ -435,12 +510,17 @@ const PracticeTestTakingPage = () => {
 
       {bottomNavBar}
 
-      <DrawingCanvas
-        isActive={isDrawing}
-        questionId={currentQuestion?.id ?? currentIndex}
-        scrollRef={scrollContainerRef}
-        showCalculator={showCalculator}
-      />
+      {/* Legacy full-page drawing overlay — NON-live path only. The
+          SharedDrawingSurface handles capture when a live session is active. */}
+      {!sessionId && (
+        <DrawingCanvas
+          isActive={isDrawing}
+          questionId={currentQuestion?.id ?? currentIndex}
+          scrollRef={scrollContainerRef}
+          showCalculator={showCalculator}
+          onStrokeBatch={liveEmitStroke}
+        />
+      )}
 
       {isPaused && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
