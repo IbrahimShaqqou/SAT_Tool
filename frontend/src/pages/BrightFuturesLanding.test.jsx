@@ -108,3 +108,14 @@ describe('book / text section', () => {
     expect(screen.getByText(/thanks — i'll text you shortly/i)).toBeInTheDocument();
   });
 });
+
+describe('full page', () => {
+  test('renders all key conversion sections without crashing', () => {
+    render(<BrightFuturesLanding />);
+    expect(screen.getByText(/\$17,000 to \$26,000/)).toBeInTheDocument(); // hero money hook
+    expect(screen.getByText(/A parent on what the work/i)).toBeInTheDocument(); // video
+    expect(screen.getByText(/students who hit their cutoff/i)).toBeInTheDocument(); // results
+    expect(screen.getByText(/questions parents ask/i)).toBeInTheDocument(); // faq
+    expect(screen.getByText(/two easy ways to start/i)).toBeInTheDocument(); // book/text
+  });
+});
