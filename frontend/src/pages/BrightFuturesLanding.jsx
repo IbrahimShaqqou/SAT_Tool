@@ -447,11 +447,11 @@ const BrightFuturesLanding = () => {
               {/* TODO: add a photo of yourself here — a real face builds more trust than any logo. */}
               <p className="font-display text-xl font-semibold text-ink-body mb-2">Ibrahim Shaqqou</p>
               <p className="text-ink-muted leading-relaxed text-pretty">
-                I've spent the past two years tutoring the Digital SAT full time, and my
-                students have crossed the Bright Futures cutoffs — like the 1020-to-1360 and
-                910-to-1200 jumps above. I scored a 1450 myself in high school and know the
-                current format inside out. I built ZooPrep to give every student the same
-                focused, score-first method, aimed squarely at the 1190 and 1330 targets.
+                An experienced tutor who recently achieved a high score on the Digital SAT,
+                so I know the current format inside out — not the old paper test. My students
+                have crossed the Bright Futures cutoffs, like the 1020-to-1360 and 910-to-1200
+                jumps above. I built ZooPrep to give every student the same focused, score-first
+                method, aimed squarely at the 1190 and 1330 targets.
               </p>
             </div>
           </Reveal>
