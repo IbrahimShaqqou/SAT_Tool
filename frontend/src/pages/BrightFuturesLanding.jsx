@@ -224,6 +224,31 @@ const BrightFuturesLanding = () => {
         </div>
       </section>
 
+      {/* Real results: back the money promise with kids who actually got there. */}
+      <section className="py-16 bg-surface-page">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6">
+          <Reveal>
+            <h2 className="font-display text-2xl sm:text-3xl font-semibold text-ink-body tracking-tight mb-8 text-center text-balance">
+              Students who hit their cutoff
+            </h2>
+          </Reveal>
+          <Reveal stagger className="grid sm:grid-cols-2 gap-px bg-edge rounded-2xl overflow-hidden border border-edge">
+            {[
+              { jump: '1020 → 1360', award: 'qualified for 100% tuition' },
+              { jump: '910 → 1200', award: 'qualified for 75% tuition' },
+            ].map((r) => (
+              <div key={r.jump} className="p-7 sm:p-8 bg-surface-card text-center">
+                <p className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tabular-nums">{r.jump}</p>
+                <p className="mt-2 text-sm font-medium text-brand-700 dark:text-brand-300">{r.award}</p>
+              </div>
+            ))}
+          </Reveal>
+          <Reveal>
+            <p className="mt-5 text-center text-[13px] text-ink-faint">Recent students, used with permission.</p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* The award math */}
       <section className="py-20 bg-surface-card border-y border-edge-subtle">
         <div className="max-w-4xl mx-auto px-5 sm:px-6">

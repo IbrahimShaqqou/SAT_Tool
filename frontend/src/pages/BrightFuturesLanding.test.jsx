@@ -56,3 +56,14 @@ describe('parent video', () => {
     expect(screen.getByText(/imani, parent of a junior in orlando/i)).toBeInTheDocument();
   });
 });
+
+describe('score results', () => {
+  test('shows real score jumps tied to the award they unlock', () => {
+    render(<BrightFuturesLanding />);
+    expect(screen.getByText(/1020\s*→\s*1360/)).toBeInTheDocument();
+    expect(screen.getByText(/910\s*→\s*1200/)).toBeInTheDocument();
+    expect(screen.getByText(/qualified for 100% tuition/i)).toBeInTheDocument();
+    expect(screen.getByText(/qualified for 75% tuition/i)).toBeInTheDocument();
+    expect(screen.getByText(/used with permission/i)).toBeInTheDocument();
+  });
+});
