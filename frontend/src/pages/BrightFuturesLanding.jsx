@@ -202,6 +202,28 @@ const BrightFuturesLanding = () => {
         </div>
       </section>
 
+      {/* Parent testimonial: the trust moment, right after the money hook. */}
+      <section className="py-16 bg-surface-card border-b border-edge-subtle">
+        <div className="max-w-2xl mx-auto px-5 sm:px-6 text-center">
+          <Reveal>
+            <p className="text-sm font-medium text-ink-subtle mb-5">
+              A parent on what the work actually looked like
+            </p>
+            <div className="rounded-2xl border border-edge bg-surface-page overflow-hidden shadow-card-md">
+              <video
+                className="w-full h-auto block bg-black"
+                src="/media/parent-testimonial.mp4"
+                poster="/media/parent-testimonial-poster.jpg"
+                controls
+                preload="metadata"
+                playsInline
+              />
+            </div>
+            <p className="mt-4 text-sm text-ink-subtle">Imani, parent of a junior in Orlando</p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* The award math */}
       <section className="py-20 bg-surface-card border-y border-edge-subtle">
         <div className="max-w-4xl mx-auto px-5 sm:px-6">

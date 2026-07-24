@@ -45,3 +45,14 @@ describe('hero', () => {
     expect(textLink.getAttribute('href')).toBe('#book');
   });
 });
+
+describe('parent video', () => {
+  test('renders the testimonial video with poster and caption', () => {
+    const { container } = render(<BrightFuturesLanding />);
+    const video = container.querySelector('video');
+    expect(video).not.toBeNull();
+    expect(video.getAttribute('src')).toBe('/media/parent-testimonial.mp4');
+    expect(video.getAttribute('poster')).toBe('/media/parent-testimonial-poster.jpg');
+    expect(screen.getByText(/imani, parent of a junior in orlando/i)).toBeInTheDocument();
+  });
+});
