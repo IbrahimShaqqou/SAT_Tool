@@ -393,6 +393,49 @@ const BrightFuturesLanding = () => {
         </div>
       </section>
 
+      {/* FAQ: answer the questions in a cold parent's head before they bounce. */}
+      <section className="py-20 bg-surface-page">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6">
+          <Reveal>
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tracking-tight mb-8 text-balance">
+              Questions parents ask
+            </h2>
+          </Reveal>
+          <Reveal stagger className="space-y-3">
+            {[
+              {
+                q: 'What does it cost?',
+                a: "Every student's gap is different, so we scope the plan — and the price — together on the free call. What's worth knowing now: tutoring runs a small fraction of a single year of the tuition Bright Futures covers, it's the only part of the equation that pays you back, and it's backed by the money-back guarantee.",
+              },
+              {
+                q: 'How do online sessions work?',
+                a: "Sessions run over video with a shared whiteboard, so your student works problems live with me — the same as sitting side by side. Everything is scheduled around their week.",
+              },
+              {
+                q: 'How many sessions will my child need?',
+                a: "It depends on the distance from their diagnostic score to their Bright Futures target. The free strategy call maps that gap, and the plan is built around it rather than a one-size package.",
+              },
+              {
+                q: 'Which SAT date should we aim for?',
+                a: "We plan backward from an official College Board test date that leaves enough runway to close the gap and, if needed, take a second attempt before eligibility locks.",
+              },
+              {
+                q: 'Is ZooPrep a real company — are you legit?',
+                a: "Yes. ZooPrep is my Digital SAT tutoring practice; you can see who you'll work with above, real student results, and a money-back guarantee in writing. The strategy call is free and there's no obligation.",
+              },
+            ].map((f) => (
+              <details key={f.q} className="group rounded-xl border border-edge bg-surface-card px-5 py-4">
+                <summary className="flex cursor-pointer items-center justify-between font-display text-lg font-semibold text-ink-body list-none">
+                  {f.q}
+                  <span aria-hidden="true" className="ml-4 text-ink-faint transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-ink-muted leading-relaxed text-pretty">{f.a}</p>
+              </details>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
       {/* Book a call */}
       <section id="book" className="py-20 bg-surface-page">
         <div className="max-w-2xl mx-auto px-5 sm:px-6 text-center">

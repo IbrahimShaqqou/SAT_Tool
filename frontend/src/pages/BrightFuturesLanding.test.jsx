@@ -75,3 +75,17 @@ describe('bio', () => {
     expect(container.textContent).not.toMatch(/1600/);
   });
 });
+
+describe('faq', () => {
+  test('answers the silent objections, cost reframed with no published price', () => {
+    render(<BrightFuturesLanding />);
+    expect(screen.getByText(/what does it cost\?/i)).toBeInTheDocument();
+    expect(screen.getByText(/how do online sessions work\?/i)).toBeInTheDocument();
+    expect(screen.getByText(/how many sessions/i)).toBeInTheDocument();
+    expect(screen.getByText(/which sat date/i)).toBeInTheDocument();
+    expect(screen.getByText(/real company|are you legit/i)).toBeInTheDocument();
+    // The cost answer must not commit to a dollar figure.
+    const costAnswer = screen.getByText(/we scope the plan — and the price — together/i);
+    expect(costAnswer.textContent).not.toMatch(/\$\s*\d/);
+  });
+});
