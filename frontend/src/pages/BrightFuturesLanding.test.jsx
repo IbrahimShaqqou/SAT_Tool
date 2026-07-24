@@ -67,3 +67,11 @@ describe('score results', () => {
     expect(screen.getByText(/used with permission/i)).toBeInTheDocument();
   });
 });
+
+describe('bio', () => {
+  test('leads with the tutor but drops the 1600 self-brag', () => {
+    const { container } = render(<BrightFuturesLanding />);
+    expect(screen.getByText(/Ibrahim Shaqqou/)).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/1600/);
+  });
+});
