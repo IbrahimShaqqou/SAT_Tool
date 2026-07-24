@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import BrightFuturesLanding, { buildSmsHref, track, SMS_NUMBER, SMS_BODY } from './BrightFuturesLanding';
 
 describe('buildSmsHref', () => {
@@ -87,5 +87,24 @@ describe('faq', () => {
     // The cost answer must not commit to a dollar figure.
     const costAnswer = screen.getByText(/we scope the plan — and the price — together/i);
     expect(costAnswer.textContent).not.toMatch(/\$\s*\d/);
+  });
+});
+
+describe('book / text section', () => {
+  test('tap-to-text link uses the prefilled sms deep link', () => {
+    render(<BrightFuturesLanding />);
+    const smsLink = screen.getByRole('link', { name: /text me/i });
+    expect(smsLink.getAttribute('href')).toBe(buildSmsHref(SMS_NUMBER, SMS_BODY));
+  });
+
+  test('fallback form captures name + phone and does not navigate away', () => {
+    render(<BrightFuturesLanding />);
+    const name = screen.getByLabelText(/your name/i);
+    const phone = screen.getByLabelText(/mobile number/i);
+    fireEvent.change(name, { target: { value: 'Maria' } });
+    fireEvent.change(phone, { target: { value: '4075551212' } });
+    // Submitting the stub shows a confirmation instead of throwing/navigating.
+    fireEvent.click(screen.getByRole('button', { name: /text me back/i }));
+    expect(screen.getByText(/thanks — i'll text you shortly/i)).toBeInTheDocument();
   });
 });

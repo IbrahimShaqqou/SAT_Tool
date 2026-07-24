@@ -16,7 +16,7 @@
  *   FAS: SAT 1330, 3.5 core GPA, about 100% tuition
  *   FMS: SAT 1190, 3.0 core GPA, 75% tuition
  */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../components/ui';
 import useScrollReveal from '../hooks/useScrollReveal';
 
@@ -128,6 +128,71 @@ const BookButton = ({ size = 'lg', children = 'Book a free strategy call', class
     <Button variant="primary" size={size} className={className} onClick={onClick}>
       {children}
     </Button>
+  );
+};
+
+/**
+ * Text-first contact block. Primary path is a one-tap sms: deep link (lowest
+ * friction on mobile). Fallback is a name+phone form for desktop visitors and
+ * hesitaters, so we still capture a lead when nobody taps send.
+ */
+const TextMe = () => {
+  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: '', phone: '' });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    track('Lead', { source: 'text_form' });
+    // TODO: POST { form.name, form.phone } to your lead endpoint. Stubbed for
+    // now — swap this block for a fetch() to your endpoint before going live.
+    setSent(true);
+  };
+
+  return (
+    <div className="rounded-2xl border border-edge bg-surface-card p-6 sm:p-8 text-center">
+      <p className="font-display text-xl font-semibold text-ink-body mb-2">Text me a question</p>
+      <p className="text-ink-muted mb-5 text-pretty">
+        Not ready to pick a time? Send a text and I'll answer — no scheduled call needed.
+      </p>
+      <a
+        href={buildSmsHref(SMS_NUMBER, SMS_BODY)}
+        onClick={() => track('Lead', { source: 'text_tap' })}
+        className="inline-flex items-center justify-center min-h-[52px] px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold shadow-card hover:bg-brand-700 transition-colors"
+      >
+        Text me
+      </a>
+
+      {sent ? (
+        <p className="mt-6 text-ink-body font-medium">Thanks — I'll text you shortly.</p>
+      ) : (
+        <form onSubmit={onSubmit} className="mt-6 text-left space-y-3">
+          <p className="text-sm text-ink-subtle text-center">On a computer? Drop your number and I'll text you.</p>
+          <div>
+            <label htmlFor="tm-name" className="block text-sm font-medium text-ink-subtle mb-1">Your name</label>
+            <input
+              id="tm-name"
+              type="text"
+              required
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+              className="w-full rounded-xl border border-edge bg-surface-page px-4 py-2.5 text-ink-body focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="tm-phone" className="block text-sm font-medium text-ink-subtle mb-1">Mobile number</label>
+            <input
+              id="tm-phone"
+              type="tel"
+              required
+              value={form.phone}
+              onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+              className="w-full rounded-xl border border-edge bg-surface-page px-4 py-2.5 text-ink-body focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+          <Button type="submit" variant="secondary" size="md" className="w-full">Text me back</Button>
+        </form>
+      )}
+    </div>
   );
 };
 
@@ -441,12 +506,24 @@ const BrightFuturesLanding = () => {
         <div className="max-w-2xl mx-auto px-5 sm:px-6 text-center">
           <Reveal>
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-body tracking-tight mb-4 text-balance">
-              Book a free strategy call
+              Two easy ways to start
             </h2>
             <p className="text-ink-muted mb-9 max-w-xl mx-auto text-pretty">
-              A free 15-minute call. We'll map your student's distance to their Bright Futures
-              target and lay out a plan to close it. No cost, no commitment.
+              Text me a quick question, or grab a free 15-minute strategy call. We'll map your
+              student's distance to their Bright Futures target and lay out a plan to close it.
             </p>
+          </Reveal>
+
+          <Reveal className="mb-8">
+            <TextMe />
+          </Reveal>
+
+          <Reveal>
+            <p className="font-display text-xl font-semibold text-ink-body mb-4">Ready to talk? Grab a time.</p>
+            {/* To make availability read as demand rather than emptiness, limit
+                visible slots in the Cal.com dashboard (Availability hours,
+                "minimum notice", and a daily booking cap on this event type) —
+                the embed itself just renders whatever the dashboard allows. */}
             {CAL_LINK ? (
               <div className="rounded-2xl border border-edge bg-surface-card overflow-hidden p-2 sm:p-4 text-left">
                 <CalEmbed />
