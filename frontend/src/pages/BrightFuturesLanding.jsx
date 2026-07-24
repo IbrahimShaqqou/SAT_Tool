@@ -120,6 +120,7 @@ const Reveal = ({ children, className = '', stagger = false }) => {
 
 const BookButton = ({ size = 'lg', children = 'Book a free strategy call', className = '' }) => {
   const onClick = () => {
+    track('Lead', { source: 'book' });
     if (CALCOM_URL) window.open(CALCOM_URL, '_blank', 'noopener');
     else document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -185,15 +186,18 @@ const BrightFuturesLanding = () => {
             Of the three things it asks for, the score is the one you can still change.
             That's the work we do.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col items-center gap-4">
             <BookButton />
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => document.getElementById('method')?.scrollIntoView({ behavior: 'smooth' })}
+            <a
+              href="#book"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="text-sm font-medium text-brand-700 dark:text-brand-300 hover:underline"
             >
-              See how it works
-            </Button>
+              Prefer to text? Message me &rarr;
+            </a>
           </div>
         </div>
       </section>
