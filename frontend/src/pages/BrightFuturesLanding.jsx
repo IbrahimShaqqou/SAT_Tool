@@ -29,6 +29,33 @@ const CONTACT_EMAIL = 'hello@zooprep.com'; // TODO: your real contact email
 // Brand bronze-amber, matched to the page so the calendar reads as part of it.
 const CAL_BRAND = '#bf7724';
 
+// --- Conversion: text-me deep link + Meta Pixel ---------------------------
+
+// Confirmed SMS-capable number (digits only) and the pre-filled, [FL]-tagged
+// message. The tag gives free attribution: any text arriving with "[FL]" came
+// from this page.
+export const SMS_NUMBER = '14075887558';
+export const SMS_BODY =
+  'Hi Ibrahim — I saw your Bright Futures page [FL] and I\'d like to know about SAT tutoring for my child.';
+
+// Build an sms: deep link. On mobile this opens Messages with To + body
+// pre-filled — the lowest-friction contact path for cold traffic.
+export function buildSmsHref(number, body) {
+  return `sms:${number}?&body=${encodeURIComponent(body)}`;
+}
+
+// Meta Pixel id. Empty string = pixel disabled (no-op) so the page is safe to
+// ship before the real id is set.
+const META_PIXEL_ID = ''; // TODO: paste your Meta Pixel ID to enable tracking.
+
+// Fire a Meta Pixel event if the pixel is loaded; otherwise do nothing.
+// Never throws, so it's safe to call from any click handler.
+export function track(event, params) {
+  if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+    window.fbq('track', event, params);
+  }
+}
+
 /**
  * Cal.com inline embed, themed to the light page instead of Cal's default dark
  * iframe. Loads Cal's embed script once on mount and renders the booker inside
@@ -112,6 +139,24 @@ const BrightFuturesLanding = () => {
     document.head.appendChild(meta);
     const prevTitle = document.title;
     document.title = 'Florida SAT Tutoring for Bright Futures';
+
+    // Meta Pixel: load once and fire PageView. Gated on META_PIXEL_ID so this
+    // is a clean no-op until the real id is set.
+    if (META_PIXEL_ID) {
+      /* eslint-disable */
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+        n.queue = []; t = b.createElement(e); t.async = !0; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      /* eslint-enable */
+      window.fbq('init', META_PIXEL_ID);
+      window.fbq('track', 'PageView');
+    }
+
     return () => { document.head.removeChild(meta); document.title = prevTitle; };
   }, []);
 
