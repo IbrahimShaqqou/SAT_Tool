@@ -47,12 +47,12 @@ describe('hero', () => {
 });
 
 describe('parent video', () => {
-  test('renders the testimonial video with poster and caption', () => {
+  test('renders the testimonial video with a first-frame still and caption', () => {
     const { container } = render(<BrightFuturesLanding />);
     const video = container.querySelector('video');
     expect(video).not.toBeNull();
-    expect(video.getAttribute('src')).toBe('/media/parent-testimonial.mp4');
-    expect(video.getAttribute('poster')).toBe('/media/parent-testimonial-poster.jpg');
+    // #t=0.1 makes the browser paint the frame at 0.1s as a still on load.
+    expect(video.getAttribute('src')).toBe('/media/parent-testimonial.mp4#t=0.1');
     expect(screen.getByText(/imani, parent of a junior in orlando/i)).toBeInTheDocument();
   });
 });

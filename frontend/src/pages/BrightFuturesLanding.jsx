@@ -274,11 +274,15 @@ const BrightFuturesLanding = () => {
             <p className="text-sm font-medium text-ink-subtle mb-5">
               A parent on what the work actually looked like
             </p>
-            <div className="rounded-2xl border border-edge bg-surface-page overflow-hidden shadow-card-md">
+            {/* Portrait (9:16) reel: cap the width so it reads like a phone
+                video and never dominates the page on desktop. The #t=0.1 src
+                fragment makes the browser paint the frame at 0.1s as a still on
+                load (a real poster without shipping a separate image), so it
+                renders properly instead of a black box. */}
+            <div className="mx-auto w-full max-w-[300px] sm:max-w-[340px] rounded-2xl border border-edge bg-black overflow-hidden shadow-card-md">
               <video
-                className="w-full h-auto block bg-black"
-                src="/media/parent-testimonial.mp4"
-                poster="/media/parent-testimonial-poster.jpg"
+                className="w-full h-auto block aspect-[9/16]"
+                src="/media/parent-testimonial.mp4#t=0.1"
                 controls
                 preload="metadata"
                 playsInline
