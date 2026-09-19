@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
 import api from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+
+const ALLOWED_EMAIL = 'ibrahimshaqqou@gmail.com';
 
 // Walk rrweb's serialized node tree and make all stylesheet/script URLs absolute
 // so the player's about:blank iframe can actually load them.
@@ -42,6 +45,7 @@ function formatDate(iso) {
 }
 
 export default function SessionReplaysPage() {
+  const { user } = useAuth();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
@@ -50,12 +54,15 @@ export default function SessionReplaysPage() {
   const playerRef = useRef(null);
   const playerInstanceRef = useRef(null);
 
+  const isAllowed = user?.email === ALLOWED_EMAIL;
+
   useEffect(() => {
+    if (!isAllowed) { setLoading(false); return; }
     api.get('/replays/')
       .then(r => setSessions(r.data))
       .catch(() => setSessions([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [isAllowed]);
 
   const openReplay = async (session) => {
     setSelected(session);
@@ -104,6 +111,16 @@ export default function SessionReplaysPage() {
       iframe.contentDocument.head?.appendChild(style);
     });
   }, [events, selected]);
+
+  if (!isAllowed) {
+    return (
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="h-80 flex items-center justify-center rounded-xl border border-edge-subtle bg-surface-card">
+          <p className="text-ink-faint text-sm">Access denied.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
