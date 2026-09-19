@@ -25,6 +25,9 @@ import JoinPage from './pages/JoinPage';
 // Bright Futures marketing landing (private — share-by-link only, not in any nav)
 import BrightFuturesLanding from './pages/BrightFuturesLanding';
 
+// Session replays viewer (tutor only)
+import SessionReplaysPage from './pages/SessionReplaysPage';
+
 // Public Pages (no auth required)
 import { PublicQuestionBankPage, PublicLessonsPage, PublicLessonViewerPage } from './pages/public';
 
@@ -116,6 +119,7 @@ function App() {
         <Route path="/tutor/lessons/:lessonId" element={<LessonViewerPage />} />
         <Route path="/tutor/profile" element={<ProfilePage />} />
         <Route path="/tutor/settings" element={<SettingsPage />} />
+        <Route path="/tutor/replays" element={<SessionReplaysPage />} />
       </Route>
 
       {/* Student routes */}

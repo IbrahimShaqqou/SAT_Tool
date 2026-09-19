@@ -134,3 +134,53 @@ coverage/
 *.tmp
 *.temp
 .superpowers/
+
+# =============================================================================
+# Debug / scratch artifacts (never commit these)
+# =============================================================================
+# Video files
+*.mov
+*.mp4
+
+# Root-level screenshots and debug images
+/*.png
+/*.jpg
+/*.jpeg
+
+# Network response captures
+*.network-response
+
+# Playwright MCP scratch directory
+.playwright-mcp/
+
+# Audit/debug scripts at repo root
+/audit_*.js
+/audit_*.py
+/audit_*.sh
+/audit-*.js
+/visual_audit_*.js
+/visual_audit_*.py
+/comprehensive_*.js
+/detailed_*.js
+/navigate_*.js
+/extract_*.js
+/extract_*.py
+/test_*.sh
+/test_*.json
+/test_*.html
+
+# Debug JSON/text outputs at repo root
+/*.json
+/*.txt
+/*.html
+!package.json
+!package-lock.json
+
+# ContentSquare wizard output
+frontend/.cs-wizard/
+
+# Auto-generated design doc
+DESIGN.md
+
+# claude-code scratch dir
+/claude-code/

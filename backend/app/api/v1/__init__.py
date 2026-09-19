@@ -6,7 +6,7 @@ All v1 API routers are exported from here.
 
 from fastapi import APIRouter
 
-from app.api.v1 import auth, questions, taxonomy, practice, progress, assignments, tutor, adaptive, lessons, recommendations, reports, practice_tests, join, worklist, live
+from app.api.v1 import auth, questions, taxonomy, practice, progress, assignments, tutor, adaptive, lessons, recommendations, reports, practice_tests, join, worklist, live, replays
 
 api_router = APIRouter()
 
@@ -25,3 +25,4 @@ api_router.include_router(practice_tests.router, tags=["Practice Tests"])
 api_router.include_router(join.router)  # routes carry their own full paths
 api_router.include_router(worklist.router)  # routes carry their own full paths
 api_router.include_router(live.router, tags=["Live Session"])
+api_router.include_router(replays.router, tags=["Session Replays"])

@@ -74,6 +74,9 @@ from app.models.worklist import WorklistItem, MasteryCheck
 # Question bank bookmarks
 from app.models.question_bookmark import QuestionBookmark
 
+# Session replays (FL landing page recording)
+from app.models.session_replay import SessionReplay
+
 
 __all__ = [
     # Enums
@@ -118,4 +121,5 @@ __all__ = [
     "WorklistItem",
     "MasteryCheck",
     "QuestionBookmark",
+    "SessionReplay",
 ]

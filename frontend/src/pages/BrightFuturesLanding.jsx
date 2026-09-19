@@ -17,7 +17,7 @@
  *   FMS: SAT 1190, 3.0 core GPA, 75% tuition
  */
 import { useEffect, useState } from 'react';
-import { injectContentsquareScript } from '@contentsquare/tag-sdk';
+import * as rrweb from 'rrweb';
 import { Button } from '../components/ui';
 import useScrollReveal from '../hooks/useScrollReveal';
 
@@ -252,7 +252,46 @@ const StickyBookCTA = () => {
 const BrightFuturesLanding = () => {
   // Keep this page out of search engines: it's a private, share-by-link page.
   useEffect(() => {
-    injectContentsquareScript({ clientId: 'a1620572f7dd6' });
+    // Session recording via rrweb → own backend
+    const sessionId = `fl-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const API = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+    const events = [];
+    let startTime = Date.now();
+
+    const stopRecording = rrweb.record({
+      emit(event) { events.push(event); },
+      inlineStylesheet: false,
+      collectFonts: false,
+    });
+
+    const send = (batch, useBeacon = false) => {
+      if (!batch.length) return;
+      const payload = JSON.stringify({
+        session_id: sessionId,
+        page_url: window.location.href,
+        user_agent: navigator.userAgent,
+        events: batch,
+        duration_ms: Date.now() - startTime,
+      });
+      if (useBeacon) {
+        navigator.sendBeacon(`${API}/replays/events`, new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch(`${API}/replays/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+        }).catch(() => {});
+      }
+    };
+
+    // Use fetch for regular flushes (no size limit — captures large FullSnapshot)
+    const flush = () => send(events.splice(0), false);
+    // Use sendBeacon on exit (remaining events are small by this point)
+    const flushOnExit = () => send(events.splice(0), true);
+
+    const interval = setInterval(flush, 5000);
+    window.addEventListener('pagehide', flushOnExit);
+
     const meta = document.createElement('meta');
     meta.name = 'robots';
     meta.content = 'noindex, nofollow';
@@ -277,7 +316,14 @@ const BrightFuturesLanding = () => {
       window.fbq('track', 'PageView');
     }
 
-    return () => { document.head.removeChild(meta); document.title = prevTitle; };
+    return () => {
+      stopRecording();
+      clearInterval(interval);
+      window.removeEventListener('pagehide', flushOnExit);
+      flush();
+      document.head.removeChild(meta);
+      document.title = prevTitle;
+    };
   }, []);
 
   return (
