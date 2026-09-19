@@ -17,6 +17,7 @@
  *   FMS: SAT 1190, 3.0 core GPA, 75% tuition
  */
 import { useEffect, useState } from 'react';
+import { injectContentsquareScript } from '@contentsquare/tag-sdk';
 import { Button } from '../components/ui';
 import useScrollReveal from '../hooks/useScrollReveal';
 
@@ -251,6 +252,7 @@ const StickyBookCTA = () => {
 const BrightFuturesLanding = () => {
   // Keep this page out of search engines: it's a private, share-by-link page.
   useEffect(() => {
+    injectContentsquareScript({ clientId: 'a1620572f7dd6' });
     const meta = document.createElement('meta');
     meta.name = 'robots';
     meta.content = 'noindex, nofollow';

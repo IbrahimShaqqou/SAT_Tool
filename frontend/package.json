@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@contentsquare/tag-sdk": "^1.1.0",
     "@sentry/react": "^10.57.0",
     "axios": "^1.6.5",
     "katex": "^0.16.27",
