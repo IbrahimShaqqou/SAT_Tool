@@ -7,20 +7,22 @@
  * once acknowledged.
  */
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const STORAGE_KEY = 'cookie_ack_v1';
 
 const CookieNotice = () => {
+  const { pathname } = useLocation();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (pathname === '/fl') return;
     try {
       if (localStorage.getItem(STORAGE_KEY) !== '1') setVisible(true);
     } catch {
       /* storage blocked — just don't show it */
     }
-  }, []);
+  }, [pathname]);
 
   const dismiss = () => {
     try { localStorage.setItem(STORAGE_KEY, '1'); } catch { /* ignore */ }
