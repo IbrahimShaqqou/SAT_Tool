@@ -343,7 +343,7 @@ const BrightFuturesLanding = () => {
             <a
               href={`tel:${SMS_NUMBER}`}
               onClick={() => track('Lead', { source: 'nav_phone' })}
-              className="hidden sm:block text-sm font-semibold text-brand-700 hover:text-brand-800 transition-colors"
+              className="text-sm font-semibold text-brand-700 hover:text-brand-800 transition-colors"
             >
               (407) 588-7558
             </a>
